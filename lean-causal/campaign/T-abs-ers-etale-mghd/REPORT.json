@@ -1,0 +1,760 @@
+{
+  "target": "T-abs-ers-etale-mghd",
+  "package": "lean-causal",
+  "files": [
+    "scaffold/CausalScaffold/ErsEtaleMghd.lean"
+  ],
+  "campaign_files": [
+    "campaign/T-abs-ers-etale-mghd/REPORT.json",
+    "campaign/T-abs-ers-etale-mghd/Probe.lean",
+    "campaign/T-abs-ers-etale-mghd/axioms.txt"
+  ],
+  "status": "closed",
+  "builds": true,
+  "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.ErsEtaleMghd",
+  "build_result": "Build completed successfully (3285 jobs). Only CausalScaffold.ErsEtaleMghd was built (1.6 s). `lake build --no-build CausalScaffold.ErsEtaleMghd` beforehand listed it as the only out-of-date target, so no Causal.* or mathlib module was rebuilt. `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/ErsEtaleMghd.lean` exits 0 with no output. The profiler (`-Dtrace.profiler=true -Dtrace.profiler.threshold=300`) reports no declaration above 300 ms. Probe.lean imports CausalScaffold.ErsEtaleMghd (it is not a copy) and runs with `lake env lean` (exit 0); its output is axioms.txt.",
+  "sorry_count": 0,
+  "axioms": "All 40 declarations depend on standard axioms only: 35 on [propext, Classical.choice, Quot.sound], 4 on [propext, Quot.sound] (lift_eq_image_ι₂, eqOn_inter_of_injective_proj, CausalityFollowsLt, CausalityFollows.agreeOn), 1 on none (EtaleGluing.lift); campaign/T-abs-ers-etale-mghd/axioms.txt. No sorryAx, admit, axiom declaration or native_decide in the module.",
+  "layer": "ETT layer (layer 1), a leaf; nothing imports it. Direct imports: Causal.ErsEtaleGluing, Causal.TwoPiece, Causal.PushoutCausal, Causal.GluingGeneric.Generated, Causal.GXStructure (for Causal.AgreeOn), Causal.CExtConnexeSecondCountable, Causal.ErsSecondCountable, Causal.Ers464SecondCountable, Causal.Ers482Solution (the witness intervals). tools/ladder.py model_path, computed in memory on lean_index() with the module added to the import graph (kb/0247): None for CausalScaffold.ErsEtaleMghd and None for each direct import. Transitive closure: 81 Causal modules; it contains none of Causal.CExtConnexeCauchy.SubArc, Causal.PastInextensibleMeetsCauchy, Causal.FlrwType (the files of the concurrent model closer), and does contain Causal.CauchyExtension and Causal.SCOpenWithoutTarentin, as the planner foresaw. It contains Causal.CBG.CausalConvex, .Injective, .FamilyGluing, .SubExtensionAbstract (ETT-layer, model_path None, through CExtConnexeSecondCountable and GluingGeneric.Generated); no Causal.CBG.* is imported directly, and Causal.CBG.Ppcm, Geometry, Pgcd, NoCorresponding are not in the closure. The one CBG declaration used is Causal.Causality.le_of_causallyConvexIn_of_le (Causal/CBG/CausalConvex.lean:262). No metric, curve length, geodesic or PDE appears in a statement; the hypotheses are ladder properties read on the open sets Uᵢ (is_causal as antisymmetry of ≤_{Uᵢ}, causally_arc_connected as CausallyArcConnectedOn Uᵢ, curve_nested in the subluminal form), declared ones (IsDevelopment, IsCommonDevelopment, CausalityFollows, the new CausalityFollowsLt, AgreeOn, SolutionLocal, SolutionsGlue) and topology. absolutely_minimal is derived, not assumed. causal_ladder was tried in spirit and does not apply: every causal hypothesis is relative to an open set (the tactic does not instantiate hypotheses under binders and has no rule for gluings or TwoPiece); none of the module's goals is a ladder property at M. tools/ladder.py emit-lean was not run (kb/0252).",
+  "labels": [
+    {
+      "label": "ersthm:ThmNonUniqueness",
+      "tex_lines": [
+        560,
+        562
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "serves": "Its conclusion, read on the étale development: ers_theorem_3_45_etale. Under ers_etale_development's hypotheses a point x ∈ U₁ ∩ U₂ with u₁ x ≠ u₂ x lies off A and is doubled in a Hausdorff, causal two-piece spacetime E étale over the background, with S lifted to a Cauchy surface; π is not injective and the glued solution lives on no subset of M. This is ERS :852's \"manifold which projects down on U₁ ∪ U₂\".",
+      "remains": "The theorem itself: two Born–Infeld GHDs of one datum that differ somewhere (layer 3, T-loc-born-infeld-causal).",
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "erscor:CorDisCon",
+      "tex_lines": [
+        921,
+        923
+      ],
+      "status": "partial",
+      "marked": false,
+      "serves": "ers_corollary_4_68_etale: Cor 4.68 on the étale development, with the MCGHD's closedness as a hypothesis.",
+      "decls": [
+        "Causal.ers_corollary_4_68_etale"
+      ],
+      "hypotheses": [
+        {
+          "paper": "u₁ : U₁ → ℝ a GHD of (4.61)",
+          "here": "weakened",
+          "note": "IsDevelopment sol cau S U₁ u₁, read with S Cauchy (GH not asked, as ErsMughd); only its Cauchy property is used, for S ≠ ∅"
+        },
+        {
+          "paper": "u₂ : U₂ → ℝ a GHD of (4.61)",
+          "here": "weakened",
+          "note": "not asked: U₂ any open set"
+        },
+        {
+          "paper": "same initial data on a connected hypersurface S",
+          "here": "weakened",
+          "note": "S connected not used; sol not used"
+        },
+        {
+          "paper": "∃ x ∈ U₁ ∩ U₂, u₁(x) ≠ u₂(x)",
+          "here": "carried",
+          "note": "hx₁, hx₂, hne"
+        },
+        {
+          "paper": "(none: the MCGHD is built in Thm 4.64's Step 1 and is the component through S, :850)",
+          "here": "strengthened",
+          "note": "a common development A of S (IsCommonDevelopment for cau u₁: A ≤ U₁ ⊓ U₂, S ⊆ A, u₁ = u₂ on A, S Cauchy in A) closed in U₁ ∩ U₂ (hclosed). That ERS's MCGHD has these properties is Thm 4.64's content (layer-3 edge hypotheses, OQ-100). Hence not ≥ paper: unmarked, partial."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "On the étale development the corollary uses one development only, and no causal input beyond S ≠ ∅ (which a Cauchy surface of U₁ ∋ x gives): its content is entirely the closedness of the MCGHD in U₁ ∩ U₂, i.e. Thm 4.64 (:858) with :850."
+      ],
+      "questions": []
+    },
+    {
+      "label": "ersthm:diffeo_theorem",
+      "tex_lines": [
+        298,
+        301
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "serves": "The notion it feeds: a solution on a development that is étale over the background. ers_etale_development states that notion for two developments glued along a common one (E, π, the glued causality, the lifted Cauchy surface).",
+      "remains": "The theorem (a Barbashov–Chernikov hodograph fact, cited) is layer 3. The developing-map form (E = V, π = Ψ a local diffeomorphism) is not stated here.",
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "erslem:nec_cond",
+      "tex_lines": [
+        304,
+        307
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "serves": "The étale condition: π is a local homeomorphism (Causal.EtaleGluing.isLocalHomeomorph_proj, reused by isEtaleDevelopment). The Jacobian computation is layer 3.",
+      "remains": "Layer 3 (T-loc-born-infeld-causal).",
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "erslem:lemma_sing",
+      "tex_lines": [
+        319,
+        322
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "serves": "Nothing of this module: gradient blow-up is PDE.",
+      "remains": "Layer 3.",
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "erslem:sep_lemma",
+      "tex_lines": [
+        380,
+        383
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "serves": "The setting in which two preimages of one point live: the étale development E (ers_etale_development); and the agreement/injectivity split: in ERS's subluminal setting with S m-acausal, two developments agreeing on their overlap have a connected overlap (ers_isPreconnected_inter_of_eqOn), so π is an open embedding (ers_isOpenEmbedding_proj_of_eqOn).",
+      "remains": "The lemma (the straight line between two Ψ-preimages is spacelike/timelike for m̂) is a computation on one developing map, layer 3 (T-loc-born-infeld-causal).",
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "ersthm:global_theorem",
+      "tex_lines": [
+        401,
+        404
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "serves": "The last topological step only: injectivity makes the étale map an open embedding (EtaleGluing.isOpenEmbedding_proj, and here isOpenEmbedding_proj_of_isCauchySurfaceOn_inf).",
+      "remains": "Ψ global diffeomorphism when Φ₁'²Φ₂'² < 1: layer 3.",
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "assertions": [
+    {
+      "id": "a-glued-causality",
+      "statement": "E = U₁ ⊔_A U₂ carries the glued causality of cau u₁ on U₁ and cau u₂ on U₂ (Gluing.causality of the subtype pieces), under CompatibleAlong on A",
+      "status": "proved",
+      "decls": [
+        "Causal.EtaleGluing.gluedCausality",
+        "Causal.EtaleGluing.compatibleAlong_iff_agreeOn",
+        "Causal.CausalityFollowsLt",
+        "Causal.CausalityFollows.agreeOn"
+      ],
+      "note": "CompatibleAlong of the pieces is equivalent to AgreeOn C₁ C₂ A; the core takes AgreeOn, the development form derives it from CausalityFollows and the declared ≪ twin CausalityFollowsLt."
+    },
+    {
+      "id": "b-two-piece",
+      "statement": "the glued causality is Causality.TwoPiece over ι₁(U₁), ι₂(U₂)",
+      "status": "proved",
+      "decls": [
+        "Causal.EtaleGluing.twoPiece",
+        "Causal.Causality.causallyConvexIn_and_le_iff_of_agreeOn"
+      ]
+    },
+    {
+      "id": "c-causal-hausdorff-cauchy",
+      "statement": "E is causal and Hausdorff and the lifted S is a Cauchy surface of E",
+      "status": "proved",
+      "decls": [
+        "Causal.EtaleGluing.isCausal_gluedCausality",
+        "Causal.EtaleGluing.isEtaleDevelopment",
+        "Causal.Causality.isCauchySurfaceOn_iff_restrict_toSubtype",
+        "Causal.Causality.isEMorphism_restrict_toSubtype_val"
+      ]
+    },
+    {
+      "id": "d-developments",
+      "statement": "the same for two developments (IsDevelopment) and a common development closed in U₁ ∩ U₂; the component form",
+      "status": "proved",
+      "decls": [
+        "Causal.ers_etale_development",
+        "Causal.ers_etale_development_component"
+      ]
+    },
+    {
+      "id": "e-3-45-4-68",
+      "statement": "Thm 3.45 and Cor 4.68 read on the étale development",
+      "status": "proved",
+      "decls": [
+        "Causal.ers_theorem_3_45_etale",
+        "Causal.ers_corollary_4_68_etale"
+      ]
+    },
+    {
+      "id": "f-injectivity-agreement",
+      "statement": "injectivity gives agreement; whether agreement gives injectivity for two developments: reported, not required",
+      "status": "proved (first half); reported, with a conditional proof (second half)",
+      "decls": [
+        "Causal.EtaleGluing.eqOn_inter_of_injective_proj",
+        "Causal.EtaleGluing.isOpenEmbedding_proj_of_isCauchySurfaceOn_inf",
+        "Causal.Causality.isPreconnected_inter_of_isCauchySurfaceOn_sup",
+        "Causal.ers_isPreconnected_inter_of_eqOn",
+        "Causal.ers_isOpenEmbedding_proj_of_eqOn"
+      ]
+    },
+    {
+      "id": "g-witness",
+      "statement": "kb/0011: the hypotheses jointly on the timelike line, S = {0}",
+      "status": "proved",
+      "decls": [
+        "Causal.EtaleGluing.timelikeLine_etale_witness",
+        "Causal.EtaleGluing.timelikeLine_isEtaleDevelopment",
+        "Causal.EtaleGluing.timelikeLine_ers_etale_witness"
+      ],
+      "note": "U₁ = ]-2, 1[, U₂ = ]-1, 2[, A = ]-1, 1[: a proper two-piece overlap with a relation across it. No doubled point: on the line the overlap of two developments of {0} is an interval."
+    }
+  ],
+  "declarations": [
+    {
+      "name": "Causal.Causality.isEMorphism_restrict_toSubtype_val",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:123",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] (C : Causal.Causality M) (U : TopologicalSpace.Opens M), Causal.IsEMorphism (C.restrict U).toSubtype C Subtype.val",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "(0) the inclusion ↥U → M, with (C.restrict U).toSubtype, is an injective abstract 𝕄≥0-morphism (strong morphism and local isomorphism)"
+    },
+    {
+      "name": "Causal.Causality.isCauchySurfaceOn_iff_restrict_toSubtype",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:132",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] (C : Causal.Causality M) {U : TopologicalSpace.Opens M} {S : Set M}, S ⊆ ↑U → (C.IsCauchySurfaceOn U S ↔ (C.restrict U).toSubtype.IsCauchySurface (Subtype.val ⁻¹' S))",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "(0) S ⊆ U is Cauchy in U for C iff val⁻¹(S) is a Cauchy surface of ↥U with the restricted causality (IsEMorphismOn.isCauchySurfaceOn_image_iff along val)"
+    },
+    {
+      "name": "Causal.Causality.causallyConvexIn_and_le_iff_of_agreeOn",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:147",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] [T2Space M] [SecondCountableTopology M] {C₁ C₂ : Causal.Causality M} {U₁ U₂ A : TopologicalSpace.Opens M}, Causal.AgreeOn C₁ C₂ A → A ≤ U₁ → A ≤ U₂ → (∀ ⦃x y : M⦄, C₁.le U₁ x y → C₁.le U₁ y x → x = y) → (∀ ⦃x y : M⦄, C₂.le U₂ x y → C₂.le U₂ y x → x = y) → C₁.CausallyArcConnectedOn U₁ → C₂.CausallyArcConnectedOn U₂ → ∀ {S : Set M}, S ⊆ ↑A → C₁.IsCauchySurfaceOn A S → C₁.IsCauchySurfaceOn U₁ S → C₂.IsCauchySurfaceOn U₂ S → C₁.CausallyConvexIn (↑A) U₁ ∧ C₂.CausallyConvexIn (↑A) U₂ ∧ ∀ a ∈ A, ∀ b ∈ A, C₁.le U₁ a b ↔ C₂.le U₂ a b",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "(0) a common development A (C₁, C₂ agreeing on A, S Cauchy in A, U₁, U₂) is causally convex in U₁ and U₂, and C₁.le U₁ a b ↔ C₂.le U₂ a b for a, b ∈ A"
+    },
+    {
+      "name": "Causal.Causality.isPreconnected_inter_of_isCauchySurfaceOn_sup",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:172",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] [T2Space M] [SecondCountableTopology M] {C : Causal.Causality M} {U₁ U₂ : TopologicalSpace.Opens M} {S : Set M}, (∀ ⦃x y : M⦄, C.le (U₁ ⊔ U₂) x y → C.le (U₁ ⊔ U₂) y x → x = y) → IsPreconnected S → S ⊆ ↑U₁ ∩ ↑U₂ → C.IsCauchySurfaceOn U₁ S → C.IsCauchySurfaceOn U₂ S → C.IsCauchySurfaceOn (U₁ ⊔ U₂) S → IsPreconnected (↑U₁ ∩ ↑U₂)",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "(5) one causality, ≤ antisymmetric on U₁ ⊔ U₂, connected S Cauchy in U₁, U₂ and U₁ ⊔ U₂: U₁ ∩ U₂ is connected (a direct two-component curve argument; no CExtConnexeCauchy.SubArc)"
+    },
+    {
+      "name": "Causal.EtaleGluing.sheet₁",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:235",
+      "kind": "abbrev",
+      "statement": "{M : Type u_1} → [inst : TopologicalSpace M] → {U₁ U₂ A : TopologicalSpace.Opens M} → (h₁ : ↑A ⊆ ↑U₁) → (h₂ : ↑A ⊆ ↑U₂) → TopologicalSpace.Opens (Causal.EtaleGluing h₁ h₂)",
+      "status": "defined",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "the sheet ι₁(U₁) of E, Gluing.O₁ of the two inclusions"
+    },
+    {
+      "name": "Causal.EtaleGluing.sheet₂",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:239",
+      "kind": "abbrev",
+      "statement": "{M : Type u_1} → [inst : TopologicalSpace M] → {U₁ U₂ A : TopologicalSpace.Opens M} → (h₁ : ↑A ⊆ ↑U₁) → (h₂ : ↑A ⊆ ↑U₂) → TopologicalSpace.Opens (Causal.EtaleGluing h₁ h₂)",
+      "status": "defined",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "the sheet ι₂(U₂) of E, Gluing.O₂"
+    },
+    {
+      "name": "Causal.EtaleGluing.gluedCausality",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:245",
+      "kind": "def",
+      "statement": "{M : Type u_1} → [inst : TopologicalSpace M] → {U₁ U₂ A : TopologicalSpace.Opens M} → (h₁ : ↑A ⊆ ↑U₁) → (h₂ : ↑A ⊆ ↑U₂) → Causal.Causality M → Causal.Causality M → Causal.Causality (Causal.EtaleGluing h₁ h₂)",
+      "status": "defined",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "(a) the glued causality: Gluing.causality of (C₁.restrict U₁).toSubtype and (C₂.restrict U₂).toSubtype (rfl, checked in the probe)"
+    },
+    {
+      "name": "Causal.EtaleGluing.lift",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:250",
+      "kind": "def",
+      "statement": "{M : Type u_1} → [inst : TopologicalSpace M] → {U₁ U₂ A : TopologicalSpace.Opens M} → (h₁ : ↑A ⊆ ↑U₁) → (h₂ : ↑A ⊆ ↑U₂) → Set M → Set (Causal.EtaleGluing h₁ h₂)",
+      "status": "defined",
+      "axioms": "none",
+      "role": "the lifted surface ι₁(val⁻¹ S)"
+    },
+    {
+      "name": "Causal.EtaleGluing.ι₁_mem_sheet₂_iff",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:256",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} {x : ↑↑U₁}, Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) x ∈ Causal.EtaleGluing.sheet₂ h₁ h₂ ↔ ↑x ∈ A",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "ι₁ x lies in the second sheet iff x ∈ A"
+    },
+    {
+      "name": "Causal.EtaleGluing.ι₂_mem_sheet₁_iff",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:266",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} {y : ↑↑U₂}, Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) y ∈ Causal.EtaleGluing.sheet₁ h₁ h₂ ↔ ↑y ∈ A",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "ι₂ y lies in the first sheet iff y ∈ A"
+    },
+    {
+      "name": "Causal.EtaleGluing.lift_eq_image_ι₂",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:278",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} {S : Set M}, S ⊆ ↑A → Causal.EtaleGluing.lift h₁ h₂ S = Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) '' Subtype.val ⁻¹' S",
+      "status": "proved",
+      "axioms": "[propext, Quot.sound]",
+      "role": "for S ⊆ A the two sheets give the same lift"
+    },
+    {
+      "name": "Causal.EtaleGluing.proj_image_lift",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:292",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} (S : Set M), Causal.EtaleGluing.proj h₁ h₂ '' Causal.EtaleGluing.lift h₁ h₂ S = S ∩ ↑U₁",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "π(lift S) = S ∩ U₁"
+    },
+    {
+      "name": "Causal.EtaleGluing.compatibleAlong_iff_agreeOn",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:300",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} {C₁ C₂ : Causal.Causality M}, Causal.Gluing.CompatibleAlong (Set.inclusion h₁) (Set.inclusion h₂) (C₁.restrict U₁).toSubtype (C₂.restrict U₂).toSubtype ↔ Causal.AgreeOn C₁ C₂ A",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "(a) Gluing.CompatibleAlong of the two subtype pieces ⟺ AgreeOn C₁ C₂ A (≤ and ≪ agree on the open subsets of A): with Gluing.exists_isGluingCausality_iff, the weakest hypothesis"
+    },
+    {
+      "name": "Causal.EtaleGluing.gluedCausality_le_sheet₁_iff",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:350",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} {C₁ C₂ : Causal.Causality M}, Causal.AgreeOn C₁ C₂ A → ∀ {x y : ↑↑U₁}, (Causal.EtaleGluing.gluedCausality h₁ h₂ C₁ C₂).le (Causal.EtaleGluing.sheet₁ h₁ h₂) (Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) x) (Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) y) ↔ C₁.le U₁ ↑x ↑y",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "on the first sheet the glued relation is ≤_{U₁} of C₁"
+    },
+    {
+      "name": "Causal.EtaleGluing.gluedCausality_le_sheet₂_iff",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:361",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} {C₁ C₂ : Causal.Causality M}, Causal.AgreeOn C₁ C₂ A → ∀ {x y : ↑↑U₂}, (Causal.EtaleGluing.gluedCausality h₁ h₂ C₁ C₂).le (Causal.EtaleGluing.sheet₂ h₁ h₂) (Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) x) (Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) y) ↔ C₂.le U₂ ↑x ↑y",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "on the second sheet the glued relation is ≤_{U₂} of C₂"
+    },
+    {
+      "name": "Causal.EtaleGluing.twoPiece",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:375",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} {C₁ C₂ : Causal.Causality M} [T2Space M] [SecondCountableTopology M], Causal.AgreeOn C₁ C₂ A → (∀ ⦃x y : M⦄, C₁.le U₁ x y → C₁.le U₁ y x → x = y) → (∀ ⦃x y : M⦄, C₂.le U₂ x y → C₂.le U₂ y x → x = y) → C₁.CausallyArcConnectedOn U₁ → C₂.CausallyArcConnectedOn U₂ → ∀ {S : Set M}, S ⊆ ↑A → C₁.IsCauchySurfaceOn A S → C₁.IsCauchySurfaceOn U₁ S → C₂.IsCauchySurfaceOn U₂ S → (Causal.EtaleGluing.gluedCausality h₁ h₂ C₁ C₂).TwoPiece (Causal.EtaleGluing.sheet₁ h₁ h₂) (Causal.EtaleGluing.sheet₂ h₁ h₂)",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "(b) the glued causality is Causality.TwoPiece over the two sheets: cover, absolute minimality on ⊤ (Gluing.causality_absolutelyMinimalOn_all from causal arc-connectedness), convexity (causallyConvexIn_of_isCauchySurfaceOn_of_secondCountable), agreement"
+    },
+    {
+      "name": "Causal.EtaleGluing.isCausal_gluedCausality",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:424",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} {C₁ C₂ : Causal.Causality M} [T2Space M] [SecondCountableTopology M], Causal.AgreeOn C₁ C₂ A → (∀ ⦃x y : M⦄, C₁.le U₁ x y → C₁.le U₁ y x → x = y) → (∀ ⦃x y : M⦄, C₂.le U₂ x y → C₂.le U₂ y x → x = y) → C₁.CausallyArcConnectedOn U₁ → C₂.CausallyArcConnectedOn U₂ → ∀ {S : Set M}, S ⊆ ↑A → C₁.IsCauchySurfaceOn A S → C₁.IsCauchySurfaceOn U₁ S → C₂.IsCauchySurfaceOn U₂ S → (Causal.EtaleGluing.gluedCausality h₁ h₂ C₁ C₂).IsCausal",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "(c) the glued causality is causal (TwoPiece.isCausal)"
+    },
+    {
+      "name": "Causal.EtaleGluing.isEtaleDevelopment",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:451",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} {C₁ C₂ : Causal.Causality M} [T2Space M] [SecondCountableTopology M], Causal.AgreeOn C₁ C₂ A → (∀ ⦃x y : M⦄, C₁.le U₁ x y → C₁.le U₁ y x → x = y) → (∀ ⦃x y : M⦄, C₂.le U₂ x y → C₂.le U₂ y x → x = y) → C₁.CausallyArcConnectedOn U₁ → C₂.CausallyArcConnectedOn U₂ → ∀ {S : Set M}, S ⊆ ↑A → C₁.IsCauchySurfaceOn A S → C₁.IsCauchySurfaceOn U₁ S → C₂.IsCauchySurfaceOn U₂ S → ↑U₁ ∩ ↑U₂ ∩ closure ↑A ⊆ ↑A → T2Space (Causal.EtaleGluing h₁ h₂) ∧ IsLocalHomeomorph (Causal.EtaleGluing.proj h₁ h₂) ∧ (Causal.EtaleGluing.gluedCausality h₁ h₂ C₁ C₂).TwoPiece (Causal.EtaleGluing.sheet₁ h₁ h₂) (Causal.EtaleGluing.sheet₂ h₁ h₂) ∧ (Causal.EtaleGluing.gluedCausality h₁ h₂ C₁ C₂).IsCausal ∧ (Causal.EtaleGluing.gluedCausality h₁ h₂ C₁ C₂).IsCauchySurface (Causal.EtaleGluing.lift h₁ h₂ S) ∧ Causal.EtaleGluing.proj h₁ h₂ '' Causal.EtaleGluing.lift h₁ h₂ S = S",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "(c) main core theorem: E Hausdorff (t2Space_iff), π étale, TwoPiece, causal, lifted S a Cauchy surface of E (TwoPiece.isCauchySurface), π(lift S) = S"
+    },
+    {
+      "name": "Causal.EtaleGluing.eqOn_inter_of_injective_proj",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:499",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} {β : Type u_2} {u₁ u₂ : M → β}, Set.EqOn u₁ u₂ ↑A → Function.Injective (Causal.EtaleGluing.proj h₁ h₂) → Set.EqOn u₁ u₂ (↑U₁ ∩ ↑U₂)",
+      "status": "proved",
+      "axioms": "[propext, Quot.sound]",
+      "role": "(5) injectivity gives agreement: π injective and u₁ = u₂ on A give u₁ = u₂ on U₁ ∩ U₂"
+    },
+    {
+      "name": "Causal.EtaleGluing.isOpenEmbedding_proj_of_isCauchySurfaceOn_inf",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:506",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} [T2Space M] [SecondCountableTopology M] {C : Causal.Causality M} {S : Set M}, IsPreconnected S → S.Nonempty → S ⊆ ↑A → C.IsCauchySurfaceOn (U₁ ⊓ U₂) S → ↑U₁ ∩ ↑U₂ ∩ closure ↑A ⊆ ↑A → Topology.IsOpenEmbedding (Causal.EtaleGluing.proj h₁ h₂)",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "(5) a connected non-empty S ⊆ A Cauchy in U₁ ⊓ U₂ (for any causality) and A closed in U₁ ∩ U₂ give π an open embedding"
+    },
+    {
+      "name": "Causal.CausalityFollowsLt",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:529",
+      "kind": "def",
+      "statement": "{M : Type u_1} → [inst : TopologicalSpace M] → {β : Type u_2} → ((M → β) → Causal.Causality M) → Prop",
+      "status": "defined",
+      "axioms": "[propext, Quot.sound]",
+      "role": "(a) the ≪ twin of CausalityFollows (declared hypothesis)"
+    },
+    {
+      "name": "Causal.CausalityFollows.agreeOn",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:535",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2} {cau : (M → β) → Causal.Causality M}, Causal.CausalityFollows cau → Causal.CausalityFollowsLt cau → ∀ {u v : M → β} {W : TopologicalSpace.Opens M}, Set.EqOn u v ↑W → Causal.AgreeOn (cau u) (cau v) W",
+      "status": "proved",
+      "axioms": "[propext, Quot.sound]",
+      "role": "(a) CausalityFollows and CausalityFollowsLt give AgreeOn (cau u) (cau v) W where u = v on W"
+    },
+    {
+      "name": "Causal.ers_etale_development",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:555",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2} {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M} {U₁ U₂ A : TopologicalSpace.Opens M} {u₁ u₂ : M → β} [T2Space M] [SecondCountableTopology M], Causal.IsDevelopment sol cau S U₁ u₁ → Causal.IsDevelopment sol cau S U₂ u₂ → Causal.CausalityFollows cau → Causal.CausalityFollowsLt cau → ∀ (h₁ : ↑A ⊆ ↑U₁) (h₂ : ↑A ⊆ ↑U₂) (hA : (cau u₁).IsCommonDevelopment S U₁ U₂ (fun V => Set.EqOn u₁ u₂ ↑V) A), ↑U₁ ∩ ↑U₂ ∩ closure ↑A ⊆ ↑A → (∀ ⦃x y : M⦄, (cau u₁).le U₁ x y → (cau u₁).le U₁ y x → x = y) → (∀ ⦃x y : M⦄, (cau u₂).le U₂ x y → (cau u₂).le U₂ y x → x = y) → (cau u₁).CausallyArcConnectedOn U₁ → (cau u₂).CausallyArcConnectedOn U₂ → Causal.Gluing.IsGluingCausality ⋯ ⋯ (Causal.EtaleGluing.gluedCausality h₁ h₂ (cau u₁) (cau u₂)) ((cau u₁).restrict U₁).toSubtype ((cau u₂).restrict U₂).toSubtype ∧ T2Space (Causal.EtaleGluing h₁ h₂) ∧ IsLocalHomeomorph (Causal.EtaleGluing.proj h₁ h₂) ∧ (Causal.EtaleGluing.gluedCausality h₁ h₂ (cau u₁) (cau u₂)).TwoPiece (Causal.EtaleGluing.sheet₁ h₁ h₂) (Causal.EtaleGluing.sheet₂ h₁ h₂) ∧ (Causal.EtaleGluing.gluedCausality h₁ h₂ (cau u₁) (cau u₂)).IsCausal ∧ (Causal.EtaleGluing.gluedCausality h₁ h₂ (cau u₁) (cau u₂)).IsCauchySurface (Causal.EtaleGluing.lift h₁ h₂ S) ∧ Causal.EtaleGluing.proj h₁ h₂ '' Causal.EtaleGluing.lift h₁ h₂ S = S ∧ Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ ⋯ ∘ Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) = u₁ ∘ Subtype.val ∧ Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ ⋯ ∘ Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) = u₂ ∘ Subtype.val ∧ SecondCountableTopology (Causal.EtaleGluing h₁ h₂)",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "(d) development form: two IsDevelopment, a common development A (IsCommonDevelopment) closed in U₁ ∩ U₂, CausalityFollows + CausalityFollowsLt, pieces antisymmetric and causally arc-connected ⇒ IsGluingCausality, T2, étale, TwoPiece, causal, lifted S Cauchy over S, glued solution uᵢ on each sheet, E second countable"
+    },
+    {
+      "name": "Causal.ers_theorem_3_45_etale",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:586",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2} {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M} {U₁ U₂ A : TopologicalSpace.Opens M} {u₁ u₂ : M → β} [T2Space M] [SecondCountableTopology M], Causal.IsDevelopment sol cau S U₁ u₁ → Causal.IsDevelopment sol cau S U₂ u₂ → Causal.CausalityFollows cau → Causal.CausalityFollowsLt cau → ∀ (h₁ : ↑A ⊆ ↑U₁) (h₂ : ↑A ⊆ ↑U₂) (hA : (cau u₁).IsCommonDevelopment S U₁ U₂ (fun V => Set.EqOn u₁ u₂ ↑V) A), ↑U₁ ∩ ↑U₂ ∩ closure ↑A ⊆ ↑A → (∀ ⦃x y : M⦄, (cau u₁).le U₁ x y → (cau u₁).le U₁ y x → x = y) → (∀ ⦃x y : M⦄, (cau u₂).le U₂ x y → (cau u₂).le U₂ y x → x = y) → (cau u₁).CausallyArcConnectedOn U₁ → (cau u₂).CausallyArcConnectedOn U₂ → ∀ {x : M} (hx₁ : x ∈ U₁) (hx₂ : x ∈ U₂), u₁ x ≠ u₂ x → T2Space (Causal.EtaleGluing h₁ h₂) ∧ (Causal.EtaleGluing.gluedCausality h₁ h₂ (cau u₁) (cau u₂)).TwoPiece (Causal.EtaleGluing.sheet₁ h₁ h₂) (Causal.EtaleGluing.sheet₂ h₁ h₂) ∧ (Causal.EtaleGluing.gluedCausality h₁ h₂ (cau u₁) (cau u₂)).IsCausal ∧ (Causal.EtaleGluing.gluedCausality h₁ h₂ (cau u₁) (cau u₂)).IsCauchySurface (Causal.EtaleGluing.lift h₁ h₂ S) ∧ x ∉ A ∧ Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) ⟨x, hx₁⟩ ≠ Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) ⟨x, hx₂⟩ ∧ ¬Function.Injective (Causal.EtaleGluing.proj h₁ h₂) ∧ ¬∃ v, Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ ⋯ = v ∘ Causal.EtaleGluing.proj h₁ h₂",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "(e) Thm 3.45 read on the étale development: a point x ∈ U₁ ∩ U₂ with u₁ x ≠ u₂ x is off A and doubled in the Hausdorff, causal étale development with S lifted Cauchy; π not injective; ũ does not descend"
+    },
+    {
+      "name": "Causal.ers_corollary_4_68_etale",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:615",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2} {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M} {U₁ U₂ A : TopologicalSpace.Opens M} {u₁ u₂ : M → β} [T2Space M] [SecondCountableTopology M], Causal.IsDevelopment sol cau S U₁ u₁ → ↑A ⊆ ↑U₁ → ↑A ⊆ ↑U₂ → (cau u₁).IsCommonDevelopment S U₁ U₂ (fun V => Set.EqOn u₁ u₂ ↑V) A → ↑U₁ ∩ ↑U₂ ∩ closure ↑A ⊆ ↑A → ∀ {x : M}, x ∈ U₁ → x ∈ U₂ → u₁ x ≠ u₂ x → ¬IsPreconnected (↑U₁ ∩ ↑U₂)",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "(e) Cor 4.68 read on the étale development: one development, A a common development closed in U₁ ∩ U₂, disagreement at a point ⇒ U₁ ∩ U₂ not connected"
+    },
+    {
+      "name": "Causal.componentOpens_inf_subset_left",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:628",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] [inst_1 : LocallyConnectedSpace M] (U₁ U₂ : TopologicalSpace.Opens M) (x : M), ↑(Causal.componentOpens (U₁ ⊓ U₂) x) ⊆ ↑U₁",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "the component of U₁ ∩ U₂ (Causal.componentOpens (U₁ ⊓ U₂) x) lies in U₁"
+    },
+    {
+      "name": "Causal.componentOpens_inf_subset_right",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:633",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] [inst_1 : LocallyConnectedSpace M] (U₁ U₂ : TopologicalSpace.Opens M) (x : M), ↑(Causal.componentOpens (U₁ ⊓ U₂) x) ⊆ ↑U₂",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "… lies in U₂"
+    },
+    {
+      "name": "Causal.ers_etale_development_component",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:643",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2} {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M} {U₁ U₂ : TopologicalSpace.Opens M} {u₁ u₂ : M → β} [T2Space M] [SecondCountableTopology M] [inst_3 : LocallyConnectedSpace M], Causal.IsDevelopment sol cau S U₁ u₁ → Causal.IsDevelopment sol cau S U₂ u₂ → Causal.CausalityFollows cau → Causal.CausalityFollowsLt cau → IsPreconnected S → ∀ {x₀ : M}, x₀ ∈ S → ∀ (h₁ : ↑(Causal.componentOpens (U₁ ⊓ U₂) x₀) ⊆ ↑U₁) (h₂ : ↑(Causal.componentOpens (U₁ ⊓ U₂) x₀) ⊆ ↑U₂), Set.EqOn u₁ u₂ ↑(Causal.componentOpens (U₁ ⊓ U₂) x₀) → (cau u₁).IsCauchySurfaceOn (Causal.componentOpens (U₁ ⊓ U₂) x₀) S → (∀ ⦃x y : M⦄, (cau u₁).le U₁ x y → (cau u₁).le U₁ y x → x = y) → (∀ ⦃x y : M⦄, (cau u₂).le U₂ x y → (cau u₂).le U₂ y x → x = y) → (cau u₁).CausallyArcConnectedOn U₁ → (cau u₂).CausallyArcConnectedOn U₂ → T2Space (Causal.EtaleGluing h₁ h₂) ∧ (Causal.EtaleGluing.gluedCausality h₁ h₂ (cau u₁) (cau u₂)).TwoPiece (Causal.EtaleGluing.sheet₁ h₁ h₂) (Causal.EtaleGluing.sheet₂ h₁ h₂) ∧ (Causal.EtaleGluing.gluedCausality h₁ h₂ (cau u₁) (cau u₂)).IsCausal ∧ (Causal.EtaleGluing.gluedCausality h₁ h₂ (cau u₁) (cau u₂)).IsCauchySurface (Causal.EtaleGluing.lift h₁ h₂ S)",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "(d) the component form: M locally connected, S connected, A the component of U₁ ∩ U₂ through x₀ ∈ S (closedness dropped: t2Space_connectedComponentIn); u₁ = u₂ on A and S Cauchy in A still hypotheses"
+    },
+    {
+      "name": "Causal.ers_isPreconnected_inter_of_eqOn",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:674",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2} {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M} {U₁ U₂ : TopologicalSpace.Opens M} {u₁ u₂ : M → β} [T2Space M] [SecondCountableTopology M] {Cm : Causal.Causality M}, Causal.SolutionLocal sol → Causal.SolutionsGlue sol → Causal.CausalityFollows cau → (∀ (U : TopologicalSpace.Opens M) (u : M → β), sol U u → (cau u).CurveNestedOn Cm U) → (∀ (U : TopologicalSpace.Opens M) (u : M → β), sol U u → (cau u).CausallyArcConnectedOn U) → Cm.IsCausal → Cm.IsAcausal S → IsPreconnected S → Causal.IsDevelopment sol cau S U₁ u₁ → Causal.IsDevelopment sol cau S U₂ u₂ → Set.EqOn u₁ u₂ (↑U₁ ∩ ↑U₂) → IsPreconnected (↑U₁ ∩ ↑U₂)",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "(5) ERS subluminal setting (hsub, harc, Cm causal, S connected, Cm-acausal): two developments agreeing on U₁ ∩ U₂ have a connected overlap (formalizes the claim Causal/ErsMughd.lean:91–95 argues)"
+    },
+    {
+      "name": "Causal.ers_isOpenEmbedding_proj_of_eqOn",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:715",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2} {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M} {U₁ U₂ A : TopologicalSpace.Opens M} {u₁ u₂ : M → β} [T2Space M] [SecondCountableTopology M] {Cm : Causal.Causality M}, Causal.SolutionLocal sol → Causal.SolutionsGlue sol → Causal.CausalityFollows cau → (∀ (U : TopologicalSpace.Opens M) (u : M → β), sol U u → (cau u).CurveNestedOn Cm U) → (∀ (U : TopologicalSpace.Opens M) (u : M → β), sol U u → (cau u).CausallyArcConnectedOn U) → Cm.IsCausal → Cm.IsAcausal S → IsPreconnected S → Causal.IsDevelopment sol cau S U₁ u₁ → Causal.IsDevelopment sol cau S U₂ u₂ → ∀ (h₁ : ↑A ⊆ ↑U₁) (h₂ : ↑A ⊆ ↑U₂), S ⊆ ↑A → ↑U₁ ∩ ↑U₂ ∩ closure ↑A ⊆ ↑A → Set.EqOn u₁ u₂ (↑U₁ ∩ ↑U₂) → Topology.IsOpenEmbedding (Causal.EtaleGluing.proj h₁ h₂)",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "(5) agreement gives injectivity (π an open embedding) in ERS subluminal setting, for any open A ⊇ S closed in U₁ ∩ U₂"
+    },
+    {
+      "name": "Causal.EtaleGluing.lineU₁",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:742",
+      "kind": "def",
+      "statement": "TopologicalSpace.Opens ℝ",
+      "status": "defined",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "witness: ]-2, 1["
+    },
+    {
+      "name": "Causal.EtaleGluing.lineU₂",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:745",
+      "kind": "def",
+      "statement": "TopologicalSpace.Opens ℝ",
+      "status": "defined",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "witness: ]-1, 2["
+    },
+    {
+      "name": "Causal.EtaleGluing.lineA",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:748",
+      "kind": "def",
+      "statement": "TopologicalSpace.Opens ℝ",
+      "status": "defined",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "witness: ]-1, 1["
+    },
+    {
+      "name": "Causal.EtaleGluing.lineA_subset₁",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:750",
+      "kind": "theorem",
+      "statement": "↑Causal.EtaleGluing.lineA ⊆ ↑Causal.EtaleGluing.lineU₁",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "witness: A ⊆ U₁"
+    },
+    {
+      "name": "Causal.EtaleGluing.lineA_subset₂",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:753",
+      "kind": "theorem",
+      "statement": "↑Causal.EtaleGluing.lineA ⊆ ↑Causal.EtaleGluing.lineU₂",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "witness: A ⊆ U₂"
+    },
+    {
+      "name": "Causal.EtaleGluing.lineP₁",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:757",
+      "kind": "def",
+      "statement": "↑↑Causal.EtaleGluing.lineU₁",
+      "status": "defined",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "witness: -3/2 ∈ U₁"
+    },
+    {
+      "name": "Causal.EtaleGluing.lineP₂",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:761",
+      "kind": "def",
+      "statement": "↑↑Causal.EtaleGluing.lineU₂",
+      "status": "defined",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "witness: 3/2 ∈ U₂"
+    },
+    {
+      "name": "Causal.EtaleGluing.timelikeLine_etale_witness",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:768",
+      "kind": "theorem",
+      "statement": "Causal.AgreeOn Causal.timelikeLine Causal.timelikeLine Causal.EtaleGluing.lineA ∧ (∀ ⦃x y : ℝ⦄, Causal.timelikeLine.le Causal.EtaleGluing.lineU₁ x y → Causal.timelikeLine.le Causal.EtaleGluing.lineU₁ y x → x = y) ∧ (∀ ⦃x y : ℝ⦄, Causal.timelikeLine.le Causal.EtaleGluing.lineU₂ x y → Causal.timelikeLine.le Causal.EtaleGluing.lineU₂ y x → x = y) ∧ Causal.timelikeLine.CausallyArcConnectedOn Causal.EtaleGluing.lineU₁ ∧ Causal.timelikeLine.CausallyArcConnectedOn Causal.EtaleGluing.lineU₂ ∧ {0} ⊆ ↑Causal.EtaleGluing.lineA ∧ Causal.timelikeLine.IsCauchySurfaceOn Causal.EtaleGluing.lineA {0} ∧ Causal.timelikeLine.IsCauchySurfaceOn Causal.EtaleGluing.lineU₁ {0} ∧ Causal.timelikeLine.IsCauchySurfaceOn Causal.EtaleGluing.lineU₂ {0} ∧ ↑Causal.EtaleGluing.lineU₁ ∩ ↑Causal.EtaleGluing.lineU₂ ∩ closure ↑Causal.EtaleGluing.lineA ⊆ ↑Causal.EtaleGluing.lineA ∧ Causal.Gluing.ι₁ (Set.inclusion Causal.EtaleGluing.lineA_subset₁) (Set.inclusion Causal.EtaleGluing.lineA_subset₂) Causal.EtaleGluing.lineP₁ ∉ Causal.EtaleGluing.sheet₂ Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂ ∧ Causal.Gluing.ι₂ (Set.inclusion Causal.EtaleGluing.lineA_subset₁) (Set.inclusion Causal.EtaleGluing.lineA_subset₂) Causal.EtaleGluing.lineP₂ ∉ Causal.EtaleGluing.sheet₁ Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂ ∧ (Causal.EtaleGluing.gluedCausality Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂ Causal.timelikeLine Causal.timelikeLine).le ⊤ (Causal.Gluing.ι₁ (Set.inclusion Causal.EtaleGluing.lineA_subset₁) (Set.inclusion Causal.EtaleGluing.lineA_subset₂) Causal.EtaleGluing.lineP₁) (Causal.Gluing.ι₂ (Set.inclusion Causal.EtaleGluing.lineA_subset₁) (Set.inclusion Causal.EtaleGluing.lineA_subset₂) Causal.EtaleGluing.lineP₂)",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "(kb/0011) every hypothesis of isEtaleDevelopment holds jointly on the timelike line (U₁ = ]-2,1[, U₂ = ]-1,2[, A = ]-1,1[, S = {0}); ι₁(-3/2) ∉ sheet₂, ι₂(3/2) ∉ sheet₁, and they are related across the overlap"
+    },
+    {
+      "name": "Causal.EtaleGluing.timelikeLine_isEtaleDevelopment",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:827",
+      "kind": "theorem",
+      "statement": "T2Space (Causal.EtaleGluing Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂) ∧ IsLocalHomeomorph (Causal.EtaleGluing.proj Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂) ∧ (Causal.EtaleGluing.gluedCausality Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂ Causal.timelikeLine Causal.timelikeLine).TwoPiece (Causal.EtaleGluing.sheet₁ Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂) (Causal.EtaleGluing.sheet₂ Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂) ∧ (Causal.EtaleGluing.gluedCausality Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂ Causal.timelikeLine Causal.timelikeLine).IsCausal ∧ (Causal.EtaleGluing.gluedCausality Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂ Causal.timelikeLine Causal.timelikeLine).IsCauchySurface (Causal.EtaleGluing.lift Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂ {0}) ∧ Causal.EtaleGluing.proj Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂ '' Causal.EtaleGluing.lift Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂ {0} = {0}",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "isEtaleDevelopment applied at the witness"
+    },
+    {
+      "name": "Causal.EtaleGluing.timelikeLine_ers_etale_witness",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleMghd.lean:842",
+      "kind": "theorem",
+      "statement": "Causal.IsDevelopment (fun x x_1 => True) (fun x => Causal.timelikeLine) {0} Causal.EtaleGluing.lineU₁ 0 ∧ Causal.IsDevelopment (fun x x_1 => True) (fun x => Causal.timelikeLine) {0} Causal.EtaleGluing.lineU₂ 0 ∧ (Causal.CausalityFollows fun x => Causal.timelikeLine) ∧ (Causal.CausalityFollowsLt fun x => Causal.timelikeLine) ∧ Causal.timelikeLine.IsCommonDevelopment {0} Causal.EtaleGluing.lineU₁ Causal.EtaleGluing.lineU₂ (fun V => Set.EqOn 0 0 ↑V) Causal.EtaleGluing.lineA",
+      "status": "proved",
+      "axioms": "[propext, Classical.choice, Quot.sound]",
+      "role": "(kb/0011) the hypotheses of ers_etale_development (two developments, CausalityFollows, CausalityFollowsLt, IsCommonDevelopment) hold jointly on the timelike line, sol = True, cau = timelikeLine, u₁ = u₂ = 0"
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.isEMorphism_restrict_toSubtype_val",
+    "Causal.Causality.isCauchySurfaceOn_iff_restrict_toSubtype",
+    "Causal.Causality.causallyConvexIn_and_le_iff_of_agreeOn",
+    "Causal.Causality.isPreconnected_inter_of_isCauchySurfaceOn_sup",
+    "Causal.EtaleGluing.compatibleAlong_iff_agreeOn",
+    "Causal.CausalityFollowsLt",
+    "Causal.CausalityFollows.agreeOn"
+  ],
+  "compatible_along_choice": "Both, and they are equivalent. The core theorems (EtaleGluing.twoPiece, isEtaleDevelopment) take AgreeOn C₁ C₂ A, which is exactly Gluing.CompatibleAlong of the subtype pieces (EtaleGluing.compatibleAlong_iff_agreeOn, an iff), so nothing is lost against \"CompatibleAlong as the hypothesis\". The development forms (ers_etale_development, _component, ers_theorem_3_45_etale) derive it from CausalityFollows (≤, Causal/ErsMughd.lean:200) and its ≪ twin CausalityFollowsLt, declared here beside it (ErsEtaleMghd.lean:529), by CausalityFollows.agreeOn applied to u₁ = u₂ on A.",
+  "binder_proposal": [
+    {
+      "file": "papers/ers-predictability/certificate/binder.toml",
+      "where": "header, lines 139–141 (\"These are two different conditions: … behind T-abs-two-piece-hoist.\")",
+      "replace_with": "These are two different conditions: injectivity gives agreement (Causal.EtaleGluing.eqOn_inter_of_injective_proj), and in ERS's subluminal setting (S connected and m-acausal) agreement gives a connected overlap, hence injectivity (Causal.ers_isPreconnected_inter_of_eqOn, Causal.ers_isOpenEmbedding_proj_of_eqOn, through Rem 4.78); in general the converse is not decided, and ERS's non-achronal S (:930) suggests it fails. The causal half is in Lean (T-abs-ers-etale-mghd, Causal.ErsEtaleMghd once graduated): along a common development closed in U₁ ∩ U₂ the gluing is a Hausdorff, causal two-piece spacetime étale over the background, with S lifted to a Cauchy surface (Causal.EtaleGluing.isEtaleDevelopment, Causal.ers_etale_development)."
+    },
+    {
+      "file": "papers/ers-predictability/certificate/binder.toml",
+      "row": "ersthm:ThmNonUniqueness",
+      "ett_replace": {
+        "from": [
+          "T-abs-ers-etale-mghd"
+        ],
+        "to": [
+          "Causal.ers_theorem_3_45_etale",
+          "Causal.ers_etale_development",
+          "Causal.EtaleGluing.not_injective_and_not_descends"
+        ]
+      },
+      "localisation": "unchanged (curve_nested)",
+      "note_append": "The causal half is in Lean (T-abs-ers-etale-mghd): ers_theorem_3_45_etale reads the conclusion on the étale development. Under ers_etale_development's hypotheses (two developments, a common development A closed in U_a ∩ U_b, the causality following the solution for ≤ and ≪, pieces antisymmetric and causally arc-connected), the x with Φ_a(x) ≠ Φ_b(x) is doubled in a Hausdorff, causal two-piece spacetime E étale over ℝ², whose lifted S is a Cauchy surface. The row's statement, the existence of the two Born–Infeld GHDs, stays layer 3 (T-loc-born-infeld-causal).",
+      "why": "the ETT theorem the row factors through now exists; the planner may prefer to keep the target id until graduation."
+    },
+    {
+      "file": "papers/ers-predictability/certificate/binder.toml",
+      "row": "erslem:sep_lemma",
+      "ett_replace": {
+        "from": [
+          "T-abs-ers-etale-mghd"
+        ],
+        "to": [
+          "Causal.ers_etale_development",
+          "Causal.ers_isPreconnected_inter_of_eqOn"
+        ]
+      },
+      "note_append": "Rebound after T-abs-ers-etale-mghd: two preimages of one point are the two sheets of the étale development (Causal.ers_etale_development). In ERS's subluminal setting with S m-acausal, two developments that agree on their overlap have a connected overlap (Causal.ers_isPreconnected_inter_of_eqOn), so their gluing is injective; Lemma 3.32 itself (one developing map) stays layer 3."
+    },
+    {
+      "file": "papers/ers-predictability/certificate/binder.toml",
+      "row": "ersthm:global_theorem",
+      "ett_replace": {
+        "from": [
+          "T-abs-ers-etale-mghd"
+        ],
+        "to": [
+          "Causal.EtaleGluing.isOpenEmbedding_proj",
+          "Causal.EtaleGluing.isOpenEmbedding_proj_of_isCauchySurfaceOn_inf"
+        ]
+      },
+      "note_append": "Rebound after T-abs-ers-etale-mghd: the topological last step (an injective étale map is an open embedding) is EtaleGluing.isOpenEmbedding_proj; a connected S Cauchy in the overlap gives it (isOpenEmbedding_proj_of_isCauchySurfaceOn_inf). Ψ's injectivity stays layer 3."
+    },
+    {
+      "file": "papers/ers-predictability/certificate/binder.toml",
+      "row": "erslem:nec_cond",
+      "ett_replace": {
+        "from": [
+          "T-abs-ers-etale-mghd"
+        ],
+        "to": [
+          "Causal.EtaleGluing.isLocalHomeomorph_proj",
+          "Causal.ers_etale_development"
+        ]
+      },
+      "note_append": "Rebound after T-abs-ers-etale-mghd: the étale condition of the two-sheet form is EtaleGluing.isLocalHomeomorph_proj, carried by ers_etale_development. The Jacobian computation stays layer 3."
+    },
+    {
+      "file": "papers/ers-predictability/certificate/binder.toml",
+      "row": "ersthm:diffeo_theorem",
+      "ett_replace": {
+        "from": [
+          "T-abs-ers-etale-mghd"
+        ],
+        "to": [
+          "Causal.ers_etale_development"
+        ]
+      },
+      "note_append": "Rebound after T-abs-ers-etale-mghd: \"a development over the background in the étale sense\" is stated, for two developments glued along a common one, by Causal.ers_etale_development; the developing-map form (E = V, π = Ψ) is not stated. The hodograph theorem stays layer 3 (cited)."
+    },
+    {
+      "file": "papers/ers-predictability/certificate/binder.toml",
+      "row": "erslem:lemma_sing",
+      "ett_replace": {
+        "from": [
+          "T-abs-ers-etale-mghd"
+        ],
+        "to": []
+      },
+      "note_append": "T-abs-ers-etale-mghd supplies nothing to this row (gradient blow-up is PDE); the planner may keep the target id as a pointer or bind nothing.",
+      "why": "no ETT theorem of the module is used by Lemma 3.25; an empty ett may fail a binder gate, hence a choice for the planner."
+    },
+    {
+      "file": "papers/ers-predictability/certificate/binder.toml",
+      "row": "erscor:CorDisCon",
+      "ett_add": [
+        "Causal.ers_corollary_4_68_etale"
+      ],
+      "note_append": "On the étale development (T-abs-ers-etale-mghd): Causal.ers_corollary_4_68_etale asks one development and a common development A closed in U₁ ∩ U₂; the corollary's content is that closedness, i.e. Thm 4.64 with :850."
+    }
+  ],
+  "curation_proposal": {
+    "file": "papers/ers-predictability/certificate/curation.toml",
+    "rows": [
+      {
+        "label": "erscor:CorDisCon",
+        "decls_add": [
+          "Causal.ers_corollary_4_68_etale"
+        ],
+        "extra_lean_files_add": [
+          "Causal/ErsEtaleMghd.lean (after graduation; scaffold/CausalScaffold/ErsEtaleMghd.lean now)"
+        ],
+        "marked": "no",
+        "lean_proved": "partial (unchanged)",
+        "hypothesis_by_hypothesis": "u₁ a GHD: weakened (IsDevelopment, S Cauchy, only its Cauchy property used). u₂ a GHD: weakened (not asked). S connected: weakened (unused). x with u₁(x) ≠ u₂(x): carried. Added: a common development A of S closed in U₁ ∩ U₂ (strengthened: ERS get it from Thm 4.64 and :850). Lean < paper on the added hypothesis, so the row stays unmarked."
+      },
+      {
+        "label": "ersthm:ThmNonUniqueness",
+        "decls_add": [],
+        "why": "the row states the existence of two Born–Infeld GHDs (layer 3); ers_theorem_3_45_etale proves a reading of its conclusion, not the row. Listing it in decls would make it an anchor of a row it does not certify. After graduation the loop may list it as a supporting declaration if the ledger should show it."
+      }
+    ],
+    "marked": "no row is marked"
+  },
+  "findings": [
+    "ERS :852 (\"a manifold which projects down on U₁ ∪ U₂\") holds in its causal half on any Hausdorff, second countable background. The gluing along any common development A (S ⊆ A Cauchy, u₁ = u₂ on A) closed in U₁ ∩ U₂ is a Hausdorff, second countable, causal two-piece spacetime étale over M, with S lifted to a Cauchy surface (Causal.EtaleGluing.isEtaleDevelopment, Causal.ers_etale_development). Two things are hypotheses: closedness, which is :850's half (the MCGHD is the component), and \"S Cauchy in A\", which does not follow from A being the component. Global hyperbolicity of E is not concluded.",
+    "Agreement ⇒ injectivity (reported, not required). Injectivity gives agreement always (eqOn_inter_of_injective_proj). The converse holds in ERS's subluminal setting with S connected and m-acausal: two developments agreeing on U₁ ∩ U₂ have a connected overlap (Causal.ers_isPreconnected_inter_of_eqOn), so π is an open embedding for every open A ⊇ S closed in the overlap (ers_isOpenEmbedding_proj_of_eqOn). The mechanism, isPreconnected_inter_of_isCauchySurfaceOn_sup: one causality with S Cauchy in U₁, U₂ and U₁ ⊔ U₂ (Rem 4.78 makes the union a development) has a connected overlap. In general it is not decided. ERS's own example, ghd_02_19.tex:930 (linear wave equation in Minkowski space, S spacelike but not achronal, winding around the x⁰-axis), suggests it fails: with zero data the two developments agree everywhere, while ERS say their overlap is in general disconnected. That is argued only; it needs a Minkowski model, so it is not formalized at layer 1.",
+    "This closes a gap that Causal/ErsMughd.lean:89–95 (SCOPE) records only as argued. ERS's proof of Thm 4.79 (ghd_02_19.tex:1063) appeals to Remark 4.67 (:1042), which is stated under Thm 4.64's connectedness (:915), for pairs of UGHDs, and never checks that their overlap is connected. Causal.ers_isPreconnected_inter_of_eqOn now proves, in ERS's subluminal setting, that two GHDs agreeing on their overlap have a connected overlap. The appeal is therefore justified there.",
+    "The target asks the pieces to be absolutely minimal on every open subset. That hypothesis is redundant: causal arc-connectedness of cau uᵢ on Uᵢ gives it (CausallyArcConnectedOn.absolutelyMinimalOn, cor:causalement_connexe_minimal, through restrict_toSubtype_absolutelyMinimalOn_iff). absolutely_minimal is therefore derived, not assumed.",
+    "CausalityFollows (Causal/ErsMughd.lean:200) speaks of ≤ only, but Gluing.CompatibleAlong of the two subtype pieces is exactly AgreeOn C₁ C₂ A, i.e. ≤ and ≪ agreeing on the open subsets of A (EtaleGluing.compatibleAlong_iff_agreeOn, an iff). So the ≪ twin CausalityFollowsLt is needed, and sufficient.",
+    "Cor 4.68 (:921) on the étale development needs one development only, and no causal input beyond S ≠ ∅ (ers_corollary_4_68_etale). Its content is entirely the closedness of the MCGHD in U₁ ∩ U₂, which is Thm 4.64 (:858) with :850.",
+    "Witness (kb/0011): on the timelike line the hypotheses hold jointly with a proper two-piece overlap and a relation across it. But every development of {0} on the line is an interval, so π is always injective there and no witness on ℝ has a doubled point (argued; isPreconnected_of_isCauchySurfaceOn_of_t1_secondCountable gives the connectedness). A doubled point needs a disconnected overlap; ERS's are two Born–Infeld developments in 1 + 1 dimensions (Thm 3.45, layer 3)."
+  ],
+  "questions": [
+    "Reading of \"a development over the background in the étale sense\" (target title). The reading taken: a Hausdorff, second countable E, an étale π : E → M, and a causality on E that restricts to cau uᵢ on the sheets (IsGluingCausality), is two-piece and causal, and has a Cauchy surface over S. The glued solution is uᵢ on each sheet. No smooth structure, no PDE on E, no global hyperbolicity. It is stated as a conjunction; no predicate IsEtaleDevelopment is defined. Whether to define one, and whether GH belongs in it, is the author's call.",
+    "CompatibleAlong. The core takes AgreeOn C₁ C₂ A, which is equivalent to CompatibleAlong. The development forms take CausalityFollows together with the declared ≪ twin CausalityFollowsLt. The reading taken is that ERS's (4.61) gives the twin as it gives CausalityFollows: ≪_V of g(u, du) is determined by u|V. OQ-157 asks whether CausalityFollows itself should be assumed in Thm 4.82's forms; this module assumes it and its twin.",
+    "The pieces are ((cau uᵢ).restrict Uᵢ).toSubtype, not the pullback along Subtype.val. The two agree (Causality.pullback_val_agree, re-checked in the probe), and toSubtype's ≤ is definitionally C.le (imageOpens V).",
+    "\"S Cauchy in A\" is asked for cau u₁, as IsCommonDevelopment reads it. For cau u₂ it follows from the agreement on A (isCauchySurfaceOn_of_agree).",
+    "\"Agreement ⇒ injectivity\" (the dispatch: report, do not decide). The reading taken: give a conditional proof (ERS's subluminal setting with S connected and m-acausal, or S connected and Cauchy in the overlap) and the shape of a counterexample (ERS :930, argued). The general question is left open."
+  ],
+  "kb_proposals": [
+    "An open set U as a spacetime of its own: Subtype.val is an injective IsEMorphism from (C.restrict U).toSubtype (Causality.isEMorphism_restrict_toSubtype_val), so S ⊆ U is Cauchy in U iff val⁻¹(S) is Cauchy in ↥U (Causality.isCauchySurfaceOn_iff_restrict_toSubtype).",
+    "Gluing.CompatibleAlong of the subtype pieces of an Einstein-style gluing is AgreeOn C₁ C₂ A (EtaleGluing.compatibleAlong_iff_agreeOn). CausalityFollows has a ≪ twin, CausalityFollowsLt (T-abs-ers-etale-mghd).",
+    "The gluing of two developments along a common development closed in U₁ ∩ U₂ is a Hausdorff, causal TwoPiece spacetime étale over M with S lifted Cauchy (EtaleGluing.isEtaleDevelopment, ers_etale_development). Pieces need antisymmetry and causal arc-connectedness only: absolute minimality follows.",
+    "One causality with a connected S Cauchy in U₁, U₂ and U₁ ⊔ U₂ (≤ antisymmetric there) gives a connected U₁ ∩ U₂ (Causality.isPreconnected_inter_of_isCauchySurfaceOn_sup). It is a direct curve argument, needing neither kb/0245's isCauchySurfaceOn_inf_of_secondCountable (stated at ⊤) nor Causal.CExtConnexeCauchy.SubArc.",
+    "Agreement ⇒ connected overlap ⇒ injectivity holds in ERS's subluminal setting (ers_isPreconnected_inter_of_eqOn, ers_isOpenEmbedding_proj_of_eqOn), which settles the claim Causal/ErsMughd.lean:91–95 argued. ERS :930 suggests it fails without m-acausal S.",
+    "The connected component of U₁ ∩ U₂ through x, as an open set, is the existing Causal.componentOpens (U₁ ⊓ U₂) x (Causal.ErsUnions); do not redefine it."
+  ],
+  "lemmas_for_the_keeper": [],
+  "lemmas_for_the_keeper_note": "No ladder node, edge or fact changes. The derivation of absolute minimality from causal arc-connectedness is the existing edge (cor:causalement_connexe_minimal), read on open subsets.",
+  "what_remains": "Nothing of the target: (a)–(c) of the evidence, the development form, the component form, the readings of Thm 3.45 and Cor 4.68 and the witness are proved with no sorry. Beyond it: (1) global hyperbolicity of E (TwoPiece.globallyHyperbolic and the piece charts stay in Causal.CBG.Ppcm, model layer). (2) That ERS's MCGHD is closed in U₁ ∩ U₂, i.e. is the component through S: Thm 4.64, behind the layer-3 edge hypotheses (OQ-100). (3) Thm 3.45's two Born–Infeld GHDs and Lemma 3.32 (layer 3, T-loc-born-infeld-causal). (4) Agreement ⇒ injectivity in general: open; a counterexample would be a Minkowski-model target (ERS :930). (5) The developing-map form of an étale development (E = V, π = Ψ), the object of rows 3.22–3.35, is not stated.",
+  "notes": "Graduation: one leaf module, namespace Causal. Its declarations sit in Causal.Causality (the four section-0 lemmas), Causal.EtaleGluing (the gluing, its sheets, lift, glued causality, the core theorems and the witness) and Causal (CausalityFollowsLt, CausalityFollows.agreeOn, the ers_* development forms and componentOpens_inf_subset_left/_right). A grep of lean-causal/Causal, scaffold, lean-gx and lean-benzecri found no clash for any of the 40 names (kb/0082). Causal.componentOpens is reused from Causal.ErsUnions, not redefined. Every label mention of the docstring lies in its first 4000 characters, and none is marked. Graduating to Causal/ErsEtaleMghd.lean needs no change to warningAsError: the module builds with -DwarningAsError=true. No existing file was edited. The binder, the curation, programme/ladder.toml, Causal.lean, README and kb are untouched (proposals above). The proof of Causality.isPreconnected_inter_of_isCauchySurfaceOn_sup deliberately avoids Causal.CExtConnexeCauchy.Basic, which imports .SubArc, a file of the concurrent target's closure. Beyond the dispatch's list I added ers_isPreconnected_inter_of_eqOn and ers_isOpenEmbedding_proj_of_eqOn, a conditional answer to the reported question. They decide \"agreement ⇒ injectivity\" only in ERS's subluminal setting, and the general question stays open. The loop may drop them if it reads the dispatch's \"do not decide it\" strictly. At hand-back, git status shows lean-causal/Causal/FlrwType.lean modified. This target did not touch it, and the module's closure does not contain it (checked with import_chain), so the build is unaffected. The other untracked paths are campaign/T-loc-minkowski-past-boundary-chart/ and scaffold/CausalScaffold/Model/, also another closer's.",
+  "corrected_after_audit": "AUDIT-1 (minor), applied by the master: (2) the checklist marks the coinciding metrics '⚠ abstract' and SCOPE names CausalityFollowsLt as a new declared hypothesis, defined in this module (not beside CausalityFollows, which is Causal.ErsMughd's); (5) the section numbering fixed (## 5. Developments). Recorded for the planner and the author: (1) the binder_proposal's ers_corollary_4_68_etale belongs in erscor:CorDisCon's note, not its `ett` (its input is Thm 4.64's content, as binder.toml:314 says of not_isPreconnected_inter), and the sep_lemma rebinding to ers_isPreconnected_inter_of_eqOn is loose (Lemma 3.32 is about one developing map); (3) findings[0]'s 'two things are hypotheses' omits the antisymmetric, causally arc-connected pieces and CausalityFollows/Lt, which are hypotheses too; (4) no kb/0011 witness yet for ers_corollary_4_68_etale or the two subluminal theorems (cheap), and the module's `uses` line omits curve_nested, which the subluminal theorems assume."
+}

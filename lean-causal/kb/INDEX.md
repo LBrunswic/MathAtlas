@@ -330,3 +330,6 @@ rediscover. One fact per entry.
 | [0322](entries/0322-past-boundary-chart.md) | pattern | Sbierski's past boundary chart in ETT, and why the timelike line has none |
 | [0323](entries/0323-minkowski-past-boundary-chart.md) | pattern | The past boundary chart is inhabited: the half-space of Minkowski space at 0 |
 | [0324](entries/0324-cauchy-meets-vertical.md) | pattern | A Cauchy surface of an open set meets each vertical line through it: exists_mem_connectedComponentIn |
+| [0325](entries/0325-open-set-as-spacetime.md) | pattern | An open set as a spacetime of its own: Subtype.val is an injective IsEMorphism |
+| [0326](entries/0326-etale-development.md) | pattern | Two developments glued along a closed common development: a Hausdorff TwoPiece spacetime étale over M |
+| [0327](entries/0327-connected-overlap.md) | pattern | A connected Cauchy surface of U₁, U₂ and U₁ ⊔ U₂ makes the overlap connected |

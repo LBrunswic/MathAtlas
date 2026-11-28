@@ -1,0 +1,370 @@
+@Causal.Causality.isEMorphism_restrict_toSubtype_val : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  (C : Causal.Causality M) (U : TopologicalSpace.Opens M), Causal.IsEMorphism (C.restrict U).toSubtype C Subtype.val
+@Causal.Causality.isCauchySurfaceOn_iff_restrict_toSubtype : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  (C : Causal.Causality M) {U : TopologicalSpace.Opens M} {S : Set M},
+  S ⊆ ↑U → (C.IsCauchySurfaceOn U S ↔ (C.restrict U).toSubtype.IsCauchySurface (Subtype.val ⁻¹' S))
+@Causal.Causality.causallyConvexIn_and_le_iff_of_agreeOn : ∀ {M : Type u_1} [inst : TopologicalSpace M] [T2Space M]
+  [SecondCountableTopology M] {C₁ C₂ : Causal.Causality M} {U₁ U₂ A : TopologicalSpace.Opens M},
+  Causal.AgreeOn C₁ C₂ A →
+    A ≤ U₁ →
+      A ≤ U₂ →
+        (∀ ⦃x y : M⦄, C₁.le U₁ x y → C₁.le U₁ y x → x = y) →
+          (∀ ⦃x y : M⦄, C₂.le U₂ x y → C₂.le U₂ y x → x = y) →
+            C₁.CausallyArcConnectedOn U₁ →
+              C₂.CausallyArcConnectedOn U₂ →
+                ∀ {S : Set M},
+                  S ⊆ ↑A →
+                    C₁.IsCauchySurfaceOn A S →
+                      C₁.IsCauchySurfaceOn U₁ S →
+                        C₂.IsCauchySurfaceOn U₂ S →
+                          C₁.CausallyConvexIn (↑A) U₁ ∧
+                            C₂.CausallyConvexIn (↑A) U₂ ∧ ∀ a ∈ A, ∀ b ∈ A, C₁.le U₁ a b ↔ C₂.le U₂ a b
+@Causal.Causality.isPreconnected_inter_of_isCauchySurfaceOn_sup : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  [T2Space M] [SecondCountableTopology M] {C : Causal.Causality M} {U₁ U₂ : TopologicalSpace.Opens M} {S : Set M},
+  (∀ ⦃x y : M⦄, C.le (U₁ ⊔ U₂) x y → C.le (U₁ ⊔ U₂) y x → x = y) →
+    IsPreconnected S →
+      S ⊆ ↑U₁ ∩ ↑U₂ →
+        C.IsCauchySurfaceOn U₁ S →
+          C.IsCauchySurfaceOn U₂ S → C.IsCauchySurfaceOn (U₁ ⊔ U₂) S → IsPreconnected (↑U₁ ∩ ↑U₂)
+@Causal.EtaleGluing.sheet₁ : {M : Type u_1} →
+  [inst : TopologicalSpace M] →
+    {U₁ U₂ A : TopologicalSpace.Opens M} →
+      (h₁ : ↑A ⊆ ↑U₁) → (h₂ : ↑A ⊆ ↑U₂) → TopologicalSpace.Opens (Causal.EtaleGluing h₁ h₂)
+@Causal.EtaleGluing.sheet₂ : {M : Type u_1} →
+  [inst : TopologicalSpace M] →
+    {U₁ U₂ A : TopologicalSpace.Opens M} →
+      (h₁ : ↑A ⊆ ↑U₁) → (h₂ : ↑A ⊆ ↑U₂) → TopologicalSpace.Opens (Causal.EtaleGluing h₁ h₂)
+@Causal.EtaleGluing.gluedCausality : {M : Type u_1} →
+  [inst : TopologicalSpace M] →
+    {U₁ U₂ A : TopologicalSpace.Opens M} →
+      (h₁ : ↑A ⊆ ↑U₁) →
+        (h₂ : ↑A ⊆ ↑U₂) → Causal.Causality M → Causal.Causality M → Causal.Causality (Causal.EtaleGluing h₁ h₂)
+@Causal.EtaleGluing.lift : {M : Type u_1} →
+  [inst : TopologicalSpace M] →
+    {U₁ U₂ A : TopologicalSpace.Opens M} → (h₁ : ↑A ⊆ ↑U₁) → (h₂ : ↑A ⊆ ↑U₂) → Set M → Set (Causal.EtaleGluing h₁ h₂)
+@Causal.EtaleGluing.ι₁_mem_sheet₂_iff : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} {x : ↑↑U₁},
+  Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) x ∈ Causal.EtaleGluing.sheet₂ h₁ h₂ ↔ ↑x ∈ A
+@Causal.EtaleGluing.ι₂_mem_sheet₁_iff : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} {y : ↑↑U₂},
+  Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) y ∈ Causal.EtaleGluing.sheet₁ h₁ h₂ ↔ ↑y ∈ A
+@Causal.EtaleGluing.lift_eq_image_ι₂ : ∀ {M : Type u_1} [inst : TopologicalSpace M] {U₁ U₂ A : TopologicalSpace.Opens M}
+  {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} {S : Set M},
+  S ⊆ ↑A → Causal.EtaleGluing.lift h₁ h₂ S = Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) '' Subtype.val ⁻¹' S
+@Causal.EtaleGluing.proj_image_lift : ∀ {M : Type u_1} [inst : TopologicalSpace M] {U₁ U₂ A : TopologicalSpace.Opens M}
+  {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} (S : Set M),
+  Causal.EtaleGluing.proj h₁ h₂ '' Causal.EtaleGluing.lift h₁ h₂ S = S ∩ ↑U₁
+@Causal.EtaleGluing.compatibleAlong_iff_agreeOn : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} {C₁ C₂ : Causal.Causality M},
+  Causal.Gluing.CompatibleAlong (Set.inclusion h₁) (Set.inclusion h₂) (C₁.restrict U₁).toSubtype
+      (C₂.restrict U₂).toSubtype ↔
+    Causal.AgreeOn C₁ C₂ A
+@Causal.EtaleGluing.gluedCausality_le_sheet₁_iff : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} {C₁ C₂ : Causal.Causality M},
+  Causal.AgreeOn C₁ C₂ A →
+    ∀ {x y : ↑↑U₁},
+      (Causal.EtaleGluing.gluedCausality h₁ h₂ C₁ C₂).le (Causal.EtaleGluing.sheet₁ h₁ h₂)
+          (Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) x)
+          (Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) y) ↔
+        C₁.le U₁ ↑x ↑y
+@Causal.EtaleGluing.gluedCausality_le_sheet₂_iff : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} {C₁ C₂ : Causal.Causality M},
+  Causal.AgreeOn C₁ C₂ A →
+    ∀ {x y : ↑↑U₂},
+      (Causal.EtaleGluing.gluedCausality h₁ h₂ C₁ C₂).le (Causal.EtaleGluing.sheet₂ h₁ h₂)
+          (Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) x)
+          (Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) y) ↔
+        C₂.le U₂ ↑x ↑y
+@Causal.EtaleGluing.twoPiece : ∀ {M : Type u_1} [inst : TopologicalSpace M] {U₁ U₂ A : TopologicalSpace.Opens M}
+  {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} {C₁ C₂ : Causal.Causality M} [T2Space M] [SecondCountableTopology M],
+  Causal.AgreeOn C₁ C₂ A →
+    (∀ ⦃x y : M⦄, C₁.le U₁ x y → C₁.le U₁ y x → x = y) →
+      (∀ ⦃x y : M⦄, C₂.le U₂ x y → C₂.le U₂ y x → x = y) →
+        C₁.CausallyArcConnectedOn U₁ →
+          C₂.CausallyArcConnectedOn U₂ →
+            ∀ {S : Set M},
+              S ⊆ ↑A →
+                C₁.IsCauchySurfaceOn A S →
+                  C₁.IsCauchySurfaceOn U₁ S →
+                    C₂.IsCauchySurfaceOn U₂ S →
+                      (Causal.EtaleGluing.gluedCausality h₁ h₂ C₁ C₂).TwoPiece (Causal.EtaleGluing.sheet₁ h₁ h₂)
+                        (Causal.EtaleGluing.sheet₂ h₁ h₂)
+@Causal.EtaleGluing.isCausal_gluedCausality : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} {C₁ C₂ : Causal.Causality M} [T2Space M]
+  [SecondCountableTopology M],
+  Causal.AgreeOn C₁ C₂ A →
+    (∀ ⦃x y : M⦄, C₁.le U₁ x y → C₁.le U₁ y x → x = y) →
+      (∀ ⦃x y : M⦄, C₂.le U₂ x y → C₂.le U₂ y x → x = y) →
+        C₁.CausallyArcConnectedOn U₁ →
+          C₂.CausallyArcConnectedOn U₂ →
+            ∀ {S : Set M},
+              S ⊆ ↑A →
+                C₁.IsCauchySurfaceOn A S →
+                  C₁.IsCauchySurfaceOn U₁ S →
+                    C₂.IsCauchySurfaceOn U₂ S → (Causal.EtaleGluing.gluedCausality h₁ h₂ C₁ C₂).IsCausal
+@Causal.EtaleGluing.isEtaleDevelopment : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} {C₁ C₂ : Causal.Causality M} [T2Space M]
+  [SecondCountableTopology M],
+  Causal.AgreeOn C₁ C₂ A →
+    (∀ ⦃x y : M⦄, C₁.le U₁ x y → C₁.le U₁ y x → x = y) →
+      (∀ ⦃x y : M⦄, C₂.le U₂ x y → C₂.le U₂ y x → x = y) →
+        C₁.CausallyArcConnectedOn U₁ →
+          C₂.CausallyArcConnectedOn U₂ →
+            ∀ {S : Set M},
+              S ⊆ ↑A →
+                C₁.IsCauchySurfaceOn A S →
+                  C₁.IsCauchySurfaceOn U₁ S →
+                    C₂.IsCauchySurfaceOn U₂ S →
+                      ↑U₁ ∩ ↑U₂ ∩ closure ↑A ⊆ ↑A →
+                        T2Space (Causal.EtaleGluing h₁ h₂) ∧
+                          IsLocalHomeomorph (Causal.EtaleGluing.proj h₁ h₂) ∧
+                            (Causal.EtaleGluing.gluedCausality h₁ h₂ C₁ C₂).TwoPiece (Causal.EtaleGluing.sheet₁ h₁ h₂)
+                                (Causal.EtaleGluing.sheet₂ h₁ h₂) ∧
+                              (Causal.EtaleGluing.gluedCausality h₁ h₂ C₁ C₂).IsCausal ∧
+                                (Causal.EtaleGluing.gluedCausality h₁ h₂ C₁ C₂).IsCauchySurface
+                                    (Causal.EtaleGluing.lift h₁ h₂ S) ∧
+                                  Causal.EtaleGluing.proj h₁ h₂ '' Causal.EtaleGluing.lift h₁ h₂ S = S
+@Causal.EtaleGluing.eqOn_inter_of_injective_proj : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} {β : Type u_2} {u₁ u₂ : M → β},
+  Set.EqOn u₁ u₂ ↑A → Function.Injective (Causal.EtaleGluing.proj h₁ h₂) → Set.EqOn u₁ u₂ (↑U₁ ∩ ↑U₂)
+@Causal.EtaleGluing.isOpenEmbedding_proj_of_isCauchySurfaceOn_inf : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {U₁ U₂ A : TopologicalSpace.Opens M} {h₁ : ↑A ⊆ ↑U₁} {h₂ : ↑A ⊆ ↑U₂} [T2Space M] [SecondCountableTopology M]
+  {C : Causal.Causality M} {S : Set M},
+  IsPreconnected S →
+    S.Nonempty →
+      S ⊆ ↑A →
+        C.IsCauchySurfaceOn (U₁ ⊓ U₂) S →
+          ↑U₁ ∩ ↑U₂ ∩ closure ↑A ⊆ ↑A → Topology.IsOpenEmbedding (Causal.EtaleGluing.proj h₁ h₂)
+@Causal.CausalityFollowsLt : {M : Type u_1} →
+  [inst : TopologicalSpace M] → {β : Type u_2} → ((M → β) → Causal.Causality M) → Prop
+@Causal.CausalityFollows.agreeOn : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  {cau : (M → β) → Causal.Causality M},
+  Causal.CausalityFollows cau →
+    Causal.CausalityFollowsLt cau →
+      ∀ {u v : M → β} {W : TopologicalSpace.Opens M}, Set.EqOn u v ↑W → Causal.AgreeOn (cau u) (cau v) W
+@Causal.ers_etale_development : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M}
+  {U₁ U₂ A : TopologicalSpace.Opens M} {u₁ u₂ : M → β} [T2Space M] [SecondCountableTopology M],
+  Causal.IsDevelopment sol cau S U₁ u₁ →
+    Causal.IsDevelopment sol cau S U₂ u₂ →
+      Causal.CausalityFollows cau →
+        Causal.CausalityFollowsLt cau →
+          ∀ (h₁ : ↑A ⊆ ↑U₁) (h₂ : ↑A ⊆ ↑U₂) (hA : (cau u₁).IsCommonDevelopment S U₁ U₂ (fun V => Set.EqOn u₁ u₂ ↑V) A),
+            ↑U₁ ∩ ↑U₂ ∩ closure ↑A ⊆ ↑A →
+              (∀ ⦃x y : M⦄, (cau u₁).le U₁ x y → (cau u₁).le U₁ y x → x = y) →
+                (∀ ⦃x y : M⦄, (cau u₂).le U₂ x y → (cau u₂).le U₂ y x → x = y) →
+                  (cau u₁).CausallyArcConnectedOn U₁ →
+                    (cau u₂).CausallyArcConnectedOn U₂ →
+                      Causal.Gluing.IsGluingCausality ⋯ ⋯ (Causal.EtaleGluing.gluedCausality h₁ h₂ (cau u₁) (cau u₂))
+                          ((cau u₁).restrict U₁).toSubtype ((cau u₂).restrict U₂).toSubtype ∧
+                        T2Space (Causal.EtaleGluing h₁ h₂) ∧
+                          IsLocalHomeomorph (Causal.EtaleGluing.proj h₁ h₂) ∧
+                            (Causal.EtaleGluing.gluedCausality h₁ h₂ (cau u₁) (cau u₂)).TwoPiece
+                                (Causal.EtaleGluing.sheet₁ h₁ h₂) (Causal.EtaleGluing.sheet₂ h₁ h₂) ∧
+                              (Causal.EtaleGluing.gluedCausality h₁ h₂ (cau u₁) (cau u₂)).IsCausal ∧
+                                (Causal.EtaleGluing.gluedCausality h₁ h₂ (cau u₁) (cau u₂)).IsCauchySurface
+                                    (Causal.EtaleGluing.lift h₁ h₂ S) ∧
+                                  Causal.EtaleGluing.proj h₁ h₂ '' Causal.EtaleGluing.lift h₁ h₂ S = S ∧
+                                    Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ ⋯ ∘
+                                          Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) =
+                                        u₁ ∘ Subtype.val ∧
+                                      Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ ⋯ ∘
+                                            Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) =
+                                          u₂ ∘ Subtype.val ∧
+                                        SecondCountableTopology (Causal.EtaleGluing h₁ h₂)
+@Causal.ers_theorem_3_45_etale : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M}
+  {U₁ U₂ A : TopologicalSpace.Opens M} {u₁ u₂ : M → β} [T2Space M] [SecondCountableTopology M],
+  Causal.IsDevelopment sol cau S U₁ u₁ →
+    Causal.IsDevelopment sol cau S U₂ u₂ →
+      Causal.CausalityFollows cau →
+        Causal.CausalityFollowsLt cau →
+          ∀ (h₁ : ↑A ⊆ ↑U₁) (h₂ : ↑A ⊆ ↑U₂) (hA : (cau u₁).IsCommonDevelopment S U₁ U₂ (fun V => Set.EqOn u₁ u₂ ↑V) A),
+            ↑U₁ ∩ ↑U₂ ∩ closure ↑A ⊆ ↑A →
+              (∀ ⦃x y : M⦄, (cau u₁).le U₁ x y → (cau u₁).le U₁ y x → x = y) →
+                (∀ ⦃x y : M⦄, (cau u₂).le U₂ x y → (cau u₂).le U₂ y x → x = y) →
+                  (cau u₁).CausallyArcConnectedOn U₁ →
+                    (cau u₂).CausallyArcConnectedOn U₂ →
+                      ∀ {x : M} (hx₁ : x ∈ U₁) (hx₂ : x ∈ U₂),
+                        u₁ x ≠ u₂ x →
+                          T2Space (Causal.EtaleGluing h₁ h₂) ∧
+                            (Causal.EtaleGluing.gluedCausality h₁ h₂ (cau u₁) (cau u₂)).TwoPiece
+                                (Causal.EtaleGluing.sheet₁ h₁ h₂) (Causal.EtaleGluing.sheet₂ h₁ h₂) ∧
+                              (Causal.EtaleGluing.gluedCausality h₁ h₂ (cau u₁) (cau u₂)).IsCausal ∧
+                                (Causal.EtaleGluing.gluedCausality h₁ h₂ (cau u₁) (cau u₂)).IsCauchySurface
+                                    (Causal.EtaleGluing.lift h₁ h₂ S) ∧
+                                  x ∉ A ∧
+                                    Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) ⟨x, hx₁⟩ ≠
+                                        Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) ⟨x, hx₂⟩ ∧
+                                      ¬Function.Injective (Causal.EtaleGluing.proj h₁ h₂) ∧
+                                        ¬∃ v, Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ ⋯ = v ∘ Causal.EtaleGluing.proj h₁ h₂
+@Causal.ers_corollary_4_68_etale : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M}
+  {U₁ U₂ A : TopologicalSpace.Opens M} {u₁ u₂ : M → β} [T2Space M] [SecondCountableTopology M],
+  Causal.IsDevelopment sol cau S U₁ u₁ →
+    ↑A ⊆ ↑U₁ →
+      ↑A ⊆ ↑U₂ →
+        (cau u₁).IsCommonDevelopment S U₁ U₂ (fun V => Set.EqOn u₁ u₂ ↑V) A →
+          ↑U₁ ∩ ↑U₂ ∩ closure ↑A ⊆ ↑A → ∀ {x : M}, x ∈ U₁ → x ∈ U₂ → u₁ x ≠ u₂ x → ¬IsPreconnected (↑U₁ ∩ ↑U₂)
+@Causal.componentOpens_inf_subset_left : ∀ {M : Type u_1} [inst : TopologicalSpace M] [inst_1 : LocallyConnectedSpace M]
+  (U₁ U₂ : TopologicalSpace.Opens M) (x : M), ↑(Causal.componentOpens (U₁ ⊓ U₂) x) ⊆ ↑U₁
+@Causal.componentOpens_inf_subset_right : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  [inst_1 : LocallyConnectedSpace M] (U₁ U₂ : TopologicalSpace.Opens M) (x : M),
+  ↑(Causal.componentOpens (U₁ ⊓ U₂) x) ⊆ ↑U₂
+@Causal.ers_etale_development_component : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M}
+  {U₁ U₂ : TopologicalSpace.Opens M} {u₁ u₂ : M → β} [T2Space M] [SecondCountableTopology M]
+  [inst_3 : LocallyConnectedSpace M],
+  Causal.IsDevelopment sol cau S U₁ u₁ →
+    Causal.IsDevelopment sol cau S U₂ u₂ →
+      Causal.CausalityFollows cau →
+        Causal.CausalityFollowsLt cau →
+          IsPreconnected S →
+            ∀ {x₀ : M},
+              x₀ ∈ S →
+                ∀ (h₁ : ↑(Causal.componentOpens (U₁ ⊓ U₂) x₀) ⊆ ↑U₁) (h₂ : ↑(Causal.componentOpens (U₁ ⊓ U₂) x₀) ⊆ ↑U₂),
+                  Set.EqOn u₁ u₂ ↑(Causal.componentOpens (U₁ ⊓ U₂) x₀) →
+                    (cau u₁).IsCauchySurfaceOn (Causal.componentOpens (U₁ ⊓ U₂) x₀) S →
+                      (∀ ⦃x y : M⦄, (cau u₁).le U₁ x y → (cau u₁).le U₁ y x → x = y) →
+                        (∀ ⦃x y : M⦄, (cau u₂).le U₂ x y → (cau u₂).le U₂ y x → x = y) →
+                          (cau u₁).CausallyArcConnectedOn U₁ →
+                            (cau u₂).CausallyArcConnectedOn U₂ →
+                              T2Space (Causal.EtaleGluing h₁ h₂) ∧
+                                (Causal.EtaleGluing.gluedCausality h₁ h₂ (cau u₁) (cau u₂)).TwoPiece
+                                    (Causal.EtaleGluing.sheet₁ h₁ h₂) (Causal.EtaleGluing.sheet₂ h₁ h₂) ∧
+                                  (Causal.EtaleGluing.gluedCausality h₁ h₂ (cau u₁) (cau u₂)).IsCausal ∧
+                                    (Causal.EtaleGluing.gluedCausality h₁ h₂ (cau u₁) (cau u₂)).IsCauchySurface
+                                      (Causal.EtaleGluing.lift h₁ h₂ S)
+@Causal.ers_isPreconnected_inter_of_eqOn : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M}
+  {U₁ U₂ : TopologicalSpace.Opens M} {u₁ u₂ : M → β} [T2Space M] [SecondCountableTopology M] {Cm : Causal.Causality M},
+  Causal.SolutionLocal sol →
+    Causal.SolutionsGlue sol →
+      Causal.CausalityFollows cau →
+        (∀ (U : TopologicalSpace.Opens M) (u : M → β), sol U u → (cau u).CurveNestedOn Cm U) →
+          (∀ (U : TopologicalSpace.Opens M) (u : M → β), sol U u → (cau u).CausallyArcConnectedOn U) →
+            Cm.IsCausal →
+              Cm.IsAcausal S →
+                IsPreconnected S →
+                  Causal.IsDevelopment sol cau S U₁ u₁ →
+                    Causal.IsDevelopment sol cau S U₂ u₂ → Set.EqOn u₁ u₂ (↑U₁ ∩ ↑U₂) → IsPreconnected (↑U₁ ∩ ↑U₂)
+@Causal.ers_isOpenEmbedding_proj_of_eqOn : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M}
+  {U₁ U₂ A : TopologicalSpace.Opens M} {u₁ u₂ : M → β} [T2Space M] [SecondCountableTopology M]
+  {Cm : Causal.Causality M},
+  Causal.SolutionLocal sol →
+    Causal.SolutionsGlue sol →
+      Causal.CausalityFollows cau →
+        (∀ (U : TopologicalSpace.Opens M) (u : M → β), sol U u → (cau u).CurveNestedOn Cm U) →
+          (∀ (U : TopologicalSpace.Opens M) (u : M → β), sol U u → (cau u).CausallyArcConnectedOn U) →
+            Cm.IsCausal →
+              Cm.IsAcausal S →
+                IsPreconnected S →
+                  Causal.IsDevelopment sol cau S U₁ u₁ →
+                    Causal.IsDevelopment sol cau S U₂ u₂ →
+                      ∀ (h₁ : ↑A ⊆ ↑U₁) (h₂ : ↑A ⊆ ↑U₂),
+                        S ⊆ ↑A →
+                          ↑U₁ ∩ ↑U₂ ∩ closure ↑A ⊆ ↑A →
+                            Set.EqOn u₁ u₂ (↑U₁ ∩ ↑U₂) → Topology.IsOpenEmbedding (Causal.EtaleGluing.proj h₁ h₂)
+Causal.EtaleGluing.lineU₁ : TopologicalSpace.Opens ℝ
+Causal.EtaleGluing.lineU₂ : TopologicalSpace.Opens ℝ
+Causal.EtaleGluing.lineA : TopologicalSpace.Opens ℝ
+Causal.EtaleGluing.lineA_subset₁ : ↑Causal.EtaleGluing.lineA ⊆ ↑Causal.EtaleGluing.lineU₁
+Causal.EtaleGluing.lineA_subset₂ : ↑Causal.EtaleGluing.lineA ⊆ ↑Causal.EtaleGluing.lineU₂
+Causal.EtaleGluing.lineP₁ : ↑↑Causal.EtaleGluing.lineU₁
+Causal.EtaleGluing.lineP₂ : ↑↑Causal.EtaleGluing.lineU₂
+Causal.EtaleGluing.timelikeLine_etale_witness : Causal.AgreeOn Causal.timelikeLine Causal.timelikeLine
+    Causal.EtaleGluing.lineA ∧
+  (∀ ⦃x y : ℝ⦄,
+      Causal.timelikeLine.le Causal.EtaleGluing.lineU₁ x y →
+        Causal.timelikeLine.le Causal.EtaleGluing.lineU₁ y x → x = y) ∧
+    (∀ ⦃x y : ℝ⦄,
+        Causal.timelikeLine.le Causal.EtaleGluing.lineU₂ x y →
+          Causal.timelikeLine.le Causal.EtaleGluing.lineU₂ y x → x = y) ∧
+      Causal.timelikeLine.CausallyArcConnectedOn Causal.EtaleGluing.lineU₁ ∧
+        Causal.timelikeLine.CausallyArcConnectedOn Causal.EtaleGluing.lineU₂ ∧
+          {0} ⊆ ↑Causal.EtaleGluing.lineA ∧
+            Causal.timelikeLine.IsCauchySurfaceOn Causal.EtaleGluing.lineA {0} ∧
+              Causal.timelikeLine.IsCauchySurfaceOn Causal.EtaleGluing.lineU₁ {0} ∧
+                Causal.timelikeLine.IsCauchySurfaceOn Causal.EtaleGluing.lineU₂ {0} ∧
+                  ↑Causal.EtaleGluing.lineU₁ ∩ ↑Causal.EtaleGluing.lineU₂ ∩ closure ↑Causal.EtaleGluing.lineA ⊆
+                      ↑Causal.EtaleGluing.lineA ∧
+                    Causal.Gluing.ι₁ (Set.inclusion Causal.EtaleGluing.lineA_subset₁)
+                          (Set.inclusion Causal.EtaleGluing.lineA_subset₂) Causal.EtaleGluing.lineP₁ ∉
+                        Causal.EtaleGluing.sheet₂ Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂ ∧
+                      Causal.Gluing.ι₂ (Set.inclusion Causal.EtaleGluing.lineA_subset₁)
+                            (Set.inclusion Causal.EtaleGluing.lineA_subset₂) Causal.EtaleGluing.lineP₂ ∉
+                          Causal.EtaleGluing.sheet₁ Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂ ∧
+                        (Causal.EtaleGluing.gluedCausality Causal.EtaleGluing.lineA_subset₁
+                              Causal.EtaleGluing.lineA_subset₂ Causal.timelikeLine Causal.timelikeLine).le
+                          ⊤
+                          (Causal.Gluing.ι₁ (Set.inclusion Causal.EtaleGluing.lineA_subset₁)
+                            (Set.inclusion Causal.EtaleGluing.lineA_subset₂) Causal.EtaleGluing.lineP₁)
+                          (Causal.Gluing.ι₂ (Set.inclusion Causal.EtaleGluing.lineA_subset₁)
+                            (Set.inclusion Causal.EtaleGluing.lineA_subset₂) Causal.EtaleGluing.lineP₂)
+Causal.EtaleGluing.timelikeLine_isEtaleDevelopment : T2Space
+    (Causal.EtaleGluing Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂) ∧
+  IsLocalHomeomorph (Causal.EtaleGluing.proj Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂) ∧
+    (Causal.EtaleGluing.gluedCausality Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂
+            Causal.timelikeLine Causal.timelikeLine).TwoPiece
+        (Causal.EtaleGluing.sheet₁ Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂)
+        (Causal.EtaleGluing.sheet₂ Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂) ∧
+      (Causal.EtaleGluing.gluedCausality Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂
+            Causal.timelikeLine Causal.timelikeLine).IsCausal ∧
+        (Causal.EtaleGluing.gluedCausality Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂
+                Causal.timelikeLine Causal.timelikeLine).IsCauchySurface
+            (Causal.EtaleGluing.lift Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂ {0}) ∧
+          Causal.EtaleGluing.proj Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂ ''
+              Causal.EtaleGluing.lift Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂ {0} =
+            {0}
+Causal.EtaleGluing.timelikeLine_ers_etale_witness : Causal.IsDevelopment (fun x x_1 => True)
+    (fun x => Causal.timelikeLine) {0} Causal.EtaleGluing.lineU₁ 0 ∧
+  Causal.IsDevelopment (fun x x_1 => True) (fun x => Causal.timelikeLine) {0} Causal.EtaleGluing.lineU₂ 0 ∧
+    (Causal.CausalityFollows fun x => Causal.timelikeLine) ∧
+      (Causal.CausalityFollowsLt fun x => Causal.timelikeLine) ∧
+        Causal.timelikeLine.IsCommonDevelopment {0} Causal.EtaleGluing.lineU₁ Causal.EtaleGluing.lineU₂
+          (fun V => Set.EqOn 0 0 ↑V) Causal.EtaleGluing.lineA
+'Causal.Causality.isEMorphism_restrict_toSubtype_val' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.isCauchySurfaceOn_iff_restrict_toSubtype' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.causallyConvexIn_and_le_iff_of_agreeOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.isPreconnected_inter_of_isCauchySurfaceOn_sup' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.EtaleGluing.sheet₁' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.sheet₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.gluedCausality' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.lift' does not depend on any axioms
+'Causal.EtaleGluing.ι₁_mem_sheet₂_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.ι₂_mem_sheet₁_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.lift_eq_image_ι₂' depends on axioms: [propext, Quot.sound]
+'Causal.EtaleGluing.proj_image_lift' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.compatibleAlong_iff_agreeOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.gluedCausality_le_sheet₁_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.gluedCausality_le_sheet₂_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.twoPiece' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.isCausal_gluedCausality' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.isEtaleDevelopment' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.eqOn_inter_of_injective_proj' depends on axioms: [propext, Quot.sound]
+'Causal.EtaleGluing.isOpenEmbedding_proj_of_isCauchySurfaceOn_inf' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.CausalityFollowsLt' depends on axioms: [propext, Quot.sound]
+'Causal.CausalityFollows.agreeOn' depends on axioms: [propext, Quot.sound]
+'Causal.ers_etale_development' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ers_theorem_3_45_etale' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ers_corollary_4_68_etale' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.componentOpens_inf_subset_left' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.componentOpens_inf_subset_right' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ers_etale_development_component' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ers_isPreconnected_inter_of_eqOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ers_isOpenEmbedding_proj_of_eqOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.lineU₁' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.lineU₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.lineA' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.lineA_subset₁' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.lineA_subset₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.lineP₁' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.lineP₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.timelikeLine_etale_witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.timelikeLine_isEtaleDevelopment' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.timelikeLine_ers_etale_witness' depends on axioms: [propext, Classical.choice, Quot.sound]

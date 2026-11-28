@@ -1,0 +1,99 @@
+{
+  "target": "T-abs-ers-etale-mghd",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "erscor:CorDisCon",
+      "faithful": false,
+      "marked_correctly": true,
+      "notes": "Lean < paper, disclosed: ers_corollary_4_68_etale adds a common development A closed in U₁ ∩ U₂ (Thm 4.64's content). REPORT status partial, unmarked, hypothesis table accurate (u₂ not a development, S connected unused, the added A 'strengthened'). The finding that the corollary's content on the étale development is the closedness of the MCGHD is correct (with hclosed, A is a non-empty clopen proper subset of U₁ ∩ U₂). It agrees with ERS's own 'immediate consequence' (:919)."
+    },
+    {
+      "label": "ersthm:ThmNonUniqueness",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not attempted (existence of two Born–Infeld GHDs is layer 3), unmarked, curation decls_add empty. ers_theorem_3_45_etale only reads the conclusion on the étale development and is disclosed as such (docstring :81–84, decl docstring :582)."
+    },
+    {
+      "label": "ersthm:diffeo_theorem",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not attempted (layer 3), unmarked; only cited for the notion."
+    },
+    {
+      "label": "erslem:nec_cond",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not attempted (layer 3), unmarked."
+    },
+    {
+      "label": "erslem:lemma_sing",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not attempted (PDE), unmarked."
+    },
+    {
+      "label": "erslem:sep_lemma",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not attempted (layer 3), unmarked. The binder proposal to bind ers_isPreconnected_inter_of_eqOn to it is loose (see findings)."
+    },
+    {
+      "label": "ersthm:global_theorem",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not attempted (layer 3), unmarked."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/ErsEtaleMghd.lean` exits 0 with no output. No lake build was run. The olean (04:40:52) is newer than the source (04:40:48). /usr/bin/grep finds no sorry, admit, native_decide, axiom, sorryAx, opaque, unsafe or implemented_by in the file. The closer's Probe.lean, rerun with lake env lean, reproduces axioms.txt byte for byte (diff empty). The auditor's own probe (campaign/T-abs-ers-etale-mghd/AuditProbe1.lean, deleted after the run) ran #print axioms on 21 declarations, among them the core, development, 3.45/4.68, subluminal and witness theorems: all on [propext, Classical.choice, Quot.sound] or a subset. It also printed AgreeOn, CompatibleAlong, CausalityFollows, CausalityFollowsLt, Causality.IsAcausal and TwoPiece, and checked two examples (below)."
+  },
+  "checks": {
+    "layer_1": "Direct imports: Causal.ErsEtaleGluing, TwoPiece, PushoutCausal, GluingGeneric.Generated, GXStructure, CExtConnexeSecondCountable, ErsSecondCountable, Ers464SecondCountable, Ers482Solution. tools/ladder.py model_path, computed in memory on lean_index() with the module added to the import graph (kb/0247): None for the module and None for each direct import. Transitive closure: 81 Causal modules, none of them model-layer. The CBG modules in it are CausalConvex, FamilyGluing, Injective and SubExtensionAbstract. Not in the closure: Ppcm, Geometry, Pgcd, NoCorresponding, SingularFlat, FlrwType, CExtConnexeCauchy.SubArc, PastInextensibleMeetsCauchy. CauchyExtension and SCOpenWithoutTarentin are in it, as the planner foresaw. No metric, length, geodesic or PDE notion appears in a statement: sol, cau and Cm are abstract, and the hypotheses are ladder properties on opens or declared predicates.",
+    "core_theorem": "EtaleGluing.isEtaleDevelopment (:451) is the target's statement. It assumes T2 and second countable M, AgreeOn C₁ C₂ A, ≤_{Uᵢ} antisymmetric, Cᵢ causally arc-connected on Uᵢ, S ⊆ A, S Cauchy in A, U₁ (for C₁) and U₂ (for C₂), and A closed in U₁ ∩ U₂. It concludes E T2, π étale, TwoPiece over sheet₁ = range ι₁ and sheet₂ = range ι₂, causal, lift S a Cauchy surface of E, and π(lift S) = S. It drops the target's 'absolutely minimal on every open subset' and derives it (CausallyArcConnectedOn.absolutelyMinimalOn, Causal/ArcConnected.lean:203, via restrict_toSubtype_absolutelyMinimalOn_iff). So the core is Lean ≥ target. TwoPiece's fields (cover, absolutelyMinimalOn ⊤, convex_left/right, agree) were printed and are substantive.",
+    "compatible_along": "compatibleAlong_iff_agreeOn (:300) is an iff: Gluing.CompatibleAlong (inclusion h₁) (inclusion h₂) ((C₁.restrict U₁).toSubtype) ((C₂.restrict U₂).toSubtype) ↔ AgreeOn C₁ C₂ A. Against the printed definitions, AgreeOn quantifies over V ≤ A and all x y : M. The cases off V are vacuous by le_mem_left and right, and the proof handles them. So AgreeOn is exactly the target's CompatibleAlong hypothesis, not a strengthening. gluedCausality is Gluing.causality of the two subtype pieces by rfl (closer's probe). gluedCausality_le_sheet₁/₂_iff show it restricts to Cᵢ.le Uᵢ on each sheet, and ers_etale_development concludes IsGluingCausality.",
+    "subtype_bridge": "isCauchySurfaceOn_iff_restrict_toSubtype (:132): S ⊆ U → (C.IsCauchySurfaceOn U S ↔ (C.restrict U).toSubtype.IsCauchySurface (val⁻¹' S)). It is the natural statement, through isEMorphism_restrict_toSubtype_val and IsEMorphismOn.isCauchySurfaceOn_image_iff. The choice of toSubtype over the pullback along val loses nothing (pullback_val_agree, closer's probe).",
+    "witness": "timelikeLine_etale_witness (:768) proves every hypothesis of isEtaleDevelopment jointly on the timelike line, with U₁ = ]-2,1[, U₂ = ]-1,2[, A = ]-1,1[ and S = {0}. It also gives ι₁(-3/2) ∉ sheet₂, ι₂(3/2) ∉ sheet₁ and a glued relation across the overlap: a proper two-piece. timelikeLine_ers_etale_witness (:842) does the same for ers_etale_development's declared hypotheses, with sol = True, cau constant and u₁ = u₂ = 0. The witness is genuine but degenerate in two ways, both disclosed (SCOPE :94–98): A = U₁ ∩ U₂, so no point is doubled, and CausalityFollows/Lt hold trivially. The auditor checked in Lean that π is injective there (injective_proj_iff).",
+    "agreement_injectivity": "ers_isPreconnected_inter_of_eqOn (:674) and ers_isOpenEmbedding_proj_of_eqOn (:715) are theorems under explicit hypotheses, not a ruling. Their hypotheses are SolutionLocal, SolutionsGlue, CausalityFollows, curve nesting of cau u in Cm and causal arc-connectedness for every solution, Cm causal, Cm.IsAcausal S and S preconnected: exactly ers_remark_4_78's bundle in Causal.ErsMughd. Cm.IsAcausal S is ∀ x y ∈ S, Cm.le ⊤ x y → x = y (printed). That is ERS's 'acausal with respect to the Minkowski metric m' (:1053), which is the setting of Thm 4.79/4.80. The general question stays open, and the module and REPORT say so (SCOPE :88–93, questions[4]). The auditor's probe instantiated ers_isOpenEmbedding_proj_of_eqOn on the timelike line (sol = True, cau = Cm = timelikeLine, u₁ = u₂ = 0, the witness domains), so the hypotheses are jointly satisfiable. Causality.isPreconnected_inter_of_isCauchySurfaceOn_sup (:172) is correct: kernel-checked, and the two-component curve argument in its docstring is sound. The name fits mathlib's convention (Set ∩ in the conclusion, IsCauchySurfaceOn on U₁ ⊔ U₂ as the key hypothesis). It is not a duplicate of Causality.isPreconnected_inf_of_subset (CBG/CausalConvex.lean:500), which is stated at ⊤ with IsCausal and CurvesExtend. The claim about ErsMughd.lean:89–95 is accurate. Those lines (read) record 'two GHDs agreeing on their overlap have a connected overlap' in ERS's subluminal setting as argued only, and the new theorem proves that statement with IsDevelopment in place of GHD, which is more general. 'Justifies ERS's appeal to Rem 4.67 at :1063' is fair to ERS. :1063 reuses Thm 4.77's argument, and :1042 invokes RemTime, stated under Thm 4.64's connectedness (:915). Pairs of UGHDs agree on their overlap, so the theorem supplies that connectedness in Thm 4.79's own setting. The ERS :930 counterexample shape (zero data on a non-achronal winding S) is hedged as 'suggests' and 'argued only' and consistent with the text of :930.",
+    "causality_follows_lt": "The new definition is justified: compatibleAlong_iff_agreeOn shows that ≪-agreement is necessary for CompatibleAlong, the library has no ≪ analogue of CausalityFollows or FollowsSolution (grep), and the target explicitly allowed 'CausalityFollows with a ≪ twin'. It is used as a hypothesis and recorded as a reading in REPORT questions[1]. It does not prejudge OQ-157, which concerns Thm 4.82's uniform forms and stays OPEN. No name clash: neither Causal.CausalityFollowsLt nor CausalityFollows.agreeOn exists elsewhere in Causal/** or the scaffold. Disclosure in the module could be sharper (finding 2).",
+    "forms_3_45_4_68": "No label marked. Curation proposal: CorDisCon decls_add ers_corollary_4_68_etale, marked no, partial, which is consistent with the row's existing partial decls. ThmNonUniqueness decls_add is empty. No 'FALSE' or 'false/wrong/incorrect as printed' wording in the proposals, so no strong restate signal. 'added hypothesis' is a weak signal only. No not_… declaration in the curation decls. not_injective_and_not_descends appears only in a binder `ett`, which the ledger does not read.",
+    "names_and_scope": "None of the 40 fully qualified names clashes with lean_index() of Causal/** or with a scan of scaffold/CausalScaffold/** (kb/0082). Inside lean-causal, git status --short shows the closer's two paths (scaffold/CausalScaffold/ErsEtaleMghd.lean and campaign/T-abs-ers-etale-mghd/), plus Causal/FlrwType.lean (master), scaffold/CausalScaffold/Model/ and campaign/T-loc-minkowski-past-boundary-chart/ (another target), none in this module's closure. lean-benzecri/scaffold/BenzecriScaffold.lean (M) and lean-benzecri/campaign/T-bz-c3-facettes/ appeared during the audit. They belong to the concurrent Benzécri loop and are not this closer's. No file outside the dispatch was edited by this closer.",
+    "docstring_contract": "kb/0006: title present. No ``**`label`**`` mark (ledger.py's regex needs a backticked prefix:label, and none exists). All seven label mentions are within the first 4000 characters (offsets 813–1102). Three verbatim quotes, checked against ghd_02_19.tex :850 and :852. Hypothesis checklist and SCOPE present and true, with the exceptions of findings 2 and 4. Provenance line present."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "campaign/T-abs-ers-etale-mghd/REPORT.json:702 (binder_proposal, row erscor:CorDisCon, ett_add); papers/ers-predictability/certificate/binder.toml:314",
+      "what": "The proposal adds Causal.ers_corollary_4_68_etale to the row's `ett`. The row's note records the policy for the analogous Causal.EtaleGluing.not_isPreconnected_inter: 'a sibling, not a form of record: its input is what Thm 4.64's argument proves, and the forms of record stay the causal ers_corollary_4_68 forms'. ers_corollary_4_68_etale has exactly that kind of input (hclosed plus IsCommonDevelopment). Adding it to `ett` contradicts the binder's stated policy. Separately, the erslem:sep_lemma rebinding to Causal.ers_isPreconnected_inter_of_eqOn (REPORT.json:634) is loose. Lemma 3.32 concerns the preimages of one developing map Ψ and does not factor through a connected-overlap theorem for two agreeing developments.",
+      "fix": "Name ers_corollary_4_68_etale in the CorDisCon row's note as a sibling beside not_isPreconnected_inter and leave `ett` unchanged. For sep_lemma, bind Causal.ers_etale_development only, and mention ers_isPreconnected_inter_of_eqOn in the note, if at all."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/ErsEtaleMghd.lean:74, :79–103, :526–531",
+      "what": "CausalityFollowsLt is a new declared hypothesis (a layer-3 supplier, like CausalityFollows). Yet the checklist row 'the metrics of u₁, u₂ coincide on A' marks it '✓', and the SCOPE does not name it. Causal.ErsMughd's checklist marks the same kind of input (`cau`, CausalityFollows) '⚠ abstract'. The REPORT says it is 'declared … beside' CausalityFollows, but it sits in another module (ErsMughd.lean:200 is strict and frozen).",
+      "fix": "Mark the row '⚠ named: CausalityFollows and the new ≪ twin CausalityFollowsLt (declared here; supplier: g depends on u, du)'. Add a SCOPE bullet saying it is a new declared predicate and pointing to REPORT questions[1]. At graduation the master may move it next to CausalityFollows."
+    },
+    {
+      "severity": "minor",
+      "where": "campaign/T-abs-ers-etale-mghd/REPORT.json:732 (findings[0])",
+      "what": "The finding says ERS :852's causal half 'holds … on any Hausdorff, second countable background' and that 'two things are hypotheses: closedness … and S Cauchy in A'. The Lean theorems also assume that each piece's ≤ is antisymmetric and causally arc-connected, and the development form assumes CausalityFollows and CausalityFollowsLt. As worded, the sentence overstates what was proved, and findings go to the author.",
+      "fix": "List the remaining hypotheses, or restrict the claim: '… given pieces with antisymmetric, causally arc-connected ≤ and causalities that follow the solution (≤ and ≪), two things beyond ERS's setting are hypotheses: …'."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/ErsEtaleMghd.lean:15, :615, :674, :715",
+      "what": "The module has no kb/0011 witness for ers_corollary_4_68_etale, ers_isPreconnected_inter_of_eqOn or ers_isOpenEmbedding_proj_of_eqOn, and witnesses are cheap. The auditor's probe instantiated ers_isOpenEmbedding_proj_of_eqOn on the timelike line, so the subluminal bundle is satisfiable. For 4.68, U₂ need not be a development, so U₁ = ⊤, U₂ = ]-1,1[ ∪ ]2,3[, A = ]-1,1[, u₁ = 0, u₂ = the indicator of ]2,3[, x = 5/2 would do. Also, the docstring's `uses = [is_causal, causally_arc_connected, absolutely_minimal]` (:15) omits curve_nested, which the two subluminal theorems assume.",
+      "fix": "Add the two witnesses (the probe's term can be copied). Add curve_nested to the docstring's uses line and propose it for the roadmap's `uses` if the beyond-target theorems are kept."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/ErsEtaleMghd.lean:495, :520, :737",
+      "what": "Cosmetic. Two section headers are numbered '## 4.' and there is no '## 5.'. The docstring's assertion list says 4-developments, 5-injectivity, but in the code injectivity comes before developments.",
+      "fix": "Renumber the sections to match the docstring list, or the reverse."
+    }
+  ]
+}
