@@ -1,0 +1,22 @@
+{
+  "target": "T-bz-c3-appui-sphere",
+  "auditor_round": 1,
+  "verdict": "clean",
+  "labels": [
+    {
+      "label": "bzdef:c3s1d6_variete_appui_sphere",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Ledger row tex_span is [283, 287], the defin environment only, so the mark rests on Déf. 6 alone. Lean matches Déf. 6 exactly: IsVarieteAppuiK k l := ∃ L : Submodule ℝ E, IsVarieteAppui (kPrime k) L.toAffineSubspace ∧ l = linearSubvariety L. Here kPrime k = insert 0 (F k) = F(k)+{O} (DEC-120), linearSubvariety L = ofCone L = s((L) − {O}) = F⁻¹(L − {O}), and IsVarieteAppui is the strict Déf. 3 (nonempty and F_W-saturated; the nonemptiness always holds through O). The Prop takes no IsConvexPart hypothesis and the 'variété linéaire l' is forced by the existential, so Lean ≥ paper. The direct form isVarieteAppuiK_iff_alphaK (l linear, noyau ⊆ l, l ∩ k α(k)-saturated) needs IsConvexPart k, which is the paper's standing hypothesis. « le noyau est une variété d'appui » is isVarieteAppuiK_noyau (IsConvexPart k only). The commentary at l.289–290 lies outside the row's span. Its literal content (an empty noyau is a variété d'appui and has dimension −1) is proved outright in noyau_eq_empty_facette_dim, using dimS ∅ = −1 from the strict DualiteSn. Only the 'ou encore une facette' part depends on the IsFacetteKExt convention, which is disclosed in SCOPE and in REPORT.questions. isFacetteKExt_iff ties that convention to Déf. 4: the extended facettes are exactly the k-facettes plus ∅ when the noyau is empty. The convention is not load-bearing for the mark. Transfers of Props. 5–6 (no row, OQ-160 (c)): their statements were checked. Prop. 5 carries the paper's finite-dimensional-support hypothesis, has a strictly weaker-hypothesis variant, and has a genuine-facette form under l ∩ k ≠ ∅. Prop. 6's alphaK_inter_iff needs no non-emptiness, and alphaK_induit carries the [sic]-read ≠ ∅ as an unused hypothesis. All of this is disclosed. The REPORT's claim that Prop. 5 on S(E) fails for genuine k-facettes when l ∩ k = ∅ is correct and witnessed: isVarieteAppuiK_empty_arcS1 shows ∅ is a variété d'appui of the arc, and supportK_inter_nonempty_of_isFacetteK shows every genuine facette meets its support. The instances are real and non-vacuous. isVarieteAppuiK_lineE0 holds on the concrete quarter arc with lineE0 = {a0, −a0} and lineE0 ∩ arcS1 = {a0}. diag_not_isVarieteAppuiK negates the definition for the concrete diagonal subspace. isVarieteAppuiK_empty_arcS1 uses noyau_arcS1 = ∅. Restate: NEG_PART = ^not_|Cex|cex|counterexample is matched per dot-separated name component. The component 'diag_not_isVarieteAppuiK' does not start with not_, so tools/restate.py does not flag it, and that is correct: it is a non-instance of a definition, not a refutation of the paper. It should NOT be renamed to a not_ prefix if curated, because that would plant a false strong restate candidate. Curation advice (not a finding): the REPORT's decls for this row include the reading declarations IsFacetteKExt and isFacetteKExt_iff. If curated, the row's anchor is IsVarieteAppuiK, with the iff forms and isVarieteAppuiK_noyau as its principal consequences."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "detail": "`lake env lean scaffold/BenzecriScaffold/Chapter3/AppuiSphere.lean` from lean-benzecri/ ran with no output (no errors, no warnings). grep -c sorry gives 0. #print axioms on the 21 declarations named in REPORT (label decls, Prop. 5/6 transfers, instances, two helpers) gives [propext, Classical.choice, Quot.sound] for each. The probe was written under the campaign directory and deleted."
+  },
+  "scope": "Within lean-benzecri, git status shows only the untracked scaffold/BenzecriScaffold/Chapter3/ (AppuiSphere.lean is this target's, Conjugues.lean belongs to T-bz-c3-conjugues), the campaign directories, and the modified BenzecriScaffold.lean. That file has two added import lines: AppuiSphere (this target's) and Conjugues (the other closer's). The other modified paths (lean-causal/**, papers/*/certificate/restat*, roadmap/programme toml) predate this audit and belong to other loops. None is this target's.",
+  "docstring_contract": "Present and true: title, mark with `benzecri1960_ch3.tex:283` within the first 4000 characters, French > block quoting l.283–293, '## Hypothesis checklist', '## SCOPE (disclosed)', provenance line. The checklist's '⚠ weakened' entries are hypothesis weakenings, which make the Lean statements stronger.",
+  "findings": []
+}

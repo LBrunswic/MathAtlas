@@ -60,3 +60,6 @@ import Benzecri.Chapter3.Fibres
 import Benzecri.Chapter3.DualiteSn
 import Benzecri.Chapter3.ConeAppuiAlpha
 import Benzecri.Chapter3.ProprieteIAppui
+import Benzecri.Chapter3.AppuiSphere
+import Benzecri.Chapter3.Conjugues
+import Benzecri.Chapter3.HyperplanSeparant

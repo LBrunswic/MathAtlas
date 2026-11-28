@@ -1,0 +1,75 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-appui-sphere",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter3/AppuiSphere.lean",
+    "scaffold/BenzecriScaffold.lean (one import line added: import BenzecriScaffold.Chapter3.AppuiSphere)"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": "propext, Classical.choice, Quot.sound only (#print axioms on 17 principal decls)",
+  "labels": [
+    {
+      "label": "bzdef:c3s1d6_variete_appui_sphere",
+      "tex_lines": [283, 287],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.Sphere.IsVarieteAppuiK",
+        "Benzecri.Sphere.isVarieteAppuiK_linearSubvariety_iff",
+        "Benzecri.Sphere.isVarieteAppuiK_iff_alphaK",
+        "Benzecri.Sphere.isVarieteAppuiK_noyau",
+        "Benzecri.Sphere.isVarieteAppuiK_empty_iff",
+        "Benzecri.Sphere.IsFacetteKExt",
+        "Benzecri.Sphere.isFacetteKExt_iff",
+        "Benzecri.Sphere.noyau_eq_empty_facette_dim"
+      ],
+      "hypotheses": [
+        {"paper": "k une partie convexe de S(E)", "here": "carried", "note": "IsConvexPart k where used; IsVarieteAppuiK is defined for every k"},
+        {"paper": "une variété linéaire l", "here": "carried", "note": "l = linearSubvariety L is part of the definition (L unique: linearSubvariety_injective)"},
+        {"paper": "un sous-espace vectoriel L de E, variété d'appui de F(k)+{O}", "here": "carried", "note": "L : Submodule ℝ E, IsVarieteAppui (kPrime k) L.toAffineSubspace (strict Déf. 3)"},
+        {"paper": "l = F⁻¹(L − {O})", "here": "carried", "note": "linearSubvariety L = ofCone L"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "l.289-290 « Si ce noyau est vide, il constitue une variété d'appui, ou encore une facette, de k de dimension (−1) »: the k-facettes of Déf. 4 (IsFacetteK) are nonempty, so ∅ is a facette only by the convention this sentence introduces. Reading taken: the facettes of k in the extended sense are the projections ofCone G of the k′-facettes G (IsFacetteKExt); G = {O} is a k′-facette exactly when the noyau is empty and projects to ∅, of dimension dimS ∅ = −1 (noyau_eq_empty_facette_dim, isFacetteKExt_iff). The mark rests on Déf. 6 itself (l.283-287, the row's span), which needs no reading; the commentary is proved under this reading."
+      ]
+    }
+  ],
+  "transfers_p262": {
+    "tex_lines": [292, 293],
+    "note": "« Les propositions 5 et 6 sont également valables pour les convexes de S(E) »: no ledger row (OQ-160 (c)); proved as lemmas through k′ from the strict Chapter3/Appui",
+    "prop5": [
+      "Benzecri.Sphere.exists_facetteKExt_supportK_inter_eq (paper's hypothesis: span F(k) finite-dimensional)",
+      "Benzecri.Sphere.exists_facetteKExt_supportK_inter_eq_of_finiteDimensional (only span F(l ∩ k) finite-dimensional)",
+      "Benzecri.Sphere.exists_facetteK_supportK_inter_eq (a genuine k-facette when l ∩ k ≠ ∅)"
+    ],
+    "prop6": [
+      "Benzecri.Sphere.alphaK_inter_iff (no non-emptiness needed)",
+      "Benzecri.Sphere.alphaK_induit (as printed, [sic] read ≠ ∅)",
+      "Benzecri.Sphere.facetteK_inter_eq (the proof's consequence, l a variété d'appui)"
+    ],
+    "reading": "Prop. 5 on S(E) holds with « facette » in the extended sense (the facette ∅ of dimension −1 of l.289-290) and fails for genuine k-facettes exactly when l ∩ k = ∅, which forces noyau k = ∅ (example: the arc, l = ∅). The support of a part of S(E) is supportK (strict FacettesSphere)."
+  },
+  "instances": [
+    {"decl": "Benzecri.AppuiSphereInstance.isVarieteAppuiK_lineE0", "statement": "the line ℝe₀ of S(1) gives a variété d'appui of the closed quarter arc arcS1", "also": ["Benzecri.AppuiSphereInstance.lineE0_eq (= {a0, −a0})", "Benzecri.AppuiSphereInstance.lineE0_inter_arcS1 (= {a0})"]},
+    {"decl": "Benzecri.AppuiSphereInstance.diag_not_isVarieteAppuiK", "statement": "the diagonal line ℝ(e₀+e₁) does not give a variété d'appui of arcS1"},
+    {"decl": "Benzecri.AppuiSphereInstance.isVarieteAppuiK_empty_arcS1", "statement": "∅ is a variété d'appui of arcS1 (its noyau is empty), and every genuine k-facette f has supportK f ∩ arcS1 ≠ ∅: Prop. 5 on S(E) needs the facette of dimension −1"}
+  ],
+  "extra_decls": [
+    "Benzecri.Sphere.ofCone_singleton_zero",
+    "Benzecri.Sphere.mem_linearSubvariety_of_isRep",
+    "Benzecri.Sphere.noyau_eq_empty_iff",
+    "Benzecri.Sphere.supportK_inter_nonempty_of_isFacetteK",
+    "Benzecri.Sphere.coe_affineSpan_eq_span_of_isPosCone",
+    "Benzecri.Sphere.kPrime_inter_linearSubvariety",
+    "Benzecri.Sphere.isConvexPart_inter_linearSubvariety"
+  ],
+  "kb_proposals": [
+    "Chapter3/AppuiSphere: a variété d'appui of k ⊆ S(E) (Déf. 6) is IsVarieteAppuiK k l; directly, l is a linear subvariety containing noyau k with l ∩ k α(k)-saturated (isVarieteAppuiK_iff_alphaK). Saturation at O in k′ is exactly noyau ⊆ l, and l ∩ k may be empty (iff noyau k = ∅).",
+    "Transfer of a § 1 affine result about a k′-facette G to S(E): G is a positive cone, so (affineSpan G : Set E) = span G (coe_affineSpan_eq_span_of_isPosCone) and supportK (ofCone G) = linearSubvariety (span G). G = {O} projects to ∅ (ofCone_singleton_zero): keep it as the facette of dimension −1 (IsFacetteKExt) rather than excluding it.",
+    "kPrime (k ∩ linearSubvariety L) = kPrime k ∩ L (kPrime_inter_linearSubvariety): sections of a convex part of S(E) by linear subvarieties reduce to the affine W ∩ L of Chapter3/Appui."
+  ],
+  "notes": "Only BenzecriScaffold.Chapter3.AppuiSphere was rebuilt by lake build (no Benzecri.* or mathlib rebuild). Imports Benzecri.Chapter3.Appui and Benzecri.Chapter3.DualiteSn (for dimS, linearSubvariety_injective, linearSubvariety_bot). No finding against the paper; one reading (the facette of dimension −1) recorded as a question. Theorem 1′ of § 5 (T-bz-c3-reunion-convexes-sphere) can use IsVarieteAppuiK."
+}
