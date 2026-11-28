@@ -1148,3 +1148,13 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - binders: ers-predictability 28 rows bound, layer 1 in Lean 27, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
 - gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
 - next: T-lad-meets-cauchy-refresh (keeper), T-tac-dual-future-one-connected (tactician, exclusive)
+
+## 2026-11-28 07:58 · wave of 2 · T-lad-meets-cauchy-refresh, T-tac-dual-future-one-connected
+- T-lad-meets-cauchy-refresh (keeper): two consequences at [globally_hyperbolic, tarentin] (the closed-ambient (A) and (B) forms, each refuting past_boundary_chart); the antisymmetry witness cited in (2.4)'s block in place of "argued"; the stale line references fixed; past_boundary_chart's note gains the closed-ambient fact. Matrix unchanged; 126 → 128 consequences. Checked by its tool.
+- T-tac-dual-future-one-connected (tactician, exclusive): causal_ladder now crosses time reversal for future_one_connected and locally_strongly_causal. Four rules were added to Causal/Ladder/Dual.lean, with one import already in Rules' closure, so no cycle. dual_closure.py no longer refuses: 882 cross pairs, 68 derived, 768 refuted, 46 unknown. DualTest.lean regenerated (470 → 561 examples); the auditor's rerun is byte-identical. Audit minor. The 24-core build was the master's dispatch, against tactics-builder.md's 0–11: a slip, noted.
+- For the planner: the keeper's optional T-abs-flrw-type-b-future-gh (the globally hyperbolic form of (B)'s time reversal, one line); the tactician's note that C0ExtensionSkeleton.lean:493–495 could become `causal_ladder` calls once it imports Rules (no cycle).
+- ladder: 27 properties, 28 implications, 108 counterexamples, 128 consequences, 6 edge hypotheses; 432/432 within a sort: 41 implied, 385 fails, 6 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 27, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors). Hub: 3 new red, all on /atlas-team's paths: its in-flight lean-benzecri scaffold makes papers/benzecri's ledger stale, as at 07:07. Not this loop's; not reverted.
+- commits: 4a78ce34 b4d1d683 2780b0ed (ledgers, the Lean sha only; restate detect 0)
+- next: T-abs-sc-open-hoist (closer, exclusive; wave 55)
