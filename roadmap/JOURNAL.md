@@ -1180,3 +1180,14 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - Chapter 3 cut into 27 lean-benzecri closer targets covering its 90 rows exactly once (5 ready: T-bz-c3-facettes, -sommes, -dualite, -cone-appui, -propriete-i; 22 planned, by section along the DAG), each with verbatim quotes, the Ch. 1–2 Lean it builds on and an instance of every new definition's hypotheses; Bourbaki results from mathlib (Hahn–Banach, ProperCone duality, Krein–Milman). § 3 Prop. 8 proceeds under the stronger reading of OQ-160 (a), disclosed. Result C needs Chapters 4 and 5: T-bz-chapter4, T-bz-chapter5 added (planned, master transcriptions). No new question.
 - gates: roadmap ✓ (312 targets), atlas ✓
 - next: a lean-benzecri wave of three (T-bz-c3-facettes, -sommes, -dualite)
+
+## 2026-11-28 09:00 · wave of 3 · T-bz-c3-facettes, T-bz-c3-sommes, T-bz-c3-dualite (lean-benzecri)
+- T-bz-c3-facettes: Ch. 3 § 1, 7 labels marked; instance [0,1]; audit clean.
+- T-bz-c3-sommes: § 2, Déf. 1, Prop. 1, Remarque 3 marked; Remarques 1–2 partial (imprecise in degenerate cases / wording; its not_remarque1_* refutations kept out of the curated decls while /restate holds papers/benzecri — for T-restate-held-curation); audit minor.
+- T-bz-c3-dualite: § 3, Props. 3, 5 marked; Props. 1, 2, 4 partial on OQ-160 (Prop. 1 fails for a separating form on ℓ², argued; holds under the dual-pair reading); audits AUDIT-1 major (Prop. 2 marked on the unruled reading), AUDIT-2 clean after one round.
+- All three graduated to strict Benzecri/Chapter3/ (sorry-free, strict imports only). 12 of the 17 rows closed, 5 partial.
+- Slip: the per-target commits first failed (they named untracked scaffold paths) while the ledger rebuild went through first (4979259f); redone in order (9e3f854c cc7390fc 853a9dfa, then 943a6159).
+- gates: lean-benzecri ✓ (0 sorry in 51 strict files), roadmap ✓, atlas ✓, hub: no new red; restate: 0 new
+- commits: 9e3f854c cc7390fc 853a9dfa 943a6159 (+ statuses)
+- wall time: 04:33–09:00; agents in parallel: 3 closers, 4 auditors
+- next: T-bz-c3-cone-appui, T-bz-c3-propriete-i and the planned § 1–3 follow-ups now unblocked

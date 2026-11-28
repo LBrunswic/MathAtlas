@@ -1453,13 +1453,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzdef:c3s1d1_preordre_alpha", "bzdef:c3s1d2_facette", "bzrem:c3s1r1_facette_points_interieurs", "bzprop:c3s1p2_alpha_support", "bzprop:c3s1p3_ordre_supports", "bzprop:c3s1p4_facettes_filtrant", "bzcor:c3s1p4c_supports_filtrant"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 6
 depends = ["T-bz-chapter3"]
-evidence = "ledger rows benzecri1960_ch3.tex:91–180 (Déf. 1 definition with its printed preorder check, Déf. 2 definition, Remark informal, Props. 2, 4 proved in print, Prop. 3 and the Corollary open: no proof printed). Déf. 1 (l.91): « Sur un ensemble convexe W, dans un espace vectoriel, on définit la relation de préordre α(W) : A α(W) B s'il existe un segment (A′, B) ⊂ W tel que A ∈ )A′, B(, ou si A = B. » Prop. 2 (l.152): « Soient F une facette de W, L son support, et soient A ∈ F, B ∈ W; alors A α B si et seulement si B ∈ L. » Prop. 3 (l.164): « on a F α F′ si et seulement si L′ ⊂ L; on a L = L′ si et seulement si F = F′. » Over an arbitrary real vector space, no topology (the p. 261 ℵ₀-simplex is infinite-dimensional): Mathlib's segment/openSegment/affineSpan only; no Ch. 1–2 Lean needed. The Remark's « si » is to be proved as an iff where true. Instance (non-vacuity): the closed segment [0, 1] ⊂ ℝ has exactly the three facettes {0}, {1}, ]0, 1[, with ]0, 1[ α {0} and not conversely. Independent of every OQ-160 reading. First wave; the rest of Ch. 3 §§ 1, 2, 4, 5, 6 builds on it."
+evidence = "§ 1: 7 labels marked (Benzecri/Chapter3/Facettes.lean), instance [0,1]; audit AUDIT-1 clean"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "9e3f854c"
 
 [[target]]
 id = "T-bz-c3-appui"
@@ -1513,13 +1514,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzdef:c3s2d1_somme_convexes", "bzrem:c3s2r1_somme_classes", "bzprop:c3s2p1_decomposition_origine", "bzrem:c3s2r2_somme_infinie", "bzrem:c3s2r3_somme_directe"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 6
 depends = ["T-bz-chapter3"]
-evidence = "ledger rows benzecri1960_ch3.tex:299–359 (Déf. 1, Prop. 1 proved in print, three Remarks informal). Déf. 1 (l.299): « W est dit somme des convexes V_i si p est un isomorphisme de ∏ V_i sur W (pour les structures affines) », p({x_i}) = Σ x_i, I finite. Prop. 1 (l.324): « alors il existe un système et un seul de n convexes V_i de classes v_i contenant chacun l'origine, et tels que W = Σ V_i » (its proof has two certain [sic], x′_i ∈ V′_i and v_i). Remark 3 (l.359): « pour les sous-espaces vectoriels la notion de somme de convexes coïncide avec celle de somme directe ordinaire » (against Mathlib's DirectSum.IsInternal / iSupIndep). Needs no § 1 notion and no Ch. 1–2 Lean (Mathlib's AffineMap/AffineEquiv for « isomorphisme … pour les structures affines »). Instance: [0,1]² = [0,1]×{0} + {0}×[0,1] is a sum; the closed unit disc of ℝ² is not a sum of two segments. Independent of OQ-160. First wave."
+evidence = "§ 2: Déf. 1, Prop. 1, Remarque 3 marked; Remarques 1–2 partial (imprecise; refutations await /restate); instances [0,1]², disc; audit AUDIT-1 minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "cc7390fc"
 
 [[target]]
 id = "T-bz-c3-alpha-somme"
@@ -1618,13 +1620,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzprop:c3s3p1_dualite_biunivoque", "bzprop:c3s3p2_dual_fermeture", "bzprop:c3s3p3_hemispheres_points", "bzprop:c3s3p4_dual_geometrique", "bzprop:c3s3p5_dual_variete_lineaire"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 6
 depends = ["T-bz-chapter3"]
-evidence = "ledger rows benzecri1960_ch3.tex:685–741 (Props. 1, 2, 3, 5 proved in print, Prop. 4 open). Definition (a), l.~669: « D(W) = s{m′ | ⟨m, m′⟩ ≥ 0, ∀ m ∈ F(W); m′ ≠ 0} ». Prop. 1 (l.685): « Soient E, E′ deux espaces vectoriels topologiques semi-réflexifs mis en dualité … la correspondance D … est une application biunivoque de C(S(E)) sur C(S(E′)), et D′ est l'application réciproque. » Claim (c) cites Bourbaki EVT II § 3, cor. 1 of prop. 4 (a closed convex cone is the intersection of the closed half-spaces containing it): Mathlib geometric_hahn_banach_point_closed (Analysis/LocallyConvex/Separation.lean:223) and ProperCone.dual_flip_dual under IsContPerfPair (Analysis/Convex/Cone/Dual.lean:137). The claims a–c have no row (OQ-160 (c)) and are lemmas here; Prop. 1 is stated under the hypothesis its proof uses, (c) for E and for E′ (« les hypothèses de (d) »), with its relation to « semi-réflexifs » recorded in SCOPE. Builds on Benzecri.Sphere.{Sphere, s, F, ofCone, closedHemisphere, openHemisphere, linearSubvariety, CS} (Projective/Sphere, Subvariety, Convex). Instance: E = E′ = ℝⁿ⁺¹ with the dot product satisfies a–d; D of a point is a closed hemisphere and D of a closed hemisphere a point. Needs no § 1–2 notion; independent of OQ-160 (a), (b). First wave."
+evidence = "§ 3: Props. 3, 5 marked; Props. 1, 2, 4 partial on OQ-160 (dual-pair reading; ℓ² argued); instance ℝⁿ⁺¹ dot product; audits AUDIT-1 major, AUDIT-2 clean"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "853a9dfa"
 
 [[target]]
 id = "T-bz-c3-dualite-sn"
