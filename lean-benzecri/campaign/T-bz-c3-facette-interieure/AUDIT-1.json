@@ -1,0 +1,30 @@
+{
+  "target": "T-bz-c3-facette-interieure",
+  "auditor_round": 1,
+  "verdict": "clean",
+  "labels": [
+    {
+      "label": "bzprop:c3s4p10_contingent_conique",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Left unmarked: no **`bzprop:c3s4p10...`** mark anywhere in lean-benzecri, and REPORT and docstring both disclose it as partial on OQ-169 (a), which is OPEN. prop10_contingent_conique_of_ne_interior has the same conclusion, verbatim, as Benzecri.prop10_contingent_conique (FacetteConique.lean:481). It swaps the hypothesis supportK F != univ for F != interior W. By supportK_ne_univ_iff the two are equivalent for any facette of a convex body, so the added hypothesis excludes exactly the interior facette. At that facette the printed statement fails (interior_facette_conique: int W is conical, has support S(n), and S(n)/S(n) is empty). Hypothesis by hypothesis: (1) facetteK_eq_interior needs only IsConvexPart W and a in int W. That is more general than the paper's convex body and not vacuous. Convexity is used, through convex_kPrime and combo_self_interior_mem_interior. (2) eq_interior_of_supportK_eq_univ needs IsConvexPart W, IsFacetteK W F and supportK F = univ. All three are needed and none is vacuous; the instance interior_simplexS_facette satisfies them. (3) isFacetteK_supportK_eq_univ_iff assumes IsCorpsConvexeS. The forward direction needs only IsConvexPart. The reverse direction needs int W nonempty, since otherwise F = int W = empty is not a facette, but it does not need compactness or strictness. So the hypothesis is slightly stronger than needed but matches the paper's setting. This is an observation, not a defect. (4) supportK_ne_univ_iff is the exact converse: not_congr of the two directions of the iff, with IsFacetteK W F needed for the forward direction. It carries the same convex-body hypothesis as (3). (5) The corollary's hypotheses are jointly satisfiable: prop10_of_ne_interior_instance gives the closed triangle simplexS 2, which is a convex body, with the vertex facette {s(e0)}, which is conical and is not int T. The finding that the printed statement fails at exactly one conical facette, int W, is correct as stated."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Chapter3/FacetteInterieure.lean` exits 0 with no output. No set_option and no linter option in the file. A #print axioms probe on all 9 named declarations (6 label decls, 3 instances) gives [propext, Classical.choice, Quot.sound] for each. The probe was written under the campaign directory and deleted. The olean (10:50:13) is newer than the source (10:49:31). No lake build was run."
+  },
+  "instances": "Real Lean terms. interior_simplexS_facette is proved through the iff at rfl on isCorpsConvexeS_simplexS. vertex0_ne_interior is proved from supportK_vertex0_ne_univ. prop10_of_ne_interior_instance is an anonymous-constructor term of the three hypotheses of the corollary.",
+  "scope": "In git status, the only paths the closer could have touched are lean-benzecri/scaffold/BenzecriScaffold.lean, with two import lines added (BalayableSommeProp5 from the other closer, then FacetteInterieure), Chapter3/FacetteInterieure.lean and the campaign directory. Chapter3/BalayableSommeProp5.lean and SimplesSomme.lean belong to the other closers. The papers/*/certificate restatement files and roadmap/roadmap.toml were already modified in the session-start snapshot, by other loops. No edit falls outside the dispatch.",
+  "docstring_contract": "The module docstring names the paper, the transcription file and line (OQ-160 caveat), the label with its line range and its unmarked status, the verbatim block, the proofs formalized, a hypothesis checklist (the weakening and the added hypothesis disclosed) and SCOPE (the instances and the reason the label is unmarked), plus mathlib provenance. Every item is true.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-benzecri/scaffold/BenzecriScaffold/Chapter3/FacetteInterieure.lean:179,199",
+      "what": "isFacetteK_supportK_eq_univ_iff and supportK_ne_univ_iff assume IsCorpsConvexeS n W. What they use is IsConvexPart W together with (interior W).Nonempty; compactness and strictness are unused. This is not a faithfulness issue, because Prop. 10's W is a convex body. It is noted only because the dispatch asked whether any hypothesis is stronger than needed.",
+      "fix": "Optional: state both under IsConvexPart W and (interior W).Nonempty, and keep the convex-body forms as corollaries. No change is required."
+    }
+  ]
+}

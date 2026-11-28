@@ -1,0 +1,51 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-facette-interieure",
+  "files": ["scaffold/BenzecriScaffold/Chapter3/FacetteInterieure.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": ["propext", "Classical.choice", "Quot.sound"],
+  "labels": [
+    {
+      "label": "bzprop:c3s4p10_contingent_conique",
+      "tex_lines": [1122, 1130],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.Sphere.facetteK_eq_interior",
+        "Benzecri.Sphere.eq_interior_of_supportK_eq_univ",
+        "Benzecri.isFacetteK_supportK_eq_univ_iff",
+        "Benzecri.interior_isFacetteConique",
+        "Benzecri.supportK_ne_univ_iff",
+        "Benzecri.prop10_contingent_conique_of_ne_interior"
+      ],
+      "hypotheses": [
+        {"paper": "W un corps convexe", "here": "carried", "note": "IsCorpsConvexeS n W in the iff and the corollary; weakened to IsConvexPart W in facetteK_eq_interior and eq_interior_of_supportK_eq_univ"},
+        {"paper": "F une facette conique de W, L son support", "here": "carried", "note": "IsFacetteConique W F; supportK F"},
+        {"paper": "(unstated) L ≠ S(n)", "here": "added", "note": "now as F ≠ interior W; for a facette of a convex body this is equivalent to supportK F ≠ univ (supportK_ne_univ_iff). OQ-169 (a) OPEN, so the label stays unmarked"}
+      ],
+      "sorries": [],
+      "findings": [
+        "Prop. 10 (l.1122–1125): the hypothesis supportK F ≠ S(n) added by prop10_contingent_conique excludes exactly one facette, the interior one. For a convex body W of S(n), F is a facette of W with support S(n) iff F = int W (isFacetteK_supportK_eq_univ_iff), and int W is then conical (interior_isFacetteConique). So the printed statement fails at exactly one conical facette, F = int W, where S(n)/L is empty (interior_facette_conique). It holds at every other conical facette (prop10_contingent_conique_of_ne_interior). This closes the gap AUDIT-1 finding 2 of T-bz-c3-facette-conique flagged.",
+        "General fact, beyond what the paper needs: for any convex part W of S(n) (not only a convex body), the facette of a point of int W is int W (facetteK_eq_interior), and a facette with support S(n) is int W, so int W ≠ ∅ (eq_interior_of_supportK_eq_univ)."
+      ],
+      "questions": [
+        "OQ-169 (a), unchanged and OPEN: read « F une facette conique » as every conical facette (then the statement is false at F = int W) or as every conical facette but the interior one (proved)? With this file the two readings differ by exactly the facette int W. The reading I took is the second one, stated as an explicit hypothesis, so I did not mark the label."
+      ]
+    }
+  ],
+  "instances": [
+    "Benzecri.FacetteInterieureInstance.interior_simplexS_facette: int T of the closed triangle T = simplexS 2 is a facette of support S(2)",
+    "Benzecri.FacetteInterieureInstance.vertex0_ne_interior: the vertex facette {s(e0)} is not int T",
+    "Benzecri.FacetteInterieureInstance.prop10_of_ne_interior_instance: T is a convex body, {s(e0)} is a conical facette, {s(e0)} ≠ int T (the corollary's hypotheses)"
+  ],
+  "extra_decls": [
+    "Benzecri.Sphere.mem_interior_iff_isRep",
+    "Benzecri.Sphere.mem_interior_kPrime_iff",
+    "Benzecri.Sphere.alphaK_of_mem_interior"
+  ],
+  "kb_proposals": [
+    "To show a facette of a convex part of S(n) is open, go to the cone K′ = kPrime W and apply Chapter 3 § 3 Remark 1° (remarque_facette_interieur): it gives the facette whose affine span is that of K′ as intrinsicInterior K′. If affineSpan K′ = ⊤, preimage_coe_mem_nhds_subtype with nhdsWithin_univ turns intrinsic interior into interior. The facette order by supports (facetteLE_iff_support_le, FacetteLE.antisymm) identifies the facettes."
+  ],
+  "notes": "One new file, typechecks with -DwarningAsError=true, sets no linter option, 0 sorry, standard axioms only. Import line appended to scaffold/BenzecriScaffold.lean after the BalayableSommeProp5 line. Proof route: the planner's, through Remark 1° on the cone. No mark changes (OQ-169 OPEN)."
+}
