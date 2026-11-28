@@ -1334,3 +1334,13 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - lean-gx and lean/: nothing dispatchable without a ruling or an unwritten route
 - gates: roadmap ✓
 - next: -prop5, -simples-somme, -facette-interieure
+
+## 2026-11-28 11:15 · wave of 3 · T-bz-c3-facette-interieure, T-bz-c3-balayable-somme-prop5, T-bz-c3-simples-somme
+- T-bz-c3-facette-interieure: the converse behind OQ-169 (a) proved (supportK F ≠ univ iff F ≠ int W, for any convex body); Prop. 10 holds at every conical facette but int W; still unmarked; audit clean
+- T-bz-c3-balayable-somme-prop5: § 2 Prop. 5 proved both ways (⇐ needs Ch. 1 § 3 Prop. 3, uncited by the paper); invariance of homogeneous/sweepable under projective isomorphisms added; unmarked on OQ-168/OQ-171; audit clean
+- T-bz-c3-simples-somme: the Corollary's reduction step (simples of a Déf. 5 sum are those of the summands, read in their supports) proved; audit minor (round 1 fixed)
+- note: OQ-171's row text still says prop4_produit rests on a sorry; it is proved (8b97dcc4). The register is append-only, so it is recorded here, not edited
+- gates: lean-benzecri ✓ (83 strict files, 0 sorry), roadmap ✓, atlas ✓, hub: no new red
+- commits: 73afe409 fab78bf0 fd691046 925d77ab
+- wall time: 10:45–11:15; agents in parallel: 3
+- next: T-bz-c3-balayable-somme-cor (now unblocked; planner), -boole-projectif-domaines, -prop4-tore
