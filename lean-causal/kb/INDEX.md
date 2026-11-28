@@ -315,3 +315,4 @@ rediscover. One fact per entry.
 | [0307](entries/0307-ers-4-82-solution.md) | pattern | ERS Thm 4.82 over sol: the restart geometric, and where its content lies |
 | [0308](entries/0308-timelike-cauchy-intervals.md) | pattern | On the timelike line {0} is a Cauchy surface of every bounded open interval about 0 |
 | [0309](entries/0309-rw-constant-family.md) | pitfall | A constant causality family defeats rw: unfold by term or by show |
+| [0310](entries/0310-constant-curves-inextensible.md) | pattern | Constant causal curves make every causal curve inextensible; the converse of le_nested under arc-connectedness |

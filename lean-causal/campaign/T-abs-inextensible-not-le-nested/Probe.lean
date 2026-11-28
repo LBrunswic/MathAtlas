@@ -1,0 +1,32 @@
+import CausalScaffold.InextensibleNotLeNested
+
+#check @Causal.rationalLine_separates_inextensibleNested
+#check @Causal.Causality.inextensible_iff_of_causalCurveOn_eq
+#check @Causal.Causality.inextensible_of_causalCurveOn_eq
+#check @Causal.Causality.not_extensible_of_causalCurveOn_eq
+#check @Causal.Causality.CausalCurveIn.eq_of_causalCurveOn_eq
+#check @Causal.Causality.curveNestedOn_of_causalCurveOn_eq
+#check @Causal.Causality.CurveNestedOn.inextensibleNestedOn_of_causalCurveOn_eq
+#check @Causal.Causality.inextensibleNestedOn_of_causalCurveOn_eq
+#check @Causal.Causality.InextensibleNestedOn.le_of_causallyArcConnectedOn
+#check @Causal.Causality.InextensibleNestedOn.leNested_of_causallyArcConnected
+#check @Causal.spacelikeLine_causalCurveOn_eq
+#check @Causal.rationalLine_inextensibleNestedOn_spacelikeLine
+#check @Causal.spacelikeLine_inextensibleNestedOn_rationalLine
+#check @Causal.spacelikeLine_leNested_rationalLine
+#check @Causal.not_leNested_of_inextensibleNestedOn_bare
+#print axioms Causal.rationalLine_separates_inextensibleNested
+#print axioms Causal.Causality.inextensible_iff_of_causalCurveOn_eq
+#print axioms Causal.Causality.inextensible_of_causalCurveOn_eq
+#print axioms Causal.Causality.not_extensible_of_causalCurveOn_eq
+#print axioms Causal.Causality.CausalCurveIn.eq_of_causalCurveOn_eq
+#print axioms Causal.Causality.curveNestedOn_of_causalCurveOn_eq
+#print axioms Causal.Causality.CurveNestedOn.inextensibleNestedOn_of_causalCurveOn_eq
+#print axioms Causal.Causality.inextensibleNestedOn_of_causalCurveOn_eq
+#print axioms Causal.Causality.InextensibleNestedOn.le_of_causallyArcConnectedOn
+#print axioms Causal.Causality.InextensibleNestedOn.leNested_of_causallyArcConnected
+#print axioms Causal.spacelikeLine_causalCurveOn_eq
+#print axioms Causal.rationalLine_inextensibleNestedOn_spacelikeLine
+#print axioms Causal.spacelikeLine_inextensibleNestedOn_rationalLine
+#print axioms Causal.spacelikeLine_leNested_rationalLine
+#print axioms Causal.not_leNested_of_inextensibleNestedOn_bare

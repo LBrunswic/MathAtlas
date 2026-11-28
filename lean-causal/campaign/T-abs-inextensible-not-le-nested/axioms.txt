@@ -1,0 +1,77 @@
+Causal.rationalLine_separates_inextensibleNested : (∀ (W : TopologicalSpace.Opens ℝ),
+    Causal.rationalLine.InextensibleNestedOn Causal.spacelikeLine W) ∧
+  ¬Causal.rationalLine.LeNested Causal.spacelikeLine ∧
+    Causal.rationalLine.IsCausal ∧
+      Causal.rationalLine.AbsolutelyMinimal ∧
+        (∀ (W : TopologicalSpace.Opens ℝ), Causal.rationalLine.AbsolutelyMinimalOn W) ∧
+          Causal.spacelikeLine.IsCausal ∧
+            Causal.spacelikeLine.CausallyArcConnected ∧
+              Causal.spacelikeLine.AbsolutelyMinimal ∧
+                ∀ (W : TopologicalSpace.Opens ℝ), Causal.spacelikeLine.AbsolutelyMinimalOn W
+@Causal.Causality.inextensible_iff_of_causalCurveOn_eq : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} {I : Set ℝ} {c : ℝ → M},
+  (∀ ⦃d : ℝ → M⦄ ⦃a b : ℝ⦄, C.CausalCurveOn W d a b → ∀ s ∈ Set.Icc a b, ∀ t ∈ Set.Icc a b, d s = d t) →
+    (C.Inextensible W I c ↔ C.CausalCurveIn W I c)
+@Causal.Causality.inextensible_of_causalCurveOn_eq : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} {I : Set ℝ} {c : ℝ → M},
+  (∀ ⦃d : ℝ → M⦄ ⦃a b : ℝ⦄, C.CausalCurveOn W d a b → ∀ s ∈ Set.Icc a b, ∀ t ∈ Set.Icc a b, d s = d t) →
+    C.CausalCurveIn W I c → C.Inextensible W I c
+@Causal.Causality.not_extensible_of_causalCurveOn_eq : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} {I : Set ℝ} {c : ℝ → M},
+  (∀ ⦃d : ℝ → M⦄ ⦃a b : ℝ⦄, C.CausalCurveOn W d a b → ∀ s ∈ Set.Icc a b, ∀ t ∈ Set.Icc a b, d s = d t) →
+    I.Nonempty → ¬C.Extensible W I c
+@Causal.Causality.CausalCurveIn.eq_of_causalCurveOn_eq : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} {I : Set ℝ} {c : ℝ → M},
+  (∀ ⦃d : ℝ → M⦄ ⦃a b : ℝ⦄, C.CausalCurveOn W d a b → ∀ s ∈ Set.Icc a b, ∀ t ∈ Set.Icc a b, d s = d t) →
+    C.CausalCurveIn W I c → ∀ {s t : ℝ}, s ∈ I → t ∈ I → c s = c t
+@Causal.Causality.curveNestedOn_of_causalCurveOn_eq : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M},
+  (∀ ⦃d : ℝ → M⦄ ⦃a b : ℝ⦄, C.CausalCurveOn W d a b → ∀ s ∈ Set.Icc a b, ∀ t ∈ Set.Icc a b, d s = d t) →
+    ∀ (C' : Causal.Causality M), C.CurveNestedOn C' W
+@Causal.Causality.CurveNestedOn.inextensibleNestedOn_of_causalCurveOn_eq : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C C' : Causal.Causality M} {W : TopologicalSpace.Opens M},
+  C.CurveNestedOn C' W →
+    (∀ ⦃d : ℝ → M⦄ ⦃a b : ℝ⦄, C'.CausalCurveOn W d a b → ∀ s ∈ Set.Icc a b, ∀ t ∈ Set.Icc a b, d s = d t) →
+      C.InextensibleNestedOn C' W
+@Causal.Causality.inextensibleNestedOn_of_causalCurveOn_eq : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C C' : Causal.Causality M} {W : TopologicalSpace.Opens M},
+  (∀ ⦃d : ℝ → M⦄ ⦃a b : ℝ⦄, C.CausalCurveOn W d a b → ∀ s ∈ Set.Icc a b, ∀ t ∈ Set.Icc a b, d s = d t) →
+    (∀ ⦃d : ℝ → M⦄ ⦃a b : ℝ⦄, C'.CausalCurveOn W d a b → ∀ s ∈ Set.Icc a b, ∀ t ∈ Set.Icc a b, d s = d t) →
+      C.InextensibleNestedOn C' W
+@Causal.Causality.InextensibleNestedOn.le_of_causallyArcConnectedOn : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C C' : Causal.Causality M} {W : TopologicalSpace.Opens M} [T1Space M] [SecondCountableTopology M],
+  C.InextensibleNestedOn C' W →
+    C.CausallyArcConnectedOn W → ∀ {U : TopologicalSpace.Opens M}, U ≤ W → ∀ {x y : M}, C.le U x y → C'.le U x y
+@Causal.Causality.InextensibleNestedOn.leNested_of_causallyArcConnected : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C C' : Causal.Causality M} [T1Space M] [SecondCountableTopology M],
+  C.InextensibleNestedOn C' ⊤ → C.CausallyArcConnected → C.LeNested C'
+@Causal.spacelikeLine_causalCurveOn_eq : ∀ {W : TopologicalSpace.Opens ℝ} {c : ℝ → ℝ} {a b : ℝ},
+  Causal.spacelikeLine.CausalCurveOn W c a b → ∀ {s t : ℝ}, s ∈ Set.Icc a b → t ∈ Set.Icc a b → c s = c t
+Causal.rationalLine_inextensibleNestedOn_spacelikeLine : ∀ (W : TopologicalSpace.Opens ℝ),
+  Causal.rationalLine.InextensibleNestedOn Causal.spacelikeLine W
+Causal.spacelikeLine_inextensibleNestedOn_rationalLine : ∀ (W : TopologicalSpace.Opens ℝ),
+  Causal.spacelikeLine.InextensibleNestedOn Causal.rationalLine W
+Causal.spacelikeLine_leNested_rationalLine : Causal.spacelikeLine.LeNested Causal.rationalLine
+Causal.not_leNested_of_inextensibleNestedOn_bare : ¬∀ (C C' : Causal.Causality ℝ),
+    C.InextensibleNestedOn C' ⊤ → C.LeNested C'
+'Causal.rationalLine_separates_inextensibleNested' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.inextensible_iff_of_causalCurveOn_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.inextensible_of_causalCurveOn_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.not_extensible_of_causalCurveOn_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.CausalCurveIn.eq_of_causalCurveOn_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.curveNestedOn_of_causalCurveOn_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.CurveNestedOn.inextensibleNestedOn_of_causalCurveOn_eq' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.inextensibleNestedOn_of_causalCurveOn_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.InextensibleNestedOn.le_of_causallyArcConnectedOn' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.InextensibleNestedOn.leNested_of_causallyArcConnected' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.spacelikeLine_causalCurveOn_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rationalLine_inextensibleNestedOn_spacelikeLine' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.spacelikeLine_inextensibleNestedOn_rationalLine' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.spacelikeLine_leNested_rationalLine' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.not_leNested_of_inextensibleNestedOn_bare' depends on axioms: [propext, Classical.choice, Quot.sound]
