@@ -39,6 +39,14 @@ Every edge of the coupled graph is then one of
 
 and each disagreement is a question about the paper, not a defect of the tool. Which question is
 `tools/dag_reconcile.py`'s business; nothing here asks a model anything.
+
+**Several Lean roots.** A paper's `ledger.toml` may add `[[lean.extra]]` roots beside its primary
+`[lean]` (syntax in `tools/ledger.py`'s docstring). The Lean DAG is then the union of every root's
+`docs/lean-facts.json`, read in ledger.toml order, primary first; a declaration present in two
+facts files keeps the first one's entry. A root with no facts file contributes nothing.
+`paper_paths` still returns the primary root's facts path, so its existing callers (the atlas) are
+unchanged; `facts_paths` returns every root's, and is what the commands read. `load` takes one
+path or a list, and `--facts` may be repeated, primary first. With one root nothing changes.
 """
 import argparse
 import json
@@ -66,10 +74,28 @@ def paper_paths(paper):
     return os.path.normpath(ledger), facts, pmap
 
 
+def facts_paths(paper):
+    """Every root's lean-facts.json, primary first: the primary's path alone (a string) for a
+    single-root paper, a list when `[[lean.extra]]` adds roots."""
+    _ledger, facts, _pmap = paper_paths(paper)
+    cfg_p = os.path.join(paper, "ledger", "ledger.toml")
+    with open(cfg_p, "rb") as fh:
+        lean = tomllib.load(fh).get("lean", {})
+    extra = lean.get("extra") or []
+    if not (facts and extra):
+        return facts
+    base = os.path.dirname(os.path.abspath(cfg_p))
+    return [facts] + [os.path.join(os.path.normpath(os.path.join(
+        base, os.path.expanduser(x["root"]))), "docs", "lean-facts.json") for x in extra]
+
+
 def load(ledger_p, facts_p, map_p=None):
     rows = json.load(open(ledger_p, encoding="utf-8"))["statements"]
-    facts = json.load(open(facts_p, encoding="utf-8"))["declarations"] if facts_p and \
-        os.path.exists(facts_p) else {}
+    facts = {}
+    for fp in ([facts_p] if isinstance(facts_p, str) or facts_p is None else facts_p):
+        if fp and os.path.exists(fp):
+            for k, v in json.load(open(fp, encoding="utf-8"))["declarations"].items():
+                facts.setdefault(k, v)
     if map_p and os.path.exists(map_p):
         # The Lean library's own map owns the label -> declarations facts; where it speaks, it wins.
         m = {s["label"]: s for s in json.load(open(map_p, encoding="utf-8"))["statements"]}
@@ -379,8 +405,8 @@ def to_dot(dd):
 # --------------------------------------------------------------------- cli --
 def resolve(a):
     if a.paper:
-        ledger, facts, pmap = paper_paths(a.paper)
-        return a.ledger or ledger, a.facts or facts, a.map or pmap
+        ledger, _facts, pmap = paper_paths(a.paper)
+        return a.ledger or ledger, a.facts or facts_paths(a.paper), a.map or pmap
     if not (a.ledger and a.facts):
         sys.exit("doubledag: give --paper, or both --ledger and --facts")
     return a.ledger, a.facts, a.map
@@ -482,7 +508,8 @@ def main(argv=None):
         p = sub.add_parser(name)
         p.add_argument("--paper")
         p.add_argument("--ledger")
-        p.add_argument("--facts")
+        p.add_argument("--facts", action="append",
+                       help="a lean-facts.json; repeat it for several roots, primary first")
         p.add_argument("--map")
         p.add_argument("-o")
         if name == "build":

@@ -39,6 +39,35 @@ so that a Lean file is never left certifying a statement the paper no longer mak
 
 Nothing here edits the draft, and nothing here edits the Lean library's `paper-map.json`
 except `sync-map`, explicitly.
+
+**Lean roots (T-arch-multiroot-ledgers, ARCHITECTURE.md §4.1).**  The `[lean]` table names the
+paper's *primary* root, exactly as it always has; a paper that spans packages adds one
+`[[lean.extra]]` table per further root, in the order they are to be read:
+
+    [lean]                          # the primary root: unchanged, and enough on its own
+    root = "../../../lean-causal"
+    strict = ["Causal"]
+    scaffold = ["scaffold/CausalScaffold"]
+    scope = ["*"]                   # paper-level, as are paper_map and the milestones
+    [[lean.extra]]                  # zero or more further roots
+    root = "../../../lean-gx"
+    strict = ["GX"]
+    scaffold = ["scaffold/GXScaffold"]
+    # strict_label / scaffold_label optional, as in [lean]
+
+An extra root carries only `root`, `strict`, `scaffold` and the two labels; `scope` and
+`paper_map` belong to the paper, so they stay in `[lean]` and are refused in an extra table.
+Keeping `[lean]` a table (rather than turning it into an array) means every other reader of the
+config -- restate, dag_reconcile, the atlas -- still sees the primary root unchanged.
+
+With several roots: a declaration is found in any of them; a file is `strict` by the strict
+libraries of the root it lies in (never another root's); and a file is keyed, in `lean_files`, by
+its path relative to the *primary* root (`../lean-gx/GX/BTZ/Foo.lean`), so that
+`join([lean].root, f)` resolves it for every consumer.  A file reachable from two roots is read
+once, from the first.  **`git_commit`**: one entry per root, in `ledger.toml` order (primary
+first), each the last commit that touched that root's directory; the ledger's `lean` object keeps
+`root` and `git_commit` for the primary and adds `roots: [{root, git_commit, strict, scaffold}]`.
+A single-root ledger has no `roots` key and is byte for byte what it was before.
 """
 import hashlib
 import json
@@ -89,6 +118,33 @@ class Config:
         self.paper_map = l.get("paper_map")
         self.strict_label = l.get("strict_label") or "/".join(self.strict[:1]) + "/"
         self.scaffold_label = l.get("scaffold_label") or "/".join(self.scaffold[:1]) + "/"
+        # Every root, primary first (see the module docstring). `prefix` is the root's path
+        # relative to the primary root: "" for the primary, e.g. "../lean-gx" for an extra one.
+        self.lean_roots = []
+        if self.lean_root:
+            self.lean_roots.append({"path": self.lean_root, "prefix": "",
+                                    "strict": self.strict, "scaffold": self.scaffold,
+                                    "strict_label": self.strict_label,
+                                    "scaffold_label": self.scaffold_label})
+        extra = l.get("extra", [])
+        if not isinstance(extra, list):
+            die("[lean].extra must be an array of tables, [[lean.extra]]")
+        for i, x in enumerate(extra):
+            if not self.lean_root:
+                die("[[lean.extra]] needs a primary [lean].root")
+            for k in ("scope", "paper_map", "extra"):
+                if k in x:
+                    die("[[lean.extra]] #%d: `%s` belongs to the paper, set it in [lean]" % (i + 1, k))
+            if not x.get("root"):
+                die("[[lean.extra]] #%d has no root" % (i + 1))
+            path = os.path.normpath(os.path.join(base, os.path.expanduser(x["root"])))
+            st, sc = list(x.get("strict", [])), list(x.get("scaffold", []))
+            self.lean_roots.append({
+                "path": path, "prefix": os.path.relpath(path, self.lean_root),
+                "strict": st, "scaffold": sc,
+                "strict_label": x.get("strict_label") or "/".join(st[:1]) + "/",
+                "scaffold_label": x.get("scaffold_label") or "/".join(sc[:1]) + "/"})
+        self.multiroot = len(self.lean_roots) > 1
         o = c.get("output", {})
         self.out_dir = os.path.normpath(os.path.join(base, o.get("dir", ".")))
         self.ledger = os.path.join(self.out_dir, o.get("json", "ledger.json"))
@@ -265,23 +321,56 @@ DECL = re.compile(
 
 
 def lean_sources():
-    """rel-path -> text, for both libraries."""
+    """rel-path -> text, for both libraries of every root.
+
+    The path is relative to the primary root, also for a file of an extra root; a file reached
+    twice (two roots, or two libraries, covering it) is read once, from the first."""
     out = {}
     if not CFG.lean_root:
         return out
-    for sub in CFG.strict + CFG.scaffold:
-        base = os.path.join(CFG.lean_root, sub)
-        for dirpath, _dirs, names in os.walk(base):
-            for n in sorted(names):
-                if n.endswith(".lean"):
-                    p = os.path.join(dirpath, n)
-                    out[os.path.relpath(p, CFG.lean_root)] = open(
-                        p, encoding="utf-8", errors="replace").read()
+    for r in CFG.lean_roots:
+        for sub in r["strict"] + r["scaffold"]:
+            base = os.path.join(r["path"], sub)
+            for dirpath, _dirs, names in os.walk(base):
+                for n in sorted(names):
+                    if n.endswith(".lean"):
+                        p = os.path.join(dirpath, n)
+                        key = os.path.relpath(p, CFG.lean_root)
+                        if key not in out:
+                            out[key] = open(p, encoding="utf-8", errors="replace").read()
     return out
 
 
+def root_of(relpath):
+    """(root, path inside it) of a primary-relative Lean path: the extra root whose directory
+    holds it (the deepest, should two nest), else the primary."""
+    rel = os.path.normpath(relpath)
+    best = None
+    for r in CFG.lean_roots[1:]:
+        pre = r["prefix"]
+        if rel.startswith(pre + os.sep) and (best is None or len(pre) > len(best["prefix"])):
+            best = r
+    if best is None:
+        return (CFG.lean_roots[0] if CFG.lean_roots else None), relpath
+    return best, rel[len(best["prefix"]) + 1:]
+
+
 def is_strict(relpath):
-    return any(relpath.startswith(s.rstrip("/") + "/") for s in CFG.strict)
+    if not CFG.multiroot:
+        return any(relpath.startswith(s.rstrip("/") + "/") for s in CFG.strict)
+    r, inner = root_of(relpath)
+    return any(inner.startswith(s.rstrip("/") + "/") for s in r["strict"])
+
+
+def lean_header():
+    """The ledger's `lean` object: unchanged for one root; with several, `roots` is added, one
+    entry per root in ledger.toml order, each with its own last commit."""
+    head = {"root": CFG.lean_root, "git_commit": git_commit(CFG.lean_root)}
+    if CFG.multiroot:
+        head["roots"] = [{"root": r["path"], "git_commit": git_commit(r["path"]),
+                          "strict": list(r["strict"]), "scaffold": list(r["scaffold"])}
+                         for r in CFG.lean_roots]
+    return head
 
 
 def strip_lean_comments(text):
@@ -696,7 +785,7 @@ def build(write=True):
                   "git_commit": source_commit(),
                   "files": [f for f, _, _ in CFG.files_or_expand()],
                   **{k: prev_top[k] for k in CURATED_TOP if k in prev_top}},
-        "lean": {"root": CFG.lean_root, "git_commit": git_commit(CFG.lean_root)},
+        "lean": lean_header(),
         "statements": rows,
     }
     if write:
@@ -912,9 +1001,14 @@ def write_markdown(led, aux):
       "(`bucket`, `nl_status_override`, `decls`, `notes`) live in "
       "`%s` and survive a rebuild." % (CFG.tool_name, os.path.basename(CFG.ledger)))
     A("")
-    A("Paper `%s` at `%s`; Lean `%s` at `%s`."
-      % (led["paper"]["document"], led["paper"]["git_commit"],
-         led["lean"]["root"], led["lean"]["git_commit"]))
+    if led["lean"].get("roots"):
+        A("Paper `%s` at `%s`; Lean %s."
+          % (led["paper"]["document"], led["paper"]["git_commit"],
+             ", ".join("`%s` at `%s`" % (r["root"], r["git_commit"]) for r in led["lean"]["roots"])))
+    else:
+        A("Paper `%s` at `%s`; Lean `%s` at `%s`."
+          % (led["paper"]["document"], led["paper"]["git_commit"],
+             led["lean"]["root"], led["lean"]["git_commit"]))
     A("")
     A("**%d statements.** Natural language: %d proved or definitional. "
       "Lean: **%d stated**, of which **%d closed** and %d partial."
@@ -934,9 +1028,11 @@ def write_markdown(led, aux):
       "`proved` — a `proof` environment discharges it here; `cited` — it is quoted from "
       "the literature; `partial` — the paper itself discloses a gap; `open` — asserted "
       "and not proved; `informal` — a remark that argues rather than proves. |")
+    libs = (lambda k: " or ".join("`%s`" % r[k] for r in CFG.lean_roots)) if CFG.multiroot \
+        else (lambda k: "`%s`" % getattr(CFG, k))
     A("| **Lean stated** | a declaration carries the statement. `strict` — in "
-      "`%s`, where `sorry` is a compile error; `scaffold` — in "
-      "`%s`, where it is permitted and audited. |" % (CFG.strict_label, CFG.scaffold_label))
+      "%s, where `sorry` is a compile error; `scaffold` — in "
+      "%s, where it is permitted and audited. |" % (libs("strict_label"), libs("scaffold_label")))
     A("| **Lean proved** | **yes** — closed, no `sorry` anywhere beneath it; `partial` — "
       "some items of a multi-part statement, or a disclosed weakening; `no` — stated only. |")
     A("| **lvl** | height in the dependency DAG: 0 depends on nothing in the paper. "
