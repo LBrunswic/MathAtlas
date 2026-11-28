@@ -1,0 +1,41 @@
+{
+  "target": "T-bz-c3-facette-exposee",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bzprop:c3s4p8_D_cube",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Read against l.1072-1074, Prop. 6 (l.1046-1049), Prop. 7 and the definitional sentence l.1064 (« Nous dirons que 𝒟(F) est la facette minimale ... parmi celles F' qui vérifient ⟨F, F'⟩ = 0 »), and OQ-165 (c) (registers/DECISIONS.md l.393, OPEN). Genuine reading: under it 𝒟 is a partial map, defined exactly where D(W_a) ≠ ∅, i.e. where facetteDuale W F is nonempty (facetteDuale_spec: its closure is D(W_a)). prop8_facetteDuale assumes only that 𝒟(F) is defined and concludes that 𝒟∘𝒟(F) and 𝒟∘𝒟∘𝒟(F) are defined (genuine facettes of D(D W) and of D(W)) and that 𝒟∘𝒟∘𝒟(F) = 𝒟(F). That is the full identity of partial maps, since dom(𝒟∘𝒟∘𝒟) ⊆ dom(𝒟) holds trivially. The nonemptiness hypothesis is the domain of the map, not an escape. It covers every convex part W, with no closedness assumed, so it is at least the paper. Extended reading: IsFacetteKExt is ∅ exactly when the noyau is empty (isFacetteKExt_iff, which matches l.289-290). If ∅ is a facette of D(W), then 𝒟 must be defined on it for 𝒟∘𝒟 to make sense. Prop. 6 gives nothing at ∅ (there is no a ∈ ∅). The closer's 𝒟(∅) := the α-least facette of D(W) is not invented: l.1064 makes 𝒟(F) the α-minimal facette among those orthogonal to F, and at F = ∅ every facette qualifies. It also agrees with the face-lattice duality ∅ ↦ the relative interior of D(W). prop8_facetteDualeExt proves the identity for every extended facette, total maps throughout, with ∅ used as an input only where it is a legitimate extended facette. Both live readings hold, so the mark is justified. The literal facetteDuale at ∅ (an arbitrary choice) is never used, as SCOPE says."
+    },
+    {
+      "label": "bzprop:c3s4p9_facette_exposee",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked (partial), as the REPORT says, with the readings disclosed. prop9_facetteDuale assumes IsClosed W (disclosed as ⚠) and reads « 𝒟∘𝒟(F) = F » as 𝒟(F) genuine and 𝒟(𝒟(F)) = F. The hyperplane is any IsHyperplane, so the right-hand side is not narrowed. not_prop9_nonclosed is checked. K(S(E)) is all convex parts (ch1 l.271: « parties convexes (resp. convexes fermés) »; ch3 l.642, l.1047 use K, not C), and the author distinguishes closed sets elsewhere (Déf. 2 l.902 « convexe fermé »). So W = T ∖ {s(e₁)} lies in the printed domain. The Lean term proves W convex, F = the facette of s(0,1,1) (the open edge, facetteK_triangleMoinsSommet), 𝒟(F) = {s(e₀)} genuine, 𝒟∘𝒟(F) = F, and F̄ ∌ W-section, because s(e₁) ∈ F̄ but s(e₁) ∉ W. This is not a dimension −1 or empty-set degeneracy. A non-closed convex part is an ordinary member of K(S(n)), so the not_ name is warranted: it is a genuine refutation of the statement as printed. The question to the author, whether W is meant closed, is correctly raised. prop9_ext_imprecise is checked: for the closed simplex, the interior facette has 𝒟 = ∅, the extended 𝒟(∅) is the least facette, which is the interior again (facetteLeast_eq with centre_least), and interieur_not_section holds for all n. Only the dimension −1 case fails, so « imprecise » is the right wording. not_section_of_facetteDuale_eq_empty is a correct corollary."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "how": "`lake env lean scaffold/BenzecriScaffold/Chapter3/FacetteExposee.lean` exits 0 with no output (also elaborated as a copy with probes appended). #print axioms gives [propext, Classical.choice, Quot.sound] for prop8_facetteDuale, prop8_facetteDualeExt, prop7_facetteDualeExt_empty, prop9_facetteDuale, not_section_of_facetteDuale_eq_empty, supports_of_closure_eq, not_prop9_nonclosed, prop9_ext_imprecise, vertex0_exposee, vertex0_section, facetteDualeExt_interieur and facetteK_triangleMoinsSommet. The probe was deleted. No lake build was run, per the dispatch. The only `sorry` token in the file is the docstring sentence « No `sorry` »."
+  },
+  "instances": "Each new definition has a concrete term. facetteLeast: facetteLeast (simplexS 2) = interieur 2, by facetteLeast_eq isConvexPart_simplexS centre_mem centre_least, checked in the probe. facetteDualeExt: facetteDualeExt_interieur. oneVec, centre and interieur: isFacetteK_interieur. coneW and triangleMoinsSommet: isPosCone_coneW, isConvexPart_triangleMoinsSommet and u_mem_triangleMoinsSommet. Prop. 9's hypotheses hold at vertex0_exposee.",
+  "scope": "Inside lean-benzecri, git status shows only scaffold/BenzecriScaffold.lean (one appended import line for FacetteExposee; the ReunionConvexes line belongs to the other closer), scaffold/BenzecriScaffold/Chapter3/FacetteExposee.lean and this campaign directory. BooleProjectif.lean and ReunionConvexes.lean are the other closers' files. The other modified paths (lean-causal, papers/*/certificate, roadmaps) are other loops' and were present at session start.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-benzecri/scaffold/BenzecriScaffold/Chapter3/FacetteExposee.lean:92",
+      "what": "SCOPE justifies Prop. 8's mark under the extended reading by defining 𝒟(∅) through Prop. 7's minimality. It does not say why this is the reading and not a choice. The reason is l.1064, « Nous dirons que 𝒟(F) est la facette minimale ... », which forces 𝒟(∅) to be the least facette, and that value agrees with D(W_∅) = D(W). It also does not say that the hybrid reading (∅ allowed as an output of 𝒟 but not as an input) is excluded, because under it 𝒟 would not be a map on the facettes of D(W).",
+      "fix": "Add one sentence to SCOPE citing l.1064 as the ground for 𝒟(∅) and noting why the hybrid reading is not live."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-benzecri/scaffold/BenzecriScaffold/Chapter3/FacetteExposee.lean:82",
+      "what": "The checklist row for Prop. 9's added IsClosed W reads « ⚠ Prop. 9 adds `IsClosed W` ». kb 0006 asks for the word `⚠ strengthened`. The REPORT uses it, the docstring does not.",
+      "fix": "Write « ⚠ strengthened (Prop. 9): `IsClosed W` » in the checklist."
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-facette-exposee",
+  "files": ["scaffold/BenzecriScaffold/Chapter3/FacetteExposee.lean"],
+  "import_lines": ["scaffold/BenzecriScaffold.lean: import BenzecriScaffold.Chapter3.FacetteExposee"],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": "propext, Classical.choice, Quot.sound only (#print axioms of prop8_facetteDuale, prop8_facetteDualeExt, prop9_facetteDuale, not_section_of_facetteDuale_eq_empty, not_prop9_nonclosed, prop9_ext_imprecise, vertex0_exposee)",
+  "labels": [
+    {
+      "label": "bzprop:c3s4p8_D_cube",
+      "tex_lines": [1072, 1085],
+      "status": "closed",
+      "marked": true,
+      "decls": ["Benzecri.Sphere.prop8_facetteDuale", "Benzecri.Sphere.prop8_facetteDualeExt", "Benzecri.Sphere.facetteDualeExt", "Benzecri.Sphere.facetteLeast", "Benzecri.Sphere.prop7_facetteDualeExt_empty"],
+      "hypotheses": [
+        {"paper": "W ∈ K(S(n)) (a convex part, the domain of 𝒟 in Prop. 6)", "here": "carried", "note": "IsConvexPart W only; no closedness needed, D(D(D(W))) = D(W) always"},
+        {"paper": "𝒟 on facettes (Prop. 6, OQ-165 (c))", "here": "carried under both readings", "note": "genuine facettes: whenever 𝒟(F) is a facette, 𝒟∘𝒟(F) and 𝒟∘𝒟∘𝒟(F) are facettes and 𝒟∘𝒟∘𝒟(F) = 𝒟(F) (prop8_facetteDuale); with 𝒟(∅) defined by Prop. 7's minimality (the α-least facette of D(W)), the identity holds for every extended facette (prop8_facetteDualeExt)"}
+      ],
+      "sorries": [],
+      "findings": [
+        "Prop. 8 (l.1072-1074) holds for every convex part W, closed or not, although its proof (l.1076-1077) treats 𝒟∘𝒟(F) as a facette of W (true only for W closed): the 'a fortiori' step goes through with F ⊆ closure(𝒟∘𝒟(F)) in place of 𝒟∘𝒟(F) α F."
+      ],
+      "questions": [
+        "OQ-165 (c), live: whether 𝒟 is defined at facettes with D(W_a) = ∅ (where 𝒟(F) = ∅) and at the facette ∅. Reading taken: both, and the row is marked because it holds under both: as an identity of partial maps on genuine facettes, and with 𝒟(∅) := the α-least facette of D(W) (Prop. 7's minimality applied at F = ∅, where every F' qualifies)."
+      ]
+    },
+    {
+      "label": "bzprop:c3s4p9_facette_exposee",
+      "tex_lines": [1087, 1100],
+      "status": "partial",
+      "marked": false,
+      "decls": ["Benzecri.Sphere.prop9_facetteDuale", "Benzecri.Sphere.not_section_of_facetteDuale_eq_empty", "Benzecri.Sphere.supports_of_closure_eq", "Benzecri.FacetteExposeeInstance.not_prop9_nonclosed", "Benzecri.FacetteExposeeInstance.prop9_ext_imprecise"],
+      "hypotheses": [
+        {"paper": "W ∈ K(S(n)) (any convex part, § 3 l.642)", "here": "strengthened", "note": "IsClosed W added; needed: not_prop9_nonclosed"},
+        {"paper": "« 𝒟∘𝒟(F) = F »", "here": "reading", "note": "(facetteDuale W F).Nonempty ∧ facetteDuale (D W) (facetteDuale W F) = F, i.e. 𝒟(F) a genuine facette; under the extended reading (𝒟(∅) the least facette) the statement fails at the interior facette of a full-dimensional W (prop9_ext_imprecise)"},
+        {"paper": "« un hyperplan »", "here": "carried", "note": "any hyperplane (IsHyperplane, Ch. 1 p. 234), not only a supporting one; supports_of_closure_eq shows such a hyperplane supports W"}
+      ],
+      "sorries": [],
+      "findings": [
+        "Prop. 9 (l.1087-1090) is false for a convex part W that is not closed, while W ∈ K(S(n)) is the standing domain (Prop. 6, l.1047; K(S(E)) = all convex parts, l.642): in S(2), W = closed triangle minus the vertex s(e1), F = the open edge ]s(e1), s(e2)[ is a facette of W, 𝒟(F) = {s(e0)} is a genuine facette, 𝒟∘𝒟(F) = F, but F̄ contains s(e1) ∉ W, so F̄ is the intersection of W with no hyperplane (FacetteExposeeInstance.not_prop9_nonclosed). The proof's 𝒟∘𝒟(F) « facette de W » (l.1076) presupposes D(D(W)) = W, i.e. W closed. For W closed the statement is proved (prop9_facetteDuale).",
+        "Prop. 9 is imprecise if 𝒟 is extended to the facette ∅ of dimension −1 (OQ-165 (c)): for the interior facette F of the closed simplex of S(n), 𝒟(F) = ∅, the extended 𝒟∘𝒟(F) = F, yet F̄ = T is no hyperplane section (prop9_ext_imprecise). The printed proof's « soit p ∈ 𝒟(F) » (l.1093) silently assumes 𝒟(F) ≠ ∅.",
+        "The statement's « un hyperplan » is any hyperplane, while the proof's converse (l.1096) starts from « l'hyperplan frontière de D({p}) », a supporting one; the gap is closed in Lean (supports_of_closure_eq: a hyperplane meeting W in the closure of a facette supports W)."
+      ],
+      "questions": [
+        "Is W closed in Prop. 9 (W a convex body / closed convex, as the proof's « facette de W » for 𝒟∘𝒟(F) and the p. 276 example's « corps convexe » suggest)? Reading taken: closed; without it the statement is refuted (not_prop9_nonclosed).",
+        "OQ-165 (c): is « 𝒟∘𝒟(F) = F » meant with 𝒟(F) a genuine facette? Reading taken: yes; under the extended reading the statement is imprecise at the dimension −1 case (prop9_ext_imprecise). The row is unmarked for both reasons.",
+        "OQ-160 (a): the proof's « p ∈ W » (l.1097) read p ∈ D(W); the statement is unaffected."
+      ]
+    }
+  ],
+  "instances": [
+    "Benzecri.FacetteExposeeInstance.vertex0_section and vertex0_exposee: the vertex {s(e0)} of the closed simplex T of S(n+1) (the closed triangle of S(2) for n = 1) is T ∩ ⟨·,(0,1,…,1)⟩^⊥ and 𝒟∘𝒟({s(e0)}) = {s(e0)} with 𝒟({s(e0)}) genuine (through prop9_facetteDuale's converse)",
+    "Benzecri.FacetteExposeeInstance.facetteDuale_interieur, facetteDualeExt_interieur, interieur_not_section: the interior facette of T has 𝒟 = ∅, extended 𝒟∘𝒟 = id, no hyperplane section",
+    "Benzecri.FacetteExposeeInstance.triangleMoinsSommet: isConvexPart_triangleMoinsSommet, D_triangleMoinsSommet (D = T), facetteK_triangleMoinsSommet"
+  ],
+  "extra_decls": [
+    "Benzecri.Sphere.D_D_eq_closure",
+    "Benzecri.Sphere.D_D_D",
+    "Benzecri.Sphere.orthFacettes_comm",
+    "Benzecri.Sphere.isClosed_setOf_orthPts",
+    "Benzecri.Sphere.isFacetteK_of_ext",
+    "Benzecri.Sphere.IsFacetteKExt.subset",
+    "Benzecri.Sphere.facetteDuale_subset",
+    "Benzecri.Sphere.mem_closure_facetteDuale_iff",
+    "Benzecri.Sphere.exists_dotPairing_eq",
+    "Benzecri.Sphere.isHyperplane_orth",
+    "Benzecri.Sphere.supports_of_closure_eq",
+    "Benzecri.Sphere.facetteLeast_eq",
+    "Benzecri.Sphere.facetteLeast_spec"
+  ],
+  "kb_proposals": [
+    "On S(n), D(D(W)) = W̄ is D'_D_eq_closure + D'_dotPairing (D_D_eq_closure here), and D∘D∘D = D holds for every W (D_D_D): state 𝒟-iterates without closedness and rewrite D(D(D W)) = D W inside facette predicates.",
+    "Two facettes of D(W) with the same closure D(W_a) coincide: the huniq of exists_facetteK_closure_eq_D_coneAppui is the tool for computing 𝒟(F) in instances (no explicit facette list needed).",
+    "A hyperplane meeting a convex part W in the closure of a facette supports W (supports_of_closure_eq), via a α Z α y with Z = cA + l(y)x − l(x)y: turns 'any hyperplane' statements into 'supporting hyperplane' ones."
+  ],
+  "notes": "One new file, 0 sorry, builds in isolation (lake build BenzecriScaffold.Chapter3.FacetteExposee). One import line appended to scaffold/BenzecriScaffold.lean. The stadium example of p. 276 (free text, no ledger row) is not formalized; the instance is the planner's simplex vertex. Prop. 8 is marked on the ground that it holds under both readings of OQ-165 (c); if the master session takes the literal facetteDuale at ∅ (a choice, not a reading) as the formalization of record the mark should be revisited."
+}
