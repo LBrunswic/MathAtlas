@@ -1,5 +1,5 @@
-import GXScaffold.BTZ.TraceDev
-import GXScaffold.BTZ.AxisNoLimit
+import GX.BTZ.TraceDev
+import GX.BTZ.AxisNoLimit
 
 /-!
 # The trace of a complete spacelike-Lipschitz surface on a blunt spear chart goes to `+∞`
@@ -71,10 +71,10 @@ conclusion holds there (`1/r → +∞`), as it must.
   proved, and not needed.
 * 0 `sorry`; standard axioms only.
 
-Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; imports the scaffold
-`GXScaffold.BTZ.TraceDev` and `GXScaffold.BTZ.AxisNoLimit` (graduate before or with this file).
+Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; imports
+`GX.BTZ.TraceDev` and `GX.BTZ.AxisNoLimit` (graduated with this file, T-btz-trace-graduate).
 `pathLength_seg_unif` repeats the proof of `E0Surgery.edist_le_seg_unif`
-(`GXScaffold/BTZ/C1SpacelikeDevLip.lean:144`). Written by T-btz-trace-complete (2026-11-28).
+(`GX/BTZ/C1SpacelikeDevLip.lean:144`). Written by T-btz-trace-complete (2026-11-28).
 -/
 
 namespace GX

@@ -1,7 +1,7 @@
 import GX.BTZ.BluntSpear
 import GX.BTZ.IsomE0
 import GX.BTZ.SurfaceCompleteLip
-import GXScaffold.BTZ.C1SpacelikeDevLip
+import GX.BTZ.C1SpacelikeDevLip
 
 /-!
 # The trace of a spacelike-Lipschitz surface on a blunt spear chart develops spacelike
@@ -32,10 +32,9 @@ What is built is the input of `lem:surface_complete` (ii) that the trace `τ_Σ`
 * `GX.E0TraceDev.not_spacelikeDevelopment_graphDev` — **for `R > 0` no `g` has
   `SpacelikeDevelopment (graphDev g R)`**: at a point of the rim `r = R` the image is a surface
   with boundary, while `IsSpacelikeLipschitzIn` asks, around each of its points, a full Lipschitz
-  graph over an open set. Proof: `ℓ(q) = q₀ − q₁` reads `r` off the development, so
-  `ℓ ≤ R` on the image with equality at the rim; in the frame of the local graph `(f(x), x)`,
-  `ℓ` is `α t + β(x) + const` with `ℓ`'s kernel containing a null vector, so some direction `e`
-  has `β(e) > c |α| ‖e‖ ≥ |α (f(x₀ + s e) − f(x₀))| / s`, and `ℓ` exceeds `R` along `x₀ + s e`.
+  graph over an open set. Proof: a corollary of `E0Surgery.spacelikeDevelopment_graphDev_iff`
+  (`GX.BTZ.C1SpacelikeDev`; `q₀ − q₁` reads `r` off the development, is maximal at the rim, and
+  `IsSpacelikeLipschitzIn.exists_lt_of_null` forbids a maximum along a null direction).
 * `GX.E0TraceDev.flatE0_regChart` — the one new chart lemma: the `FlatE0 N` analogue of
   `SpearSurgeryDatum.eventually_regChart` (on a connected open neighbourhood of an off-axis point
   of a sector, the chart of `N` read through an `𝔼₀`-morphism `ψ` is `g •` the sector chart; the
@@ -61,7 +60,7 @@ What is built is the input of `lem:surface_complete` (ii) that the trace `τ_Σ`
   the same as an iff). So the strict `GX.E0Surgery.lem_surface_complete_two_lip`
   (`GX/BTZ/SurfaceCompleteLip.lean:361`), whose hypothesis `hF` is exactly that, is vacuous. The
   goal was moved (master's correction, 2026-11-28) to the corrected
-  `E0Surgery.lem_surface_complete_two_lipOn` (`GXScaffold/BTZ/C1SpacelikeDevLip.lean`), whose
+  `E0Surgery.lem_surface_complete_two_lipOn` (`GX/BTZ/C1SpacelikeDevLip.lean`), whose
   hypothesis over an open `Ω ⊇ (0, R″] × ℝ` the trace meets with `Ω = openStrip R`, `R″ < R`
   (`trace_spacelikeDevelopment_openStrip`, `trace_tendsto_atTop`): the radius is shrunk once,
   as the paper's « reduce the size of `S` » allows. Over `Ω ⊇ (0, R] × ℝ` itself it is not
@@ -74,8 +73,8 @@ What is built is the input of `lem:surface_complete` (ii) that the trace `τ_Σ`
 * 0 `sorry`; standard axioms only.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; imports the strict
-`GX.BTZ.BluntSpear`, `GX.BTZ.IsomE0`, `GX.BTZ.SurfaceCompleteLip` and the scaffold
-`GXScaffold.BTZ.C1SpacelikeDevLip` (T-btz-c1-spacelike-development; graduates before or with this file). Written by
+`GX.BTZ.BluntSpear`, `GX.BTZ.IsomE0`, `GX.BTZ.SurfaceCompleteLip` and
+`GX.BTZ.C1SpacelikeDevLip` (T-btz-c1-spacelike-development; graduated with this file, T-btz-trace-graduate). Written by
 T-btz-trace-development (2026-11-28).
 -/
 
@@ -124,126 +123,13 @@ theorem radL_apply (q : Causal.Minkowski 2) : radL q = q.1 - q.2 0 := rfl
 /-- **The closed strip has no spacelike development** (`R > 0`, every `g`): at the rim point
 `(R, 0)` the image is a surface with boundary, never a full local Lipschitz graph. Refutes the
 target's printed conclusion, and makes the hypothesis `hF` of the strict
-`E0Surgery.lem_surface_complete_two_lip` unsatisfiable. -/
+`E0Surgery.lem_surface_complete_two_lip` unsatisfiable. A corollary of
+`E0Surgery.spacelikeDevelopment_graphDev_iff` (`GX.BTZ.C1SpacelikeDev`), which proves the same
+at the rim by `IsSpacelikeLipschitzIn.exists_lt_of_null` (T-btz-trace-graduate; it had its own
+proof, by the radial functional `radL` in the frame of the local graph). -/
 theorem not_spacelikeDevelopment_graphDev {g : ℝ × ℝ → ℝ} {R : ℝ} (hR : 0 < R) :
     ¬ Causal.Flat.SpacelikeDevelopment (graphDev g R) := by
-  intro hF
-  set F := graphDev g R with hFdef
-  set x0 : Strip R := ⟨(R, 0), hR, le_rfl⟩
-  obtain ⟨U, V, hx0, -, hS⟩ := hF.locally x0
-  obtain ⟨k, O, U', f, c, hc, hpO, -, hU', hf, hgr⟩ := hS.locGraph (F x0) ⟨x0, hx0, rfl⟩
-  have hℓS : ∀ q ∈ F '' U, radL q ≤ R := by
-    rintro _ ⟨x, -, rfl⟩; rw [radL_apply, hFdef, graphDev_rad]; exact x.2.2
-  have hℓ0 : radL (F x0) = R := by rw [radL_apply, hFdef, graphDev_rad]
-  have hq0 : k • F x0 ∈ k • (O : Set (Causal.Minkowski 2)) ∩ Causal.Flat.graphOver U' f := by
-    rw [← hgr]; exact ⟨F x0, ⟨⟨x0, hx0, rfl⟩, hpO⟩, rfl⟩
-  set q0 := k • F x0 with hq0def
-  obtain ⟨hq0O, hq0U, hq0f⟩ := hq0
-  have key : ∀ x ∈ U', ((f x, x) : Causal.Minkowski 2) ∈ k • (O : Set (Causal.Minkowski 2)) →
-      radL (k⁻¹ • ((f x, x) : Causal.Minkowski 2)) ≤ R := by
-    intro x hx hxO
-    have hm : ((f x, x) : Causal.Minkowski 2) ∈ k • (F '' U ∩ O) := by
-      rw [hgr]; exact ⟨hxO, hx, rfl⟩
-    obtain ⟨q, hq, hqe⟩ := hm
-    rw [← hqe, inv_smul_smul]; exact hℓS q hq.1
-  -- the linear part of `k⁻¹`, and `φ = radL ∘ L`
-  set L : Causal.Minkowski 2 ≃ₗ[ℝ] Causal.Minkowski 2 :=
-    ((k⁻¹ : Causal.Flat.isom 2) : Causal.Minkowski 2 ≃ᵃ[ℝ] Causal.Minkowski 2).linear with hL
-  have hLl : L ∈ Causal.Flat.lorentz 2 := (k⁻¹ : Causal.Flat.isom 2).2
-  have hdiff : ∀ a : Causal.Minkowski 2,
-      radL (k⁻¹ • a) - radL (k⁻¹ • q0) = radL (L (a - q0)) := by
-    intro a
-    rw [← map_sub, Causal.Flat.isom_smul_def, Causal.Flat.isom_smul_def, Causal.Flat.isom_sub]
-  set α : ℝ := radL (L ((1 : ℝ), (0 : EuclideanSpace ℝ (Fin 2)))) with hα
-  set β : EuclideanSpace ℝ (Fin 2) →ₗ[ℝ] ℝ :=
-    (radL.comp L.toLinearMap).comp (LinearMap.inr ℝ ℝ _) with hβ
-  have hdec : ∀ (a : ℝ) (b : EuclideanSpace ℝ (Fin 2)),
-      radL (L ((a, b) : Causal.Minkowski 2)) = a * α + β b := by
-    intro a b
-    have : ((a, b) : Causal.Minkowski 2) = a • ((1 : ℝ), (0 : EuclideanSpace ℝ (Fin 2))) +
-        ((0 : ℝ), b) := by ext <;> simp
-    rw [this, map_add, map_add, map_smul, map_smul, smul_eq_mul, hα]
-    rfl
-  -- a direction of strict increase
-  have hdir : ∃ e : EuclideanSpace ℝ (Fin 2), (c : ℝ) * |α| * ‖e‖ < β e := by
-    set n : Causal.Minkowski 2 := ((1 : ℝ), EuclideanSpace.single 0 1) with hn
-    set w := L.symm n with hw
-    have hLw : L w = n := L.apply_symm_apply n
-    have hφw : w.1 * α + β w.2 = 0 := by
-      rw [← hdec, Prod.mk.eta, hLw, radL_apply]; simp [hn]
-    have hQw : Causal.Flat.minkQ w = 0 := by
-      rw [← Causal.Flat.lorentz.minkQ_apply hLl, hLw, Causal.Flat.minkQ, hn]; simp
-    have hw0 : w.1 ≠ 0 := by
-      intro h0
-      have h2 : ‖w.2‖ ^ 2 = 0 := by rw [Causal.Flat.minkQ, h0] at hQw; linarith
-      have h3 : w.2 = 0 := by simpa using h2
-      have : w = 0 := Prod.ext h0 h3
-      have hn0 : n = 0 := by rw [← hLw, this, map_zero]
-      have := congrArg Prod.fst hn0
-      simp [hn] at this
-    have hnorm : ‖w.2‖ = |w.1| := by
-      have h2 : ‖w.2‖ ^ 2 = w.1 ^ 2 := by rw [Causal.Flat.minkQ] at hQw; linarith
-      rw [← sq_abs w.1] at h2
-      exact (pow_left_inj₀ (norm_nonneg _) (abs_nonneg _) two_ne_zero).1 h2
-    by_cases hα0 : α = 0
-    · set m := L.symm ((1 : ℝ), (0 : EuclideanSpace ℝ (Fin 2))) with hm
-      have h1 : m.1 * α + β m.2 = 1 := by
-        rw [← hdec, Prod.mk.eta, hm, L.apply_symm_apply, radL_apply]; simp
-      refine ⟨m.2, ?_⟩
-      rw [hα0, mul_zero] at h1
-      rw [hα0, abs_zero, mul_zero, zero_mul]; linarith
-    · refine ⟨(-(α * w.1)) • w.2, ?_⟩
-      rw [map_smul, smul_eq_mul, norm_smul, Real.norm_eq_abs, abs_neg, hnorm, abs_mul]
-      have hβw : β w.2 = -(w.1 * α) := by linarith
-      rw [hβw]
-      have hpos : 0 < |α| * |w.1| := mul_pos (abs_pos.2 hα0) (abs_pos.2 hw0)
-      have hc1 : (c : ℝ) < 1 := by exact_mod_cast hc
-      have e2 : -(α * w.1) * -(w.1 * α) = (|α| * |w.1|) ^ 2 := by
-        rw [← abs_mul, sq_abs]; ring
-      rw [e2]
-      have : (c : ℝ) * |α| * (|α| * |w.1| * |w.1|) = c * (|α| * |w.1|) ^ 2 := by ring
-      rw [this]
-      exact mul_lt_of_lt_one_left (by positivity) hc1
-  obtain ⟨e, he⟩ := hdir
-  -- the points `x0' + s e` of the graph near `q0`
-  set x0' := q0.2
-  have hfc : ContinuousAt f x0' :=
-    (hf.continuousOn.continuousAt (hU'.mem_nhds hq0U))
-  have hpath : Tendsto (fun s : ℝ => x0' + s • e) (𝓝[>] 0) (𝓝 x0') := by
-    have : Tendsto (fun s : ℝ => x0' + s • e) (𝓝 0) (𝓝 (x0' + (0 : ℝ) • e)) :=
-      (continuous_const.add (continuous_id.smul continuous_const)).tendsto 0
-    rw [zero_smul, add_zero] at this
-    exact this.mono_left nhdsWithin_le_nhds
-  have hgr' : Tendsto (fun x => ((f x, x) : Causal.Minkowski 2)) (𝓝 x0') (𝓝 q0) := by
-    have h : Tendsto (fun x => ((f x, x) : Causal.Minkowski 2)) (𝓝 x0') (𝓝 (f x0', x0')) :=
-      hfc.tendsto.prodMk_nhds tendsto_id
-    rwa [show ((f x0', x0') : Causal.Minkowski 2) = q0 from Prod.ext hq0f.symm rfl] at h
-  have hO' : IsOpen (k • (O : Set (Causal.Minkowski 2))) := O.isOpen.smul k
-  have hev : ∀ᶠ s in 𝓝[>] (0 : ℝ), x0' + s • e ∈ U' ∧
-      ((f (x0' + s • e), x0' + s • e) : Causal.Minkowski 2) ∈ k • (O : Set _) ∧ 0 < s := by
-    filter_upwards [hpath.eventually (hU'.mem_nhds hq0U),
-      (hgr'.comp hpath).eventually (hO'.mem_nhds hq0O), self_mem_nhdsWithin] with s h1 h2 h3
-    exact ⟨h1, h2, h3⟩
-  obtain ⟨s, hsU, hsO, hs⟩ := hev.exists
-  have hle := key _ hsU hsO
-  have hq0R : radL (k⁻¹ • q0) = R := by rw [hq0def, inv_smul_smul, hℓ0]
-  have hd := hdiff ((f (x0' + s • e), x0' + s • e) : Causal.Minkowski 2)
-  have hsub' : ((f (x0' + s • e), x0' + s • e) : Causal.Minkowski 2) - q0 =
-      ((f (x0' + s • e) - f x0', s • e) : Causal.Minkowski 2) := by
-    ext
-    · simp [x0', hq0f]
-    · simp [x0']
-  rw [hsub', hdec, β.map_smul, smul_eq_mul, hq0R] at hd
-  have hlip : |f (x0' + s • e) - f x0'| ≤ c * (s * ‖e‖) := by
-    have := hf.dist_le_mul _ hsU _ hq0U
-    rwa [Real.dist_eq, dist_eq_norm, add_sub_cancel_left, norm_smul, Real.norm_eq_abs,
-      abs_of_pos hs] at this
-  have h1 : -( (c : ℝ) * (s * ‖e‖)) * |α| ≤ (f (x0' + s • e) - f x0') * α := by
-    have := abs_mul (f (x0' + s • e) - f x0') α
-    have h3 : -|(f (x0' + s • e) - f x0') * α| ≤ (f (x0' + s • e) - f x0') * α := neg_abs_le _
-    nlinarith [abs_nonneg α]
-  have h2 : s * ((c : ℝ) * |α| * ‖e‖) < s * β e := mul_lt_mul_of_pos_left he hs
-  linarith
+  rw [spacelikeDevelopment_graphDev_iff]; exact not_le.2 hR
 
 /-! ### §3 The chart lemma in `FlatE0 N` -/
 

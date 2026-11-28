@@ -1,0 +1,85 @@
+{
+ "package": "lean-gx",
+ "target": "T-btz-trace-graduate",
+ "files": [
+  "GX/BTZ/AxisNoLimit.lean",
+  "GX/BTZ/C1SpacelikeDev.lean",
+  "GX/BTZ/C1SpacelikeDevLip.lean",
+  "GX/BTZ/TraceDev.lean",
+  "GX/BTZ/TraceComplete.lean",
+  "GX/BTZ/SurfaceCompleteLip.lean",
+  "GX.lean",
+  "scaffold/GXScaffold.lean",
+  "campaign/T-btz-trace-graduate/before.txt",
+  "campaign/T-btz-trace-graduate/after.txt",
+  "campaign/T-btz-trace-graduate/check.log"
+ ],
+ "moves": {
+  "scaffold/GXScaffold/BTZ/AxisNoLimit.lean": "GX/BTZ/AxisNoLimit.lean",
+  "scaffold/GXScaffold/BTZ/C1SpacelikeDev.lean": "GX/BTZ/C1SpacelikeDev.lean",
+  "scaffold/GXScaffold/BTZ/C1SpacelikeDevLip.lean": "GX/BTZ/C1SpacelikeDevLip.lean",
+  "scaffold/GXScaffold/BTZ/TraceDev.lean": "GX/BTZ/TraceDev.lean",
+  "scaffold/GXScaffold/BTZ/TraceComplete.lean": "GX/BTZ/TraceComplete.lean"
+ },
+ "module_renames": {
+  "GXScaffold.BTZ.AxisNoLimit": "GX.BTZ.AxisNoLimit",
+  "GXScaffold.BTZ.C1SpacelikeDev": "GX.BTZ.C1SpacelikeDev",
+  "GXScaffold.BTZ.C1SpacelikeDevLip": "GX.BTZ.C1SpacelikeDevLip",
+  "GXScaffold.BTZ.TraceDev": "GX.BTZ.TraceDev",
+  "GXScaffold.BTZ.TraceComplete": "GX.BTZ.TraceComplete"
+ },
+ "left_in_scaffold": {
+  "scaffold/GXScaffold/BTZ/CauchySpear.lean": "untouched: one tagged sorry (bluntSpear_subset_M0, l.164); it imports none of the five (imports GX.BTZ.MaxExtension, GX.BTZ.BluntSpear) and names none of them."
+ },
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [],
+ "rename_map": {},
+ "rename_note": "No declaration renamed, retyped or removed; namespaces unchanged (GX.E0AxisNoLimit, GX.E0Surgery, GX.E0TraceDev, GX.E0TraceComplete). Source diff of the five moved files: import lines, docstring module paths, two 'scaffold'/'graduates before or with this file' provenance sentences, and in TraceDev the proof of not_spacelikeDevelopment_graphDev plus its docstring and the module-docstring bullet describing its proof.",
+ "proof_change": {
+  "decl": "GX.E0TraceDev.not_spacelikeDevelopment_graphDev",
+  "file": "GX/BTZ/TraceDev.lean:129-131",
+  "was": "a self-contained ~120-line proof (radial functional radL in the frame of the local graph, a direction of strict increase, the Lipschitz bound)",
+  "now": "rw [spacelikeDevelopment_graphDev_iff]; exact not_le.2 hR (the iff is GX.E0Surgery.spacelikeDevelopment_graphDev_iff, GX/BTZ/C1SpacelikeDev.lean:184)",
+  "statement": "unchanged (type hash identical before/after)",
+  "helpers": "radL, radL_apply, btzPaperDev_rad, graphDev_rad and isSpacelikeLipschitzIn_inter stay and are all still used by later proofs of TraceDev (graphDev_rad uses btzPaperDev_rad; radL/radL_apply/graphDev_rad in the open-strip embedding, isSpacelikeLipschitzIn_inter in the local graph); no exported name is dropped."
+ },
+ "preservation_check": "A probe (Lean `main`, run with `taskset -c 0-11 lake env lean --run`, reading only the package's own .lake oleans, nothing under /tmp) imported the chain's top module and dumped, for every constant of the five modules, its name, kind, a hash of its type and (for non-theorems) of its value, with the module prefix `<root>.BTZ.` normalised to `M.` so that private names compare. before.txt: run at HEAD sources with root GXScaffold (oleans of 2026-11-28, `lake build GXScaffold.BTZ.TraceComplete` a no-op, i.e. current with HEAD). after.txt: run after the move and the proof change with root GX. 160 constants each (145 theorems, 15 definitions; per module AxisNoLimit 23, C1SpacelikeDev 59, C1SpacelikeDevLip 13, TraceDev 51, TraceComplete 14); `diff before.txt after.txt` empty: same names, same type hashes, same definition-value hashes, no axiom constant. Theorem values were excluded on purpose (one proof changed). The probe source is kept in this report (probe_source) and its file was deleted from the repo, per the dispatch; to recheck, write it to any non-/tmp path and run `lake env lean --run <probe> GX GX.BTZ.TraceComplete`.",
+ "probe_source": "import Lean\nopen Lean\n\n/-- Dump, for every constant of the five modules (root `pre`), its name, kind, a hash of its\ntype and, for a non-theorem, of its value; module path `pre.BTZ.` normalised to `M.` -/\ndef dump (pre : String) (imp : Name) : IO Unit := do\n  initSearchPath (← findSysroot)\n  let env ← importModules #[{module := imp}] {} \n  let mods := [\"AxisNoLimit\", \"C1SpacelikeDev\", \"C1SpacelikeDevLip\", \"TraceDev\", \"TraceComplete\"]\n  let norm (s : String) : String := s.replace (pre ++ \".BTZ.\") \"M.\"\n  let mut lines : Array String := #[]\n  for idx in [0:env.header.moduleNames.size] do\n    let m := env.header.moduleNames[idx]!\n    unless mods.any (fun x => m == (pre ++ \".BTZ.\" ++ x).toName) do continue\n    for n in env.header.moduleData[idx]!.constNames do\n      let some ci := env.find? n | continue\n      let ty := hash (norm (toString ci.type))\n      let (k, v) := match ci with\n        | .thmInfo _ => (\"thm\", \"-\")\n        | .defnInfo d => (\"def\", toString (hash (norm (toString d.value))))\n        | .opaqueInfo d => (\"opaque\", toString (hash (norm (toString d.value))))\n        | .axiomInfo _ => (\"AXIOM\", \"-\")\n        | .inductInfo _ => (\"induct\", \"-\")\n        | .ctorInfo _ => (\"ctor\", \"-\")\n        | .recInfo _ => (\"rec\", \"-\")\n        | .quotInfo _ => (\"quot\", \"-\")\n      lines := lines.push s!\"{norm (toString n)} {k} {ty} {v} {norm (toString m)}\"\n  lines := lines.qsort (· < ·)\n  for l in lines do IO.println l\n\ndef main (args : List String) : IO Unit :=\n  match args with\n  | [pre, imp] => dump pre imp.toName\n  | _ => throw (IO.userError \"usage: pre importModule\")\n",
+ "imports": "C1SpacelikeDev: GX.BTZ.SurfaceCompleteLip. C1SpacelikeDevLip: GX.BTZ.C1SpacelikeDev. AxisNoLimit: GX.BTZ.BluntSpear, GX.BTZ.Admissible. TraceDev: GX.BTZ.BluntSpear, GX.BTZ.IsomE0, GX.BTZ.SurfaceCompleteLip, GX.BTZ.C1SpacelikeDevLip. TraceComplete: GX.BTZ.TraceDev, GX.BTZ.AxisNoLimit. No GX module imports GXScaffold.*.",
+ "roots": "GX.lean: the five imports appended after GX.BTZ.SurfaceGroupNonMetabelian in dependency order (C1SpacelikeDev, C1SpacelikeDevLip, AxisNoLimit, TraceDev, TraceComplete). scaffold/GXScaffold.lean: the five imports removed; the root docstring now says BTZ.CauchySpear is left with one tagged sorry and that its sorry-free tools graduated to GX.BTZ (T-btz-trace-graduate).",
+ "docstrings": "Word-bounded sed over GX/BTZ/*.lean and scaffold/GXScaffold/BTZ/*.lean: GXScaffold.BTZ.<m> -> GX.BTZ.<m>, (scaffold/)GXScaffold/BTZ/<m>.lean -> GX/BTZ/<m>.lean for the five modules: C1SpacelikeDev l.42; C1SpacelikeDevLip l.1, 16, 58; TraceDev l.4, 64, 78; TraceComplete l.1, 2, 75, 77; SurfaceCompleteLip l.48, 61. Then by hand: SurfaceCompleteLip l.48 'scaffold GX.BTZ.C1SpacelikeDev' -> 'strict', l.60 'the scaffold' -> 'the strict'; TraceComplete l.74-75 and TraceDev l.75-76 provenance ('the scaffold', 'graduate(s) before or with this file' -> 'graduated with this file, T-btz-trace-graduate'). CauchySpear (scaffold) names none of the five; GX/BTZ/CauchyEasy l.38, 44 name GXScaffold.BTZ.CauchySpear, still correct. Line reference TraceComplete l.77 -> C1SpacelikeDevLip.lean:144 (edist_le_seg_unif) still exact.",
+ "lint": "None needed: lake build GX.BTZ.TraceComplete built the five under warningAsError with no warning.",
+ "make_check": "taskset -c 0-11 make -C lean-gx check: exit 0, 'lean-gx: all gates green' (log: campaign/T-btz-trace-graduate/check.log). Strict build OK; scaffold build OK, only the 5 known sorry warnings (HSCausal 1922, TroyanovAngles 330/345, ThurstonSuspension 1641, CauchySpear 164); causal_import_gate ok (DEC-33); sorry count strict 0 in 92 files, scaffold 5 in 19 files (unchanged); axiom sweep strict 16793 declarations in 93 modules all within propext/Classical.choice/Quot.sound; scaffold 2468 declarations in 20 modules, 13 resting on a sorry (unchanged set).",
+ "curation_extra_lean_files": {
+  "papers/btz/certificate/curation.toml": {
+   "btzlem:blunt_spear_neighborhood (l.15)": {
+    "scaffold/GXScaffold/BTZ/AxisNoLimit.lean": "GX/BTZ/AxisNoLimit.lean"
+   },
+   "btzlem:surface_complete (l.66)": {
+    "scaffold/GXScaffold/BTZ/C1SpacelikeDev.lean": "GX/BTZ/C1SpacelikeDev.lean",
+    "scaffold/GXScaffold/BTZ/C1SpacelikeDevLip.lean": "GX/BTZ/C1SpacelikeDevLip.lean"
+   },
+   "btzthm:BTZ_Cauchy-completness (l.299)": {
+    "scaffold/GXScaffold/BTZ/TraceDev.lean": "GX/BTZ/TraceDev.lean",
+    "scaffold/GXScaffold/BTZ/TraceComplete.lean": "GX/BTZ/TraceComplete.lean"
+   }
+  },
+  "prose_in_notes": "curation.toml l.14 (GXScaffold.BTZ.AxisNoLimit) and l.298 (GXScaffold.BTZ.TraceDev, GXScaffold.BTZ.TraceComplete) name the old module paths in notes; the loop may re-point them. papers/btz/ledger/ledger.json names them too and is regenerated by the ledger rebuild (bbs, btz, gx)."
+ },
+ "not_done_outside_dispatch": [
+  "lean-gx/README.md l.76 state line (87 modules, 16,611 declarations at 1030d98) is stale: now 93 strict modules, 16,793 declarations; not in the files I may write.",
+  "Stale scaffold oleans .lake/build/lib/lean/GXScaffold/BTZ/{AxisNoLimit,C1SpacelikeDev,C1SpacelikeDevLip,TraceDev,TraceComplete}.* remain (as do those of earlier graduations); nothing imports them and the gate is green; .lake is outside the dispatch."
+ ],
+ "findings": [
+  "Recorded duplication, not removed (per the block): the strict GX.E0BluntSpear.flat_infall_noLimit_of_pos (GX/BTZ/BluntSpear.lean) is the special case v < a of GX.E0AxisNoLimit.flat_infall_noLimit_of_le (GX/BTZ/AxisNoLimit.lean), which allows a = v; it cannot be derived from it without moving flat_infall_noLimit_of_le above BluntSpear in the import order (AxisNoLimit imports BluntSpear).",
+  "Recorded duplication, not removed: GX.E0TraceComplete.pathLength_seg_unif repeats the proof of GX.E0Surgery.edist_le_seg_unif (GX/BTZ/C1SpacelikeDevLip.lean:144), as TraceComplete.lean:76-77 says.",
+  "Removed duplication: GX.E0TraceDev.not_spacelikeDevelopment_graphDev is now a corollary of GX.E0Surgery.spacelikeDevelopment_graphDev_iff, as is the pre-existing GX.E0Surgery.lem_surface_complete_two_lip_hyp_false (C1SpacelikeDev.lean:203) — the two now state the same thing in two namespaces with the same one-line proof; a later dedupe could keep one (renaming is out of scope here)."
+ ],
+ "questions": [],
+ "extra_decls": [],
+ "kb_proposals": [
+  "A graduation's preservation check needs no saved old oleans: dump (name, kind, hash of type, hash of non-theorem value) per constant of the moved modules before and after, with the module prefix normalised so private names compare, and diff the two text files (T-btz-trace-graduate: 160 constants, empty diff)."
+ ],
+ "notes": "Nothing committed, nothing staged beyond the git mv renames (git mv stages the renames; the content edits are unstaged). The scaffold now holds one btz module, BTZ.CauchySpear. No mark changes and no statement changes; the vacuous strict lem_surface_complete_two_lip is untouched (OQ-158)."
+}

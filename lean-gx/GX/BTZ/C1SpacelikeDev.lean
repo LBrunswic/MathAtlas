@@ -39,7 +39,7 @@ cone (Lemma 2.7 in null coordinates, `fderiv_nullHeightExpl_pos`), hence cone-in
 over the open strip `0 < r < R` (`spacelikeDevelopment_openStrip`), and Lemma 2.6(ii)'s cusp has one
 over the whole half-plane `r > 0` (`cusp_spacelikeDevelopment`). The corrected Lipschitz form of
 Lemma 2.8(ii), with the development spacelike over an open set containing the strip, is
-`GXScaffold.BTZ.C1SpacelikeDevLip`.
+`GX.BTZ.C1SpacelikeDevLip`.
 
 ## Hypothesis checklist
 

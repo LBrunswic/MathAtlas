@@ -1,4 +1,4 @@
-import GXScaffold.BTZ.C1SpacelikeDev
+import GX.BTZ.C1SpacelikeDev
 
 /-!
 # btz Lemma 2.8(ii) for graphs spacelike Lipschitz across the rim
@@ -13,7 +13,7 @@ Item (ii) only, in a spacelike-Lipschitz reading that can be met, for `𝔼₀` 
 
 The strict `GX.E0Surgery.lem_surface_complete_two_lip` assumes
 `Causal.Flat.SpacelikeDevelopment (graphDev g R)`, which never holds for `R > 0`
-(`GX.E0Surgery.spacelikeDevelopment_graphDev_iff`, `GXScaffold.BTZ.C1SpacelikeDev`: the rim `r = R`
+(`GX.E0Surgery.spacelikeDevelopment_graphDev_iff`, `GX.BTZ.C1SpacelikeDev`: the rim `r = R`
 is a boundary). Its proof uses that hypothesis only through two consequences, both meaningful at
 the rim:
 
@@ -55,7 +55,7 @@ dominates that of `Ω`, since a path of the strip is a path of `Ω` of the same 
 * 0 `sorry`; standard axioms only.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; imports
-`GXScaffold.BTZ.C1SpacelikeDev` (hence the strict `GX.BTZ.SurfaceCompleteLip`). Written by
+`GX.BTZ.C1SpacelikeDev` (hence the strict `GX.BTZ.SurfaceCompleteLip`). Written by
 T-btz-c1-spacelike-development (2026-11-28).
 -/
 

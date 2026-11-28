@@ -45,7 +45,7 @@ the topology of the pulled length is finer than that of the strip
 |---|---|
 | `τ_Σ : 𝔻_R^* → ℝ`, `R > 0` | ✓ `g : ℝ × ℝ → ℝ` in `(r, θ)`, `2π`-periodic in `θ`, `0 < R`; the strip `(0, R] × ℝ` is the universal cover of `𝔻_R^*` (the strict reading) |
 | « piecewise smooth » | ⚠ weakened: none; not even continuity of `g` is assumed (it follows from that of the development) |
-| « spacelike » | ⚠ read: `Causal.Flat.SpacelikeDevelopment (graphDev g R)` — locally an embedded spacelike Lipschitz hypersurface of `𝐌³` (Barbot's notion, OQ-152 (b)); **this hypothesis is never satisfied for `R > 0`**: the closed strip includes the rim `r = R` and a `SpacelikeDevelopment` has no boundary (`GX.E0Surgery.spacelikeDevelopment_graphDev_iff`, scaffold `GXScaffold.BTZ.C1SpacelikeDev`), so this theorem is vacuous (SCOPE) |
+| « spacelike » | ⚠ read: `Causal.Flat.SpacelikeDevelopment (graphDev g R)` — locally an embedded spacelike Lipschitz hypersurface of `𝐌³` (Barbot's notion, OQ-152 (b)); **this hypothesis is never satisfied for `R > 0`**: the closed strip includes the rim `r = R` and a `SpacelikeDevelopment` has no boundary (`GX.E0Surgery.spacelikeDevelopment_graphDev_iff`, strict `GX.BTZ.C1SpacelikeDev`), so this theorem is vacuous (SCOPE) |
 | « complete » | ✓ read as in the strict row: `CompleteSpace (Causal.Flat.PulledLength (graphDev g R))` |
 | `𝔼_{≥0}`-manifolds (the paper's scope) | ⚠ `𝔼₀` only (T-btz-scope) |
 
@@ -57,8 +57,8 @@ the topology of the pulled length is finer than that of the strip
   ↔ R ≤ 0` (`GX.E0Surgery.spacelikeDevelopment_graphDev_iff`, with
   `lem_surface_complete_two_lip_hyp_false`): the closed strip's rim is a boundary. So
   `lem_surface_complete_two_lip` is true for no `g` with `R > 0` and is not an anchor of
-  `btzlem:surface_complete`. The non-vacuous Lipschitz forms are the scaffold
-  `GXScaffold.BTZ.C1SpacelikeDevLip`'s `lem_surface_complete_two_lipOn` (a development spacelike
+  `btzlem:surface_complete`. The non-vacuous Lipschitz forms are the strict
+  `GX.BTZ.C1SpacelikeDevLip`'s `lem_surface_complete_two_lipOn` (a development spacelike
   over an open set containing the strip; the cusp `τ^R(θ) + M(1/r − 1/R)` meets it,
   `cusp_lipOn_hyps`) and `lem_surface_complete_two_unif`; their reading is OQ-158. The lemmas
   `locallyLipschitzOn_of_spacelikeDevelopment` and `edist_le_seg_lip` of this file stay useful

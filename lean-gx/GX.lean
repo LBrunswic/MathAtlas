@@ -69,6 +69,11 @@ import GX.BTZ.RichardsSplit
 import GX.BTZ.AdmissibleLinear
 import GX.BTZ.Admissible
 import GX.BTZ.SurfaceGroupNonMetabelian
+import GX.BTZ.C1SpacelikeDev
+import GX.BTZ.C1SpacelikeDevLip
+import GX.BTZ.AxisNoLimit
+import GX.BTZ.TraceDev
+import GX.BTZ.TraceComplete
 import GX.Topology.SLSCCompact
 import GX.Spherical.S3Model
 import GX.Spherical.ConeSurface
