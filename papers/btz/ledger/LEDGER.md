@@ -6,7 +6,7 @@ Paper `BTZ_1.tex` at `snapshot`; Lean `/home/maxbrain/Dropbox/LeanArticles/lean-
 
 **55 statements.** Natural language: 35 proved or definitional. Lean: **46 stated**, of which **1 closed** and 42 partial.
 
-**Closure: 0 of 55.** The target is the 55 in-scope statements less the 0 terminal ones (bucket `T`, each with its reason); a row counts as done only when it is closed in Lean **in bucket A**.
+**Closure: 0 of 53.** The target is the 55 in-scope statements less the 2 terminal ones (bucket `T`, each with its reason); a row counts as done only when it is closed in Lean **in bucket A**.
 
 ## How to read a row
 
@@ -174,7 +174,7 @@ Formalizing is a proof-reading pass with a machine holding the pen. These are th
 
 **In scope: 55 statements**, of which 1 are closed in Lean and 42 partial. Out of scope: 0.
 
-### Behind an obstruction — 53 statements, in scope
+### Behind an obstruction — 51 statements, in scope
 
 `C` is attempted-and-blocked, `D` is deferred; each row's `notes` field in `ledger.json` names the obstruction.
 
@@ -210,7 +210,7 @@ Formalizing is a proof-reading pass with a machine holding the pen. These are th
 | 0 | **Lemma**<br>`btzlem:surface_causal` — [`BTZ_1.tex:749`](BTZ_1.tex#L749) | proved — [`BTZ_1.tex:753`](BTZ_1.tex#L753) | strict (Surgery.lean) | partial | D |
 | 1 | **Lemma**<br>`btzlem:surface_complete` — [`BTZ_1.tex:781`](BTZ_1.tex#L781) | proved — [`BTZ_1.tex:792`](BTZ_1.tex#L792) | strict (Surgery.lean, SurfaceCompleteLip.lean) | partial | D |
 | 2 | **Lemma**<br>`btzlem:curve_extension` — [`BTZ_1.tex:704`](BTZ_1.tex#L704) | proved — [`BTZ_1.tex:856`](BTZ_1.tex#L856) | strict (Surgery.lean) | partial | D |
-| 3 | **Remark**<br>`btzrem:lemma_lem_curve_extension` — [`BTZ_1.tex:852`](BTZ_1.tex#L852) | informal | — | — | D |
+| 3 | **Remark**<br>`btzrem:lemma_lem_curve_extension` — [`BTZ_1.tex:852`](BTZ_1.tex#L852) | informal | — | — | T |
 | 0 | **Lemma**<br>`btzlem:intersect_number_complete` — [`BTZ_1.tex:897`](BTZ_1.tex#L897) | open | strict (Surgery.lean) | partial | D |
 | 1 | **Lemma**<br>`btzlem:intersect_number_compact` — [`BTZ_1.tex:885`](BTZ_1.tex#L885) | proved — [`BTZ_1.tex:915`](BTZ_1.tex#L915) | strict (Surgery.lean) | partial | D |
 | 2 | **Corollary**<br>`btzcor:intersect` — [`BTZ_1.tex:910`](BTZ_1.tex#L910) | open | strict (Surgery.lean) | partial | D |
@@ -239,7 +239,7 @@ Formalizing is a proof-reading pass with a machine holding the pen. These are th
 | 1 | **Proposition**<br>`btzprop:pgcd` — [`BTZ_1.tex:1341`](BTZ_1.tex#L1341) | proved — [`BTZ_1.tex:1349`](BTZ_1.tex#L1349) | strict (Pgcd.lean, PpcmHausdorff.lean, ExtChart.lean) | **yes** | D |
 | 0 | **Definition** — Common over-BTZ-extension<br>`btzdef:common_over_btz_extension` — [`BTZ_1.tex:1381`](BTZ_1.tex#L1381) | def | strict (Embeddings.lean) | partial | D |
 | 0 | **Definition** — Morphism of common over-BTZ-extension<br>`btzdef:morphism_common_over_btz_extension` — [`BTZ_1.tex:1397`](BTZ_1.tex#L1397) | def | strict (Embeddings.lean) | partial | D |
-| 0 | **Remark**<br>`btzrem:other_ways_prove_btz` — [`BTZ_1.tex:1558`](BTZ_1.tex#L1558) | informal | — | — | D |
+| 0 | **Remark**<br>`btzrem:other_ways_prove_btz` — [`BTZ_1.tex:1558`](BTZ_1.tex#L1558) | informal | — | — | T |
 | 4 | **Proposition**<br>`btzprop:reg_complete` — [`BTZ_1.tex:1566`](BTZ_1.tex#L1566) | proved — [`BTZ_1.tex:1570`](BTZ_1.tex#L1570) | strict (RegComplete.lean, SpearFamily.lean, RegCompleteCauchy.lean) +4 | partial | C |
 | 5 | **Theorem**<br>`btzthm:BTZ_Cauchy-completness` — [`BTZ_1.tex:1582`](BTZ_1.tex#L1582) | proved — [`BTZ_1.tex:1592`](BTZ_1.tex#L1592) | scaffold (CauchySpear.lean, CauchyEasy.lean) | no | D |
 | 5 | **Theorem**<br>`btzthm:princ` — [`BTZ_1.tex:1648`](BTZ_1.tex#L1648) | proved — [`BTZ_1.tex:1650`](BTZ_1.tex#L1650) | — | — | D |
