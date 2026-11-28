@@ -1205,3 +1205,13 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - Chapter 3 follow-ups re-checked against the five strict modules: five promoted to ready (T-bz-c3-appui, -facettes-sphere (narrowed), -alpha-somme, -fibres, -facette-ouverte), two split (T-bz-c3-appui-sphere, T-bz-c3-reunion-convexes-sphere, planned), seven planned targets' evidence tightened (dualite-sn/-interieur anchor on dotPairing, so they need not wait on OQ-160; hyperplan-separant goes through the U ∪ V convex form, not the printed Prop. 6; propriete-i-appui must not use Prop. 1's printed precise form). Ch. 4–dependent targets unchanged. No new question.
 - gates: roadmap ✓ (314 targets), atlas ✓
 - next: T-bz-c3-appui, -facettes-sphere, -fibres (lean-benzecri)
+
+## 2026-11-28 11:40 · wave of 3 · T-bz-c3-appui, T-bz-c3-facettes-sphere, T-bz-c3-alpha-somme (lean-benzecri)
+- T-bz-c3-appui: § 1 Déf. 3, Props. 5–6, Remark 2 — all marked; no finding; audit minor (a not_ helper renamed diag_not_isVarieteAppui so /restate does not read it as a refutation).
+- T-bz-c3-facettes-sphere: § 1 Déf. 4, 5 — marked, plus the p. 262 transfers; audit minor (forced readings named in SCOPE).
+- T-bz-c3-alpha-somme: § 2 Prop. 2 — marked; audit minor.
+- All three graduated to strict Benzecri/Chapter3/. Chapter 3: 24 of its 90 rows now closed, 5 partial (benzecri: 99 curated rows).
+- gates: lean-benzecri ✓ (0 sorry in 56 strict files), roadmap ✓, atlas ✓, hub: no new red; restate: 0 new
+- commits: ebf9a6e7 b12118ad 78ba3fab 951baafa (+ statuses)
+- wall time: 05:34–11:40; agents in parallel: 3 closers, 3 auditors
+- next: T-bz-c3-fibres, T-bz-c3-facette-ouverte, and the planned follow-ups these unblock

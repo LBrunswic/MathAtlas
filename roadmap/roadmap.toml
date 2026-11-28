@@ -1469,13 +1469,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzdef:c3s1d3_variete_appui", "bzprop:c3s1p5_appui_facette_dim_finie", "bzrem:c3s1r2_support_interieur_fermeture", "bzprop:c3s1p6_alpha_induit"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-bz-c3-facettes"]
-evidence = "ledger rows benzecri1960_ch3.tex:186–229. Déf. 3 (l.186): « Une variété linéaire S est dite variété d'appui de W si S ∩ W est non vide et saturé pour la relation d'équivalence F_W ». Prop. 5 (l.210): « Si W est un convexe dont le support E est de dimension finie, pour toute variété d'appui L à W il existe une facette F dont le support S est tel que S ∩ W = L ∩ W. » Prop. 6 (l.229) is printed « W′ = W ∩ L = ∅ », a certain [sic] for « ≠ ∅ » (NOTES.md table; not an OQ-160 reading). The Remark's 2° is printed « la fermeture compacte E de F » ([sic], read F̄). The commentary after Déf. 3 (the whole space and a facette's support are variétés d'appui) as lemmas. Builds on T-bz-c3-facettes. Instance: in the closed square [0,1]² the line y = 0 is a variété d'appui, the diagonal y = x is not. Re-checked 2026-11-28 (planner) against the strict Chapter3 modules built since the cut: import Benzecri.Chapter3.Facettes (9e3f854c) and use its FW, facetteOf, IsFacette, alphaW_iff_mem_support, facetteLE_iff_support_le, support_eq_iff (« variété linéaire » = AffineSubspace ℝ E, « support » = affineSpan, as there). Prop. 6 is immediate from alphaW_iff_extend (A, B ∈ L force A + ε(A − B) ∈ L), so it needs only W ∩ L ≠ ∅ and convexity. Prop. 5's « point interne » in the finite-dimensional S is fw_iff_interieur_moduleTopology (Facettes' kb: moduleTopology on the direction, no topology on E). The Remark's 2° (W compact of finite dimension) needs a topology only on the finite-dimensional E: state it for a finite-dimensional real normed space (or moduleTopology). Nothing it needs is missing; it has no OQ-160 or OQ-162 reading. Unblocks T-bz-c3-propriete-i-appui and T-bz-c3-appui-sphere."
+evidence = "§ 1 Déf. 3, Props. 5–6, Remark 2 marked; instances on [0,1]²; audit AUDIT-1 minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "ebf9a6e7"
 
 [[target]]
 id = "T-bz-c3-facette-ouverte"
@@ -1499,13 +1500,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzdef:c3s1d4_facettes_sphere", "bzdef:c3s1d5_noyau"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-bz-c3-facettes"]
-evidence = "ledger rows benzecri1960_ch3.tex:246–283. Déf. 4 (l.246): « Soit k une partie convexe de S(E); k′ = F(k) + {O} est un convexe de E; α(k′) … induit sur F(k) une relation de préordre compatible avec la projection sur k », and its direct form « a α(k) b s'il existe un segment (a′, b) ⊂ k tel que a ∈ )a′, b( ou si a et b sont identiques ou diamétralement opposés » (the two to be proved equivalent). Déf. 5 (l.264): the noyau, « ensemble de tous les points de S(E) qui appartiennent à k avec leur point diamétralement opposé », and « Un convexe strict est un convexe de noyau vide » (against Benzecri.Sphere.IsStrictConvexPart, Ch. 1 Déf. 9, the reading of « cf. § 1, déf. 9 » in OQ-160 (b)). Builds on Benzecri.Sphere.{F, ofCone, IsConvexPart, IsConvexPartMinkowski, linearSubvariety, closedSeg, openSeg} (Projective/Sphere, Subvariety, Convex). The transfers « Les propositions 2, 3, 4 et le corollaire sont valables pour les convexes de S(E) … Les propositions 5 et 6 sont également valables » (p. 262) have no row (OQ-160 (c)); those of Props. 2–4 and the Corollary are proved here as lemmas, those of Props. 5–6 in T-bz-c3-appui-sphere; Prop. 1's transfer waits on T-bz-c3-facette-ouverte. Instance: a closed arc of S(1) shorter than a half-circle has three facettes and empty noyau; a closed hemisphere of S(n) has noyau its boundary great sphere. Split 2026-11-28 by the planner: Déf. 6 (variété d'appui for k, defined through Déf. 3) and the transfers of Props. 5, 6 moved to T-bz-c3-appui-sphere, so that Déf. 4–5, which use only § 1 Déf. 1–2, no longer wait on T-bz-c3-appui; every downstream use of this target (noyau in T-bz-c3-dualite-sn and -boole-projectif, α(k) in -cone-appui-alpha, k-facettes in -sature and -points-extremaux) is in Déf. 4–5. Re-checked 2026-11-28 (planner) against the strict Chapter3 modules built since the cut: import Benzecri.Chapter3.Facettes (AlphaW, FW, facetteOf, the § 1 Props. 2–4 and Corollary, to be transferred through k′) and Benzecri.Projective.{Sphere, Convex, Subvariety}; k′ = F(k) + {O} is F k ∪ {0} (as in ConeAppui's F_coneAppui_union_zero). The instance can reuse Benzecri.ConeAppuiInstance.arcS1 and isConvexPart_arcS1 (strict Chapter3/ConeAppui: the closed quarter arc of S(1))."
+evidence = "§ 1 Déf. 4, 5 marked, p. 262 transfers; instances arc of S(1), hemisphere; audit AUDIT-1 minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "b12118ad"
 
 [[target]]
 id = "T-bz-c3-appui-sphere"
@@ -1545,13 +1547,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzprop:c3s2p2_alpha_somme"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-bz-c3-facettes", "T-bz-c3-sommes"]
-evidence = "ledger row bzprop:c3s2p2_alpha_somme (benzecri1960_ch3.tex:365, proved in print: « La démonstration est évidente à partir des définitions »): « on a x α(W) y (cf. déf. 1) si et seulement si l'on a pour tout i : x_i α(V_i) y_i. » « cf. déf. 1 » is read as § 1 Déf. 1 (OQ-160 (b)); the relation α is the only one the statement can mean, so the reading does not change the Lean. Instance: in [0,1]² = [0,1]×{0} + {0}×[0,1], the centre α a vertex, componentwise. Re-checked 2026-11-28 (planner) against the strict Chapter3 modules built since the cut: import Benzecri.Chapter3.Facettes (AlphaW, alphaW_iff_extend) and Benzecri.Chapter3.Sommes (cc7390fc: IsSommeConvexes over a Fintype index, composante, composante_spec, isSommeConvexes_iff_bijOn). The statement of record is Déf. 1's (finite I, IsSommeConvexes), which T-bz-c3-sommes marked; the arbitrary-I form under IsSommeInfinie is optional and rests on the reading of Remarque 2 taken there (row partial), so it must not be the anchor. The V_i are convex (α's transitivity uses it; a sum of convex sets is convex). Instance: Benzecri.exemple_carre_somme ([0,1]² = [0,1]×{0} + {0}×[0,1]) with the centre α a vertex, componentwise."
+evidence = "§ 2 Prop. 2 marked (alphaW_somme_iff); instance [0,1]²; audit AUDIT-1 minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "78ba3fab"
 
 [[target]]
 id = "T-bz-c3-fibres"
