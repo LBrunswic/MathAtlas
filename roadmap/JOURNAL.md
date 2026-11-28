@@ -1317,3 +1317,13 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - T-restate-held-curation widened to the seven benzecri refutations waiting on /restate
 - gates: roadmap ✓
 - next: three lean-benzecri closers
+
+## 2026-11-28 10:45 · wave of 3 · T-bz-c3-prop4-produit, T-bz-c3-somme-facettes-coniques, T-bz-c3-raccordement
+- T-bz-c3-prop4-produit: § 2 Prop. 4's Chapter 1 form (w ≅ PiBase, compatible automorphisms) proved, the scaffold's last tagged sorry closed, statement unchanged; graduated; still unmarked on OQ-168/OQ-171 (t ≠ 1 in general, a gap of the printed proof); audit clean
+- T-bz-c3-somme-facettes-coniques: § 4 Remark proved for every p under OQ-172's readings (E = ⊕ Lᵢ; relative interiors; strict bodies); audit minor (round 1 fixed: two linter options removed)
+- T-bz-c3-raccordement: § 6 Prop. 3 proved for n ≥ 1 with g₁ = 1, the proof's « Il est clair » formalized; imprecise in S(0); unmarked on OQ-173; audit minor (fixed by the master)
+- 3 labels curated (all partial); OQ-172, OQ-173; kb 0151–0162; lean-benzecri's scaffold is empty again
+- gates: lean-benzecri ✓ (80 strict files, 0 sorry), roadmap ✓, atlas ✓, hub: no new red
+- commits: 8b97dcc4 91d452de b0c00c28 bd650015
+- wall time: 09:59–10:45; agents in parallel: 3
+- next: T-bz-c3-facette-interieure ready; T-bz-c3-balayable-somme-prop5 unblocked (planner); the exclusive dedupes and T-hub-paper-attr-export (master)

@@ -1645,13 +1645,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzprop:c3s2p4_automorphisme_compatible"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
 depends = ["T-bz-c3-balayable-somme"]
-evidence = "Split 2026-11-28 by the planner, after T-bz-c3-balayable-somme (6f6d0590; journal 09:46: « the Chapter 1 form prop4_produit split into scaffold BalayableSommeProduit.lean on one tagged sorry »). The tag, lean-benzecri/scaffold/BenzecriScaffold/Chapter3/BalayableSommeProduit.lean:80: « SORRY(bzprop:c3s2p4_automorphisme_compatible): the transport of prop4_somme / prop4_automorphisme_compatible to PiBase (global cone charts of FCone over open subsets, base chart of the product chart, dimension cast pdim n = m, GU-normalisation of the φᵢ) ». The route is the file's own comment (l.68–76): « (i) the global cone chart FCone.coneChart of the inclusion chart of each open Bᵢ ⊆ S(nᵢ) (source everything, target toSphere⁻¹' Bᵢ); (ii) their product chart piChart and its base chart ConeBase.baseChart on PiBase, composed with the linear iso ℝ^{pdim n+1} ≅ ℝ^{m+1}, (yᵢ) ↦ ∑ bᵢ⁻¹ yᵢ (which maps ∏ bᵢ(F(vᵢ)) onto F(w) by prop4_somme), made a Homeomorph onto the subtype w and shown a GSR morphism after subst of pdim n = m; (iii) for f, the conical isomorphisms φᵢ read cᵢ⁻¹ bᵢ g b_{τ(i)}⁻¹ in these charts, NORMALISED to |det| = 1 by cᵢ = |det(bᵢ g b_{τ(i)}⁻¹)|^{1/(nᵢ+1)} because the cone groupoid is GU, the torus element t = [(cᵢ)] absorbing the normalisation, and the identity f • [x] = t • [φ(x ∘ τ)] checked through (i)–(ii) ». Strict inputs: Benzecri/Chapter3/BalayableSomme.lean prop4_somme (:559), prop4_permute (:728), exists_linearEquiv_of_gxAut (:768), prop4_gxAut (:797), prop4_automorphisme_compatible (:830); Chapter 1: FCone.coneChart (Benzecri/Cone/Lift.lean:553), ConeBase.baseChart (Cone/Base.lean:340), piChart and pdim (Applications/ProductsGeneral.lean:339, :185), IsProjIso, IsProjIso.trans/symm/toAut (Applications/ConverseGeneral.lean:108–135), IsCompatibleAssocPi / IsCompatiblePi (:322, :334), GU = {|det| = 1} (Projective/Groups.lean:319), so cᵢ > 0 suffices (no sign issue). OQ-171 already records the normalisation: « compatibility needs t ≠ 1 in general (the φᵢ are unimodular), which the proof does not say ». Instances (the hypotheses are met): the open n-simplex, simplexO_hyps4 (:897) and simplexO_prop4 (:912), with q = n, every nᵢ = 0 and each Bᵢ the point of S(0), so PiBase is the open simplex; the round cap, capS_hyps4 (:905), q = 0. Fallback if (iii) runs long: land (i)–(ii) sorry-free as a separate prop4_produit_iso (∃ hB Ψ, IsProjIso) and leave only the compatibility conjunct on the tag, said in the REPORT; T-bz-c3-balayable-somme-prop5's ⇐ needs only Ψ. The label stays unmarked whatever closes (OQ-171, OQ-168 OPEN); a sorry-free file graduates to strict Benzecri/Chapter3/ (its imports, Benzecri.Chapter3.BalayableSomme and Benzecri.Applications.ConverseGeneral, are already strict). Unblocks T-bz-c3-balayable-somme-prop5."
+evidence = "prop4_produit (Chapter 1 form) proved, sorry closed; graduated; unmarked on OQ-168/OQ-171; audit clean"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "8b97dcc4"
 
 [[target]]
 id = "T-bz-c3-balayable-somme-prop5"
@@ -1833,13 +1834,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzrem:c3s4r1_somme_facettes_coniques"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 9
 depends = ["T-bz-c3-facette-conique"]
-evidence = "Split 2026-11-28 by the planner from T-bz-c3-facette-conique. Ledger row bzrem:c3s4r1_somme_facettes_coniques (benzecri1960_ch3.tex:1142, a remark, no proof printed, no Lean): « Supposons données p sous-variétés linéaires L₁, …, L_i, …, L_p dont S(n) soit la somme. Soient W₁, …, W_i, …, W_p des corps convexes de L₁, …, L_i, …, L_p (W_i convexe fermé d'intérieur non vide pour la topologie de L_i). La fermeture de la somme des W_i est un corps convexe de S(n) dont les W_i sont des facettes coniques. » Builds on Déf. 5 of T-bz-c3-facette-conique, EstSommeS (Chapter3/BooleProjectif.lean:176) for « la somme des W_i » with « S(n) somme des L_i » the internal direct sum E = ⊕ L_i, IsCorpsConvexeS (Projective/Convex.lean:542). Reading to disclose: a facette is an α-class (Chapter3/FacettesSphere.lean facetteK), relatively open, so a closed W_i is not one when it is not a point: « les W_i sont des facettes coniques » is read as « the relative interior of each W_i is a conical facette, of closure W_i », or the closer records the reading it finds true. Instance: n + 1 points of S(n), whose closed sum is the closed simplex (Chapter3/PointsExtremaux.lean simplexS :301, isCorpsConvexeS_simplexS :327, facetteK_vertex :394). This is the « facette conique » of result C's final theorem (Ch. 5 p. 332, OCR layer). Ready when T-bz-c3-facette-conique is done. Refined and promoted 2026-11-28 (planner), T-bz-c3-facette-conique being done (fe859ba7). Strict decls: IsFacetteConique and isFacetteConique_iff_forall (Benzecri/Chapter3/FacetteConique.lean:157, :161), IsFacetteK.contingent_eq and coneAppui_eq_of_mem_facetteK (:148, :139), interior_facette_conique (:528), EstSommeLineaire / estSommeLineaire_iff (:179, :185); contingent (Chapter3/ConeAppui.lean:454); facetteK, IsFacetteK, supportK, noyau (Chapter3/FacettesSphere.lean:340, :343, :482, :678); linearSubvariety (Projective/Subvariety.lean:142); IsStrictConvexPart, IsCorpsConvexeS (Projective/Convex.lean:408, :542). The facette-conique REPORT's kb: « EstSomme2 univ (linSub L) (linSub L′) holds only in the degenerate cases (estSomme2_univ_linearSubvariety_iff). For « S(n) somme de L et L′ » use EstSommeLineaire ⇔ IsCompl »; for p subvarieties « S(n) somme des Lᵢ » is the internal direct sum E = ⊕ Lᵢ (the closer picks iSupIndep with ⨆ = ⊤ or DirectSum.IsInternal and says which). Readings to disclose, beyond the facette one above. (a) « la somme des W_i » of closed Wᵢ is Déf. 5's set s(Σ F(Wᵢ)) (every summand nonzero), whose closure is s(Σ (F(Wᵢ) ∪ {0}) − O). (b) « corps convexe de L_i »: the parenthetical lists « convexe fermé d'intérieur non vide pour la topologie de L_i » and not strictness, and without strictness the Remark fails (Wᵢ = Lᵢ = S(0) = {±e}: the closure of the sum contains an antipodal pair, so it is not a convex body); the closer proves it for Wᵢ strict, closed, of nonempty interior in Lᵢ (IsCorpsConvexeS's clauses relative to Lᵢ) and states the refutation of the parenthetical-only reading if it formalizes it. (c) p = 1 is the interior facette (interior_facette_conique), conical with support S(n). Instances: simplexS m (Chapter3/PointsExtremaux.lean:301; isCorpsConvexeS_simplexS :327, facetteK_vertex :394) as the closed sum of its m + 1 vertices, each Lᵢ = s(ℝeᵢ − O) ≅ S(0), as above; non-degenerate, S(3) = L₁ ⊕ L₂ with L₁ = s(⟨e₀, e₁⟩ − O), L₂ = s(⟨e₂, e₃⟩ − O) and Wᵢ the closed quarter arcs, whose closed sum is simplexS 3 and whose open arcs are two opposite open edges. lean-benzecri has two copies of the closed simplex (TriangleInstance.simplexS, PointsExtremaux.lean:301, any m; FacetteDualeInstance.simplexS, FacetteDuale.lean:620); use TriangleInstance's, and see T-bz-c3-dedupe-simplexe."
+evidence = "Remark proved under the readings of OQ-172, every p; unmarked; audit minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "91d452de"
 
 [[target]]
 id = "T-bz-c3-facette-interieure"
@@ -2005,13 +2007,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzprop:c3s6p3_raccordement"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 9
 depends = ["T-bz-c3-sature"]
-evidence = "ledger row bzprop:c3s6p3_raccordement (benzecri1960_ch3.tex:1527, proved in print). Its statement keeps two named notions, « Nous dirons que W′ est obtenu en raccordant W₁ et W₂ … si g₁ est l'identité, nous dirons que W′ est obtenu en accolant W₂ à W₁ », which have no row (OQ-160 (c)) and become Lean definitions here. Uses GS(n, ℝ) (Benzecri.Projective.Groups). Cited by Ch. 5 § 3 (« cf. chap. 3, § 6, prop. 3 », p. 322, OCR layer). Instance: two closed discs of an affine chart cut by chords. Promoted 2026-11-28 (planner), re-checked against Chapter3/Sature.lean: Benzecri.Prolonge (Déf., :134), sature (:251) with isGreatest_sature (:256), isClosed_sature (:489), prop1_sature_Sn (:570), sature_corps_convexe (:633), and enveloppeConvexe / IsCorpsConvexeS (Chapter2/Hemisphere.lean:240, Projective/Convex.lean:542); the transformations projectives are Benzecri.GSR n (Projective/Groups.lean:519). « raccordant » / « accolant » become Lean definitions (Raccorde, Accole) whose hypotheses get an instance. The printed proof's last step (« Il est clair que les transformations g₁, g₂ utilisées permettront de raccorder W₁ et W₂ ») is a gap: the closer proves H′ᵢ ∩ W′ = W′ᵢ for W′ = conv(g₁W₁ ∪ g₂W₂) or reports it as a finding; the statement is existential, so any construction proves it. n = 0 makes the hypothesis V₁ ≠ W₁ unsatisfiable (S(0) has no convex part beyond a point): the instance is in S(2), which is the target's evidence of non-vacuity."
+evidence = "Prop. 3 proved for n ≥ 1 with g₁ = 1; imprecise in S(0); unmarked on OQ-173; audit minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "b0c00c28"
 
 [[target]]
 id = "T-bz-c3-points-extremaux"
