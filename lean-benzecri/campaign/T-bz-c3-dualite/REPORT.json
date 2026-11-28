@@ -1,0 +1,259 @@
+{
+ "package": "lean-benzecri",
+ "target": "T-bz-c3-dualite",
+ "files": [
+  "scaffold/BenzecriScaffold/Chapter3/Dualite.lean",
+  "scaffold/BenzecriScaffold.lean (one import line added)"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": "propext, Classical.choice, Quot.sound only (#print axioms on prop1, prop1_semiReflexive, prop2, prop3, prop4, prop5, claim_c, prop1_fails_zeroForm, dotPairing_prop1, dotPairing_D_closedHemisphere); no axiom added",
+ "labels": [
+  {
+   "label": "bzprop:c3s3p1_dualite_biunivoque",
+   "tex_lines": [
+    685,
+    695
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Benzecri.Sphere.prop1",
+    "Benzecri.Sphere.dualiteEquiv",
+    "Benzecri.Sphere.prop1_semiReflexive",
+    "Benzecri.Sphere.IsSemiReflexive",
+    "Benzecri.Sphere.prop1_fails_zeroForm"
+   ],
+   "hypotheses": [
+    {
+     "paper": "E, E' semi-reflexive TVS « mis en dualité »",
+     "here": "strengthened (reading)",
+     "note": "prop1 under HypD (each space the topological dual of the other through the form: the dual-pair reading the proof uses); prop1_semiReflexive under 'E semi-reflexive (IsSemiReflexive, Bourbaki), E' = E'_beta its strong dual'"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Props. 1 and 2 2° (benzecri1960_ch3.tex:685-690, 698-702) fail if « mis en dualité » / « les hypothèses de (d) » mean only a separating, separately continuous form between semi-reflexive spaces carrying their own topologies (argued on paper, not formalized): on l² (reflexive), <x,y> = (x|Ty) with T = diag(1/n) (injective, self-adjoint, dense non-closed range) is separating and jointly continuous; for z = (1/n) ∉ T(l²) and W the closed hemisphere {(x|z) ≥ 0}, D(W) = s{y≠0 | Ty ∈ R+ z} = ∅ = D(S(l²)) with W ≠ S(l²), both in C(S(l²)), so D is not injective (Prop. 1) and D'(D(W)) = S(l²) ≠ W̄ (Prop. 2 2°). No finite-dimensional counterexample exists (a separating form is then perfect). Both hold, and are proved (prop1, prop1_semiReflexive, prop2_2), under the dual-pair reading the proofs use (each space the topological dual of the other through the form). The zero form (prop1_fails_zeroForm) refutes only a degenerate « dualité », which the Bourbaki of the period (EVT 1955) probably excludes; it is a remark, not a refutation of the paper."
+   ],
+   "questions": [
+    "What « deux espaces vectoriels topologiques semi-réflexifs mis en dualité » means (l.686): taken as the hypotheses of (d) (prop1), and alternatively as 'E semi-reflexive, E' its strong dual' (prop1_semiReflexive). Neither is the printed sentence; the author decides which is the formalization of record."
+   ]
+  },
+  {
+   "label": "bzprop:c3s3p2_dual_fermeture",
+   "tex_lines": [
+    698,
+    712
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Benzecri.Sphere.prop2",
+    "Benzecri.Sphere.D_closure",
+    "Benzecri.Sphere.prop2_2",
+    "Benzecri.Sphere.D'_D_eq_closure"
+   ],
+   "hypotheses": [
+    {
+     "paper": "1°: hypotheses of (b), W ∈ K(S(E))",
+     "here": "weakened",
+     "note": "only m ↦ <m,m'> continuous and continuous homotheties on E; every part W"
+    },
+    {
+     "paper": "2°: « sous les hypothèses de (d) », W ∈ K(S(E))",
+     "here": "read (unruled, OQ-160)",
+     "note": "(d) read as HypD (only IdentifiesDual B, claim (c) for E, is used), the same reading as Prop. 1; W a convex part. 1° (D_closure) is certified in full for every part W under less than (b)."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "See the Prop. 1 finding: under the separating-form reading of (d), 2° fails on the l² example (D'(D(W)) = D'(∅) = S(l²) ≠ W̄)."
+   ],
+   "questions": [
+    "« les hypothèses de (d) » (l.700): read as claim (c) for E and E' (HypD), the reading of Prop. 1; the mark waits on the author's ruling (OQ-160)."
+   ]
+  },
+  {
+   "label": "bzprop:c3s3p3_hemispheres_points",
+   "tex_lines": [
+    715,
+    730
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Benzecri.Sphere.prop3",
+    "Benzecri.Sphere.evalPairing",
+    "Benzecri.Sphere.IsClosedHemisphere",
+    "Benzecri.Sphere.D'_singleton",
+    "Benzecri.Sphere.closedHemisphere_eq_iff",
+    "Benzecri.Sphere.IsClosedHemisphere.exists_eq",
+    "Benzecri.Sphere.isClosedHemisphere_closedHemisphere",
+    "Benzecri.Sphere.continuous_of_isOpen_of_F_eq'",
+    "Benzecri.Sphere.closure_openHemisphere'"
+   ],
+   "hypotheses": [
+    {
+     "paper": "E a topological vector space",
+     "here": "carried",
+     "note": "IsTopologicalAddGroup E, ContinuousSMul ℝ E, no separation axiom (the strict library's Déf. 5 lemmas assume T1Space; the needed ones are reproved here without it)"
+    },
+    {
+     "paper": "« hémisphère fermé » (Ch. 1 Déf. 5)",
+     "here": "reading (ruled)",
+     "note": "closure of a NONEMPTY open hemisphere, DEC-114's reading l ≠ 0 accepted by DEC-120; with the literal l = 0 allowed, ∅ would be a closed hemisphere and not a D'(point)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "bzprop:c3s3p4_dual_geometrique",
+   "tex_lines": [
+    734,
+    738
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Benzecri.Sphere.prop4",
+    "Benzecri.Sphere.prop4_eq"
+   ],
+   "hypotheses": [
+    {
+     "paper": "hypotheses of (d), W ∈ C(S(E))",
+     "here": "weakened",
+     "note": "the description D(W) = {M' | W ⊆ D'({M'})} holds for every form and every part W (prop4_eq); that D'({M'}) is a closed hemisphere uses (c) for E only (prop4)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Prop. 4 (benzecri1960_ch3.tex:736-737) prints « l'hémisphère fermé D({M'}) » with M' ∈ S(E'); D applies to parts of S(E), so the formula is ill-typed unless E = E'. The scan (journal p. 270) prints D without a prime; the transcription does not flag it. Read D'({M'}) (consistent with Prop. 3, where D' of a point is a closed hemisphere of S(E)). No proof is printed; it is proved here."
+   ],
+   "questions": [
+    "Prop. 4's « D({M'}) » read « D'({M'}) » (unflagged misprint, not under OQ-160's [sic?] list)."
+   ]
+  },
+  {
+   "label": "bzprop:c3s3p5_dual_variete_lineaire",
+   "tex_lines": [
+    741,
+    749
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Benzecri.Sphere.prop5",
+    "Benzecri.Sphere.D_linearSubvariety",
+    "Benzecri.Sphere.orth"
+   ],
+   "hypotheses": [
+    {
+     "paper": "hypotheses of (a); W a linear variety (Déf. 4); « alors D » [sic] read D(W)",
+     "here": "carried",
+     "note": "D(s(L-O)) = s(L^⊥-O), L^⊥ = {m' | <m,m'> = 0 ∀ m ∈ L}"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  }
+ ],
+ "claims_a_c": {
+  "note": "no ledger row (OQ-160 (c)); lemmas",
+  "a": {
+   "tex_lines": [
+    639,
+    654
+   ],
+   "decls": [
+    "Benzecri.Sphere.D",
+    "Benzecri.Sphere.D'",
+    "Benzecri.Sphere.dualCone",
+    "Benzecri.Sphere.claim_a_cone",
+    "Benzecri.Sphere.claim_a_convexPart",
+    "Benzecri.Sphere.claim_a_mapsTo",
+    "Benzecri.Sphere.claim_a_antitone"
+   ],
+   "status": "closed (every part W, not only K(S(E)))"
+  },
+  "b": {
+   "tex_lines": [
+    656,
+    662
+   ],
+   "decls": [
+    "Benzecri.Sphere.claim_b",
+    "Benzecri.Sphere.claim_b'",
+    "Benzecri.Sphere.isClosed_D"
+   ],
+   "status": "closed (needs only continuity of m' ↦ <m,m'>, resp. m ↦ <m,m'>)"
+  },
+  "c": {
+   "tex_lines": [
+    664,
+    681
+   ],
+   "decls": [
+    "Benzecri.Sphere.claim_c",
+    "Benzecri.Sphere.exists_dual_sep",
+    "Benzecri.Sphere.IdentifiesDual"
+   ],
+   "status": "closed; Bourbaki EVT II §3 cor. 1 of prop. 4 is Mathlib's geometric_hahn_banach_point_closed, with the paper's homothety argument (exists_dual_sep)"
+  }
+ },
+ "instances": [
+  {
+   "what": "E = E' = ℝⁿ⁺¹ with the dot product <M,N> = Σ mᵢnᵢ (l.751-755)",
+   "decls": [
+    "Benzecri.Sphere.dotPairing",
+    "Benzecri.Sphere.dotPairing_flip",
+    "Benzecri.Sphere.identifiesDual_dotPairing",
+    "Benzecri.Sphere.hypD_dotPairing",
+    "Benzecri.Sphere.D'_dotPairing",
+    "Benzecri.Sphere.dotPairing_prop1",
+    "Benzecri.Sphere.dotPairing_D_point",
+    "Benzecri.Sphere.dotPairing_D_closedHemisphere",
+    "Benzecri.Sphere.isSemiReflexive_Rn"
+   ],
+   "content": "meets (a)-(d) as a Lean term (hypD_dotPairing; the topological classes of (b) by inferInstance, an `example`); D = D' on S(n) is an involutive bijection of C(S(n)); D of a point is a closed hemisphere; D of a closed hemisphere is a point; ℝⁿ⁺¹ is semi-reflexive"
+  },
+  {
+   "what": "every continuous perfect pairing (Mathlib IsContPerfPair)",
+   "decls": [
+    "Benzecri.Sphere.hypD_of_isContPerfPair",
+    "Benzecri.Sphere.identifiesDual_of_isContPerfPair"
+   ]
+  },
+  {
+   "what": "every real TVS E with its dual E' and the evaluation form satisfies (c) for E; (c) for E' iff E semi-reflexive",
+   "decls": [
+    "Benzecri.Sphere.identifiesDual_evalPairing",
+    "Benzecri.Sphere.identifiesDual_flip_evalPairing",
+    "Benzecri.Sphere.isSemiReflexive_of_finiteDimensional"
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Benzecri.Sphere.D_isClosedHemisphere",
+  "Benzecri.Sphere.isConvexPart_singleton",
+  "Benzecri.Sphere.D_singleton",
+  "Benzecri.Sphere.isOpen_ofCone'",
+  "Benzecri.Sphere.subset_D'_D",
+  "Benzecri.Sphere.F_D",
+  "Benzecri.Sphere.mk_mem_D",
+  "Benzecri.Sphere.mk_mem_D'",
+  "Benzecri.Sphere.D_flip_flip",
+  "Benzecri.Sphere.isClosed_iff_F_preimage",
+  "Benzecri.Sphere.mem_orth"
+ ],
+ "kb_proposals": [
+  "Chapter 3 § 3 duality: Benzecri.Sphere.D B W = ofCone (dualCone B (F W)), D' B = D B.flip; under IdentifiesDual B (claim (c)) D'(D W) = closure W for convex W (D'_D_eq_closure). Hahn-Banach for closed convex cones: exists_dual_sep (from geometric_hahn_banach_point_closed).",
+  "Mathlib's strong dual StrongDual ℝ E has IsTopologicalAddGroup, ContinuousSMul, T2 and (with import Mathlib.Analysis.LocallyConvex.StrongTopology) LocallyConvexSpace instances; evaluation continuity is continuous_eval_const.",
+  "Benzecri.Sphere.F_closure (F(closure A) = closure (F A) \\ {0}) already lives in the strict Chapter2/Poches; import it rather than reproving (name clash otherwise).",
+  "Déf. 5 facts without T1: the equation of a nonempty open hemisphere is continuous in any real TVS (continuous_of_isOpen_of_F_eq', Chapter3/Dualite): 0 cannot lie in the open set U with U ∩ (E-0) = {l>0}."
+ ],
+ "notes": "File builds alone (lake build BenzecriScaffold.Chapter3.Dualite: only this module compiled), 0 sorry, no warning. Imports Benzecri.Chapter2.Poches (for F_closure) besides Benzecri.Projective.Convex. Fix round 1 (AUDIT-1): Prop. 2 unmarked (partial: 2° rests on the unruled reading of (d)); not_prop1_zero_form renamed prop1_fails_zeroForm; checklist rows (d), Prop. 1, Prop. 2 2° marked as readings. Marked: Props. 3, 5. Unmarked: Prop. 1 (reading + finding), Prop. 2 (reading for 2°), Prop. 4 (reading of the ill-typed D({M'})). The four general Déf. 5 lemmas without T1 (isOpen_ofCone', continuous_of_isOpen_of_F_eq', closure_openHemisphere', IsClosedHemisphere) may move upstream to Projective/Subvariety at graduation. Line numbers cited in the roadmap evidence for (a) (l.669) are l.647 in the current transcription.",
+ "fix_round": 1
+}

@@ -1,0 +1,69 @@
+{
+ "target": "T-bz-c3-dualite",
+ "auditor_round": 1,
+ "file": "scaffold/BenzecriScaffold/Chapter3/Dualite.lean",
+ "verdict": "major",
+ "labels": [
+  {
+   "label": "bzprop:c3s3p1_dualite_biunivoque",
+   "faithful": false,
+   "marked_correctly": true,
+   "notes": "Unmarked, partial: correct. prop1 is stated under HypD (claim (c) for E and for E', with E, E' locally convex T1 TVS). That is strictly stronger than the printed « semi-réflexifs mis en dualité », and the REPORT discloses it. HypD is not vacuous: hypD_dotPairing and hypD_of_isContPerfPair inhabit it. prop1_semiReflexive (E Hausdorff locally convex and semi-reflexive, E' = StrongDual ℝ E) is a correct second reading. IsSemiReflexive matches Bourbaki EVT IV § 2: every continuous linear form on E'_β is an evaluation, where E'_β is Mathlib's StrongDual with the bounded-convergence topology, and the Hausdorff locally convex hypotheses sit on the theorem. It drops 'E'_β semi-reflexive' and fixes E'. FINDING 'false': (i) not_prop1_zero_form is a genuine Lean witness, but only against a DEGENERATE dualité, the zero form. Whether Bourbaki's « mettre en dualité » excludes that depends on the edition. In the 1981 EVT (II § 6) a dualité is any bilinear form and 'séparante' is an extra condition. In my recollection the 1955 EVT IV § 1, contemporary with the paper, builds separation conditions into « mis en dualité »; I could not check this against a source in the hub. The zero form therefore does not refute the paper on its own. (ii) The unformalized ℓ² argument is SOUND. Take <x,y> = (x|Ty) with T = diag(1/n): injective, self-adjoint, dense range that is not closed. The form is separating on both sides and jointly continuous, and ℓ² is reflexive. Take z = (1/n), which is not in T(ℓ²), and W the closed hemisphere {(x|z) ≥ 0}. Then D(W) = s{y ≠ 0 | Ty ∈ ℝ₊z} = ∅ = D(S(ℓ²)), while W ≠ S(ℓ²) and both lie in C(S(ℓ²)). So D is not injective. Verdict on the word 'false': it is justified for the reading 'separating, continuous form between semi-reflexive spaces carrying their own topologies', on the strength of the ℓ² argument and not of the formal witness. It is not justified for the reading where the topologies are compatible with the dualité (each space the dual of the other through the form), the natural Bourbaki dual-pair reading and the one the proof uses. Under that reading the proposition is TRUE (prop1, prop1_semiReflexive). See finding 2 for the rewording."
+  },
+  {
+   "label": "bzprop:c3s3p2_dual_fermeture",
+   "faithful": false,
+   "marked_correctly": false,
+   "notes": "1° (D_closure) is faithful and weaker than (b). 2° is stated under HypD (prop2_2) and in fact uses only IdentifiesDual B. But « les hypothèses de (d) » are, as printed, the hypotheses STATED in (d), which is Prop. 1's sentence « E, E' semi-réflexifs mis en dualité » (l.683–690). Reading them as HypD is the same unsettled reading that keeps Prop. 1 unmarked: OQ-160 is OPEN, and no DEC rules on (d). Under the literal reading 2° fails on the same ℓ² example: D'(D(W)) = D'(∅) = S(ℓ²) ≠ W = W̄. Under the zero form it fails too, for W = ∅. The checklist row '(d) = (c) for E and for E' | ✓ carried as HypD' presents a reading as carried. The mark is therefore a claim of full certification on a reading the paper does not settle (kb 0006): major."
+  },
+  {
+   "label": "bzprop:c3s3p3_hemispheres_points",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "prop3 is a BijOn from all of S(E'), with E' = StrongDual ℝ E (the continuous dual as a vector space; its topology is unused), onto {W | IsClosedHemisphere W}. It holds for every real TVS with no separation axiom. 'Closed hemisphere' is read as the closure of a NONEMPTY open hemisphere: the reading of DEC-114, accepted by DEC-120, which is ruled. IsOpenHemisphere is the strict library's Déf. 5. Faithful, and the mark is honest."
+  },
+  {
+   "label": "bzprop:c3s3p4_dual_geometrique",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "The scan (PDF p. 43, journal p. 270) prints « l'hémisphère fermé D({M'}) » without a prime, M' ∈ S(E'). Since D acts on parts of S(E), reading D'({M'}) is right and agrees with Prop. 3. prop4 assumes only IdentifiesDual B, weaker than either reading of (d) that yields it. It proves both that D'({M'}) is a closed hemisphere and that D(W) = {M' | W ⊆ D'({M'})}; the description prop4_eq holds for every form. Unmarked partial is acceptable, if conservative. Under the zero-form reading of (d), D'({M'}) = S(E) is not a hemisphere, which is another reason to keep it unmarked until (d) is ruled."
+  },
+  {
+   "label": "bzprop:c3s3p5_dual_variete_lineaire",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "prop5 quantifies over every submodule L and asserts ∃ L', D(linearSubvariety L) = linearSubvariety L'. linearSubvariety is the strict library's Déf. 4. It needs only hypothesis (a), any bilinear form, and gives the witness L^⊥ explicitly. Reading « alors D » as D(W) follows the transcription's [sic]. Faithful, and the mark is honest."
+  }
+ ],
+ "claims_a_c": "claim_a_cone, claim_a_convexPart, claim_a_antitone, claim_b, claim_b' and claim_c are faithful or weaker. claim_c assumes (b) on E only (locally convex, T1) plus IdentifiesDual, which is the paper's (c). exists_dual_sep is a genuine use of geometric_hahn_banach_point_closed together with the homothety argument.",
+ "instance": "dotPairing, identifiesDual_dotPairing, hypD_dotPairing, dotPairing_prop1, dotPairing_D_point, dotPairing_D_closedHemisphere, isSemiReflexive_Rn and isSemiReflexive_of_finiteDimensional are real proofs: none contains sorry and all use standard axioms. identifiesDual_dotPairing builds the witness (f(e_i))_i and proves uniqueness. So HypD is inhabited, and prop1, prop2 and prop4 are not vacuous.",
+ "build": {
+  "ok": true,
+  "command": "cd lean-benzecri && taskset -c 0-11 lake env lean scaffold/BenzecriScaffold/Chapter3/Dualite.lean (no output, 3.4 s; lake build not rerun, per the dispatch)",
+  "sorry": 0,
+  "axioms": "standard",
+  "axioms_checked": "#print axioms on 46 declarations: prop1, dualiteEquiv, prop1_semiReflexive, not_prop1_zero_form, prop2, prop2_2, D_closure, D'_D_eq_closure, prop3, prop4, prop4_eq, prop5, D_linearSubvariety, claim_a_*, claim_b, claim_b', claim_c, exists_dual_sep, the dotPairing instance decls, isSemiReflexive_*, identifiesDual_flip_evalPairing, D_isClosedHemisphere, hypD_of_isContPerfPair, and the defs D', IsSemiReflexive, IdentifiesDual, HypD, IsClosedHemisphere. Every one reports [propext, Classical.choice, Quot.sound]. The probe was written under the campaign directory and deleted."
+ },
+ "scope": "git status: the target's own files are Chapter3/Dualite.lean (untracked), campaign/T-bz-c3-dualite/ and the import line 'import BenzecriScaffold.Chapter3.Dualite' in BenzecriScaffold.lean. The other two added import lines, Facettes and Sommes, and Facettes.lean and Sommes.lean, belong to the concurrent closers. No edit outside the dispatch is attributable to this target.",
+ "docstring_contract": "Title, labels with their tex lines within the first 4000 characters (the three ** marks are all inside), the quoted block, the Hypothesis checklist, SCOPE and the provenance line are all present. The 'true' half fails on the (d) row and the Prop. 1 row (findings 1 and 3).",
+ "findings": [
+  {
+   "severity": "major",
+   "where": "Dualite.lean:21-22 (mark), :81 (checklist row (d)), :372-385 (prop2_2/prop2); REPORT.json label bzprop:c3s3p2_dual_fermeture",
+   "what": "Prop. 2 is marked and 'closed', but its 2° rests on reading « les hypothèses de (d) » as HypD. That is the same unruled reading for which Prop. 1 is unmarked: (d) states exactly Prop. 1's hypothesis « semi-réflexifs mis en dualité », and OQ-160 is OPEN. Under the literal reading 2° is false on the ℓ² example (W a closed hemisphere of normal z ∉ T(ℓ²): D'(D(W)) = S(ℓ²) ≠ W̄) and on the zero form (W = ∅). The marks are inconsistent between Props. 1 and 2.",
+   "fix": "Unmark bzprop:c3s3p2_dual_fermeture and set its status to partial. In the checklist, change '(d) = (c) for E and for E' ✓ carried' to a reading (⚠ strengthened against the printed (d)), and add 2° to the Prop. 1 finding. Alternatively, have the author rule on (d) (an OQ row) before marking either. Prop. 2 1° could be noted as certified in SCOPE."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json label bzprop:c3s3p1_dualite_biunivoque findings; Dualite.lean:92-101 (SCOPE), :417-420",
+   "what": "The finding leads with the zero-form witness. That refutes only a degenerate dualité, which the edition of Bourbaki contemporary with the paper probably excludes (in my recollection EVT IV, 1955, builds separation into « mis en dualité »; not checked against a source). The refutation that carries weight is the ℓ² example, and it is not formalized. The finding is worded conditionally, so it is not false, but a restate pass would read it as 'Prop. 1 FALSE'.",
+   "fix": "Reword: 'Prop. 1 is false if « mis en dualité » means only a separating, separately continuous form between semi-reflexive spaces with their own topologies (ℓ² example). It is true, and proved (prop1, prop1_semiReflexive), when the topologies are compatible with the dualité, the reading the proof uses.' Keep not_prop1_zero_form as the degenerate case. Optionally formalize the ℓ² example (Mathlib lp/EuclideanSpace) or another separating counterexample; no finite-dimensional one exists, since there a separating form is perfect."
+  },
+  {
+   "severity": "minor",
+   "where": "Dualite.lean:82 (checklist row Prop. 1)",
+   "what": "kb 0006 asks for the markers '✓ carried / ⚠ weakened / ⚠ strengthened'. The Prop. 1 row says 'reading + finding', not '⚠ strengthened', although prop1 assumes more than the printed sentence.",
+   "fix": "Write '⚠ strengthened (reading + finding)'."
+  }
+ ]
+}
