@@ -1167,3 +1167,11 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 90bc76f6 2c15a563 b65ca18b (+ statuses)
 - wall time: 03:36–06:20; agents: 1 closer, 1 auditor
 - next: T-bz-chapter3 (transcription) if dispatchable; otherwise idle on rulings
+
+## 2026-11-28 07:10 · wave of 1 · T-bz-chapter3 (master)
+- T-bz-chapter3 (DEC-195): Benzécri's Chapter 3 (« Compléments sur les convexes », pp. 259–283) transcribed by an agent from the page images (OCR agreement 95.3%), snapshotted, labelled (90 bz-labels) and ledgered by the master: 156 statements (90 new: 23 def, 44 prop, 5 thm, 1 lemma, 9 cor, 8 rem; 46 proved in print, 14 open, 7 informal). TO BE CHECKED BY THE AUTHOR; 37 [sic] and 4 [sic?]; readings and editorial choices OQ-160 (new; OQ-159 had just been taken by /ett-programme).
+- A first hub gate was red on papers/benzecri: the ledger records the snapshot's commit, so it is rebuilt after the snapshot commit (fdb2f0ef), as after a Lean commit; then no new red.
+- gates: legacy_check ✓, roadmap ✓, atlas ✓, hub: no new red
+- commits: 8144a277 fdb2f0ef (+ statuses)
+- wall time: 03:57–07:10; agents: 1 transcriber
+- next: plan (Chapter 3's rows are new targets for lean-benzecri; result C also needs Ch. 4)
