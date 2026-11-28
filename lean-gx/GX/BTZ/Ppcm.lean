@@ -236,58 +236,12 @@ theorem trans_emb (hD : (D : Set M₁)ᶜ ⊆ S0 M₁) (hφ : IsBTZEmbedding φ)
     ChartedSpace.LiftPropOn e0Groupoid.IsLocalStructomorphWithinAt
       (Causal.CBG.glueTransition (isOpenEmbedding_emb hφ.isOpenEmbedding) b c)
       (emb D φ b ⁻¹' range (emb D φ c)) := by
-  have hj₁ : IsOpenEmbedding (Subtype.val : D → M₁) := D.isOpen.isOpenEmbedding_subtypeVal
-  have he := isOpenEmbedding_emb hφ.isOpenEmbedding
-  have hsymm : ∀ b (x : piece M₁ M₂ b), (Causal.CBG.glueEmb he b).symm (emb D φ b x) = x :=
-    fun b x => Causal.CBG.glueEmb_symm_apply he b x
-  have hWo : ∀ b c, IsOpen (emb D φ b ⁻¹' range (emb D φ c)) := fun b c =>
-    (he c).isOpen_range.preimage (he b).continuous
-  cases b <;> cases c
-  · refine Causal.CBG.liftPropOn_congr_of_eqOn (hWo false false)
-      (Causal.CBG.liftPropOn_id (hWo false false)) fun x _ => ?_
-    exact (hsymm false x).symm
-  · -- `M₂ → M₁`: `φ⁻¹` on `φ(D)`
-    have hW : emb D φ false ⁻¹' range (emb D φ true) = range φ := by
-      ext y
-      constructor
-      · rintro ⟨x, hx⟩
-        obtain ⟨w, -, rfl⟩ := (Causal.Gluing.ι₁_eq_ι₂_iff Subtype.val_injective hφ.injective).1 hx
-        exact ⟨w, rfl⟩
-      · rintro ⟨w, rfl⟩
-        exact ⟨(w : M₁), Causal.Gluing.ι₁_j₁ (j₁ := (Subtype.val : D → M₁)) (j₂ := φ) w⟩
-    show ChartedSpace.LiftPropOn _ _ (emb D φ false ⁻¹' range (emb D φ true))
-    rw [hW]
-    obtain ⟨G, hG, hGφ⟩ := Pgcd.exists_ext hφ (isE0Mor_val D)
-    refine Causal.CBG.liftPropOn_congr_of_eqOn hφ.isOpen_range hG ?_
-    rintro _ ⟨w, rfl⟩
-    show G (φ w) = (Causal.CBG.glueEmb he true).symm (emb D φ false (φ w))
-    have h1 : emb D φ false (φ w) = emb D φ true (w : M₁) :=
-      (Causal.Gluing.ι₁_j₁ (j₁ := (Subtype.val : D → M₁)) (j₂ := φ) w).symm
-    rw [h1, hsymm, hGφ]
-  · -- `M₁ → M₂`: `φ` on `D`
-    have hW : emb D φ true ⁻¹' range (emb D φ false) = (D : Set M₁) := by
-      ext x
-      constructor
-      · rintro ⟨y, hy⟩
-        obtain ⟨w, rfl, -⟩ :=
-          (Causal.Gluing.ι₁_eq_ι₂_iff Subtype.val_injective hφ.injective).1 hy.symm
-        exact w.2
-      · intro hx
-        exact ⟨φ ⟨x, hx⟩, (Causal.Gluing.ι₁_j₁ (j₁ := (Subtype.val : D → M₁)) (j₂ := φ)
-          (⟨x, hx⟩ : D)).symm⟩
-    show ChartedSpace.LiftPropOn _ _ (emb D φ true ⁻¹' range (emb D φ false))
-    rw [hW]
-    obtain ⟨F, hF, hFφ⟩ := Pgcd.exists_ext ((isBTZEmbedding_subtypeVal_iff D).2 hD) hφ.isE0Mor
-    rw [Subtype.range_coe] at hF
-    refine Causal.CBG.liftPropOn_congr_of_eqOn D.isOpen hF fun x hx => ?_
-    show F x = (Causal.CBG.glueEmb he false).symm (emb D φ true x)
-    have h1 : emb D φ true x = emb D φ false (φ ⟨x, hx⟩) :=
-      Causal.Gluing.ι₁_j₁ (j₁ := (Subtype.val : D → M₁)) (j₂ := φ) (⟨x, hx⟩ : D)
-    rw [h1, hsymm]
-    exact hFφ ⟨x, hx⟩
-  · refine Causal.CBG.liftPropOn_congr_of_eqOn (hWo true true)
-      (Causal.CBG.liftPropOn_id (hWo true true)) fun x _ => ?_
-    exact (hsymm true x).symm
+  obtain ⟨F', hF', hF'φ⟩ := Pgcd.exists_ext hφ (isE0Mor_val D)
+  obtain ⟨F, hF, hFφ⟩ := Pgcd.exists_ext ((isBTZEmbedding_subtypeVal_iff D).2 hD) hφ.isE0Mor
+  exact GluingTrans.liftPropOn_glueTransition_pair (X := piece M₁ M₂) (e := emb D φ)
+    (j₁ := (Subtype.val : D → M₁)) (j₂ := φ) _ Causal.Gluing.ι₁_j₁
+    (fun _ _ h => (Causal.Gluing.ι₁_eq_ι₂_iff Subtype.val_injective hφ.injective).1 h)
+    hF hFφ hF' hF'φ b c
 
 /-- The glued atlas has its transitions in `e0Groupoid`. -/
 theorem glueCS_hasGroupoid (hD : (D : Set M₁)ᶜ ⊆ S0 M₁) (hφ : IsBTZEmbedding φ) :

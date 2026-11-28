@@ -1,0 +1,59 @@
+{
+  "package": "lean-gx",
+  "target": "T-btz-gluing-dedupe",
+  "files": [
+    "GX/BTZ/GluingTransitions.lean",
+    "GX/BTZ/Ppcm.lean",
+    "GX/BTZ/AbsMax.lean",
+    "GX.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "lines": {
+    "GX/BTZ/Ppcm.lean": {
+      "before": 621,
+      "after": 575
+    },
+    "GX/BTZ/AbsMax.lean": {
+      "before": 4137,
+      "after": 4096
+    },
+    "GX/BTZ/GluingTransitions.lean": {
+      "before": 0,
+      "after": 147
+    },
+    "GX.lean": {
+      "before": 88,
+      "after": 89
+    }
+  },
+  "rename_map": {},
+  "common_lemma": "GX.GluingTrans.liftPropOn_glueTransition_pair (two pieces X true, X false with open embeddings e b into Z forming a push-out of j1 : U -> X true, j2 : U -> X false, stated by hcomm and hglue; F a G-morphism on range j1 with F (j1 u) = j2 u, F' a G-morphism on range j2 with F' (j2 u) = j1 u; conclusion: every glueTransition he b c is a G-morphism on e b ⁻¹' range (e c)), over an arbitrary structure groupoid G with ClosedUnderRestriction",
+  "derived": [
+    "GX.Ppcm.trans_emb: proof is now the two Pgcd.exists_ext extensions plus one application (was the four-case proof)",
+    "GX.E0AbsMax.exists_e0Pushout: its internal htrans is now one application with regExt / regInv (was the four-case proof); the local hsymm, used only there, is gone"
+  ],
+  "behaviour_preservation": "Fingerprint probe lean-gx/campaign/T-btz-gluing-dedupe/Probe.lean (imports GX.BTZ.MaxExtension, built oleans in .lake, nothing in /tmp): for every non-internal constant of GX.BTZ.AbsMax, GX.BTZ.Ppcm and GX.BTZ.MaxExtension, kind + name + Expr hash of its type + Expr hash of its value for definitions. Run at HEAD before any edit (fingerprint.before.txt, 328 constants) and after (fingerprint.after.txt, 328 constants): diff is empty. So no exported declaration added, removed, renamed or retyped in those modules, and no definition body changed (only theorem proofs). Axioms (Axioms.lean): trans_emb, exists_e0Pushout and the two new lemmas depend on [propext, Classical.choice, Quot.sound] only; the make check AxiomSweep covers every GX declaration.",
+  "make_check": "green: `taskset -c 0-11 make -C lean-gx check` exit 0, 'lean-gx: all gates green'; strict sorry 0 in 87 files (was 86), scaffold 5 (unchanged); axiom sweep: every GX declaration within propext/Classical.choice/Quot.sound; log in campaign/T-btz-gluing-dedupe/make-check.log",
+  "labels": [],
+  "extra_decls": [
+    "GX.GluingTrans.liftPropOn_glueTransition_of_ext",
+    "GX.GluingTrans.liftPropOn_glueTransition_self",
+    "GX.GluingTrans.preimage_range_true",
+    "GX.GluingTrans.preimage_range_false",
+    "GX.GluingTrans.liftPropOn_glueTransition_pair"
+  ],
+  "findings": [
+    "GX.BTZMax.trans_inj (GX/BTZ/MaxExtension.lean:313-345, the union of a chain, T-btz-maximal-extension) is a third copy of the same argument in indexed form (hsymm, congruence of glueTransition with an extension, hR computation). It follows from GX.GluingTrans.liftPropOn_glueTransition_of_ext in a few lines, but MaxExtension.lean was not among the files this dispatch allowed, so it was left untouched.",
+    "GX.BTZ.CBG's ofLocalModelOfGermSlice glue field (GX/BTZ/CBG.lean:2076-2084) repeats the core of liftPropOn_glueTransition_of_ext inline; CBG.lean sits upstream of the new file (imports LocalModel), so a reuse would need the new file moved upstream or the lemma moved to lean-causal's Causal.CBG.FromModel, where it naturally belongs (it mentions only glueTransition)."
+  ],
+  "questions": [
+    "The block names two copies (Ppcm.trans_emb, AbsMax htrans); its evidence mentions MaxExtension's union of a chain as a third risk. Reading taken: only the two named files are edited; MaxExtension.trans_inj is reported, not rewritten."
+  ],
+  "kb_proposals": [
+    "To give a two-piece glued atlas (Causal.CBG.gluedChartedSpace over Bool) its groupoid, use GX.GluingTrans.liftPropOn_glueTransition_pair: supply the push-out square (Causal.Gluing.ι₁_j₁, Causal.Gluing.ι₁_eq_ι₂_iff) and one G-morphism extension each way; for an indexed family, GX.GluingTrans.liftPropOn_glueTransition_of_ext. Do not write the four-case proof again.",
+    "When a piece family's types are only definitionally the Gluing's (pushPiece M N false = FlatE0 N), ascribe the extension map's type ((regExt f y₀ : M → N)) or its implicit M unifies with the piece and instance search fails; rewrite range Subtype.val into the hypothesis (rw [← Subtype.range_coe (s := ...)] at h), not the goal, whose motive is not type-correct at instance transparency."
+  ],
+  "notes": "Behaviour-preserving clean-up, no ledger label. New strict file GX/BTZ/GluingTransitions.lean (imports only Causal.CBG.FromModel and Causal.Pushout) is imported by GX/BTZ/AbsMax.lean and listed in GX.lean before GX.BTZ.AbsMax; Ppcm gets it through AbsMax. The probe files Probe.lean and Axioms.lean in the campaign directory are outside the lakefile globs (GX.*) and can be deleted; they depend on nothing in /tmp.",
+  "notes_loop": "Probe.lean, Axioms.lean and the two fingerprint files were deleted at integration (AUDIT-1: the fingerprints were byte-identical, 328 constants of AbsMax, Ppcm, MaxExtension)."
+}

@@ -278,3 +278,5 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0268](entries/0268-to-turn-a-sequence-with-summable-step-le.md) | pattern | To turn a sequence with summable step lengths into a continuous curve (for curve-based no- |
 | [0269](entries/0269-when-a-shared-structure-is-already-expor.md) | pattern | When a shared structure is already exported (here E0Surgery.LFSpears), add a missing prope |
 | [0270](entries/0270-if-a-corollary-must-keep-a-hypothesis-it.md) | pattern | If a corollary must keep a hypothesis its general form no longer needs (SurgeryData.isCauc |
+| [0271](entries/0271-to-give-a-two-piece-glued-atlas-causal-c.md) | pattern | To give a two-piece glued atlas (Causal.CBG.gluedChartedSpace over Bool) its groupoid, use |
+| [0272](entries/0272-when-a-piece-family-s-types-are-only-def.md) | pattern | When a piece family's types are only definitionally the Gluing's (pushPiece M N false = Fl |

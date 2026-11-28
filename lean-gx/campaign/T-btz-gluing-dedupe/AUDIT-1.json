@@ -1,0 +1,33 @@
+{
+  "target": "T-btz-gluing-dedupe",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [],
+  "label_notes": "Tooling target, no ledger label and no ** mark claimed; the faithfulness check is replaced by the behaviour-preservation check below.",
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "Auditor reran `taskset -c 0-11 lake build GX` on node1 (no other lake build running): 'Build completed successfully (8826 jobs)'. `scripts/causal_import_gate.py`: ok (DEC-33). GluingTransitions.lean imports only Causal.CBG.FromModel and Causal.Pushout. Its one 'sorry' match is the docstring sentence '0 `sorry`'; AbsMax.lean has 9 matches at HEAD and 9 now, all text (the file is in the strict GX glob with warningAsError and builds). #print axioms (auditor's own probe, written under the campaign dir and deleted): liftPropOn_glueTransition_pair, _of_ext, _self, Ppcm.trans_emb, E0AbsMax.exists_e0Pushout -> [propext, Classical.choice, Quot.sound]; preimage_range_true/false -> [propext, Quot.sound]. Full `make -C lean-gx check` not rerun; the closer's make-check.log ends 'lean-gx: all gates green' (strict sorry 0 in 87 files, scaffold 5 unchanged, axiom sweep standard)."
+  },
+  "checks": {
+    "scope": "`git diff HEAD --stat -- lean-gx`: GX.lean (+1), GX/BTZ/AbsMax.lean, GX/BTZ/Ppcm.lean; untracked: GX/BTZ/GluingTransitions.lean and the campaign dir. Nothing else in lean-gx. The other dirty paths in the hub (papers/*/certificate/restatements.toml, RESTATED.md, restate/CHECK-*.json, roadmap/roadmap.toml) were already dirty at session start and belong to the /restate loop and the roadmap; none is in this target's files.",
+    "behaviour_preservation": "The diff in Ppcm.lean and AbsMax.lean touches only proof bodies: the signatures of GX.Ppcm.trans_emb and GX.E0AbsMax.exists_e0Pushout are unchanged line for line; the deleted hsymm/hWo/hj1/he were proof-local `have`s, not declarations. fingerprint.before.txt and fingerprint.after.txt (328 constants of GX.BTZ.AbsMax, GX.BTZ.Ppcm, GX.BTZ.MaxExtension; type hash, and value hash for defs) are byte-identical (auditor's `diff`). No exported name added, removed, renamed or retyped.",
+    "common_lemma": "liftPropOn_glueTransition_pair is stated over an arbitrary StructureGroupoid G with ClosedUnderRestriction, arbitrary Z, U, X : Bool -> Type, and gives the push-out through two properties (hcomm, hglue) rather than a fixed Causal.Gluing. Both call sites really apply it: trans_emb now takes two Pgcd.exists_ext extensions and makes one application (X := piece M1 M2, j1 := Subtype.val, j2 := phi); exists_e0Pushout's htrans is one application (X := pushPiece M N, F := regExt f _, F' := regInv hf). hcomm/hglue come from Causal.Gluing.ι₁_j₁ / ι₁_eq_ι₂_iff at both sites, so the hypotheses are satisfiable and are instantiated by the two existing proofs; not a re-copy. The four-case proof now exists once, factored through liftPropOn_glueTransition_of_ext (indexed form) and _self.",
+    "docstring_contract": "GluingTransitions.lean has a module docstring with the list of declarations, a hypothesis checklist for liftPropOn_glueTransition_pair (all rows carried, true against the statement) and a SCOPE section (0 sorry, general G, MaxExtension.trans_inj left as a third copy) and the mathlib provenance line. True as read."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-gx/GX/BTZ/MaxExtension.lean:313-345 (GX.BTZMax.trans_inj)",
+      "what": "A third copy of the same transition argument remains (indexed form), as the REPORT and the new file's SCOPE disclose. Not a defect of this target: MaxExtension.lean was outside the dispatched files, and the dispatch named only two copies.",
+      "fix": "Follow-up target: rewrite trans_inj on GX.GluingTrans.liftPropOn_glueTransition_of_ext; and consider moving the lemma upstream to lean-causal Causal.CBG.FromModel so CBG.lean's ofLocalModelOfGermSlice (CBG.lean:2076-2084, REPORT finding 2) can use it too."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/campaign/T-btz-gluing-dedupe/",
+      "what": "Probe.lean, Axioms.lean, fingerprint.before.txt and fingerprint.after.txt (21 KB each, identical) are scratch: outside the GX.* glob, nothing in the build needs them. REPORT.json's behaviour_preservation text names them, so deleting them leaves a reference to removed files.",
+      "fix": "Before commit delete Probe.lean, Axioms.lean, fingerprint.before.txt, fingerprint.after.txt (the fingerprints are neither small nor self-explanatory; their outcome, an empty diff over 328 constants, is recorded in REPORT.json and here). Keep REPORT.json, AUDIT-1.json and, optionally, make-check.log (4.5 KB, cited by the REPORT). Optionally amend the REPORT sentence to say the probe files were removed after the run."
+    }
+  ]
+}

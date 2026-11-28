@@ -40,6 +40,7 @@ import GX.BTZ.LiftGH
 import GX.BTZ.HeadlineBridge
 import GX.BTZ.MixedDiamond
 import GX.BTZ.FutureRay
+import GX.BTZ.GluingTransitions
 import GX.BTZ.AbsMax
 import GX.BTZ.Uniformization
 import GX.BTZ.TildeStructure

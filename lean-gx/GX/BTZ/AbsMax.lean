@@ -1,4 +1,5 @@
 import GX.BTZ.Surgery
+import GX.BTZ.GluingTransitions
 import Causal.LemmaKLocal
 
 /-!
@@ -2991,59 +2992,17 @@ theorem exists_e0Pushout {N : Causal.Flat.FlatSpacetime.{0} 2}
     rcases Causal.Gluing.exists_ι z with ⟨x, hx⟩ | ⟨y, hy⟩
     · exact ⟨true, x, hx⟩
     · exact ⟨false, y, hy⟩
-  have hsymm : ∀ b (x : pushPiece M N b),
-      (Causal.CBG.glueEmb he b).symm (pushEmb f b x) = x := fun b x =>
-    Causal.CBG.glueEmb_symm_apply he b x
   have htrans : ∀ i j, ChartedSpace.LiftPropOn e0Groupoid.IsLocalStructomorphWithinAt
-      (Causal.CBG.glueTransition he i j) (pushEmb f i ⁻¹' range (pushEmb f j)) := by
-    have hWo : ∀ i j, IsOpen (pushEmb f i ⁻¹' range (pushEmb f j)) := fun i j =>
-      (he j).isOpen_range.preimage (he i).continuous
-    intro i j
-    cases i <;> cases j
-    · refine Causal.CBG.liftPropOn_congr_of_eqOn (hWo false false)
-        (Causal.CBG.liftPropOn_id (hWo false false)) fun x _ => ?_
-      exact (hsymm false x).symm
-    · -- `N → M`: `f⁻¹` on `range f`
-      have hW : pushEmb f false ⁻¹' range (pushEmb f true) = (range f : Set N) := by
-        ext y
-        constructor
-        · rintro ⟨x, hx⟩
-          obtain ⟨w, -, rfl⟩ := (Causal.Gluing.ι₁_eq_ι₂_iff hinj₁ hf.2).1 hx
-          exact ⟨w, rfl⟩
-        · rintro ⟨w, rfl⟩
-          exact ⟨(toRegM w : M), Causal.Gluing.ι₁_j₁ (j₁ := (Subtype.val : E0LM.e0RegM M → M))
-            (j₂ := f) (toRegM w)⟩
-      show ChartedSpace.LiftPropOn _ _ (pushEmb f false ⁻¹' range (pushEmb f true))
-      rw [hW]
-      refine Causal.CBG.liftPropOn_congr_of_eqOn hj₂.isOpen_range (isE0Mor_regInv hf) ?_
-      rintro _ ⟨w, rfl⟩
-      show regInv hf (f w) = (Causal.CBG.glueEmb he true).symm (pushEmb f false (f w))
-      have h1 : pushEmb f false (f w) = pushEmb f true (toRegM w : M) :=
-        (Causal.Gluing.ι₁_j₁ (toRegM w)).symm
-      rw [regInv_apply, h1, hsymm]
-    · -- `M → N`: `f` on `Reg M`
-      have hW : pushEmb f true ⁻¹' range (pushEmb f false) = (E0LM.e0RegM M : Set M) := by
-        ext x
-        constructor
-        · rintro ⟨y, hy⟩
-          obtain ⟨w, rfl, -⟩ := (Causal.Gluing.ι₁_eq_ι₂_iff hinj₁ hf.2).1 hy.symm
-          exact w.2
-        · intro hx
-          exact ⟨f ⟨x, hx⟩, (Causal.Gluing.ι₁_j₁ (j₁ := (Subtype.val : E0LM.e0RegM M → M))
-            (j₂ := f) (⟨x, hx⟩ : E0LM.e0RegM M)).symm⟩
-      show ChartedSpace.LiftPropOn _ _ (pushEmb f true ⁻¹' range (pushEmb f false))
-      rw [hW]
-      refine Causal.CBG.liftPropOn_congr_of_eqOn (E0LM.e0RegM M).isOpen
-        (isE0Mor_regExt hf (Classical.arbitrary N)) ?_
-      intro x hx
-      show regExt f _ x = (Causal.CBG.glueEmb he false).symm (pushEmb f true x)
-      have h1 : pushEmb f true x = pushEmb f false (f ⟨x, hx⟩) :=
-        Causal.Gluing.ι₁_j₁ (j₁ := (Subtype.val : E0LM.e0RegM M → M)) (j₂ := f)
-          (⟨x, hx⟩ : E0LM.e0RegM M)
-      rw [regExt_apply f _ x hx, h1, hsymm]
-    · refine Causal.CBG.liftPropOn_congr_of_eqOn (hWo true true)
-        (Causal.CBG.liftPropOn_id (hWo true true)) fun x _ => ?_
-      exact (hsymm true x).symm
+      (Causal.CBG.glueTransition he i j) (pushEmb f i ⁻¹' range (pushEmb f j)) :=
+    GluingTrans.liftPropOn_glueTransition_pair (X := pushPiece M N) (e := pushEmb f)
+      (j₁ := (Subtype.val : E0LM.e0RegM M → M)) (j₂ := f) he Causal.Gluing.ι₁_j₁
+      (fun _ _ h => (Causal.Gluing.ι₁_eq_ι₂_iff hinj₁ hf.2).1 h)
+      (F := (regExt f (Classical.arbitrary N) : M → N))
+      (by
+        have h := isE0Mor_regExt hf (Classical.arbitrary N)
+        rw [← Subtype.range_coe (s := (E0LM.e0RegM M : Set M))] at h
+        exact h)
+      (fun w => regExt_apply f _ w w.2) (isE0Mor_regInv hf) (regInv_apply hf)
   letI cs : ChartedSpace E0Y (Causal.Gluing (Subtype.val : E0LM.e0RegM M → M) f) :=
     Causal.CBG.gluedChartedSpace E0Y he hcov
   haveI gx : HasGroupoid (Causal.Gluing (Subtype.val : E0LM.e0RegM M → M) f) e0Groupoid :=
