@@ -3845,15 +3845,16 @@ id = "T-btz-reg-complete-graduate"
 title = "lean-gx clean-up after btzprop:reg_complete closes: state Surgery.lean's cusp lemmas (isSpacelikeLipschitzAt_cusp_interior/_rim) and the logRad stack once, over LFSurgeryData, in the strict library, derive the finite SurgeryData case from them, delete the ~950 lines RegCompleteLength copies, give isClosed_of_isCauchySurface a general strict home, and graduate the sorry-free chain CompleteCauchy → SpearFamily → RegComplete → RegCompleteCauchy → RegCompleteLength"
 stream = "gx"
 kind = "tooling"
-status = "ready"
+status = "done"
 owner = "master"
 priority = 9
 depends = ["T-btz-reg-complete-tail"]
 package = "lean-gx"
 exclusive = true
-evidence = "T-btz-reg-complete-length AUDIT-1 (minor), finding 1: « About 950 lines are verbatim copies of strict GX/BTZ/Surgery.lean (from l.5293 on: isSpacelikeLipschitzAt_cusp_interior/_rim and the logRad stack), retyped from SurgeryData to LFSurgeryData ... Cleanup item for graduation ... state the cusp G4 lemmas and the logRad stack once over LFSurgeryData in the strict library and derive the finite SurgeryData case from them »; finding 2: « GX.E0SpearFamily.isClosed_of_isCauchySurface is a general fact (a Cauchy surface of a GH E0-manifold is closed) placed in a target-specific namespace ... move it to the strict causal/E0 library under a general name, after checking it is not already there ». The REPORT's kb_proposal: « copied verbatim over LFSurgeryData they compile with one change ... sigmaStar_toSurgeryData is rfl ». It waits for the chain to be sorry-free, so that the move is a graduation and not a second copy. Behaviour-preserving (every exported name and type kept, or the ledger's decls updated with it). Master, executed by a closer, as T-gx-btz-cleanup was; exclusive because it edits the strict Surgery.lean (7,548 lines) that most of GX/BTZ imports Promoted 2026-11-27 (planner): its one dependency is done (T-btz-reg-complete-tail, 75532db0: prop_reg_complete(') sorry-free, journal 2026-11-27 22:15), so the chain CompleteCauchy → SpearFamily → RegComplete → RegCompleteCauchy → RegCompleteLength → RegCompleteTail is sorry-free and the move is a graduation, not a second copy. RegCompleteTail graduates with the chain (it closes RegCompleteLength's last sorry; its REPORT kb: « To break an import cycle, state the downstream lemma with the upstream facts as hypotheses (htend, hlog) and discharge them in the upstream file »), and the stale docstrings the tail's REPORT lists (RegComplete.lean l.39, l.58–65; SpearFamily.lean l.61; RegCompleteCauchy.lean l.65; LengthCompare.lean l.8, SCOPE l.55–56) are corrected in the move. Scaffold modules that import the chain stay in the scaffold with their imports re-pointed: CauchySpear, CommonReg, LineStructure, MaxExtension, Admissible. Exclusive: no closer may write in lean-gx in the same wave. Priority 9 keeps it after the closers of this run."
+evidence = "seven sorry-free modules graduated to GX.BTZ; cusp G4a/G4/logRad stated once over GX.E0Surgery.LFSpears (RegCompleteLength 1323 → 438 lines); sfa_isClosed_cauchy general; no rename; open follow-up: RegCompleteCauchy's ~570-line G3 copy (needs a covers field on LFSpears); audit AUDIT-1 minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "ace864c3"
 
 [[target]]
 id = "T-btz-line-structure"

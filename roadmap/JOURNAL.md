@@ -1064,3 +1064,10 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: b5544ced e9a22339 4ef1fc95 08807ffb 7dc94ad1 (+ statuses)
 - wall time: 23:29–00:15; agents in parallel: closer + builder, 1 auditor
 - next: T-btz-reg-complete-graduate (master, exclusive in lean-gx) alone in lean-gx
+
+## 2026-11-28 00:45 · wave of 1 · T-btz-reg-complete-graduate (exclusive)
+- T-btz-reg-complete-graduate: CompleteCauchy, SpearFamily, RegCompleteCauchy, LengthCompare, RegCompleteTail, RegCompleteLength, RegComplete graduated to GX.BTZ (git mv); the cusp lemmas and the logRad stack stated once over the new strict GX.E0Surgery.LFSpears, both spear families deriving them (RegCompleteLength 1323 → 438 lines; strict +3,496 lines instead of +4,198); sfa_isClosed_cauchy given a general home; no declaration renamed or retyped; audit minor (kb path, a comma; fixed). Not done: RegCompleteCauchy's ~570-line copy of Surgery's G3 (needs a covers field on LFSpears) — for the planner. lean-gx/README's module table lists no BTZ module at all (not touched).
+- gates: lean-gx ✓ (strict 0 sorry, 16,201 declarations, standard axioms), roadmap ✓, atlas ✓, hub: no new red; restate: 0 new
+- commits: ace864c3 40e93f7f (+ statuses)
+- wall time: 23:44–00:45; agents: 1 closer, 1 auditor
+- next: no ready closer target left in lean-gx — plan (rule 2)
