@@ -994,3 +994,23 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
 - commits: de791f23 770e92f7 5dbd01bf d816e202 (ledgers, the Lean sha only; restate detect 0)
 - next: a PLANNING RUN (rule 2: one ready abstract target, T-abs-sc-open-hoist, exclusive). If it adds no two non-exclusive ready targets, the exclusive T-tac-dual-future-one-connected and T-abs-sc-open-hoist run next, one per wave
+
+## 2026-11-28 02:58 · planning run · rule 2 after wave 49; 208 → 216 targets
+- New targets:
+  - ready:
+    - T-lad-record-past-inextensible-meets-cauchy (keeper: the two consequences at [is_causal, causally_arc_connected], simulated 123 → 125);
+    - T-abs-boundary-chart-cauchy (closer, layer 1: Sbierski 2312.07443 Prop 2.1's (2.4) as an ETT theorem, an inside V ⊆ J⁻(S, W) disjoint from S with frontier missing W is future-closed; the shape of the FLRW predicate's field (iii));
+    - T-abs-two-piece-hoist (closer, layer 1: the section TwoPiece of Causal/CBG/Ppcm.lean moved byte for byte into an ETT-layer module, full names kept; decides nothing of OQ-97).
+  - planned:
+    - T-abs-end-pieces-one-sided (the refactor: Extensible.of_top_tail as a corollary of the one-sided lemmas, moved to SubArc; after FLRW and (2.4), which import the module);
+    - T-loc-minkowski-past-boundary-chart, T-loc-c0-past-boundary-chart, T-loc-flrw-causal (layer 3, behind their rulings).
+  - done: T-bind-ers-etale-gluing (planner, applied; 0fc29e4d): four ERS rows note the étale gluing, `ett` unchanged.
+- Promoted: T-abs-flrw-type planned → ready, layer 1. It defines Causal.Causality.PastBoundaryChart, six fields, and proves that a causally arc-connected, future one-connected W with ≤_W antisymmetric, satisfying (A) and (B), has no past boundary chart. `uses` is [future_one_connected, causally_arc_connected, is_causal].
+- Rescoped:
+  - T-abs-ers-etale-mghd: the title restated (injective ⇔ U₁ ∩ U₂ ⊆ A; descent ⇔ agreement; "agreement ⇒ injective" open, reported, not required). It depends on T-abs-two-piece-hoist, after which it needs no OQ-97.
+  - T-lad-programme-properties: evidence refined.
+- Proposed for later, not opened: an OQ on PastBoundaryChart as the ETT notion of record, once T-abs-flrw-type lands (as OQ-154 for IsSpacetimeExtension).
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
+- gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
+- commits: 0fc29e4d
+- next: T-lad-record-past-inextensible-meets-cauchy (keeper), T-abs-flrw-type, T-abs-boundary-chart-cauchy, T-abs-two-piece-hoist (closers, lean-causal, the package cap); then the exclusive targets
