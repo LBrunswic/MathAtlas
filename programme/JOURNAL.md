@@ -925,3 +925,23 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
 - commits: c6311c67 d37bd851 24dc97f9 0cdd5a58 (ledgers; ers-predictability curated; restate detect 0)
 - next: a PLANNING RUN (rule 2: one ready abstract target left, T-abs-sc-open-hoist, exclusive); wave would pick T-tac-dual-future-one-connected (tactician, exclusive)
+
+## 2026-11-28 00:36 · planning run · rule 2 after wave 47; 199 → 204 targets
+- New targets:
+  - ready: T-abs-inextensible-not-le-nested (closer: the rational line inside the spacelike line, both absolutely minimal on every open set, refutes inextensible_nested → le_nested in either reading; simulated 385 fails, 6 open), T-abs-ers-4-82-restart-separation (closer: on the line, a solution-dependent causality where Thm 4.82's conclusion holds and the uniform restart fails; without CausalityFollows, disclosed), T-lad-record-ers-4-82-solution (keeper: the ERS closer's seven consequences, slice_restart's edge note, a stale comment);
+  - planned: T-lad-record-inextensible-not-le-nested (keeper, after the closer).
+- T-bind-ers-4-82-solution (planner, applied; 8a243e1d, set done): ersthm:ThmNotBlocking's `ett` leads with the uniform solution forms and the restart step; frontier_stays_in in `localisation`, proved by T-loc-quasilinear-frontier.
+- Rescoped:
+  - T-loc-quasilinear-slice is to state the GluedRestartAt shape and SolutionRestricts at the model.
+  - T-lad-gluing-reading: its inextensible_nested item moves to the new target.
+  - T-abs-ers-4-82-solution-form: a correction note (the names of Thms 4.79 and 4.80; SolutionRestricts, not CausalityFollows).
+- The open pairs left after the new closer:
+  - causally_plain → locally_push_up: implied under DEC-167 once T-lad-gluing-reading lands (OQ-95/96).
+  - strongly_causal → strongly_causal_open: no construction.
+  - germ_extension ↔ cauchy_slice and rigid → both: they need a new local model, on a CBG interface that T-abs-hoist-cbg-geometry (OQ-97) is to change.
+- Layer 3: nothing unblocked; about 20 localisation targets wait on T-pkg-smooth-lorentz, blocked on OQ-100 (OPEN since 2026-11-22), the ruling with the most leverage.
+- registers: OQ-156 (ERS Thm 4.82 over sol: the uniform forms with the restart step as the form of record, the paper's shape kept?) (be7fa0fd).
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
+- gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
+- commits: 8a243e1d be7fa0fd
+- next: T-lad-record-ers-4-82-solution (keeper), T-abs-inextensible-not-le-nested, T-abs-ers-4-82-restart-separation (closers, lean-causal)
