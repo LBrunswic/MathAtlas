@@ -1377,3 +1377,11 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 041dd6e5 921dd4ec b5b7f50b 3acd040b
 - wall time: 12:00–12:30
 - next: nothing dispatchable in benzecri, lean-gx or lean/ without a ruling
+
+## 2026-11-28 12:50 · wave of 3 · T-alexandrov-ledger (master), T-arch-import-gate (master), T-atlas-overlay-refresh (builder)
+- T-alexandrov-ledger: papers/alexandrov ledgered from the ATGV2 revision (DEC-209): 64 labels added, 127 statements, placeholder Lean root (dyniso's precedent) until T-alexandrov-package; curation stub, STORY skeleton; papers-check green
+- T-arch-import-gate: tools/import_gate.py in report mode (`make imports`, exit 0; not in `check` before the migration window), tiers in tools/import_tiers.toml, fixture of 14 breakages in selftest; 337 findings today; the tier assignment and rule readings are OQ-174
+- T-atlas-overlay-refresh (standing, stays ready): lean-benzecri 041dd6e5 (benzecri edges 279 → 561), lean-gx 30cf72b9 and lean/ b5b7f50b unchanged in edges; 0 page errors; make -B reproducible
+- gates: papers-check ✓, selftest ✓, roadmap ✓, atlas ✓, hub: no new red
+- commits: c59947e4 3d3126ab
+- next: nothing dispatchable in this loop's packages without a ruling; T-alexandrov-package needs its set-up (master), check its status
