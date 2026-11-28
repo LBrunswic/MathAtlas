@@ -1,0 +1,1591 @@
+% ============================================================================================
+% J.-P. Benzécri, « Sur les variétés localement affines et localement projectives »,
+% Bulletin de la S. M. F. 88 (1960), p. 229-332 (thèse Sc. math., Paris, 1960).
+% DOI 10.24033/bsmf.1551 ; Numdam BSMF_1960__88__229_0.
+%
+% TRANSCRIPTION, not the author's source. Transcribed on 2026-11-28 by a Claude session
+% (T-bz-chapter3, DEC-195) from the Numdam scan papers/benzecri/sources/bsmf-1960-88-229/benzecri1960.pdf
+% (sha256 77e0b535382fa33109b7615fb9fa336151a86723ab8210b92b91c01b0e306306), reading the page
+% images, with the scan's OCR text layer as a help only. TO BE CHECKED BY THE AUTHOR.
+%
+% Scope: Chapter 3 « Compléments sur les convexes » complete, journal pp. 259-283
+% (PDF page = journal page - 227; PDF pp. 32-56): from its title (p. 259, where Chapter 2 ends)
+% to the foot of p. 283; the title of Chapter 4 opens p. 284. Sections 1 to 6.
+%
+% Conventions of the transcription (those of benzecri1960_ch1.tex and benzecri1960_ch2.tex).
+%  * The French text is the printed text, misprints included; each misprint we noticed is kept and
+%    flagged by a comment `% [sic] ...` giving the evident intended reading; `% [sic?]` marks a
+%    reading that is probable but not certain. Words cut at a line end are rejoined. Nothing
+%    illegible was met; `[illisible]` would mark it.
+%  * `% --- p. NNN ---` marks the start of journal page NNN.
+%  * Each numbered statement is in its environment, the printed number as the optional argument
+%    (with its prime: `1$'$`, `1$''$`). Where a statement ends is printed only for the THÉORÈMES,
+%    set in italics; every other statement of Chapter 3 is set in roman, so the end of its
+%    environment is an editorial choice, made at the first paragraph that is commentary or
+%    notation rather than part of the statement. The fonts the environments print are the
+%    preamble's, not the scan's. Proofs (printed without a heading, usually « En effet, ... »,
+%    or headed « DÉMONSTRATION. — », kept as text) are in `proof` environments, idem.
+%  * Unnumbered DÉFINITION, LEMME, COROLLAIRE and REMARQUE blocks are environments without
+%    argument; the numbered COROLLAIRE 1 and 2 of § 5 carry their number. No new environment was
+%    needed; `defin`, `lemme` and `corollaire` print no stray space when they have no argument
+%    (\bznum), and `corollaire` accepts a number.
+%  * Where a proof is printed away from its statement (§ 2, Prop. 3, proved after Déf. 4;
+%    § 2, Theorem 1, whose proof is interrupted by the LEMME and its proof), the `proof`
+%    environment carries its target as an optional argument « Proof of » + \ref, editorial and not
+%    printed, as in Chapter 2. These are the only \ref outside a \bzcf.
+%  * \bzcf{printed text}{\ref{...}} marks an explicit cross-reference the source makes to a
+%    statement: it prints the printed text only; the \ref names the statement the PRINTED text
+%    designates, even where that is a misprint (flagged [sic]). Chapter 1 statements are named by
+%    their labels in legacy/labeled/benzecri1960_ch1.tex; Chapter 3 statements by the labels of
+%    the scheme bz<kind>:c3s<section><initial><number>_<slug> listed in NOTES.md (the \label's
+%    themselves are not in this file). A reference of a proof to its own statement, to the
+%    hypotheses a, b, c, d of § 3 (free text), to Bourbaki, or to Chapter 4 is not marked.
+%  * $\R$ is the printed bold R (the reals); $\mathring{H}$ the printed H with a ring (an open
+%    hemisphere; likewise $\mathring{U}$, $\mathring{V}$, $\mathring{B}$); \intr{X} the printed
+%    ring over an arc spanning X (the interior of X); $\complement$ the printed complement sign;
+%    $\Dc$ the printed script D of § 4; $w$, $v$, $v_i$ the printed script w and v (classes of
+%    § 2, convexes of S(E), points of § 6); $)a, b($ the printed open interval, kept as printed.
+% ============================================================================================
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{amsmath,amssymb}
+% Layout only (two lines of Chapter 3 would otherwise be overfull); no effect on the text.
+\setlength{\emergencystretch}{2em}
+\newcommand{\R}{\boldsymbol{R}}
+\newcommand{\Rc}{\mathcal{R}}
+\newcommand{\bzcf}[2]{#1}
+% \intr{X} is the printed ring over an arc spanning X: the interior of X (§ 3, Props. 9, 10).
+% \Dc is the printed script D (the correspondence of facettes of § 4, Props. 6-9).
+\newcommand{\Dc}{\mathcal{D}}
+\newcommand{\intr}[1]{\overset{\circ}{\widehat{#1}}}
+% \bznum{n} prints " n" and nothing for an empty argument (unnumbered THÉORÈME, REMARQUE).
+\newcommand{\bznum}[1]{\if\relax\detokenize{#1}\relax\else\ #1\fi}
+\newenvironment{resume}[1][]{\par\medskip\noindent #1. }{\par\medskip}
+\newenvironment{defin}[1][]{\par\medskip\noindent\textsc{Définition\bznum{#1}.} --- }{\par\medskip}
+\newenvironment{prop}[1][]{\par\medskip\noindent\textsc{Proposition #1.} --- \itshape}{\par\medskip}
+\newenvironment{theoreme}[1][]{\par\medskip\noindent\textsc{Théorème\bznum{#1}.} --- \itshape}{\par\medskip}
+\newenvironment{lemme}[1][]{\par\medskip\noindent\textsc{Lemme\bznum{#1}.} --- \itshape}{\par\medskip}
+\newenvironment{corollaire}[1][]{\par\medskip\noindent\textsc{Corollaire\bznum{#1}.} --- \itshape}{\par\medskip}
+\newenvironment{remarque}[1][]{\par\medskip\noindent\textsc{Remarque\bznum{#1}.} --- }{\par\medskip}
+\newenvironment{exemple}[1][Exemple]{\par\medskip\noindent\textsc{#1.} --- }{\par\medskip}
+\newenvironment{enonce}{\par\medskip\noindent\itshape}{\par\medskip}
+% The optional argument of `proof` is accepted and not printed (room for a ledger target).
+\newenvironment{proof}[1][]{\par}{\par}
+
+\begin{document}
+
+% --- p. 259 ---
+% (Chapter 2 ends at the top of p. 259; see benzecri1960_ch2.tex.)
+\section*{Chapitre 3. Compléments sur les convexes.}
+
+Ce chapitre contient la démonstration de propriétés des convexes affins et projectifs dont il sera
+fait usage au chapitre 5 dans l'étude des convexes balayables.
+
+\subsection*{1. Facettes et variétés d'appui.}
+
+Dans ce paragraphe, les notions de facettes et de variétés d'appui sont définies pour les convexes
+d'un espace affin et de la sphère projective associée.
+
+\begin{defin}[1]
+Sur un ensemble convexe $W$, dans un espace vectoriel, on définit la relation de préordre
+$\alpha(W)$ : $A\,\alpha(W)\,B$ s'il existe un segment $(A', B)\subset W$ tel que
+$A\in)A', B($, ou si $A=B$.
+\end{defin}
+
+On peut simplifier l'énoncé de la définition 1 en faisant la convention suivante : on appelle
+intérieur d'un segment $AB$, l'intérieur de ce segment, muni de la topologie induite par la
+variété linéaire support de l'ensemble $\{A, B\}$; cet intérieur se note $)A, B($ ou $)B, A($; si
+$A\neq B$, on retrouve la définition habituelle de l'intervalle ouvert $)A, B($; si $A=B$, le
+support de $\{A\}$ n'est autre que la variété à $0$ dimension $\{A\}$, et l'on a
+\[ )A, A(=(A, A)=\{A\}. \]
+L'énoncé de la définition 1 devient :
+
+$A\,\alpha(W)\,B$ s'il existe un segment $(A', B)\subset W$ tel que $A\in)A', B($.
+
+Pour $A=B$ on pose $A'=A$ et l'on a $A\in)A, A($.
+
+Dans ce qui suit, nous écrirons toujours $\alpha$ pour $\alpha(W)$ si aucune confusion n'en peut
+résulter.
+
+% The verification that α is a preorder is printed after the definition, without a heading;
+% it is put in a `proof` environment, which the ledger attaches to Déf. 1 (the nearest statement).
+\begin{proof}
+Pour montrer qu'on a bien une relation de préordre, il faut démontrer
+% --- p. 260 ---
+que $A\,\alpha\,B$ et $B\,\alpha\,C$ impliquent $A\,\alpha\,C$. En effet, si l'on a dans $W$,
+$A'$ et $B'$ tels que
+\[ \begin{aligned} &A\in)A', B(\\ &B\in)B', C( \end{aligned} \]
+$A'$, $B'$, $C$ engendrent un convexe : $A$ est intérieur à ce convexe supposé muni de la
+topologie de la variété linéaire support, et le support de $AC$ le coupe suivant un segment
+auquel $A$ est intérieur.
+\end{proof}
+
+\begin{defin}[2]
+La relation d'équivalence associée à la relation de préordre $\alpha(W)$ se note $F_W(A, B)$ :
+les classes d'équivalence correspondantes sont appelées \textit{$W$-facettes} ($W$ ne sera noté
+que si une confusion est à craindre).
+
+La relation de préordre $\alpha$ définit canoniquement sur l'ensemble des facettes une relation
+d'ordre que nous noterons aussi $\alpha$.
+\end{defin}
+
+\begin{remarque}
+On peut donner de la définition de $F_W(A, B)$ l'énoncé suivant : $n$ points $A_1$, \ldots, $A_n$
+de $W$ appartiennent à une même facette si, pour la topologie de la variété linéaire $L$ support
+de $\{A_1, \ldots, A_n\}$, $A_1$, \ldots, $A_n$ sont intérieurs à $L\cap W$.
+\end{remarque}
+% « A_1, .... A_n » is printed with a period after the dots (read « A_1, ..., A_n »).
+
+\begin{prop}[1]
+Soit $F$ une facette d'un convexe $W$, et soit $L$ la variété linéaire support de $F$; $F$ est un
+ouvert de $L$, supposé muni de sa topologie localement convexe la plus fine.
+\end{prop}
+
+\begin{proof}
+Il suffit de démontrer que si $A\in F$, et si $l$ est une sous-variété linéaire de dimension finie
+telle que $A\in l$ et $l\subset L$, alors $A$ est intérieur à $l\cap F$ pour la topologie de $l$.
+Or, cela résulte de \bzcf{la remarque ci-dessus}{\ref{bzrem:c3s1r1_facette_points_interieurs}}.
+\end{proof}
+
+\begin{prop}[2]
+Soient $F$ une facette de $W$, $L$ son support, et soient $A\in F$, $B\in W$; alors
+$A\,\alpha\,B$ si et seulement si $B\in L$.
+\end{prop}
+
+\begin{proof}
+En effet, si $B\in L$, la variété linéaire engendrée par $A$ et $B$ coupe $W$ suivant une partie
+convexe, qui contient $B$ et à laquelle $A$ est intérieur, donc $A\,\alpha\,B$; si
+$A\,\alpha\,B$, la variété linéaire engendrée par $A$ et $B$ est coupée par $F$, donc par $L$
+suivant une partie convexe d'intérieur non vide, donc $B\in L$.
+\end{proof}
+
+\begin{prop}[3]
+Soit $F$, $F'$ deux facettes de $W$ de supports $L$ et $L'$; on a $F\,\alpha\,F'$ si et seulement
+si $L'\subset L$; on a $L=L'$ si et seulement si $F=F'$.
+\end{prop}
+% (No proof of Prop. 3 is printed.)
+
+\begin{prop}[4]
+L'ensemble des facettes muni de la relation d'ordre $\alpha$ est filtrant à gauche.
+\end{prop}
+
+\begin{proof}
+En effet, soient $F$ et $F'$ deux facettes $A\in F$, $A'\in F'$, $B$ un point intérieur au
+segment $AA'$ dans son support : $B\,\alpha\,A$; $B\,\alpha\,A'$. La facette $F''$ de $B$ est donc
+telle que $F''\,\alpha\,F'$; $F''\,\alpha\,F$.
+\end{proof}
+
+\begin{corollaire}
+L'ensemble des variétés linéaires supports de facettes du convexe $W$ est filtrant à droite pour
+la relation d'inclusion.
+\end{corollaire}
+
+% --- p. 261 ---
+\begin{defin}[3]
+Une variété linéaire $S$ est dite \textit{variété d'appui} de $W$ si $S\cap W$ est non vide et
+saturé pour la relation d'équivalence $F_W$ (cette définition équivaut à celle de
+\textsc{Bourbaki}, \textit{Espaces vectoriels topologiques}, chap. II, p. 83).
+\end{defin}
+
+D'après \bzcf{la proposition 3}{\ref{bzprop:c3s1p3_ordre_supports}}, il est équivalent de dire
+que $A\in S\cap W$ et $A\,\alpha\,B$ impliquent $B\in S\cap W$.
+
+L'espace tout entier est une variété d'appui, le support d'une facette est une variété d'appui;
+la réciproque n'est pas vraie : on trouve facilement, dans un espace de dimension finie, un
+convexe $W$ et une variété d'appui $S$ telle que $S\cap W$ ait un support distinct de $S$; nous
+allons donner un exemple en dimension infinie d'un convexe $W$ et d'une variété d'appui $S$ de $W$
+telle que $S\cap W$ engendre $S$, mais qu'il n'existe aucune facette dont le support soit $S$.
+Considérons dans un espace vectoriel de dimension $>\aleph_0$ un système dénombrable de vecteurs
+linéairement indépendants $OA_i$ issus de l'origine $O$ : l'enveloppe convexe de $O$ et de $A_i$
+est un $\aleph_0$ simplexe $S$ dont le support est de dimension infinie : chaque facette cependant
+est de dimension finie; tout point $M$ de $S$ est en effet barycentre d'un nombre fini de points
+de l'ensemble $\{O, A, \ldots\}$ affectés de masses non nulles dont la somme est $1$; ces points
+en nombre fini engendrent le support de la facette de $M$. En dimension finie. on a toutefois la
+% [sic] « En dimension finie. on a » : read « En dimension finie, on a » (period for comma).
+% « {O, A, ...} » as printed (read {O, A_1, ...}); « S » names both the variété d'appui and the
+% ℵ0-simplex, as printed.
+
+\begin{prop}[5]
+Si $W$ est un convexe dont le support $E$ est de dimension finie, pour toute variété d'appui $L$ à
+$W$ il existe une facette $F$ dont le support $S$ est tel que $S\cap W=L\cap W$.
+\end{prop}
+
+\begin{proof}
+Désignons par $S$ le support de $L\cap W$; alors $S\cap W=L\cap W\neq\emptyset$; de plus,
+$S\cap W$ est un convexe de support $S$ qui, pour la topologie de l'espace $S$ de dimension finie,
+admet donc au moins un point interne dont la facette $F$ aura $S$ pour support.
+\end{proof}
+
+\begin{remarque}
+1\textsuperscript{o} $E$ est le support d'une facette de $W$ qui n'est autre que son intérieur;
+
+2\textsuperscript{o} Si $W$ est un convexe compact de dimension finie, $L\cap W$ n'est autre que
+la fermeture compacte $E$ de $F$.
+% [sic] « la fermeture compacte E de F » : read « F̄ » (the closure of F); E is the support of W.
+\end{remarque}
+
+\begin{prop}[6]
+Soit $L$ une variété linéaire, $W$ un convexe
+\[ W'=W\cap L=\emptyset. \]
+% [sic] « W' = W ∩ L = ∅ » : read « ≠ ∅ » (the proposition is about the convex W' = W ∩ L).
+Alors la relation $\alpha(W')$ est induite par la relation $\alpha(W)$.
+\end{prop}
+
+\begin{proof}
+Cela résulte immédiatement de la définition de $\alpha$. Des \bzcf{propositions
+3}{\ref{bzprop:c3s1p3_ordre_supports}} et 6 il résulte que, si $L$ est une variété d'appui à $W$,
+la facette d'un point $M\in L\cap W$, relativement au convexe $W$ n'est autre que sa facette
+relativement au convexe $L\cap W$.
+\end{proof}
+
+Nous allons maintenant étudier le cas des convexes de la sphère.
+
+% --- p. 262 ---
+\begin{defin}[4]
+Soit $k$ une partie convexe de $S(E)$; $k'=F(k)+\{O\}$ est un convexe de $E$; $\alpha(k')$
+(\bzcf{\textit{cf.} \S\,1, déf. 1}{\ref{bzdef:c3s1d1_preordre_alpha}}) induit sur $F(k)$ une
+relation de préordre compatible avec la projection sur $k$. Nous noterons $\alpha(k)$ la relation
+de préordre ainsi définie sur $k$.
+
+La relation d'équivalence associée à la relation $\alpha(k)$ se note $F(\alpha(k))$; les classes
+d'équivalence correspondantes sont appelées \textit{$k$-facettes} et la relation de préordre
+$\alpha$ définit canoniquement sur l'ensemble des facettes une relation d'ordre que nous noterons
+aussi $\alpha$.
+
+La relation $\alpha(k)$ peut être définie directement :
+\[ a\,\alpha(k)\,b \]
+s'il existe un segment $(a', b)\subset k$ tel que $a\in)a', b($ ou si $a$ et $b$ sont
+identiques ou diamétralement opposés.
+\end{defin}
+% « § 1, déf. 1 » is the present § 1 (Chapter 3), where α(W) is defined.
+
+\begin{defin}[5]
+Soit $L$ le sous-espace vectoriel facette de $O$ dans le convexe $k'=F(k)+\{O\}$; la projection
+sur $k$ de $L-\{O\}$ est une sous-variété linéaire, éventuellement vide, ensemble de tous les
+points de $S(E)$ qui appartiennent à $k$ avec leur point diamétralement opposé. Cette
+sous-variété est appelée le \textit{noyau} de $k$. Un convexe strict est un convexe de noyau vide
+(\bzcf{\textit{cf.} \S\,1, déf. 9}{\ref{bzdef:c1s1d9_convexe_strict}}).
+\end{defin}
+% « § 1, déf. 9 » : the present § 1 has no Déf. 9; the convexe strict is Chapter 1, § 1, déf. 9,
+% which the \ref names.
+
+Les \bzcf{propositions 2}{\ref{bzprop:c3s1p2_alpha_support}},
+\bzcf{3}{\ref{bzprop:c3s1p3_ordre_supports}}, \bzcf{4}{\ref{bzprop:c3s1p4_facettes_filtrant}}
+et \bzcf{le corollaire}{\ref{bzcor:c3s1p4c_supports_filtrant}} sont valables pour les convexes de
+$S(E)$. \bzcf{La proposition 1}{\ref{bzprop:c3s1p1_facette_ouverte}} aussi, si l'on convient
+d'appeler topologie localement convexe la plus fine sous-variété $l$ de $S(E)$ la topologie
+quotient de celle induite sur $F(l)$ par la topologie localement convexe la plus fine de
+$F(l)+\{O\}$.
+% « la plus fine sous-variété l » as printed (read « la plus fine de la sous-variété l »).
+
+\begin{defin}[6]
+Une variété linéaire $l$ est dite \textit{variété d'appui pour $k$} s'il existe un sous-espace
+vectoriel $L$ de $E$, variété d'appui de $F(k)+\{O\}$, et
+\[ l=F^{-1}(L-\{O\}). \]
+\end{defin}
+
+En particulier, le noyau de $k$ est une variété d'appui de $k$. Si ce noyau est vide, il
+constitue une variété d'appui, ou encore une facette, de $k$ de dimension $(-1)$.
+
+Les \bzcf{propositions 5}{\ref{bzprop:c3s1p5_appui_facette_dim_finie}} et
+\bzcf{6}{\ref{bzprop:c3s1p6_alpha_induit}} sont également valables pour les convexes de $S(E)$.
+
+\subsection*{2. Sommes de convexes.}
+
+Comme au précédent paragraphe, on étudie le cas affin, puis le cas projectif.
+
+\begin{defin}[1]
+Soient $E$ un espace vectoriel, $W$ un convexe de $E$, $V_i$ ($i\in I$) une famille finie de
+convexes de $E$, $p$ l'application de $\prod_{i\in I}V_i$ dans $E$ défini par
+\[ \{x_i\}_{i\in I}\in\prod_{i\in I}V_i,\qquad p(\{x_i\}_{i\in I})=\sum_{i\in I}x_i, \]
+% --- p. 263 ---
+$W$ est dit \textit{somme des convexes $V_i$} si $p$ est un isomorphisme de $\prod_{i\in I}V_i$
+sur $W$ (pour les structures affines). Nous noterons
+\[ W=\sum_{i\in I}V_i\qquad\text{ou}\qquad W=V_1+V_2+\ldots+V_n. \]
+Si $x\in W$, $x_i\in V_i$, $x=\sum x_i$, nous dirons que $x_i$ est la \textit{composante} de $x$
+dans $V_i$
+\end{defin}
+% (« dans V_i » : no final period is printed.)
+
+\begin{remarque}
+$E$ opère par translation sur l'ensemble $K(E)$ des parties convexes de $E$; on peut définir le
+quotient $K(E)/E$; nous dirons qu'une classe $w\in K(E)/E$ est somme de $n$ classes $v_i$ si l'on
+peut trouver $W$, $V_i$ de classes $w$, $v_i$ tels que $W$ soit la somme des $V_i$ : dans ce cas,
+à tout système de $n$ convexes $V'_i$ de classes $v_i$ correspond un convexe et un seul $W'$ de
+classe $w$, qui en est la somme; à tout convexe $W'$ de classe $w$, on peut (et ce d'une infinité
+de façons si $n\neq 1$) faire correspondre une famille de $n$ convexes $V'_i$ de classe $v_i$ dont
+$W'$ soit la somme.
+\end{remarque}
+
+On a le résultat plus précis suivant :
+
+\begin{prop}[1]
+Soient $w$, $v_i\in K(E)/E$; $\sum_{i=1}^{n}v_i=w$ et $W$ de classe $w$ contenant l'origine de
+$E$; alors il existe un système et un seul de $n$ convexes $V_i$ de classes $v_i$ contenant
+chacun l'origine, et tels que
+\[ W=\sum_{i=1}^{n}V_i. \]
+\end{prop}
+
+\begin{proof}
+En effet, supposons déterminés des $V'_i$ tels que
+\[ W=\sum_{i=1}^{n}V'_i, \]
+On a une décomposition unique de $O$ comme somme de $n$ vecteurs $x'_i\in V_i$. Les seuls convexes
+$V_i$, de somme $W$, contenant l'origine et de classe $v_t$ ne sont autres que les
+\[ V'_i+\{-x'_i\}. \]
+% [sic] « x'_i ∈ V_i » : read « x'_i ∈ V'_i ». [sic] « de classe v_t » : read « v_i ».
+\end{proof}
+
+Dans ce qui suit, nous considérerons toujours, pour la commodité des démonstrations, les
+décompositions de convexes contenant l'origine en somme de convexes contenant l'origine.
+
+Aux \bzcf{théorèmes 1}{\ref{bzthm:c3s2t1_conjugues_intersection}} et
+\bzcf{2}{\ref{bzthm:c3s2t2_algebre_boole_affine}} qui suivent correspondront des énoncés analogues
+pour l'espace $K(E)/E$.
+
+% --- p. 264 ---
+\begin{remarque}
+Pour $I$ infini, on peut encore définir la notion de convexe $W$ somme d'une famillle de convexes
+$V_i$ ($i\in I$) : on supposera que $W$ et les $V_i$ contiennent l'origine, et l'on dira que
+$W=\sum_{i\in I}V_i$ si tout $x\in W$ s'écrit d'une façon et d'une seule comme une somme finie,
+\[ x=\sum_{i\in N\subset I}x_i\qquad(x\neq 0) \]
+(où $N$ désigne une partie finie de $I$).
+
+La composante de $x$ dans $V_j$ ($j\notin N$) est $0$.
+\end{remarque}
+% [sic] « famillle » : read « famille ». The index « i ∈ I » is printed under V_i.
+
+\begin{remarque}
+Soient $W=E$, $V_i=E_i$ sous-espace vectoriel de $E$, $W=\sum V_i$ au sens ci-dessus défini :
+alors on a $E=\sum E_i$, somme directe des $E_i$, \textit{pour les sous-espaces vectoriels la
+notion de somme de convexes coïncide avec celle de somme directe ordinaire}.
+\end{remarque}
+
+\begin{prop}[2]
+Soit
+\[ W=\sum_{i\in I}V_i\qquad\Bigl(x, y\in W;\ x_i.\ y_i\in V_i;\ x=\sum x_i,\ y=\sum y_i\Bigr). \]
+on a $x\,\alpha(W)\,y$ (\bzcf{\textit{cf.} déf. 1}{\ref{bzdef:c3s1d1_preordre_alpha}}) si et
+seulement si l'on a pour tout $i$ : $x_i\,\alpha(V_i)\,y_i$.
+\end{prop}
+% [sic] « x_i. y_i ∈ V_i » : read « x_i, y_i ∈ V_i ».
+% « cf. déf. 1 » : printed in § 2, where déf. 1 is the sum of convexes; the relation α(W) is
+% § 1, déf. 1, which the \ref names (see NOTES.md, question).
+
+\begin{proof}
+La démonstration est évidente à partir des définitions.
+\end{proof}
+
+Dans ce qui suit, nous étudierons des corps convexes comme polycylindre, c'est-à-dire comme somme
+de deux ou plusieurs convexes contenus dans des sous-espaces supplémentaires.
+
+% « DÉFINITION 2, — » : the heading is printed with a comma.
+\begin{defin}[2]
+Soient $E$ un espace vectoriel, $W$ un convexe de $E$ contenant l'origine; on dit qu'un
+sous-espace vectoriel $L$ de $E$ \textit{fibre} $W$ si l'intersection de tout translaté $L'$ de
+$L$ avec $W$ est, soit $\emptyset$, soit un translaté de $L\cap W$.
+\end{defin}
+
+\begin{defin}[3]
+Soit $W$ un convexe de $E$, engendrant $E$, et contenant l'origine; on dit qu'un sous-espace $L$
+de $E$ \textit{fibre $W$ cylindriquement}, ou encore que $L$ est \textit{distingué relativement
+à $W$}, s'il existe un sous-espace $L'$ de $E$, supplémentaire de $L$, et tel que
+\[ W=L\cap W+L'\cap W. \]
+\end{defin}
+
+\begin{remarque}
+Si $L$ fibre $W$ (resp. fibre cylindriquement $W$), $L$ fibre (resp. fibre cylindriquement) tout
+translaté de $W$ contenant l'origine.
+\end{remarque}
+
+\begin{prop}[3]
+1\textsuperscript{o} Si $W$ ne contient aucune demi-droite, tout sous-espace $L$ qui fibre $W$ le
+fibre cylindriquement;
+% --- p. 265 ---
+
+2\textsuperscript{o} Si $W$ ne contient aucune droite, à tout $L$ qui fibre cylindriquement $W$
+correspond un $L'$ et un seul qui soit supplémentaire de $L$ et tel que
+\[ W=L\cap W+L'\cap W. \]
+La correspondance entre $L$ et $L'$ est une involution sur l'ensemble des sous-espaces distingués
+relativement à $W$.
+\end{prop}
+
+Cette proposition légitimera la
+
+\begin{defin}[4]
+On dit que deux sous-espaces $L$ et $L'$ sont \textit{conjugués} relativement au convexe $W$ si
+\[ W=L\cap W+L'\cap W. \]
+\end{defin}
+
+% The proof of Prop. 3 is printed after Déf. 4. The optional argument (editorial, not printed)
+% names its target, to which the ledger would otherwise not attach it.
+\begin{proof}[Proof of \ref{bzprop:c3s2p3_fibre_cylindriquement}]
+Démontrons maintenant la proposition :
+
+1\textsuperscript{o} Désignons par $U'$ l'ensemble des homologues de l'origine dans tous les
+translatés de $U=L\cap W$ contenus dans $W$. Puisque $L$ fibre $W$ par hypothèse, il est clair
+que $U+U'=W$ et que $U'$ est convexe. Reste à montrer que le support $L'$ de $U'$ est
+supplémentaire du support $L$ de $U$ : cela va résulter de ce que tout vecteur de $W$ s'écrit
+d'une manière unique comme somme d'un vecteur de $U$ et d'un vecteur de $U'$.
+
+En effet, si un convexe $C$ ne contient aucune demi-droite, il n'existe pas de translation $t$
+autre que la translation nulle, qui transforme $C$ en un convexe $t(C)\subset C$.
+
+Soit $w\in W$ : il existe donc un translaté et un seul $U(w)$ de $U$ tel que
+$w\in U(w)\subset W$.
+
+2\textsuperscript{o} Soit $w\in W$ : il existe un translaté et un seul $L(w)$ de $L$ tel que
+$w\in L(w)$.
+
+$L(w)\cap W$ est un translaté $U(w)$ de $U=L\cap W$; nous allons montrer qu'il existe une
+translation unique faisant passer de $U$ à $U(w)$ : il en résultera qu'un convexe $U'$ de support
+$L'$ supplémentaire de $L$ et tel que $U'+U=W$, ne peut être que l'ensemble des homologues de
+l'origine dans les translations $U(w)$ de $U$.
+
+Or, si un convexe $C$ ne contient aucune droite, il n'existe pas de translation $t$ non nulle qui
+transforme $C$ en un convexe $t(C)=C$.
+
+Soit $w\in W$, il existe une translation et une seule qui transforme $U$ en $U(W)$.
+% [sic] « U(W) » : read « U(w) ».
+\end{proof}
+
+\begin{theoreme}[1]
+Soient $W$ un convexe de $E$ contenant l'origine $O$, engendrant $E$, et ne contenant aucune
+droite, $L$ et $L'$, $D$ et $D'$ deux couples de sous-espaces distingués conjugués relativement à
+$W$. Alors $L\cap D$ et $L'\cap D$ sont conjugués relativement à $W\cap D$.
+\end{theoreme}
+
+% Proof of Theorem 1, first part; it is interrupted by the LEMME and its proof, and resumes
+% after them. Optional arguments editorial and not printed.
+\begin{proof}[Proof of \ref{bzthm:c3s2t1_conjugues_intersection}]
+Désignons par $P_L$ (resp. $P_{L'}$, $P_D$, $P_{D'}$) la projection sur $L$ (resp. $L'$, $D$, $D'$)
+parallèlement à $L'$ (resp. $L$, $D'$, $D$); la démonstration repose sur le
+\end{proof}
+
+% --- p. 266 ---
+\begin{lemme}
+Soient $a$ et $b$ deux éléments tels que $b$ et $a+b$ appartiennent à $W$. Alors
+\[ u=P_L(a)+b\in W. \]
+\end{lemme}
+
+\begin{proof}
+En effet, on a
+\[ \begin{aligned} &P_L(u)=P_L(a)+P_L(b)=P_L(a+b)\in W,\\ &P_{L'}(u)=P_{L'}(b)\in W,
+\end{aligned} \]
+d'où
+\[ u=P_L(u)+P_{L'}(u)\in W. \]
+\end{proof}
+
+% Proof of Theorem 1, second part (after the LEMME); NOT a proof of the LEMME.
+\begin{proof}[Proof of \ref{bzthm:c3s2t1_conjugues_intersection}]
+Soit $a\in W\cap D$, nous allons montrer que $P_L(a)$ et $P_{L'}(a)$ appartiennent à $D$, ce qui
+prouvera que
+\[ W\cap D=P_L(W\cap D)+P_{L'}(W\cap D) \]
+d'où le théorème.
+
+On a
+\[ P_{D'}P_L(a)+P_{D'}P_{L'}(a)=P_{D'}(a)=0. \]
+
+Nous allons montrer que $D'\cap W$ est stable par les translations opposées $P_{D'}P_L(a)$ et
+$P_{D'}P_{L'}(a)$, d'où résultera la nullité de ces translations.
+
+En effet, soit $w\in D'\cap W$; on a
+\[ a+w\in D\cap W+D'\cap W=W, \]
+d'où, d'après \bzcf{le lemme}{\ref{bzlem:c3s2l1_projection_somme}},
+\[ P_{L'}(a)+w\in W \]
+et, en appliquant \bzcf{le lemme}{\ref{bzlem:c3s2l1_projection_somme}} cette fois à $P_{D'}$,
+\[ P_{D'}P_{L'}(a)+w\in D'\cap W. \]
+On voit de même que
+\[ P_{D'}P_L(a)+w\in D'\cap W, \]
+ce qui achève la démonstration.
+\end{proof}
+
+\begin{corollaire}
+Soient $W$ un convexe de $E$ contenant $O$, engendrant $E$, ne contenant aucune droite, $(L, L')$,
+$(D, D')$ deux couples de sous-espaces conjugués relativement à $W$, $P_L$ (resp. $P_{L'}$,
+$P_D$, $P_{D'}$) la projection sur $L$ (resp. $L'$, $D$, $D'$) parallèlement à $L'$ (resp. $L$,
+$D'$, $D$) : $P_L$, $P_{L'}$, $P_D$, $P_{D'}$ commutent deux à deux, et l'on a
+\[ \text{Identité}=P_LP_D+P_LP_{D'}+P_{L'}P_D+P_{L'}P_{D'}. \]
+\end{corollaire}
+
+\begin{proof}
+D'après \bzcf{le théorème 1}{\ref{bzthm:c3s2t1_conjugues_intersection}}, tout point de
+$V=D\cap W$ s'écrit d'une façon et d'une seule comme somme d'un point de $L\cap D\cap W$ et d'un
+point de $L'\cap D\cap W$. De même, tout point de $V'$ s'écrit d'une manière et d'une seule comme
+% --- p. 267 ---
+somme d'un point de $L\cap D'\cap W$ et d'un point de $L'\cap D'\cap W$. Tout point de $W$ s'écrit
+de manière unique comme somme de points de
+\[ L\cap D\cap W;\qquad L'\cap D\cap W;\qquad L\cap D'\cap W;\qquad L'\cap D'\cap W. \]
+La projection correspondante sur $L\cap D\cap W$ n'est autre que $P_LP_D$ ou $P_DP_L$ par raison
+de symétrie. D'où le corollaire.
+\end{proof}
+% « V' » as printed (read D' ∩ W; V' is not introduced).
+
+De là on déduit aussitôt le
+
+\begin{theoreme}[2]
+Soit $W$ un convexe de $E$ contenant l'origine, engendrant $E$ et ne contenant aucune droite :
+l'ensemble des sous-espaces distingués relativement à $W$ peut être considéré comme une algèbre
+de Boole, dont l'élément $1$ est $E$ et l'élément $0$ l'origine (considéré comme sous-espace de
+dimension $0$); on prend comme complémentaire le conjugué; comme \textup{inf} l'intersection,
+comme \textup{sup} le produit.
+\end{theoreme}
+% (No proof of Theorem 2 is printed beyond « De là on déduit aussitôt le ».)
+
+\begin{corollaire}
+Si $E$ est de dimension finie $n$, l'algèbre de Boole des sous-espaces distingués relativement à
+$W$ n'est autre que l'algèbre des parties d'un ensemble fini dont le cardinal est compris entre
+$1$ et $n$ ($1$ correspond à la sphère, $n$ au cube).
+
+Tout sous-espace distingué est obtenu d'une façon et d'une seule comme somme d'une famille de
+sous-espaces distingués simples [c'est-à-dire minimaux parmi ceux différents de $0$].
+\end{corollaire}
+% (No proof of the corollary is printed.)
+
+Nous allons maintenant étudier la notion de somme pour les convexes de la sphère projective
+$S(E)$ associée à l'espace vectoriel $E$.
+
+\begin{defin}[5]
+Soient $w$ un convexe de $S(E)$, de noyau vide, $\{v_i\}$ une famille finie de convexes de $S(E)$;
+$w$ est dit \textit{somme} des convexes $v_i$ si les $F(v_i)$ sont convexes et si $F(w)$ est
+somme des convexes $F(v_i)$.
+
+En particulier, soient $w$, $v_1$, $v_2$ trois convexes non vides de $S(E)$. Soit $l_1$, $l_2$
+les supports de $v_1$, $v_2$, c'est-à-dire les plus petites variétés linéaires contenant $v_1$ et
+$v_2$ respectivement. $w$ est somme de $v_1$ et $v_2$ si $l_1\cap l_2$ est vide et si $w$ est
+réunion de l'ensemble de tous les segments ouverts joignant un point de $v_1$ à un point de
+$v_2$. On convient que $w$ est somme de $w$ et du convexe vide.
+\end{defin}
+
+\begin{defin}[6]
+Soit $w$ un convexe de $S(E)$ dont le support est $S(E)$ et le noyau $\emptyset$. Un sous-espace
+$l$ est \textit{distingué relativement à $w$} s'il existe un sous-espace $l'$ tel que $w$ soit
+somme de deux convexes $v$ et $v'$ de supports $l$ et $l'$.
+
+La donnée du sous-espace distingué $l$ détermine complètement le sous-espace distingué $l'$; $l$
+et $l'$ sont dits coujugués relativement à $w$.
+% [sic] « coujugués » : read « conjugués ».
+\end{defin}
+
+\begin{theoreme}[3]
+Soit $w$ un convexe de $S(E)$ de support $S(E)$, de noyau vide; l'ensemble des sous-variétés
+distinguées relativement à $w$ peut être considéré comme une algèbre de Boole dont l'élément
+\textup{(}$1$\textup{)} est $S(E)$ et l'élément \textup{(}$0$\textup{)} la partie vide. On prend
+comme complémentaire la conjuguée, comme \textup{inf} l'intersection, comme \textup{sup}
+l'enveloppe convexe.
+\end{theoreme}
+
+% --- p. 268 ---
+\begin{corollaire}
+Si $E$ est de dimension finie $(n+1)$, l'algèbre de Boole des sous-variétés distinguées
+relarivement à $w$ n'est autre que l'algèbre des parties d'un ensemble fini dont le cardinal est
+compris entre $1$ et $(n+1)$. [$1$ correspond au cas où il n'existe pas de décomposition non
+triviale, $(n+1)$ au cas du $n$-simplexe ouvert de la sphère à $n$ dimensions $S(E)$].
+% [sic] « relarivement » : read « relativement ».
+
+Toute sous-variété distinguée est obtenue d'une façon et d'une seule comme enveloppe convexe d'une
+famille de sous-variétés distinguées simples, c'est-à-dire minimales parmi celles distinctes de la
+partie vide.
+\end{corollaire}
+
+% This paragraph justifies Déf. 6 and proves Theorem 3 and its corollary at once; as a `proof`
+% without optional argument the ledger attaches it to the corollary (the nearest statement).
+\begin{proof}
+Pour justifier \bzcf{la définition 6}{\ref{bzdef:c3s2d6_distingue_projectif}} et démontrer
+\bzcf{le théorème 3}{\ref{bzthm:c3s2t3_algebre_boole_projective}} et son corollaire, il suffit
+de se reporter aux énoncés correspondants formulés dans le cas affin.
+\end{proof}
+
+\begin{prop}[4]
+Soient $w$ un ouvert convexe de $S(\R^{n+1})=S(n)$, de noyau vide, $l_i$ les $p$ sous-variétés
+distinguées simples relatives à $w$, $v_i$ les convexes de $l_i$ dont $w$ est la somme; on peut
+écrire avec les notations du chapitre 1, paragraphes 1 et 2
+\[ w=F^{-1}(F(v_1)\times\ldots\times F(v_p)) \]
+tout automorphisme projectif de $w$ est un automorphisme compatible au sens du \bzcf{chapitre 1,
+paragraphe 3, définition 2}{\ref{bzdef:c1s3d2_automorphisme_compatible}}.
+\end{prop}
+
+\begin{proof}
+En effet, un automorphisme projectif de $w$ est un élément de $GP(n, \R)$ qui permute entre elles
+les variétés distinguées simples.
+\end{proof}
+
+\begin{prop}[5]
+Avec les notations de \bzcf{la proposition 4}{\ref{bzprop:c3s2p4_automorphisme_compatible}}, $w$
+est balayable (resp. homogène) si et seulement si les $v_i$ le sont.
+\end{prop}
+
+\begin{proof}
+Cette proposition résulte de \bzcf{la précédente}{\ref{bzprop:c3s2p4_automorphisme_compatible}}
+et de \bzcf{la proposition 4 du chapitre 1, paragraphe 3}{\ref{bzprop:c1s3p4_reciproque}}.
+\end{proof}
+
+\begin{corollaire}
+Soit $w$ un ouvert convexe de $S(\R^{n+1})$ de noyau vide, somme de $p$ convexes $v_1$, \ldots,
+$v_i$, \ldots, $v_p$. $w$ est balayable (resp. homogène) si et seulement si les $v_i$ le sont.
+\end{corollaire}
+
+\begin{proof}
+\textsc{Démonstration.} --- On se ramène à une décomposition de $w$ en somme de convexes contenus
+dans des variétés distinguées simples et l'on applique \bzcf{la proposition
+précédente}{\ref{bzprop:c3s2p5_balayable_somme}}.
+\end{proof}
+
+% « 3. Dualité des corps convexes — » : no period is printed before the dash.
+\subsection*{3. Dualité des corps convexes.}
+
+Nous allons définir cette dualité en introduisant successivement les hypothèses nécessaires :
+
+\textit{a}. Soient $E$, $E'$ deux espaces vectoriels. Supposons définie sur $E\times E'$ une
+forme bilinéaire que nous noterons
+\[ \langle m, m'\rangle,\qquad m\in E,\qquad m'\in E' \]
+Nous allons définir au moyen de cette forme bilinéaire une application $D$ de $K(S(E))$ dans
+$K(S(E'))$ et une application $D'$ de $K(S(E'))$ dans $K(S(E))$.
+% --- p. 269 ---
+Soit $W\in K(S(E))$; nous poserons (pour la définition de $s$, \textit{voir} \bzcf{\S\,1,
+chap. 1, déf. 3}{\ref{bzdef:c1s1d3_sphere}})
+\[ D(W)=s\{m'\mid\langle m, m'\rangle\geqq 0,\ \forall m\in F(W);\ m'\neq 0\}. \]
+et, de même pour $W'\subset K(S(E'))$,
+\[ D'(W')=s\{m\mid\langle m, m'\rangle\geqq 0,\ \forall m'\in F(W');\ m\neq 0\}. \]
+% [sic] « W' ⊂ K(S(E')) » : read « W' ∈ K(S(E')) ».
+Il est clair que $F\circ D(W)$ est un cône convexe de sommet origine dans $E'$ et l'on a bien
+défini une application de $K(S(E))$ dans $K(S(E'))$.
+
+Soit $W_1\subset W_2$ deux éléments de $K(S(E))$; on a $D(W_2)\subset D(W_1)$.
+
+\textit{b}. Supposons maintenant que $E$ (resp. $E'$) soit muni d'une topologie localement
+convexe séparée et que la forme bilinéaire introduite en (\textit{a}) soit séparément continue en
+chacune des variables.
+
+Désignons par $C(S(E))$ l'ensemble des convexes fermés de la sphère $S(E)$ d'un espace vectoriel
+topologique $E$ : $D$ envoie $C(S(E))$ dans $C(S(E'))$ et, de même, $D'$ envoie $C(S(E'))$ dans
+$C(S(E))$.
+
+\textit{c}. Supposons vérifiées les hypothèses de (\textit{a}) et (\textit{b}) et supposons de
+plus que la forme bilinéaire définie sur $E\times E'$ permette d'identifier $E'$ à l'ensemble des
+formes linéaires continues sur l'espace vectoriel topologique $E$. Alors $D'\circ D$ induit
+l'identité sur $C(S(E))$.
+
+% The claims of a, b, c are left as free text: an environment `proof` here would be attached by
+% the ledger to the corollary of § 2 Prop. 5 (see NOTES.md, editorial choices).
+En effet, soit $W\subset C(S(E))$; $F(W)\cup\{O\}$ est un cône convexe fermé de $E$, il est donc
+l'intersection des demi-espaces fermés qui le contiennent (\textit{cf.} \textsc{Bourbaki},
+\textit{Espaces vectoriels topologiques}, chap. II, \S\,3, corollaire 1 de la proposition 4). On
+voit facilement que $F(W)$ est l'intersection d'une famille de demi-espaces fermés limités à un
+hyperplan contenant l'origine, c'est-à-dire définis par une équation
+\[ \langle m, m'\rangle\geqq 0 \]
+[si un demi-espace fermé contient $F(W)$, l'intersection de tous les homothétiques de ce
+demi-espace par rapport à l'origine dans un rapport positif contient $F(W)$].
+% [sic] « soit W ⊂ C(S(E)) » : read « W ∈ C(S(E)) ».
+
+Le résultat annoncé en résulte.
+
+\textit{d}. Nous pouvons maintenant énoncer la
+
+\begin{prop}[1]
+Soient $E$, $E'$ deux espaces vectoriels topologiques semi-réflexifs mis en dualité par une
+application bilinéaire notée $\langle m, m'\rangle$, $m\in E$, $m'\in E'$. la correspondance $D$
+définie en (\textit{a}) est une application biunivoque de $C(S(E))$ sur $C(S(E'))$, et $D'$ est
+l'application réciproque.
+\end{prop}
+% [sic] « m' ∈ E'. la correspondance » : read « La correspondance » (lower-case after a period).
+
+\begin{proof}
+Cela résulte de la
+\end{proof}
+% (« Cela résulte de la » runs into the heading « PROPOSITION 2. »: Prop. 1 is proved by Prop. 2.)
+
+\begin{prop}[2]
+1\textsuperscript{o} Sous les hypothèses de (\textit{b}), on a $D(W)=D(\overline{W})$;
+
+2\textsuperscript{o} Sous les hypothèses de (\textit{d}), on a $D'\circ D(W)=\overline{W}$.
+\end{prop}
+
+% --- p. 270 ---
+\begin{proof}
+\textsc{Démonstration.} --- 1\textsuperscript{o} Il suffit de montrer que
+$D(W)\subset D(\overline{W})$ : cela résulte de ce que toute forme linéaire positive ou nulle sur
+$F(W)$ est positive ou nulle sur sa fermeture;
+
+2\textsuperscript{o} On a $D(W)=D(\overline{W})$ et $D'\circ D=$ identité pour tout convexe de
+$C(S(E))$ tel que $\overline{W}$.
+\end{proof}
+% « tel que W̄ » as printed (« tel que » = « such as »: D'∘D is the identity on the closed convex W̄).
+
+\begin{prop}[3]
+Soient $E$ un espace vectoriel topologique, $E'$ l'espace vectoriel des formes linéaires
+continues sur $E$, $\langle M, M'\rangle$ la forme bilinéaire sur $E\times E'$ qui à $M'\in E'$,
+$M\in E$ associe la valeur sur $M$ de la forme linéaire $M'$. $D'$ met en correspondance
+biunivoque les hémisphères fermés de $S(E)$ et les points de $S(E')$.
+\end{prop}
+
+\begin{proof}
+En effet, soit $m\in S(E')$; soit $M\in F(m)\subset E'$. $D'M$ n'est autre que l'hémisphère fermé
+de $E$, fermeture de l'hémisphère ouvert d'équation $M$ (\bzcf{\textit{cf.} chap. 1, \S\,1,
+déf. 5}{\ref{bzdef:c1s1d5_hemisphere}}).
+% [sic] « l'hémisphère fermé de E » : read « de S(E) ». « D'M » as printed (read D'(m) = D'({sM})).
+
+Réciproquement, soit $H$ un hémisphère ouvert de $S(E)$, soit $M\in E'$ une équation de $H$, on a
+\[ \overline{H}=D'\circ sM. \]
+\end{proof}
+
+La proposition ci-dessus permet de donner une définition géométrique de $D$ : c'est l'objet de la
+
+\begin{prop}[4]
+Supposons vérifiées les hypothèses de (\textit{d}) : soit $W\in C(S(E))$ : $D(W)$ n'est autre que
+l'ensemble des points $M'$ de $S(E')$ tels que $W$ soit contenu dans l'hémisphère fermé
+$D(\{M'\})$.
+\end{prop}
+% (No proof of Prop. 4 is printed.)
+
+\begin{prop}[5]
+Plaçons-nous sous les hypothèses de (\textit{a}) : Soit $W$ une variété linéaire; alors $D$ est
+une variété linéaire.
+\end{prop}
+% [sic] « alors D est une variété linéaire » : read « D(W) ».
+
+\begin{proof}
+La proposition résulte facilement de la définition de $D$.
+\end{proof}
+
+Nous supposerons maintenant que $E=\R^{n+1}$; $S(E)=S(n)$. $\R^{n+1}$ est muni d'un produit
+scalaire qui permet de l'identifier à son dual. Soit $M=(m_0, \ldots, m_i, \ldots, m_n)$, avec
+$m_i\in\R$, $N=(n_0, \ldots, n_i, \ldots, n_n)$.
+
+On pose $\langle M, N\rangle=\sum_{i=0}^{n}m_in_i$.
+
+\begin{prop}[6]
+Soit $L$ une sous-variété linéaire de dimension $p$ de $S(n)$ ($-1\leqq p\leqq n$), $D(L)$ est
+une sous-variété linéaire de dimension $(n-p-1)$.
+\end{prop}
+
+\begin{proof}
+En effet, $F(L)\cup\{O\}$ est un sous-espace $\R^{n+1}$ de dimension $(p+1)$, et
+$F(DL)\cup\{O\}$ un sous-espace de dimension $(n-p)$.
+% « un sous-espace R^{n+1} » as printed (read « un sous-espace de R^{n+1} »).
+\end{proof}
+
+\begin{prop}[7]
+Soit $W\in C(S(n))$; désignons par $\nu(W)$ la dimension de son noyau, par $\sigma(W)$ la dimension
+de son support (c'est-à-dire de la plus
+% --- p. 271 ---
+petite variété linéaire contenant $W$). $D$ transforme le noyau (resp. support) de $W$ dans le
+support (resp. noyau) de $D(W)$ et l'on a
+\[ \begin{aligned} &\sigma(W)+\nu(D(W))=n-1,\\ &\nu(W)+\sigma(D(W))=n-1. \end{aligned} \]
+\end{prop}
+
+\begin{proof}
+la proposition résulte facilement de ce que $D$ inverse les relations d'inclusion et de \bzcf{la
+proposition précédente}{\ref{bzprop:c3s3p6_dual_sous_variete}}.
+% [sic] « la proposition » : lower-case at the start of a sentence (read « La proposition »).
+\end{proof}
+
+\begin{prop}[8]
+Le dual d'un corps convexe de $S(n)$ est un convexe.
+% [sic?] « est un convexe » : the proof (Prop. 7, σ = n and ν = -1 for the dual) gives « est un
+% corps convexe », which is how Prop. 8 is used; see NOTES.md.
+\end{prop}
+
+\begin{proof}
+Un corps convexe de $S(n)$ (\bzcf{\textit{cf.} chap. 1, \S\,1,
+déf. 11}{\ref{bzdef:c1s1d11_corps_convexe}}) est un convexe formé $W$ tel que $\sigma(W)=n$;
+$\nu(W)=-1$.
+% [sic] « un convexe formé » : read « fermé ».
+
+Les corps convexes ne sont autres que les convexes fermés d'intérieur non vide, et de noyau vide.
+
+La proposition résulte immédiatement de \bzcf{la proposition
+7}{\ref{bzprop:c3s3p7_noyau_support}}.
+\end{proof}
+
+\begin{prop}[9]
+Soit $A\in C(S(n))$ un convexe fermé de $S(n)$, $H=D(\{M\})$ un hémisphère fermé de $S(n)$, les
+deux propriétés suivantes sont équivalentes :
+\[ \begin{aligned} &1^{\circ}\quad A\subset\mathring{H};\\ &2^{\circ}\quad M\in\intr{DA}.
+\end{aligned} \]
+\end{prop}
+
+\begin{proof}
+La sphère de rayon $1$ de $\R^{n+1}$ est une section de $\R^{n-1}-\{O\}$ au-dessus de $S(n)$.
+% [sic] « R^{n-1} - {O} » : read « R^{n+1} - {O} ».
+
+Pour démontrer la proposition, nous identifierons $S(n)$ avec cette sphère munie de sa métrique
+géodésique.
+
+La propriété 1\textsuperscript{o} peut s'énoncer ainsi : $A$ est contenu dans une boule $B$ de
+centre $M$ et de rayon $\dfrac{\pi}{2}-\varepsilon$, $\varepsilon>0$. La propriété
+1\textsuperscript{o} est équivalente à
+\[ D(B)\subset A. \]
+% [sic] « D(B) ⊂ A » : read « D(B) ⊂ D(A) » (D reverses inclusions; D(B) is a ball about M).
+Or $(D(B)$ n'est autre que la boule du centre $M$ et de rayon $\varepsilon$. Donc, la propriété
+1\textsuperscript{o} est équivalente à la propriété 2\textsuperscript{o}.
+% [sic] « Or (D(B) » : stray parenthesis. [sic] « la boule du centre M » : read « de centre M ».
+\end{proof}
+
+\begin{corollaire}
+Si $A$ est un corps convexe de $S(n)$, on peut trouver un hémisphère ouvert de $S(n)$ contenant
+$A$.
+\end{corollaire}
+% (No proof of the corollary is printed.)
+
+\begin{prop}[10]
+Soient $A$, $B$ des convexes fermés : $A$, $B\in C(S(n))$.
+\[ A\subset\mathring{B}\quad\text{entraîne}\quad D(B)\subset\intr{D(A)} \]
+et réciproquement.
+\end{prop}
+
+\begin{proof}
+Puisque $D\circ D=$ Identité, la réciproque se change en la proposition en posant
+\[ D(A)=B',\qquad D(B)=A'. \]
+
+% --- p. 272 ---
+Démontrons que $A\subset\mathring{B}$ entraîne $D(B)\subset\intr{D(A)}$. On a
+\[ \begin{aligned} D(A)&=\bigcap_{M\in A}D(\{M\}),\\
+\intr{D(A)}&=\bigcap_{M\in A}\intr{D(\{M\})}. \end{aligned} \]
+Pour démontrer la proposition, il suffit donc d'établir que pour tout $M\in A$,
+$D(B)\subset D(\{M\})$. Or cela résulte de \bzcf{la proposition
+précédente}{\ref{bzprop:c3s3p9_hemisphere_dual}}.
+% [sic?] « D(B) ⊂ D({M}) » : printed without the ring of interior; the display just above needs
+% « D(B) ⊂ interior of D({M}) ».
+\end{proof}
+
+Quand, au chapitre suivant (\textit{cf.} chap. 4. \S\,1, prop. 9 et 11), nous aurons défini la
+topologie de $E(n)$, de \bzcf{la proposition 10}{\ref{bzprop:c3s3p10_interieur_dual}} résultera
+la
+% « chap. 4. § 1 » as printed (read « chap. 4, § 1 »). Chapter 4 is not transcribed: the
+% reference is not marked.
+
+\begin{prop}[11]
+$D$ est un automorphisme topologique de $E(n)$.
+\end{prop}
+% (No proof of Prop. 11 is printed beyond the sentence above.)
+
+\begin{remarque}
+Puisque $\R^n$ est canoniquement identifié à son dual, la représentation duale de $GL(n, \R)$ est
+un automorphisme de $GL(n, \R)$ : la transposition. Cet automorphisme induit un automorphisme de
+$GS(n-1, \R)$, que nous noterons $\Delta$; $\Delta$ peut s'exprimer au moyen de la dualité $D$
+des parties convexes fermées de $S(n-1)$.
+
+Soit $g\in(GS(n-1, \R)$, $\Delta(g)\in GS(n-1, \R)$; $W\in C(S(n-1))$; on a
+\[ \Delta(g)\,W=D\circ g\circ DW. \]
+% [sic] « g ∈ (GS(n-1, R) » : stray parenthesis.
+\end{remarque}
+
+\begin{proof}
+En effet, cette formule est équivalente à la définition de $\Delta$, quand $W$ est un point ou un
+hémisphère.
+\end{proof}
+
+\subsection*{4. Contingent des ensembles convexes.}
+
+\begin{defin}[1]
+Soient $E$ un espace vectoriel, $W\in K(S(E))$, $a\in W$, $a'$ le point diamétralement opposé à
+$a$. On appelle \textit{cône d'appui} en $a$ à $W$ le plus petit convexe de $S(E)$ contenant $W$
+et $a'$ : on le note $W_a$.
+\end{defin}
+
+On peut donner de cette définition deux autres énoncés équivalents.
+
+\begin{defin}[1$'$]
+$W_a$ est la réunion des demi-droites de $S(E)$ qui joignent $a$ au point diamétralement opposé
+$a'$ et rencontrent $W$ en un point distinct des extrémités $a$ et $a'$.
+\end{defin}
+
+\begin{defin}[1$''$]
+Soit $A$ un point de $F(W)$ se projetant sur $W$ suivant $a$ : $F(W_a)\cup\{O\}$ est l'ensemble
+des vecteurs de $E$ qui peuvent s'écrire comme somme d'un vecteur de $F(W)$ et d'un vecteur
+multiple de $A$ par un nombre réel
+\[ F(W_a)\cup\{O\}=\{M : \exists\lambda\in\R;\ \exists P\in F(W);\ M=\lambda A+P\}. \]
+\end{defin}
+
+\begin{defin}[2]
+On appelle contingent à un convexe fermé $W$ en un de ses points $a$ la fermeture du
+cône d'appui $W_a$.
+\end{defin}
+
+% --- p. 273 ---
+\begin{prop}[1]
+Soient $W\in K(S(E))$, $a$, $b\in W$, $a'$, $b'$ les points diamétralement opposés à $a$ et $b$.
+
+Si $b\neq a$, $b\neq a'$, les quatre propriétés suivantes sont équivalentes :
+
+(1) $a\,\alpha(W)\,b$;
+
+(2) Sur la droite qui joint $a$ et $b$, chacune des deux demi-droites délimitées par $a$ et $a'$
+rencontre $W$;
+
+(3) $b'\in W_a$;
+
+(4) $W_b\subset W_a$.
+
+Si $b=a$ ou $b=a'$, les propriétés (1), (3), (4) sont équivalentes.
+\end{prop}
+
+\begin{proof}
+Supposons d'abord $b\neq a$, $b\neq a'$. L'équivalence des propriétés (1) et (2) résulte
+immédiatement de la définition de $\alpha(W)$ (\bzcf{\textit{cf.} \S\,2
+déf. 3}{\ref{bzdef:c3s2d3_fibre_cylindriquement}}).
+% [sic] « cf. § 2 déf. 3 » : α(W) is § 1, déf. 1 (and α(k) on the sphere § 1, déf. 4); § 2,
+% déf. 3 is « L fibre W cylindriquement ». Following the convention, the \ref names the PRINTED
+% § 2, déf. 3; see NOTES.md (to be ruled).
+
+L'équivalence des propriétés (2) et (3) apparaît si l'on utilise \bzcf{la définition
+(1$'$)}{\ref{bzdef:c3s4d1prime_cone_appui_demi_droites}} de $W_a$.
+
+L'équivalence des propriétés (3) et (4) apparaît si l'on utilise \bzcf{la définition
+(1)}{\ref{bzdef:c3s4d1_cone_appui}} de $W_a$.
+
+Dans les cas $b=a$ ou $b=a'$, l'assertion de la proposition est évidente.
+\end{proof}
+
+\begin{prop}[2]
+Soient $E$, $E'$ deux espaces vectoriels. On suppose définie une forme bilinéaire sur le produit
+$E\times E'$ [\textit{cf.} \S\,3, \textit{a})]. Soit $W\subset K(S(E))$, $a\in W$, on a
+\[ D(W_a)\subset D(W), \]
+et si
+\[ m'_1\in D(W_a),\qquad m'_2\in D(W)\qquad\text{et}\qquad m'_1\,\alpha(D(W))\,m'_2, \]
+alors
+\[ m'_2\in D(W_a). \]
+\end{prop}
+% [sic] « W ⊂ K(S(E)) » : read « W ∈ K(S(E)) ». « cf. § 3, a) » names the hypothesis a of § 3,
+% which is free text: not marked.
+
+\begin{proof}
+\textsc{Démonstration.} --- Soit $A$ un point de $F(W)$ se projetant en $a$. On peut trouver
+$M'_1$, $M'_2$ se projetant en $m'_1$, $m'_2$ tels que $M'_1=M'_2+M'_3$, où
+$M'_3\in F\circ D(W)$. $F\circ D(W_a)$ peut être ainsi défini
+\[ F\circ D(W_a)\cup\{O\}=\{M'\mid\langle AM'\rangle=0;\ \langle MM'\rangle\geqq 0,\ \forall M\in
+F(W)\}. \]
+Rappelons la définition de $F\circ D(W)$
+\[ F\circ D(W)\cup\{O\}=\{M'\mid\langle MM'\rangle\geqq 0,\ \forall M\in F(W)\}. \]
+Pour démontrer la proposition, il suffit d'établir que $\langle AM''_2\rangle=0$. Or on a
+\[ \begin{gathered} \langle AM'_2\rangle\geqq 0,\\ \langle AM'_3\rangle\geqq 0,\\
+\langle AM'_2\rangle+\langle AM'_3\rangle=\langle AM'_1\rangle=0. \end{gathered} \]
+% [sic] « ⟨A M''_2⟩ » : read « ⟨A M'_2⟩ ».
+Il en résulte
+\[ \langle AM'_2\rangle=0, \]
+d'où la proposition.
+\end{proof}
+
+% --- p. 274 ---
+Nous supposerons maintenant que l'espace $E$ est $\R^{n+1}$, canoniquement identifié à son dual au
+moyen de la forme $\sum_i x_iy_i$.
+
+\begin{defin}[3]
+Soient $m$, $p$ deux points de $S(n)$; $M$, $P$ deux points de $\R^{n+1}-\{O\}$ se projetant sur
+$m$ et $p$. Si $\langle M, P\rangle=0$, nous écrirons encore $\langle m, p\rangle=0$. Il est clair
+que cette définition ne dépend pas du choix de $M$ et de $P$ et qu'elle est symétrique en $m$ et
+$p$.
+
+On peut encore l'énoncer :
+
+$\langle m, p\rangle=0$ si et seulement si $D(\{p\})$ contient $m$ et le point diamétralement
+opposé à $m$.
+\end{defin}
+
+\begin{prop}[3]
+Soit $a$ un point de $S(n)$; $W\in K(S(n))$; alors
+\[ D(W_a)=\{m\mid m\in D(W),\ \langle m, a\rangle=0\}. \]
+\end{prop}
+
+\begin{proof}
+En effet,
+\[ D(W_a)=D(\overline{W_a}) \]
+et le contingent $\overline{W_a}$ n'est autre que l'intersection de la famille des hémisphères
+fermés contenant $W$ et le point diamétralement opposé à $a$.
+\end{proof}
+
+\begin{prop}[4]
+Soient $m$, $m'$, $p$, $p'$ quatre points de $S(n)$, entre lesquels on suppose vérifiées les
+relations
+\[ m\,\alpha(W)\,m';\quad p\,\alpha(D(W))\,p';\quad\langle m, p\rangle=0. \]
+Alors
+\[ \langle m', p'\rangle=0. \]
+\end{prop}
+
+\begin{proof}
+Par raison de symétrie, il suffit de démontrer
+\[ \langle m', p\rangle=0. \]
+Or cela résulte immédiatement des \bzcf{propositions 1}{\ref{bzprop:c3s4p1_alpha_cone_appui}} et
+\bzcf{3}{\ref{bzprop:c3s4p3_dual_cone_appui}}.
+\end{proof}
+
+\bzcf{La proposition 3}{\ref{bzprop:c3s4p3_dual_cone_appui}} permet d'ailleurs d'établir
+l'équivalence entre \bzcf{la proposition 2}{\ref{bzprop:c3s4p2_dual_cone_appui_sature}} et
+l'assertion $\langle m, p'\rangle=0$.
+
+Sur $S(n)$, \bzcf{la proposition 2}{\ref{bzprop:c3s4p2_dual_cone_appui_sature}} peut donc être
+démontrée comme un corollaire de \bzcf{la proposition 1}{\ref{bzprop:c3s4p1_alpha_cone_appui}}.
+
+\begin{defin}[4]
+Soient $F$ une facette de $W$, $F'$ une facette de $D(W)$, nous dirons qu'est vérifiée la
+relation
+\[ \langle F, F'\rangle=0 \]
+si pour tout point $m$ de $F$ et tout point $m'$ de $F'$ on a
+\[ \langle m, m'\rangle=0. \]
+\end{defin}
+
+D'après \bzcf{la proposition précédente}{\ref{bzprop:c3s4p4_orthogonalite_facettes}}, s'il existe
+$m$ dans $F$ et $m'$ dans $F'$ tels que $\langle m, m'\rangle=0$, on a $\langle F, F'\rangle=0$.
+
+% --- p. 275 ---
+\begin{prop}[5]
+Soient $F_1$, $F_2$ (resp. $F'_1$, $F'_2$) deux facettes de $W$ [resp. de $D(W)$] telles que soient
+vérifiées les relations
+\[ \begin{gathered} F_1\,\alpha(W)\,F_2;\quad F'_1\,\alpha(D(W))\,F'_2;\\ \langle F_1,
+F'_1\rangle=0. \end{gathered} \]
+Alors, on a
+\[ \langle F_2, F'_2\rangle=0. \]
+\end{prop}
+
+\begin{proof}
+La proposition 5 est un corollaire de \bzcf{la proposition
+4}{\ref{bzprop:c3s4p4_orthogonalite_facettes}}.
+\end{proof}
+
+\begin{prop}[6]
+Soient $W\in K(S(n))$, $F$ une facette de $W$, $a\in F$, $D(W_a)$ est la fermeture d'une facette
+de $D(W)$ qui ne dépend pas du choix de $a$ et que nous noterons $\Dc(F)$.
+\end{prop}
+
+\begin{proof}
+En effet, considérons un point $a'$ intérieur au convexe $D(W_a)$ muni de la topologie induite par
+celle de son support, $\Dc(F)$ n'est autre que la facette de $a'$.
+\end{proof}
+
+\begin{prop}[7]
+Soient $F$ une facette de $W$, $F'$ une facette de $D(W)$ telles que
+\[ \langle F, F'\rangle=0. \]
+Alors, on a
+\[ \Dc(F)\,\alpha(D(W))\,F'. \]
+\end{prop}
+% (No proof of Prop. 7 is printed.)
+
+Nous dirons que $\Dc(F)$ est la facette minimale (au sens de $\alpha$) parmi celles $F'$ qui
+vérifient $\langle F, F'\rangle=0$. Du point de vue ensembliste, notons que $\overline{\Dc(F)}$
+contient toutes les facettes $F'$ telles que $\langle F, F'\rangle=0$.
+
+La correspondance $\Dc$ n'est pas nécessairement biunivoque, mais voici quelques propriétés de
+$\Dc$ :
+
+% « PROPOSITION 8. » : the heading is printed without the dash, the statement displayed.
+\begin{prop}[8]
+\[ \Dc\circ\Dc\circ\Dc=\Dc. \]
+\end{prop}
+
+\begin{proof}
+\textsc{Démonstration.} --- $\Dc\circ\Dc(F)$ n'est autre que la facette de $W$ minimale au sens de
+$\alpha$ parmi celles $F_i$ qui vérifient $\langle F_i, \Dc(F)\rangle=0$.
+
+$\Dc\circ\Dc\circ\Dc(F)$ est la facette de $D(W)$ minimale parmi celles $F'$ qui vérifient
+$\langle\Dc\circ\Dc(F), F'\rangle=0$.
+
+Or, $\Dc(F)$ est minimale parmi celles $F'$ vérifiant $\langle F, F'\rangle=0$, donc \textit{a
+fortiori} parmi celles vérifiant $\langle\Dc\circ\Dc(F), F'\rangle=0$.
+\end{proof}
+
+\begin{prop}[9]
+Une facette $F$ vérifie $\Dc\circ\Dc(F)=F$ si et seulement si $\overline{F}$ est l'intersection de
+$W$ avec un hyperplan.
+\end{prop}
+
+\begin{proof}
+\textsc{Démonstration.} --- Si $\Dc\circ\Dc(F)=F$, soit $p\in\Dc(F)$, $\overline{F}$ n'est autre
+que l'intersection de $W$ avec l'hyperplan frontière de $D(\{p\})$.
+
+Réciproquement, si $\overline{F}=W\cap h$, où $h$ est l'hyperplan frontière de $D(\{p\})$,
+$p\in W$, $F$ est transformée par $\Dc$ de la facette $F'$ de $p$, donc
+\[ \Dc\circ\Dc(F)=\Dc\circ\Dc\circ\Dc(F')=\Dc(F')=F. \]
+% [sic?] « p ∈ W » : p, the pole of a hyperplan meeting W in F̄, lies in D(W) (read « p ∈ D(W) »).
+\end{proof}
+
+% --- p. 276 ---
+Donnons un exemple de corps convexe possédant une facette qui n'est pas l'intersection du corps
+avec un hyperplan.
+
+Nous nous placerons sur $S(2)$ identifié à la sphère unité de $\R^3$ et muni de la métrique
+géodésique.
+
+Soient $a$, $b$ deux points dont la distance est $1$; nous prendrons pour $W$ le plus petit
+convexe fermé contenant les deux cercles de centres $a$ et $b$ et de rayon $\dfrac{1}{4}$.
+
+La frontière de $W$ se compose de deux arcs de cercle et de deux segments de droite, soit $p$ un
+des quatre points où se raccordent un segment et un arc, $\{p\}$ une facette qui ne peut être
+obtenue comme intersection de $W$ et d'une droite.
+% (The example is printed without an EXEMPLE heading: free text, no environment.)
+
+\begin{defin}[5]
+Une facette $F$ d'un convexe fermé $W$ est dite \textit{conique} si le noyau du contingent en un
+point de cette facette n'est autre que le support de la facette.
+\end{defin}
+
+\begin{prop}[10]
+Soient $W$ un corps convexe, $F$ une facette conique de $W$, $L$ son support; le contingent à $W$
+en un point de $F$ s'identifie à un corps convexe de $S(n)/L$.
+\end{prop}
+
+\begin{proof}
+Parce que $W$ est d'intérieur non vide, il en est de même du contingent considéré comme partie de
+$S(n)/L$; que le noyau de cette partie soit vide résulte de ce que $F$ est conique.
+\end{proof}
+
+\begin{defin}[6]
+Soit $F$ une facette conique de support $L$ d'un corps convexe de $W$; soit $L'$ une sous-variété
+linéaire de $S(n)$ telle que $S(n)$ soit somme de $L$ et de $L'$ au sens de \bzcf{la définition 6
+du paragraphe 2}{\ref{bzdef:c3s2d6_distingue_projectif}} [$L\cap L'=E$, $S(n)$ enveloppe convexe
+de $L$ et $L'$]. L'intersection de $L'$ avec le contingent à $W$ en un point de $F$ est appelée
+base dans $L'$ de la facette conique $F$.
+% [sic] « d'un corps convexe de W » : read « d'un corps convexe W ». [sic] « L ∩ L' = E » : read
+% « L ∩ L' = ∅ » (S(n) is the sum of L and L', whose supports are disjoint).
+\end{defin}
+
+\begin{remarque}
+Supposons données $p$ sous-variétés linéaires $L_1$, \ldots, $L_i$, \ldots, $L_p$ dont $S(n)$
+soit la somme. Soient $W_1$, \ldots, $W_i$, \ldots, $W_p$ des corps convexes de $L_1$, \ldots,
+$L_i$, \ldots, $L_p$ ($W_i$ convexe fermé d'intérieur non vide pour la topologie de $L_i$). La
+fermeture de la somme des $W_i$ est un corps convexe de $S(n)$ dont les $W_i$ sont des facettes
+coniques.
+\end{remarque}
+
+\subsection*{5. Sur les convexes, réunions de deux convexes disjoints.}
+
+Le but de ce paragraphe et de démontrer les \bzcf{théorèmes
+1}{\ref{bzthm:c3s5t1_reunion_convexes_affine}} et
+\bzcf{1$'$}{\ref{bzthm:c3s5t1prime_reunion_convexes_sphere}} qui concernent l'espace affin et la
+sphère projection de dimension finie.
+% [sic] « Le but de ce paragraphe et de démontrer » : read « est de démontrer ». [sic] « la sphère
+% projection » : read « projective ».
+
+Plusieurs des résultats intermédiaires sont indépendants de la dimension; nous les démontrons donc
+sans faire d'hypothèses restrictives.
+
+\begin{defin}[1]
+Soit $W$ un convexe dans un espace vectoriel; $V\subset W$ : on dit que $V$ possède relativement à
+$W$ la propriété $I$ si $V$ et $W-V$ sont tous deux convexes, et l'on écrira :
+$I(V, W)$.
+\end{defin}
+
+% --- p. 277 ---
+\begin{prop}[1]
+Si la réunion $W$ de deux convexes $U$ et $V$ est convexe, l'une des variétés support est contenue
+dans l'autre.
+
+D'une façon plus précise : ou bien tout point de $U$ est aligné avec deux points distincts de
+$V$, ou bien tout point de $V$ est aligné avec deux points distincts de $U$.
+\end{prop}
+
+\begin{proof}
+\textsc{Démonstration.} --- Si l'on écarte la première éventualité, il existe $a\in U$ tel que pour
+tout point $b\in V$ le segment demi-ouvert $)a, b]$ soit contenu dans $U$; donc $b$ est aligné
+avec deux points distincts de $U$.
+\end{proof}
+
+\begin{prop}[2]
+Soient $W$ un convexe dans un espace vectoriel, $V$ une partie convexe non vide de $W$ telle que
+$I(V, W)$; la variété linéaire $L$ engendrée par $V$ est une variété d'appui de $W$.
+\end{prop}
+
+\begin{proof}
+Soit $B$ un point de $L\cap W$; nous allons montrer qu'il existe un point $A$ de $V$ tel que
+$A\,\alpha\,B$ : en effet, $B$ appartient à une sous-variété linéaire de dimension finie engendrée
+par des points $A_1$, \ldots, $A_i$, \ldots, $A_n$ de $V$ : si $A$ est un point intérieur à
+l'enveloppe convexe des $A_i$ pour la topologie de son support, il est clair que $A\in V$ et
+$A\,\alpha\,B$.
+
+Soit maintenant $B\in W$ tel qu'il existe $A\in L\cap W$, avec $A\,\alpha\,B$ : d'après ce qui
+vient d'être démontré, on peut supposer que $A\in V$ : pour démontrer la proposition, il faut
+établir que $B\in L$; ceci est évident si $B\in V$; nous considérons sur la droite $AB$ un point
+$A'$ tel que $A\in)A', B($; on a certainement $A'\in V$ : en effet, si $A'$ appartient à
+$W-V$, $(A', B)$ est contenu dans $(W-V)$, puisque cet ensemble est convexe, et $A$ ne peut
+appartenir à $V$. Il en résulte que la droite $AB$ est contenue dans $L$.
+\end{proof}
+
+\begin{prop}[3]
+Soit $L$ une variété d'appui de $W$ : $\complement L\cap W$ est convexe. Soit $C$ une partie
+convexe de $L\cap W$ : $\bigl(W\cap\complement L\bigr)\cup C$ est convexe.
+\end{prop}
+
+\begin{proof}
+Il suffit de montrer que quels que soient
+\[ A\in\bigl(W\cap\complement L\bigr)\cup C\qquad\text{et}\qquad B\in W\cap\complement L, \]
+l'ensemble $)A, B(\cap L$ est vide : en effet, si $C\in)A, B(\cap L$, on a $C\,\alpha\,B$,
+donc, d'après \bzcf{la définition de la variété d'appui}{\ref{bzdef:c3s1d3_variete_appui}} $L$,
+$B\in L$.
+% « C » names both the convex part of L ∩ W and a point of ]A, B[ ∩ L, as printed.
+\end{proof}
+
+\begin{prop}[4]
+Soit $V$ une partie convexe non vide de $W$ convexe : il est équivalent de dire que $V$ possède
+la propriété $I$ relativement à $W$, ou de dire que le support $L$ de $V$ est une variété d'appui
+de $W$ et que $V$ possède la propriété $I$ relativement à $L\cap W$.
+\end{prop}
+% (No proof of Prop. 4 is printed.)
+
+\begin{prop}[5]
+Soient $V$, $W$ convexes de même support $L$, $V$ fermé, $V\subset W$, $I(V, W)$ : alors, ou bien
+$V=W$, ou bien le support de $W-V$ est $L$.
+\end{prop}
+
+\begin{proof}
+Montrons que si $W-V$ contient un point $C$, son support contient tout
+% --- p. 278 ---
+point $A$ de $V$. En effet, la droite $CA$ coupe $V$ suivant un segment fermé $(A'A'')$ ou une
+demi-droite $(A', \infty)$ ne contenant pas $C$ et le plus petit des segments ouverts non vides
+$)C, A'($, $)C, A''($ appartient à $W-V$.
+\end{proof}
+
+\begin{defin}[2]
+Soient $U$, $V$ deux convexes tels que $U\cap V=\emptyset$. On appelle \textit{ensemble de
+contact} de $U$ et $V$ l'ensemble $F$ des points $A$ tels qu'il existe deux points $B$ et $C$
+alignés avec $A$, et tels que $)B, A(\subset U$; $)A, C(\subset V$ (comme dans \bzcf{\S\,1,
+déf. 1}{\ref{bzdef:c3s1d1_preordre_alpha}}, $)A, A($ désigne $\{A\}$).
+\end{defin}
+
+\begin{prop}[6]
+L'ensemble de contact $F$ de deux convexes est conxexe.
+% [sic] « conxexe » : read « convexe ».
+\end{prop}
+
+\begin{proof}
+Il suffit, pour le démontrer, de considérer deux points $A$ et $A'$ de $F$, et des points $B$, $C$
+ou $B'$, $C'$, correspondant à \bzcf{la définition 2}{\ref{bzdef:c3s5d2_ensemble_contact}} :
+$ABC$ (resp. $A'B'C'$) alignés; $)B, A(\subset U$; $)A, C(\subset V$; $)B', A'(\subset U$;
+$)A', C'(\subset V$. L'enveloppe convexe des segments $)BA($, $)B'A'($ (resp. $)AC($,
+$)A'C'($) est contenu dans $U$ (resp. $V$); et le segment $(AA')$ est contenu dans l'ensemble de
+contact de ces deux enveloppes convexes, donc dans $F$.
+\end{proof}
+
+\begin{prop}[7]
+Soient $V$, $W$ deux convexes non vides de même support $L$, qu'on suppose muni de la topologie
+localement convexe la plus fine; supposons $V$ fermé, $V\neq W$, $I(V, W)$. Il existe alors un
+hyperplan et un seul séparant $V$ de $W-V=U$.
+\end{prop}
+
+\begin{proof}
+L'ensemble de contact de $V$ et de $(W-V)$ est l'ensemble $F$ des points $A$ de $V$ tels qu'il
+existe un $B\in W$ avec $)A, B(\subset\complement V$; si un hyperplan $H$ sépare $V$ de $W-V$, on
+doit avoir $F\subset H$. Nous allons montrer que le support $H$ de $F$ est un hyperplan qui sépare
+$V$ de $W-V$, et que $H\cap W=F$. Établissons d'abord le théorème dans le cas où $L$ est de
+dimension finie : d'après \bzcf{la proposition 5}{\ref{bzprop:c3s5p5_support_complementaire}},
+$L$ est engendré par $U$ (resp. $V$) et comme la dimension est finie, $\mathring{U}$ (resp.
+$\mathring{V}$) n'est pas vide; il en est de même de l'intérieur de $F$ pour la topologie de son
+support $H$.
+% « le théorème » as printed: Prop. 7.
+
+Soit $B\in\mathring{U}$; $C\in\mathring{V}$ : $)B, C($ coupe $F$ au point $A$; et il en est de
+même de toute parallèle à $BC$ suffisamment voisine de cette droite : la codimension de $H$ est
+donc au plus $1$. Or $H$ ne peut être tout l'espace $L$, car l'intérieur de $F$ dans $L$ est
+manifestement vide : donc $H$ est un hyperplan.
+
+$H$ qui contient l'ensemble de contact de $U$ et $V$, dont la réunion est convexe, sépare $U$ et
+$V$ : car tout segment joignant un point de $U$ à un point de $V$ doit couper $F$, donc $H$.
+Enfin, $H\cap W=F$ : soit $A'\in H\cap W$; nous allons montrer que $A'\in F$. En effet, soient
+$C\in\mathring{V}$; $B\in\mathring{V}$ : $)A', C(\subset\mathring{V}$, et donc, puisque $V$ est
+fermé, $A'\in V$; $)A', B(\subset\mathring{U}$, donc $A'\in F$.
+% [sic] « B ∈ V̊ » : read « B ∈ Ů » (then ]A', B[ ⊂ Ů).
+
+Supposons maintenant que $L$ soit de dimension infinie : la démonstration est analogue à celle
+du cas fini : il faut essentiellement établir que $H$ est un hyperplan. Montrons que la
+co-dimension de $H$ est au plus $1$. Soit $\Delta$ une droite non parallèle à $H$ : il faut
+établir que $\Delta$ coupe $H$. Soit $B\in U$, nous nous plaçons dans un sous-espace de dimension
+finie, $P$, engendré par $n$
+% --- p. 279 ---
+points $C_1$, \ldots, $C_n\in V$ et contenant $\Delta$ et $B$ : un tel $P$ existe, parce que $V$
+engendre $L$. Dans $P$ on retrouve la situation de dimension finie :
+\[ \begin{gathered} P\cap V\quad\text{convexe fermé d'intérieur non vide,}\\
+P\cap W=(P\cap V)\cup(P\cap U),\\
+P\cap U,\ \text{convexe non vide, et d'intérieur non vide,}\\
+\text{d'après \bzcf{la proposition 5}{\ref{bzprop:c3s5p5_support_complementaire}}.}
+\end{gathered} \]
+Il est clair que l'ensemble de contact $F_P$ de $P\cap V$ et $P\cap U$ dans $P$ est contenu dans
+$F$, ensemble de contact de $U$ et $V$ : l'hyperplan $P'$ support de $F_P$ est donc contenu dans
+$H$ et il coupe $\Delta$, ne pouvant lui être parallèle.
+
+Pour établir que $H$ est effectivement de co-dimension $1$, il suffit de montrer que $U\cap H$ est
+vide; il en résultera de plus que $H\cap W\subset V$. En effet, soit $B\in U$, supposons que
+$B\in H$ : nous allons montrer que cette hypothèse a des conséquences absurdes : $B$
+appartiendrait à un sous-espace de dimension finie de $H$ engendré par $m$ points $A_1$, \ldots,
+$A_m$ de $F$. Ces points $A_i$ sont extrémités de segments $)A_iB_i(\subset V$ : considérons un
+sous-espace $P$ de dimension finie contenant $PA_i$ et $PB_i$, donc aussi $B$, et engendré par un
+nombre fini de points $C_1$, \ldots, $C_n$ de $V$ : dans $P$ on retrouve encore la situation de
+dimension finie : $P$ engendré par $P\cap V$; $P\cap U$ non vide; l'hyperplan de $P$ qui sépare
+$P\cap U$ et $P\cap V$ ne peut contenir $B\in P\cap U$, et d'autre part il contient les $A_i$ qui
+appartiennent à l'ensemble de contact de $P\cap U$ et $P\cap V$ : $C$ n'appartient donc pas à la
+variété engendrée par $PA_i$, contrairement à l'hypothèse.
+% « contenant PA_i et PB_i », « la variété engendrée par PA_i » as printed (read: the points
+% A_i, B_i). [sic?] « C n'appartient donc pas » : read « B » (no point C is defined here; B is the
+% point supposed to lie in H).
+
+Enfin, il est évident que $H\cap W$ n'est autre que $F$ : soit $B\in U$; $A\in H\cap W$, on a
+$)A, B(\subset U$ et $A\in V$. Cela achève la démonstration.
+\end{proof}
+
+\begin{prop}[8]
+Soit $W$ un convexe compact d'un espace vectoriel topologique $E$ localement convexe séparé, $V$
+une partie compacte convexe non vide de $W$; alors les deux propriétés ci-dessous sont
+équivalentes :
+
+$\mathrm{I}(V, W)$ : $(W-V)$ est convexe;
+
+$\mathrm{II}(V, W)$ : les demi-espaces ouverts contenant $V$ coupent $W$ suivant un système
+fondamental de voisinages de $V$ considéré comme partie de $W$.
+
+$\mathrm{II}(V, W)$ peut encore s'énoncer : Pour tout voisinage $O$ de $V$ considéré comme partie
+de $E$, il existe un demi-espace ouvert $H$ tel que
+\[ \begin{aligned} &1^{\circ}\quad V\subset H;\\ &2^{\circ}\quad H\cap W\subset O\cap W.
+\end{aligned} \]
+\end{prop}
+% « I(V, W) » is printed in roman here, the property I of Déf. 1.
+
+\begin{proof}
+Montrons que II implique I. En effet, soient $b$, $b'$ deux points de $W-V$, $O$ un voisinage de
+$V$ ne contenant ni $b$ ni $b'$ (par exemple tout l'espace privé des deux points $b$ et $b'$).
+Soit $H$ un demi-espace ouvert vérifiant les conditions 1\textsuperscript{o} et
+2\textsuperscript{o}; alors, d'après 2\textsuperscript{o},
+\[ b\in\complement H,\qquad b'\in\complement H,\qquad\text{d'où}\qquad(b, b')\in\complement H, \]
+% --- p. 280 ---
+puisque $\complement H$ est convexe; et, de plus, $(b, b')\in W-V$ : en effet, $(b, b')\subset W$
+parce que $W$ est convexe, et aucun point de $(b, b')$ n'est dans $V$, sinon il serait dans $H$
+d'après 1\textsuperscript{o}.
+% « (b, b') ∈ ∁H », « (b, b') ∈ W - V » as printed (read ⊂: (b, b') is a segment).
+
+Montrons que I implique II. Il suffit d'établir que les $H\cap W$ (où $H$ désigne un demi-espace
+ouvert contenant $V$) forment une base de filtre : cette base étant formée de voisinages de $V$
+relativement à $W$ compact, dont l'intersection est $V$, le filtre sera le filtre de voisinages
+de $V$. Soit donc, en passant aux complémentaires, $H_1$ et $H_2$ deux demi-espaces fermés tels
+que
+\[ H_1\cap V=H_2\cap V=\emptyset; \]
+nous allons montrer qu'il existe un demi-espace fermé $H_3$ tel que
+\[ H_3\cap V=\emptyset\qquad\text{et}\qquad H_3\cap W\supset(H_1\cap W)\cup(H_2\cap W). \]
+Or, $H_1\cap W$ et $H_2\cap W$ sont deux compacts convexes contenus dans $W-V$; leur enveloppe
+convexe $C$ est compacte et contenue dans $W-V$ d'après l'hypothèse I; on peut alors séparer
+strictement $C$ et $V$ par un hyperplan (\textsc{Bourbaki}, \textit{Espaces vectoriels
+topologiques}, chap. II, \S\,3, prop. 4).
+\end{proof}
+
+\begin{corollaire}[1]
+Soient $W$, $V$ convexes compacts $V\subset W$; si le support $L$ de $V$ est une variété d'appui
+de $W$, il est équivalent d'affirmer $\mathrm{II}(V, W)$ ou $\mathrm{II}(V, W\cap L)$
+(\bzcf{\textit{cf.} prop. 4}{\ref{bzprop:c3s5p4_propriete_I_appui}}).
+\end{corollaire}
+% (No proof of Corollaries 1 and 2 is printed.)
+
+\begin{corollaire}[2]
+Soit $W$ convexe compact, $L$ une variété d'appui fermée de $W$, alors on a
+$\mathrm{II}(L\cap W, W)$.
+\end{corollaire}
+
+Des \bzcf{propositions 7}{\ref{bzprop:c3s5p7_hyperplan_separant}},\bzcf{8}{\ref{bzprop:c3s5p8_proprietes_I_II}}
+et \bzcf{4}{\ref{bzprop:c3s5p4_propriete_I_appui}} résulte le
+
+\begin{theoreme}[1]
+Soit $W$ un convexe compact dans un espace vectoriel de dimension finie, $V$ une partie non vide
+compacte convexe de $W$; alors les trois propriétés ci-dessous sont équivalentes :
+
+\textup{I}\,$(V, W)$;
+
+\textup{II}\,$(V, W)$;
+
+\textup{III}\,$(V, W)$ : le support de $V$ est une variété d'appui $L$ de $W$, et $V$ est
+l'intersection de $W$ avec un demi-espace $H$ de $L$ (éventuellement, $H\cap W$ peut être égal à
+$L\cap W$).
+\end{theoreme}
+% (No proof of Theorem 1 is printed beyond « Des propositions 7, 8 et 4 résulte le ».)
+
+Dans le cas projectif, on a le
+
+% [sic] « THÉORÈME 1. » : this is the théorème 1′ announced at the head of § 5 (« les théorèmes
+% 1 et 1′ »); the printed number is kept as the argument, the label says 1prime.
+\begin{theoreme}[1]
+Soit $W$ un corps convexe de $S(n)$, $V$ une partie compacte convexe non vide de $W$; alors les
+trois propriétés ci-dessous sont équivalentes :
+
+\textup{I}$'$\,$(V, W)$ : $W-V$ est convexe;
+
+\textup{II}$'$\,$(V, W)$ : les hémisphères ouverts contenant $V$ coupent $W$ suivant un système
+fondamental de voisinages de $V$ considéré comme partie de $W$;
+
+\textup{III}$'$\,$(V, W)$ : le support de $V$ est une variété d'appui $L$ de $W$, et $V$ est
+l'intersection de $W$ avec un hémisphère $H$ de $L$.
+\end{theoreme}
+
+% --- p. 281 ---
+\begin{proof}
+En effet, le corps convexe $W$ appartient à un hémisphère ouvert de $S(n)$ muni canoniquement d'une
+structure d'espace affine à $n$ dimensions. Dans cet espace, \bzcf{le théorème
+1$'$}{\ref{bzthm:c3s5t1prime_reunion_convexes_sphere}} est un corollaire du \bzcf{théorème
+1}{\ref{bzthm:c3s5t1_reunion_convexes_affine}}.
+\end{proof}
+% (« le théorème 1′ » names the statement this paragraph proves: it is kept marked, because the
+% printed heading of that statement says « 1 », see the [sic] above.)
+
+\subsection*{6. Prolongement d'un convexe au-delà d'un hémisphère.}
+
+\begin{defin}
+Soit $W$ un convexe contenu dans un hémisphère fermé $H$ de $S(E)$; on dit qu'un convexe $V$
+\textit{prolonge} $W$ au-delà de $\mathring{H}$ si si $V\cap\mathring{H}=W\cap\mathring{H}$. Si
+$\mathring{H}\cap W\neq\emptyset$ et si $V$ et $W$ sont fermés, on a de plus :
+$W\cap H=V\cap H$.
+% [sic] « si si » : the word is printed twice.
+\end{defin}
+
+\begin{prop}[1]
+Soit $W$ un convexe fermé de noyau vide (\bzcf{\textit{cf.} \S\,2,
+déf. 4}{\ref{bzdef:c3s2d4_conjugues}}), et soit $H$ un hémisphère fermé de frontière $h$, tel que
+$W\subset H$, $W\cap\mathring{H}\neq\emptyset$; alors il existe un plus grand convexe $V$
+prolongeant $W$ au-delà de $\mathring{H}$; $V$ est appelé \textit{saturé de $W$ au-delà} de
+$\mathring{H}$. Le noyau de $V$ est vide, sauf si $W$ est l'enveloppe convexe d'un point de
+$\mathring{H}$ et de $W\cap h$; ce point de $\mathring{H}$ est alors unique.
+\end{prop}
+% [sic] « cf. § 2, déf. 4 » : the noyau is defined in § 1, déf. 5 (bzdef:c3s1d5_noyau); § 2,
+% déf. 4 is « L et L′ conjugués ». Following the convention, the \ref names the PRINTED § 2,
+% déf. 4; see NOTES.md (to be ruled).
+
+\begin{proof}
+\textsc{Démonstration} :
+
+1\textsuperscript{o} La famille des convexes prolongeant $W$ au-delà de $\mathring{H}$ est
+filtrante croissante.
+
+En effet, soient $V'$, $V''$ deux convexes prolongeant $W$ au-delà de $\mathring{H}$;
+l'enveloppe convexe $V'''$ de $V'$ et $V''$ prolonge $W$ au-delà de $\mathring{H}$ [$V'''$ est
+réunion de $V'$, de $V''$ et de l'ensemble des segments $(v', v'')$ joignant un point $v'$ de $V'$
+à un point $v''$ de $V''$ non diamétralement opposé à $v'$; or
+$(v', v'')\cap\mathring{H}\subset W$ : en effet, si $(v', v'')$ rencontre $\mathring{H}$, on a
+$v'\in\mathring{H}$ ou $v''\in\mathring{H}$; dans le premier cas, par exemple, on a aussi
+$v'\in V''$, donc
+\[ (v', v'')\subset V''\qquad\text{et}\qquad(v', v'')\cap\mathring{H}\subset
+V''\cap\mathring{H}=W\cap\mathring{H}]. \]
+
+2\textsuperscript{o} Si $V'$ prolonge $W$ au-delà de $\mathring{H}$, il en est de même de
+$\overline{V'}$.
+
+Cela résulte de ce que $\overline{V'}$ est convexe et du fait que
+$\overline{V'}\cap\mathring{H}$ est l'adhérence, dans $\mathring{H}$, de
+$V'\cap\mathring{H}=W\cap\mathring{H}$, qui est fermé dans $\mathring{H}$.
+
+3\textsuperscript{o} Il existe un convexe maximal $V$ prolongeant $W$ au-delà de $\mathring{H}$,
+et $V$ est fermé.
+
+Pour construire $V$, ordonnons par inclusion l'ensemble des convexes prolongeant $W$ au-delà de
+$\mathring{H}$. L'ensemble ordonné ainsi obtenu est inductif parce que la réunion d'une famille
+croissante de convexes prolongeant $W$ au-delà de $\mathring{H}$ est un convexe prolongeant $W$
+au-dela de $\mathring{H}$.
+% [sic] « au-dela » : read « au-delà ».
+
+Qu'un convexe $V$ maximal parmi ceux qui prolongent $W$ au-delà de $\mathring{H}$ soit le plus
+grand convexe jouissant de la proprieté et qu'il soit fermé résulte de 1\textsuperscript{o} et
+2\textsuperscript{o}.
+% [sic] « proprieté » : read « propriété ».
+
+% --- p. 282 ---
+4\textsuperscript{o} Si $V$ contient un couple de points diamétralement opposés $v$ et $v'$, l'un
+de ces deux points, $v$, appartient à $\mathring{H}$, et $W$ est l'enveloppe convexe de $v$ et de
+$W\cap h$.
+
+En effet, il est impossible que $v$ et $v'$ appartiennent à $h$, car autrement, si $w$ désigne un
+point de $W\cap\mathring{H}$, on aurait
+\[ \begin{gathered} )w, v(\subset W,\\ )w, v'(\subset W, \end{gathered} \]
+d'où, puisque $W$ est fermé,
+\[ \begin{gathered} v\in W,\\ v'\in W, \end{gathered} \]
+ce qui est contraire à l'hypothèse.
+
+Si $v\in\mathring{H}$, $V$ est réunion de demi-droites fermées joignant $v$ et $v'$, et $W$ n'est
+donc autre que le cône de sommet $v$ et de base $W\cap h$. Le point $v$ est unique; en effet,
+supposons qu'il existe, dans $\mathring{H}$, $u\neq v$ tel que $W$ soit le cône de sommet $u$ et
+de base $W\cap h$; la droite joignant $u$ et $v$ couperait $h$ en deux points diamétralement
+opposés qui devraient être tous deux dans $W\cap h$, ce qui est contraire à l'hypothèse faite que
+le noyau de $W$ est vide.
+\end{proof}
+
+% « COROLAIRE. » : the heading is printed with one L ([sic], read « COROLLAIRE »).
+\begin{corollaire}
+Soit $W$ un corps convexe de $S(n)$, $H$ un hémisphère fermé de frontière $h$ contenant $W$; si
+$W$ n'est pas l'enveloppe convexe d'un point et de $W\cap h$, le saturé de $W$ au-delà de
+$\mathring{H}$ est un corps convexe.
+\end{corollaire}
+% (No proof of the corollary is printed.)
+
+\begin{prop}[2]
+Soit $W$ un corps convexe de $S(n)$, $H'_i$ une suite d'hémisphères fermés telle que $H'_i\cap W$
+tende vers un point frontière $f$ de $W$. Posons $H_i=\complement\mathring{H}'_i$; alors le saturé
+$V_i$ de $W\cap H_i$ au-delà de $\mathring{H}_i$ tend vers $W$.
+\end{prop}
+
+\begin{proof}
+Supposons qu'il n'en soit pas ainsi; on pourrait trouver une sous-suite $\{V_j\}$ de la suite
+$\{V_i\}$ et dans chaque $V_j$ un point $v_j$ de sorte que $v_j$ tende vers $v$ n'appartenant pas
+à $W$, et que $H_j$ tende vers $H$ de frontière $h$. Nous allons montrer que cela est absurde. Soit
+$h_j$ la variété frontière de $H_j$. L'enveloppe convexe de $v_j$ et de $W\cap H_j$ coupe $h_j$
+suivant un ensemble $F_j$ qui est inclus dans
+\[ V_j\cap h_j=W\cap h_j; \]
+$F_j$ tend vers l'intersection de $h$ et de l'enveloppe convexe de $v$ et de $W$; cependant,
+$W\cap h_j$ tend vers le point $f$, d'où la contradiction annoncée, car l'enveloppe convexe de $v$
+et de $W$ contient un ouvert dont l'intersection avec $h$ ne peut se réduire à un seul point.
+\end{proof}
+
+\begin{prop}[3]
+Soit $W_1$ (resp. $W_2$) un corps convexe de $S(n)$; $H_1$ (resp. $H_2$) un hémisphère fermé tel
+que $W_1\subset H_1$ (resp. $W_2\subset H_2$) et que le saturé $V_1$ (resp. $V_2$) de $W_1$ (resp.
+$W_2$) au-delà de $\mathring{H}_1$ (resp. $\mathring{H}_2$) soit
+% --- p. 283 ---
+distinct de $W_1$ (resp. $W_2$). On peut trouver un corps convexe $W'$ et deux hémisphères fermés
+$H'_1$, $H'_2$ tels que :
+
+1\textsuperscript{o}
+\[ \begin{aligned} &H'_1\cap W'=W'_1;\\ &H'_2\cap W'=W'_2,\qquad W'_1\cap W'_2=\emptyset,
+\end{aligned} \]
+$W'$ étant l'enveloppe convexe de $W'_1$ et de $W'_2$.
+
+2\textsuperscript{o} Il existe deux transformations projectives $g_1$, $g_2$ de l'espace telles
+que
+\[ \begin{aligned} &g_1H_1=H'_1;\qquad g_1W_1=W'_1;\\ &g_2H_2=H'_2;\qquad g_2W_2=W'_2.
+\end{aligned} \]
+Nous dirons que $W'$ est obtenu en \textit{raccordant} $W_1$ et $W_2$ suivant les intersections
+de ces corps avec les hyperplans $h_1$, $h_2$ frontières de $H_1$, $H_2$; si $g_1$ est
+l'identité, nous dirons que $W'$ est obtenu en \textit{accolant} $W_2$ à $W_1$ suivant
+$h_1\cap W_1$, $h_2\cap W_2$.
+\end{prop}
+
+\begin{proof}
+\textsc{Démonstration.} --- Soit $a''_1$ un point de $V_1$, $a''_1\notin W_1$; soit $a_1$ le point
+diamétralement opposé à $a''_1$; $W_1$ est contenu dans l'enveloppe convexe $C_1$ du point $a_1$
+et de $F_1=h_1\cap W_1$. En effet, soit $m$ un point de $W_1$, le segment $(a''_1\,m)$ coupe $F_1$
+en un point $f$ et $m$ appartient au segment $(a_1\,f)$.
+
+On pose $F_2=W_2\cap h_2$ et l'on choisit de même $a_2$ en sorte que l'enveloppe convexe $C_2$ de
+$a_2$ et de $F_2$ contienne $W_2$.
+
+Nous allons raccorder $C_1$ et $C_2$ suivant $F_1$, $F_2$. Il est clair que les transformations
+$g_1$, $g_2$ utilisées permettront de raccorder $W_1$ et $W_2$, d'où la proposition.
+
+Faisons choix d'un hémisphère ouvert $\mathring{H}$ muni canoniquement d'une structure d'espace
+affine. Soit $h'_1$, $h'_2$ deux hyperplans parallèles; $F'_1$ (resp. $F'_2$) un convexe de $h'_1$
+(resp. $h'_2$) projectivement équivalent à $F_1$ (resp. $F_2$). Choisissons $a'_1\notin h'_1$
+(resp. $a'_2\notin h'_2$) de sorte que la réunion de toutes les demi-droites issues de $a'_1$
+(resp. $a'_2$) et rencontrant $F'_1$ (resp. $F'_2$) contiennent $F'_2$ (resp. $F'_1$). L'enveloppe
+convexe $C'$ de $a'_1$, $a'_2$, $F'_1$, $F'_2$, raccorde $C_1$ et $C_2$ suivant $F_1$ et $F_2$.
+\end{proof}
+
+\begin{prop}[4]
+Sur tout corps convexe $W$ de $S(n)$ ($n\geqq 1$), on peut trouver deux facettes distinctes dont
+chacune est réduite à un point.
+\end{prop}
+
+\begin{proof}
+Remarquons que la notion de facette réduite à un point s'identifie à celle de point extrémal. La
+proposition va résulter du théorème de Krein-Milman (\textit{cf.} \textsc{Bourbaki},
+\textit{Espaces vectoriels topologiques}, chap. II, \S\,4, théorème 1) dont nous rappelons
+l'énoncé : « Soit $E$ un espace vectoriel topologique localement convexe séparé; tout convexe
+compact de $E$ est l'enveloppe convexe fermée de l'ensemble de ses points extrémaux ».
+
+Soit $\mathring{H}$ un hémisphère ouvert de $S(n)$ contenant $W$, $\mathring{H}$ est muni
+canoniquement d'une structure d'espace affin, il peut être muni d'une structure d'espace
+vectoriel à $n$ dimensions $E$. Il suffit d'appliquer au convexe compact $W$ de $E$ le théorème de
+Krein-Milman.
+\end{proof}
+
+% (Chapter 3 ends at the foot of p. 283. Chapter 4 « Corps et formes convexes affines » begins at
+% the top of p. 284; not transcribed in this file.)
+
+\end{document}
