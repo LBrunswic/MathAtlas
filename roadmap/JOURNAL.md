@@ -1071,3 +1071,9 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: ace864c3 40e93f7f (+ statuses)
 - wall time: 23:44–00:45; agents: 1 closer, 1 auditor
 - next: no ready closer target left in lean-gx — plan (rule 2)
+
+## 2026-11-28 01:05 · plan · roadmap-planner (rule 2)
+- added 9: T-btz-surface-complete-lip, T-btz-cauchy-easy, T-btz-common-reg-iso (ready closers, lean-gx, disjoint new files); T-btz-s5-graduate and T-btz-g3-dedupe (ready masters, exclusive lean-gx); T-btz-informal-triage (ready master); T-gx-readme-btz, T-btz-exists-exactly-one (planned); T-btz-cauchy-regularity (needs-ruling: (i)⇒(iii) of theo:BTZ_Cauchy-completness — conclude the Lipschitz form without the C¹ rim field, or prove a smoothing of Σ₀). Refined T-btz-cauchy-spear-m0, -step2-surface (needs the ruling), -step2-max, -conservation.
+- note: at the start of this iteration lean/docs/{COVERAGE,REPO-MAP}.md and repo-map.json were modified by /ett-programme's running hub gate (lib-check regenerates them; it restores them itself); not touched.
+- gates: roadmap ✓ (274 targets), atlas ✓
+- next: T-btz-surface-complete-lip, T-btz-cauchy-easy, T-btz-common-reg-iso (lean-gx)
