@@ -321,3 +321,6 @@ rediscover. One fact per entry.
 | [0313](entries/0313-simp-only-def-if.md) | pitfall | simp only on a def with an if over u = id rewrites the test to True: state the lemma in term mode |
 | [0314](entries/0314-past-inextensible-meets-cauchy.md) | pattern | A past-inextensible causal curve through J⁺(S) meets the Cauchy surface S, with no tail-freeness |
 | [0315](entries/0315-constant-end-pieces.md) | pattern | Constant end pieces do not affect past-inextensibility; extend one-sidedly without a pause |
+| [0316](entries/0316-etale-gluing.md) | pattern | Einstein-style gluing of two open sets: étale, injective iff the overlap is in A, Hausdorff iff A is relatively closed |
+| [0317](entries/0317-injectivity-not-agreement.md) | pitfall | Injectivity of the Einstein-style projection is U₁ ∩ U₂ ⊆ A, not agreement of the solutions |
+| [0318](entries/0318-mathlib-names-pin.md) | pitfall | Names at this pin: second countability from a countable cover, closed in a subtype, connected sets in clopen opens |

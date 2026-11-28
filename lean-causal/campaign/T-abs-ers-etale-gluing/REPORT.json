@@ -1,0 +1,648 @@
+{
+  "target": "T-abs-ers-etale-gluing",
+  "package": "lean-causal",
+  "files": [
+    "scaffold/CausalScaffold/ErsEtaleGluing.lean"
+  ],
+  "campaign_files": [
+    "campaign/T-abs-ers-etale-gluing/REPORT.json",
+    "campaign/T-abs-ers-etale-gluing/Probe.lean",
+    "campaign/T-abs-ers-etale-gluing/axioms.txt"
+  ],
+  "status": "closed",
+  "builds": true,
+  "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.ErsEtaleGluing",
+  "build_result": "Build completed successfully (2080 jobs). Only CausalScaffold.ErsEtaleGluing was built (1.2 s); `lake build --no-build` beforehand showed it as the only out-of-date target, so no Causal.* or mathlib module was rebuilt. `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/ErsEtaleGluing.lean` exits 0 with no output. The profiler (threshold 300 ms) reports one declaration at it: punctured_witness at 0.30 s. Probe.lean imports CausalScaffold.ErsEtaleGluing (and Causal.Ers482Solution, for the glueSolutions check only) and runs with `lake env lean` (exit 0). It is not a copy of the source. Its output is axioms.txt.",
+  "sorry_count": 0,
+  "axioms": "All 49 declarations depend on standard axioms only: 30 on [propext, Classical.choice, Quot.sound], 8 on [propext, Quot.sound], 11 on none (campaign/T-abs-ers-etale-gluing/axioms.txt). There is no sorryAx, admit, axiom or native_decide in the module.",
+  "layer": "ETT layer (layer 1), a leaf. Its one direct Causal import is Causal.GluingHausdorff; the others are mathlib (Topology.IsLocalHomeomorph, Topology.Connected.LocallyConnected, Data.Set.Card). tools/ladder.py model_path, computed in memory on lean_index()'s import graph with the module added (kb/0247): None for CausalScaffold.ErsEtaleGluing, None for Causal.GluingHausdorff and for each of its direct imports, Causal.Pushout and Causal.CBG.FamilyGluing. The transitive Causal imports are ArcConnected, CBG.FamilyGluing, Causality, Curves, Generated, GlobalHyperbolicity, GluingHausdorff, Lines, Local, Minimal, Morphism, Properties, Pushout, PushoutCausal, Reachable, StrongCausality and Subdivision; none of them is model-layer. No module imports it, so it is not upstream of Causal.Ladder.Rules. The statements mention no metric, curve length, geodesic or PDE; there is no causality either. The witnesses use the order topology of ℝ (Ioi, closure_Ioi) only. uses = [] and no ladder property is involved. tools/ladder.py emit-lean was not run (kb/0252).",
+  "labels": [
+    {
+      "label": "ersthm:ThmNonUniqueness",
+      "tex_lines": [
+        560,
+        562
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "serves": "Most directly. The row's 'causally: two flat 1+1 developments with overlapping developing maps' is, in its topological half, not_injective_and_not_descends. A point x ∈ U_a ∩ U_b with Φ_a(x) ≠ Φ_b(x) (the conclusion) lies outside every A on which the two agree. So π is not injective at x, and the Einstein-style solution ũ lives on no subset of the background (exists_glue_eq_comp_proj_iff). With A the component through S, E is still Hausdorff (t2Space_connectedComponentIn) and second countable (secondCountableTopology).",
+      "remains": "The theorem itself: the existence of the two Born–Infeld GHDs (layer 3, T-loc-born-infeld-causal), and the causal half of T-abs-ers-etale-mghd: that the gluing along the MCGHD is a GHD over the background, i.e. the lifted S is a Cauchy surface of E for the glued causality.",
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "ersthm:global_theorem",
+      "tex_lines": [
+        401,
+        404
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "serves": "Only the last topological step. An injective étale map is an open embedding, and the gluing is then U₁ ∪ U₂ (isOpenEmbedding_proj, exists_homeomorph). Thm 3.35's content, that Ψ is injective when Φ₁'²Φ₂'² < 1, is the monotonicity of F(·; η) (layer 3).",
+      "remains": "Everything of the row: Ψ is the developing map of one development, not the projection of a two-piece gluing. The row stays layer 3.",
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "erslem:sep_lemma",
+      "tex_lines": [
+        380,
+        383
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "serves": "The target that the separation lemma decides, in the two-piece case: π fails to be injective exactly over U₁ ∩ U₂ ∖ A, with two points over each such x (injective_proj_iff, encard_preimage_proj_singleton_of_notMem). Lemma 3.32's spacelike/timelike separation of the two preimages is causal and layer 3.",
+      "remains": "The separation of preimages itself (T-loc-born-infeld-causal, T-loc-quasilinear-nesting), and the causal half's use of it: two preimages of one point cannot both lie in one GH development in the superluminal case.",
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "ersthm:diffeo_theorem",
+      "tex_lines": [
+        298,
+        301
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "serves": "Nothing directly. Thm 3.22 is a cited PDE fact (the hodograph). The étale vocabulary here (a local homeomorphism to the background whose non-injectivity is the obstruction) is the one the row's note uses for Ψ.",
+      "remains": "The row is layer 3 (T-loc-born-infeld-causal).",
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "erslem:nec_cond",
+      "tex_lines": [
+        304,
+        307
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "serves": "Nothing directly. Lemma 3.23 says where Ψ is a local homeomorphism (the Jacobian), a layer-3 computation. Here π is a local homeomorphism everywhere by construction.",
+      "remains": "The row is layer 3.",
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "erslem:lemma_sing",
+      "tex_lines": [
+        319,
+        322
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "serves": "Nothing. It is the gradient blow-up at the singular boundary, a layer-3 computation.",
+      "remains": "The row is layer 3.",
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "erscor:CorDisCon",
+      "tex_lines": [
+        921,
+        923
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "for_information": "This label is not one of the six, but the planner's evidence names it among the notes to rebind. Its existing ett forms stand. This module adds its shape on the gluing, not_isPreconnected_inter: if the gluing along a non-empty open A is Hausdorff and u₁ x ≠ u₂ x at some x ∈ U₁ ∩ U₂, then U₁ ∩ U₂ is not connected, for any space M. It also adds the topological last step of Thm 4.64, eq_inter_of_t2Space. The causal input is that the MCGHD gives a Hausdorff gluing, which is ERS's Thm 4.64 argument.",
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "assertions": [
+    {
+      "id": "1-etale",
+      "status": "closed",
+      "decls": [
+        "Causal.EtaleGluing.proj_comp_ι₁",
+        "Causal.EtaleGluing.proj_comp_ι₂",
+        "Causal.EtaleGluing.range_proj",
+        "Causal.EtaleGluing.isLocalHomeomorph_proj",
+        "Causal.EtaleGluing.isLocalHomeomorph_codRestrict_proj"
+      ]
+    },
+    {
+      "id": "2-injective",
+      "status": "closed",
+      "decls": [
+        "Causal.EtaleGluing.injective_proj_iff",
+        "Causal.EtaleGluing.isOpenEmbedding_proj",
+        "Causal.EtaleGluing.preimage_proj_singleton_of_mem_inter",
+        "Causal.EtaleGluing.encard_preimage_proj_singleton_of_notMem",
+        "Causal.EtaleGluing.preimage_proj_singleton_of_mem"
+      ]
+    },
+    {
+      "id": "3-hausdorff",
+      "status": "closed",
+      "decls": [
+        "Causal.EtaleGluing.isCorrespondingBoundaryPair_iff",
+        "Causal.EtaleGluing.t2Space_iff",
+        "Causal.EtaleGluing.t2Space_iff_isClosed",
+        "Causal.EtaleGluing.t2Space_connectedComponentIn"
+      ],
+      "beyond": [
+        "Causal.EtaleGluing.subset_of_t2Space",
+        "Causal.EtaleGluing.t2Space_iff_eq_connectedComponentIn",
+        "Causal.EtaleGluing.eq_inter_of_t2Space"
+      ]
+    },
+    {
+      "id": "4-descent",
+      "status": "closed",
+      "decls": [
+        "Causal.EtaleGluing.glue",
+        "Causal.EtaleGluing.glue_comp_ι₁",
+        "Causal.EtaleGluing.glue_comp_ι₂",
+        "Causal.EtaleGluing.exists_glue_eq_comp_proj_iff",
+        "Causal.EtaleGluing.not_injective_and_not_descends"
+      ],
+      "optional": "glue_eq_ite_comp_proj, whose factor is Causal.glueSolutions ⟨U₁, hU₁⟩ u₁ u₂ by rfl (Probe.lean; the module does not import Causal.Ers482Solution)"
+    },
+    {
+      "id": "5-witnesses",
+      "status": "closed",
+      "decls": [
+        "Causal.EtaleGluing.punctured_witness",
+        "Causal.EtaleGluing.branching_witness",
+        "Causal.EtaleGluing.punctured_not_isPreconnected"
+      ]
+    }
+  ],
+  "declarations": [
+    {
+      "name": "Causal.EtaleGluing",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:108",
+      "kind": "abbrev",
+      "statement": "{M : Type u_1} → {U₁ U₂ A : Set M} → A ⊆ U₁ → A ⊆ U₂ → Type u_1",
+      "status": "defined",
+      "role": "E = U₁ ⊔_A U₂: Causal.Gluing of the inclusions A → U₁, A → U₂ (an abbrev, so the Causal.Gluing API applies)"
+    },
+    {
+      "name": "Causal.EtaleGluing.proj",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:114",
+      "kind": "def",
+      "statement": "{M : Type u_1} → {U₁ U₂ A : Set M} → (h₁ : A ⊆ U₁) → (h₂ : A ⊆ U₂) → Causal.EtaleGluing h₁ h₂ → M",
+      "status": "defined",
+      "role": "π := Gluing.desc of the two coercions to M"
+    },
+    {
+      "name": "Causal.EtaleGluing.glue",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:118",
+      "kind": "def",
+      "statement": "{M : Type u_1} → {U₁ U₂ A : Set M} → {β : Type u_2} → (h₁ : A ⊆ U₁) → (h₂ : A ⊆ U₂) → (u₁ u₂ : M → β) → Set.EqOn u₁ u₂ A → Causal.EtaleGluing h₁ h₂ → β",
+      "status": "defined",
+      "role": "(4) the glued function ũ := Gluing.desc (u₁ ∘ coe) (u₂ ∘ coe) of two functions agreeing on A"
+    },
+    {
+      "name": "Causal.EtaleGluing.proj_ι₁",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:126",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} (x : ↑U₁), Causal.EtaleGluing.proj h₁ h₂ (Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) x) = ↑x",
+      "status": "proved",
+      "role": "(1) π ∘ ι₁ is the coercion, pointwise (rfl, simp)"
+    },
+    {
+      "name": "Causal.EtaleGluing.proj_ι₂",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:129",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} (y : ↑U₂), Causal.EtaleGluing.proj h₁ h₂ (Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) y) = ↑y",
+      "status": "proved",
+      "role": "(1) π ∘ ι₂ is the coercion, pointwise (rfl, simp)"
+    },
+    {
+      "name": "Causal.EtaleGluing.proj_comp_ι₁",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:133",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}, Causal.EtaleGluing.proj h₁ h₂ ∘ Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) = Subtype.val",
+      "status": "proved",
+      "role": "(1) π ∘ ι₁ = Subtype.val"
+    },
+    {
+      "name": "Causal.EtaleGluing.proj_comp_ι₂",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:137",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}, Causal.EtaleGluing.proj h₁ h₂ ∘ Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) = Subtype.val",
+      "status": "proved",
+      "role": "(1) π ∘ ι₂ = Subtype.val"
+    },
+    {
+      "name": "Causal.EtaleGluing.range_proj",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:141",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}, Set.range (Causal.EtaleGluing.proj h₁ h₂) = U₁ ∪ U₂",
+      "status": "proved",
+      "role": "(1) range π = U₁ ∪ U₂ (no topology)"
+    },
+    {
+      "name": "Causal.EtaleGluing.ι₁_eq_ι₂_iff",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:154",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {x : ↑U₁} {y : ↑U₂}, Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) x = Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) y ↔ ↑x = ↑y ∧ ↑x ∈ A",
+      "status": "proved",
+      "role": "the identification: ι₁ x = ι₂ y iff x = y as points of M and x ∈ A (from Gluing.ι₁_eq_ι₂_iff)"
+    },
+    {
+      "name": "Causal.EtaleGluing.isOpenEmbedding_inclusion",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:169",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {A : Set M} [inst : TopologicalSpace M] {U : Set M} (h : A ⊆ U), IsOpen A → Topology.IsOpenEmbedding (Set.inclusion h)",
+      "status": "proved",
+      "role": "helper: the inclusion of an open A in U ⊇ A is an open embedding (IsOpenEmbedding.inclusion)"
+    },
+    {
+      "name": "Causal.EtaleGluing.continuous_proj",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:173",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} [inst : TopologicalSpace M], Continuous (Causal.EtaleGluing.proj h₁ h₂)",
+      "status": "proved",
+      "role": "π is continuous (Gluing.continuous_desc)"
+    },
+    {
+      "name": "Causal.EtaleGluing.isLocalHomeomorph_proj",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:178",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} [inst : TopologicalSpace M], IsOpen U₁ → IsOpen U₂ → IsOpen A → IsLocalHomeomorph (Causal.EtaleGluing.proj h₁ h₂)",
+      "status": "proved",
+      "role": "(1) IsLocalHomeomorph π for U₁, U₂, A open: on each open sheet range ι_i, π is the open embedding of U_i (IsLocalHomeomorphOn.of_comp_right, then Gluing.exists_ι)"
+    },
+    {
+      "name": "Causal.EtaleGluing.isLocalHomeomorph_codRestrict_proj",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:199",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} [inst : TopologicalSpace M], IsOpen U₁ → IsOpen U₂ → IsOpen A → IsLocalHomeomorph (Set.codRestrict (Causal.EtaleGluing.proj h₁ h₂) (U₁ ∪ U₂) ⋯) ∧ Function.Surjective (Set.codRestrict (Causal.EtaleGluing.proj h₁ h₂) (U₁ ∪ U₂) ⋯)",
+      "status": "proved",
+      "role": "(1) π corestricted to U₁ ∪ U₂ is a surjective local homeomorphism: 'projects down on U₁ ∪ U₂' (:852)"
+    },
+    {
+      "name": "Causal.EtaleGluing.secondCountableTopology",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:214",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} [inst : TopologicalSpace M] [SecondCountableTopology M], IsOpen A → SecondCountableTopology (Causal.EtaleGluing h₁ h₂)",
+      "status": "proved",
+      "role": "E is second countable when M is (two open sheets homeomorphic to U₁, U₂): with the étale and Hausdorff statements, the topology of ERS's 'manifold' (:852)"
+    },
+    {
+      "name": "Causal.EtaleGluing.eq_of_proj_eq",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:242",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {z z' : Causal.EtaleGluing h₁ h₂}, Causal.EtaleGluing.proj h₁ h₂ z = Causal.EtaleGluing.proj h₁ h₂ z' → (Causal.EtaleGluing.proj h₁ h₂ z ∈ U₁ ∩ U₂ → Causal.EtaleGluing.proj h₁ h₂ z ∈ A) → z = z'",
+      "status": "proved",
+      "role": "helper: two points over one point x are equal when x ∈ U₁ ∩ U₂ forces x ∈ A"
+    },
+    {
+      "name": "Causal.EtaleGluing.injective_proj_iff",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:257",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}, Function.Injective (Causal.EtaleGluing.proj h₁ h₂) ↔ U₁ ∩ U₂ ⊆ A",
+      "status": "proved",
+      "role": "(2) π injective iff U₁ ∩ U₂ ⊆ A; no topology, no hypothesis on A"
+    },
+    {
+      "name": "Causal.EtaleGluing.ι₁_ne_ι₂",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:266",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {x : M} (hx₁ : x ∈ U₁) (hx₂ : x ∈ U₂), x ∉ A → Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) ⟨x, hx₁⟩ ≠ Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) ⟨x, hx₂⟩",
+      "status": "proved",
+      "role": "(2) over x ∈ U₁ ∩ U₂ ∖ A the two sheets do not meet"
+    },
+    {
+      "name": "Causal.EtaleGluing.preimage_proj_singleton_of_mem_inter",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:272",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {x : M} (hx₁ : x ∈ U₁) (hx₂ : x ∈ U₂), Causal.EtaleGluing.proj h₁ h₂ ⁻¹' {x} = {Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) ⟨x, hx₁⟩, Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) ⟨x, hx₂⟩}",
+      "status": "proved",
+      "role": "(2) over x ∈ U₁ ∩ U₂ the fibre is {ι₁ x, ι₂ x} (stronger than the target: no x ∉ A needed for the set equality)"
+    },
+    {
+      "name": "Causal.EtaleGluing.encard_preimage_proj_singleton_of_notMem",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:286",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {x : M}, x ∈ U₁ → x ∈ U₂ → x ∉ A → (Causal.EtaleGluing.proj h₁ h₂ ⁻¹' {x}).encard = 2",
+      "status": "proved",
+      "role": "(2) the fibre over x ∈ U₁ ∩ U₂ ∖ A has exactly two points"
+    },
+    {
+      "name": "Causal.EtaleGluing.preimage_proj_singleton_of_mem",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:291",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {x : M}, x ∈ U₁ ∪ U₂ → x ∉ (U₁ ∩ U₂) \\ A → ∃ z, Causal.EtaleGluing.proj h₁ h₂ ⁻¹' {x} = {z}",
+      "status": "proved",
+      "role": "(2) over x ∈ (U₁ ∪ U₂) ∖ (U₁ ∩ U₂ ∖ A) the fibre is one point"
+    },
+    {
+      "name": "Causal.EtaleGluing.preimage_proj_singleton_of_notMem_union",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:304",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {x : M}, x ∉ U₁ ∪ U₂ → Causal.EtaleGluing.proj h₁ h₂ ⁻¹' {x} = ∅",
+      "status": "proved",
+      "role": "(2) off U₁ ∪ U₂ the fibre is empty"
+    },
+    {
+      "name": "Causal.EtaleGluing.preimage_proj_eq_union",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:310",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} (B : Set M), Causal.EtaleGluing.proj h₁ h₂ ⁻¹' B = Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) '' Subtype.val ⁻¹' B ∪ Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) '' Subtype.val ⁻¹' B",
+      "status": "proved",
+      "role": "(2) π⁻¹(B) is the union of its two sheets ι₁(B ∩ U₁), ι₂(B ∩ U₂), for any B"
+    },
+    {
+      "name": "Causal.EtaleGluing.disjoint_image_ι₁_image_ι₂",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:325",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {B : Set M}, Disjoint B A → Disjoint (Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) '' Subtype.val ⁻¹' B) (Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) '' Subtype.val ⁻¹' B)",
+      "status": "proved",
+      "role": "(2) 'contains the other components twice' (:852): for B disjoint from A the two sheets are disjoint"
+    },
+    {
+      "name": "Causal.EtaleGluing.isOpenEmbedding_proj",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:337",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} [inst : TopologicalSpace M], IsOpen U₁ → IsOpen U₂ → IsOpen A → U₁ ∩ U₂ ⊆ A → Topology.IsOpenEmbedding (Causal.EtaleGluing.proj h₁ h₂)",
+      "status": "proved",
+      "role": "(2) when U₁ ∩ U₂ ⊆ A, π is an open embedding (an injective local homeomorphism)"
+    },
+    {
+      "name": "Causal.EtaleGluing.exists_homeomorph",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:342",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} [inst : TopologicalSpace M], IsOpen U₁ → IsOpen U₂ → IsOpen A → U₁ ∩ U₂ ⊆ A → ∃ e, ∀ (z : Causal.EtaleGluing h₁ h₂), ↑(e z) = Causal.EtaleGluing.proj h₁ h₂ z",
+      "status": "proved",
+      "role": "(2) when U₁ ∩ U₂ ⊆ A, E ≃ₜ U₁ ∪ U₂ over M"
+    },
+    {
+      "name": "Causal.EtaleGluing.isCorrespondingBoundaryPair_of_mem",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:352",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} [inst : TopologicalSpace M] {x : ↑U₁} {y : ↑U₂}, ↑x = ↑y → ↑x ∈ closure A \\ A → Causal.Gluing.IsCorrespondingBoundaryPair (Set.inclusion h₁) (Set.inclusion h₂) x y",
+      "status": "proved",
+      "role": "(3) hypothesis-free half: a point of U₁ ∩ U₂ ∩ closure A ∖ A gives the corresponding boundary pair (x, x); no separation axiom, A need not be open"
+    },
+    {
+      "name": "Causal.EtaleGluing.subset_of_t2Space",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:374",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} [inst : TopologicalSpace M], IsOpen A → ∀ [T2Space (Causal.EtaleGluing h₁ h₂)], U₁ ∩ U₂ ∩ closure A ⊆ A",
+      "status": "proved",
+      "role": "(3) hypothesis-free half: E Hausdorff ⇒ U₁ ∩ U₂ ∩ closure A ⊆ A, for any space M (A open)"
+    },
+    {
+      "name": "Causal.EtaleGluing.isCorrespondingBoundaryPair_iff",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:385",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} [inst : TopologicalSpace M] [T2Space M], IsOpen A → ∀ {x : ↑U₁} {y : ↑U₂}, Causal.Gluing.IsCorrespondingBoundaryPair (Set.inclusion h₁) (Set.inclusion h₂) x y ↔ ↑x = ↑y ∧ ↑x ∈ closure A \\ A",
+      "status": "proved",
+      "role": "(3) with M Hausdorff and A open, the corresponding boundary pairs are exactly the (x, x) with x ∈ U₁ ∩ U₂ ∩ closure A ∖ A"
+    },
+    {
+      "name": "Causal.EtaleGluing.t2Space_iff",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:404",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} [inst : TopologicalSpace M] [T2Space M], IsOpen A → (T2Space (Causal.EtaleGluing h₁ h₂) ↔ U₁ ∩ U₂ ∩ closure A ⊆ A)",
+      "status": "proved",
+      "role": "(3) with M Hausdorff and A open: T2Space E ↔ U₁ ∩ U₂ ∩ closure A ⊆ A (from Gluing.t2Space_iff_forall_not_isCorrespondingBoundaryPair)"
+    },
+    {
+      "name": "Causal.EtaleGluing.t2Space_iff_isClosed",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:418",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} [inst : TopologicalSpace M] [T2Space M], IsOpen A → (T2Space (Causal.EtaleGluing h₁ h₂) ↔ IsClosed (Subtype.val ⁻¹' A))",
+      "status": "proved",
+      "role": "(3) the same as 'A closed in U₁ ∩ U₂' (isClosed_preimage_val)"
+    },
+    {
+      "name": "Causal.EtaleGluing.t2Space_iff_eq_connectedComponentIn",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:424",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} [inst : TopologicalSpace M] [T2Space M], IsOpen A → IsPreconnected A → ∀ {x : M}, x ∈ A → (T2Space (Causal.EtaleGluing h₁ h₂) ↔ connectedComponentIn (U₁ ∩ U₂) x = A)",
+      "status": "proved",
+      "role": "(3) for a connected A ∋ x: E Hausdorff iff A = connectedComponentIn (U₁ ∩ U₂) x; no local connectedness"
+    },
+    {
+      "name": "Causal.EtaleGluing.t2Space_connectedComponentIn",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:445",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ : Set M} [inst : TopologicalSpace M] [T2Space M] [LocallyConnectedSpace M], IsOpen U₁ → IsOpen U₂ → ∀ {x : M}, x ∈ U₁ ∩ U₂ → ∀ {h₁ : connectedComponentIn (U₁ ∩ U₂) x ⊆ U₁} {h₂ : connectedComponentIn (U₁ ∩ U₂) x ⊆ U₂}, T2Space (Causal.EtaleGluing h₁ h₂)",
+      "status": "proved",
+      "role": "(3) ERS's MCGHD (:850): M Hausdorff and locally connected, U₁, U₂ open, A the component of U₁ ∩ U₂ through x: E is Hausdorff"
+    },
+    {
+      "name": "Causal.EtaleGluing.eq_inter_of_t2Space",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:453",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} [inst : TopologicalSpace M], IsOpen A → ∀ [T2Space (Causal.EtaleGluing h₁ h₂)], A.Nonempty → IsPreconnected (U₁ ∩ U₂) → A = U₁ ∩ U₂",
+      "status": "proved",
+      "role": "(3) any M: E Hausdorff, A non-empty open, U₁ ∩ U₂ preconnected ⇒ A = U₁ ∩ U₂ (so π injective): the topological last step of Thm 4.64"
+    },
+    {
+      "name": "Causal.EtaleGluing.glue_ι₁",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:468",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {β : Type u_2} {u₁ u₂ : M → β} {hu : Set.EqOn u₁ u₂ A} (x : ↑U₁), Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ hu (Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) x) = u₁ ↑x",
+      "status": "proved",
+      "role": "(4) ũ (ι₁ x) = u₁ x (rfl, simp)"
+    },
+    {
+      "name": "Causal.EtaleGluing.glue_ι₂",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:471",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {β : Type u_2} {u₁ u₂ : M → β} {hu : Set.EqOn u₁ u₂ A} (y : ↑U₂), Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ hu (Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) y) = u₂ ↑y",
+      "status": "proved",
+      "role": "(4) ũ (ι₂ y) = u₂ y (rfl, simp)"
+    },
+    {
+      "name": "Causal.EtaleGluing.glue_comp_ι₁",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:475",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {β : Type u_2} {u₁ u₂ : M → β} {hu : Set.EqOn u₁ u₂ A}, Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ hu ∘ Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) = u₁ ∘ Subtype.val",
+      "status": "proved",
+      "role": "(4) ũ ∘ ι₁ = u₁ ∘ coe"
+    },
+    {
+      "name": "Causal.EtaleGluing.glue_comp_ι₂",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:479",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {β : Type u_2} {u₁ u₂ : M → β} {hu : Set.EqOn u₁ u₂ A}, Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ hu ∘ Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) = u₂ ∘ Subtype.val",
+      "status": "proved",
+      "role": "(4) ũ ∘ ι₂ = u₂ ∘ coe"
+    },
+    {
+      "name": "Causal.EtaleGluing.continuous_glue",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:483",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {β : Type u_2} {u₁ u₂ : M → β} {hu : Set.EqOn u₁ u₂ A} [inst : TopologicalSpace M] [inst_1 : TopologicalSpace β], ContinuousOn u₁ U₁ → ContinuousOn u₂ U₂ → Continuous (Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ hu)",
+      "status": "proved",
+      "role": "(4) extra: ũ is continuous when u₁ is on U₁ and u₂ on U₂"
+    },
+    {
+      "name": "Causal.EtaleGluing.glue_eq_ite_comp_proj",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:491",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {β : Type u_2} {u₁ u₂ : M → β} {hu : Set.EqOn u₁ u₂ A}, Set.EqOn u₁ u₂ (U₁ ∩ U₂) → Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ hu = (fun x => if x ∈ U₁ then u₁ x else u₂ x) ∘ Causal.EtaleGluing.proj h₁ h₂",
+      "status": "proved",
+      "role": "(4) when u₁ = u₂ on U₁ ∩ U₂, ũ = (u₁ on U₁, u₂ off it) ∘ π; the factor is Causal.glueSolutions ⟨U₁, hU₁⟩ u₁ u₂ by rfl (the planner's optional form, checked in Probe.lean)"
+    },
+    {
+      "name": "Causal.EtaleGluing.exists_glue_eq_comp_proj_iff",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:503",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {β : Type u_2} {u₁ u₂ : M → β} {hu : Set.EqOn u₁ u₂ A}, (∃ v, Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ hu = v ∘ Causal.EtaleGluing.proj h₁ h₂) ↔ Set.EqOn u₁ u₂ (U₁ ∩ U₂)",
+      "status": "proved",
+      "role": "(4) (∃ v : M → β, ũ = v ∘ π) ↔ EqOn u₁ u₂ (U₁ ∩ U₂); any β, no topology"
+    },
+    {
+      "name": "Causal.EtaleGluing.not_injective_and_not_descends",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:513",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {β : Type u_2} {u₁ u₂ : M → β} {hu : Set.EqOn u₁ u₂ A} {x : M} (hx₁ : x ∈ U₁) (hx₂ : x ∈ U₂), u₁ x ≠ u₂ x → x ∉ A ∧ Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) ⟨x, hx₁⟩ ≠ Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) ⟨x, hx₂⟩ ∧ ¬Function.Injective (Causal.EtaleGluing.proj h₁ h₂) ∧ ¬∃ v, Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ hu = v ∘ Causal.EtaleGluing.proj h₁ h₂",
+      "status": "proved",
+      "role": "(4) Thm 3.45's conclusion read on the gluing: x ∈ U₁ ∩ U₂ with u₁ x ≠ u₂ x is not in A, is covered twice, π is not injective and ũ lives on no subset of M"
+    },
+    {
+      "name": "Causal.EtaleGluing.not_isPreconnected_inter",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:526",
+      "kind": "theorem",
+      "statement": "∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {β : Type u_2} {u₁ u₂ : M → β} [inst : TopologicalSpace M], IsOpen A → ∀ [T2Space (Causal.EtaleGluing h₁ h₂)], A.Nonempty → Set.EqOn u₁ u₂ A → ∀ {x : M}, x ∈ U₁ → x ∈ U₂ → u₁ x ≠ u₂ x → ¬IsPreconnected (U₁ ∩ U₂)",
+      "status": "proved",
+      "role": "Cor 4.68's shape (:921) on the gluing: E Hausdorff, A non-empty open, u₁ = u₂ on A and u₁ x ≠ u₂ x at some x ∈ U₁ ∩ U₂ ⇒ U₁ ∩ U₂ not preconnected; any M"
+    },
+    {
+      "name": "Causal.EtaleGluing.Ioi_subset_compl_zero",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:537",
+      "kind": "theorem",
+      "statement": "Set.Ioi 0 ⊆ {0}ᶜ",
+      "status": "proved",
+      "role": "(5) (0, ∞) ⊆ ℝ ∖ {0}"
+    },
+    {
+      "name": "Causal.EtaleGluing.Punctured",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:540",
+      "kind": "abbrev",
+      "statement": "Type",
+      "status": "defined",
+      "role": "(5) two copies of ℝ ∖ {0} glued along (0, ∞): the negative half-line doubled"
+    },
+    {
+      "name": "Causal.EtaleGluing.eqOn_zero_indicator",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:543",
+      "kind": "theorem",
+      "statement": "Set.EqOn 0 ((Set.Iio 0).indicator 1) (Set.Ioi 0)",
+      "status": "proved",
+      "role": "(5) 0 and 1_{(-∞,0)} agree on (0, ∞)"
+    },
+    {
+      "name": "Causal.EtaleGluing.punctured_witness",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:551",
+      "kind": "theorem",
+      "statement": "connectedComponentIn ({0}ᶜ ∩ {0}ᶜ) 1 = Set.Ioi 0 ∧ T2Space Causal.EtaleGluing.Punctured ∧ IsLocalHomeomorph (Causal.EtaleGluing.proj Causal.EtaleGluing.Ioi_subset_compl_zero Causal.EtaleGluing.Ioi_subset_compl_zero) ∧ ¬Function.Injective (Causal.EtaleGluing.proj Causal.EtaleGluing.Ioi_subset_compl_zero Causal.EtaleGluing.Ioi_subset_compl_zero) ∧ (¬∃ v, Causal.EtaleGluing.glue Causal.EtaleGluing.Ioi_subset_compl_zero Causal.EtaleGluing.Ioi_subset_compl_zero 0 ((Set.Iio 0).indicator 1) Causal.EtaleGluing.eqOn_zero_indicator = v ∘ Causal.EtaleGluing.proj Causal.EtaleGluing.Ioi_subset_compl_zero Causal.EtaleGluing.Ioi_subset_compl_zero) ∧ ∃ v, Causal.EtaleGluing.glue Causal.EtaleGluing.Ioi_subset_compl_zero Causal.EtaleGluing.Ioi_subset_compl_zero 0 0 ⋯ = v ∘ Causal.EtaleGluing.proj Causal.EtaleGluing.Ioi_subset_compl_zero Causal.EtaleGluing.Ioi_subset_compl_zero",
+      "status": "proved",
+      "role": "(5) first witness: (0, ∞) is the component of ℝ ∖ {0} through 1, E Hausdorff, π étale and not injective, ũ of 0 and 1_{(-∞,0)} does not descend, ũ of 0 and 0 descends"
+    },
+    {
+      "name": "Causal.EtaleGluing.punctured_not_isPreconnected",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:575",
+      "kind": "theorem",
+      "statement": "¬IsPreconnected ({0}ᶜ ∩ {0}ᶜ)",
+      "status": "proved",
+      "role": "(5) not_isPreconnected_inter applied at the first witness (non-vacuity of its hypotheses)"
+    },
+    {
+      "name": "Causal.EtaleGluing.Branching",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:585",
+      "kind": "abbrev",
+      "statement": "Type",
+      "status": "defined",
+      "role": "(5) two copies of ℝ glued along (0, ∞)"
+    },
+    {
+      "name": "Causal.EtaleGluing.branching_witness",
+      "file_line": "scaffold/CausalScaffold/ErsEtaleGluing.lean:591",
+      "kind": "theorem",
+      "statement": "IsLocalHomeomorph (Causal.EtaleGluing.proj ⋯ ⋯) ∧ Causal.Gluing.IsCorrespondingBoundaryPair (Set.inclusion ⋯) (Set.inclusion ⋯) ⟨0, trivial⟩ ⟨0, trivial⟩ ∧ ¬T2Space Causal.EtaleGluing.Branching",
+      "status": "proved",
+      "role": "(5) second witness: π étale, (0, 0) a corresponding boundary pair, E not Hausdorff (through the hypothesis-free subset_of_t2Space)"
+    }
+  ],
+  "extra_decls": [
+    "Causal.EtaleGluing.isOpenEmbedding_inclusion",
+    "Causal.EtaleGluing.secondCountableTopology",
+    "Causal.EtaleGluing.continuous_glue",
+    "Causal.EtaleGluing.subset_of_t2Space",
+    "Causal.EtaleGluing.isCorrespondingBoundaryPair_of_mem",
+    "Causal.EtaleGluing.t2Space_iff_eq_connectedComponentIn",
+    "Causal.EtaleGluing.eq_inter_of_t2Space",
+    "Causal.EtaleGluing.not_isPreconnected_inter"
+  ],
+  "binder_proposal": [
+    {
+      "file": "papers/ers-predictability/certificate/binder.toml",
+      "row": "ersthm:ThmNonUniqueness",
+      "ett_add": [],
+      "note_append": "The topological half of T-abs-ers-etale-mghd is T-abs-ers-etale-gluing (Causal.EtaleGluing). Gluing U_a, U_b along an open A on which Φ_a = Φ_b gives E with π : E → U_a ∪ U_b étale (isLocalHomeomorph_proj). π is injective iff U_a ∩ U_b ⊆ A (injective_proj_iff). E is Hausdorff iff A is closed in U_a ∩ U_b (t2Space_iff), so E is Hausdorff when A is a component (t2Space_connectedComponentIn). Thm 3.45's conclusion is exactly the failure of the glued solution to descend to the background (exists_glue_eq_comp_proj_iff, not_injective_and_not_descends). The causal half (lifted S a Cauchy surface of E) stays with T-abs-ers-etale-mghd.",
+      "why_no_ett_add": "the row's statement is the existence of two Born–Infeld GHDs (layer 3); the module proves the reading of its conclusion, not the row. The loop may add not_injective_and_not_descends to `ett` once the causal half lands."
+    },
+    {
+      "file": "papers/ers-predictability/certificate/binder.toml",
+      "row": "erscor:CorDisCon",
+      "ett_add": [],
+      "note_append": "On the Einstein-style gluing (T-abs-ers-etale-gluing): Causal.EtaleGluing.not_isPreconnected_inter is the corollary's shape with 'the gluing along the MCGHD is Hausdorff' as its input, for any space: disagreement at a point of U₁ ∩ U₂ and a Hausdorff gluing along a non-empty open A force U₁ ∩ U₂ to be disconnected. Its topological core is eq_inter_of_t2Space (a Hausdorff gluing over a connected overlap has A = U₁ ∩ U₂).",
+      "why_no_ett_add": "the row's forms of record are the causal ers_corollary_4_68 forms; this one takes the Hausdorff gluing as input, which is what Thm 4.64's argument proves. It is a sibling, not a form of record."
+    },
+    {
+      "file": "papers/ers-predictability/certificate/binder.toml",
+      "rows": [
+        "erslem:sep_lemma",
+        "ersthm:global_theorem"
+      ],
+      "ett_add": [],
+      "note_append": "Topological half in Lean (T-abs-ers-etale-gluing): for two pieces, the projection is injective exactly when U₁ ∩ U₂ ⊆ A, and it is then an open embedding onto U₁ ∪ U₂ (Causal.EtaleGluing.injective_proj_iff, isOpenEmbedding_proj); over U₁ ∩ U₂ ∖ A each fibre has two points (encard_preimage_proj_singleton_of_notMem).",
+      "why_no_ett_add": "both rows are layer-3 statements about Ψ"
+    }
+  ],
+  "curation_proposal": {
+    "file": "papers/ers-predictability/certificate/curation.toml",
+    "decls_add": [],
+    "extra_lean_files_add": [],
+    "marked": "no (unchanged, every row)",
+    "why_no_decls_add": "no row's statement is proved by the module; adding its declarations as decls would enter the double DAG as anchors of rows it does not certify. After graduation, the loop may list Causal.EtaleGluing.not_injective_and_not_descends under ersthm:ThmNonUniqueness and not_isPreconnected_inter under erscor:CorDisCon as supporting declarations, if the ledger should show them."
+  },
+  "findings": [
+    "Paper, precision rather than error (ghd_02_19.tex:852). 'glueing them together along the MCGHD ... would yield a solution which is no longer defined on a subset of ℝ^{d+1}' runs together two failures. (i) The space E is not a subset of the background as soon as U₁ ∩ U₂ ⊄ A (injective_proj_iff). With A the MCGHD, which lies in the component of U₁ ∩ U₂ through S (:850), this happens whenever U₁ ∩ U₂ is disconnected, whatever u₁ and u₂ are. (ii) The glued solution ũ fails to live on a subset of the background exactly when u₁ ≠ u₂ somewhere on U₁ ∩ U₂ (exists_glue_eq_comp_proj_iff). (i) can hold without (ii): punctured_witness, last conjunct (U₁ = U₂ = ℝ ∖ {0}, A = (0, ∞) a component, u₁ = u₂ = 0; π is not injective and ũ = 0 ∘ π). In that case ũ descends to U₁ ∪ U₂ and nothing is 'not allowed'. ERS's conclusion (:852: 'the key difference ... the underlying manifold is constructed along with the solution') concerns (ii). Its link to disconnectedness is Cor 4.68 (:921), whose topological shape is not_isPreconnected_inter.",
+    "Programme statement, not the paper. T-abs-ers-etale-mghd's title says the Einstein-style gluing along the MCGHD carries a local homeomorphism to the background 'injective iff they agree on the whole overlap'. Read on the projection π, this is false as topology. With A the MCGHD, π is injective iff U₁ ∩ U₂ ⊆ A. Given :850 (the MCGHD is the component of U₁ ∩ U₂ through S), that holds iff U₁ ∩ U₂ is connected. Agreement on the whole overlap is the descent of ũ (exists_glue_eq_comp_proj_iff). The topological counterexample to 'agree ⇒ injective' is punctured_witness's last conjunct. The causal half should state the two separately: π injective ⇔ U₁ ∩ U₂ = MCGHD (connected overlap, Sbierski's tacit assumption, :850); ũ descends ⇔ u₁ = u₂ on U₁ ∩ U₂. Only the second is fixed-background uniqueness. The candidate-3 sentence of references/sbierski/notes/eperon2018predictability.md (:67, 'uniqueness of the MGHD in the fixed-background sense ⇔ this map is injective') needs the same care if it is read for two developments.",
+    "Paper, confirmed (ghd_02_19.tex:852, 'a manifold which projects down on U₁ ∪ U₂ ... and contains the other connected components of U₁ ∩ U₂ twice'). Its topology is proved: π is a surjective local homeomorphism onto U₁ ∪ U₂ (isLocalHomeomorph_codRestrict_proj). Over each point of U₁ ∩ U₂ ∖ A there are exactly two points (encard_preimage_proj_singleton_of_notMem), and over a set disjoint from A two disjoint sheets (preimage_proj_eq_union, disjoint_image_ι₁_image_ι₂). E is Hausdorff when A is a component in a locally connected Hausdorff background (t2Space_connectedComponentIn), and second countable (secondCountableTopology). The Hausdorff property needs A to be the whole component: gluing along a smaller open set with a frontier point in U₁ ∩ U₂ gives a non-Hausdorff E (t2Space_iff, branching_witness). So ':850' is load-bearing for 'a manifold', which ERS do not say."
+  ],
+  "questions": [
+    "Reading of 'a manifold which projects down on U₁ ∪ U₂' (:852). Taken: π is a local homeomorphism with range U₁ ∪ U₂ (and its corestriction a surjective local homeomorphism), and E is Hausdorff and second countable. The smooth structure (charts pulled back along π) and 'a solution' on E (the PDE) are not formalized, being layer 3. If the author wants E as a smooth manifold, that needs a smooth-manifold layer the package does not have.",
+    "Reading of 'contains the other connected components of U₁ ∩ U₂ twice' (:852). Taken: every point of U₁ ∩ U₂ ∖ A has exactly two preimages, and over any B disjoint from A the preimage is the disjoint union of the two sheets ι₁(B), ι₂(B), each mapped onto B by π (an open embedding on each sheet). It is not stated per connected component, which needs nothing more.",
+    "Reading of 'glueing along the MCGHD'. Taken: A is any open subset of U₁ ∩ U₂ with u₁ = u₂ on A. That the MCGHD is the component of U₁ ∩ U₂ through S (:850, the argument of Thm 4.64) is causal and left to T-abs-ers-etale-mghd. The component case is t2Space_connectedComponentIn, and the connected case is eq_inter_of_t2Space."
+  ],
+  "kb_proposals": [
+    "Two subsets U₁, U₂ of one space glued along A ⊆ U₁ ∩ U₂: Causal.EtaleGluing h₁ h₂ (Gluing of the two Set.inclusion maps), π = EtaleGluing.proj. π is injective iff U₁ ∩ U₂ ⊆ A (no topology). π is étale for U₁, U₂, A open. E is Hausdorff iff U₁ ∩ U₂ ∩ closure A ⊆ A when M is T2 (t2Space_iff); the forward direction holds for any M (subset_of_t2Space). Glued functions descend iff they agree on U₁ ∩ U₂ (CausalScaffold.ErsEtaleGluing, T-abs-ers-etale-gluing).",
+    "Pattern: a map out of a Causal.Gluing is a local homeomorphism when its composite with each ι_i is. Take IsLocalHomeomorphOn.of_comp_right on each sheet (f := ι_i, an open embedding; g ∘ f a local homeomorphism), then cover by Gluing.exists_ι (Causal.EtaleGluing.isLocalHomeomorph_proj).",
+    "Pitfall: injectivity of the Einstein-style projection measures the connectedness of U₁ ∩ U₂ (A a component), not the agreement of the two solutions; agreement is descent (Causal.EtaleGluing.exists_glue_eq_comp_proj_iff). The two come apart at punctured_witness.",
+    "Names at this pin: secondCountableTopology_of_countable_cover is TopologicalSpace.secondCountableTopology_of_countable_cover (not exported by `open Topology`); isClosed_preimage_val : IsClosed (s ↓∩ t) ↔ s ∩ closure (s ∩ t) ⊆ t is the one-line route from 'closed in s' to a closure inclusion; IsPreconnected.subset_of_closure_inter_subset proves a connected set lies in a relatively clopen open set."
+  ],
+  "what_remains": "Nothing of the target: all five deliverables are proved with no sorry, plus the planner's optional glueSolutions form, checked by rfl in the probe. What remains is T-abs-ers-etale-mghd's causal half. (a) The glued causality on E: Causal.Gluing.causality with CompatibleAlong on A, supplied by CausalityFollows where u₁ = u₂. (b) That the lifted S is a Cauchy surface of E, so that E is a development over the background in the étale sense: through ETT's prop:ppcm_Cauchy (Causal.CBG.ett_ppcm_Cauchy, waiting on T-abs-hoist-cbg-geometry, OQ-97), or directly, since an inextensible curve of E crosses between the sheets only through ι(A). (c) That the MCGHD is the component of U₁ ∩ U₂ through S (:850, Thm 4.64), which with t2Space_connectedComponentIn makes E Hausdorff. (d) Lemma 3.32's separation of preimages (layer 3). It should also restate its title per the second finding: π injective ⇔ connected overlap; descent ⇔ agreement.",
+  "notes": "Graduation: the module is a leaf, namespace Causal, with everything in Causal.EtaleGluing. Its Causal import is Causal.GluingHausdorff only. No clash was found for EtaleGluing or 'etale' in Causal/, scaffold/ or lean-gx. Causal.EtaleGluing.secondCountableTopology is a theorem, not an instance (it needs IsOpen A). The hypotheses are weakened against the target throughout. U₁, U₂, A are sets of any space; openness is asked only where used (U₁, U₂ for the étale statements, A for the topology of the gluing). [T2Space M] is asked only for the converse half of 3, and local connectedness only for the component's openness. The target's statement is the paper-free programme form, so no label is marked, as the dispatch says. No existing file was edited. The binder, the curation, programme/ladder.toml, Causal.lean, README and kb are untouched (proposals above). The probe's second import, Causal.Ers482Solution, is there only to check by rfl that the factor is glueSolutions. Importing it into the module would put a pure-topology leaf downstream of the ERS 4.82 layer, so the module states the factor as an explicit `if`.",
+  "corrected_after_audit": "AUDIT-1 (minor), recorded by the master: finding (2) is read with two precisions. (a) The title's forward direction holds: π injective implies u₁ = u₂ on U₁ ∩ U₂ (from injective_proj_iff and agreement on A; checked by the auditor in Lean). (b) The counterexample to 'agreement ⇒ injective' (punctured_witness) is topological only: its A is a component chosen by hand, not the MCGHD of two GHDs; whether two GHDs can agree on all of a disconnected overlap is a causal/PDE question this module does not decide. Restated: π injective ⇔ U₁ ∩ U₂ ⊆ A (given :850, the overlap connected); the glued function descends ⇔ u₁ = u₂ on the overlap; 'agreement ⇒ injective' stays an open causal question for T-abs-ers-etale-mghd. Finding (3): ERS state at :852's parenthetical that the MCGHD is the component; what they do not say is that the glued space's Hausdorff property rests on it."
+}

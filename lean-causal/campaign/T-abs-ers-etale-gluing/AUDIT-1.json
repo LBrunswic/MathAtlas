@@ -1,0 +1,115 @@
+{
+ "target": "T-abs-ers-etale-gluing",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "ersthm:ThmNonUniqueness",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Not marked, status not-attempted: right. The row is the existence of two Born–Infeld GHDs (layer 3). The module proves only what its conclusion means on the gluing (not_injective_and_not_descends: x ∉ A, two sheets over x, π not injective, ũ does not descend). The binder note_append is accurate (étale needs U open, true of GHDs; Hausdorff iff closed needs a Hausdorff background, true of ℝ^{d+1}). No ett_add: right."
+  },
+  {
+   "label": "ersthm:global_theorem",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Not marked, not-attempted. Only the last topological step (an injective étale π is an open embedding, isOpenEmbedding_proj / exists_homeomorph) is relevant. The note proposal is accurate."
+  },
+  {
+   "label": "erslem:sep_lemma",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Not marked, not-attempted. injective_proj_iff and encard_preimage_proj_singleton_of_notMem say what the note proposal says. The causal separation of preimages stays layer 3."
+  },
+  {
+   "label": "ersthm:diffeo_theorem",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Not marked, not-attempted, and nothing claimed. Correct."
+  },
+  {
+   "label": "erslem:nec_cond",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Not marked, not-attempted, and nothing claimed. Correct."
+  },
+  {
+   "label": "erslem:lemma_sing",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Not marked, not-attempted, and nothing claimed. Correct."
+  },
+  {
+   "label": "erscor:CorDisCon",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "For information only; the forms of record stay. not_isPreconnected_inter is correctly called the corollary's shape: it takes a Hausdorff gluing along a non-empty open A with EqOn u₁ u₂ A as input, and ¬IsPreconnected is ¬connected because x is in U₁ ∩ U₂. Calling it a sibling, not a form of record, is right."
+  }
+ ],
+ "target_deliverables": [
+  {
+   "item": "(1) étale",
+   "faithful": true,
+   "notes": "proj is Gluing.desc of the two Subtype.val maps (checked by rfl in the audit probe). EtaleGluing is an abbrev of Causal.Gluing (inclusion h₁) (inclusion h₂), and its topology is Gluing's quotient topology (rfl). proj_comp_ι₁/ι₂ and range_proj = U₁ ∪ U₂ hold with no topology. isLocalHomeomorph_proj (mathlib IsLocalHomeomorph) assumes U₁, U₂, A open, as the target does. The codRestrict form is a surjective local homeomorphism onto ↥(U₁ ∪ U₂). secondCountableTopology is an extra."
+  },
+  {
+   "item": "(2) injectivity",
+   "faithful": true,
+   "notes": "injective_proj_iff : Injective π ↔ U₁ ∩ U₂ ⊆ A, with no topology and no hypothesis on A. isOpenEmbedding_proj / exists_homeomorph hold under U₁ ∩ U₂ ⊆ A. The fibres: {ι₁ x, ι₂ x} over U₁ ∩ U₂, encard 2 off A, a singleton over (U₁ ∪ U₂) ∖ (U₁ ∩ U₂ ∖ A), empty off U₁ ∪ U₂."
+  },
+  {
+   "item": "(3) Hausdorff",
+   "faithful": true,
+   "notes": "t2Space_iff assumes only [T2Space M] and IsOpen A (U₁, U₂ need not be open, which is correct). It goes through Gluing.t2Space_iff_forall_not_isCorrespondingBoundaryPair (GluingHausdorff.lean:307); its T2 hypotheses on U₁, U₂ come from M as subtypes. The condition U₁ ∩ U₂ ∩ closure_M A ⊆ A is exactly 'A closed in U₁ ∩ U₂', since the closure in a subspace is the subspace meet the ambient closure. t2Space_iff_isClosed states it verbatim as IsClosed (val ⁻¹' A) in ↥(U₁ ∩ U₂). isCorrespondingBoundaryPair_iff gives the pairs (x, x), x ∈ U₁ ∩ U₂ ∩ closure A ∖ A, as the target asks. t2Space_iff_eq_connectedComponentIn: IsOpen A, IsPreconnected A and x ∈ A (so A is connected) are enough, and the statement is right. ⇒: A is open, relatively closed and connected, so it is the component of x. ⇐: a component is relatively closed (insert y A is preconnected when y ∈ closure A). t2Space_connectedComponentIn assumes T2, locally connected M and U₁, U₂ open, as the target does. The audit probe instantiates it at ℝ ∖ {0}, x = 1, so it is not vacuous. subset_of_t2Space (any M) and eq_inter_of_t2Space are extras and correct."
+  },
+  {
+   "item": "(4) descent",
+   "faithful": true,
+   "notes": "glue : EtaleGluing h₁ h₂ → β is Gluing.desc (u₁ ∘ val) (u₂ ∘ val), so the glued function is defined on E. exists_glue_eq_comp_proj_iff : (∃ v : M → β, ũ = v ∘ π) ↔ EqOn u₁ u₂ (U₁ ∩ U₂) is 'factors through π' stated correctly (v on all of M is equivalent, since π lands in U₁ ∪ U₂). The optional glueSolutions form is checked in Probe.lean: the example elaborates with glueSolutions ⟨U₁, hU₁⟩ u₁ u₂ in place of the explicit if, so the two are definitionally equal."
+  },
+  {
+   "item": "(5) witnesses",
+   "faithful": true,
+   "notes": "punctured_witness instantiates t2Space_iff, t2Space_iff_eq_connectedComponentIn, isLocalHomeomorph_proj, not_injective_and_not_descends and both directions of exists_glue_eq_comp_proj_iff, at the target's data: U₁ = U₂ = ℝ∖{0}, A = Ioi 0, u₁ = 0, u₂ = 1_{Iio 0}. branching_witness instantiates isLocalHomeomorph_proj, isCorrespondingBoundaryPair_iff and subset_of_t2Space at U₁ = U₂ = ℝ, A = Ioi 0. punctured_not_isPreconnected instantiates not_isPreconnected_inter. None of the data is trivial."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "notes": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/ErsEtaleGluing.lean`: exit 0, no output. No lake build was run, as dispatched. The olean (02:10:31) is newer than the source (02:10:28). grep for sorry, admit, axiom, native_decide, implemented_by, extern, unsafe, opaque and set_option: none. There are 49 declarations in the source, the same set as REPORT.declarations. The audit's own #print axioms probe over all 49 (written under the campaign directory, then deleted) gives 30 [propext, Classical.choice, Quot.sound], 8 [propext, Quot.sound] and 11 with none, as the REPORT says. Rerunning the closer's Probe.lean reproduces axioms.txt byte for byte (diff empty)."
+ },
+ "layer": {
+  "ok": true,
+  "notes": "Imports: Causal.GluingHausdorff plus mathlib (IsLocalHomeomorph, Connected.LocallyConnected, Data.Set.Card). tools/ladder.py model_path was computed in memory on lean_index()'s graph with the module added (kb/0247). It is None for the module, for Causal.GluingHausdorff and for that module's direct imports, Causal.Pushout and Causal.CBG.FamilyGluing. The 17 transitive Causal modules match the REPORT's list, and none is model-layer. No importer, and import_chain(Causal.Ladder.Rules → module) is None. No metric, curve, PDE or causality appears in any statement."
+ },
+ "scope": {
+  "ok": true,
+  "notes": "Dirty or untracked paths attributable to the closer: lean-causal/scaffold/CausalScaffold/ErsEtaleGluing.lean and lean-causal/campaign/T-abs-ers-etale-gluing/ only. Every other path belongs to another loop: the restatements and RESTATED files dated 2026-11-25, lean-gx BTZ, the two roadmap.toml status flips, T-abs-past-inextensible-meets-cauchy and lean-gx/campaign/T-btz-g3-dedupe. Most were already dirty in the session's initial snapshot. Nothing under lean-causal/Causal, papers/ers-predictability (binder, curation, ledger) or programme/ladder.toml is modified. Names: Causal.EtaleGluing.* is new. The short names ι₁_eq_ι₂_iff, isCorrespondingBoundaryPair_iff and t2Space_iff also exist under Causal.Gluing, but in a distinct namespace, so they do not clash. Causal.CBG.FamilyGlueData.proj and Causal.Flat.FlatQuotient.proj are in other namespaces. There is no Punctured, Branching or glueSolutions clash; the module does not import Causal.Ers482Solution."
+ },
+ "docstring": {
+  "ok": true,
+  "notes": "kb/0006 contract: title, 'No label is marked' (no **`prefix:label`** pattern anywhere; the bold-backtick spans at :176, :256 and :403 are declaration docstrings past the first 4000 chars and do not match ledger.py's label regex), verbatim quotes of :850, :852 and Thm 3.45 (checked against ghd_02_19.tex; line numbers right), hypothesis checklist, SCOPE and Provenance are all present. The checklist rows are true: every weakening is real and none strengthens the target. SCOPE discloses that A is any open set and is never read as the MCGHD, and that the smooth structure and the PDE are not formalized. The three readings are recorded in REPORT.questions as questions, not decided."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-causal/campaign/T-abs-ers-etale-gluing/REPORT.json:631 (finding 2, on T-abs-ers-etale-mghd's title)",
+   "what": "The finding is right in substance. Injectivity of π (U₁ ∩ U₂ ⊆ A, so a connected overlap given :850) and agreement on the whole overlap (descent of ũ, exists_glue_eq_comp_proj_iff) are distinct, and the title conflates them. 'agree ⇒ injective' fails as topology (punctured_witness, last conjunct). For the planner it is under-stated in two ways. (a) The other direction of the title holds: π injective ⇒ u₁ = u₂ on U₁ ∩ U₂, in one line from injective_proj_iff and EqOn u₁ u₂ A (checked in the audit probe). (b) The counterexample is topological. Its A is a component chosen by hand with u₁ = u₂ = 0 everywhere; it is not the MCGHD of two GHDs of a quasilinear equation. Whether two GHDs can agree on all of a disconnected overlap is a causal/PDE question this module does not decide: if they cannot, the title's iff holds in ERS's setting; ERS Lemmas 4.70/4.72 give connected overlaps under extra hypotheses. So 'false as topology' is accurate, but it must not reach the planner as 'the title is false'.",
+   "fix": "Reword finding 2: 'The title's ⇒ (injective ⇒ agreement on U₁ ∩ U₂) holds. Its ⇐ (agreement ⇒ injective) does not follow from the topology (punctured_witness), and in the causal setting it is open: it would need that two GHDs agreeing on their overlap have a connected overlap. Restate the title as the split: π injective ⇔ U₁ ∩ U₂ = MCGHD (⇔ connected overlap, given :850); ũ descends ⇔ u₁ = u₂ on U₁ ∩ U₂ (ERS global uniqueness for the pair); record agreement ⇒ injective as a causal question.'"
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/campaign/T-abs-ers-etale-gluing/REPORT.json:632 (finding 3, last sentence)",
+   "what": "\"So ':850' is load-bearing for 'a manifold', which ERS do not say\" can be read as saying ERS omit the component identification. They state it in :852 itself ('glueing them together along the MCGHD (which equals the connected component of U₁ ∩ U₂ which contains the initial data hypersurface)'). What ERS do not say is that the Hausdorff property of the glued space depends on A being the whole component (t2Space_iff, branching_witness). The mathematics of the finding is correct.",
+   "fix": "Reword: 'ERS state the component identification (:852's parenthetical, from :850) but do not say that the Hausdorff property of the glued manifold depends on it; gluing along a smaller open set with a frontier point in U₁ ∩ U₂ is non-Hausdorff (t2Space_iff, branching_witness).'"
+  }
+ ],
+ "checked_claims": {
+  "finding_1_paper_852_precision": "correct, and properly labelled a precision rather than an error: the space E fails to be a subset when U₁ ∩ U₂ ⊄ A, the function fails to descend when u₁ ≠ u₂ somewhere on U₁ ∩ U₂, and the first can hold without the second (punctured_witness, last conjunct)",
+  "finding_2_programme_title": "substantively correct about the topology; see the minor finding for the precision owed to the planner",
+  "finding_3_852_hausdorff_rests_on_850": "correct (t2Space_iff, t2Space_connectedComponentIn, branching_witness); minor wording",
+  "questions": "the three readings (a manifold; contains twice; gluing along the MCGHD) are recorded as questions with the reading taken, not as facts",
+  "binder_curation_proposals": "accurate: no ett_add and no decls_add, note appends only, and their wording matches the proved statements; curation marked unchanged"
+ }
+}

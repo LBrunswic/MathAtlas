@@ -1,0 +1,213 @@
+@Causal.EtaleGluing : {M : Type u_1} → {U₁ U₂ A : Set M} → A ⊆ U₁ → A ⊆ U₂ → Type u_1
+@Causal.EtaleGluing.proj : {M : Type u_1} →
+  {U₁ U₂ A : Set M} → (h₁ : A ⊆ U₁) → (h₂ : A ⊆ U₂) → Causal.EtaleGluing h₁ h₂ → M
+@Causal.EtaleGluing.glue : {M : Type u_1} →
+  {U₁ U₂ A : Set M} →
+    {β : Type u_2} → (h₁ : A ⊆ U₁) → (h₂ : A ⊆ U₂) → (u₁ u₂ : M → β) → Set.EqOn u₁ u₂ A → Causal.EtaleGluing h₁ h₂ → β
+@Causal.EtaleGluing.proj_ι₁ : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} (x : ↑U₁),
+  Causal.EtaleGluing.proj h₁ h₂ (Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) x) = ↑x
+@Causal.EtaleGluing.proj_ι₂ : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} (y : ↑U₂),
+  Causal.EtaleGluing.proj h₁ h₂ (Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) y) = ↑y
+@Causal.EtaleGluing.proj_comp_ι₁ : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂},
+  Causal.EtaleGluing.proj h₁ h₂ ∘ Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) = Subtype.val
+@Causal.EtaleGluing.proj_comp_ι₂ : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂},
+  Causal.EtaleGluing.proj h₁ h₂ ∘ Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) = Subtype.val
+@Causal.EtaleGluing.range_proj : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂},
+  Set.range (Causal.EtaleGluing.proj h₁ h₂) = U₁ ∪ U₂
+@Causal.EtaleGluing.ι₁_eq_ι₂_iff : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {x : ↑U₁} {y : ↑U₂},
+  Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) x = Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) y ↔
+    ↑x = ↑y ∧ ↑x ∈ A
+@Causal.EtaleGluing.isOpenEmbedding_inclusion : ∀ {M : Type u_1} {A : Set M} [inst : TopologicalSpace M] {U : Set M}
+  (h : A ⊆ U), IsOpen A → Topology.IsOpenEmbedding (Set.inclusion h)
+@Causal.EtaleGluing.continuous_proj : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}
+  [inst : TopologicalSpace M], Continuous (Causal.EtaleGluing.proj h₁ h₂)
+@Causal.EtaleGluing.isLocalHomeomorph_proj : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}
+  [inst : TopologicalSpace M], IsOpen U₁ → IsOpen U₂ → IsOpen A → IsLocalHomeomorph (Causal.EtaleGluing.proj h₁ h₂)
+@Causal.EtaleGluing.isLocalHomeomorph_codRestrict_proj : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}
+  [inst : TopologicalSpace M],
+  IsOpen U₁ →
+    IsOpen U₂ →
+      IsOpen A →
+        IsLocalHomeomorph (Set.codRestrict (Causal.EtaleGluing.proj h₁ h₂) (U₁ ∪ U₂) ⋯) ∧
+          Function.Surjective (Set.codRestrict (Causal.EtaleGluing.proj h₁ h₂) (U₁ ∪ U₂) ⋯)
+@Causal.EtaleGluing.secondCountableTopology : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}
+  [inst : TopologicalSpace M] [SecondCountableTopology M], IsOpen A → SecondCountableTopology (Causal.EtaleGluing h₁ h₂)
+@Causal.EtaleGluing.eq_of_proj_eq : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}
+  {z z' : Causal.EtaleGluing h₁ h₂},
+  Causal.EtaleGluing.proj h₁ h₂ z = Causal.EtaleGluing.proj h₁ h₂ z' →
+    (Causal.EtaleGluing.proj h₁ h₂ z ∈ U₁ ∩ U₂ → Causal.EtaleGluing.proj h₁ h₂ z ∈ A) → z = z'
+@Causal.EtaleGluing.injective_proj_iff : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂},
+  Function.Injective (Causal.EtaleGluing.proj h₁ h₂) ↔ U₁ ∩ U₂ ⊆ A
+@Causal.EtaleGluing.ι₁_ne_ι₂ : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {x : M} (hx₁ : x ∈ U₁)
+  (hx₂ : x ∈ U₂),
+  x ∉ A →
+    Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) ⟨x, hx₁⟩ ≠
+      Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) ⟨x, hx₂⟩
+@Causal.EtaleGluing.preimage_proj_singleton_of_mem_inter : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁}
+  {h₂ : A ⊆ U₂} {x : M} (hx₁ : x ∈ U₁) (hx₂ : x ∈ U₂),
+  Causal.EtaleGluing.proj h₁ h₂ ⁻¹' {x} =
+    {Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) ⟨x, hx₁⟩,
+      Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) ⟨x, hx₂⟩}
+@Causal.EtaleGluing.encard_preimage_proj_singleton_of_notMem : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁}
+  {h₂ : A ⊆ U₂} {x : M}, x ∈ U₁ → x ∈ U₂ → x ∉ A → (Causal.EtaleGluing.proj h₁ h₂ ⁻¹' {x}).encard = 2
+@Causal.EtaleGluing.preimage_proj_singleton_of_mem : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}
+  {x : M}, x ∈ U₁ ∪ U₂ → x ∉ (U₁ ∩ U₂) \ A → ∃ z, Causal.EtaleGluing.proj h₁ h₂ ⁻¹' {x} = {z}
+@Causal.EtaleGluing.preimage_proj_singleton_of_notMem_union : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁}
+  {h₂ : A ⊆ U₂} {x : M}, x ∉ U₁ ∪ U₂ → Causal.EtaleGluing.proj h₁ h₂ ⁻¹' {x} = ∅
+@Causal.EtaleGluing.preimage_proj_eq_union : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} (B : Set M),
+  Causal.EtaleGluing.proj h₁ h₂ ⁻¹' B =
+    Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) '' Subtype.val ⁻¹' B ∪
+      Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) '' Subtype.val ⁻¹' B
+@Causal.EtaleGluing.disjoint_image_ι₁_image_ι₂ : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}
+  {B : Set M},
+  Disjoint B A →
+    Disjoint (Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) '' Subtype.val ⁻¹' B)
+      (Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) '' Subtype.val ⁻¹' B)
+@Causal.EtaleGluing.isOpenEmbedding_proj : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}
+  [inst : TopologicalSpace M],
+  IsOpen U₁ → IsOpen U₂ → IsOpen A → U₁ ∩ U₂ ⊆ A → Topology.IsOpenEmbedding (Causal.EtaleGluing.proj h₁ h₂)
+@Causal.EtaleGluing.exists_homeomorph : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}
+  [inst : TopologicalSpace M],
+  IsOpen U₁ →
+    IsOpen U₂ → IsOpen A → U₁ ∩ U₂ ⊆ A → ∃ e, ∀ (z : Causal.EtaleGluing h₁ h₂), ↑(e z) = Causal.EtaleGluing.proj h₁ h₂ z
+@Causal.EtaleGluing.isCorrespondingBoundaryPair_of_mem : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}
+  [inst : TopologicalSpace M] {x : ↑U₁} {y : ↑U₂},
+  ↑x = ↑y → ↑x ∈ closure A \ A → Causal.Gluing.IsCorrespondingBoundaryPair (Set.inclusion h₁) (Set.inclusion h₂) x y
+@Causal.EtaleGluing.subset_of_t2Space : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}
+  [inst : TopologicalSpace M], IsOpen A → ∀ [T2Space (Causal.EtaleGluing h₁ h₂)], U₁ ∩ U₂ ∩ closure A ⊆ A
+@Causal.EtaleGluing.isCorrespondingBoundaryPair_iff : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}
+  [inst : TopologicalSpace M] [T2Space M],
+  IsOpen A →
+    ∀ {x : ↑U₁} {y : ↑U₂},
+      Causal.Gluing.IsCorrespondingBoundaryPair (Set.inclusion h₁) (Set.inclusion h₂) x y ↔ ↑x = ↑y ∧ ↑x ∈ closure A \ A
+@Causal.EtaleGluing.t2Space_iff : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}
+  [inst : TopologicalSpace M] [T2Space M], IsOpen A → (T2Space (Causal.EtaleGluing h₁ h₂) ↔ U₁ ∩ U₂ ∩ closure A ⊆ A)
+@Causal.EtaleGluing.t2Space_iff_isClosed : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}
+  [inst : TopologicalSpace M] [T2Space M],
+  IsOpen A → (T2Space (Causal.EtaleGluing h₁ h₂) ↔ IsClosed (Subtype.val ⁻¹' A))
+@Causal.EtaleGluing.t2Space_iff_eq_connectedComponentIn : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}
+  [inst : TopologicalSpace M] [T2Space M],
+  IsOpen A →
+    IsPreconnected A → ∀ {x : M}, x ∈ A → (T2Space (Causal.EtaleGluing h₁ h₂) ↔ connectedComponentIn (U₁ ∩ U₂) x = A)
+@Causal.EtaleGluing.t2Space_connectedComponentIn : ∀ {M : Type u_1} {U₁ U₂ : Set M} [inst : TopologicalSpace M]
+  [T2Space M] [LocallyConnectedSpace M],
+  IsOpen U₁ →
+    IsOpen U₂ →
+      ∀ {x : M},
+        x ∈ U₁ ∩ U₂ →
+          ∀ {h₁ : connectedComponentIn (U₁ ∩ U₂) x ⊆ U₁} {h₂ : connectedComponentIn (U₁ ∩ U₂) x ⊆ U₂},
+            T2Space (Causal.EtaleGluing h₁ h₂)
+@Causal.EtaleGluing.eq_inter_of_t2Space : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}
+  [inst : TopologicalSpace M],
+  IsOpen A → ∀ [T2Space (Causal.EtaleGluing h₁ h₂)], A.Nonempty → IsPreconnected (U₁ ∩ U₂) → A = U₁ ∩ U₂
+@Causal.EtaleGluing.glue_ι₁ : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {β : Type u_2}
+  {u₁ u₂ : M → β} {hu : Set.EqOn u₁ u₂ A} (x : ↑U₁),
+  Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ hu (Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) x) = u₁ ↑x
+@Causal.EtaleGluing.glue_ι₂ : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {β : Type u_2}
+  {u₁ u₂ : M → β} {hu : Set.EqOn u₁ u₂ A} (y : ↑U₂),
+  Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ hu (Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) y) = u₂ ↑y
+@Causal.EtaleGluing.glue_comp_ι₁ : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {β : Type u_2}
+  {u₁ u₂ : M → β} {hu : Set.EqOn u₁ u₂ A},
+  Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ hu ∘ Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) = u₁ ∘ Subtype.val
+@Causal.EtaleGluing.glue_comp_ι₂ : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {β : Type u_2}
+  {u₁ u₂ : M → β} {hu : Set.EqOn u₁ u₂ A},
+  Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ hu ∘ Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) = u₂ ∘ Subtype.val
+@Causal.EtaleGluing.continuous_glue : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂} {β : Type u_2}
+  {u₁ u₂ : M → β} {hu : Set.EqOn u₁ u₂ A} [inst : TopologicalSpace M] [inst_1 : TopologicalSpace β],
+  ContinuousOn u₁ U₁ → ContinuousOn u₂ U₂ → Continuous (Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ hu)
+@Causal.EtaleGluing.glue_eq_ite_comp_proj : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}
+  {β : Type u_2} {u₁ u₂ : M → β} {hu : Set.EqOn u₁ u₂ A},
+  Set.EqOn u₁ u₂ (U₁ ∩ U₂) →
+    Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ hu = (fun x => if x ∈ U₁ then u₁ x else u₂ x) ∘ Causal.EtaleGluing.proj h₁ h₂
+@Causal.EtaleGluing.exists_glue_eq_comp_proj_iff : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}
+  {β : Type u_2} {u₁ u₂ : M → β} {hu : Set.EqOn u₁ u₂ A},
+  (∃ v, Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ hu = v ∘ Causal.EtaleGluing.proj h₁ h₂) ↔ Set.EqOn u₁ u₂ (U₁ ∩ U₂)
+@Causal.EtaleGluing.not_injective_and_not_descends : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}
+  {β : Type u_2} {u₁ u₂ : M → β} {hu : Set.EqOn u₁ u₂ A} {x : M} (hx₁ : x ∈ U₁) (hx₂ : x ∈ U₂),
+  u₁ x ≠ u₂ x →
+    x ∉ A ∧
+      Causal.Gluing.ι₁ (Set.inclusion h₁) (Set.inclusion h₂) ⟨x, hx₁⟩ ≠
+          Causal.Gluing.ι₂ (Set.inclusion h₁) (Set.inclusion h₂) ⟨x, hx₂⟩ ∧
+        ¬Function.Injective (Causal.EtaleGluing.proj h₁ h₂) ∧
+          ¬∃ v, Causal.EtaleGluing.glue h₁ h₂ u₁ u₂ hu = v ∘ Causal.EtaleGluing.proj h₁ h₂
+@Causal.EtaleGluing.not_isPreconnected_inter : ∀ {M : Type u_1} {U₁ U₂ A : Set M} {h₁ : A ⊆ U₁} {h₂ : A ⊆ U₂}
+  {β : Type u_2} {u₁ u₂ : M → β} [inst : TopologicalSpace M],
+  IsOpen A →
+    ∀ [T2Space (Causal.EtaleGluing h₁ h₂)],
+      A.Nonempty → Set.EqOn u₁ u₂ A → ∀ {x : M}, x ∈ U₁ → x ∈ U₂ → u₁ x ≠ u₂ x → ¬IsPreconnected (U₁ ∩ U₂)
+Causal.EtaleGluing.Ioi_subset_compl_zero : Set.Ioi 0 ⊆ {0}ᶜ
+Causal.EtaleGluing.Punctured : Type
+Causal.EtaleGluing.eqOn_zero_indicator : Set.EqOn 0 ((Set.Iio 0).indicator 1) (Set.Ioi 0)
+Causal.EtaleGluing.punctured_witness : connectedComponentIn ({0}ᶜ ∩ {0}ᶜ) 1 = Set.Ioi 0 ∧
+  T2Space Causal.EtaleGluing.Punctured ∧
+    IsLocalHomeomorph
+        (Causal.EtaleGluing.proj Causal.EtaleGluing.Ioi_subset_compl_zero Causal.EtaleGluing.Ioi_subset_compl_zero) ∧
+      ¬Function.Injective
+            (Causal.EtaleGluing.proj Causal.EtaleGluing.Ioi_subset_compl_zero
+              Causal.EtaleGluing.Ioi_subset_compl_zero) ∧
+        (¬∃ v,
+              Causal.EtaleGluing.glue Causal.EtaleGluing.Ioi_subset_compl_zero Causal.EtaleGluing.Ioi_subset_compl_zero
+                  0 ((Set.Iio 0).indicator 1) Causal.EtaleGluing.eqOn_zero_indicator =
+                v ∘
+                  Causal.EtaleGluing.proj Causal.EtaleGluing.Ioi_subset_compl_zero
+                    Causal.EtaleGluing.Ioi_subset_compl_zero) ∧
+          ∃ v,
+            Causal.EtaleGluing.glue Causal.EtaleGluing.Ioi_subset_compl_zero Causal.EtaleGluing.Ioi_subset_compl_zero 0
+                0 ⋯ =
+              v ∘
+                Causal.EtaleGluing.proj Causal.EtaleGluing.Ioi_subset_compl_zero
+                  Causal.EtaleGluing.Ioi_subset_compl_zero
+Causal.EtaleGluing.punctured_not_isPreconnected : ¬IsPreconnected ({0}ᶜ ∩ {0}ᶜ)
+Causal.EtaleGluing.Branching : Type
+Causal.EtaleGluing.branching_witness : IsLocalHomeomorph (Causal.EtaleGluing.proj ⋯ ⋯) ∧
+  Causal.Gluing.IsCorrespondingBoundaryPair (Set.inclusion ⋯) (Set.inclusion ⋯) ⟨0, trivial⟩ ⟨0, trivial⟩ ∧
+    ¬T2Space Causal.EtaleGluing.Branching
+'Causal.EtaleGluing' does not depend on any axioms
+'Causal.EtaleGluing.proj' does not depend on any axioms
+'Causal.EtaleGluing.glue' does not depend on any axioms
+'Causal.EtaleGluing.proj_ι₁' does not depend on any axioms
+'Causal.EtaleGluing.proj_ι₂' does not depend on any axioms
+'Causal.EtaleGluing.proj_comp_ι₁' does not depend on any axioms
+'Causal.EtaleGluing.proj_comp_ι₂' does not depend on any axioms
+'Causal.EtaleGluing.range_proj' depends on axioms: [propext, Quot.sound]
+'Causal.EtaleGluing.ι₁_eq_ι₂_iff' depends on axioms: [propext, Quot.sound]
+'Causal.EtaleGluing.isOpenEmbedding_inclusion' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.continuous_proj' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.isLocalHomeomorph_proj' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.isLocalHomeomorph_codRestrict_proj' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.secondCountableTopology' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.eq_of_proj_eq' depends on axioms: [propext, Quot.sound]
+'Causal.EtaleGluing.injective_proj_iff' depends on axioms: [propext, Quot.sound]
+'Causal.EtaleGluing.ι₁_ne_ι₂' depends on axioms: [propext, Quot.sound]
+'Causal.EtaleGluing.preimage_proj_singleton_of_mem_inter' depends on axioms: [propext, Quot.sound]
+'Causal.EtaleGluing.encard_preimage_proj_singleton_of_notMem' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.preimage_proj_singleton_of_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.preimage_proj_singleton_of_notMem_union' depends on axioms: [propext, Quot.sound]
+'Causal.EtaleGluing.preimage_proj_eq_union' depends on axioms: [propext, Quot.sound]
+'Causal.EtaleGluing.disjoint_image_ι₁_image_ι₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.isOpenEmbedding_proj' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.exists_homeomorph' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.isCorrespondingBoundaryPair_of_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.subset_of_t2Space' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.isCorrespondingBoundaryPair_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.t2Space_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.t2Space_iff_isClosed' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.t2Space_iff_eq_connectedComponentIn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.t2Space_connectedComponentIn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.eq_inter_of_t2Space' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.glue_ι₁' does not depend on any axioms
+'Causal.EtaleGluing.glue_ι₂' does not depend on any axioms
+'Causal.EtaleGluing.glue_comp_ι₁' does not depend on any axioms
+'Causal.EtaleGluing.glue_comp_ι₂' does not depend on any axioms
+'Causal.EtaleGluing.continuous_glue' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.glue_eq_ite_comp_proj' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.exists_glue_eq_comp_proj_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.not_injective_and_not_descends' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.not_isPreconnected_inter' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.Ioi_subset_compl_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.Punctured' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.eqOn_zero_indicator' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.punctured_witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.punctured_not_isPreconnected' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.Branching' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.EtaleGluing.branching_witness' depends on axioms: [propext, Classical.choice, Quot.sound]
