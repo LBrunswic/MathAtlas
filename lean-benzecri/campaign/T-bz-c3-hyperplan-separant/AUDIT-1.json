@@ -1,0 +1,29 @@
+{
+ "target": "T-bz-c3-hyperplan-separant",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "bzprop:c3s5p7_hyperplan_separant",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Read against benzecri1960_ch3.tex l.1258-1321 and Def. 1 (l.1162-1166). hyperplan_separant_support (l.644) has exactly the printed hypotheses and nothing more. They are: Convex W; V.Nonempty; affineSpan V = affineSpan W (same support L); V closed for finestLC of L's direction, transported by an origin P in L (translation makes the choice of P harmless, and the hypothesis can always be met); V != W; ProprieteI V W, which is Def. 1 verbatim (V subset W, V convex, W - V convex). W nonempty follows from the rest. The conclusion is ExistsUnique over the set H, so existence and uniqueness are both proved. SepareHyperplan (l.176) is H = L inter {f = c}, with f linear and some x in L where f x != c, V in {f <= c} and W - V in {c <= f}. The degenerate case where f is constant but not equal to c on L, giving H empty, is ruled out by the separation clauses once V and W - V are nonempty, which the hypotheses force, so every H that meets the definition is a real hyperplane of L. Not asking for continuity is harmless: under the finest locally convex topology every linear form is continuous. On the readings: 'hyperplan of L' is what the printed proof says (l.1275-1276), and the statement equips L itself with the topology. The ambient reading fails, as separeHyperplan_ambiant_deux shows. I checked it: V = [0,1]x[0,1/2]x{0} and W = [0,1]^2 x {0} meet every hypothesis of Prop. 7 (support z = 0), and y = 1/2 and z = 0 are two distinct ambient separators. Weak separation is Bourbaki's standard sense of « séparant » and is forced by l.1266 (F subset H, with F subset V). Uniqueness is proved among weak separators, which are the largest class, and existence is proved with W - V in the open half-space (exists_separe_fort), so every reading between the two holds. The only reading that fails, V in an open half-space, is refuted by inter_nonempty_of_separeHyperplan, which is correct: by exists_pointsContact the contact set is nonempty and lies in every separator. So these readings are not open questions that would change the statement, and marking is justified. They are rightly recorded under REPORT 'questions', as CAMPAIGN.md asks. Hahn-Banach is Mathlib's geometric_hahn_banach_of_nonempty_interior (Mathlib/Analysis/LocallyConvex/Separation.lean:154), used in exists_separe_finset (l.374). It is not assumed. Prop. 5 enters as the strict prop5_fort. Prop. 6 is not used: ensembleContact appears only in the side lemma pointsContact_subset_ensembleContact, and no convexity of the contact set is used. The REPORT's findings are true. 'Non vides' is redundant: V empty gives affineSpan W = bot, so W = V. Prop. 7 is true as printed. The l.1317 C/B reading is already flagged [sic?] in the transcription and does not affect the statement. The instance hyperplan_separant_rectangleBas is real: V = [0,1]x[0,1/2] and W = [0,1]^2 meet every hypothesis (closedness via finestLC_prod), and any separator equals {y = 1/2}. It goes through hyperplan_separant_finestLC, not the headline hyperplan_separant_support. Here L is the whole plane, so the two coincide; this is a note, not a finding."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "notes": "`taskset -c 0-11 lake env lean scaffold/BenzecriScaffold/Chapter3/HyperplanSeparant.lean` from lean-benzecri/ exits 0 with no output. The only 'sorry' in the file is the word in the SCOPE prose (l.68). A one-shot probe (a copy of the source with #print axioms appended, under the campaign directory, since deleted) gives [propext, Classical.choice, Quot.sound] for hyperplan_separant_support, hyperplan_separant_finestLC, hyperplan_separant, exists_separe_fort, separeHyperplan_unique, exists_separe_finset, hyperplan_separant_rectangleBas, separeHyperplan_ambiant_deux and inter_nonempty_of_separeHyperplan. The provenance line's mathlib fabf563a / v4.31.0 matches lake-manifest.json."
+ },
+ "scope": "git status --short shows the new file scaffold/BenzecriScaffold/Chapter3/HyperplanSeparant.lean, the campaign directory, and scaffold/BenzecriScaffold.lean, whose diff adds three imports. Only `import BenzecriScaffold.Chapter3.HyperplanSeparant` belongs to this target. The AppuiSphere and Conjugues lines belong to those targets' dispatches. The other dirty paths (restatements, roadmap.toml, other campaign directories) belong to other loops and are not this closer's. No out-of-scope edit by this target was found.",
+ "docstring_contract": "Contract met. It has the title; the marked label with benzecri1960_ch3.tex:1258 at character offset 498; the French quote block; the Hypothesis checklist; SCOPE (disclosed); and the provenance line. Every checklist row and SCOPE claim I checked is true, including the claims that V.Nonempty is unused, that no hypothesis is added, and that Prop. 6 is not used.",
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-benzecri/scaffold/BenzecriScaffold/Chapter3/HyperplanSeparant.lean:662-664",
+   "what": "Two section headings follow each other: an empty `/-! ### Instance -/` and then `/-! ### Instance and readings -/`. This is cosmetic and leaves the statement unaffected.",
+   "fix": "Delete the empty `/-! ### Instance -/` line (l.662)."
+  }
+ ]
+}

@@ -1,0 +1,99 @@
+{
+ "package": "lean-benzecri",
+ "target": "T-bz-c3-hyperplan-separant",
+ "files": [
+  "scaffold/BenzecriScaffold/Chapter3/HyperplanSeparant.lean",
+  "scaffold/BenzecriScaffold.lean (one import line appended)"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": "propext, Classical.choice, Quot.sound (checked by #print axioms on hyperplan_separant, hyperplan_separant_support, hyperplan_separant_finestLC, exists_separe_fort, hyperplan_separant_rectangleBas)",
+ "labels": [
+  {
+   "label": "bzprop:c3s5p7_hyperplan_separant",
+   "tex_lines": [
+    1258,
+    1262
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Benzecri.hyperplan_separant_support",
+    "Benzecri.hyperplan_separant_finestLC",
+    "Benzecri.hyperplan_separant",
+    "Benzecri.exists_separe_fort",
+    "Benzecri.separeHyperplan_unique",
+    "Benzecri.SepareHyperplan",
+    "Benzecri.pointsContact"
+   ],
+   "hypotheses": [
+    {
+     "paper": "V, W convexes",
+     "here": "carried",
+     "note": "Convex W; Convex V inside ProprieteI V W"
+    },
+    {
+     "paper": "non vides",
+     "here": "carried",
+     "note": "V.Nonempty carried, unused (follows from V ≠ W and the common support)"
+    },
+    {
+     "paper": "de même support L",
+     "here": "carried",
+     "note": "affineSpan V = affineSpan W"
+    },
+    {
+     "paper": "L muni de la topologie localement convexe la plus fine; V fermé",
+     "here": "carried",
+     "note": "hyperplan_separant_support: IsClosed for finestLC of the direction of L at an origin P ∈ L; hyperplan_separant_finestLC: closed in finestLC E; both imply FermeLineaire V, all the proof uses (hyperplan_separant)"
+    },
+    {
+     "paper": "V ≠ W, I(V, W)",
+     "here": "carried",
+     "note": "V ≠ W, ProprieteI V W"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "The proof of Prop. 7 (l.1264–1321) does not need Prop. 6 (refuted as printed, OQ-162 (c)) nor any convexity of the contact set F: the formalization uses neither. Prop. 7 is true as printed.",
+    "The hypothesis « non vides » (l.1258) is redundant: V ≠ W with V ⊆ W and a common support forces V ≠ ∅.",
+    "The proof's finite-dimensional step with interiors (l.1268–1286) can be replaced by Hahn–Banach in finite-dimensional slices spanned by points of V plus dimension-free arguments; the formalized proof does this, and also proves the proof's side claims H = support of F and H ∩ W = F (exists_separe_fort)."
+   ],
+   "questions": [
+    "« hyperplan » (l.1261): read as a hyperplane of the support L (H = L ∩ {f = c}, f linear, not constant on L), as the proof says at l.1275–1276 (« H ne peut être tout l'espace L … donc H est un hyperplan »). Under the reading « hyperplane of the ambient space » uniqueness fails when L ≠ E: separeHyperplan_ambiant_deux (two hyperplanes of ℝ³).",
+    "« séparant » (l.1261): read as weak separation (V and U in opposite closed half-spaces), as l.1266 implies (« on doit avoir F ⊂ H », F ⊆ V). Existence is also proved with U in the open half-space, and uniqueness among weak separators, so every reading in between holds. The reading with V in an open half-space makes the statement false (inter_nonempty_of_separeHyperplan: every separator meets V).",
+    "« V fermé » in « L muni de la topologie l.c. la plus fine »: the topology of the affine variety L read as finestLC of its direction carried by an origin P ∈ L (as in facette_isOpen); the ambient reading (closed in finestLC E) is hyperplan_separant_finestLC. Both are proved.",
+    "l.1317 « C n'appartient donc pas » read « B » (OQ-160 (a)); the statement is unaffected and the formalized proof does not depend on it."
+   ]
+  }
+ ],
+ "instances": [
+  "Benzecri.hyperplan_separant_rectangleBas: V = [0,1]×[0,1/2], W = [0,1]² in ℝ×ℝ satisfy every hypothesis (V closed for finestLC (ℝ×ℝ) via finestLC_prod), and the unique separating hyperplane is the line y = 1/2 (separeHyperplan_rectangleBas)."
+ ],
+ "extra_decls": [
+  "Benzecri.linear_eq_of_mem_affineSpan",
+  "Benzecri.le_of_forall_openSegment",
+  "Benzecri.exists_finset_of_mem_affineSpan",
+  "Benzecri.fermeLineaire_affineSubspace",
+  "Benzecri.FermeLineaire.inter",
+  "Benzecri.lt_of_separe",
+  "Benzecri.exists_pointsContact",
+  "Benzecri.eq_of_mem_pointsContact",
+  "Benzecri.mem_affineSpan_insert_pointsContact",
+  "Benzecri.separeHyperplan_subset",
+  "Benzecri.exists_separe_finset",
+  "Benzecri.not_mem_affineSpan_pointsContact",
+  "Benzecri.pointsContact_subset_ensembleContact",
+  "Benzecri.fermeLineaire_of_isClosed_support",
+  "Benzecri.pointsContact_nonempty",
+  "Benzecri.inter_nonempty_of_separeHyperplan",
+  "Benzecri.separeHyperplan_ambiant_deux"
+ ],
+ "kb_proposals": [
+  "Chapter3/HyperplanSeparant: Hahn–Banach on a finite-dimensional slice P = affineSpan T of a bare vector space: carry P to Fin n → ℝ by y ↦ (D.subtype ∘ (finBasis D).equivFun.symm) y + O (an AffineMap built with ⟨toFun, linear, map_vadd'⟩), separate there with geometric_hahn_banach_of_nonempty_interior (interior from Convex.interior_nonempty_iff_affineSpan_eq_top), pull the form back with LinearMap.exists_extend (exists_separe_finset).",
+  "Chapter3/HyperplanSeparant: from a codimension-one affine subspace S of L to a linear form: Submodule.exists_dual_map_eq_bot_of_notMem (hx : u₀ - p₁ ∉ S.direction) inferInstance, normalised by its value at u₀ - p₁; points of L decompose by AffineSubspace.mem_affineSpan_insert_iff.",
+  "A point of affineSpan S is in the affineSpan of a Finset ⊆ S: eq_affineCombination_of_mem_affineSpan_image (p := id) then affineCombination_mem_affineSpan_image (exists_finset_of_mem_affineSpan).",
+  "Uniqueness of a separating hyperplane of V and W − V needs no interiors in any dimension: every separator contains the contact set F, and L = affineSpan (F ∪ {u₀}) for any u₀ ∈ W − V (mem_affineSpan_insert_pointsContact)."
+ ],
+ "notes": "0 sorry; the module builds alone (lake build BenzecriScaffold.Chapter3.HyperplanSeparant rebuilt only this module). Imports Benzecri.Chapter3.ProprieteI and Benzecri.Chapter3.FacetteOuverte (for finestLC_prod via FinestLocallyConvex). The label is marked; the two readings (« hyperplan » of L, weak « séparant ») are fixed by the printed proof (l.1266, l.1275–1276) and the opposite readings are shown to fail in Lean; if the audit judges them open, unmark and record them as OQ rows."
+}
