@@ -1,0 +1,140 @@
+Causal.minkowskiPosHalfSpace : (n : ℕ) → TopologicalSpace.Opens (Causal.Minkowski n)
+'Causal.minkowskiPosHalfSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.mem_minkowskiPosHalfSpace : ∀ {n : ℕ} {x : Causal.Minkowski n}, x ∈ Causal.minkowskiPosHalfSpace n ↔ 0 < x.1
+'Causal.mem_minkowskiPosHalfSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.convex_minkowskiPosHalfSpace : ∀ {n : ℕ}, Convex ℝ ↑(Causal.minkowskiPosHalfSpace n)
+'Causal.convex_minkowskiPosHalfSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+Causal.minkowskiChartBox : (n : ℕ) → TopologicalSpace.Opens (Causal.Minkowski n)
+'Causal.minkowskiChartBox' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.mem_minkowskiChartBox : ∀ {n : ℕ} {x : Causal.Minkowski n},
+  x ∈ Causal.minkowskiChartBox n ↔ x.1 ∈ Set.Ioo (-1) 1 ∧ ‖x.2‖ < 1 / 10
+'Causal.mem_minkowskiChartBox' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.convex_minkowskiChartBox : ∀ {n : ℕ}, Convex ℝ ↑(Causal.minkowskiChartBox n)
+'Causal.convex_minkowskiChartBox' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.convex_minkowskiChartInside : ∀ {n : ℕ}, Convex ℝ ↑(Causal.minkowskiPosHalfSpace n ⊓ Causal.minkowskiChartBox n)
+'Causal.convex_minkowskiChartInside' depends on axioms: [propext, Classical.choice, Quot.sound]
+Causal.minkowskiChartCurve : (n : ℕ) → ℝ → Causal.Minkowski n
+'Causal.minkowskiChartCurve' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowskiChartCurve_apply : ∀ {n : ℕ} (s : ℝ), Causal.minkowskiChartCurve n s = (s / 2, 0)
+'Causal.minkowskiChartCurve_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowskiChartCurve_zero : ∀ {n : ℕ}, Causal.minkowskiChartCurve n 0 = 0
+'Causal.minkowskiChartCurve_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_Iplus_chartBox_subset_inside : ∀ {n : ℕ} {x : Causal.Minkowski n},
+  x ∈ Causal.minkowskiPosHalfSpace n ⊓ Causal.minkowskiChartBox n →
+    (Causal.minkowski n).Iplus (Causal.minkowskiChartBox n) {x} ⊆
+      (Causal.minkowski n).Iplus (Causal.minkowskiPosHalfSpace n ⊓ Causal.minkowskiChartBox n) {x}
+'Causal.minkowski_Iplus_chartBox_subset_inside' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_chronalCurveOn_chartCurve : ∀ {n : ℕ},
+  (Causal.minkowski n).ChronalCurveOn (Causal.minkowskiChartBox n) (Causal.minkowskiChartCurve n) 0 1
+'Causal.minkowski_chronalCurveOn_chartCurve' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowskiChartCurve_mem : ∀ {n : ℕ} {t : ℝ},
+  t ∈ Set.Ioc 0 1 → Causal.minkowskiChartCurve n t ∈ Causal.minkowskiPosHalfSpace n ⊓ Causal.minkowskiChartBox n
+'Causal.minkowskiChartCurve_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_chartDiamond_subset : ∀ {n : ℕ},
+  (Causal.minkowski n).Iplus (Causal.minkowskiChartBox n) {0} ∩
+      (Causal.minkowski n).Iminus (Causal.minkowskiChartBox n) {Causal.minkowskiChartCurve n (1 / 4)} ⊆
+    Set.Icc 0 (1 / 8) ×ˢ Metric.closedBall 0 (1 / 16)
+'Causal.minkowski_chartDiamond_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.isCompact_minkowskiChartCylinder : ∀ {n : ℕ}, IsCompact (Set.Icc 0 (1 / 8) ×ˢ Metric.closedBall 0 (1 / 16))
+'Causal.isCompact_minkowskiChartCylinder' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowskiChartCylinder_subset : ∀ {n : ℕ},
+  Set.Icc 0 (1 / 8) ×ˢ Metric.closedBall 0 (1 / 16) ⊆ ↑(Causal.minkowskiChartBox n)
+'Causal.minkowskiChartCylinder_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.isCompact_closure_minkowskiChartDiamond : ∀ {n : ℕ},
+  IsCompact
+    (closure
+      ((Causal.minkowski n).Iplus (Causal.minkowskiChartBox n) {0} ∩
+        (Causal.minkowski n).Iminus (Causal.minkowskiChartBox n) {Causal.minkowskiChartCurve n (1 / 4)}))
+'Causal.isCompact_closure_minkowskiChartDiamond' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.closure_minkowskiChartDiamond_subset : ∀ {n : ℕ},
+  closure
+      ((Causal.minkowski n).Iplus (Causal.minkowskiChartBox n) {0} ∩
+        (Causal.minkowski n).Iminus (Causal.minkowskiChartBox n) {Causal.minkowskiChartCurve n (1 / 4)}) ⊆
+    ↑(Causal.minkowskiChartBox n)
+'Causal.closure_minkowskiChartDiamond_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_exists_notMem_snd_image : ∀ {n : ℕ},
+  0 < n →
+    ∀ {K : Set (Causal.Minkowski n)},
+      IsCompact K → K ⊆ ↑(Causal.minkowskiChartBox n) → ∃ x₀, ‖x₀‖ < 1 / 10 ∧ x₀ ∉ Prod.snd '' K
+'Causal.minkowski_exists_notMem_snd_image' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_exists_avoiding_curve : ∀ {n : ℕ},
+  0 < n →
+    ∀ {K : Set (Causal.Minkowski n)},
+      IsCompact K →
+        K ⊆ ↑(Causal.minkowskiChartBox n) →
+          ∃ σ,
+            (Causal.minkowski n).ChronalCurveOn (Causal.minkowskiChartBox n) σ 0 1 ∧
+              σ 0 ∉ Causal.minkowskiPosHalfSpace n ∧
+                (∀ t ∈ Set.Ioc 0 1, σ t ∈ Causal.minkowskiPosHalfSpace n ⊓ Causal.minkowskiChartBox n ∧ σ t ∉ K) ∧
+                  (Causal.minkowski n).lt (Causal.minkowskiChartBox n) (Causal.minkowskiChartCurve n 1) (σ 1)
+'Causal.minkowski_exists_avoiding_curve' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowskiPastBoundaryChartData : {n : ℕ} →
+  0 < n → (Causal.minkowski n).PastBoundaryChartData (Causal.minkowskiPosHalfSpace n) (Causal.minkowskiChartBox n) 0
+'Causal.minkowskiPastBoundaryChartData' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_pastBoundaryChart : ∀ {n : ℕ},
+  0 < n → (Causal.minkowski n).PastBoundaryChart (Causal.minkowskiPosHalfSpace n) (Causal.minkowskiChartBox n) 0
+'Causal.minkowski_pastBoundaryChart' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_zero_ext : ∀ {x y : Causal.Minkowski 0}, x.1 = y.1 → x = y
+'Causal.minkowski_zero_ext' depends on axioms: [propext, Classical.choice, Quot.sound]
+Causal.minkowski_zero_not_pastBoundaryChart : ∀ (W Ũ : TopologicalSpace.Opens (Causal.Minkowski 0))
+  (p : Causal.Minkowski 0), ¬(Causal.minkowski 0).PastBoundaryChart W Ũ p
+'Causal.minkowski_zero_not_pastBoundaryChart' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_iUnion_Iplus_chartCurve_subset : ∀ {n : ℕ},
+  ⋃ t ∈ Set.Ioc 0 1, (Causal.minkowski n).Iplus (Causal.minkowskiPosHalfSpace n) {Causal.minkowskiChartCurve n t} ⊆
+    (Causal.minkowski n).Iplus ⊤ {0}
+'Causal.minkowski_iUnion_Iplus_chartCurve_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_posHalfSpace_not_flrwTypeA : ∀ {n : ℕ},
+  0 < n →
+    ¬∀ (I : Set ℝ) (γ : ℝ → Causal.Minkowski n),
+        (Causal.minkowski n).PastInextensible (Causal.minkowskiPosHalfSpace n) I γ →
+          (∀ a ∈ I, ∀ b ∈ I, (Causal.minkowski n).ChronalCurveOn (Causal.minkowskiPosHalfSpace n) γ a b) →
+            ⋃ t ∈ I, (Causal.minkowski n).Iplus (Causal.minkowskiPosHalfSpace n) {γ t} =
+              ↑(Causal.minkowskiPosHalfSpace n)
+'Causal.minkowski_posHalfSpace_not_flrwTypeA' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_posHalfSpace_not_isCauchySurfaceOn_subset_Iminus : ∀ {n : ℕ},
+  0 < n →
+    ∀ (x : Causal.Minkowski n) {S : Set (Causal.Minkowski n)},
+      (Causal.minkowski n).IsCauchySurfaceOn (Causal.minkowskiPosHalfSpace n) S →
+        ¬S ⊆ (Causal.minkowski n).Iminus (Causal.minkowskiPosHalfSpace n) {x}
+'Causal.minkowski_posHalfSpace_not_isCauchySurfaceOn_subset_Iminus' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+@Causal.minkowski_posHalfSpace_not_flrwTypeB : ∀ {n : ℕ},
+  0 < n →
+    ¬∀ x ∈ Causal.minkowskiPosHalfSpace n,
+        ∃ S,
+          (Causal.minkowski n).IsCauchySurfaceOn (Causal.minkowskiPosHalfSpace n) S ∧
+            S ⊆ (Causal.minkowski n).Iminus (Causal.minkowskiPosHalfSpace n) {x}
+'Causal.minkowski_posHalfSpace_not_flrwTypeB' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_posHalfSpace_flrwType_check : ∀ {n : ℕ},
+  0 < n →
+    (Causal.minkowski n).PastBoundaryChart (Causal.minkowskiPosHalfSpace n) (Causal.minkowskiChartBox n) 0 ∧
+      T2Space (Causal.Minkowski n) ∧
+        SecondCountableTopology (Causal.Minkowski n) ∧
+          (Causal.minkowski n).CausallyArcConnectedOn (Causal.minkowskiPosHalfSpace n) ∧
+            (Causal.minkowski n).FutureOneConnectedOn (Causal.minkowskiPosHalfSpace n) ∧
+              (∀ ⦃x y : Causal.Minkowski n⦄,
+                  (Causal.minkowski n).le (Causal.minkowskiPosHalfSpace n) x y →
+                    (Causal.minkowski n).le (Causal.minkowskiPosHalfSpace n) y x → x = y) ∧
+                (¬∀ (I : Set ℝ) (γ : ℝ → Causal.Minkowski n),
+                      (Causal.minkowski n).PastInextensible (Causal.minkowskiPosHalfSpace n) I γ →
+                        (∀ a ∈ I, ∀ b ∈ I, (Causal.minkowski n).ChronalCurveOn (Causal.minkowskiPosHalfSpace n) γ a b) →
+                          ⋃ t ∈ I, (Causal.minkowski n).Iplus (Causal.minkowskiPosHalfSpace n) {γ t} =
+                            ↑(Causal.minkowskiPosHalfSpace n)) ∧
+                  ¬∀ x ∈ Causal.minkowskiPosHalfSpace n,
+                      ∃ S,
+                        (Causal.minkowski n).IsCauchySurfaceOn (Causal.minkowskiPosHalfSpace n) S ∧
+                          S ⊆ (Causal.minkowski n).Iminus (Causal.minkowskiPosHalfSpace n) {x}
+'Causal.minkowski_posHalfSpace_flrwType_check' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_posHalfSpace_not_flrwTypeA_and_B : ∀ {n : ℕ},
+  0 < n →
+    ¬((∀ (I : Set ℝ) (γ : ℝ → Causal.Minkowski n),
+          (Causal.minkowski n).PastInextensible (Causal.minkowskiPosHalfSpace n) I γ →
+            (∀ a ∈ I, ∀ b ∈ I, (Causal.minkowski n).ChronalCurveOn (Causal.minkowskiPosHalfSpace n) γ a b) →
+              ⋃ t ∈ I, (Causal.minkowski n).Iplus (Causal.minkowskiPosHalfSpace n) {γ t} =
+                ↑(Causal.minkowskiPosHalfSpace n)) ∧
+        ∀ x ∈ Causal.minkowskiPosHalfSpace n,
+          ∃ S,
+            (Causal.minkowski n).IsCauchySurfaceOn (Causal.minkowskiPosHalfSpace n) S ∧
+              S ⊆ (Causal.minkowski n).Iminus (Causal.minkowskiPosHalfSpace n) {x})
+'Causal.minkowski_posHalfSpace_not_flrwTypeA_and_B' depends on axioms: [propext, Classical.choice, Quot.sound]

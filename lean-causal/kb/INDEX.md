@@ -328,3 +328,5 @@ rediscover. One fact per entry.
 | [0320](entries/0320-boundary-chart-cauchy.md) | pattern | The inside of a boundary chart is future-closed: Sbierski's (2.4) without V ∩ S = ∅ |
 | [0321](entries/0321-first-exit.md) | pattern | The first exit of a curve from an open set is attained and lies in its closure |
 | [0322](entries/0322-past-boundary-chart.md) | pattern | Sbierski's past boundary chart in ETT, and why the timelike line has none |
+| [0323](entries/0323-minkowski-past-boundary-chart.md) | pattern | The past boundary chart is inhabited: the half-space of Minkowski space at 0 |
+| [0324](entries/0324-cauchy-meets-vertical.md) | pattern | A Cauchy surface of an open set meets each vertical line through it: exists_mem_connectedComponentIn |

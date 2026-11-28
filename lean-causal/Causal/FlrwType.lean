@@ -65,11 +65,12 @@ spacetimes*, `references/sbierski/text/sbierski2023c.txt`: the proof of Thm 1.5 
 * **The chart is a programme definition** (as `ExitDiamonds`, `IsSpacetimeExtension` were): that
   a `C⁰` past boundary chart (cone sandwich, Lipschitz graph, (4.1)) yields one is layer 3
   (`T-loc-c0-past-boundary-chart`).
-* **No instance of `PastBoundaryChart` is built here.** Its satisfiability is not shown in Lean:
-  on the timelike line it has none (`timelikeLine_not_pastBoundaryChart`), and the witnesses on
-  `(0, ∞)` show the theorem's hypotheses consistent, not a chart inhabited. The theorem is
-  non-vacuous once `T-loc-minkowski-past-boundary-chart` builds one (dimension `≥ 2`; argued
-  plausible on `𝐌^{1+1}` at `p = 0`, `W = {t > 0}`).
+* **No instance of `PastBoundaryChart` is built here** (layer 1 imports no model). On the
+  timelike line it has none (`timelikeLine_not_pastBoundaryChart`), and the witnesses on `(0, ∞)`
+  show the theorem's hypotheses consistent, not a chart inhabited. The instance is layer 3:
+  `Causal.minkowski_pastBoundaryChart` (`Causal.Model.MinkowskiPastBoundaryChart`,
+  T-loc-minkowski-past-boundary-chart), the half-space `{t > 0}` of `𝐌^{1+n}`, `n ≥ 1`, at `0`,
+  where (A) and (B) both fail, so the theorem is not vacuous.
 * **Sbierski's Thm 1.5 for FLRW is not proved here**: Props 2.1, 3.1 and 3.6 are layer 3, and enter
   as the chart predicate and the hypotheses (A), (B) and future one-connectedness.
 * Field (iii) has the shape of `T-abs-boundary-chart-cauchy`'s conclusion
@@ -309,8 +310,8 @@ Then `W` has a past boundary chart at no point. Proof: (B) gives `S` Cauchy in `
 (4.3) puts it in the chart diamond `K`, compact in `Ũ`; field (vi) gives `σ` avoiding `K`,
 past-inextensible in `W` (step (a)), with `σ 1 ∈ I⁺(γ̃ s₀, W) ⊆ I⁺(S, W)` (field (iii));
 `PastInextensible.exists_mem_of_mem_Iplus` ((2.4)) makes `σ` meet `S ⊆ K`. No instance of
-`PastBoundaryChart` is built in this module (see SCOPE): the theorem is non-vacuous once
-`T-loc-minkowski-past-boundary-chart` builds one. -/
+`PastBoundaryChart` is built in this module (see SCOPE); the layer-3 instance
+`Causal.minkowski_pastBoundaryChart` makes the theorem non-vacuous. -/
 theorem not_pastBoundaryChart_of_flrwType [T2Space M] [SecondCountableTopology M]
     (hcac : C.CausallyArcConnectedOn W) (hfoc : C.FutureOneConnectedOn W)
     (hcaus : ∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y)

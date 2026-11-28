@@ -1,0 +1,331 @@
+{
+ "target": "T-loc-minkowski-past-boundary-chart",
+ "package": "lean-causal",
+ "files": [
+  "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean"
+ ],
+ "campaign_files": [
+  "campaign/T-loc-minkowski-past-boundary-chart/REPORT.json",
+  "campaign/T-loc-minkowski-past-boundary-chart/Probe.lean",
+  "campaign/T-loc-minkowski-past-boundary-chart/axioms.txt"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 12-23 lake build CausalScaffold.Model.MinkowskiPastBoundaryChart",
+ "build_result": "Built CausalScaffold.Model.MinkowskiPastBoundaryChart (1.5 s), 3135 jobs, no warning. The --no-build dry run (kb/0228) listed only this module as out of date ([3135/3135]), so nothing upstream was rebuilt. `taskset -c 12-23 lake env lean -DwarningAsError=true` on the file passes with no output. Probe.lean imports the module (not a copy) and runs #check and #print axioms on all 30 declarations; output in axioms.txt. Each depends on [propext, Classical.choice, Quot.sound] only. sorryAx does not appear. The tokens admit, axiom, native_decide, ofReduceBool, implemented_by, unsafe and opaque do not appear in the source; the word `sorry` appears once, in the docstring heading '(no `sorry`)'. Source sha256 0cef2317655a8266e97408854dee014d5abb9226b6ad93f3458b816048972111, 487 lines.",
+ "sorry_count": 0,
+ "axioms": {
+  "declarations": 30,
+  "all": "[propext, Classical.choice, Quot.sound]",
+  "sorryAx": false,
+  "file": "campaign/T-loc-minkowski-past-boundary-chart/axioms.txt"
+ },
+ "layer": {
+  "layer": 3,
+  "kind": "localisation",
+  "model": "minkowski",
+  "provides": [],
+  "provides_note": "provides stays []: the past boundary chart is not a ladder node yet (T-lad-programme-properties depends on this target). If it becomes one, its Minkowski entry is Causal.minkowski_pastBoundaryChart.",
+  "ladder_definition": "Causal.Causality.PastBoundaryChart (lean-causal/Causal/FlrwType.lean:155), Nonempty of PastBoundaryChartData (:120). It is stated for the model as `(minkowski n).PastBoundaryChart (minkowskiPosHalfSpace n) (minkowskiChartBox n) 0`, with no restatement, so the abstract theorem consumes it as it stands (minkowski_posHalfSpace_not_flrwTypeA_and_B applies Causality.not_pastBoundaryChart_of_flrwType to it).",
+  "imports": [
+   "Causal.FlrwType",
+   "Causal.InextensiblePiece",
+   "Causal.Model.MinkowskiFutureOneConnected"
+  ],
+  "imports_note": "Causal.InextensiblePiece is not in Causal.FlrwType's closure (tested: without it IsCauchySurfaceOn.exists_mem_connectedComponentIn is unknown); it is ETT-layer. Causal.Model.MinkowskiFutureOneConnected brings Causal.Minkowski and Causal.Flat.Form (lt_iff_of_convex). The module is a leaf; nothing imports it. Its closure does not contain ErsEtaleMghd (the concurrent closer's file)."
+ },
+ "labels": [],
+ "parameters": {
+  "W": "{x | 0 < x.1} (minkowskiPosHalfSpace n)",
+  "p": "0",
+  "Ũ": "Ioo (-1) 1 ×ˢ ball 0 (1/10) (minkowskiChartBox n)",
+  "V": "W ⊓ Ũ",
+  "γ̃": "s ↦ (s/2, 0) (minkowskiChartCurve n)",
+  "s₀": "1/4 (γ̃ s₀ = (1/8, 0))",
+  "σ": "τ ↦ (9τ/10, x₀), ‖x₀‖ < 1/10, x₀ ∉ Prod.snd '' K",
+  "n": "0 < n",
+  "changed": "none: the dispatch's parameters are used as given"
+ },
+ "field_iii_route": "Proved directly for the half-space (minkowski_Iplus_chartBox_subset_inside): Ũ and V = W ⊓ Ũ are convex, so ≪_Ũ and ≪_V are the restrictions of ≪ (Causal.Flat.lt_iff_of_convex, twice), and x ≪ y with x.1 > 0 gives y.1 > x.1 > 0. Causal.BoundaryChartCauchy's Iplus_subset_inside_of_boundaryChart was not used. It would need a Cauchy surface S of W with V ⊆ J⁻(S, W), (Ũ ∩ closure V) ∖ V disjoint from W, and ≤_W antisymmetric. That is more work for this W, and it is not needed.",
+ "declarations": [
+  {
+   "name": "Causal.minkowskiPosHalfSpace",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:98",
+   "statement": "(n : ℕ) → TopologicalSpace.Opens (Minkowski n)",
+   "standing": "standard axioms only; no sorry",
+   "role": "definition: W = {t > 0}, the role of ι(M)",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.mem_minkowskiPosHalfSpace",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:102",
+   "statement": "∀ {n : ℕ} {x : Minkowski n}, x ∈ minkowskiPosHalfSpace n ↔ 0 < x.1",
+   "standing": "standard axioms only; no sorry",
+   "role": "membership in W",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.convex_minkowskiPosHalfSpace",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:106",
+   "statement": "∀ {n : ℕ}, Convex ℝ ↑(minkowskiPosHalfSpace n)",
+   "standing": "standard axioms only; no sorry",
+   "role": "W convex (for future one-connectedness and field (iii))",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowskiChartBox",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:111",
+   "statement": "(n : ℕ) → TopologicalSpace.Opens (Minkowski n)",
+   "standing": "standard axioms only; no sorry",
+   "role": "definition: Ũ = (−1, 1) × B(0, 1/10)",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.mem_minkowskiChartBox",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:115",
+   "statement": "∀ {n : ℕ} {x : Minkowski n}, x ∈ minkowskiChartBox n ↔ x.1 ∈ Set.Ioo (-1) 1 ∧ ‖x.2‖ < 1 / 10",
+   "standing": "standard axioms only; no sorry",
+   "role": "membership in Ũ",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.convex_minkowskiChartBox",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:121",
+   "statement": "∀ {n : ℕ}, Convex ℝ ↑(minkowskiChartBox n)",
+   "standing": "standard axioms only; no sorry",
+   "role": "Ũ convex",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.convex_minkowskiChartInside",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:125",
+   "statement": "∀ {n : ℕ}, Convex ℝ ↑(minkowskiPosHalfSpace n ⊓ minkowskiChartBox n)",
+   "standing": "standard axioms only; no sorry",
+   "role": "V = W ⊓ Ũ convex",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowskiChartCurve",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:132",
+   "statement": "(n : ℕ) → ℝ → Minkowski n",
+   "standing": "standard axioms only; no sorry",
+   "role": "definition: γ̃(s) = (s/2, 0)",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.minkowskiChartCurve_apply",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:135",
+   "statement": "∀ {n : ℕ} (s : ℝ), minkowskiChartCurve n s = (s / 2, 0)",
+   "standing": "standard axioms only; no sorry",
+   "role": "γ̃(s) = (s/2, 0)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowskiChartCurve_zero",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:138",
+   "statement": "∀ {n : ℕ}, minkowskiChartCurve n 0 = 0",
+   "standing": "standard axioms only; no sorry",
+   "role": "field (iv): γ̃ 0 = 0",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_Iplus_chartBox_subset_inside",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:146",
+   "statement": "∀ {n : ℕ} {x : Minkowski n}, x ∈ minkowskiPosHalfSpace n ⊓ minkowskiChartBox n → (minkowski n).Iplus (minkowskiChartBox n) {x} ⊆ (minkowski n).Iplus (minkowskiPosHalfSpace n ⊓ minkowskiChartBox n) {x}",
+   "standing": "standard axioms only; no sorry",
+   "role": "field (iii), proved directly (convexity, Causal.Flat.lt_iff_of_convex), not through Causal.BoundaryChartCauchy",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_chronalCurveOn_chartCurve",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:160",
+   "statement": "∀ {n : ℕ}, (minkowski n).ChronalCurveOn (minkowskiChartBox n) (minkowskiChartCurve n) 0 1",
+   "standing": "standard axioms only; no sorry",
+   "role": "field (iv): γ̃ chronal in Ũ over [0, 1] (minkowski_chronalCurveOn_iff)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowskiChartCurve_mem",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:171",
+   "statement": "∀ {n : ℕ} {t : ℝ}, t ∈ Set.Ioc 0 1 → minkowskiChartCurve n t ∈ minkowskiPosHalfSpace n ⊓ minkowskiChartBox n",
+   "standing": "standard axioms only; no sorry",
+   "role": "field (iv): γ̃ (0, 1] ⊆ V",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_chartDiamond_subset",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:179",
+   "statement": "∀ {n : ℕ}, (minkowski n).Iplus (minkowskiChartBox n) {0} ∩ (minkowski n).Iminus (minkowskiChartBox n) {minkowskiChartCurve n (1 / 4)} ⊆ Set.Icc 0 (1 / 8) ×ˢ Metric.closedBall 0 (1 / 16)",
+   "standing": "standard axioms only; no sorry",
+   "role": "field (v), the bound: the chart diamond from 0 to γ̃(1/4) = (1/8, 0) lies in [0, 1/8] × B̄(0, 1/16)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.isCompact_minkowskiChartCylinder",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:195",
+   "statement": "∀ {n : ℕ}, IsCompact (Set.Icc 0 (1 / 8) ×ˢ Metric.closedBall 0 (1 / 16))",
+   "standing": "standard axioms only; no sorry",
+   "role": "the cylinder is compact",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowskiChartCylinder_subset",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:200",
+   "statement": "∀ {n : ℕ}, Set.Icc 0 (1 / 8) ×ˢ Metric.closedBall 0 (1 / 16) ⊆ ↑(minkowskiChartBox n)",
+   "standing": "standard axioms only; no sorry",
+   "role": "the cylinder lies in Ũ",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.isCompact_closure_minkowskiChartDiamond",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:208",
+   "statement": "∀ {n : ℕ}, IsCompact (closure ((minkowski n).Iplus (minkowskiChartBox n) {0} ∩ (minkowski n).Iminus (minkowskiChartBox n) {minkowskiChartCurve n (1 / 4)}))",
+   "standing": "standard axioms only; no sorry",
+   "role": "field (v): the closure of the diamond is compact",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.closure_minkowskiChartDiamond_subset",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:215",
+   "statement": "∀ {n : ℕ}, closure ((minkowski n).Iplus (minkowskiChartBox n) {0} ∩ (minkowski n).Iminus (minkowskiChartBox n) {minkowskiChartCurve n (1 / 4)}) ⊆ ↑(minkowskiChartBox n)",
+   "standing": "standard axioms only; no sorry",
+   "role": "field (v): the closure of the diamond lies in Ũ",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_exists_notMem_snd_image",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:225",
+   "statement": "∀ {n : ℕ}, 0 < n → ∀ {K : Set (Minkowski n)}, IsCompact K → K ⊆ ↑(minkowskiChartBox n) → ∃ x₀, ‖x₀‖ < 1 / 10 ∧ x₀ ∉ Prod.snd '' K",
+   "standing": "standard axioms only; no sorry",
+   "role": "field (vi), the choice of x₀ (n ≥ 1): a compact K ⊆ Ũ does not project onto B(0, 1/10) (closure_ball, the point (1/10)e)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_exists_avoiding_curve",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:246",
+   "statement": "∀ {n : ℕ}, 0 < n → ∀ {K : Set (Minkowski n)}, IsCompact K → K ⊆ ↑(minkowskiChartBox n) → ∃ σ, (minkowski n).ChronalCurveOn (minkowskiChartBox n) σ 0 1 ∧ σ 0 ∉ minkowskiPosHalfSpace n ∧ (∀ t ∈ Set.Ioc 0 1, σ t ∈ minkowskiPosHalfSpace n ⊓ minkowskiChartBox n ∧ σ t ∉ K) ∧ (minkowski n).lt (minkowskiChartBox n) (minkowskiChartCurve n 1) (σ 1)",
+   "standing": "standard axioms only; no sorry",
+   "role": "field (vi): σ(τ) = (9τ/10, x₀)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowskiPastBoundaryChartData",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:279",
+   "statement": "{n : ℕ} → 0 < n → (minkowski n).PastBoundaryChartData (minkowskiPosHalfSpace n) (minkowskiChartBox n) 0",
+   "standing": "standard axioms only; no sorry",
+   "role": "THE DATA: PastBoundaryChartData for W, Ũ, p = 0, from the field lemmas; V = W ⊓ Ũ, s₀ = 1/4",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.minkowski_pastBoundaryChart",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:301",
+   "statement": "∀ {n : ℕ}, 0 < n → (minkowski n).PastBoundaryChart (minkowskiPosHalfSpace n) (minkowskiChartBox n) 0",
+   "standing": "standard axioms only; no sorry",
+   "role": "THE INSTANCE: the programme definition Causality.PastBoundaryChart for the model, no restatement",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_zero_ext",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:308",
+   "statement": "∀ {x y : Minkowski 0}, x.1 = y.1 → x = y",
+   "standing": "standard axioms only; no sorry",
+   "role": "in ℝ^{1,0} a point is its time",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_zero_not_pastBoundaryChart",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:316",
+   "statement": "∀ (W Ũ : TopologicalSpace.Opens (Minkowski 0)) (p : Minkowski 0), ¬(minkowski 0).PastBoundaryChart W Ũ p",
+   "standing": "standard axioms only; no sorry",
+   "role": "n ≥ 1 is needed: ℝ^{1,0} has no past boundary chart, for any W, Ũ, p (the argument of timelikeLine_not_pastBoundaryChart)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_iUnion_Iplus_chartCurve_subset",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:366",
+   "statement": "∀ {n : ℕ}, ⋃ t ∈ Set.Ioc 0 1, (minkowski n).Iplus (minkowskiPosHalfSpace n) {minkowskiChartCurve n t} ⊆ (minkowski n).Iplus ⊤ {0}",
+   "standing": "standard axioms only; no sorry",
+   "role": "the chronal future in W of γ̃ over (0, 1] lies in I⁺(0)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_posHalfSpace_not_flrwTypeA",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:380",
+   "statement": "∀ {n : ℕ}, 0 < n → ¬∀ (I : Set ℝ) (γ : ℝ → Minkowski n), (minkowski n).PastInextensible (minkowskiPosHalfSpace n) I γ → (∀ a ∈ I, ∀ b ∈ I, (minkowski n).ChronalCurveOn (minkowskiPosHalfSpace n) γ a b) → ⋃ t ∈ I, (minkowski n).Iplus (minkowskiPosHalfSpace n) {γ t} = ↑(minkowskiPosHalfSpace n)",
+   "standing": "standard axioms only; no sorry",
+   "role": "(A) fails on W, in the theorem's own shape",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_posHalfSpace_not_isCauchySurfaceOn_subset_Iminus",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:402",
+   "statement": "∀ {n : ℕ}, 0 < n → ∀ (x : Minkowski n) {S : Set (Minkowski n)}, (minkowski n).IsCauchySurfaceOn (minkowskiPosHalfSpace n) S → ¬S ⊆ (minkowski n).Iminus (minkowskiPosHalfSpace n) {x}",
+   "standing": "standard axioms only; no sorry",
+   "role": "(B) fails at every point x (any x : Minkowski n): no I⁻(x, W) contains a Cauchy surface of W",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_posHalfSpace_not_flrwTypeB",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:432",
+   "statement": "∀ {n : ℕ}, 0 < n → ¬∀ x ∈ minkowskiPosHalfSpace n, ∃ S, (minkowski n).IsCauchySurfaceOn (minkowskiPosHalfSpace n) S ∧ S ⊆ (minkowski n).Iminus (minkowskiPosHalfSpace n) {x}",
+   "standing": "standard axioms only; no sorry",
+   "role": "(B) fails on W, in the theorem's own shape",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_posHalfSpace_flrwType_check",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:447",
+   "statement": "∀ {n : ℕ}, 0 < n → (minkowski n).PastBoundaryChart (minkowskiPosHalfSpace n) (minkowskiChartBox n) 0 ∧ T2Space (Minkowski n) ∧ SecondCountableTopology (Minkowski n) ∧ (minkowski n).CausallyArcConnectedOn (minkowskiPosHalfSpace n) ∧ (minkowski n).FutureOneConnectedOn (minkowskiPosHalfSpace n) ∧ (∀ ⦃x y : Minkowski n⦄, (minkowski n).le (minkowskiPosHalfSpace n) x y → (minkowski n).le (minkowskiPosHalfSpace n) y x → x = y) ∧ (¬∀ (I : Set ℝ) (γ : ℝ → Minkowski n), (minkowski n).PastInextensible (minkowskiPosHalfSpace n) I γ → (∀ a ∈ I, ∀ b ∈ I, (minkowski n).ChronalCurveOn (minkowskiPosHalfSpace n) γ a b) → ⋃ t ∈ I, (minkowski n).Iplus (minkowskiPosHalfSpace n) {γ t} = ↑(minkowskiPosHalfSpace n)) ∧ ¬∀ x ∈ minkowskiPosHalfSpace n, ∃ S, (minkowski n).IsCauchySurfaceOn (minkowskiPosHalfSpace n) S ∧ S ⊆ (minkowski n).Iminus (minkowskiPosHalfSpace n) {x}",
+   "standing": "standard axioms only; no sorry",
+   "role": "THE CHECK: chart ∧ T2 ∧ second countable ∧ causally arc-connected ∧ future one-connected ∧ ≤_W antisymmetric ∧ ¬(A) ∧ ¬(B)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_posHalfSpace_not_flrwTypeA_and_B",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:474",
+   "statement": "∀ {n : ℕ}, 0 < n → ¬((∀ (I : Set ℝ) (γ : ℝ → Minkowski n), (minkowski n).PastInextensible (minkowskiPosHalfSpace n) I γ → (∀ a ∈ I, ∀ b ∈ I, (minkowski n).ChronalCurveOn (minkowskiPosHalfSpace n) γ a b) → ⋃ t ∈ I, (minkowski n).Iplus (minkowskiPosHalfSpace n) {γ t} = ↑(minkowskiPosHalfSpace n)) ∧ ∀ x ∈ minkowskiPosHalfSpace n, ∃ S, (minkowski n).IsCauchySurfaceOn (minkowskiPosHalfSpace n) S ∧ S ⊆ (minkowski n).Iminus (minkowskiPosHalfSpace n) {x})",
+   "standing": "standard axioms only; no sorry",
+   "role": "the theorem applied without restatement: ¬((A) ∧ (B)) by not_pastBoundaryChart_of_flrwType itself",
+   "status": "proved"
+  }
+ ],
+ "lemmas_for_the_keeper": [
+  {
+   "name": "Causal.minkowski_pastBoundaryChart",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiPastBoundaryChart.lean:301",
+   "statement": "∀ {n : ℕ}, 0 < n → (minkowski n).PastBoundaryChart (minkowskiPosHalfSpace n) (minkowskiChartBox n) 0",
+   "note": "No ladder node yet (provides = []). If T-lad-programme-properties makes the past boundary chart a node, this is its Minkowski entry, and minkowski_zero_not_pastBoundaryChart is its n = 0 non-entry. Nothing is proposed for programme/ladder.toml now."
+  }
+ ],
+ "extra_decls": [
+  "Causal.minkowski_zero_not_pastBoundaryChart",
+  "Causal.minkowski_posHalfSpace_not_isCauchySurfaceOn_subset_Iminus",
+  "Causal.minkowski_exists_notMem_snd_image",
+  "Causal.minkowski_zero_ext"
+ ],
+ "findings": [
+  "No finding about the paper. 2312.07443 is not ledgered and no statement of it is claimed here. The instance concerns ETT's programme predicate PastBoundaryChart (Causal/FlrwType.lean:120–155).",
+  "The predicate is inhabited: (minkowski n).PastBoundaryChart W Ũ 0 for n ≥ 1, W = {t > 0} (minkowski_pastBoundaryChart, MinkowskiPastBoundaryChart.lean:301). So not_pastBoundaryChart_of_flrwType (Causal/FlrwType.lean:314) is not vacuous. This closes the gap raised in T-abs-flrw-type AUDIT-1 finding 1. FlrwType's SCOPE (:68–72), its main theorem's docstring (:311–313) and OQ-159's text ('no instance is built yet', registers/DECISIONS.md) now refer to a target that is done. They are not edited here: they are outside this dispatch.",
+  "Both (A) and (B) fail on W, each in the theorem's own shape (minkowski_posHalfSpace_not_flrwTypeA :380, minkowski_posHalfSpace_not_flrwTypeB :432). Every other hypothesis holds on W: T2, second countable, CausallyArcConnectedOn W, FutureOneConnectedOn W, ≤_W antisymmetric (minkowski_posHalfSpace_flrwType_check :447). So the theorem bites. The instance does not separate (A) from (B), however: it does not show that either is needed alone. (B) fails at every point x, not only somewhere: no I⁻(x, W) contains a Cauchy surface of W (:402).",
+  "n ≥ 1 is necessary: in ℝ^{1,0} no open set has a past boundary chart at any point (minkowski_zero_not_pastBoundaryChart :316). This is the static-spacetime analogue of timelikeLine_not_pastBoundaryChart (Causal/FlrwType.lean:543). The evidence's 'n = 0 is excluded, as on the timelike line' is now a theorem.",
+  "Field (vi) as defined is weaker than Sbierski's (4.1) use (sbierski2023c.txt:1062–1072, :1137–1144). It asks only γ̃ 1 ≪_Ũ σ 1. The planned end point (9/10, x₀) satisfies it but does not lie in Sbierski's slab (19ε₀/20, ε₀) × (−ε₁, ε₁)^d with ε₀ = 1, since 9/10 < 19/20. This is a remark on the ETT reading, not a defect: the abstract proof uses only the relation."
+ ],
+ "questions": [
+  "The dispatch lists '(B) if cheap' among 'the other hypotheses of the theorem that hold on W'. (B) does not hold on W; it fails at every point. I read the item as asking for (B)'s status, as the target's evidence does ('(A) or (B) fails for W, and both do'; '(B)'s failure is optional'). I proved ¬(B), and the stronger per-point form, not (B).",
+  "To show that the theorem needs (A) itself, or (B) itself, one would want an instance with a chart where exactly one of them fails. This instance has both failing. Is such a separating instance wanted, and in which model? Not attempted. In open subsets of Minkowski space (B) seems to fail generically, since a bounded I⁻(x, W) cannot hold an unbounded Cauchy surface. A separating witness probably needs a non-flat model (FLRW-like) or a compact spatial quotient.",
+  "OQ-159 (OPEN: are the six fields the notion of record?) is not decided. The instance proves all six fields, so it also proves each weakening the row names: p ∈ Ũ from (iv), (vi) at one compact set, (v)'s compactness only for (vi). If the author strengthens the chart instead, this module is where the stronger fields would be checked.",
+  "Ũ is a box (−1, 1) × B(0, 1/10), with a Euclidean ball in place of Sbierski's cube (−ε₁, ε₁)^d. The ETT predicate has no coordinates, so this is the dispatch's choice and changes nothing in the predicate."
+ ],
+ "kb_proposals": [
+  "kb/0322 update: the past boundary chart is inhabited. Causal.minkowski_pastBoundaryChart (Causal.Model.MinkowskiPastBoundaryChart after graduation): ℝ^{1,n}, n ≥ 1, W = {t > 0}, Ũ = (−1, 1) × B(0, 1/10), p = 0, V = W ⊓ Ũ, γ̃(s) = (s/2, 0), s₀ = 1/4, σ(τ) = (9τ/10, x₀). (A) and (B) both fail there. ℝ^{1,0} has no chart (minkowski_zero_not_pastBoundaryChart).",
+  "In Minkowski space, a future-closedness field I⁺(x, Ũ) ⊆ I⁺(x, V) on convex Ũ, V is two applications of Causal.Flat.lt_iff_of_convex plus 'x ≪ y raises t'. No Cauchy data (Causal.BoundaryChartCauchy) is needed.",
+  "To make a Cauchy surface of an open W meet a vertical line τ ↦ (τ, y) of a static spacetime, use Causality.IsCauchySurfaceOn.exists_mem_connectedComponentIn (Causal.InextensiblePiece) with T = Prod.fst. The maximal piece never needs computing. Causal.InextensiblePiece is not in Causal.FlrwType's closure: import it."
+ ],
+ "notes": "One new file, 487 lines, 30 declarations (26 theorems, 4 definitions; minkowskiPastBoundaryChartData is a noncomputable def in Type, as PastBoundaryChartData is a structure in Type), 0 sorry, no label marked. scaffold/CausalScaffold/Model/ was empty and the file is its first. Graduation (kb/0015): the master adds `import CausalScaffold.Model.MinkowskiPastBoundaryChart` to scaffold/CausalScaffold.lean (not edited here). At graduation the file moves to Causal/Model/MinkowskiPastBoundaryChart.lean, the module becomes Causal.Model.MinkowskiPastBoundaryChart, and the Probe's import changes. The strict build uses warningAsError; `lake env lean -DwarningAsError=true` passes. Name check (kb/0082): none of the 30 full names occurs in lean-causal/Causal, lean-causal/scaffold, lean-gx, lean-egf, lean-benzecri or lean (grep -w on the distinctive names). Tactics: `push Not` (not the deprecated `push_neg`). The whole file elaborates in under 2 s. Nothing outside the dispatch was written: no programme/ladder.toml, Causal.lean, README, kb or registers edit, and tools/ladder.py emit-lean was not run.",
+ "what_remains": [
+  "Graduation, the scaffold root import and the README row (master).",
+  "FlrwType's SCOPE bullet 'No instance of PastBoundaryChart is built here' (Causal/FlrwType.lean:68–72), the main theorem's docstring (:311–313) and OQ-159's 'no instance is built yet' can now cite Causal.minkowski_pastBoundaryChart (an edit outside this dispatch).",
+  "provides = []: once the chart is a ladder node (T-lad-programme-properties), the planner sets provides and the keeper names this module's entry.",
+  "Not attempted: an instance with a chart where exactly one of (A), (B) fails, which would show each hypothesis is needed (questions[1]).",
+  "That a C⁰ past boundary chart (Sbierski's Prop 2.1) yields an ETT one is layer 3 elsewhere (T-loc-c0-past-boundary-chart)."
+ ]
+}
