@@ -1,6 +1,6 @@
 import GX.BTZ.Surgery
 import GX.BTZ.IsomE0
-import GXScaffold.BTZ.MaxExtension
+import GX.BTZ.MaxExtension
 
 /-!
 # btz § 2 and § 5.3: the BTZ lines of an `𝔼₀`-manifold are closed, carry an `(ℝ, ℝ)`-structure, and are second countable

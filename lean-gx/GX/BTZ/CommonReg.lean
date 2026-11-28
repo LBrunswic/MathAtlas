@@ -1,4 +1,4 @@
-import GXScaffold.BTZ.MaxExtension
+import GX.BTZ.MaxExtension
 
 /-!
 # btz § 5.3: two Cauchy-maximal Cauchy-compact `𝔼₀`-manifolds with isomorphic regular parts are isomorphic

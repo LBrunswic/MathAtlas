@@ -1,4 +1,4 @@
-import GXScaffold.BTZ.LineStructure
+import GX.BTZ.LineStructure
 
 /-!
 # btz § 5.3: the maximal BTZ-extension on the narrowed cited input « countably many BTZ lines »
@@ -10,7 +10,7 @@ None of the three rows is marked: `𝔼₀` only (T-btz-scope), `M` connected is
 association: countably many BTZ lines). The second countability of each line, which
 `GX.BTZMax.RichardsInput` also packed, is proved (`GX.BTZLine.secondCountable_line`), and
 `GX.BTZLine.richardsInput_iff_countableLines` shows nothing is lost. The `RichardsInput` forms in
-`GXScaffold.BTZ.MaxExtension` are kept; the forms here sit beside them.
+`GX.BTZ.MaxExtension` are kept; the forms here sit beside them.
 
 * `btzthm:BTZ_ext` — `BTZ_1.tex:1528` (proof l.1535–1554) — `GX.BTZMax.btz_ext_of_countableLines`
   (existence of a globally hyperbolic BTZ-extension maximal among such, inextensible, universal,

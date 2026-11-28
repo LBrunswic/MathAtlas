@@ -36,7 +36,7 @@ here; `U = 𝐌³` is proved instead (`GX.BTZAdm.discreteTopology_linearImage_of
 `d₁ = 0, 1`), and `bprop_LU_discrete` is applied to `Γ` itself.
 
 No label is marked: the module is the input of `GX.BTZAdm.e0RegM_linearPart_faithful_discrete`
-(`GXScaffold/BTZ/Admissible.lean`, `btzprop:holonomy_globally_hyperbolic_cauchy_compact`).
+(`GX/BTZ/Admissible.lean`, `btzprop:holonomy_globally_hyperbolic_cauchy_compact`).
 
 ## Hypothesis checklist
 
@@ -44,7 +44,7 @@ No label is marked: the module is the input of `GX.BTZAdm.e0RegM_linearPart_fait
 |---|---|
 | `M*` globally hyperbolic, Cauchy-complete, `𝔼`-maximal flat spacetime | ✓ through `Causal.Flat.CCAction ρ(π₁) Σ` (`Causal.Flat.ccAction_of_developsCC`), which is what GH + Cauchy-complete give (`Causal.Flat.exists_developsCC_of_isCauchyComplete'`); maximality is not used here (for `Reg M` it enters through `GX.E0AbsMax.cor_abs_max_C1`, which gives Cauchy-completeness) |
 | anabelian fundamental group | ⚠ read as « `Γ = ρ(π₁)` not metabelian » (`GX.IsMetabelianOn`), as in the strict `GX.e0RegM_holonomy` (`π₁` not metabelian and `ρ` faithful give it) |
-| (silent) a loxodromic element, torsion-freeness | ✓ hypotheses of the group-level lemmas here, discharged for `ρ(π₁)` in `GXScaffold.BTZ.Admissible` by the strict `GX.e0RegM_holonomy` (DEC-75, Cor 10.3); not assumed by the exported theorem |
+| (silent) a loxodromic element, torsion-freeness | ✓ hypotheses of the group-level lemmas here, discharged for `ρ(π₁)` in `GX.BTZ.Admissible` by the strict `GX.e0RegM_holonomy` (DEC-75, Cor 10.3); not assumed by the exported theorem |
 | `ρ_L` faithful | ✓ `L` injective on `Γ` |
 | `ρ_L` discrete | ✓ `DiscreteTopology (linearImage Γ)` in `Causal.Flat.lorentzTopology` (the operator-norm topology of `SO₀(1,2)`) |
 

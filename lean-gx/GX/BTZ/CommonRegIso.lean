@@ -1,4 +1,4 @@
-import GXScaffold.BTZ.CommonReg
+import GX.BTZ.CommonReg
 
 /-!
 # btz § 5.3: `btzcor:common_reg` when « reg(M) ≃ reg(N) » is an isometry of flat spacetimes

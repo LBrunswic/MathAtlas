@@ -58,6 +58,16 @@ import GX.BTZ.LengthCompare
 import GX.BTZ.RegCompleteTail
 import GX.BTZ.RegCompleteLength
 import GX.BTZ.RegComplete
+import GX.BTZ.MaxExtension
+import GX.BTZ.CommonReg
+import GX.BTZ.CommonRegIso
+import GX.BTZ.CauchyEasy
+import GX.BTZ.SurfaceCompleteLip
+import GX.BTZ.LineStructure
+import GX.BTZ.RichardsSplit
+import GX.BTZ.AdmissibleLinear
+import GX.BTZ.Admissible
+import GX.BTZ.SurfaceGroupNonMetabelian
 import GX.Topology.SLSCCompact
 import GX.Spherical.S3Model
 import GX.Spherical.ConeSurface

@@ -1,4 +1,4 @@
-import GXScaffold.BTZ.Admissible
+import GX.BTZ.Admissible
 
 /-!
 # btz § 4.1: the marked surface group is not metabelian when `2g − 2 + s > 0`, and the marked holonomy without a non-metabelian hypothesis

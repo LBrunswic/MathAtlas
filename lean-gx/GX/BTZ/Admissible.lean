@@ -1,6 +1,6 @@
 import GX.BTZ.Uniformization
 import GX.BTZ.IsomE0
-import GXScaffold.BTZ.AdmissibleLinear
+import GX.BTZ.AdmissibleLinear
 
 /-!
 # btz § 4.1: tangent translation parts, admissible representations, and the holonomy of `Reg M` around a BTZ line
@@ -24,7 +24,7 @@ Target `T-btz-admissible` (`roadmap/roadmap.toml`). `papers/btz/legacy/labeled/B
   conclusion `GX.BTZAdm.btzprop_holonomy_e0` (`ρ ∘ μ` admissible for a marking `μ`) is sorry-free:
   its Barbot input, the faithfulness and discreteness of the linear part
   (`GX.BTZAdm.e0RegM_linearPart_faithful_discrete`, l.1148–1149), is proved from lean-causal's
-  Barbot (DEC-34) in `GXScaffold/BTZ/AdmissibleLinear.lean` (SCOPE (a)). The row stays unmarked
+  Barbot (DEC-34) in `GX/BTZ/AdmissibleLinear.lean` (SCOPE (a)). The row stays unmarked
   on SCOPE (b) (`𝔼₀` only) and (d) (the marking is a hypothesis).
 
 > Let $\phi$ be an affine parabolic isometry of $\mass{}$, we note $\phi_L$ its linear part and

@@ -1,4 +1,4 @@
-import GXScaffold.BTZ.MaxExtension
+import GX.BTZ.MaxExtension
 import GX.BTZ.RegComplete
 import Causal.Flat.Cla.CoverMax
 
