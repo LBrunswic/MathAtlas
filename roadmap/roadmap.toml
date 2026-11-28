@@ -2675,12 +2675,13 @@ title = "Adopt LeanLink's @[paper \"label\"] attribute (DEC-201), step 1, the pi
 stream = "hub"
 kind = "tooling"
 package = "lean"
-status = "ready"
+status = "done"
 owner = "master"
 priority = 6
-evidence = "DEC-201 (OQ-2): « adopt LeanLink's @[paper \"label\"] attribute going forward; new declarations carry it; the curation reads both ». Split 2026-11-25 by the planner (journal 2026-11-23 08:25: « left for the planner, because it adds a LeanLink dependency to every package »). The attribute has never been built: PAPER-ATTRIBUTE.md says « Nothing here has been built », and no .lean file in lean/ or lean-* uses `attribute [paper` or `@[paper`. The spec was written for GFNBoundsLean, now the in-tree lean/ (DEC-157): namespace GFNBounds.Paper, Lean v4.31.0, API names confirmed by QC-D11.4's scratch builds. It imports only Lean. Its checks use isProject/isNoise from lean/scripts/lean_facts.lean. A pilot in lean/ alone adds no dependency to any other package, because nothing imports lean/. Its gate is make -C lean check"
+evidence = "GFNBounds/Paper/Attribute.lean + AttributeTest.lean (§3, §4, §8; §5 exporter not done, carried to T-hub-paper-attr-curation); no label placed; audit AUDIT-1 minor"
 added = "2026-11-22"
 proposed_by = "author's rulings 2026-11-22 (applied by hand while /atlas-team was idle)"
+commit = "90bc76f6"
 
 [[target]]
 id = "T-atlas-overlay-refresh"
@@ -3110,7 +3111,7 @@ status = "planned"
 owner = "master"
 priority = 7
 depends = ["T-hub-paper-attribute", "T-gfn-ledger"]
-evidence = "DEC-201: « new declarations carry it; the curation reads both ». tools/leanlink/docs/design/PAPER-ATTRIBUTE.md: §3 « A query. GFNBounds.Paper.labels (env : Environment) : Array (String × Name), used by the export »; §5, the exporter (lean/scripts/lean_facts.lean) closes the import-time duplicate gap. lean/ is the only package with a pilot (T-hub-paper-attribute), and papers/gfnbounds (T-gfn-ledger, DEC-210) is the only ledger rooted there. CLAUDE.md: « A gate must be able to fail. Every gate has a fixture under tools/fixtures/<gate>/ »"
+evidence = "DEC-201: « new declarations carry it; the curation reads both ». tools/leanlink/docs/design/PAPER-ATTRIBUTE.md: §3 « A query. GFNBounds.Paper.labels (env : Environment) : Array (String × Name), used by the export »; §5, the exporter (lean/scripts/lean_facts.lean) closes the import-time duplicate gap. lean/ is the only package with a pilot (T-hub-paper-attribute), and papers/gfnbounds (T-gfn-ledger, DEC-210) is the only ledger rooted there. CLAUDE.md: « A gate must be able to fail. Every gate has a fixture under tools/fixtures/<gate>/ » Atlas-team 2026-11-28 (T-hub-paper-attribute, 90bc76f6, AUDIT-1): the attribute is built but §5 of PAPER-ATTRIBUTE.md is NOT — the exporter fields paper/conjuncts in lean/scripts/lean_facts.lean and its two throws (one label on two declarations of modules that do not import each other; a placed declaration the walk did not emit). It is this target's first deliverable, before any placement."
 added = "2026-11-25"
 proposed_by = "roadmap-planner"
 

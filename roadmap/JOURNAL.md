@@ -1159,3 +1159,11 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 03:15–05:40; agents: 1 closer + builder, 1 auditor
 - lean-gx's btz work is now blocked on rulings (T-btz-scope, T-btz-headline-repr, T-btz-cauchy-regularity, OQ-150, OQ-152, OQ-158) and on the unprinted « Σ₀ Cauchy in N » (l.1603). Remaining dispatchable masters: T-hub-paper-attribute (pilot in lean/), T-bz-chapter3 (transcription). Not dispatchable here: T-ett-apply-rulings (lean-causal held by /ett-programme), T-restate-held-curation (registers held by /restate), T-nonacyclic-source (Overleaf credentials on hyperlolipop).
 - next: T-hub-paper-attribute (package lean)
+
+## 2026-11-28 06:20 · wave of 1 · T-hub-paper-attribute (master, lean/)
+- T-hub-paper-attribute: LeanLink's @[paper "label"] attribute built in lean/ (GFNBounds/Paper/Attribute.lean, imports only Lean) with the spec's §8 tests; no label placed; audit minor (a test docstring, fixed). §5 (exporter fields and the cross-module duplicate check in lean/scripts/lean_facts.lean) is not done: recorded in T-hub-paper-attr-curation's evidence as its first deliverable, before any placement. lean/docs regenerated output restored (the certificate would record a DIRTY tree while other loops have uncommitted work).
+- A first hub gate was red on papers/dyniso: its ledger is rooted in lean/ too, and I had rebuilt only gfnbounds; dyniso rebuilt (b65ca18b), gate then no new red. Lesson: a lean/ commit moves both gfnbounds and dyniso ledgers.
+- gates: lean ✓, roadmap ✓, atlas ✓, hub: no new red
+- commits: 90bc76f6 2c15a563 b65ca18b (+ statuses)
+- wall time: 03:36–06:20; agents: 1 closer, 1 auditor
+- next: T-bz-chapter3 (transcription) if dispatchable; otherwise idle on rulings
