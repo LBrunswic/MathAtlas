@@ -1,0 +1,22 @@
+{
+ "target": "T-btz-g3-dedupe",
+ "auditor_round": 1,
+ "verdict": "clean",
+ "labels": [],
+ "build": {"ok": true, "sorry": 0, "axioms": "standard"},
+ "checks": {
+  "scope": "git diff HEAD --stat -- lean-gx touches only GX/BTZ/Surgery.lean and GX/BTZ/RegCompleteCauchy.lean; the only untracked lean-gx path is the campaign directory. Other dirty paths in the hub (lean-causal, papers/*/certificate/restat*, roadmaps) belong to other loops and are not in lean-gx.",
+  "names_and_types": "A header-by-header comparison of git show HEAD:<file> against the working tree (signature text up to `:=`, plus the preceding omit/include lines, keyed by namespace-qualified name): RegCompleteCauchy 37 declarations before and after, 0 missing, 0 differing; Surgery 320 before, 0 missing, 0 differing, 27 new (exactly REPORT.new_decls: cauchy_facts_of_isCauchySurface and the 26 LFSpears.* declarations). No variable/section line of the old scopes changed beyond the new LFSpears namespace and the re-opened SurgeryData namespace with the same `variable {S : Set M} (Dat : SurgeryData M S)`. This is consistent with the closer's olean comparison (0 types and 0 definition values differ); that comparison could not be re-run because the HEAD oleans have been rebuilt.",
+  "generality": "E0Surgery.LFSpears is a structure with an arbitrary index type, disjoint, closed and locally finite spear sets; no Finite instance. The LFSpears lemmas take `hS : (CE M).IsCauchySurface S` only and `hcovers` where the covering is used (exists_open_of_BTZ, exists_pastSide, isCauchySurface_sigmaStar(_of_arc)). The proofs live once in Surgery.lean §5g (from l.6935 to end LFSpears l.7708).",
+  "corollaries": "Every SurgeryData (G3) lemma in Surgery.lean (l.7710-7887 and SurgeryData.isCauchySurface_sigmaStar l.7914) and every LFSurgeryData lemma in RegCompleteCauchy.lean (l.167-316) is a one-line term `Dat.toLFSpears.<name> ...` (with hS.cauchy and Dat.covers where needed); cauchy_facts_lf is cauchy_facts_of_isCauchySurface. SurgeryData.isCauchySurface_sigmaStar goes through LFSpears.isCauchySurface_sigmaStar_of_arc with its own hrem. No re-copied proof.",
+  "make_check": "taskset -c 0-11 make -C lean-gx check run once by the auditor (no lake build was running): `lean-gx: all gates green`; strict sorry 0 in 86 files; scaffold 5 in 24 files (unchanged); axiom sweep strict 16628 declarations in 87 modules all within propext/Classical.choice/Quot.sound.",
+  "axioms_probe": "#print axioms (probe under the campaign dir, deleted) on LFSpears.isCauchySurface_sigmaStar, LFSpears.isCauchySurface_sigmaStar_of_arc, SurgeryData.isCauchySurface_sigmaStar, cauchy_facts_of_isCauchySurface, LFSpears.exists_pastSide, LFSpears.eq_of_forall_mem_sigmaStar, E0SpearFamily.LFSurgeryData.isCauchySurface_sigmaStar, E0SpearFamily.cauchy_facts_lf: all [propext, Classical.choice, Quot.sound].",
+  "sorry_in_files": "Every `sorry` occurrence in the two files is in a docstring (11 in Surgery, 2 in RegCompleteCauchy); none in code.",
+  "marks": "The diff adds or removes no **`label`** mark. The RegCompleteCauchy row stays unmarked/partial and its checklist and SCOPE are unchanged and still true; the new prose (Surgery item (h), the RegCompleteCauchy paragraph on where the proof lives) matches the code.",
+  "tmp": "The campaign directory holds only REPORT.json (and this audit). The one mention of /tmp in REPORT.json is descriptive (the deleted olean copy); no file depends on /tmp."
+ },
+ "findings": [
+  {"severity": "minor", "where": "lean-gx/campaign/T-btz-g3-dedupe/REPORT.json:lines.note", "what": "REPORT gives git diff --stat as 465 insertions / 813 deletions; the auditor measures 472 / 820 (Surgery 415/172, RegCompleteCauchy 57/648). The net (-348) and the file line counts (7968, 344) match the REPORT, so this is a diff-count discrepancy with no consequence.", "fix": "None needed; correct the count if the REPORT is quoted."},
+  {"severity": "minor", "where": "lean-gx/GX/BTZ/Surgery.lean:151-154", "what": "Item (h) says `hcovers` is a hypothesis of 'the three lemmas that use it' and then lists four declarations (exists_open_of_BTZ, exists_pastSide, isCauchySurface_sigmaStar, isCauchySurface_sigmaStar_of_arc). The wording is loose, not false.", "fix": "Optional: say 'the lemmas'."}
+ ]
+}

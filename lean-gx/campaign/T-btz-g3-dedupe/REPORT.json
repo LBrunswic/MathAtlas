@@ -1,0 +1,49 @@
+{
+ "package": "lean-gx",
+ "target": "T-btz-g3-dedupe",
+ "files": ["GX/BTZ/Surgery.lean", "GX/BTZ/RegCompleteCauchy.lean"],
+ "builds": true,
+ "sorry_count": 0,
+ "lines": {
+  "GX/BTZ/Surgery.lean": {"before": 7725, "after": 7968},
+  "GX/BTZ/RegCompleteCauchy.lean": {"before": 935, "after": 344},
+  "total": {"before": 8660, "after": 8312},
+  "note": "git diff --stat: 465 insertions, 813 deletions. Surgery grows by 243 lines because it now holds the one general (locally finite, non-compact) proof of (G3) with its docstrings, plus the SurgeryData one-line corollaries; RegCompleteCauchy loses its ~570-line copy (now one-line corollaries)."
+ },
+ "what_changed": [
+  "Surgery.lean §5g (section CauchyG3): new E0Surgery.cauchy_facts_of_isCauchySurface (the former body of E0SpearFamily.cauchy_facts_lf: acausal, J^± closed, covering, meeting in S, J^∓(p) ∩ S compact, for S only a Cauchy surface).",
+  "Surgery.lean §5g: namespace E0Surgery.LFSpears now carries the whole (G3) section once: defs cuspUp, cuspDown, futSide, pastSide; lemmas cuspUp_subset, cuspDown_subset, eq_of_mem_spearSet, eventually_other, sigmaStar_subset_sides, mem_sigmaStar_of_sides, mem_sides_of_notMem_S0, closure_futSide_subset, closure_pastSide_subset, eventually_futSide, eventually_pastSide, eventually_eq_of_sigmaStar, exists_open_of_BTZ, exists_pastSide, exists_futSide, isClosed_preimage_futSide, isClosed_preimage_pastSide, futSide_of_le, pastSide_of_le, eq_of_forall_mem_sigmaStar, isCauchySurface_sigmaStar_of_arc, isCauchySurface_sigmaStar. The proofs are the locally finite ones formerly in RegCompleteCauchy (local finiteness in place of finiteness, compactness of J^∓(p) ∩ S in place of that of S).",
+  "The covering of S ∩ sing₀(M) is a hypothesis `hcovers : S ∩ E0CBG.S0 M ⊆ ⋃ i, (Dat.D i).spearSet`, not a field: only LFSpears.exists_open_of_BTZ, exists_pastSide and isCauchySurface_sigmaStar(_of_arc) take it. A field would have retyped the structure LFSpears and its constructor (exported since T-btz-reg-complete-graduate), so the hypothesis route was taken.",
+  "LFSpears.isCauchySurface_sigmaStar_of_arc takes Remark 2.12 as `hrem` (the exact binder of SurgeryData.isCauchySurface_sigmaStar, so that form keeps its type and uses its argument); LFSpears.isCauchySurface_sigmaStar discharges hrem by the strict SpearSurgeryDatum.isSpearArc_of_inextensible.",
+  "SurgeryData: cuspUp, cuspDown, futSide, pastSide keep their own definitions (bodies unchanged, rfl-equal to those of toLFSpears, kb 0243); every lemma listed above (and E0Surgery.exists_open_of_BTZ, SurgeryData.isCauchySurface_sigmaStar) is now a one-line term `Dat.toLFSpears.<name> hGH hS.cauchy ...` (with `Dat.covers` where needed). E0Surgery.cauchy_facts (compact form) is kept unchanged; it is no longer used inside lean-gx strict but is exported.",
+  "RegCompleteCauchy.lean: cauchy_facts_lf := cauchy_facts_of_isCauchySurface; LFSurgeryData's cuspUp/cuspDown/futSide/pastSide keep their definitions; all 21 side lemmas and LFSurgeryData.isCauchySurface_sigmaStar are one-line corollaries through LFSurgeryData.toLFSpears (with `Dat.covers`). sigmaStar, sigmaStarReg, sigmaStar_toSurgeryData, finite_spears_of_isCompact, sigmaStar_subset_regM and the two exists_lfSurgeryData_* theorems are unchanged.",
+  "Docstrings: Surgery module docstring item (h) and the §5g header; RegCompleteCauchy module docstring (where the proof now lives) and the corollaries of exists_open_of_BTZ/exists_pastSide/exists_futSide."
+ ],
+ "rename_map": {},
+ "behaviour_preservation": "Checked mechanically (kb 0244). Before any edit, HEAD's .lake/build/lib/lean/GX/BTZ/Surgery.olean and RegCompleteCauchy.olean (verified up to date by `lake build --no-build GX`: all targets up-to-date) were copied aside; after the final build a Lean script read each old olean with readModuleData and compared every constant with the new environment: Surgery 578 constants, RegCompleteCauchy 47 constants; 0 types differ (Expr `!=`), 0 definition values differ (so cuspUp/cuspDown/futSide/pastSide/sigmaStar/... are unchanged as terms). The only absences (10 per module) are proof-internal auxiliaries of the replaced proofs: `*.match_1_n` and `*._simp_1_n` of eventually_futSide, eventually_pastSide, eventually_eq_of_sigmaStar, isClosed_preimage_futSide/pastSide, exists_open_of_BTZ. Every declaration kept its signature text and its `omit … in` line (so its instance arguments). No downstream file needed an edit: the strict build of every importer (SpearFamily, CompleteCauchy, LengthCompare, RegCompleteLength, RegCompleteTail, RegComplete, AbsMax chain) passed unchanged. The /tmp copy and the comparison script were deleted before finishing; nothing in the repository refers to /tmp.",
+ "make_check": "taskset -c 0-11 make -C lean-gx check: green, run twice (after the code change and after the last docstring edit): strict build warningAsError (`lake build GX`), scaffold build, causal_import_gate ok (DEC-33), sorry strict 0 in 86 files / scaffold 5 in 24 files (unchanged, none in the btz chain), axiom sweep strict 16628 declarations in 87 modules all within propext/Classical.choice/Quot.sound.",
+ "new_decls": [
+  "GX.E0Surgery.cauchy_facts_of_isCauchySurface",
+  "GX.E0Surgery.LFSpears.cuspUp", "GX.E0Surgery.LFSpears.cuspDown", "GX.E0Surgery.LFSpears.futSide", "GX.E0Surgery.LFSpears.pastSide",
+  "GX.E0Surgery.LFSpears.cuspUp_subset", "GX.E0Surgery.LFSpears.cuspDown_subset", "GX.E0Surgery.LFSpears.eq_of_mem_spearSet",
+  "GX.E0Surgery.LFSpears.eventually_other", "GX.E0Surgery.LFSpears.sigmaStar_subset_sides", "GX.E0Surgery.LFSpears.mem_sigmaStar_of_sides",
+  "GX.E0Surgery.LFSpears.mem_sides_of_notMem_S0", "GX.E0Surgery.LFSpears.closure_futSide_subset", "GX.E0Surgery.LFSpears.closure_pastSide_subset",
+  "GX.E0Surgery.LFSpears.eventually_futSide", "GX.E0Surgery.LFSpears.eventually_pastSide", "GX.E0Surgery.LFSpears.eventually_eq_of_sigmaStar",
+  "GX.E0Surgery.LFSpears.exists_open_of_BTZ (hcovers)", "GX.E0Surgery.LFSpears.exists_pastSide (hcovers)", "GX.E0Surgery.LFSpears.exists_futSide",
+  "GX.E0Surgery.LFSpears.isClosed_preimage_futSide", "GX.E0Surgery.LFSpears.isClosed_preimage_pastSide",
+  "GX.E0Surgery.LFSpears.futSide_of_le", "GX.E0Surgery.LFSpears.pastSide_of_le", "GX.E0Surgery.LFSpears.eq_of_forall_mem_sigmaStar",
+  "GX.E0Surgery.LFSpears.isCauchySurface_sigmaStar_of_arc (hcovers, hrem)", "GX.E0Surgery.LFSpears.isCauchySurface_sigmaStar (hcovers)"
+ ],
+ "labels": [],
+ "findings": [
+  "Not about the paper. The finite SurgeryData forms of (G3) assume `hS : IsE0C1SpacelikeCauchy M S` (compact, C¹, spacelike) but every one of them follows from its LFSpears form with only `hS.cauchy`: (G3) needs of S only that it be a Cauchy surface of M (plus the spear data). Their types were kept, as the dispatch requires; a later target could weaken them, which would be a retype.",
+  "Not about the paper. E0Surgery.cauchy_facts (the compact form) is now unused in the strict library; it is kept because it is exported.",
+  "On the [r] question of T-btz-cauchy-step2-max (can the abstraction take a cusp predicate?): not as an arbitrary predicate. The (G3) argument over LFSpears is parametric in the family and in the covering, but each spear is a SpearSurgeryDatum and the proofs use its cusp through the datum's fields: Lemma 2.7's monotone height along ≼ (`spacelike`, via height_le_of_le / height_lt_of_le), continuity of the height off the axis, `rim` (C = C* at r = R, via rim_value / mem_graphSet_iff_of_rim), `above` (the cusp above the vertex level), `lim` (G → +∞ at the axis, in exists_pastSide via exists_lt_G_near_axis), compactness of the annulus (exists_bound_G_annulus), and `graph`/`shaft` for S in the chart. So Σ₀'s cusp can reuse this section verbatim if it is packaged as a SpearSurgeryDatum (a G with those fields); otherwise those seven properties are the interface a cusp-predicate abstraction would have to carry."
+ ],
+ "questions": [],
+ "kb_proposals": [
+  "When a shared structure is already exported (here E0Surgery.LFSpears), add a missing property as a hypothesis of the few lemmas that use it (hcovers) rather than as a field: a field retypes the structure and its constructor, a hypothesis retypes nothing, and each family passes its own field (`Dat.covers`).",
+  "If a corollary must keep a hypothesis its general form no longer needs (SurgeryData.isCauchySurface_sigmaStar's `hrem`), give the general lemma an `_of_arc`-style variant that takes the same binder, so the corollary uses its argument and the unused-variables linter (warningAsError) stays quiet without renaming the binder."
+ ],
+ "notes": "Nothing committed or staged; the two edits are unstaged. No other file touched (no kb, README, ledger, roadmap). The btz/gx ledgers may want a rebuild because the proofs of the SurgeryData/LFSurgeryData (G3) lemmas now go through E0Surgery.LFSpears.* (uses_value edges change; decl names and types do not). The new LFSpears.isCauchySurface_sigmaStar is a candidate principal for btzprop:reg_complete step (2) and for prop:abs_max (G3) if the curation wants the general form; the existing anchors remain valid."
+}

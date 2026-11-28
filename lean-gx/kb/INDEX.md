@@ -276,3 +276,5 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0266](entries/0266-restricting-isspacelikelipschitzin-to-a.md) | pattern | Restricting IsSpacelikeLipschitzIn to a smaller open set |
 | [0267](entries/0267-comparing-the-induced-length-of-n-with-t.md) | pattern | Comparing the induced length of Σ ⊆ N with the pulled length of a parametrisation |
 | [0268](entries/0268-to-turn-a-sequence-with-summable-step-le.md) | pattern | To turn a sequence with summable step lengths into a continuous curve (for curve-based no- |
+| [0269](entries/0269-when-a-shared-structure-is-already-expor.md) | pattern | When a shared structure is already exported (here E0Surgery.LFSpears), add a missing prope |
+| [0270](entries/0270-if-a-corollary-must-keep-a-hypothesis-it.md) | pattern | If a corollary must keep a hypothesis its general form no longer needs (SurgeryData.isCauc |
