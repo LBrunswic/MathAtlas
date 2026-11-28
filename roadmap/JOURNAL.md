@@ -1100,3 +1100,14 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - added 5: T-btz-c1-spacelike-development, T-btz-trace-development, T-btz-axis-nolimit (ready closers, lean-gx, disjoint new files); T-btz-trace-complete, T-btz-cauchy-gh-e0 (planned; the latter is not closer-sized: it needs local causal closedness from lean-causal and strong causality, DEC-18). T-gx-readme-btz promoted to ready. T-btz-cauchy-spear-m0 refined (depends on T-btz-trace-complete; the C¹ bridge is off its route). Other packages re-checked: nothing closer-sized without a ruling. No new question.
 - gates: roadmap ✓ (279 targets), atlas ✓
 - next: T-btz-c1-spacelike-development, T-btz-trace-development, T-btz-axis-nolimit
+
+## 2026-11-28 02:30 · wave of 5 · T-btz-c1-spacelike-development, T-btz-trace-development, T-btz-axis-nolimit, T-atlas-overlay-refresh, T-gx-readme-btz
+- T-btz-c1-spacelike-development: the planned bridge is impossible — SpacelikeDevelopment (graphDev g R) ↔ R ≤ 0 (the closed strip's rim is a boundary). So last wave's strict lem_surface_complete_two_lip (T-btz-surface-complete-lip, 899b4718, audited minor) is VACUOUS; its docstring and the btz row are corrected, and it is no longer an anchor. The Lipschitz forms of record are now the scaffold lem_surface_complete_two_lipOn / _unif (non-vacuous, the cusp meets them). New OQ-158 (the reading of « spacelike » for a strip with rim). Audit clean (the major finding was against last wave's lemma). Lesson: an auditor must exhibit an instance of a new theorem's hypotheses, not only call them « not vacuous ».
+- T-btz-trace-development: redirected mid-wave to lipOn's hypotheses; the trace of Σ is a SpacelikeDevelopment over the open strip; τS → +∞ modulo completeness (T-btz-trace-complete); audit minor (fixed).
+- T-btz-axis-nolimit: no limit along any curve running into the axis (stronger than asked; the planner's « τ convergent » step corrected); audit clean.
+- T-atlas-overlay-refresh (builder): lean-gx at 1030d98, 0 page errors (10e65823).
+- T-gx-readme-btz (master): README rows for the 27 strict BTZ modules and State line (ff662ac8).
+- gates: lean-gx ✓, roadmap ✓, atlas ✓, hub: no new red; restate: 0 new (the not_spacelikeDevelopment_graphDev helper kept out of the curated decls)
+- commits: 10e65823 42b8e1d4 a4fa7313 886426e5 ff662ac8 059d8442 (+ statuses)
+- wall time: 01:04–02:30; agents in parallel: 3 closers + builder, 3 auditors
+- next: T-btz-trace-complete (now unblocked), T-btz-g3-dedupe (exclusive)

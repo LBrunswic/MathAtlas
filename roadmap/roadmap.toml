@@ -2690,7 +2690,7 @@ kind = "tooling"
 status = "ready"
 owner = "builder"
 priority = 3
-evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last runs 2026-11-27: lean-yamabe at 86be42e (be9a0772), lean-gx at 789fe25 (f1f3b04; btz's first edges), lean-causal, lean-benzecri, lean/ (f03ec37). Due: lean-gx after T-gx-btz-cleanup; lean-causal when /ett-programme releases it; lean-egf is /egf-programme's. The template's texHTML is T-atlas-tex-text-macros. Last lean-gx run 2026-11-27 at 8af81ae (btz 124→128, bbs 42, gx 970 unchanged). Due: lean-gx after the next wave that changes it"
+evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last runs 2026-11-27: lean-yamabe at 86be42e (be9a0772), lean-gx at 789fe25 (f1f3b04; btz's first edges), lean-causal, lean-benzecri, lean/ (f03ec37). Due: lean-gx after T-gx-btz-cleanup; lean-causal when /ett-programme releases it; lean-egf is /egf-programme's. The template's texHTML is T-atlas-tex-text-macros. Last lean-gx run 2026-11-28 at 1030d98 (btz 128 edges, both 21→22; bbs 42, gx 970 unchanged). Due: lean-gx after the next wave that changes it"
 added = "2026-11-22"
 proposed_by = "author's rulings 2026-11-22 (applied by hand while /atlas-team was idle)"
 
@@ -4211,13 +4211,14 @@ title = "lean-gx/README.md: give the module table a row for each strict GX.BTZ m
 stream = "gx"
 kind = "tooling"
 package = "none"
-status = "ready"
+status = "done"
 owner = "master"
 priority = 10
 depends = ["T-btz-s5-graduate"]
-evidence = "These strict modules are not named in lean-gx/README.md (planner's check, 2026-11-28): BluntSpear, CompleteCauchy, Embeddings, ExtChart, IsomE0, LengthCompare, Pgcd, PpcmHausdorff, Ppcm, RegCompleteCauchy, RegComplete, RegCompleteLength, RegCompleteTail, SectorAtlas, SpearFamily. README l.70: « State (2026-11-08): every module is strict — 46 modules, 11,887 declarations, 0 sorry, standard axioms only (make check). The scaffold is empty ». The scaffold holds four tagged sorrys today (build.log), and the strict library 16,201 declarations (journal 2026-11-28 00:45). T-btz-reg-complete-graduate REPORT notes (2): « lean-gx/README.md's module table and its 'State' line do not list the seven new strict modules (README is outside this dispatch) ». Precedent: T-ett-readme-modules (done). It waits on T-btz-s5-graduate so that the seven modules it moves are written once. Refined 2026-11-28 (planner, rule 2), on promotion to ready now that T-btz-s5-graduate is done (1030d986): the ten modules it graduated are not named either (MaxExtension, CommonReg, CommonRegIso, LineStructure, RichardsSplit, AdmissibleLinear, Admissible, SurfaceGroupNonMetabelian, CauchyEasy, SurfaceCompleteLip; planner's grep of README.md against ls GX/BTZ/, 43 files). The table rows l.62–66 name the older modules in the brace form `GX.BTZ.{…}`; the new rows follow it. The scaffold is not empty: CauchySpear (one tagged sorry), with the Troyanov, Thurston-suspension and HSCausal tags. Writes lean-gx/README.md only (package none: no Lean)"
+evidence = "six BTZ rows (27 strict modules) and the State line at 1030d98"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "ff662ac8"
 
 [[target]]
 id = "T-btz-cauchy-regularity"
@@ -4258,12 +4259,13 @@ kind = "close"
 paper = "btz"
 labels = ["btzlem:surface_complete"]
 package = "lean-gx"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
-evidence = "T-btz-surface-complete-lip REPORT (lean-gx/campaign/T-btz-surface-complete-lip/REPORT.json), kb proposal 4: « Open bridge, wanted by T-btz-cauchy-spear and to make lem_surface_complete_two a corollary of lem_surface_complete_two_lip: a C^1 IsSpacelikeGraph g R has graphDev g R a SpacelikeDevelopment (local embedding plus Causal.Flat.Cla.exists_isSpacelikeLipschitzIn_zeroSet on nullHeight, as in Surgery's (G4a)) ». GX/BTZ/SurfaceCompleteLip.lean SCOPE: « That a C¹ graph with δ > 0 (IsSpacelikeGraph) has a SpacelikeDevelopment is NOT proved here, so the C¹ case is not derived from this theorem » and « No example of the hypotheses is given (kb/0011: not cheap): the natural one, Lemma 2.6(ii)'s cusp τ^R(θ) + M(1/r − 1/R), has complete pulled length (lem_curve_extension_ii_complete), but its SpacelikeDevelopment is the unproved bridge above ». Built: Causal.Flat.SpacelikeDevelopment (lean-causal Causal/Flat/CauchyComplete.lean:679: continuity, and locally an embedding with image IsSpacelikeLipschitzIn some V); the cone-increasing criterion at a point in a frame (GX/BTZ/Surgery.lean:4669, used for (G4a) at the cusps, §5f); GX.E0Surgery.graphDev (Surgery.lean:634) = btzPaperDev ∘ graphMap g. [r] (planner, unchecked) The route of (G4a): btzPaperDev is a local homeomorphism of the strip × ℝ, graphMap g a closed embedding of the strip, so their composite is locally an embedding; δ > 0 makes the height function cone-increasing near each point (as in §5f), and exists_isSpacelikeLipschitzIn_zeroSet gives the Lipschitz image. One new scaffold file importing GX.BTZ.SurfaceCompleteLip; writes nothing else. The row stays partial on T-btz-scope only. Independent of T-btz-trace-development and T-btz-axis-nolimit"
+evidence = "the planned bridge is impossible: SpacelikeDevelopment (graphDev g R) ↔ R ≤ 0; strict lem_surface_complete_two_lip vacuous (docstring and curation corrected); true bridge off the rim and lem_surface_complete_two_lipOn/_unif/_of_open, non-vacuous; OQ-158; audit AUDIT-1 clean"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "42b8e1d4"
 
 [[target]]
 id = "T-btz-trace-development"
@@ -4273,12 +4275,13 @@ kind = "close"
 paper = "btz"
 labels = ["btzthm:BTZ_Cauchy-completness"]
 package = "lean-gx"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
-evidence = "BTZ_1.tex l.1601–1602 (quoted in T-btz-cauchy-spear-m0): « By Lemma lem:blunt_spear_neighborhood, one can reduce the size of S in such a way φ(Σ₀ ∩ S) is the graph of a some function τ₀ ... Since Σ₀ is complete, by Lemma lem:surface_complete lim τ₀ = +∞ ». lean-gx/scaffold/GXScaffold/BTZ/CauchySpear.lean:171, the tag of bluntSpear_subset_M0: « surface_complete needs a C¹ graph, the Lipschitz completeness gives none ». That need is now met by the strict GX.E0Surgery.lem_surface_complete_two_lip (GX/BTZ/SurfaceCompleteLip.lean:361, T-btz-surface-complete-lip, 899b4718), which asks graphDev g R to be a SpacelikeDevelopment with complete pulled length. The graph τS is what the strict GX.E0BluntSpear.lem_blunt_spear (GX/BTZ/BluntSpear.lean:1049) returns, continuous on {0 < ‖z‖ ≤ R'}. Built tools: SpearSurgeryDatum.eventually_regChart (GX/BTZ/Surgery.lean:4914: near an off-axis point the flat chart read in a spear chart is g • E0.chartMap x for one g ∈ Isom(𝐌³)); IsSpacelikeLipschitz's Isom(𝐌ⁿ)-invariance (lean-causal Causal/Flat/CauchyComplete.lean, (b)); E0.chartMap against btzPaperDev (btz_chart_eq_smul_btzPaperDev). [r] (planner, unchecked) Locally, graphDev g R = g⁻¹ • κ ∘ ψ ∘ paperInY ∘ (the graph of τS), κ the flat chart of N; the graph is an embedding of the strip (locally) and κ ∘ ψ a local homeomorphism off the axis, so the embedding field holds; the image is the chart image of Sig moved by an isometry, so IsSpacelikeLipschitzIn holds. The FlatE0 N analogue of eventually_regChart is the one new chart lemma (FlatE0 N's regular part is N itself, ce_flatE0_eq). Completeness of the pulled length is not asked here (T-btz-trace-complete). One new scaffold file; independent of T-btz-c1-spacelike-development and T-btz-axis-nolimit"
+evidence = "goal changed mid-wave (OQ-158): trace_spacelikeDevelopment_openStrip gives lipOn's hypothesis for R″ < R; trace_tendsto_atTop modulo completeness; audit AUDIT-1 minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "886426e5"
 
 [[target]]
 id = "T-btz-axis-nolimit"
@@ -4288,12 +4291,13 @@ kind = "close"
 paper = "btz"
 labels = ["btzlem:blunt_spear_neighborhood"]
 package = "lean-gx"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
-evidence = "GX/BTZ/BluntSpear.lean:827, the strict flat_infall_noLimit_of_pos, proves this for the in-falling null rays s ↦ (a + s/2, s u) only. Its docstring gives the method: « let κ be the chart of N at q. On the connected component U, around the tail of the ray, of W ∩ ψ⁻¹(dom κ) ∩ the slit sector around u, rigidity (E0.exists_eqOn_sectorSmulInl) gives κ ∘ ψ = g • D ∘ the sector chart; the developed ray tends to the developed axis point ... the two developments D(·, r₀, arg u ± π) differ by the parabolic holonomy hol(2π) (btzPaperDev_add_pi_ne), against the injectivity of κ⁻¹ on its domain ». The curve form is what the second half of l.1602 needs (T-btz-trace-complete): the broken line of lem_surface_complete_two_lip's proof (GX/BTZ/SurfaceCompleteLip.lean:361) is a curve of the trace τS with rad → 0 and bounded height (τS > v + R'/2 by lem_blunt_spear), of finite length; its image in a complete Sig converges in N, and this target says it cannot. [r] (planner, unchecked) The route of flat_infall_noLimit_of_pos, with the tail of γ in place of the ray. The tail is connected, so rigidity, after lifting the angle continuously along it, gives one g with κ(ψ(γ s)) = g • D(γ̃ s) on the universal cover. In the paper coordinates D's time component is τ + ½ r θ² and its spatial part is (r, rθ) up to the null direction (minkQ_btzPaperDev_sub), so convergence with τ bounded forces rθ → 0, rθ² bounded and τ convergent, to some a ∈ [a₁, a₂]: the developed curve tends to a developed axis point. From there the holonomy contradiction is the strict proof's, on the connected region {|τ − a| < ε, 0 < r < ε} with a lifted angle in [θ₀ − π − δ, θ₀ + π + δ]. If the curve form proves too wide, the closer stops at the form where (γ s) converges in E0 to an axis point (a, 0), v < a, and reports; T-btz-trace-complete then derives that convergence itself. One new scaffold file; independent of T-btz-c1-spacelike-development and T-btz-trace-development"
+evidence = "flat_curve_noLimit and corollaries (GXScaffold.BTZ.AxisNoLimit), stronger than asked; audit AUDIT-1 clean"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "a4fa7313"
 
 [[target]]
 id = "T-btz-trace-complete"
