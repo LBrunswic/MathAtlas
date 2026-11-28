@@ -1012,3 +1012,69 @@ bucket = "A"
 extra_lean_files = ["Benzecri/Chapter3/PointsExtremaux.lean"]
 decls = ["Benzecri.deux_points_extremaux", "Benzecri.Sphere.facetteK_eq_singleton_iff_mem_extremePoints", "Benzecri.deux_points_extremaux_iff", "Benzecri.S0_lacks_two_singleton_facettes"]
 notes = "T-bz-c3-points-extremaux (atlas-team, 2026-11-28), audit AUDIT-1 minor (a helper renamed S0_lacks_two_singleton_facettes; fixed). Marked in Benzecri/Chapter3/PointsExtremaux.lean, sorry-free."
+
+[[row]]
+label = "bzdef:c3s2d5_somme_sphere"
+bucket = "A"
+extra_lean_files = ["Benzecri/Chapter3/BooleProjectif.lean"]
+decls = ["Benzecri.Sphere.EstSommeS", "Benzecri.Sphere.EstSomme2", "Benzecri.Sphere.joint", "Benzecri.Sphere.F_joint", "Benzecri.Sphere.estSomme2_iff_estSommeS", "Benzecri.Sphere.convex_F_of_joint", "Benzecri.Sphere.span_inf_eq_bot_of_unique", "Benzecri.Sphere.eq_empty_of_estSommeS_vide"]
+notes = "T-bz-c3-boole-projectif (atlas-team, 2026-11-28), audit AUDIT-1 minor (an unproved SCOPE claim softened; checklist wording; an alternative added to the question; fixed). Marked in Benzecri/Chapter3/BooleProjectif.lean, sorry-free."
+paper_findings = ["l.557: the convention « w est somme de w et du convexe vide » is not a case of the general form of l.548–551 (Déf. 1's sum with an empty summand is empty, so it holds only for w = ∅: eq_empty_of_estSommeS_vide); it is an extension, formalized as a disjunct of EstSomme2."]
+
+[[row]]
+label = "bzdef:c3s2d6_distingue_projectif"
+bucket = "C"
+lean_proved_override = "partial"
+blocked_on = "T-restate-held-curation (the refutation BooleProjectifInstance.not_conjugue_unique to register when /restate frees papers/benzecri); OQ-168"
+extra_lean_files = ["Benzecri/Chapter3/BooleProjectif.lean"]
+decls = ["Benzecri.Sphere.EstConjugueS", "Benzecri.Sphere.EstDistingueS", "Benzecri.Sphere.ConeDec", "Benzecri.Sphere.estConjugueS_iff", "Benzecri.Sphere.conjugue_unique", "Benzecri.Sphere.le_of_coneDec"]
+notes = "T-bz-c3-boole-projectif (atlas-team, 2026-11-28), audit AUDIT-1 minor (an unproved SCOPE claim softened; checklist wording; an alternative added to the question; fixed). Proved in Benzecri/Chapter3/BooleProjectif.lean under the reading in blocked_on, unmarked."
+paper_findings = ["l.565–566, « La donnée du sous-espace distingué l détermine complètement le sous-espace distingué l′ », is refuted as printed: relative to the open quarter {y > 0, z > 0} of S(2) (convex, open, support S(2), noyau ∅) the great circle z = 0 is distinguished with two different conjugates {±e3} and {±(e1+e3)} (BooleProjectifInstance.not_conjugue_unique). F(w) contains the line (t, 1, 1), which noyau ∅ does not exclude. With F(w) containing no line the claim is proved for every real E (Benzecri.Sphere.conjugue_unique)."]
+
+[[row]]
+label = "bzthm:c3s2t3_algebre_boole_projective"
+bucket = "C"
+lean_proved_override = "partial"
+blocked_on = "T-restate-held-curation (the refutation BooleProjectifInstance.not_theoreme3 to register when /restate frees papers/benzecri); OQ-168"
+extra_lean_files = ["Benzecri/Chapter3/BooleProjectif.lean"]
+decls = ["Benzecri.Sphere.theoreme3", "Benzecri.Sphere.algebreBooleS", "Benzecri.Sphere.DistinguesS", "Benzecri.Sphere.estConjugueS_iff_affine", "Benzecri.Sphere.estDistingueS_iff_affine", "Benzecri.Sphere.projection_ne_zero", "Benzecri.Sphere.isLeast_linearSubvariety_sup"]
+notes = "T-bz-c3-boole-projectif (atlas-team, 2026-11-28), audit AUDIT-1 minor (an unproved SCOPE claim softened; checklist wording; an alternative added to the question; fixed). Proved in Benzecri/Chapter3/BooleProjectif.lean under the reading in blocked_on, unmarked."
+paper_findings = ["l.570–576, Théorème 3, is refuted as printed, even when F(w) contains no line: relative to w2 = s({x ≥ 0, y > 0, z > 0}) ⊂ S(2) (convex, support S(2), noyau ∅, F(w2) line-free, NOT open) the great circles z = 0 (conjugate {±e3}) and y = 0 (conjugate {±e2}) are distinguished and their intersection {±e1} is not (BooleProjectifInstance.not_theoreme3). A refutation of Th. 3 for an open w is not formalized (the open quarter refutes Déf. 6's uniqueness claim and the Corollary only).", "The corrected statement, for w open and F(w) line-free in finite dimension, is proved in full: Boolean algebra, (1) = S(E), (0) = ∅, complement THE conjugate (exists, unique), inf the intersection, sup the convex hull (Benzecri.Sphere.theoreme3). Props. 4–5 and their Corollary (l.598–620), which use Th. 3, are stated for open w.", "The printed proof (l.594–596, « se reporter aux énoncés correspondants formulés dans le cas affin ») is formalized as the transfer to the affine Théorème 2 on the CLOSED cone K̄ = closure(insert O F(w)) (estConjugueS_iff_affine); it does not go through insert O F(w), whose affine-distinguished subspaces differ (simplexO_kPrime_not_estDistingue) and which may contain lines when the noyau is empty."]
+
+[[row]]
+label = "bzcor:c3s2t3c_algebre_parties_projective"
+bucket = "C"
+lean_proved_override = "partial"
+blocked_on = "T-restate-held-curation (the refutation BooleProjectifInstance.not_corollaire_algebre_parties to register when /restate frees papers/benzecri); OQ-168"
+extra_lean_files = ["Benzecri/Chapter3/BooleProjectif.lean"]
+decls = ["Benzecri.Sphere.corollaire_algebre_parties_projective", "Benzecri.Sphere.EstSimpleS", "Benzecri.Sphere.simplesS", "Benzecri.Sphere.simplesS_eq", "Benzecri.Sphere.isLeast_linearSubvariety_sSup", "Benzecri.Sphere.isLeast_iff_eq_sSup", "Benzecri.BooleProjectifInstance.quart_distingues_infinite", "Benzecri.BooleProjectifInstance.simplexO_simplesS_ncard", "Benzecri.BooleProjectifInstance.capS_simplesS"]
+notes = "T-bz-c3-boole-projectif (atlas-team, 2026-11-28), audit AUDIT-1 minor (an unproved SCOPE claim softened; checklist wording; an alternative added to the question; fixed). Proved in Benzecri/Chapter3/BooleProjectif.lean under the reading in blocked_on, unmarked."
+paper_findings = ["l.579–590, the Corollary, is refuted as printed: relative to the open quarter {y > 0, z > 0} of S(2) (dimension n + 1 = 3, convex, open, support S(2), noyau ∅) the pairs {±(t e1 + e2)}, t ∈ ℝ, are all distinguished, so the distinguished subvarieties are not the parts of any finite set (BooleProjectifInstance.not_corollaire_algebre_parties). Under the hypotheses of theoreme3 it is proved in full, cardinal between 1 and n + 1 included (corollaire_algebre_parties_projective); OQ-165 (b)'s n = 0 failure does not recur since dim E = n + 1 ≥ 1."]
+
+[[row]]
+label = "bzprop:c3s4p8_D_cube"
+bucket = "A"
+extra_lean_files = ["Benzecri/Chapter3/FacetteExposee.lean"]
+decls = ["Benzecri.Sphere.prop8_facetteDuale", "Benzecri.Sphere.prop8_facetteDualeExt", "Benzecri.Sphere.facetteDualeExt", "Benzecri.Sphere.facetteLeast", "Benzecri.Sphere.prop7_facetteDualeExt_empty"]
+notes = "T-bz-c3-facette-exposee (atlas-team, 2026-11-28), audit AUDIT-1 minor (SCOPE cites l.1064 for 𝒟(∅); checklist wording; fixed). Marked in Benzecri/Chapter3/FacetteExposee.lean, sorry-free."
+paper_findings = ["Prop. 8 (l.1072-1074) holds for every convex part W, closed or not, although its proof (l.1076-1077) treats 𝒟∘𝒟(F) as a facette of W (true only for W closed): the 'a fortiori' step goes through with F ⊆ closure(𝒟∘𝒟(F)) in place of 𝒟∘𝒟(F) α F."]
+
+[[row]]
+label = "bzprop:c3s4p9_facette_exposee"
+bucket = "C"
+lean_proved_override = "partial"
+blocked_on = "T-restate-held-curation (the refutation FacetteExposeeInstance.not_prop9_nonclosed to register when /restate frees papers/benzecri); OQ-167"
+extra_lean_files = ["Benzecri/Chapter3/FacetteExposee.lean"]
+decls = ["Benzecri.Sphere.prop9_facetteDuale", "Benzecri.Sphere.supports_of_closure_eq", "Benzecri.FacetteExposeeInstance.prop9_ext_imprecise"]
+notes = "T-bz-c3-facette-exposee (atlas-team, 2026-11-28), audit AUDIT-1 minor (SCOPE cites l.1064 for 𝒟(∅); checklist wording; fixed). Proved in Benzecri/Chapter3/FacetteExposee.lean under the reading in blocked_on, unmarked."
+paper_findings = ["Prop. 9 (l.1087-1090) is refuted for a convex part W that is not closed, while W ∈ K(S(n)) is the standing domain (Prop. 6, l.1047; K(S(E)) = all convex parts, l.642): in S(2), W = closed triangle minus the vertex s(e1), F = the open edge ]s(e1), s(e2)[ is a facette of W, 𝒟(F) = {s(e0)} is a genuine facette, 𝒟∘𝒟(F) = F, but F̄ contains s(e1) ∉ W, so F̄ is the intersection of W with no hyperplane (FacetteExposeeInstance.not_prop9_nonclosed). The proof's 𝒟∘𝒟(F) « facette de W » (l.1076) presupposes D(D(W)) = W, i.e. W closed. For W closed the statement is proved (prop9_facetteDuale).", "Prop. 9 is imprecise if 𝒟 is extended to the facette ∅ of dimension −1 (OQ-165 (c)): for the interior facette F of the closed simplex of S(n), 𝒟(F) = ∅, the extended 𝒟∘𝒟(F) = F, yet F̄ = T is no hyperplane section (prop9_ext_imprecise). The printed proof's « soit p ∈ 𝒟(F) » (l.1093) silently assumes 𝒟(F) ≠ ∅.", "The statement's « un hyperplan » is any hyperplane, while the proof's converse (l.1096) starts from « l'hyperplan frontière de D({p}) », a supporting one; the gap is closed in Lean (supports_of_closure_eq: a hyperplane meeting W in the closure of a facette supports W)."]
+
+[[row]]
+label = "bzthm:c3s5t1_reunion_convexes_affine"
+bucket = "C"
+lean_proved_override = "partial"
+blocked_on = "OQ-166 (the reading of « demi-espace H de L »; E ≠ 0, OQ-165 (d))"
+extra_lean_files = ["Benzecri/Chapter3/ReunionConvexes.lean"]
+decls = ["Benzecri.reunion_convexes_affine", "Benzecri.reunion_convexes_affine_of_ne", "Benzecri.proprieteIII_of_proprieteI", "Benzecri.proprieteI_of_proprieteIIIlarge", "Benzecri.proprieteI_of_proprieteIII", "Benzecri.proprieteI_iff_proprieteIII", "Benzecri.ProprieteIII", "Benzecri.DemiEspaceFermeDe", "Benzecri.ProprieteIIIlarge", "Benzecri.DemiEspaceDe", "Benzecri.reunion_convexes_dimZero", "Benzecri.sommet_carre_sans_demiEspace", "Benzecri.demiEspaceFermeDe_demiPlan", "Benzecri.demiDisqueEuclide_proprietes", "Benzecri.demiEspaceDe_demiPlan", "Benzecri.demiDisqueEuclide_proprieteIIIlarge"]
+notes = "T-bz-c3-reunion-convexes (atlas-team, 2026-11-28), audit AUDIT-1 minor (a REPORT sentence corrected; two named instances added; fixed). Proved in Benzecri/Chapter3/ReunionConvexes.lean under the reading in blocked_on, unmarked."
+paper_findings = ["Theorem 1 (l.1381-1392) is imprecise in the zero space E = 0: V = W = {0} satisfies every printed hypothesis, I(V,W) and III(V,W), but not II(V,W), since there is no open half-space (Benzecri.reunion_convexes_dimZero). The same degenerate case as Prop. 8 (l.1323, OQ-165 (d)); Theorem 1 holds in full for E ≠ 0, and in every E when V ≠ W.", "III (l.1389-1391) needs « demi-espace H de L » to admit H = L: when V is a point (e.g. the vertex (0,0) of the square, which has I by sommet_carre_proprietes), its support L is a point and has no proper half-space (Benzecri.sommet_carre_sans_demiEspace), so I => III fails under the strict reading. The printed parenthesis « H ∩ W peut être égal à L ∩ W » covers it only if H = L is admitted; for dim L ≥ 1 a proper closed half-space containing the compact L ∩ W exists, so the reading matters only for dim L = 0.", "Not a defect, a strengthening: I <-> III needs neither compactness of W nor finite dimension. I => III holds for W convex and V closed non-empty in any real topological vector space (Prop. 7's strong form exists_separe_fort applied in L ∩ W; Benzecri.proprieteIII_of_proprieteI), and III => I needs no topology (Benzecri.proprieteI_of_proprieteIIIlarge)."]

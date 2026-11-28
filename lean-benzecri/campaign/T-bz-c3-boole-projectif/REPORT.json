@@ -1,0 +1,212 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-boole-projectif",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter3/BooleProjectif.lean",
+    "scaffold/BenzecriScaffold.lean (one import line appended)"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": "standard only (propext, Classical.choice, Quot.sound), checked with #print axioms on theoreme3, corollaire_algebre_parties_projective, conjugue_unique, estSomme2_iff_estSommeS, not_theoreme3, not_conjugue_unique, not_corollaire_algebre_parties, simplexO_simplesS_ncard",
+  "labels": [
+    {
+      "label": "bzdef:c3s2d5_somme_sphere",
+      "tex_lines": [
+        548,
+        558
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.Sphere.EstSommeS",
+        "Benzecri.Sphere.EstSomme2",
+        "Benzecri.Sphere.joint",
+        "Benzecri.Sphere.F_joint",
+        "Benzecri.Sphere.estSomme2_iff_estSommeS",
+        "Benzecri.Sphere.convex_F_of_joint",
+        "Benzecri.Sphere.span_inf_eq_bot_of_unique",
+        "Benzecri.Sphere.eq_empty_of_estSommeS_vide"
+      ],
+      "hypotheses": [
+        {
+          "paper": "w convexe de noyau vide",
+          "here": "carried where used",
+          "note": "IsConvexPart w used for « En particulier »; the noyau is not needed"
+        },
+        {
+          "paper": "v1, v2, w convexes non vides",
+          "here": "carried",
+          "note": "IsConvexPart and Nonempty"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.557: the convention « w est somme de w et du convexe vide » is not a case of the general form of l.548–551 (Déf. 1's sum with an empty summand is empty, so it holds only for w = ∅: eq_empty_of_estSommeS_vide); it is an extension, formalized as a disjunct of EstSomme2."
+      ],
+      "questions": [
+        "« w est somme de w et du convexe vide » read symmetrically (either order of the summands)."
+      ]
+    },
+    {
+      "label": "bzdef:c3s2d6_distingue_projectif",
+      "tex_lines": [
+        560,
+        567
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.Sphere.EstConjugueS",
+        "Benzecri.Sphere.EstDistingueS",
+        "Benzecri.Sphere.ConeDec",
+        "Benzecri.Sphere.estConjugueS_iff",
+        "Benzecri.Sphere.conjugue_unique",
+        "Benzecri.Sphere.le_of_coneDec",
+        "Benzecri.BooleProjectifInstance.not_conjugue_unique"
+      ],
+      "hypotheses": [
+        {
+          "paper": "w convexe, support S(E), noyau ∅",
+          "here": "carried",
+          "note": "IsConvexPart w, supportK w = univ"
+        },
+        {
+          "paper": "(none)",
+          "here": "strengthened",
+          "note": "¬ ContientDroite (F w) for the claim « La donnée de l détermine complètement l′ » (conjugue_unique), needed: not_conjugue_unique"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.565–566, « La donnée du sous-espace distingué l détermine complètement le sous-espace distingué l′ », is FALSE as printed: relative to the open quarter {y > 0, z > 0} of S(2) (convex, open, support S(2), noyau ∅) the great circle z = 0 is distinguished with two different conjugates {±e3} and {±(e1+e3)} (BooleProjectifInstance.not_conjugue_unique). F(w) contains the line (t, 1, 1), which noyau ∅ does not exclude. With F(w) containing no line the claim is proved for every real E (Benzecri.Sphere.conjugue_unique)."
+      ],
+      "questions": [
+        "« sous-espace l » read as a linear subvariety s(L − O), indexed by L (linearSubvariety_injective).",
+        "« w soit somme de deux convexes v et v′ » read as Déf. 5's two-summand form WITH its convention; under the general form alone ∅ and S(E) (Théorème 3's (0) and (1)) would not be distinguished."
+      ]
+    },
+    {
+      "label": "bzthm:c3s2t3_algebre_boole_projective",
+      "tex_lines": [
+        570,
+        576
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.Sphere.theoreme3",
+        "Benzecri.Sphere.algebreBooleS",
+        "Benzecri.Sphere.DistinguesS",
+        "Benzecri.Sphere.estConjugueS_iff_affine",
+        "Benzecri.Sphere.estDistingueS_iff_affine",
+        "Benzecri.Sphere.not_contientDroite_closure",
+        "Benzecri.Sphere.projection_ne_zero",
+        "Benzecri.Sphere.isLeast_linearSubvariety_sup",
+        "Benzecri.BooleProjectifInstance.not_theoreme3"
+      ],
+      "hypotheses": [
+        {
+          "paper": "w convexe de S(E), support S(E), noyau vide",
+          "here": "carried",
+          "note": ""
+        },
+        {
+          "paper": "E espace vectoriel réel",
+          "here": "strengthened",
+          "note": "E finite-dimensional normed, for the topology of « ouvert »"
+        },
+        {
+          "paper": "(none)",
+          "here": "strengthened",
+          "note": "w open (IsOpen w) and ¬ ContientDroite (F w) added; line-freeness alone is insufficient (not_theoreme3, w2 not open); a refutation for open w is not formalized"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.570–576, Théorème 3, is FALSE as printed, even when F(w) contains no line: relative to w2 = s({x ≥ 0, y > 0, z > 0}) ⊂ S(2) (convex, support S(2), noyau ∅, F(w2) line-free, NOT open) the great circles z = 0 (conjugate {±e3}) and y = 0 (conjugate {±e2}) are distinguished and their intersection {±e1} is not (BooleProjectifInstance.not_theoreme3). A refutation of Th. 3 for an open w is not formalized (the open quarter refutes Déf. 6's uniqueness claim and the Corollary only).",
+        "The corrected statement, for w open and F(w) line-free in finite dimension, is proved in full: Boolean algebra, (1) = S(E), (0) = ∅, complement THE conjugate (exists, unique), inf the intersection, sup the convex hull (Benzecri.Sphere.theoreme3). Props. 4–5 and their Corollary (l.598–620), which use Th. 3, are stated for open w.",
+        "The printed proof (l.594–596, « se reporter aux énoncés correspondants formulés dans le cas affin ») is formalized as the transfer to the affine Théorème 2 on the CLOSED cone K̄ = closure(insert O F(w)) (estConjugueS_iff_affine); it does not go through insert O F(w), whose affine-distinguished subspaces differ (simplexO_kPrime_not_estDistingue) and which may contain lines when the noyau is empty."
+      ],
+      "questions": [
+        "« comme sup l'enveloppe convexe » read as the least convex part of S(E) (Chapter 1's convex parts, linear subvarieties included) containing l ∪ d: it is s(L + D − O) (isLeast_linearSubvariety_sup).",
+        "Which corrected statement is of record: the one proved (w open, F(w) line-free, E finite-dimensional; the finite dimension only for the topology of « open »), or another, e.g. w closed (Benzécri's « corps convexes »), neither proved nor refuted here?"
+      ]
+    },
+    {
+      "label": "bzcor:c3s2t3c_algebre_parties_projective",
+      "tex_lines": [
+        579,
+        590
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.Sphere.corollaire_algebre_parties_projective",
+        "Benzecri.Sphere.EstSimpleS",
+        "Benzecri.Sphere.simplesS",
+        "Benzecri.Sphere.simplesS_eq",
+        "Benzecri.Sphere.isLeast_linearSubvariety_sSup",
+        "Benzecri.Sphere.isLeast_iff_eq_sSup",
+        "Benzecri.BooleProjectifInstance.not_corollaire_algebre_parties",
+        "Benzecri.BooleProjectifInstance.quart_distingues_infinite",
+        "Benzecri.BooleProjectifInstance.simplexO_simplesS_ncard",
+        "Benzecri.BooleProjectifInstance.capS_simplesS"
+      ],
+      "hypotheses": [
+        {
+          "paper": "E de dimension finie n + 1",
+          "here": "carried",
+          "note": "Module.finrank ℝ E = n + 1"
+        },
+        {
+          "paper": "(those of Th. 3)",
+          "here": "strengthened",
+          "note": "w open, ¬ ContientDroite (F w), as for theoreme3"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.579–590, the Corollary, is FALSE as printed: relative to the open quarter {y > 0, z > 0} of S(2) (dimension n + 1 = 3, convex, open, support S(2), noyau ∅) the pairs {±(t e1 + e2)}, t ∈ ℝ, are all distinguished, so the distinguished subvarieties are not the parts of any finite set (BooleProjectifInstance.not_corollaire_algebre_parties). Under the hypotheses of theoreme3 it is proved in full, cardinal between 1 and n + 1 included (corollaire_algebre_parties_projective); OQ-165 (b)'s n = 0 failure does not recur since dim E = n + 1 ≥ 1."
+      ],
+      "questions": [
+        "« famille » read as a set of simple subvarieties (no repetition), as in the affine Corollary; « obtenue comme enveloppe convexe » read as: s(L − O) is the least convex part containing the members (IsLeast)."
+      ]
+    }
+  ],
+  "instances": [
+    "BooleProjectifInstance.simplexO_hyps: the open n-simplex of S(n) satisfies every hypothesis of theoreme3 (convex, open, support S(n), noyau ∅, F line-free), with exactly n + 1 simple distinguished subvarieties, the axes (simplexO_simplesS_ncard)",
+    "BooleProjectifInstance.capS_simplesS: the open round cap {v2 > 0, v0² + v1² < v2²} of S(2) satisfies the hypotheses, its distinguished subvarieties are ∅ and S(2), one simple (cardinal 1)",
+    "BooleProjectifInstance.quartS (open quarter of S(2)) and w2 (half-open quarter): the counterexamples, each satisfying the printed hypotheses"
+  ],
+  "extra_decls": [
+    "Benzecri.Sphere.F_joint",
+    "Benzecri.Sphere.linearSubvariety_inter",
+    "Benzecri.Sphere.linearSubvariety_subset_iff",
+    "Benzecri.Sphere.linearSubvariety_eq_empty_iff",
+    "Benzecri.Sphere.linearSubvariety_top_eq",
+    "Benzecri.Sphere.supportK_ofCone",
+    "Benzecri.Sphere.supportK_empty",
+    "Benzecri.Sphere.isConvexPart_ofCone_of_cone",
+    "Benzecri.Sphere.F_ofCone_of_zero_notMem",
+    "Benzecri.Sphere.add_mem_of_cone",
+    "Benzecri.Sphere.convex_insert_zero_of_cone",
+    "Benzecri.Sphere.projection_add_of_mem",
+    "Benzecri.Sphere.zero_notMem_add",
+    "Benzecri.Sphere.span_eq_top_of_absorbing",
+    "Benzecri.Sphere.coneDec_mk",
+    "Benzecri.Sphere.bijOn_sum_two_iff",
+    "Benzecri.Sphere.unique_of_span_inf_eq_bot",
+    "Benzecri.Sphere.mem_closure_kPrime_of_add",
+    "Benzecri.Sphere.smul_mem_closure_kPrime",
+    "Benzecri.Sphere.add_mem_closure_kPrime",
+    "Benzecri.Sphere.span_closure_kPrime",
+    "Benzecri.Sphere.sontConjugues_top_bot"
+  ],
+  "kb_proposals": [
+    "Chapter3/BooleProjectif: Déf. 6 / Th. 3 on S(E) transfer to the affine Th. 2 on the CLOSED cone closure(kPrime w) for w open (estConjugueS_iff_affine), not on kPrime w (simplexO_kPrime_not_estDistingue); noyau w = ∅ does not exclude lines in F(w) (open quarter).",
+    "Chapter3/BooleProjectif: a two-summand sum of Déf. 5 is ConeDec on F(w) (estConjugueS_iff): F(w) = A + A′, A, A′ convex cones without O spanning L, L′, L ⊓ L′ = ⊥; use coneDec_mk with two kernel subspaces for concrete examples in Fin 3 → ℝ.",
+    "To show A + A′ ⊆ an open convex C from closure facts, use the open map (c, c′) ↦ P_L c + P_L′ c′ (LinearMap.isOpenMap_of_finiteDimensional) and Convex.interior_closure_eq_interior_of_nonempty_interior.",
+    "Transport of an OrderIso along equal sets/predicates: state a lemma with the sets and predicates as variables and subst (exists_orderIso_transport)."
+  ],
+  "notes": "Single file (the topological part was merged into BooleProjectif.lean rather than a second module, to typecheck without building an intermediate olean). Builds with 0 sorry, no warning; lake build of the module did not rebuild Benzecri.*. Déf. 5 is marked; Déf. 6, Th. 3 and the Corollary are partial: each is refuted as printed by a Lean counterexample (not_conjugue_unique, not_theoreme3, not_corollaire_algebre_parties) and proved under the added hypotheses (conjugue_unique: F(w) line-free; theoreme3 and corollaire_algebre_parties_projective: w open and F(w) line-free, E finite-dimensional). The planner's evidence that the transfer is through insert 0 (F w), « convex with no line iff noyau w = ∅ », is incorrect (open half-circle / open quarter; simplexO_kPrime_not_estDistingue). Audit round 1 fixes: SCOPE/REPORT no longer claim the open quarter refutes Th. 3 nor that openness is proved necessary; checklist uses « ⚠ strengthened »; closed w added as an alternative statement of record."
+}

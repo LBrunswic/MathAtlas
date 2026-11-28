@@ -69,3 +69,6 @@ import Benzecri.Chapter3.ProprietesIII
 import Benzecri.Chapter3.DualiteInterieur
 import Benzecri.Chapter3.Sature
 import Benzecri.Chapter3.PointsExtremaux
+import Benzecri.Chapter3.ReunionConvexes
+import Benzecri.Chapter3.FacetteExposee
+import Benzecri.Chapter3.BooleProjectif

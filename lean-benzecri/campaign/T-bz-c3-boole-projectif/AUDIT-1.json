@@ -1,0 +1,57 @@
+{
+  "target": "T-bz-c3-boole-projectif",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bzdef:c3s2d5_somme_sphere",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "EstSommeS is Déf. 5's general form verbatim (F(v_i) convex, F(w) = IsSommeConvexes of the F(v_i), Déf. 1). The definition drops the standing domain condition (w with empty noyau), which only widens it. EstSomme2 is the two-summand form: v1, v2 nonempty, supportK v1 ∩ supportK v2 = ∅, w = union of the openSeg. The convention is a disjunct, symmetric in the order of the summands (disclosed as a reading). « En particulier » is proved as an equivalence with the general form (estSomme2_iff_estSommeS, for convex w, v1, v2 nonempty). The finding that the convention is not a case of the general form (eq_empty_of_estSommeS_vide) is true and proved. The mark is justified."
+    },
+    {
+      "label": "bzdef:c3s2d6_distingue_projectif",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked (partial), correctly. EstConjugueS / EstDistingueS follow the printed definition: v, v' are convex parts with supports s(L−O), s(L'−O), and EstSomme2 w v v' holds. The uniqueness refutation not_conjugue_unique was checked by hand and in Lean. quartS = s({y>0,z>0}) is a convex part, open, of support S(2), with noyau ∅. The noyau is the strict library's Ch. 3 §1 Déf. 5, proved equal to {m ∈ k, −m ∈ k} (noyau_eq), so it matches the paper. Two ConeDecs exist: A0 = {z=0, y>0} with A3 = R>0·e3, and A0 with A4 = R>0·(e1+e3). Both sums equal quart, and span A3 ≠ span A4. The counterexample is not degenerate: it is an open, full-dimensional lune (a strip in an affine chart). The paper's hypothesis is noyau(w) = ∅, which concerns w itself, not its closure, so the lune is in the printed domain and FALSE / not_… is the right wording. Under a reading where the author meant a properly convex w (empty noyau of the closure), the quarter would be excluded. That reading is not printed; it could be added as a question. The added hypothesis ¬ContientDroite (F w) for conjugue_unique is disclosed."
+    },
+    {
+      "label": "bzthm:c3s2t3_algebre_boole_projective",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked (partial), correctly. not_theoreme3 was checked. w2 = s({x≥0,y>0,z>0}) is a convex part with support S(2), noyau ∅, and F(w2) line-free. It is neither open nor closed, but it is full-dimensional, so it is not a degenerate case. span{e1,e2} is distinguished: A1 = {z=0,x≥0,y>0} + R>0·e3 = C2. span{e1,e3} is distinguished: A2 + R>0·e2. Their intersection R·e1 is not distinguished: (0,1,1) = a + a' forces a contradiction in each sign case of a_0, and the Lean proof covers all three cases plus the two trivial pairs. So the printed « inf l'intersection » fails, and the refutation also survives a 'properly convex' reading, since the closure of w2 is the closed orthant with noyau ∅. Corrected theoreme3 is proved in full: all seven conjuncts; the complement is a conjugate and the only one; top = S(E), bot = ∅; inf is ∩; sup is IsLeast among convex parts. Its hypotheses are w open, ¬ContientDroite (F w), and E finite-dimensional normed (via section variables). All are disclosed in the checklist and the SCOPE. The corrected form covers only open w. The closed case (« corps convexes ») is neither proved nor refuted, which the author may want to know (see the findings)."
+    },
+    {
+      "label": "bzcor:c3s2t3c_algebre_parties_projective",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked (partial), correctly. not_corollaire_algebre_parties was checked. Bt(t) = {z=0, x=ty, y>0} + {y=0, z>0} = quart for every real t, and span Bt is injective in t. So there are infinitely many distinguished subvarieties, and no equivalence Set α ≃ Distingues exists for finite α. That is a sound refutation of « l'algèbre des parties d'un ensemble fini ». It is in the printed domain: dim 3 = n+1, quartS open, convex, support S(2), noyau ∅. The corrected corollaire_algebre_parties_projective is proved in full under theoreme3's hypotheses plus finrank = n+1. It gives: simplesS finite; 1 ≤ card ≤ n+1; an order iso Set(simplesS) ≃o DistinguesS given by sSup, i.e. the convex hull by isLeast_iff_eq_sSup; and existence and uniqueness of the family. The instances simplexO_simplesS_ncard (n+1) and capS_simplesS (1) are real Lean terms. simplexO_hyps and the first conjunct of capS_simplesS show that theoreme3's hypotheses are inhabited, non-vacuously, in every n and in S(2)."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "`lake env lean scaffold/BenzecriScaffold/Chapter3/BooleProjectif.lean` exits 0 with no output (no warnings). grep counts 0 occurrences of sorry. A probe (a copy of the file with #print axioms appended, written under the campaign directory and deleted afterwards) covered theoreme3, corollaire_algebre_parties_projective, conjugue_unique, estSomme2_iff_estSommeS, eq_empty_of_estSommeS_vide, estConjugueS_iff_affine, not_theoreme3, not_conjugue_unique, not_corollaire_algebre_parties, simplexO_hyps, simplexO_simplesS_ncard, capS_simplesS and simplexO_kPrime_not_estDistingue. Every one depends on [propext, Classical.choice, Quot.sound] only. No lake build was run, per the dispatch. Scope: the only tracked change in lean-benzecri attributable to this target is one import line in scaffold/BenzecriScaffold.lean. The other two imports belong to the sibling closers. The remaining modified files (restatements, RESTATED.md, roadmap.toml) were already modified at the session snapshot and belong to other loops."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "scaffold/BenzecriScaffold/Chapter3/BooleProjectif.lean:115,134-138; REPORT.json labels[2].hypotheses/findings",
+      "what": "The claims « The open quarter also refutes it [Th. 3] » and « both are needed (the open quarter, the half-open w₂) » have no Lean witness for Théorème 3 itself. Lean shows only that the quarter has non-unique conjugates (not_conjugue_unique) and infinitely many distinguished subvarieties (quart_distingues_infinite). It does not show that the printed Boolean-algebra structure fails. The claim is true: the lines span Bt(t) are pairwise disjoint atoms below the plane z = 0, and the plane equals sup of two of them, so distributivity fails on a third. But it is asserted, not proved. Only the necessity of `IsOpen w` is witnessed (not_theoreme3). This matters if the author reads Th. 3 as being about open w (as Props. 4–5 are): w2 is not open, so the Lean has no refutation of Th. 3 under that reading.",
+      "fix": "Either add a Lean lemma refuting Th. 3 on quartS (e.g. no BooleanAlgebra on DistinguesS quartS with ≤ inclusion, inf ∩ and sup the sum, via three distinguished lines in z = 0), or reword the SCOPE / REPORT to say that the need for line-freeness is shown for Déf. 6's uniqueness and the Corollary only."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/BenzecriScaffold/Chapter3/BooleProjectif.lean:112-118",
+      "what": "The hypothesis checklist uses « ⚠ added » and « ⚠ restricted » where kb 0006 prescribes « ⚠ strengthened » for a theorem that assumes more. The content is fully disclosed, so this is a wording issue only.",
+      "fix": "Write « ⚠ strengthened: added IsOpen w, ¬ ContientDroite (F w) » and « ⚠ strengthened: E finite-dimensional normed »."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[2].questions",
+      "what": "The corrected Théorème 3 covers open w only. Whether the printed statement holds for closed w (the « corps convexes » the paper studies; there, noyau ∅ is equivalent to line-free) is neither proved nor refuted. Absent that, the author cannot tell whether « open » or « closed or open » is the natural correction of record. Proposing a statement of record is not required, but the question is incomplete without this alternative.",
+      "fix": "Add the closed case to the question in REPORT and the SCOPE, or to OQ material when it is filed. Optionally prove or refute Th. 3 for closed w."
+    }
+  ]
+}
