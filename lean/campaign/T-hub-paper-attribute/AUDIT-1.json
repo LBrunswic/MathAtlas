@@ -1,0 +1,54 @@
+{
+  "target": "T-hub-paper-attribute",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [],
+  "label_notes": "Tooling target: no paper label is anchored, marked or placed. Neither module's docstring opens in bold or carries a **`label`** mark (spec section 3). The kb 0004 contract parts 2-4 (label, quote, hypothesis checklist) do not apply to a module with no label, and SCOPE is not required. Both modules have a title and a provenance line (Lean core v4.31.0).",
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "detail": "taskset -c 0-11 lake build GFNBounds.Paper.Attribute GFNBounds.Paper.AttributeTest: success. grep sorry: 0 in both files. #print axioms probe (written under the campaign dir, then deleted): validLabel, isNoise, labels, addPlacement, conjunctsOf, paperExt, isConjunctHead depend on [propext, Classical.choice, Quot.sound]; Entry.mk.injEq on [propext]; isProject on none. The closer's make -C lean check log (/tmp/paperattr_mut/check.log) shows sorry_audit 0 open, root_closure 166 reachable, AxiomSweep and kernel_replay passing, lean_facts 5746. I did not rerun make check."
+  },
+  "checks": {
+    "scope": "git status --short -- lean shows only ' M lean/GFNBounds.lean' (two import lines before `import GFNBounds.Audit`), '?? lean/GFNBounds/Paper/' (Attribute.lean, AttributeTest.lean) and '?? lean/campaign/'. lean/docs and lean/paper-map.json are clean (restored). The other dirty paths in the hub (papers/*/certificate/restatements.toml, RESTATED.md, restate/CHECK-*.json, roadmap/roadmap.toml) are outside lean/ and belong to other loops (restate, the roadmap), not to this closer.",
+    "section3": "Implemented in the spec's order: SimplePersistentEnvExtension with addEntryFn := Array.push, addImportedFn := flatten, asyncMode := .mainOnly; syntax (name := paper) \"paper \" str : attr; registerBuiltinAttribute with add = addPlacement and erase that throws. The add checks run in the spec's order (global kind, label parse and validation, isProject && !isNoise, same label and same decl as a no-op, same label and other decl as an error via MessageData.ofConstName, then append). My probe confirmed the order: [local paper \"bad\"] on Nat.add_comm gives the kind error, and [paper \"bad\"] on Nat.add_comm gives the label error. [scoped paper ...] inside a namespace is refused with the kind message. [-paper] throws 'paper: a placement cannot be erased'. An @[paper] written directly on a new GFNBounds theorem is recorded, and repeating the placement is a no-op. A fresh importer of AttributeTest sees 0 labels.",
+    "section4": "validLabel was probed on 25 strings. Accepted: lem:a, lem:a_B9, lem:a.1, lem:a.10, and every one of the seven prefixes. Refused: lem:, lem:.1, lem:a., lem:a.01, lem:a.0, lem:a.1.2, lem:a:b, Lem:a, lem:a-b, lem:é, 'lem: a', lem:a.1a, thm:a, the empty string, and lem:a.². This agrees with the section 4 regex, and Char.isAlphanum/isDigit are ASCII-only.",
+    "isProject_isNoise_diff": "proj, isProject and isNoise are identical in code to lean/scripts/lean_facts.lean lines 27-36. The only difference is the isNoise docstring, which adds 'private names'.",
+    "conjunctsOf": "Strips mdata, lam and letE. Splits And.intro at arity 4, taking args 2 and 3. Looks through And.left/And.right at arity 3 and through raw .proj And. The head must be a thmInfo with isProject && !isNoise and must not be a projection fn, an aux recursor or a rec. The result is deduplicated and kept in order. The disclosed deviations (raw .proj, the extra isAuxRecursor/isRecCore exclusion, the head named in place of the leaf, the chosen error texts, BEq on Entry) are all harmless and I accept them.",
+    "section8_tests": "All seven negatives are #guard_msgs with exact messages, and the messages are relative to GFNBounds.Paper.Test. The duplicate test runs inside withoutModifyingEnv. The positive test is one withoutModifyingEnv block: placement, item label, repeated no-op, then a labels comparison by == against exactly two entries in order, which throws on mismatch. It runs under an empty #guard_msgs, so any logged error also fails it. An extra block checks that labels is empty afterwards. The five clean and six refused conjunct fixtures match the section 8 list, and a seventh (rw/Eq.mpr) is added. The closer's mutants in /tmp/paperattr_mut (m1 conjunct order, m2 extra labels entry, m3 malformed label made valid) each fail the build with the expected diagnostics, and m3 also trips the persistence check. The tests can fail.",
+    "no_placement": "grep for '@[paper' and 'attribute [paper' over lean/ and lean-*/ finds only Attribute.lean's docstring and the AttributeTest fixtures. Each fixture is either refused (#guard_msgs on an error) or runs inside withoutModifyingEnv. No existing declaration carries a label.",
+    "section5": "Not done, and disclosed in REPORT spec_sections_not_implemented and findings. The missing pieces are the paper/conjuncts fields and the throws for one label on two declarations and for a placed declaration not emitted by the walk. Section 9 step 3 assigns the export field to this same step, but the dispatch excluded scripts/lean_facts.lean, so leaving it out is within the dispatch. Until it lands, nothing catches a duplicate placed from two modules that do not import each other. It must land before the first placement."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "roadmap/roadmap.toml (T-hub-paper-attr-curation); lean/scripts/lean_facts.lean",
+      "what": "The section 5 exporter edit is a precondition of the first placement, and no target names it as its own deliverable. T-hub-paper-attr-curation cites section 5 only in its evidence. Its title scopes tools/ledger.py and a fixture, not lean_facts.lean. DEC-201 says new declarations carry the attribute going forward, so a closer could place a label before the duplicate and walk-membership throws exist.",
+      "fix": "Before any placement, add a follow-up target (or put it explicitly in the curation target's files and title) for the section 5 edit of lean/scripts/lean_facts.lean: labelsOf with identical-pair dedup, the two throws before the first writeFile, the paper field only when non-empty, conjuncts on Paper.Appendix*/Paper.Body theorems via conjunctsOf, and a selftest fixture showing the duplicate throw fails make check. Have lean_facts.lean reuse GFNBounds.Paper.isProject/isNoise so that only one copy remains."
+    },
+    {
+      "severity": "minor",
+      "where": "lean/GFNBounds/Paper/AttributeTest.lean:13-14",
+      "what": "The module docstring says 'The module's only declaration is a private theorem'. The module also declares two private defs, expectConjuncts and expectConjunctsFail (the REPORT says so correctly).",
+      "fix": "Say 'The module's own declarations are one private theorem and two private helper defs (all skipped by isNoise)'."
+    },
+    {
+      "severity": "minor",
+      "where": "lean/GFNBounds/Paper/Attribute.lean:186-188",
+      "what": "When a leaf is not a constant application (for example a hypothesis used directly as a conjunct), the error prints the leaf after the binders are stripped, so it shows as a loose bound variable. The probe got 'paper: conjunctsOf Test.g: a leaf is not a constant application: #0'. Section 3 asks for the leaf to be named. The check is correct, but the diagnostic gives the reader nothing to go on. No fixture covers this case.",
+      "fix": "Report the leaf's index (left to right) or the conjunct's type instead of the open term, and add a fixture for a hypothesis leaf."
+    }
+  ],
+  "deviation_judgements": [
+    "Verbatim copy of isProject/isNoise (lean_facts.lean is not importable): accepted. The code is identical.",
+    "Modules placed directly in the strict lib, with no scaffold drafting: accepted. The strict compile is the build, and the dispatch named GFNBounds/Paper/.",
+    "throughAndProj also looks through raw Expr.proj And: accepted. It is the same projection.",
+    "isConjunctHead also excludes isAuxRecursor/isRecCore: accepted. It is redundant but harmless.",
+    "Error texts chosen where the spec leaves them open, and the bad-head message names the head rather than the leaf: accepted. A message for the non-constant-leaf case is in findings.",
+    "Fully qualified names in the conjunct-failure fixtures (Exception.toMessageData.toString): accepted. The REPORT's spec finding is right that section 3's 'every expected message relative to the namespace' does not cover strings compared in a catch.",
+    "Entry derives BEq: accepted. It adds exported names under GFNBounds.Paper only.",
+    "Extra tests (persistence, Eq.mpr): accepted. They add coverage.",
+    "Duplicates keyed by label, not by (label, item): matches section 1 (an item label is its own label) and section 3."
+  ]
+}

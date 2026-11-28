@@ -1,0 +1,93 @@
+{
+  "target": "T-hub-paper-attribute",
+  "package": "lean",
+  "files": [
+    "lean/GFNBounds/Paper/Attribute.lean",
+    "lean/GFNBounds/Paper/AttributeTest.lean",
+    "lean/GFNBounds.lean (two import lines added, before `import GFNBounds.Audit`)"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "imports": "Attribute.lean imports only `Lean`; AttributeTest.lean imports only GFNBounds.Paper.Attribute. No Mathlib.",
+  "labels_placed": "none. No existing declaration carries @[paper]; every successful placement in the tests runs inside withoutModifyingEnv and vanishes (checked by a test).",
+  "spec": "tools/leanlink/docs/design/PAPER-ATTRIBUTE.md",
+  "spec_sections_implemented": {
+    "3.1 environment extension": "GFNBounds.Paper.paperExt : SimplePersistentEnvExtension Entry (Array Entry), registerSimplePersistentEnvExtension, addEntryFn := Array.push, addImportedFn := flatten, asyncMode := .mainOnly, name := `GFNBounds.Paper.paperExt. Entry = {label : String, decl : Name}, deriving Inhabited, Repr, BEq.",
+    "3.2 syntax": "syntax (name := paper) \"paper \" str : attr",
+    "3.3 attribute": "initialize registerBuiltinAttribute {name := `paper, add := addPlacement, erase := throws}. addPlacement checks in the spec's order: global kind; label parsed and validated; isProject && !isNoise; same label + same decl = no-op; same label + other decl = error naming it via MessageData.ofConstName; append.",
+    "3.4 query": "GFNBounds.Paper.labels (env : Environment) : Array (String × Name)",
+    "3 conjunctsOf": "GFNBounds.Paper.conjunctsOf (decl : Name) : MetaM (Array Name), with helpers stripBinders, throughAndProj, andLeaves, isConjunctHead",
+    "4 label validation": "GFNBounds.Paper.validLabel, written by hand: ^(theo|lem|prop|cor|def|rem|assum):[A-Za-z0-9_]+(\\.[1-9][0-9]*)?$; error 'paper: malformed label '<l>''",
+    "8 tests": "GFNBounds/Paper/AttributeTest.lean, root-imported, namespace GFNBounds.Paper.Test"
+  },
+  "spec_sections_not_implemented": {
+    "5 export": "The edit to scripts/lean_facts.lean (the `paper` and `conjuncts` fields, the throw on one label mapped to two declarations, the throw on a placed declaration not emitted by the walk) is NOT done: that file is outside this dispatch's writable files. `labels` and `conjunctsOf` are ready for it. Until it lands, the cross-module duplicate check of section 3/5 does not run anywhere, so it must land before the first placement (T-hub-paper-attr-curation).",
+    "6 assembly theorems, Paper/AppendixH.lean, Audit.lean wiring": "out of scope for this target (step 6 of section 9, the curation target)."
+  },
+  "deviations": [
+    "isProject/isNoise (and proj) are script-only: they live in namespace LeanFacts of scripts/lean_facts.lean, which is not importable. They are reproduced verbatim as GFNBounds.Paper.proj/isProject/isNoise. Once section 5 lands, lean_facts.lean could call GFNBounds.Paper.isProject/isNoise instead of keeping two copies (its file is not mine to edit).",
+    "Section 9 step 3 drafts the modules in the scaffold and graduates them; the dispatch placed them directly in the strict library (GFNBounds/Paper/), so the strict compile is the build itself.",
+    "throughAndProj also looks through a raw Expr.proj on `And` (besides And.left/And.right applications). The spec names only the applications; the raw form is the same projection, and admitting it changes no listed test.",
+    "isConjunctHead additionally excludes isAuxRecursor and isRecCore names. Redundant with the `theorem` kind test (casesOn/recOn are defs, recursors are recInfo), kept as a belt-and-braces reading of 'not a constructor or recursor'.",
+    "Error texts the spec leaves unspecified, chosen here: kind rejection 'paper: a placement must be global, not scoped or local'; erase 'paper: a placement cannot be erased'; bad syntax 'paper: expected `paper \"<label>\"`'; conjunctsOf on a non-theorem 'paper: conjunctsOf: <decl> is not a theorem'; on a bad head 'paper: conjunctsOf <decl>: the head <c> of a leaf is not a project theorem'; on a non-constant leaf 'paper: conjunctsOf <decl>: a leaf is not a constant application: <leaf>'. The bad-head message names the head constant rather than printing the leaf expression.",
+    "Section 3 says every expected message of section 8 is written relative to the test namespace. True for the #guard_msgs placement tests (validLabel, privTrue, Nat.add_comm print short). Not true for the conjunctsOf failure fixtures: their message is read in a catch through Exception.toMessageData.toString, which formats without the namespace context, so the expected strings there are fully qualified (GFNBounds.Paper.Test.f1, GFNBounds.Paper.Test.Pair.mk, ...).",
+    "Entry derives BEq in addition to Inhabited and Repr (used by the positive test's comparison through Prod). This adds instBEqEntry and instBEqEntry.beq to the new exported names.",
+    "Two tests beyond section 8: (a) after the positive block, `labels` on the module's environment is empty (nothing persists from withoutModifyingEnv); (b) a `rw` on the goal (Eq.mpr at the root) is refused by conjunctsOf, a case section 10 names. The `subst` in a branch (Eq.ndrec) case of section 10 is not a fixture.",
+    "The test module's own declarations are one private theorem (privTrue) and two private helper defs (expectConjuncts, expectConjunctsFail); all are `_private` names, skipped by isNoise and absent from lean-facts.json."
+  ],
+  "tests": {
+    "negative_guard_msgs": [
+      {"case": "malformed label 'Lemma 3'", "result": "pass", "message": "paper: malformed label 'Lemma 3'"},
+      {"case": "unknown prefix thm:paperattr_test_prefix", "result": "pass", "message": "paper: malformed label 'thm:paperattr_test_prefix'"},
+      {"case": "zero item number lem:paperattr_test_zero.0", "result": "pass", "message": "paper: malformed label 'lem:paperattr_test_zero.0'"},
+      {"case": "local attribute", "result": "pass", "message": "paper: a placement must be global, not scoped or local"},
+      {"case": "outside GFNBounds (Nat.add_comm)", "result": "pass", "message": "paper: Nat.add_comm is outside GFNBounds, private or internal"},
+      {"case": "private theorem", "result": "pass", "message": "paper: privTrue is outside GFNBounds, private or internal"},
+      {"case": "duplicate label on validLabel then labels, inside withoutModifyingEnv", "result": "pass", "message": "paper: label 'lem:paperattr_test_dup' is already the statement of validLabel"}
+    ],
+    "positive": {"case": "lem:paperattr_test_pos and lem:paperattr_test_pos.2 on validLabel, the first repeated (no-op), labels returns exactly the two in order", "result": "pass"},
+    "persistence": {"case": "labels empty after the withoutModifyingEnv blocks", "result": "pass"},
+    "conjuncts_clean": [
+      {"case": "<a n (hderive n h), b, c>", "expected": "[a, b, c]", "result": "pass"},
+      {"case": "<(ab n h).2, (ab n h).1>", "expected": "[ab]", "result": "pass"},
+      {"case": "refine <?_, c>; exact b", "expected": "[b, c]", "result": "pass"},
+      {"case": "have h0 := hderive n h; exact <a n h0, c>", "expected": "[a, c]", "result": "pass (tactic `have` is a letE at v4.31.0, stripped)"},
+      {"case": "<qimp, c> against (forall {n}, n + 0 = n) and 1 = 1", "expected": "[qimp, c]", "result": "pass"}
+    ],
+    "conjuncts_refused": [
+      {"case": "<Nat.le_of_lt (lt1 n), c>", "head": "Nat.le_of_lt", "result": "pass"},
+      {"case": "<absurd c h, c>", "head": "absurd", "result": "pass"},
+      {"case": "<1, Nat.one_pos, c> against exists", "head": "Exists.intro", "result": "pass"},
+      {"case": "<<b, c>, c> against Pair P Q and ...", "head": "Pair.mk", "result": "pass"},
+      {"case": "cases p (Pair.casesOn)", "head": "Pair.casesOn", "result": "pass"},
+      {"case": "<p.l, c>", "head": "Pair.l (projection function)", "result": "pass"},
+      {"case": "rw [Nat.add_zero]; exact <b, c> (extra)", "head": "Eq.mpr", "result": "pass"}
+    ],
+    "mutants": "Three mutated copies of the test module, compiled with `lake env lean -DwarningAsError=true` outside the library: conjunct order swapped, a third expected labels entry, a malformed label made valid. Each failed (exit 1). The tests can fail."
+  },
+  "make_check": {
+    "command": "taskset -c 0-11 make -C lean check",
+    "result": "exit 0 (green)",
+    "figures": "build 8725 jobs; sorry_audit 0 open; axiom_audit 2041 declarations; root_closure 166 modules reachable; AxiomSweep 9034 declarations in 167 modules within propext/Classical.choice/Quot.sound; kernel_replay 166 modules accepted (the two Paper modules included); trace_check pass; coverage 94 closed/0 partial/4 open; kb lint 56 entries; lean_facts 5746 declarations",
+    "restored_after": "git -C lean checkout -- docs paper-map.json (paper-map.json was unchanged; docs/COVERAGE.md, REPO-INDEX.md, REPO-MAP.md, certificate.json, lean-facts.json, repo-map.json had been regenerated)",
+    "docs_needed_by_new_module": "No for the build. But the committed docs will differ once the loop regenerates them: the section 5 'WP-1.14 verification' was run against HEAD's docs/lean-facts.json: 36 new keys, all with module GFNBounds.Paper.Attribute, none from AttributeTest, 0 removed, 0 changed, no object with a `paper` or `conjuncts` key. REPO-MAP/REPO-INDEX/repo-map gain the two files; certificate.json counts move."
+  },
+  "new_declarations": ["GFNBounds.Paper.Entry (+ mk, rec, casesOn, recOn, ctorIdx, noConfusion, noConfusionType, mk.inj, mk.injEq, mk.noConfusion, mk.sizeOf_spec, label, decl)", "GFNBounds.Paper.instInhabitedEntry(.default)", "GFNBounds.Paper.instReprEntry(.repr)", "GFNBounds.Paper.instBEqEntry(.beq)", "GFNBounds.Paper.proj", "GFNBounds.Paper.isProject", "GFNBounds.Paper.isNoise", "GFNBounds.Paper.labelPrefixes", "GFNBounds.Paper.isLabelBodyChar", "GFNBounds.Paper.isItemNumber", "GFNBounds.Paper.validLabel", "GFNBounds.Paper.paperExt", "GFNBounds.Paper.paper (syntax kind)", "GFNBounds.Paper.labels", "GFNBounds.Paper.addPlacement", "GFNBounds.Paper.stripBinders", "GFNBounds.Paper.throughAndProj", "GFNBounds.Paper.andLeaves", "GFNBounds.Paper.isConjunctHead", "GFNBounds.Paper.conjunctsOf"],
+  "axioms": "All 36 exported names rest on a subset of {propext, Classical.choice, Quot.sound} (measured in lean-facts.json; AxiomSweep green). None rests on sorryAx or a nonstandard axiom. No theorem of the module is a mathematical statement; it adds no #print axioms line to Audit.lean (the spec asks for those only for assembly theorems).",
+  "labels": [],
+  "findings": [
+    "Spec section 3 / 8 inconsistency: 'every expected message of section 8 is written for the test module's namespace' does not hold for messages read through Exception.toMessageData.toString (the conjunctsOf fixtures), which print fully qualified names. The spec should say the conjunct fixtures compare fully qualified text, or that they are run under #guard_msgs by logging the error.",
+    "Spec section 5 / dispatch scope: the cross-module duplicate check (one label on two declarations from modules that do not import each other) lives only in the exporter edit, which this target does not include. No placement exists yet, so nothing is unguarded today, but the export must land before the first placement."
+  ],
+  "questions": [
+    "Reading taken: the spec's 'not a constructor or recursor' is enforced by the theorem-kind test plus explicit isAuxRecursor/isRecCore exclusions. Whether casesOn-style auxiliary recursors on a Prop structure could ever be thmInfo was not exhaustively checked; the fixture shows Pair.casesOn is refused.",
+    "Reading taken: the label, not the label-and-item pair, is the key for duplicates. lem:x and lem:x.2 are distinct labels, so placing both on one declaration (as the positive test does) and lem:x.2 on another declaration than lem:x are both accepted; the spec does not say an item must sit on the same declaration as its statement."
+  ],
+  "extra_decls": [],
+  "kb_proposals": [
+    "MessageData.ofConstName prints a name relative to the current namespace only when the message log renders it (what #guard_msgs compares); `(← e.toMessageData.toString)` on a caught exception prints the fully qualified name.",
+    "At Lean v4.31.0 a tactic-mode `have h := t; exact ...` leaves a non-dependent letE in the proof term (not a beta-redex), so stripping letE suffices for proof-term shape analysis.",
+    "Fixtures that declare theorems inside `run_cmd withoutModifyingEnv do elabCommand (<- `(theorem ...)))` under `set_option hygiene false in` leave nothing in the .olean or in lean-facts.json, and per-command linters (unused variables) do not run on them; this is how a strict-library test can declare throwaway project-namespace theorems."
+  ],
+  "notes": "Nothing outside the dispatch was written; /tmp/paperattr_mut holds the mutants and the gate log (scratch). The working tree for lean/ shows only `M lean/GFNBounds.lean` and `?? lean/GFNBounds/Paper/` plus this report. Before committing, the loop's gate regenerates lean/docs (36 new lean-facts keys, see make_check). Next steps per the roadmap: the section 5 exporter edit (scripts/lean_facts.lean) and the curation (T-hub-paper-attr-curation)."
+}

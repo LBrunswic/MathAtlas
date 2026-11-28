@@ -160,4 +160,6 @@ import GFNBounds.Balance.FreezingGradientBridge
 import GFNBounds.Balance.GdDiffusionGeneral
 import GFNBounds.Balance.StableFrozenGeneral
 import GFNBounds.Balance.TBvsDBClose
+import GFNBounds.Paper.Attribute
+import GFNBounds.Paper.AttributeTest
 import GFNBounds.Audit
