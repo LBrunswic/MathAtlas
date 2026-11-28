@@ -1,0 +1,64 @@
+{
+  "target": "T-bz-c3-fibres",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bzdef:c3s2d2_fibre",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Fibre W L := ∀ a, (a +ᵥ L) ∩ W = ∅ ∨ ∃ b, (a +ᵥ L) ∩ W = b +ᵥ (L ∩ W). This is l.383–387 word for word: « tout translaté de L », « soit ∅, soit un translaté de L∩W ». The predicate is stated for every W. The standing hypotheses (convex, 0 ∈ W) are put on the theorems instead. A definition that is more general than the paper's is not narrower."
+    },
+    {
+      "label": "bzdef:c3s2d3_fibre_cylindriquement",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "∃ L', IsCompl L L' ∧ W = L∩W + L'∩W (a Minkowski sum). « supplémentaire » is IsCompl, which is right. EstDistingue is an abbrev, so the synonym « distingué » is the same predicate. Checked the bridges. sontConjugues_iff_isSommeConvexes (Convex W, IsCompl) is a real iff with IsSommeConvexes W ![L∩W, L'∩W]: injectivity comes from Disjoint via eq_of_add_eq_add. fibreCylindriquement_iff_isSommeConvexes follows from it, and IsSommeConvexes.sontConjugues holds with no hypotheses. FibreCylindriquement.fibre (Déf. 3 ⇒ Déf. 2) needs no hypotheses either. estDistingue_bot and estDistingue_top are correct."
+    },
+    {
+      "label": "bzrem:c3s2r4_fibre_translate",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "remarque4_fibre and remarque4_fibreCylindriquement need only 0 ∈ c +ᵥ W, which is stronger than the print. remarque4_fibre_translate also shows that c +ᵥ W keeps the standing hypotheses (convex, spanning), so the translate is again a W of Déf. 2 and Déf. 3. Faithful."
+    },
+    {
+      "label": "bzprop:c3s2p3_fibre_cylindriquement",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "1°: prop3_1 assumes convex, 0 ∈ W and ¬ContientDemiDroite, and drops spanning, so it is stronger than the print. The REPORT calls the hypothesis « weakened », which here means a weaker hypothesis and a stronger theorem. 2°: prop3_2 is ∃! L', IsCompl L L' ∧ SontConjugues W L L', under convex, 0 ∈ W, span W = ⊤ and ¬ContientDroite. This matches « un L' et un seul qui soit supplémentaire de L ». Reading W with Déf. 3's standing hypotheses is the only coherent one, because « fibre cylindriquement » is defined only for such W. It is necessary as well: point_deux_conjugues ({0} ⊂ ℝ², no line, not spanning) gives two conjugates. Involution: conjugueDistingue maps the subtype of distinguished subspaces into itself, by the choice-based conjugue and estDistingue_conjugue. prop3_2_involution proves Function.Involutive under the 2° hypotheses, so it is not vacuous. ContientDemiDroite and ContientDroite (∃ x v, v ≠ 0, ∀ t ≥ 0 / ∀ t, x + t v ∈ W) are the standard notions. contientDemiDroite_iff_ouverte shows the open and closed half-line readings agree. prop3_fibre_cylindriquement assembles both parts with the same hypotheses."
+    },
+    {
+      "label": "bzdef:c3s2d4_conjugues",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "SontConjugues W L L' := W = L∩W + L'∩W is exactly what l.415–418 prints: no supplementarity, and a bare « + ». Marking Déf. 4 « as printed » is honest. The file does not claim to formalize the intended notion. The docstring line says « as printed (no supplementarity) ». SCOPE says the printed form admits non-supplementary pairs and proves it (demiDroite_conjugues_non_supplementaires: [0,∞[ = [0,∞[ + [0,∞[ with L = L' = ℝ, W convex, spanning, no line; verified). SCOPE also names the supplementary pair IsCompl ∧ SontConjugues = the pair of Prop. 3 2° as the form used later (Théorème 1, Théorème 2), and the REPORT raises the reading as a question for the author. The question is incomplete (minor finding 1)."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard"
+  },
+  "checks": {
+    "build_command": "taskset -c 0-11 lake env lean scaffold/BenzecriScaffold/Chapter3/Fibres.lean (from lean-benzecri/): rc 0, no output. A copy with a false `example` appended reported only that error, so the whole file elaborates.",
+    "axioms_probe": "a one-shot probe in campaign/T-bz-c3-fibres/ ran #print axioms on 34 declarations: Fibre, SontConjugues, FibreCylindriquement, the bridges, Remarque 4 (3 decls), prop3_1, prop3_2, prop3_2_involution, prop3_fibre_cylindriquement, conjugue_eq, conjugue_conjugue, estDistingue_conjugue, the two lemmas, contientDemiDroite_iff_ouverte, every instance, span_inter_eq_of_conjugues and inter_vadd_eq_of_conjugues. Each depends on at most [propext, Classical.choice, Quot.sound]. The probe was deleted.",
+    "scope": "git status --short shows lean-benzecri/scaffold/BenzecriScaffold.lean (three import lines: Fibres for this target, FacetteOuverte and FinestLocallyConvex for the sibling closers, as dispatched), the untracked Chapter3/ directory and the campaign directories. The other modifications are roadmap/roadmap.toml, papers/*/certificate/restat*, papers/ers-predictability/certificate/binder.toml and restate CHECK files. They belong to other loops and are not touched by Fibres.lean or this REPORT.",
+    "docstring_contract": "title present; 5 marks of the form **`bz…`** — `benzecri1960_ch3.tex:LINE` within the first 4000 characters; French quote block; ## Hypothesis checklist; ## SCOPE (disclosed); provenance line (mathlib fabf563a, v4.31.0). The checklist and SCOPE agree with the statements.",
+    "instances": "All five instances are real and non-vacuous. Cube: every coordinate subspace is distinguished, its conjugate is coord Sᶜ, and it is unique by Prop. 3 2° (cube_hyps gives all hypotheses, including spanning and no half-line). Ball: ⊥/⊤ only, both for Déf. 3 and Déf. 2. Strip ℝ×[0,1]: convex, spanning, contains a line, and the horizontal axis has two conjugates (vertical and diagonal); checked. Cone {|x| ≤ y}: no line, fibred by the vertical axis but not cylindrically; checked. Point {0}: shows the spanning hypothesis of 2° is used.",
+    "proof_findings": "Both are accurate. (1) The printed proof of 1° identifies « le support L de U » with L, which needs span(L∩W) = L. This holds when W spans E: x ∈ L is r(w₁ − w₂), with w₁, w₂ in one fibre b + U. The print does not argue it. It is a gap in the proof, not an error in the statement. (2) The two translation lemmas of the proof (l.430–431, l.445–446) fail only for C = ∅, and U ∋ 0, so the proof is unaffected."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-benzecri/campaign/T-bz-c3-fibres/REPORT.json (label bzdef:c3s2d4_conjugues, questions) and Fibres.lean:94-100 (SCOPE)",
+      "what": "The question on Déf. 4 offers only two readings: the bare Minkowski sum (formalized) and the supplementary pair IsCompl ∧ SontConjugues. § 2 calls « somme » the sum of Déf. 1, and IsSommeConvexes is a bijection from ∏ V_i onto W. That gives a third candidate, IsSommeConvexes W ![L∩W, L'∩W]: the sum taken in Déf. 1's sense, with no supplementarity. Under it demiDroite_conjugues_non_supplementaires is no longer a counterexample, because (a,b) ↦ a+b is not injective on [0,∞[². The bridge IsSommeConvexes.sontConjugues shows only that it implies the printed form.",
+      "fix": "Add the Déf. 1 reading to the REPORT question and the SCOPE bullet, so the author rules on all three. Record the question as an OQ row before T-bz-c3-conjugues or T-bz-c3-boole-affine take SontConjugues as a hypothesis."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-benzecri/campaign/T-bz-c3-fibres/REPORT.json (label bzprop:c3s2p3_fibre_cylindriquement, hypotheses[1])",
+      "what": "Prop. 3 2° is read with Déf. 3's standing hypotheses, and spanning is a real added constraint relative to Prop. 3's bare « Si W ne contient aucune droite » (point_deux_conjugues shows it is needed). The hypothesis row says « carried », and the reading appears only under « questions ». The reading is the only coherent one, since « fibre cylindriquement » is defined only for spanning W, so this is not a narrowing. It should still be recorded as a reading, not as a carried hypothesis.",
+      "fix": "Write « reading: W as in Déf. 3 (convex, ∋ O, spanning) » in the hypothesis row's note, citing point_deux_conjugues."
+    }
+  ]
+}

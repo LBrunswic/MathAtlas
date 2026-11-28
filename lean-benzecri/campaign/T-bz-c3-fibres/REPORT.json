@@ -1,0 +1,216 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-fibres",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter3/Fibres.lean",
+    "scaffold/BenzecriScaffold.lean (one import line added)"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": "every listed decl depends only on [propext, Classical.choice, Quot.sound] (#print axioms checked on prop3_fibre_cylindriquement, prop3_1, prop3_2, prop3_2_involution, remarque4_*, the bridges, all instances)",
+  "labels": [
+    {
+      "label": "bzdef:c3s2d2_fibre",
+      "tex_lines": [
+        383,
+        387
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.Fibre"
+      ],
+      "hypotheses": [
+        {
+          "paper": "W un convexe de E contenant l'origine",
+          "here": "carried",
+          "note": "standing hypotheses carried by the theorems; the predicate is Déf. 2's condition: ∀ a, (a +ᵥ L) ∩ W = ∅ ∨ ∃ b, (a +ᵥ L) ∩ W = b +ᵥ (L ∩ W)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "bzdef:c3s2d3_fibre_cylindriquement",
+      "tex_lines": [
+        389,
+        394
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.FibreCylindriquement",
+        "Benzecri.EstDistingue",
+        "Benzecri.sontConjugues_iff_isSommeConvexes",
+        "Benzecri.fibreCylindriquement_iff_isSommeConvexes",
+        "Benzecri.IsSommeConvexes.sontConjugues",
+        "Benzecri.FibreCylindriquement.fibre",
+        "Benzecri.estDistingue_bot",
+        "Benzecri.estDistingue_top"
+      ],
+      "hypotheses": [
+        {
+          "paper": "W convexe, engendrant E, contenant l'origine",
+          "here": "carried",
+          "note": "carried by the theorems that use them; « engendrant E » = Submodule.span ℝ W = ⊤"
+        },
+        {
+          "paper": "L' supplémentaire de L",
+          "here": "carried",
+          "note": "IsCompl L L'"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "bzrem:c3s2r4_fibre_translate",
+      "tex_lines": [
+        396,
+        399
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.remarque4_fibre_translate",
+        "Benzecri.remarque4_fibre",
+        "Benzecri.remarque4_fibreCylindriquement",
+        "Benzecri.convex_vadd_span"
+      ],
+      "hypotheses": [
+        {
+          "paper": "tout translaté de W contenant l'origine",
+          "here": "carried",
+          "note": "0 ∈ c +ᵥ W; the standing hypotheses (convex, spanning) pass to c +ᵥ W"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "bzprop:c3s2p3_fibre_cylindriquement",
+      "tex_lines": [
+        401,
+        411
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.prop3_fibre_cylindriquement",
+        "Benzecri.prop3_1",
+        "Benzecri.prop3_2",
+        "Benzecri.prop3_2_involution",
+        "Benzecri.conjugue",
+        "Benzecri.conjugue_spec",
+        "Benzecri.conjugue_eq",
+        "Benzecri.conjugue_conjugue",
+        "Benzecri.conjugueDistingue",
+        "Benzecri.estDistingue_conjugue",
+        "Benzecri.eq_zero_of_vadd_subset",
+        "Benzecri.eq_zero_of_vadd_eq",
+        "Benzecri.ContientDemiDroite",
+        "Benzecri.ContientDroite",
+        "Benzecri.contientDemiDroite_iff_ouverte"
+      ],
+      "hypotheses": [
+        {
+          "paper": "1°: W (Déf. 3's) ne contient aucune demi-droite",
+          "here": "weakened",
+          "note": "W convex, 0 ∈ W, no half-line; W spanning E is not needed"
+        },
+        {
+          "paper": "2°: W (Déf. 3's: convexe, engendrant E, contenant O) ne contient aucune droite",
+          "here": "carried",
+          "note": "spanning is used (point_deux_conjugues: {0} ⊂ ℝ² has two conjugates), no-line is used (bande_deux_conjugues)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Proof of 1° (l.424–428): it says the support of U' is supplementary to « le support L de U ». That needs span(L ∩ W) = L. This holds when W spans E (any element of span W is r(w₁ − w₂), and w₁, w₂ then lie in one fibre), but the printed proof does not argue it. The formalized proof needs neither span(L ∩ W) = L nor W spanning E: it takes L' = span U' plus a supplementary of L ⊔ span U'. This is a gap in the proof, not an error in the statement.",
+        "The proof's two lemmas (l.430–431, l.445–446) hold for a NONEMPTY convex C. U = L ∩ W always contains O, so the proof is not affected. Formalized as eq_zero_of_vadd_subset and eq_zero_of_vadd_eq."
+      ],
+      "questions": [
+        "Prop. 3 is read with Déf. 3's standing hypotheses on W (convex, containing O, spanning E), because « fibre cylindriquement » is defined only for such W. With this reading 2° is exactly the print. 1° is proved without spanning. Without spanning, 2° is false: point_deux_conjugues."
+      ]
+    },
+    {
+      "label": "bzdef:c3s2d4_conjugues",
+      "tex_lines": [
+        415,
+        418
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.SontConjugues",
+        "Benzecri.SontConjugues.symm",
+        "Benzecri.demiDroite_conjugues_non_supplementaires"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "Déf. 4 (l.415–418) prints only W = L ∩ W + L' ∩ W, with no supplementarity. Formalized as printed (SontConjugues). As printed it admits non-supplementary pairs even for W convex, spanning, with no line: ℝ is conjugate to itself relative to [0, ∞[ (demiDroite_conjugues_non_supplementaires). Three passages point to the supplementary pair IsCompl L L' ∧ SontConjugues W L L' of Prop. 3 2°: « Cette proposition légitimera la » (l.413), Théorème 1's « couples de sous-espaces distingués conjugués » with projections P_L parallel to L', and Théorème 2's « on prend comme complémentaire le conjugué ». Both forms are available, and conjugue W L is the supplementary one. Downstream targets (T-bz-c3-conjugues, T-bz-c3-boole-affine) should use the supplementary pair. Whether Déf. 4 should be read with « supplémentaires » is the author's reading to give."
+      ]
+    }
+  ],
+  "instances": [
+    {
+      "decl": "Benzecri.cube_coord_distingue",
+      "what": "in the cube [−1,1]ⁿ (any n) every coordinate subspace coord S is distinguished, and its conjugate is coord Sᶜ, the only supplementary L' with W = L∩W + L'∩W (by Prop. 3 2°: cube_hyps gives convex, 0 ∈, spanning, no half-line)"
+    },
+    {
+      "decl": "Benzecri.cube3_coord_distingue",
+      "what": "the same for [−1,1]³, the block's instance"
+    },
+    {
+      "decl": "Benzecri.boule_estDistingue_iff",
+      "what": "in the closed unit ball of any real inner product space, L is distinguished iff L = ⊥ ∨ L = ⊤ (parallelogram law on unit vectors u ∈ L, ±v ∈ L')"
+    },
+    {
+      "decl": "Benzecri.boule_fibre_iff",
+      "what": "the only subspaces fibring the closed ball are ⊥ and ⊤ (Prop. 3 1°, the ball being bounded)"
+    },
+    {
+      "decl": "Benzecri.bande_deux_conjugues",
+      "what": "in the strip ℝ × [0,1] (convex, 0 ∈, spanning, contains a line) the horizontal axis has two different conjugates, the vertical axis and the diagonal: 2°'s no-line hypothesis is used"
+    },
+    {
+      "decl": "Benzecri.cone_fibre_non_cylindrique",
+      "what": "the cone {|x| ≤ y} (convex, no line, contains half-lines) is fibred by the vertical axis but not cylindrically: 1°'s no-half-line hypothesis is used"
+    },
+    {
+      "decl": "Benzecri.point_deux_conjugues",
+      "what": "{0} ⊂ ℝ² (no line, not spanning): two conjugates of the horizontal axis, so 2° uses spanning"
+    },
+    {
+      "decl": "Benzecri.demiDroite_conjugues_non_supplementaires",
+      "what": "Déf. 4 as printed: ⊤ conjugate to ⊤ relative to [0,∞[ ⊂ ℝ, with ⊤, ⊤ not supplementary"
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.exists_smul_sub_of_mem_span",
+    "Benzecri.add_smul_mem_of_vadd_subset",
+    "Benzecri.vadd_submodule_eq",
+    "Benzecri.eq_of_add_eq_add",
+    "Benzecri.inter_vadd_eq_of_conjugues",
+    "Benzecri.span_inter_eq_of_conjugues",
+    "Benzecri.not_contientDemiDroite_of_isBounded",
+    "Benzecri.cube",
+    "Benzecri.coord",
+    "Benzecri.isCompl_coord",
+    "Benzecri.cube_sontConjugues",
+    "Benzecri.cube_hyps",
+    "Benzecri.bande"
+  ],
+  "kb_proposals": [
+    "Chapter3/Fibres: the predicates Fibre, FibreCylindriquement (= EstDistingue) and SontConjugues contain the condition only. The standing hypotheses (convex, 0 ∈ W, span W = ⊤) are theorem hypotheses. For the supplementary pair use IsCompl L L' ∧ SontConjugues W L L', and conjugue W L for the chosen conjugate (conjugue_eq and conjugue_conjugue need convex, 0 ∈ W, spanning, no line).",
+    "Destructuring x ∈ s + t after `rw [h]`, where h unfolds a def into a Minkowski sum, leaves a beta-unreduced `(fun x1 x2 => x1 + x2) a b`. Write `rw [h, Set.mem_add] at hx` before obtain/rintro.",
+    "The span of a convex C ∋ 0 is ℝ₊(C − C): exists_smul_sub_of_mem_span (Chapter3/Fibres), by Submodule.span_induction."
+  ],
+  "notes": "No Benzecri.* or mathlib module was rebuilt (lake build BenzecriScaffold.Chapter3.Fibres: 1930 jobs, only Fibres compiled). The only existing file edited is scaffold/BenzecriScaffold.lean: one import line, `import BenzecriScaffold.Chapter3.Fibres`; the FacetteOuverte closer's lines sit beside it. Imports: Benzecri.Chapter3.Sommes plus mathlib (InnerProductSpace.Basic, Normed.Module.Convex, Basis.VectorSpace, MetricSpace.Bounded). All five labels are closed and marked.",
+  "notes_loop": "AUDIT-1 minor: the Prop. 3 2° spanning hypothesis is a reading (W as in Déf. 3), not « carried »; the Déf. 4 question has a third reading (« + » as Déf. 1's sum, IsSommeConvexes) — recorded as OQ-163 by the loop."
+}
