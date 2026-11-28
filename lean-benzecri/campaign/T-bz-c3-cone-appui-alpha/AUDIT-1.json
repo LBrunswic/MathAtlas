@@ -1,0 +1,60 @@
+{
+  "target": "T-bz-c3-cone-appui-alpha",
+  "auditor_round": 1,
+  "file": "scaffold/BenzecriScaffold/Chapter3/ConeAppuiAlpha.lean",
+  "verdict": "major",
+  "labels": [
+    {
+      "label": "bzprop:c3s4p1_alpha_cone_appui",
+      "faithful": false,
+      "marked_correctly": false,
+      "notes": "prop1_coneAppui (l.267) is a correct, non-vacuous theorem: W convex, a, b in W, a TFAE of (1)-(4) when b != a, -a and of (1),(3),(4) when b = a or -a. Item (2) is DemiDroitesRencontrent (l.124): every half-line IsDemiDroiteJoignant a h contained in supportK {a, b} meets W, with h the library's OPEN half-line halfLine A w (ends a, a' excluded). That is a reading of the printed (2), and the row's truth depends on it. OQ-162 (a) (OPEN) records the CLOSED reading of the same noun « demi-droites » joining a to a' in Déf. 1′, two paragraphs earlier (l.889-892), which the proof of Prop. 1 invokes for (2) <=> (3). Under that closed reading (2) holds for every b, because each closed half-line contains a in W, and (1) <=> (2) fails (prop1_instance_end: the arc of S(1), a, b its ends). Under the open reading Prop. 1 holds and Déf. 1′ fails (coneAppui_ne_demiDroitesW: the union misses a'). So no single convention makes both Déf. 1′ and Prop. 1 true as printed. One of them needs a correction, and which one depends on how OQ-162 (a) is ruled. The planner's evidence says Prop. 1 'does not wait on OQ-162 (a)'. That holds for the step through Déf. 1′ when b != a, a′, but not for (2)'s own wording. CAMPAIGN.md: 'partial — … or a reading'. The REPORT itself classes the hypothesis as 'here: reading' and still sets status closed and marked: true, with findings: []."
+    },
+    {
+      "label": "bzprop:c3s4p2_dual_cone_appui_sature",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "prop2_coneAppui (l.329): any bilinear form B (hypothesis (a) of § 3 only, nothing from (b)-(d)), IsConvexPart W (the [sic] reading of « W ⊂ K(S(E)) »), a in W. Both conclusions are carried: D(W_a) ⊆ D(W), and for m1 in D(W_a), m2 in D(W) with AlphaK (D B W) m1 m2, m2 in D(W_a). No extra hypothesis. prop2_instance shows the inclusion is strict on the arc."
+    },
+    {
+      "label": "bzdef:c3s4d3_orthogonalite_points",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "OrthPts (l.371) is the dot product of the chosen representatives. Each sentence of Déf. 3 is a lemma: independence of the representatives (orthPts_iff, any IsRep M m, IsRep P p), symmetry (orthPts_comm), and the reformulation through D({p}) containing m and m′ (orthPts_iff_D). def3_instance is non-trivial: a0 is orthogonal to b1, and a0 is not orthogonal to itself."
+    },
+    {
+      "label": "bzprop:c3s4p3_dual_cone_appui",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "prop3_coneAppui (l.403): for any a in S(n), W convex with a ∈ W, D(W_a) = {m in D(W) | OrthPts m a}. The a ∈ W is honest as a domain condition: Déf. 1 (l.881) defines W_a only under « W ∈ K(S(E)), a ∈ W », so the printed W_a presupposes it. It is not an added hypothesis on a defined object. The identity also fails outside that domain for nonempty W, not only at W = ∅ (D_coneAppui_empty_ne): take W = {b} with b != ±a, where D(W_a) = {⟨·,b⟩ ≥ 0, ⟨·,a⟩ ≤ 0}. That supports the domain reading. prop3_instance (D(W_a) = {b1} on the arc) is real and goes through prop3_coneAppui."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "detail": "`lake env lean scaffold/BenzecriScaffold/Chapter3/ConeAppuiAlpha.lean` from lean-benzecri/: exit 0, no output. `grep sorry` finds one hit, l.94, docstring prose ('no `sorry`'), not a term. A one-shot probe (campaign/T-bz-c3-cone-appui-alpha/AuditProbe.lean, deleted afterwards) ran #print axioms on all 23 decls the REPORT names under labels and instances. Every one gives [propext, Classical.choice, Quot.sound]. The closer's ConeAppuiAlphaAxcheck.lean is gone: no *Axcheck* file in lean-benzecri outside .lake."
+  },
+  "scope": "The target's own files are ConeAppuiAlpha.lean (new), the import line `import BenzecriScaffold.Chapter3.ConeAppuiAlpha` in scaffold/BenzecriScaffold.lean, and this campaign directory. The other entries in `git status --short` belong to concurrent loops and are not attributable to this closer: lean-causal/*, papers/*/certificate/restat*, roadmap files, the ProprieteIAppui import line and file, DualiteSn.lean, and T-bz-c3-propriete-i-appui/.",
+  "docstring_contract": "Present: the title, the four labels each with benzecri1960_ch3.tex:LINE within the first 4000 characters, the French > quote of all four statements, `## Hypothesis checklist`, `## SCOPE (disclosed)` and the provenance line. The checklist row for Prop. 1 (2) says 'reading (question)' but the label is marked, which is the inconsistency under the major finding. The SCOPE sentence 'Two readings are recorded as questions, neither a narrowing' is accurate for Prop. 3. For Prop. 1 it leaves out that the reading conflicts with OQ-162 (a).",
+  "findings": [
+    {
+      "severity": "major",
+      "where": "ConeAppuiAlpha.lean:13 (mark) and :82, :94-98 (checklist, SCOPE); REPORT.json labels[0] (status closed, marked true, findings [])",
+      "what": "Prop. 1 is marked as fully certified, but its truth rests on reading « demi-droites » as open half-lines in (2). OQ-162 (a), still OPEN, records the closed reading of the same word in Déf. 1′ of the same section, and Prop. 1's proof invokes that definition. Under the closed reading (2) is always true and Prop. 1 is false as printed (prop1_instance_end). Under the open reading Prop. 1 holds and Déf. 1′ is false as printed (coneAppui_ne_demiDroitesW). The section is not consistent under either single convention, so the mark settles a question the author has not ruled. CAMPAIGN.md makes a row taken under a reading `partial`.",
+      "fix": "Unmark: write `bzprop:c3s4p1_alpha_cone_appui` without the bold in the module docstring and set the REPORT row to status 'partial', marked false. Add a finding: with closed half-lines (OQ-162 (a)'s convention), (2) holds for every b and (1) <=> (2) fails (prop1_instance_end); the true form reads (2) as « rencontre W en un point distinct de a, a′ » (Déf. 1′'s own clause), which is DemiDroitesRencontrent, proved in prop1_coneAppui. Extend OQ-162 (a) so it covers Prop. 1 (2) with the dichotomy above. The Lean statement does not change. Remark the row once the author rules."
+    },
+    {
+      "severity": "minor",
+      "where": "ConeAppuiAlpha.lean:491-499 (prop1_instance_end)",
+      "what": "The instance is cited as showing that (2) on closed half-lines is true while (1) is false. It exhibits only one closed half-line (the −e1 side) meeting W. The closed-reading (2) quantifies over both half-lines of the line ab. The other one trivially contains a0 too, but the instance does not state it.",
+      "fix": "State the closed-reading (2) in full: for every IsDemiDroiteJoignant a0 h with h ⊆ supportK {a0, b1}, (insert a0 (insert (-a0) h) ∩ arcS1).Nonempty, alongside ¬ AlphaK arcS1 a0 b1. The OQ-162 extension can then cite a counterexample that is complete."
+    },
+    {
+      "severity": "minor",
+      "where": "ConeAppuiAlpha.lean:418-436 (D_coneAppui_empty_ne); REPORT.json labels[3].questions",
+      "what": "The only witness for 'Prop. 3 needs a ∈ W' is W = ∅, which can look like a degenerate artefact. The identity also fails for nonempty W with a ∉ W (W = {b}, b != ±a). That strengthens the domain reading the row relies on.",
+      "fix": "Optional: add the nonempty counterexample, or say so in SCOPE. The Prop. 3 mark stands."
+    }
+  ]
+}
