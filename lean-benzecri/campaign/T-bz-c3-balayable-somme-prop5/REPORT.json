@@ -1,0 +1,62 @@
+{
+ "package": "lean-benzecri",
+ "target": "T-bz-c3-balayable-somme-prop5",
+ "files": [
+  "scaffold/BenzecriScaffold/Chapter3/BalayableSommeProp5.lean (0 sorry; lake env lean -DwarningAsError=true prints nothing; no linter option set)",
+  "scaffold/BenzecriScaffold.lean (one import line appended)"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": "propext, Classical.choice, Quot.sound only, for prop5_balayable_somme, prop5_of_compatible, IsProjIso.isHomogeneous_iff, IsProjIso.isBalayable_iff, simplexO_prop5, simplexO_isHomogeneous (#print axioms); no axiom added",
+ "labels": [
+  {
+   "label": "bzprop:c3s2p5_balayable_somme",
+   "tex_lines": [613, 621],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Benzecri.Sphere.prop5_balayable_somme",
+    "Benzecri.Sphere.prop5_of_compatible",
+    "Benzecri.BooleProjectifInstance.simplexO_prop5"
+   ],
+   "hypotheses": [
+    {"paper": "avec les notations de la proposition 4: w ouvert convexe de S(n), de noyau vide", "here": "carried", "note": "IsConvexPart w, IsOpen w, noyau w = ∅"},
+    {"paper": "(not printed) F(w) contains no line", "here": "added", "note": "¬ ContientDroite (F w), inherited from prop4_produit (OQ-168); Prop. 4 is false without it (not_prop4_simplesS_finite)"},
+    {"paper": "(not printed) w non vide", "here": "reading", "note": "w.Nonempty, as in prop4_produit"},
+    {"paper": "les v_i", "here": "reading", "note": "B_i = s(b_i(F(v_i))) open in S(n_i), for EVERY enumeration l of the simple distinguished subvarieties and EVERY bases b_i : l_i ≅ R^{n_i+1} (bases exist: exists_bases_simplesS)"},
+    {"paper": "balayable (resp. homogène)", "here": "carried", "note": "Déf. 15: IsBalayable / IsHomogeneous of w (as an Opens of S(m)) and of each B_i; both iff's proved"}
+   ],
+   "sorries": [],
+   "findings": [
+    "The printed proof (benzecri1960_ch3.tex:618-620) cites Prop. 4 of Ch. 3 and Prop. 4 of Ch. 1 § 3 only; Ch. 1 § 3 Prop. 4 gives the direction 'w sweepable (homogeneous) ⇒ every v_i is'. The converse direction needs Ch. 1 § 3 Prop. 3 (products of homogeneous / sweepable bases are homogeneous / sweepable; isHomogeneous_piBase, isBalayable_piBase) plus the invariance of both notions under a projective isomorphism (IsProjIso.isHomogeneous_iff, IsProjIso.isBalayable_iff, new here). An omitted citation, not a falsity.",
+    "The statement inherits Prop. 4's missing hypothesis « F(w) contains no line » (OQ-168): it is carried here as in prop4_produit, so the label stays unmarked. Whether Prop. 5 itself is false without it was not examined: the notation « v_i » of Prop. 4 is not defined for the counterexample of not_prop4_simplesS_finite (infinitely many simple subvarieties)."
+   ],
+   "questions": [
+    "OQ-168 (OPEN): the corrected hypothesis of record; reading taken: ¬ ContientDroite (F w), as in prop4_produit.",
+    "OQ-171 (OPEN): reading of « avec les notations de la proposition 4 »; reading taken: the Chapter 1 form of prop4_produit, with « v_i est balayable (resp. homogène) » read as « B_i = s(b_i(F(v_i))) ⊆ S(n_i) is », quantified over every enumeration and every bases (the notions are independent of these choices: two choices of bases give projectively isomorphic B_i, by IsProjIso.isBalayable_iff / isHomogeneous_iff, though this independence is not stated as a separate lemma)."
+   ]
+  }
+ ],
+ "instances": [
+  "Benzecri.BooleProjectifInstance.simplexO_prop5: the open n-simplex (simplexO_hyps4, simplexO_prop4) with bases from exists_bases_simplesS meets every hypothesis of prop5_balayable_somme, as a Lean term",
+  "Benzecri.BooleProjectifInstance.simplexO_isHomogeneous: Prop. 5 ⇐ applied: every simple subvariety of the open simplex is a line (Σ(k_i+1) = n+1 from Produit.pdim_eq), each B_i is a convex cone of R^1 avoiding O, hence at most one point of S(0) (subsingleton_ofCone_S0), trivially homogeneous; so the open n-simplex is homogeneous",
+  "Benzecri.Sphere.prop5_of_compatible: its hypotheses (Ψ, IsProjIso, every automorphism compatible) are exactly prop4_produit's conclusion, met for every w satisfying Hyps4 (in particular the simplex)"
+ ],
+ "extra_decls": [
+  "Benzecri.IsProjIso.conj",
+  "Benzecri.IsProjIso.isHomogeneous",
+  "Benzecri.IsProjIso.isBalayable",
+  "Benzecri.IsProjIso.isHomogeneous_iff",
+  "Benzecri.IsProjIso.isBalayable_iff",
+  "Benzecri.Sphere.prop5_of_compatible",
+  "Benzecri.subsingleton_ofCone_S0",
+  "Benzecri.isHomogeneous_ofCone_S0",
+  "Benzecri.BooleProjectifInstance.simplexO_isHomogeneous"
+ ],
+ "kb_proposals": [
+  "Homogeneity and sweepability transport along any IsProjIso k k' Ψ (Benzecri.IsProjIso.isHomogeneous_iff / isBalayable_iff, BalayableSommeProp5.lean): conjugate by Ψ via IsProjIso.conj; the natural graduation home is next to IsProjIso.toAut in Applications/ConverseGeneral.lean.",
+  "Destructuring prop4_produit's conclusion with obtain inside a theorem whose goal mentions PiBase of an Opens family times out (200000 heartbeats); state the argument as a generic lemma over an abstract family B (prop5_of_compatible) and consume prop4_produit with .elim. Confirms the kb proposal of T-bz-c3-prop4-produit.",
+  "On Fin (0 + 1), `Subsingleton.elim i 0` fails to synthesize Subsingleton (Fin (0 + 1)); use `obtain rfl : i = 0 := Fin.fin_one_eq_zero i`."
+ ],
+ "notes": "The file imports only Benzecri.Chapter3.BalayableSommeProduit (strict), so it can graduate to Benzecri/Chapter3/BalayableSommeProp5.lean as is (rename the module, add the import to Benzecri.lean, drop the line from scaffold/BenzecriScaffold.lean). lake build BenzecriScaffold.Chapter3.BalayableSommeProp5 succeeded; it also built Benzecri.Chapter3.BalayableSommeProduit, which had no olean yet (graduated in 8b97dcc4), and nothing else. No existing statement changed. The label stays unmarked with Prop. 4 (OQ-168, OQ-171). The Corollary (:623) is T-bz-c3-balayable-somme-cor."
+}
