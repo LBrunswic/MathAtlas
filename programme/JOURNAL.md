@@ -1139,3 +1139,12 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors). Hub: 3 new red, all on /atlas-team's paths: lean-benzecri's uncommitted scaffold edits make papers/benzecri's ledger stale ("not what build would write"), and gate-tests' whole-gate test counts the same red. Not this loop's; not reverted.
 - commits: 776ed707 a2671ebc 85a82c2c 6283bfb7 (ledgers, the Lean sha only; restate detect 0)
 - next: a planning run (rule 2) to promote T-lad-meets-cauchy-refresh, then the exclusive T-tac-dual-future-one-connected (wave 54) and T-abs-sc-open-hoist (wave 55), as the planner simulated
+
+## 2026-11-28 07:26 · planning run · rule 2 after wave 53; 224 → 225 targets
+- Promoted: T-lad-meets-cauchy-refresh (keeper, p7). It cites the antisymmetry witness in the (2.4) block, adds two consequences at [globally_hyperbolic, tarentin] (the closed-ambient (A) and (B) forms; simulated 126 → 128), and maps the stale line references to today's PastInextensibleMeetsCauchy and SubArc lines.
+- Rescoped: T-abs-sc-open-hoist (exclusive) gains part (e), the Cauchy split hoisted into Causal.CurvesExtendSecondCountable (imported by Rules, hence exclusive); splitBy_of_t1_secondCountable and IsCauchySurface.cover_of_t1_secondCountable are re-proved from it, which removes FlrwTypeClosedAmbient's twin.
+- Added: T-abs-extensible-comp-hoist (closer, ready, p8): § 1 of MeetsCauchyAntisymmetrySharp moves to a new light module Causal.ExtensibleAlongCurve, and extensible_of_graph is renamed extensible_of_eq_comp_monotoneOn. The model-layer extensible_of_timeGraph_openEnd lives in /atlas-team's Causal.Remarks.SingularRowsCauchyExt; making it a corollary is that loop's decision, to relay.
+- Waves (simulated): 54 = T-lad-meets-cauchy-refresh and T-tac-dual-future-one-connected (exclusive); 55 = T-abs-sc-open-hoist (exclusive); then a planning run promotes T-abs-flrw-future-extension; 56 = it with T-abs-extensible-comp-hoist.
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 27, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
+- gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
+- next: T-lad-meets-cauchy-refresh (keeper), T-tac-dual-future-one-connected (tactician, exclusive)
