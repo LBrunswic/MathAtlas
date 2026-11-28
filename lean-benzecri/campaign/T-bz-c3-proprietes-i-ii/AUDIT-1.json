@@ -1,0 +1,40 @@
+{
+ "target": "T-bz-c3-proprietes-i-ii",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "bzprop:c3s5p8_proprietes_I_II",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked, REPORT status partial: correct. Hypotheses checked one by one against l.1323-1337: Hausdorff LCS real TVS (IsTopologicalAddGroup, ContinuousSMul, LocallyConvexSpace, T2Space), W compact convex, V compact convex non-empty, V ⊆ W, all carried; the only addition is [Nontrivial E] in proprietes_I_II, disclosed in the checklist and SCOPE; proprietes_I_II_of_ne removes it when V ≠ W. ProprieteII is the printed second wording verbatim (for every O ⊇ V there is an open half-space H, V ⊆ H, H ∩ W ⊆ O ∩ W). It quantifies over open O, which is equivalent to quantifying over all neighbourhoods because the conclusion is monotone in O. proprieteII_iff_systemeFondamental proves it equivalent, for V ⊆ W, to the first wording in the subspace topology of W: every trace H ∩ W is a neighbourhood of V in W, and every neighbourhood of V in W contains one. That is exactly a fundamental system. DemiEspaceOuvert = {f < c}, f a non-zero continuous linear form: this is the standard (Bourbaki) open half-space, one side of a closed hyperplane, and E = 0 has no hyperplane. The dimension-0 finding is genuine. proprietes_I_II_dimZero takes E = Fin 0 → ℝ (a Hausdorff LCS by instance inference) with V = W = univ = {0}: compact, convex, non-empty, I holds since W \\ V = ∅, and II fails because no open half-space exists. Under the even literal first wording the family of traces is then empty and is not a fundamental system. My judgement on the question raised: E = 0 is a case Benzécri plainly never has in mind (his applications are in R^n, n ≥ 1, and his proof silently picks a half-space containing W when W ⊆ O). Even so, the printed hypotheses admit it, and CAMPAIGN.md (Benzécri specifics) says an omitted hypothesis gives a row that is 'partial, never closed'. So « imprecise » with partial is the honest classification. Marking under [Nontrivial E] as an implicit standing hypothesis would need a DEC ruling (an OQ row), not a closer's or an auditor's decision. Cosmetic: the checklist writes '⚠ added' where kb 0006 says '⚠ strengthened'; the meaning is disclosed, so no finding."
+  },
+  {
+   "label": "bzcor:c3s5p8c1_II_appui",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Marked, REPORT closed: justified. The hypotheses (W, V compact convex, V ⊆ W, IsVarieteAppui W (affineSpan ℝ V)) are exactly the printed ones, in Prop. 8's ambient with no Nontrivial. Non-emptiness of V is derived from Déf. 3's (S ∩ W).Nonempty clause and is not assumed. The conclusion is the printed iff. In E = 0 both sides are false (proprieteII_subsingleton_false), so the iff holds there too. Checked: the proof never uses compactness of W ∩ L. ⇐ applies proprieteI_of_proprieteII, which needs convexity of W ∩ L only, then Prop. 4 ⇐ (proprieteI_of_isVarieteAppui), then proprieteII_of_proprieteI on W itself (compact). II(V, W ∩ L) uses half-spaces of E. This is the literal application of Prop. 8's definition. An L-intrinsic reading would make Cor. 1 false when L is a point (a vertex of the square: L has no half-spaces of its own), so the E reading is the right one. It is recorded in the REPORT's questions but not in the module's SCOPE (minor finding below)."
+  },
+  {
+   "label": "bzcor:c3s5p8c2_II_section_appui",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked, REPORT partial: correct. W compact convex and L closed with IsVarieteAppui W L are carried. [Nontrivial E] is added and disclosed. The conclusion ProprieteII (L ∩ W) W is the printed II(L ∩ W, W). The counterexample section_appui_dimZero satisfies every printed hypothesis: E = Fin 0 → ℝ, W = univ compact convex, L = ⊤ closed, a variété d'appui by isVarieteAppui_top_iff. II fails there, so the finding is genuine. The proof goes through Prop. 3 (convex_inter_compl_of_isVarieteAppui) and Prop. 8, and L ∩ W is non-empty by Déf. 3."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "detail": "`taskset -c 0-11 lake env lean scaffold/BenzecriScaffold/Chapter3/ProprietesIII.lean` from lean-benzecri/: exit 0, no output (no warnings). grep -c sorry = 0. #print axioms, via a probe under the campaign directory (since deleted), on proprietes_I_II, proprietes_I_II_of_ne, proprieteI_of_proprieteII, proprieteII_of_proprieteI, proprieteII_iff_systemeFondamental, proprieteII_appui, proprieteII_section_appui, proprietes_I_II_dimZero, section_appui_dimZero, demiEspaceOuvert_fst_lt_one, sommet_carre_proprietes, centre_carre_proprietes, carre_proprieteII_self, bordCarre_proprieteII, lineY0_proprieteII: all [propext, Classical.choice, Quot.sound]. Hahn–Banach is Mathlib's geometric_hahn_banach_compact_closed (used in exists_compact_convex_between and proprieteII_of_proprieteI) and geometric_hahn_banach_point_point (exists_demiEspaceOuvert_superset). Both are called, not assumed: no hypothesis in any statement stands in for separation. The instances are real: the vertex of the square has I and II, the centre has neither, II holds for V = W = square, the bottom edge satisfies both sides of Cor. 1, and the line y = 0 satisfies Cor. 2. All are proved on concrete sets, and the vertex and centre pair shows the two properties are non-vacuous and non-trivial."
+ },
+ "scope": "git status --short in lean-benzecri: only scaffold/BenzecriScaffold.lean (two import lines added: ProprietesIII, which is this target's, and BooleAffine, which belongs to another closer's dispatch on the same aggregator), the untracked Chapter3/ directory (ProprietesIII.lean is this target's; BooleAffine.lean and FacetteDuale.lean are other closers', not audited and not touched), and this campaign directory. The other dirty files in the hub (restatements, roadmaps, lean-causal) belong to other loops and are not attributable to this closer.",
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "scaffold/BenzecriScaffold/Chapter3/ProprietesIII.lean:85-99 (SCOPE)",
+   "what": "The reading of II(V, W ∩ L) in Cor. 1 is recorded only in REPORT.json questions and not in the module's SCOPE. That reading is Prop. 8's II applied to the set W ∩ L, with open half-spaces of E, not of L. It is the literal application and the only reading under which Cor. 1 holds, since L may be a point. The label is marked, and kb 0006 puts readings in SCOPE.",
+   "fix": "Add one SCOPE bullet: 'Cor. 1: II(V, W ∩ L) is Prop. 8's II for the set W ∩ L, with the open half-spaces of E (an L-intrinsic reading fails when L is a point).'"
+  }
+ ]
+}

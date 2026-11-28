@@ -1,0 +1,107 @@
+{
+ "package": "lean-benzecri",
+ "target": "T-bz-c3-proprietes-i-ii",
+ "files": [
+  "scaffold/BenzecriScaffold/Chapter3/ProprietesIII.lean",
+  "scaffold/BenzecriScaffold.lean (one import line appended)"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": "propext, Classical.choice, Quot.sound (#print axioms on proprietes_I_II, proprietes_I_II_of_ne, proprieteII_appui, proprieteII_section_appui, proprieteII_iff_systemeFondamental, the two dimZero examples and the five instances)",
+ "labels": [
+  {
+   "label": "bzprop:c3s5p8_proprietes_I_II",
+   "tex_lines": [1323, 1364],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Benzecri.proprietes_I_II",
+    "Benzecri.proprietes_I_II_of_ne",
+    "Benzecri.proprieteI_of_proprieteII",
+    "Benzecri.proprieteII_of_proprieteI",
+    "Benzecri.ProprieteII",
+    "Benzecri.DemiEspaceOuvert",
+    "Benzecri.proprieteII_iff_systemeFondamental",
+    "Benzecri.proprietes_I_II_dimZero"
+   ],
+   "hypotheses": [
+    {"paper": "E espace vectoriel topologique localement convexe séparé", "here": "carried", "note": "[IsTopologicalAddGroup E] [ContinuousSMul ℝ E] [LocallyConvexSpace ℝ E] [T2Space E]; II ⇒ I uses T1Space only"},
+    {"paper": "W un convexe compact", "here": "carried", "note": "IsCompact W, Convex ℝ W; II ⇒ I uses convexity only"},
+    {"paper": "V une partie compacte convexe non vide de W", "here": "carried", "note": "IsCompact V, Convex ℝ V, V.Nonempty, V ⊆ W"},
+    {"paper": "(not printed) E ≠ 0", "here": "added", "note": "[Nontrivial E] in proprietes_I_II; unnecessary when V ≠ W (proprietes_I_II_of_ne); necessary in general (proprietes_I_II_dimZero)"}
+   ],
+   "sorries": [],
+   "findings": [
+    "Prop. 8 (l.1323) is imprecise in dimension 0: in E = 0 (Lean: Fin 0 → ℝ), V = W = {0} satisfies every printed hypothesis and I(V, W), but there is no open half-space at all, so II(V, W) fails (proprietes_I_II_dimZero). This is the only failure: the equivalence holds in every Hausdorff locally convex E ≠ 0 (proprietes_I_II), and in every E when V ≠ W (proprietes_I_II_of_ne). The printed proof uses E ≠ 0 silently in the case W ⊆ O (then H must be any open half-space containing W).",
+    "II ⇒ I (l.1341–1350) needs neither compactness nor local convexity: only T1 and W, V convex (proprieteI_of_proprieteII).",
+    "The proof of I ⇒ II (l.1352–1364) is correct but compressed: the filter-base step needs that the convex hull of two compact convex sets is compact (true, via convexJoin; formalized as isCompact_convexHull_union), and « le filtre sera le filtre de voisinages de V » is a compactness argument on W − O with one Hahn–Banach separation per point (exists_compact_convex_between). Bourbaki's strict separation is Mathlib's geometric_hahn_banach_compact_closed, not assumed."
+   ],
+   "questions": [
+    "« demi-espace ouvert »: read as {f < c} with f a NON-ZERO continuous linear form (one side of a closed hyperplane). Under a reading admitting E itself as a half-space (f = 0), Prop. 8 and Cor. 2 would also hold in E = 0; that reading is not formalized. The label is left partial for the dimension-0 case.",
+    "« voisinage O de V considéré comme partie de E »: quantified over open O ⊇ V; equivalent to all neighbourhoods since the conclusion is monotone in O. The first formulation (« système fondamental de voisinages de V considéré comme partie de W ») is proved equivalent in the subspace topology of W (proprieteII_iff_systemeFondamental)."
+   ]
+  },
+  {
+   "label": "bzcor:c3s5p8c1_II_appui",
+   "tex_lines": [1366, 1370],
+   "status": "closed",
+   "marked": true,
+   "decls": ["Benzecri.proprieteII_appui"],
+   "hypotheses": [
+    {"paper": "W, V convexes compacts, V ⊂ W", "here": "carried", "note": "IsCompact, Convex for both, V ⊆ W; V ≠ ∅ follows from Déf. 3"},
+    {"paper": "le support L de V est une variété d'appui de W", "here": "carried", "note": "IsVarieteAppui W (affineSpan ℝ V)"},
+    {"paper": "the ambient space (not restated)", "here": "carried", "note": "Prop. 8's setting, a Hausdorff locally convex real TVS; no Nontrivial needed (in E = 0 both sides are false)"}
+   ],
+   "sorries": [],
+   "findings": [
+    "Cor. 1 (l.1366, no proof printed) holds in every Hausdorff locally convex space, dimension 0 included. ⇒ needs no hypothesis at all; ⇐ goes II(V, W∩L) ⇒ I(V, W∩L) ⇒ (Prop. 4 ⇐) I(V, W) ⇒ II(V, W), and never needs W ∩ L compact (L = affineSpan V need not be closed in infinite dimension)."
+   ],
+   "questions": [
+    "II(V, W ∩ L) is taken with Prop. 8's definition of II applied to the set W ∩ L, the same open half-spaces of E (not half-spaces of L)."
+   ]
+  },
+  {
+   "label": "bzcor:c3s5p8c2_II_section_appui",
+   "tex_lines": [1373, 1376],
+   "status": "partial",
+   "marked": false,
+   "decls": ["Benzecri.proprieteII_section_appui", "Benzecri.section_appui_dimZero"],
+   "hypotheses": [
+    {"paper": "W convexe compact", "here": "carried", "note": "IsCompact W, Convex ℝ W"},
+    {"paper": "L une variété d'appui fermée de W", "here": "carried", "note": "IsClosed (L : Set E), IsVarieteAppui W L"},
+    {"paper": "(not printed) E ≠ 0", "here": "added", "note": "[Nontrivial E]; necessary: section_appui_dimZero (E = 0, W = {0}, L = E)"}
+   ],
+   "sorries": [],
+   "findings": [
+    "Cor. 2 (l.1373) is imprecise in dimension 0: in E = 0, L = E is a closed variété d'appui of W = {0}, and II(L ∩ W, W) fails (no open half-space; section_appui_dimZero). It holds in every Hausdorff locally convex E ≠ 0 (proprieteII_section_appui), by Prop. 3 (I(L ∩ W, W)) and Prop. 8."
+   ],
+   "questions": []
+  }
+ ],
+ "instances": [
+  "Benzecri.demiEspaceOuvert_fst_lt_one: {p | p.1 < 1} is an open half-space of ℝ × ℝ (instance of DemiEspaceOuvert).",
+  "Benzecri.sommet_carre_proprietes: the vertex {(0,0)} of the closed square [0,1]² has I and II (instance of ProprieteII and of Prop. 8).",
+  "Benzecri.centre_carre_proprietes: the centre {(1/2,1/2)} has neither I nor II.",
+  "Benzecri.carre_proprieteII_self: V = W = [0,1]², II(W, W).",
+  "Benzecri.bordCarre_proprieteII: the bottom edge [0,1]×{0}, whose support is a variété d'appui: II(V, W) and II(V, W ∩ L) (Cor. 1).",
+  "Benzecri.lineY0_proprieteII: the closed variété d'appui y = 0 of the square: II(L ∩ W, W) (Cor. 2)."
+ ],
+ "extra_decls": [
+  "Benzecri.DemiEspaceOuvert.isOpen",
+  "Benzecri.DemiEspaceOuvert.convex_compl",
+  "Benzecri.not_demiEspaceOuvert_of_subsingleton",
+  "Benzecri.proprieteII_subsingleton_false",
+  "Benzecri.isCompact_convexJoin",
+  "Benzecri.isCompact_convexHull_union",
+  "Benzecri.exists_compact_convex_superset",
+  "Benzecri.exists_compact_convex_between",
+  "Benzecri.exists_demiEspaceOuvert_superset",
+  "Benzecri.isCompact_square"
+ ],
+ "kb_proposals": [
+  "Mathlib at the pin has no compactness lemma for convexJoin: write convexJoin ℝ A B as the image of A ×ˢ B ×ˢ Icc 0 1 under (a, b, θ) ↦ (1-θ)•a + θ•b (mem_convexJoin, segment_eq_image) — Benzecri.isCompact_convexJoin; with Convex.convexHull_union it gives compactness of the hull of two compact convex sets.",
+  "Mathlib has no SeparatingDual instance for Hausdorff locally convex spaces at the pin; a non-zero continuous form on a Nontrivial such space comes from geometric_hahn_banach_point_point (exists_demiEspaceOuvert_superset).",
+  "Chapter3/ProprietesIII: II(V, W) is false for every V in the zero space (no non-zero continuous form); any § 5 statement concluding II (Thm 1, Thm 1′ via Prop. 8) needs E ≠ 0 or V ≠ W."
+ ],
+ "notes": "Imports Benzecri.Chapter3.ProprieteIAppui only (Mathlib-only layering kept). File compiles with no warnings under lake env lean, so it should pass the strict library's warningAsError on graduation. Theorem 1 (l.1380) can now be assembled from proprietes_I_II_of_ne / proprietes_I_II, Prop. 7 and Prop. 4."
+}
