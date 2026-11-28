@@ -1014,3 +1014,22 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
 - commits: 0fc29e4d
 - next: T-lad-record-past-inextensible-meets-cauchy (keeper), T-abs-flrw-type, T-abs-boundary-chart-cauchy, T-abs-two-piece-hoist (closers, lean-causal, the package cap); then the exclusive targets
+
+## 2026-11-28 03:40 · wave of 4 · T-lad-record-past-inextensible-meets-cauchy, T-abs-two-piece-hoist, T-abs-boundary-chart-cauchy, T-abs-flrw-type
+- T-lad-record-past-inextensible-meets-cauchy (keeper): Sbierski's (2.4) and its time reversal as consequences at [is_causal, causally_arc_connected] (standing T1, second countable). Matrix unchanged; 123 → 125 consequences. Checked by its tool.
+- T-abs-two-piece-hoist (abstract, layer 1): Causal.TwoPiece: the two-piece gluing core moved byte for byte from Causal.CBG.Ppcm, 23 constants, the same full names. A constant dump against HEAD shows nothing else changed. The two-sheet Cauchy argument no longer reaches Causal.SingularFlat; nothing of OQ-97 decided. Audit clean.
+- T-abs-boundary-chart-cauchy (abstract, layer 1): Causal.BoundaryChartCauchy: Sbierski's (2.4), the inside of a boundary chart is future-closed. V ∩ S = ∅ is not needed: a curve in J⁻(S, W) is constant after meeting S, which replaces I⁺(Σ) ∩ Σ = ∅. Also field (iii), the time reversal, and two necessity counterexamples. Audit minor, applied (the checklist's chart orientation; the Cauchy and orientation readings).
+- T-abs-flrw-type (abstract, layer 1): Causal.FlrwType: PastBoundaryChart (six fields) and not_pastBoundaryChart_of_flrwType (W causally arc-connected, future one-connected, ≤_W antisymmetric, (A), (B)); the future form; the extension corollary under OQ-154's reading. No instance of the chart is built (the timelike line has none; the auditor argues an 𝐌^{1+1} instance plausible), and Props 2.1, 3.1, 3.6 are layer 3. Audit minor, applied (the scope disclosed).
+- registers: OQ-159: is PastBoundaryChart the ETT notion of record, or should it be weakened as the proof allows? (639fbd6b; OQ-158 is /atlas-team's).
+- For the planner:
+  - T-abs-end-pieces-one-sided's sequencing dependencies are done (FLRW and (2.4) landed): promote it;
+  - T-abs-ers-etale-mghd's dependency T-abs-two-piece-hoist is done: see whether its causal half is ready;
+  - T-loc-minkowski-past-boundary-chart is the instance that makes Thm 1.5's abstract step non-vacuous;
+  - a hoist at graduation's suggestion: IsEMorphismOn.pastInextensible_invComp to Causal/CauchyExtension.lean, and IsSpacetimeExtension.isEMorphismOn to Causal/C0ExtensionSkeleton.lean (both now in the leaf Causal/FlrwType.lean);
+  - stale prose: papers/sbierski-mghd/certificate/binder.toml:98, :209 (TwoPiece's home);
+  - the keeper's optional proposal: the two (2.4) sharpness models in Lean.
+- ladder: 27 properties, 28 implications, 108 counterexamples, 125 consequences, 5 edge hypotheses; 432/432 within a sort: 41 implied, 385 fails, 6 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
+- commits: fb728e2b 7d87aa29 a31b5b3b b90045af 639fbd6b 0782c735 (ledgers, the Lean sha only; restate detect 0)
+- next: a PLANNING RUN (rule 2: one ready abstract target, T-abs-sc-open-hoist, exclusive), to promote T-abs-end-pieces-one-sided and perhaps T-abs-ers-etale-mghd; else the exclusive T-tac-dual-future-one-connected
