@@ -1,0 +1,165 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-dualite-sn",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter3/DualiteSn.lean",
+    "scaffold/BenzecriScaffold.lean (one import line added)"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": "propext, Classical.choice, Quot.sound (checked by #print axioms on prop6, prop7, prop8, isCorpsConvexeS_D, remark_transposition, Delta, dualRepEquiv, transpose_literal_differs, prop7_empty_univ, prop7_point)",
+  "labels": [
+    {
+      "label": "bzprop:c3s3p6_dual_sous_variete",
+      "tex_lines": [
+        757,
+        766
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.Sphere.prop6",
+        "Benzecri.Sphere.dimS",
+        "Benzecri.Sphere.dimS_linearSubvariety",
+        "Benzecri.Sphere.dimS_mem_Icc",
+        "Benzecri.Sphere.finrank_add_finrank_orth"
+      ],
+      "hypotheses": [
+        {
+          "paper": "L a linear subvariety of dimension p of S(n), -1 <= p <= n",
+          "here": "carried",
+          "note": "L = linearSubvariety M; p = dimS L, an integer, dim M - 1; the range is dimS_mem_Icc"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "« dimension » of a linear subvariety s(L - {O}) is read dim L - 1, with ∅ of dimension -1 (the proof l.763-764: « F(L) ∪ {O} … de dimension (p+1) »); checked at ∅, S(n) and a point (prop7_empty_univ, prop7_point)."
+      ]
+    },
+    {
+      "label": "bzprop:c3s3p7_noyau_support",
+      "tex_lines": [
+        768,
+        781
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.Sphere.prop7",
+        "Benzecri.Sphere.D_noyau",
+        "Benzecri.Sphere.D_supportK",
+        "Benzecri.Sphere.sigma_add_nu_D",
+        "Benzecri.Sphere.nu_add_sigma_D",
+        "Benzecri.Sphere.sigma",
+        "Benzecri.Sphere.nu"
+      ],
+      "hypotheses": [
+        {
+          "paper": "W ∈ C(S(n))",
+          "here": "carried / weakened",
+          "note": "carried for D(noyau W) = support D(W) and ν(W)+σ(DW) = n-1; D(support W) = noyau D(W) and σ(W)+ν(DW) = n-1 hold for every part W"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.772-773 « D transforme le noyau (resp. support) de W dans le support (resp. noyau) de D(W) » holds with equality: D(noyau W) = support D(W) and D(support W) = noyau D(W). The first needs W closed (for an open hemisphere W, D(noyau W) = D(∅) = S(n) while D(W) is a point; argued, not formalized); the paper assumes W ∈ C(S(n))."
+      ],
+      "questions": [
+        "« transforme … dans » read as « onto » (equality), the stronger of into/onto; both are proved."
+      ]
+    },
+    {
+      "label": "bzprop:c3s3p8_dual_corps_convexe",
+      "tex_lines": [
+        783,
+        799
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.Sphere.prop8",
+        "Benzecri.Sphere.isCorpsConvexeS_D"
+      ],
+      "hypotheses": [
+        {
+          "paper": "a corps convexe of S(n)",
+          "here": "carried",
+          "note": "IsCorpsConvexeS n K (Ch. 1 Déf. 11)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.784 prints « est un convexe » ([sic?], OQ-160 (a)); the printed form holds for the dual of any part (claim (a)), so it is weaker than the proof gives. prop8 proves both: D(K) is a closed convex part, and D(K) is a corps convexe (isCorpsConvexeS_D), so either ruling of OQ-160 (a) marks with no Lean change. The interior of D(K) is obtained from σ(D K) = n (Prop. 7) via Convex.interior_nonempty_iff_affineSpan_eq_top; the printed proof's « σ(W) = n; ν(W) = -1 » characterization is used in that direction only."
+      ],
+      "questions": [
+        "OQ-160 (a): printed « convexe » vs « corps convexe » — not resolved here; both proved by the one declaration prop8."
+      ]
+    },
+    {
+      "label": "bzrem:c3s3r1_transposition",
+      "tex_lines": [
+        863,
+        877
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.Sphere.remark_transposition",
+        "Benzecri.Sphere.Delta",
+        "Benzecri.Sphere.Delta_mk",
+        "Benzecri.Sphere.Delta_Delta",
+        "Benzecri.Sphere.dualRep",
+        "Benzecri.Sphere.dualRepEquiv",
+        "Benzecri.Sphere.dotPairing_dualRep",
+        "Benzecri.Sphere.D_smul",
+        "Benzecri.Sphere.transp",
+        "Benzecri.Sphere.transpose_literal_differs"
+      ],
+      "hypotheses": [
+        {
+          "paper": "ℝⁿ, GL(n,ℝ), GS(n-1,ℝ), S(n-1), W ∈ C(S(n-1))",
+          "here": "carried",
+          "note": "index shifted: ℝⁿ⁺¹, GLR (n+1), GSR n, S n, every n ≥ 0 (the paper's n ≥ 1); D_smul (D(hW) = ᵗh⁻¹ D(W)) for every part"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.864-866 « la représentation duale de GL(n,R) est un automorphisme de GL(n,R) : la transposition » is imprecise: the dual representation for the dot product is g ↦ ᵗg⁻¹ (dotPairing_dualRep: ⟨g x, ᵗg⁻¹ y⟩ = ⟨x, y⟩), an automorphism (dualRepEquiv); the transposition g ↦ ᵗg reverses products (an anti-automorphism of GL(m) for m ≥ 2), and with Δ(g) = ᵗg the formula of l.870 fails: g = diag(2,1), W = {s(1,1)} in S(1) gives ᵗg W = {s(2,1)} ≠ {s(1/2,1)} = D(g(D W)) (transpose_literal_differs). With Δ induced by g ↦ ᵗg⁻¹, every printed assertion is proved: Δ is an involutive automorphism of GS(n,ℝ) and Δ(g) W = D(g(D W)) for every W ∈ C(S(n)) (remark_transposition)."
+      ],
+      "questions": [
+        "« la transposition » read as the dual (contragredient) representation g ↦ ᵗg⁻¹, which the same sentence names; the literal transposition g ↦ ᵗg is refuted for the formula. Which is the statement of record? Under the ᵗg⁻¹ reading the row could be marked."
+      ]
+    }
+  ],
+  "instances": [
+    "Benzecri.Sphere.prop7_empty_univ: σ(∅) = -1, D(∅) = S(n), ν(S(n)) = n; σ(S(n)) = n, D(S(n)) = ∅, ν(∅) = -1; and Prop. 7's σ + ν(D) = n - 1 at both, as a Lean term from prop7",
+    "Benzecri.Sphere.prop7_point: for a point x of S(n), σ({x}) = 0, ν({x}) = -1, D({x}) a closed hemisphere, ν(D{x}) = n - 1, σ(D{x}) = n",
+    "Benzecri.Sphere.transpose_literal_differs: g = diag(2,1) on ℝ², W = {s(1,1)}: the literal transposition fails the Remark's formula"
+  ],
+  "extra_decls": [
+    "Benzecri.Sphere.dimS",
+    "Benzecri.Sphere.span_F_linearSubvariety",
+    "Benzecri.Sphere.linearSubvariety_injective",
+    "Benzecri.Sphere.linearSubvariety_bot",
+    "Benzecri.Sphere.linearSubvariety_top",
+    "Benzecri.Sphere.linearSubvariety_subset_noyau",
+    "Benzecri.Sphere.span_eq_top_iff_affineSpan",
+    "Benzecri.Sphere.dotPairing_swap",
+    "Benzecri.Sphere.dotPairing_injective",
+    "Benzecri.Sphere.orth_orth",
+    "Benzecri.Sphere.D_D_linearSubvariety",
+    "Benzecri.Sphere.D_empty",
+    "Benzecri.Sphere.D_univ",
+    "Benzecri.Sphere.span_F_singleton",
+    "Benzecri.Sphere.transp_eq_of"
+  ],
+  "kb_proposals": [
+    "Dimensions of linear subvarieties of S(E): Benzecri.Sphere.dimS A = finrank (span F A) - 1 : ℤ (∅ ↦ -1, s(L-O) ↦ dim L - 1); σ = dimS ∘ supportK, ν = dimS ∘ noyau (Chapter3/DualiteSn).",
+    "On S(n), L^⊥ for dotPairing: finrank_add_finrank_orth (via linearEquivOfInjective + Subspace.finrank_add_finrank_dualAnnihilator_eq) and orth_orth; D(D(lin L)) = lin L without closedness (D_D_linearSubvariety).",
+    "Transpose for the dot product without matrices in proofs: transp f := toLin' (toMatrix' f)ᵀ and transp_eq_of (characterization by ⟨f x, y⟩ = ⟨x, f' y⟩ through dotPairing_injective) gives comp/id/involution in one line each; GL(n+1)-equivariance D(h • W) = ᵗh⁻¹ • D(W) is D_smul.",
+    "dotPairing_comm already exists in scaffold Chapter3/ConeAppuiAlpha (same namespace): DualiteSn uses dotPairing_swap to avoid the clash; merge at graduation.",
+    "Interior of a cone-defined part: interior of a pos cone is a pos cone via interior_smul₀; then isOpen_ofCone; a nonzero interior point via dense_compl_singleton.inter_open_nonempty (isCorpsConvexeS_D)."
+  ],
+  "notes": "0 sorry, standard axioms only. Imports Benzecri.Chapter3.Dualite and Benzecri.Chapter3.FacettesSphere (strict). Name check done against the strict library and the two sibling scaffold files at the time of writing: the only clash (dotPairing_comm, in ConeAppuiAlpha) is avoided by renaming mine dotPairing_swap. Prop. 8 marked because the printed « convexe » is proved verbatim and the stronger reading is proved too (OQ-160 (a) open; either ruling leaves the mark). The Remark is left unmarked on the « transposition » reading."
+}

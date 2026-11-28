@@ -57,3 +57,6 @@ import Benzecri.Chapter3.AlphaSomme
 import Benzecri.Chapter3.FinestLocallyConvex
 import Benzecri.Chapter3.FacetteOuverte
 import Benzecri.Chapter3.Fibres
+import Benzecri.Chapter3.DualiteSn
+import Benzecri.Chapter3.ConeAppuiAlpha
+import Benzecri.Chapter3.ProprieteIAppui

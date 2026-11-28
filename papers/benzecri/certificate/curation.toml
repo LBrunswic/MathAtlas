@@ -754,3 +754,86 @@ extra_lean_files = ["Benzecri/Chapter3/Fibres.lean"]
 decls = ["Benzecri.SontConjugues", "Benzecri.SontConjugues.symm", "Benzecri.demiDroite_conjugues_non_supplementaires"]
 notes = "T-bz-c3-fibres (atlas-team, 2026-11-28), audit AUDIT-1 minor (a reading named; the Déf. 4 question to OQ-163). Marked in Benzecri/Chapter3/Fibres.lean, sorry-free."
 paper_findings = ["Déf. 4 (l.415–418) prints no supplementarity; read literally ℝ is conjugate to itself relative to [0,∞[ (Benzecri.demiDroite_conjugues_non_supplementaires). Formalized as printed; the later theorems use supplementary conjugate pairs (OQ-163)."]
+
+[[row]]
+label = "bzprop:c3s3p6_dual_sous_variete"
+bucket = "A"
+extra_lean_files = ["Benzecri/Chapter3/DualiteSn.lean"]
+decls = ["Benzecri.Sphere.prop6", "Benzecri.Sphere.dimS", "Benzecri.Sphere.dimS_linearSubvariety", "Benzecri.Sphere.dimS_mem_Icc", "Benzecri.Sphere.finrank_add_finrank_orth"]
+notes = "T-bz-c3-dualite-sn (atlas-team, 2026-11-28), audit AUDIT-1 clean. Marked in Benzecri/Chapter3/DualiteSn.lean, sorry-free."
+
+[[row]]
+label = "bzprop:c3s3p7_noyau_support"
+bucket = "A"
+extra_lean_files = ["Benzecri/Chapter3/DualiteSn.lean"]
+decls = ["Benzecri.Sphere.prop7", "Benzecri.Sphere.D_noyau", "Benzecri.Sphere.D_supportK", "Benzecri.Sphere.sigma_add_nu_D", "Benzecri.Sphere.nu_add_sigma_D", "Benzecri.Sphere.sigma", "Benzecri.Sphere.nu"]
+notes = "T-bz-c3-dualite-sn (atlas-team, 2026-11-28), audit AUDIT-1 clean. Marked in Benzecri/Chapter3/DualiteSn.lean, sorry-free."
+
+[[row]]
+label = "bzprop:c3s3p8_dual_corps_convexe"
+bucket = "A"
+extra_lean_files = ["Benzecri/Chapter3/DualiteSn.lean"]
+decls = ["Benzecri.Sphere.prop8", "Benzecri.Sphere.isCorpsConvexeS_D"]
+notes = "T-bz-c3-dualite-sn (atlas-team, 2026-11-28), audit AUDIT-1 clean. Marked in Benzecri/Chapter3/DualiteSn.lean, sorry-free."
+
+[[row]]
+label = "bzrem:c3s3r1_transposition"
+bucket = "C"
+lean_proved_override = "partial"
+blocked_on = "OQ-164"
+extra_lean_files = ["Benzecri/Chapter3/DualiteSn.lean"]
+decls = ["Benzecri.Sphere.remark_transposition", "Benzecri.Sphere.Delta", "Benzecri.Sphere.Delta_mk", "Benzecri.Sphere.Delta_Delta", "Benzecri.Sphere.dualRep", "Benzecri.Sphere.dualRepEquiv", "Benzecri.Sphere.dotPairing_dualRep", "Benzecri.Sphere.D_smul", "Benzecri.Sphere.transp", "Benzecri.Sphere.transpose_literal_differs"]
+notes = "T-bz-c3-dualite-sn (atlas-team, 2026-11-28), audit AUDIT-1 clean. Proved in Benzecri/Chapter3/DualiteSn.lean under the reading in blocked_on, unmarked."
+paper_findings = ["l.864-866 « la représentation duale de GL(n,R) est un automorphisme de GL(n,R) : la transposition » is imprecise: the dual representation for the dot product is g ↦ ᵗg⁻¹ (dotPairing_dualRep: ⟨g x, ᵗg⁻¹ y⟩ = ⟨x, y⟩), an automorphism (dualRepEquiv); the transposition g ↦ ᵗg reverses products (an anti-automorphism of GL(m) for m ≥ 2), and with Δ(g) = ᵗg the formula of l.870 fails: g = diag(2,1), W = {s(1,1)} in S(1) gives ᵗg W = {s(2,1)} ≠ {s(1/2,1)} = D(g(D W)) (transpose_literal_differs). With Δ induced by g ↦ ᵗg⁻¹, every printed assertion is proved: Δ is an involutive automorphism of GS(n,ℝ) and Δ(g) W = D(g(D W)) for every W ∈ C(S(n)) (remark_transposition)."]
+
+[[row]]
+label = "bzprop:c3s4p1_alpha_cone_appui"
+bucket = "C"
+lean_proved_override = "partial"
+blocked_on = "OQ-164"
+extra_lean_files = ["Benzecri/Chapter3/ConeAppuiAlpha.lean"]
+decls = ["Benzecri.Sphere.prop1_coneAppui", "Benzecri.Sphere.DemiDroitesRencontrent", "Benzecri.Sphere.alphaK_iff_halfLine_neg", "Benzecri.Sphere.neg_mem_coneAppui_iff_halfLine_neg", "Benzecri.Sphere.neg_mem_coneAppui_iff_subset", "Benzecri.Sphere.demiDroitesRencontrent_iff", "Benzecri.Sphere.eq_halfLine_of_subset", "Benzecri.Sphere.supportK_pair"]
+notes = "T-bz-c3-cone-appui-alpha (atlas-team, 2026-11-28), audits AUDIT-1 major (Prop. 1 marked under a half-line reading conflicting with OQ-162 (a); unmarked in round 1), AUDIT-2 minor. Proved in Benzecri/Chapter3/ConeAppuiAlpha.lean under the reading in blocked_on, unmarked."
+paper_findings = ["Prop. 1 (l.907–922) against Déf. 1′ (l.889–892): no single convention for « demi-droite » makes both printed statements true. With closed half-lines (the reading OQ-162 (a) records for Déf. 1′), (2) is always true (both closed half-lines contain a ∈ W) and (1) ⇔ (2) fails: prop1_instance_end (S(1), W the quarter arc, a, b its ends: ¬ a α(W) b, b′ ∉ W_a, both closed half-lines meet W). With (2) read « chacune des deux demi-droites … rencontre W en un point distinct de a et a′ » (ends excluded) Prop. 1 holds in full: prop1_coneAppui; Déf. 1′ is then the one that fails at a, a′ (coneAppui_ne_demiDroitesW)."]
+
+[[row]]
+label = "bzprop:c3s4p2_dual_cone_appui_sature"
+bucket = "A"
+extra_lean_files = ["Benzecri/Chapter3/ConeAppuiAlpha.lean"]
+decls = ["Benzecri.Sphere.prop2_coneAppui", "Benzecri.Sphere.mk_mem_D_coneAppui_iff"]
+notes = "T-bz-c3-cone-appui-alpha (atlas-team, 2026-11-28), audits AUDIT-1 major (Prop. 1 marked under a half-line reading conflicting with OQ-162 (a); unmarked in round 1), AUDIT-2 minor. Marked in Benzecri/Chapter3/ConeAppuiAlpha.lean, sorry-free."
+
+[[row]]
+label = "bzdef:c3s4d3_orthogonalite_points"
+bucket = "A"
+extra_lean_files = ["Benzecri/Chapter3/ConeAppuiAlpha.lean"]
+decls = ["Benzecri.Sphere.OrthPts", "Benzecri.Sphere.orthPts_iff", "Benzecri.Sphere.orthPts_comm", "Benzecri.Sphere.orthPts_iff_D", "Benzecri.Sphere.dotPairing_comm"]
+notes = "T-bz-c3-cone-appui-alpha (atlas-team, 2026-11-28), audits AUDIT-1 major (Prop. 1 marked under a half-line reading conflicting with OQ-162 (a); unmarked in round 1), AUDIT-2 minor. Marked in Benzecri/Chapter3/ConeAppuiAlpha.lean, sorry-free."
+
+[[row]]
+label = "bzprop:c3s4p3_dual_cone_appui"
+bucket = "A"
+extra_lean_files = ["Benzecri/Chapter3/ConeAppuiAlpha.lean"]
+decls = ["Benzecri.Sphere.prop3_coneAppui", "Benzecri.Sphere.D_coneAppui_empty_ne", "Benzecri.Sphere.dotPairing_self_eq_zero", "Benzecri.ConeAppuiAlphaInstance.D_coneAppui_singleton_ne"]
+notes = "T-bz-c3-cone-appui-alpha (atlas-team, 2026-11-28), audits AUDIT-1 major (Prop. 1 marked under a half-line reading conflicting with OQ-162 (a); unmarked in round 1), AUDIT-2 minor. Marked in Benzecri/Chapter3/ConeAppuiAlpha.lean, sorry-free."
+
+[[row]]
+label = "bzprop:c3s5p2_support_appui"
+bucket = "A"
+extra_lean_files = ["Benzecri/Chapter3/ProprieteIAppui.lean"]
+decls = ["Benzecri.isVarieteAppui_affineSpan_of_proprieteI", "Benzecri.exists_alphaW_of_mem_affineSpan", "Benzecri.exists_extend_mem_of_mem_affineSpan"]
+notes = "T-bz-c3-propriete-i-appui (atlas-team, 2026-11-28), audit AUDIT-1 clean. Marked in Benzecri/Chapter3/ProprieteIAppui.lean, sorry-free."
+
+[[row]]
+label = "bzprop:c3s5p3_complementaire_appui"
+bucket = "A"
+extra_lean_files = ["Benzecri/Chapter3/ProprieteIAppui.lean"]
+decls = ["Benzecri.complementaire_appui", "Benzecri.convex_inter_compl_of_isVarieteAppui", "Benzecri.convex_inter_compl_union_of_isVarieteAppui"]
+notes = "T-bz-c3-propriete-i-appui (atlas-team, 2026-11-28), audit AUDIT-1 clean. Marked in Benzecri/Chapter3/ProprieteIAppui.lean, sorry-free."
+
+[[row]]
+label = "bzprop:c3s5p4_propriete_I_appui"
+bucket = "A"
+extra_lean_files = ["Benzecri/Chapter3/ProprieteIAppui.lean"]
+decls = ["Benzecri.proprieteI_iff_isVarieteAppui", "Benzecri.proprieteI_of_isVarieteAppui"]
+notes = "T-bz-c3-propriete-i-appui (atlas-team, 2026-11-28), audit AUDIT-1 clean. Marked in Benzecri/Chapter3/ProprieteIAppui.lean, sorry-free."

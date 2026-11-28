@@ -1,0 +1,51 @@
+{
+  "target": "T-bz-c3-dualite-sn",
+  "auditor_round": 1,
+  "verdict": "clean",
+  "labels": [
+    {
+      "label": "bzprop:c3s3p6_dual_sous_variete",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Setting matches the paper: l.751-755 fix E = R^{n+1}, S(E) = S(n), with <M,N> = sum m_i n_i. dotPairing n is dotProductBilin (strict Chapter3/Dualite:827, dotPairing_apply), so this is the paper's own pairing and not a special case. prop6 takes any L of the form linearSubvariety M, which is the paper's 'sous-variete lineaire' (Ch. 1), and concludes that D(L) is a linear subvariety with dimS(D L) = n - dimS L - 1. The paper's range -1 <= p <= n holds automatically (dimS_mem_Icc), so it adds no hypothesis. dimS A = finrank(span F A) - 1 in Z. That is the paper's convention: Ch. 1 l.278 calls S(R^n) of dimension n-1, the proof at l.763 gives F(L) u {O} of dimension p+1, and the empty set comes out as -1 (dimS_empty), which is the p = -1 end of the stated range. Checked at the empty set, at S(n) and at a point."
+    },
+    {
+      "label": "bzprop:c3s3p7_noyau_support",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "prop7 assumes only W in CS, the paper's W in C(S(n)) (CS = convex part and closed, Projective/Convex:525). It concludes equalities: D(noyau W) = supportK(D W) and D(supportK W) = noyau(D W). Equality is at least as strong as 'transforme ... dans' under either the into or the onto reading. It also proves both dimension identities. D_supportK and sigma_add_nu_D hold for every part, so on that side Lean is stronger than the paper. supportK is the span-generated linear subvariety, i.e. 'la plus petite variete lineaire contenant W'; noyau is the Def. 5 noyau from strict FacettesSphere. The SCOPE note that the noyau half needs W closed is true, though not formalized. For an open hemisphere W = {<x,a> > 0}: W is a convex part, D(W) = {s(a)}, noyau W = empty (no antipodal pair), and D(empty) = S(n), which is not supportK{s(a)} = {s(a)}. Then nu(W) + sigma(D W) = -1 + 0, which is not n-1. The paper assumes W in C(S(n)), so this is not an added hypothesis."
+    },
+    {
+      "label": "bzprop:c3s3p8_dual_corps_convexe",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "prop8 takes K with IsCorpsConvexeS n K (the Ch. 1 Def. 11 notion) and proves three things: D(K) is a convex part, D(K) is closed and convex (in CS), and D(K) is a corps convexe (isCorpsConvexeS_D). That covers the printed 'est un convexe' and the stronger reading flagged [sic?] under OQ-160 (a). So the mark holds under either ruling, and no hypothesis is added."
+    },
+    {
+      "label": "bzrem:c3s3r1_transposition",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Correctly left unmarked and recorded as partial. The finding is correct. With D(W) = s(dual cone of F(W)), D(g D W) = (g^T)^{-1} W, which is D_smul combined with D o D = id on CS. So the Delta the formula requires is induced by g -> (g^T)^{-1}, the contragredient, which is the 'representation duale' the same sentence names. It is an automorphism (dualRepEquiv) and induces an involutive automorphism of GS (Delta, Delta_Delta). The literal transposition g -> g^T is an anti-automorphism and fails the formula. I checked transpose_literal_differs by hand: g = diag(2,1) is symmetric, so g^T W = {s(2,1)} while (g^T)^{-1} W = {s(1/2,1)}; these are not positively proportional. The Lean proves this, W = {s(1,1)} is in CS (point_mem_CS), and the statement compares in GSR 1, i.e. after the quotient by positive homotheties. 'Imprecise (a misnomer), not refuted' is the right word: everything the Remark asserts holds with the representation it names, and only the label 'la transposition' is wrong. Index shift: the Lean has R^{n+1}, GSR n, S n for every n >= 0, which covers the paper's n >= 1. The Remark's printed proof (check on points and hemispheres) is replaced by a proof for every W in CS. That is stronger and is disclosed in SCOPE. Whether to mark the row under the (g^T)^{-1} reading is the author's ruling, and the REPORT raises it as a question."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "`taskset -c 0-11 lake env lean scaffold/BenzecriScaffold/Chapter3/DualiteSn.lean` from lean-benzecri/ exits 0 with no output (no warnings). The file has 0 occurrences of 'sorry'. A one-shot probe (a copy of the file plus #print axioms) covered 20 declarations: prop6, dimS_linearSubvariety, dimS_mem_Icc, finrank_add_finrank_orth, prop7, D_noyau, D_supportK, sigma_add_nu_D, nu_add_sigma_D, prop8, isCorpsConvexeS_D, remark_transposition, Delta, Delta_Delta, dualRepEquiv, dotPairing_dualRep, D_smul, transpose_literal_differs, prop7_empty_univ, prop7_point. All 20 report [propext, Classical.choice, Quot.sound]. The probe was deleted."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-benzecri/scaffold/BenzecriScaffold.lean:2-3",
+      "what": "Informational, not this closer's defect. The uncommitted diff of the scaffold root adds three import lines. Only `import BenzecriScaffold.Chapter3.DualiteSn` belongs to this target. The ProprieteIAppui and ConeAppuiAlpha lines belong to the sibling targets sharing the checkout (T-bz-c3-propriete-i-appui, T-bz-c3-cone-appui-alpha, in a fix round). git status shows nothing else under this target's paths. The other modified paths (lean-causal/**, papers/*/certificate/**, roadmap files) belong to other loops and are untouched by this target's files.",
+      "fix": "At commit, stage this target's import line together with DualiteSn.lean (e.g. `git commit --only` with a hunk-accurate staging), or commit the root together with the siblings once they also pass audit."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-benzecri/scaffold/BenzecriScaffold/Chapter3/DualiteSn.lean:78",
+      "what": "SCOPE says g -> g^T is 'an anti-automorphism of GL(m, R) for m >= 2'. g -> g^T is an anti-automorphism for every m, and fails to be an automorphism exactly when m >= 2. The intended sense is clear but the wording is loose. This is argued and not formalized, which is acceptable since the formalized refutation is transpose_literal_differs.",
+      "fix": "Optional rewording: 'an anti-automorphism, not an automorphism for m >= 2'."
+    }
+  ]
+}
