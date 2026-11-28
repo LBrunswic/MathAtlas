@@ -33,9 +33,16 @@ and the pitfall it answers (kb/0212):
    `Extensible.of_bottom_tail`, `Causality.Inextensible.of_retraction`): if `c` is constant off a
    sub-interval `I₀` of `I` (a monotone retraction `ρ : I → I₀` with `c ∘ ρ = c`, the output of
    `exists_tailFree_retraction`), an extension of `c` over `I₀` gives one over `I`, so `c`
-   inextensible over `I` is inextensible over `I₀`. The extension over `I` pauses the old
-   extension at the image of each end of `I₀` (`pauseTop`), for as long as the constant piece,
-   compressed to length `< 1` (`exists_compress`). Also: `image_eq_of_retraction`
+   inextensible over `I` is inextensible over `I₀`. The lemmas are one-sided first (DEC-13). An
+   extension at the past end takes a constant final piece with no pause
+   (`Causality.PastExtensible.of_top_tail`: the old curve read through `v ↦ min v (φ t₁)`); one
+   at the future end is paused at the image of the end (`Causality.FutureExtensible.of_top_tail`:
+   `pauseTop`, for as long as the constant piece, compressed to length `< 1` by
+   `exists_compress`); a constant initial piece is the time reversal
+   (`PastExtensible.of_bottom_tail`, `Extensible.of_bottom_tail`). `Extensible.of_top_tail` is the
+   corollary of the two one-sided lemmas through `extensible_iff`, so the pause is written once.
+   Past-inextensibility passes to the trimmed curve too
+   (`Causality.PastInextensible.of_retraction`). Also: `image_eq_of_retraction`
    (`c '' I₀ = c '' I`), `continuousOn_of_retraction` (the retraction is `1`-Lipschitz),
    `TailFree.neg` (time reversal of the parameter).
 3. **The sub-arc form** (`Causality.exists_subArc_of_tailFree`,
@@ -48,7 +55,10 @@ and the pitfall it answers (kb/0212):
    curve kept (`tailFreeMor`).
 4. **Inextensible curves of a smaller open set** (`Causality.Inextensible.exists_subArc_of_le`):
    an inextensible curve of `W ≤ U`, trimmed, is tail-free, still inextensible in `W`, has the
-   same image, and is a reparametrised sub-arc of an inextensible curve of `U`.
+   same image, and is a reparametrised sub-arc of an inextensible curve of `U`. And **the past
+   extension of a sub-arc** (`Causality.pastExtensible_of_subArc`): if `c = γ ∘ ψ` on `I` and `γ`
+   has a new value below `ψ '' I`, then `γ`, cut at the top of `ψ '' I`, strictly extends `c` at
+   the past end.
 5. **`inextensible_nested ⇒ curve_nested`** on T1, second countable spaces
    (`Causality.InextensibleNestedOn.curveNestedOn_of_t1_secondCountable`), the ladder's `[[open]]`
    entry (`programme/ladder.toml`, "True, argued, on a T1, second countable M"): the trimmed curve
@@ -71,7 +81,22 @@ and the pitfall it answers (kb/0212):
 * The inextensible curve comes from Zorn and is not unique (`Causal.CurvesExtendSecondCountable`,
   SCOPE).
 * `Extensible.of_bottom_tail` is `of_top_tail` read through time reversal
-  (`Extensible.of_dual_reverse`).
+  (`Extensible.of_dual_reverse`), and `PastExtensible.of_bottom_tail` is
+  `FutureExtensible.of_top_tail` read through it (`PastExtensible.of_dual_reverse`,
+  `FutureExtensible.of_dual_reverse`).
+
+## Moved here (T-abs-end-pieces-one-sided)
+
+`PastExtensible.of_top_tail`, `FutureExtensible.of_top_tail`, `PastExtensible.of_bottom_tail`,
+`PastInextensible.of_retraction` and `pastExtensible_of_subArc` were proved in
+`Causal.PastInextensibleMeetsCauchy` (T-abs-past-inextensible-meets-cauchy). They were moved here,
+with their full names, statements and proofs. `FutureExtensible.of_top_tail` repeated the pause
+construction of `Extensible.of_top_tail` with one more property proved, and
+`Causal.PastInextensibleMeetsCauchy` imports this module, so `Extensible.of_top_tail` could become
+their corollary only once they sat here. They use only § 1, one another and `Causal.Inextensible`,
+so the move added no import. The proof of `Extensible.of_top_tail` changed and its statement did
+not. The docstrings of `PastExtensible.of_top_tail` and `FutureExtensible.of_top_tail` had the
+sentences describing `Extensible.of_top_tail`'s former pause rewritten.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -179,14 +204,139 @@ theorem CausalCurveIn.comp_monotoneOn {γ : ℝ → M} {h : ℝ → ℝ} {J I' :
 
 /-! ## 2. Constant end pieces do not matter -/
 
-/-- **An extension over `I₁` is one over `I`, `I` adding to `I₁` a constant final piece**: `t₁`
-the last parameter of `I₁`, and `c = c t₁` on `I` after it. The new extension pauses the old one
-at the image of `t₁` (`pauseTop`) for the constant piece, compressed to length `< 1`. -/
-theorem Extensible.of_top_tail {I₁ I : Set ℝ} {c : ℝ → M} {t₁ : ℝ} (hI₁I : I₁ ⊆ I)
+/-! The one-sided lemmas come first, and the two-sided `Extensible.of_top_tail` is their
+corollary, so that the pause construction is written once (`FutureExtensible.of_top_tail`). The
+one-sided lemmas, `PastInextensible.of_retraction` and `pastExtensible_of_subArc` (§ 4) were moved
+here from `Causal.PastInextensibleMeetsCauchy` by T-abs-end-pieces-one-sided. -/
+
+/-- **An extension at the past end over `I₁` is one over `I`, `I` adding to `I₁` a constant final
+piece**: `t₁` the last parameter of `I₁`, and `c = c t₁` on `I` after it. No pause is needed: the
+new curve is the old one followed by its value at `φ t₁`, read through `v ↦ min v (φ t₁)`, over the
+old interval and a translate of the final piece. (The pause of `FutureExtensible.of_top_tail` does
+not keep an extension at the past end: it adds parameters above the image of the
+reparametrisation.) -/
+theorem PastExtensible.of_top_tail {I₁ I : Set ℝ} {c : ℝ → M} {t₁ : ℝ} (hI₁I : I₁ ⊆ I)
     (hIo : I.OrdConnected) (ht₁ : t₁ ∈ I₁) (hmax : ∀ t ∈ I₁, t ≤ t₁)
-    (htail : ∀ t ∈ I, t ∉ I₁ → t₁ < t ∧ c t = c t₁) (hext : C.Extensible W I₁ c) :
-    C.Extensible W I c := by
-  obtain ⟨I', c', hcurve, ⟨ψ₁, hψ, hmaps, hoc, heq⟩, ⟨t', ht', hgrow⟩⟩ := hext
+    (htail : ∀ t ∈ I, t ∉ I₁ → t₁ < t ∧ c t = c t₁) (hext : C.PastExtensible W I₁ c) :
+    C.PastExtensible W I c := by
+  obtain ⟨I', c', hcurve, ⟨φ, hφ, hmaps, -, heq, hfin⟩, ⟨t', ht', hgrow⟩⟩ := hext
+  set a := φ t₁ with ha
+  have hI₁ : ∀ t ∈ I, t ≤ t₁ → t ∈ I₁ := fun t ht hle => by
+    by_contra h
+    exact absurd hle (not_le.2 (htail t ht h).1)
+  have hφa : ∀ t ∈ I₁, φ t ≤ a := fun t ht => hφ.monotoneOn ht ht₁ (hmax t ht)
+  -- `I'` lies below `a`: the image of `φ` is a final segment of `I'` with greatest point `a`
+  have hI'a : ∀ v ∈ I', v ≤ a := fun v hv => by
+    by_contra h
+    push Not at h
+    obtain ⟨s, hs, rfl⟩ := hfin t₁ ht₁ v hv h.le
+    exact absurd (hφa s hs) (not_le.2 h)
+  -- the new interval: `I'`, then a translate of the constant final piece of `I`
+  set I'' : Set ℝ := I' ∪ {v | a < v ∧ t₁ + (v - a) ∈ I} with hI''
+  obtain ⟨φ'', hlow, hhigh⟩ : ∃ φ'' : ℝ → ℝ, (∀ t, t ≤ t₁ → φ'' t = φ t) ∧
+      ∀ t, t₁ < t → φ'' t = a + (t - t₁) :=
+    ⟨fun t => if t ≤ t₁ then φ t else a + (t - t₁), fun t h => if_pos h,
+      fun t h => if_neg (not_le.2 h)⟩
+  have hmin : MapsTo (fun v => min v a) I'' I' := by
+    rintro v (hv | ⟨hv, -⟩)
+    · show min v a ∈ I'
+      rw [min_eq_left (hI'a v hv)]
+      exact hv
+    · show min v a ∈ I'
+      rw [min_eq_right hv.le]
+      exact hmaps ht₁
+  have hI''o : I''.OrdConnected := by
+    refine ⟨fun v₁ hv₁ v₂ hv₂ z hz => ?_⟩
+    rcases le_or_gt z a with hza | hza
+    · left
+      have hv₁' : v₁ ∈ I' := by
+        rcases hv₁ with h | ⟨h, -⟩
+        · exact h
+        · exact absurd (h.trans_le (hz.1.trans hza)) (lt_irrefl _)
+      exact hcurve.ordConnected.out hv₁' (hmaps ht₁) ⟨hz.1, hza⟩
+    · right
+      refine ⟨hza, ?_⟩
+      have hv₂' : a < v₂ ∧ t₁ + (v₂ - a) ∈ I := by
+        rcases hv₂ with h | h
+        · exact absurd (hza.trans_le (hz.2.trans (hI'a v₂ h))) (lt_irrefl _)
+        · exact h
+      exact hIo.out (hI₁I ht₁) hv₂'.2 ⟨by linarith, by linarith [hz.2]⟩
+  have hcurve'' : C.CausalCurveIn W I'' (c' ∘ fun v => min v a) :=
+    hcurve.comp_monotoneOn ⟨a, Or.inl (hmaps ht₁)⟩ hI''o
+      (fun _ _ _ _ h => min_le_min_right a h) (continuous_id.min continuous_const).continuousOn
+      hmin
+  have hmapsI : ∀ t ∈ I, φ'' t ∈ I'' := by
+    intro t ht
+    rcases le_or_gt t t₁ with h | h
+    · rw [hlow t h]
+      exact Or.inl (hmaps (hI₁ t ht h))
+    · rw [hhigh t h]
+      refine Or.inr ⟨by linarith, ?_⟩
+      rw [show t₁ + (a + (t - t₁) - a) = t by ring]
+      exact ht
+  have hfin'' : ∀ t ∈ I, ∀ v ∈ I'', φ'' t ≤ v → v ∈ φ'' '' I := by
+    intro t ht v hv htv
+    rcases le_or_gt v a with hva | hva
+    · have hvI' : v ∈ I' := by
+        rcases hv with h | ⟨h, -⟩
+        · exact h
+        · exact absurd h (not_lt.2 hva)
+      have htt₁ : t ≤ t₁ := by
+        by_contra h
+        push Not at h
+        rw [hhigh t h] at htv
+        linarith
+      rw [hlow t htt₁] at htv
+      obtain ⟨s, hs, rfl⟩ := hfin t (hI₁ t ht htt₁) v hvI' htv
+      exact ⟨s, hI₁I hs, hlow s (hmax s hs)⟩
+    · have hv' : a < v ∧ t₁ + (v - a) ∈ I := by
+        rcases hv with h | h
+        · exact absurd (hI'a v h) (not_le.2 hva)
+        · exact h
+      refine ⟨t₁ + (v - a), hv'.2, ?_⟩
+      rw [hhigh _ (by linarith)]
+      ring
+  refine ⟨I'', c' ∘ fun v => min v a, hcurve'', ⟨φ'', ?_, hmapsI, ?_, ?_, hfin''⟩,
+    ⟨t', Or.inl ht', ?_⟩⟩
+  · intro s hs s' hs' hss'
+    rcases le_or_gt s' t₁ with h' | h'
+    · rw [hlow s (hss'.le.trans h'), hlow s' h']
+      exact hφ (hI₁ s hs (hss'.le.trans h')) (hI₁ s' hs' h') hss'
+    · rw [hhigh s' h']
+      rcases le_or_gt s t₁ with h | h
+      · rw [hlow s h]
+        linarith [hφa s (hI₁ s hs h)]
+      · rw [hhigh s h]
+        linarith
+  · refine ⟨?_⟩
+    rintro _ ⟨s, hs, rfl⟩ _ ⟨s', hs', rfl⟩ z hz
+    exact hfin'' s hs z (hI''o.out (hmapsI s hs) (hmapsI s' hs') hz) hz.1
+  · intro t ht
+    simp only [Function.comp]
+    rcases le_or_gt t t₁ with h | h
+    · rw [hlow t h, min_eq_left (hφa t (hI₁ t ht h))]
+      exact heq t (hI₁ t ht h)
+    · rw [hhigh t h, min_eq_right (by linarith), heq t₁ ht₁]
+      have hnot : t ∉ I₁ := fun hm => absurd (hmax t hm) (not_le.2 h)
+      exact (htail t ht hnot).2.symm
+  · intro t ht
+    simp only [Function.comp]
+    rw [min_eq_left (hI'a t' ht')]
+    by_cases hm : t ∈ I₁
+    · exact hgrow t hm
+    · rw [(htail t ht hm).2]
+      exact hgrow t₁ ht₁
+
+/-- **An extension at the future end over `I₁` is one over `I`, `I` adding to `I₁` a constant final
+piece**: the old extension paused at `ψ₁ t₁` by `pauseTop` for the constant piece, compressed to
+length `< 1` (`exists_compress`), and the image of the new reparametrisation is an initial segment
+of the new interval. This is the library's one `pauseTop` construction: `Extensible.of_top_tail` is its
+corollary, with `PastExtensible.of_top_tail`. -/
+theorem FutureExtensible.of_top_tail {I₁ I : Set ℝ} {c : ℝ → M} {t₁ : ℝ} (hI₁I : I₁ ⊆ I)
+    (hIo : I.OrdConnected) (ht₁ : t₁ ∈ I₁) (hmax : ∀ t ∈ I₁, t ≤ t₁)
+    (htail : ∀ t ∈ I, t ∉ I₁ → t₁ < t ∧ c t = c t₁) (hext : C.FutureExtensible W I₁ c) :
+    C.FutureExtensible W I c := by
+  obtain ⟨I', c', hcurve, ⟨ψ₁, hψ, hmaps, hoc, heq, hinit⟩, ⟨t', ht', hgrow⟩⟩ := hext
   obtain ⟨g, hgpos, hg1, hgmono, hginv⟩ := exists_compress
   set a := ψ₁ t₁ with ha
   have hI₁ : ∀ t ∈ I, t ≤ t₁ → t ∈ I₁ := fun t ht hle => by
@@ -216,7 +366,7 @@ theorem Extensible.of_top_tail {I₁ I : Set ℝ} {c : ℝ → M} {t₁ : ℝ} (
       · exact absurd (hmax t hmem) (not_le.2 h)
       · exact (htail t ht hmem).2.symm
   refine ⟨pauseTop a ⁻¹' I', c' ∘ pauseTop a, ?_,
-    ⟨ψ, ?_, fun t ht => hπI t ht, ?_, fun t ht => hval t ht⟩, ?_⟩
+    ⟨ψ, ?_, fun t ht => hπI t ht, ?_, fun t ht => hval t ht, ?_⟩, ?_⟩
   · refine hcurve.comp_monotoneOn ⟨a, ?_⟩ (hcurve.ordConnected.preimage_mono (monotone_pauseTop a))
       ((monotone_pauseTop a).monotoneOn _) (continuous_pauseTop a).continuousOn (fun u hu => hu)
     show pauseTop a a ∈ I'
@@ -265,6 +415,31 @@ theorem Extensible.of_top_tail {I₁ I : Set ℝ} {c : ℝ → M} {t₁ : ℝ} (
       refine ⟨t₁ + x₀, hwI, ?_⟩
       rw [hhigh (t₁ + x₀) (by linarith), show t₁ + x₀ - t₁ = x₀ by ring, hgx₀]
       ring
+  · -- the image of `ψ` is an initial segment of the new interval
+    intro t ht v hv hvt
+    rcases le_or_gt v a with hva | hva
+    · have hvI' : v ∈ I' := by
+        have h := hv
+        rw [mem_preimage, pauseTop_of_le hva] at h
+        exact h
+      obtain ⟨s, hs, hsv⟩ := hinit t₁ ht₁ v hvI' hva
+      exact ⟨s, hI₁I hs, by rw [hlow s (hmax s hs)]; exact hsv⟩
+    · have ht₁t : t₁ < t := by
+        by_contra h
+        push Not at h
+        rw [hlow t h] at hvt
+        linarith [hψa t (hI₁ t ht h)]
+      rw [hhigh t ht₁t] at hvt
+      have hu1 : v - a < 1 := by have := hg1 (t - t₁) (by linarith); linarith
+      obtain ⟨x₀, hx₀, hgx₀⟩ := hginv (v - a) (by linarith) hu1
+      have hxle : x₀ ≤ t - t₁ := by
+        by_contra hcon
+        push Not at hcon
+        have := hgmono (t - t₁) x₀ (by linarith) hcon
+        linarith
+      refine ⟨t₁ + x₀, hIo.out (hI₁I ht₁) ht ⟨by linarith, by linarith⟩, ?_⟩
+      rw [hhigh (t₁ + x₀) (by linarith), show t₁ + x₀ - t₁ = x₀ by ring, hgx₀]
+      ring
   · have hπt' : pauseTop a (if t' ≤ a then t' else t' + 1) = t' := by
       split_ifs with h
       · exact pauseTop_of_le h
@@ -281,6 +456,36 @@ theorem Extensible.of_top_tail {I₁ I : Set ℝ} {c : ℝ → M} {t₁ : ℝ} (
       · exact hgrow t hmem
       · rw [(htail t ht hmem).2]
         exact hgrow t₁ ht₁
+
+/-- **An extension at the past end over `I₁` is one over `I`, `I` adding to `I₁` a constant initial
+piece**: `FutureExtensible.of_top_tail` read through time reversal. -/
+theorem PastExtensible.of_bottom_tail {I₁ I : Set ℝ} {c : ℝ → M} {t₀ : ℝ} (hI₁I : I₁ ⊆ I)
+    (hIo : I.OrdConnected) (ht₀ : t₀ ∈ I₁) (hmin : ∀ t ∈ I₁, t₀ ≤ t)
+    (htail : ∀ t ∈ I, t ∉ I₁ → t < t₀ ∧ c t = c t₀) (hext : C.PastExtensible W I₁ c) :
+    C.PastExtensible W I c := by
+  refine PastExtensible.of_dual_reverse ?_
+  have hext' : C.dual.FutureExtensible W (-I₁) (fun t => c (-t)) :=
+    FutureExtensible.of_dual_reverse (C := C.dual) (by simpa using hext)
+  refine FutureExtensible.of_top_tail (C := C.dual) (I₁ := -I₁) (I := -I) (t₁ := -t₀)
+    (Set.neg_subset_neg.2 hI₁I) (hIo.preimage_anti fun _ _ h => neg_le_neg h) (by simpa using ht₀)
+    (fun t ht => ?_) (fun t ht htI => ?_) hext'
+  · have := hmin (-t) ht
+    linarith
+  · obtain ⟨h1, h2⟩ := htail (-t) ht htI
+    exact ⟨by linarith, by simpa using h2⟩
+
+/-- **An extension over `I₁` is one over `I`, `I` adding to `I₁` a constant final piece**: `t₁`
+the last parameter of `I₁`, and `c = c t₁` on `I` after it. An extension is one at the past end or
+one at the future end (`extensible_iff`; `I₁ ∋ t₁` is non-empty), and each is carried over `I` by
+its one-sided lemma: `PastExtensible.of_top_tail` (no pause) or `FutureExtensible.of_top_tail`
+(the pause). -/
+theorem Extensible.of_top_tail {I₁ I : Set ℝ} {c : ℝ → M} {t₁ : ℝ} (hI₁I : I₁ ⊆ I)
+    (hIo : I.OrdConnected) (ht₁ : t₁ ∈ I₁) (hmax : ∀ t ∈ I₁, t ≤ t₁)
+    (htail : ∀ t ∈ I, t ∉ I₁ → t₁ < t ∧ c t = c t₁) (hext : C.Extensible W I₁ c) :
+    C.Extensible W I c :=
+  ((extensible_iff ⟨t₁, ht₁⟩).1 hext).elim
+    (fun h => (PastExtensible.of_top_tail hI₁I hIo ht₁ hmax htail h).extensible)
+    fun h => (FutureExtensible.of_top_tail hI₁I hIo ht₁ hmax htail h).extensible
 
 /-- **An extension over `I₁` is one over `I`, `I` adding to `I₁` a constant initial piece**:
 `Extensible.of_top_tail` through time reversal. -/
@@ -347,6 +552,63 @@ theorem Inextensible.of_retraction {I I₀ : Set ℝ} {c : ℝ → M} {ρ : ℝ 
   have htI₀ : t ∉ I₀ := fun h => htI₁ (hI₀I₁ h)
   have hta := habove t ht htI₀ (fun h => htI₁ ⟨ht, h⟩)
   refine Extensible.of_top_tail hI₁I hc.1.ordConnected (hI₀I₁ (hρm ht)) (fun x hx => ?_)
+    (fun t' ht' ht'I₁ => ?_) hext₁
+  · obtain ⟨s, hs, hxs⟩ := hx.2
+    exact hxs.trans (hρhigh t ht hta s hs)
+  · have ht'I₀ : t' ∉ I₀ := fun h => ht'I₁ (hI₀I₁ h)
+    have ht'a := habove t' ht' ht'I₀ (fun h => ht'I₁ ⟨ht', h⟩)
+    have he : ρ t' = ρ t := le_antisymm (hρhigh t ht hta _ (hρm ht'))
+      (hρhigh t' ht' ht'a _ (hρm ht))
+    exact ⟨ht'a _ (hρm ht), by rw [← hρc t' ht', he]⟩
+
+/-- **Past-inextensibility passes to the trimmed curve**: if `c` is constant off the sub-interval
+`I₀` (a monotone retraction `ρ : I → I₀` with `c ∘ ρ = c`, as `exists_tailFree_retraction` gives),
+`c` past-inextensible over `I` is past-inextensible over `I₀`. The one-sided twin of
+`Inextensible.of_retraction`, through `PastExtensible.of_bottom_tail` and `of_top_tail`. -/
+theorem PastInextensible.of_retraction {I I₀ : Set ℝ} {c : ℝ → M} {ρ : ℝ → ℝ}
+    (hc : C.PastInextensible W I c) (hI₀I : I₀ ⊆ I) (hne : I₀.Nonempty) (ho : I₀.OrdConnected)
+    (hρm : MapsTo ρ I I₀) (hρmono : MonotoneOn ρ I) (hρid : ∀ t ∈ I₀, ρ t = t)
+    (hρc : ∀ t ∈ I, c (ρ t) = c t) : C.PastInextensible W I₀ c := by
+  have hbelow : ∀ t ∈ I, t ∉ I₀ → (∃ s ∈ I₀, t ≤ s) → ∀ s ∈ I₀, t < s := by
+    intro t ht htI₀ ⟨s, hs, hts⟩ s' hs'
+    by_contra h
+    push Not at h
+    exact htI₀ (ho.out hs' hs ⟨h, hts⟩)
+  have habove : ∀ t ∈ I, t ∉ I₀ → (¬ ∃ s ∈ I₀, t ≤ s) → ∀ s ∈ I₀, s < t := by
+    intro t _ _ h s hs
+    by_contra h'
+    exact h ⟨s, hs, not_lt.1 h'⟩
+  have hρlow : ∀ t ∈ I, (∀ s ∈ I₀, t < s) → ∀ s ∈ I₀, ρ t ≤ s := fun t ht h s hs => by
+    rw [← hρid s hs]; exact hρmono ht (hI₀I hs) (h s hs).le
+  have hρhigh : ∀ t ∈ I, (∀ s ∈ I₀, s < t) → ∀ s ∈ I₀, s ≤ ρ t := fun t ht h s hs => by
+    rw [← hρid s hs]; exact hρmono (hI₀I hs) ht (h s hs).le
+  set I₁ := {t ∈ I | ∃ s ∈ I₀, t ≤ s} with hI₁
+  have hI₀I₁ : I₀ ⊆ I₁ := fun t ht => ⟨hI₀I ht, t, ht, le_rfl⟩
+  have hI₁I : I₁ ⊆ I := fun t ht => ht.1
+  refine ⟨⟨hne, ho, fun a ha b hb => hc.1.curve a (hI₀I ha) b (hI₀I hb)⟩, fun hext => hc.2 ?_⟩
+  -- the constant initial piece
+  have hext₁ : C.PastExtensible W I₁ c := by
+    by_cases hall : I₁ ⊆ I₀
+    · have he : I₁ = I₀ := Subset.antisymm hall hI₀I₁
+      rw [he]; exact hext
+    obtain ⟨t, ht, htI₀⟩ := not_subset.1 hall
+    have htb := hbelow t ht.1 htI₀ ht.2
+    have hI₁o : I₁.OrdConnected := ⟨fun x hx y hy z hz => ⟨hc.1.ordConnected.out hx.1 hy.1 hz,
+      let ⟨s, hs, hys⟩ := hy.2; ⟨s, hs, hz.2.trans hys⟩⟩⟩
+    refine PastExtensible.of_bottom_tail hI₀I₁ hI₁o (hρm ht.1) (hρlow t ht.1 htb)
+      (fun t' ht' ht'I₀ => ?_) hext
+    have ht'b := hbelow t' ht'.1 ht'I₀ ht'.2
+    have he : ρ t' = ρ t := le_antisymm (hρlow t' ht'.1 ht'b _ (hρm ht.1))
+      (hρlow t ht.1 htb _ (hρm ht'.1))
+    exact ⟨ht'b _ (hρm ht.1), by rw [← hρc t' ht'.1, he]⟩
+  -- the constant final piece
+  by_cases hall : I ⊆ I₁
+  · have he : I = I₁ := Subset.antisymm hall hI₁I
+    rw [he]; exact hext₁
+  obtain ⟨t, ht, htI₁⟩ := not_subset.1 hall
+  have htI₀ : t ∉ I₀ := fun h => htI₁ (hI₀I₁ h)
+  have hta := habove t ht htI₀ (fun h => htI₁ ⟨ht, h⟩)
+  refine PastExtensible.of_top_tail hI₁I hc.1.ordConnected (hI₀I₁ (hρm ht)) (fun x hx => ?_)
     (fun t' ht' ht'I₁ => ?_) hext₁
   · obtain ⟨s, hs, hxs⟩ := hx.2
     exact hxs.trans (hρhigh t ht hta s hs)
@@ -474,6 +736,30 @@ theorem Inextensible.exists_subArc_of_le [T1Space M] [SecondCountableTopology M]
     image_eq_of_retraction hI₀I hρm hρc,
     exists_subArc_of_tailFree ⟨hne, ho, fun a ha b hb =>
       CurveOn.mono_opens C.isRelFamily_le (hc.1.curve a (hI₀I ha) b (hI₀I hb)) hWU⟩ htf⟩
+
+section
+
+variable {C : Causality M} {W : Opens M}
+
+/-- **A sub-arc with room below is extensible at the past end**: if `c = γ ∘ ψ` on `I`, `ψ` strictly
+increasing with ordconnected image, and `γ` has a parameter `u` below all of `ψ '' I` with a value
+`γ u` that `c` does not take, then `γ`, cut at the top of `ψ '' I`, strictly extends `c` at the
+past end. -/
+theorem pastExtensible_of_subArc {I J : Set ℝ} {c γ : ℝ → M} {ψ : ℝ → ℝ} (hI : I.Nonempty)
+    (hγ : C.CausalCurveIn W J γ) (hψ : StrictMonoOn ψ I) (hmaps : MapsTo ψ I J)
+    (hoc : (ψ '' I).OrdConnected) (heq : ∀ t ∈ I, γ (ψ t) = c t) {u : ℝ} (hu : u ∈ J)
+    (hbelow : ∀ t ∈ I, u < ψ t) (hnew : ∀ t ∈ I, γ u ≠ c t) : C.PastExtensible W I c := by
+  obtain ⟨t₀, ht₀⟩ := hI
+  refine ⟨J ∩ {v | ∃ t ∈ I, v ≤ ψ t}, γ, ⟨⟨u, hu, t₀, ht₀, (hbelow t₀ ht₀).le⟩,
+    ⟨fun x hx y hy z hz => ?_⟩, fun a ha b hb => hγ.curve a ha.1 b hb.1⟩,
+    ⟨ψ, hψ, fun t ht => ⟨hmaps ht, t, ht, le_rfl⟩, hoc, heq, ?_⟩,
+    ⟨u, ⟨hu, t₀, ht₀, (hbelow t₀ ht₀).le⟩, hnew⟩⟩
+  · obtain ⟨t, ht, hyt⟩ := hy.2
+    exact ⟨hγ.ordConnected.out hx.1 hy.1 hz, t, ht, hz.2.trans hyt⟩
+  · rintro t ht v ⟨-, t₂, ht₂, hvt₂⟩ htv
+    exact hoc.out (mem_image_of_mem ψ ht) (mem_image_of_mem ψ ht₂) ⟨htv, hvt₂⟩
+
+end
 
 /-! ## 5. `inextensible_nested ⇒ curve_nested` -/
 

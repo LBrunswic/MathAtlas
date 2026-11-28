@@ -1,0 +1,271 @@
+{
+  "target": "T-abs-end-pieces-one-sided",
+  "package": "lean-causal",
+  "status": "closed",
+  "files": {
+    "edited": [
+      "Causal/CExtConnexeCauchy/SubArc.lean",
+      "Causal/PastInextensibleMeetsCauchy.lean"
+    ],
+    "new": [],
+    "campaign": [
+      "campaign/T-abs-end-pieces-one-sided/REPORT.json",
+      "campaign/T-abs-end-pieces-one-sided/Probe.lean",
+      "campaign/T-abs-end-pieces-one-sided/axioms.txt"
+    ]
+  },
+  "builds": {
+    "result": true,
+    "edited_modules": [
+      "Causal.CExtConnexeCauchy.SubArc",
+      "Causal.PastInextensibleMeetsCauchy"
+    ],
+    "downstream": [
+      "Causal.CExtConnexeCauchy.Basic",
+      "Causal.ErsSCWitnesses",
+      "Causal.InextensibleNotLeNested",
+      "Causal.FlrwType",
+      "Causal.BoundaryChartCauchy",
+      "Causal.Model.MinkowskiPastBoundaryChart"
+    ],
+    "how_the_downstream_was_found": "the reverse import closure of tools/ladder.py lean_index()['imports'], computed in memory. SubArc's downstream is the seven modules PastInextensibleMeetsCauchy, CExtConnexeCauchy.Basic, InextensibleNotLeNested, ErsSCWitnesses (through CExtConnexeCauchy.Basic), FlrwType and BoundaryChartCauchy (through PastInextensibleMeetsCauchy) and Model.MinkowskiPastBoundaryChart (through FlrwType). PastInextensibleMeetsCauchy's downstream is the last three. A grep of Causal/, scaffold/ and Causal.lean for the module names finds no other importer; Causal.lean imports both and is not built (dispatch).",
+    "what_lake_rebuilt": "SubArc, then PastInextensibleMeetsCauchy, then exactly the six downstream modules (3181 jobs, every other job replayed). No other Causal.* module and no mathlib module was rebuilt. Afterwards `lake build --no-build` on all eight reports 'All targets up-to-date (3181 jobs)'.",
+    "strict_typecheck": "`taskset -c 0-11 lake env lean -DwarningAsError=true` is clean (exit 0, no output) on Causal/CExtConnexeCauchy/SubArc.lean and Causal/PastInextensibleMeetsCauchy.lean after the last edit. On campaign/T-abs-end-pieces-one-sided/Probe.lean it exits 0 and prints only its info, #check and axioms lines.",
+    "not_built": "the package, Causal and CausalScaffold. Causal.ErsEtaleMghd's closure, where the concurrent closer works (lean_index: it reaches neither edited module), and its scaffold file ErsEtaleMghdWitnesses.lean were neither built nor touched."
+  },
+  "build_command": "cd lean-causal && taskset -c 0-11 lake build Causal.CExtConnexeCauchy.SubArc Causal.PastInextensibleMeetsCauchy && taskset -c 0-11 lake build Causal.CExtConnexeCauchy.Basic Causal.ErsSCWitnesses Causal.InextensibleNotLeNested Causal.FlrwType Causal.BoundaryChartCauchy Causal.Model.MinkowskiPastBoundaryChart; then taskset -c 0-11 lake env lean -DwarningAsError=true on Causal/CExtConnexeCauchy/SubArc.lean, Causal/PastInextensibleMeetsCauchy.lean and campaign/T-abs-end-pieces-one-sided/Probe.lean",
+  "sorry_count": 0,
+  "sorry_detail": "0 sorry, 0 admit, 0 axiom, 0 native_decide in the code of both edited files and of the probe, counted with tools/ladder.py's _code, which blanks comments. The only occurrence of the word is each file's docstring heading 'What is proved (no `sorry`)'.",
+  "layer": {
+    "layer": 1,
+    "uses": [],
+    "model_path": {
+      "Causal.CExtConnexeCauchy.SubArc": null,
+      "Causal.PastInextensibleMeetsCauchy": null
+    },
+    "ladder_rules": "import_chain(m, imports, 'Causal.Ladder.Rules') is None, and import_chain('Causal.Ladder.Rules', imports, m) is None, for both edited modules, before and after the edit. Computed in memory with tools/ladder.py's lean_index; no emit-lean was run (kb/0252). Neither file uses causal_ladder: the word occurs once, in PastInextensibleMeetsCauchy's SCOPE saying it is not used. So kb/0221 holds. The imports of both files are unchanged: SubArc imports Causal.CurvesExtendSecondCountable and Causal.NestedCausalities, and PastInextensibleMeetsCauchy imports SubArc and Causal.CauchyDual. The moved lemmas need nothing of Causal.CauchyDual.",
+    "ladder_check": "ladder.check(ladder.load()) in memory: 0 errors. lean_index maps all six names to Causal.CExtConnexeCauchy.SubArc."
+  },
+  "labels": [
+    {
+      "label": "T-abs-end-pieces-one-sided/end-pieces",
+      "tex_lines": [],
+      "status": "closed",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.PastExtensible.of_top_tail",
+        "Causal.Causality.FutureExtensible.of_top_tail",
+        "Causal.Causality.PastExtensible.of_bottom_tail",
+        "Causal.Causality.PastInextensible.of_retraction",
+        "Causal.Causality.pastExtensible_of_subArc",
+        "Causal.Causality.Extensible.of_top_tail"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "Reading taken: both optional moves were made (PastInextensible.of_retraction and pastExtensible_of_subArc). They are pure curve topology with no Cauchy surface. PastInextensible.of_retraction is the one-sided twin of Inextensible.of_retraction and now sits right after it. pastExtensible_of_subArc is a sub-arc lemma and now sits in § 4, the sub-arc form. PastInextensibleMeetsCauchy keeps (2.4), its tail-free case, its other forms and its witnesses. The move reverses with no other change, because no name changes.",
+        "Reading taken on 'Docstrings move with their declarations': all five moved. Three are byte-identical. In PastExtensible.of_top_tail one sentence, and in FutureExtensible.of_top_tail the second half, described Extensible.of_top_tail's former pause construction. After the refactor that construction no longer exists, so those sentences would be false, and they were rewritten (declarations[0..1].docstring). Extensible.of_top_tail's docstring now describes its new proof. The statements are untouched in every case.",
+        "Reading taken on placement: pastExtensible_of_subArc goes in § 4 inside `section … variable {C : Causality M} {W : Opens M} … end`. That keeps its text byte-identical and its binder telescope (M, the instance, C, W, then its own binders) unchanged, which the dump confirms. The alternative was the end of § 2, inside the first `namespace Causality`, which also has those variables in scope."
+      ]
+    }
+  ],
+  "declarations": [
+    {
+      "name": "Causal.Causality.PastExtensible.of_top_tail",
+      "kind": "theorem",
+      "change": "moved",
+      "old_location": "Causal/PastInextensibleMeetsCauchy.lean:92 (HEAD 31bc63e7)",
+      "new_location": "Causal/CExtConnexeCauchy/SubArc.lean:218",
+      "type_check": {
+        "before": {
+          "levels": [
+            "u"
+          ],
+          "type_hash": 2975726331,
+          "value_hash": 2107910111
+        },
+        "after": {
+          "levels": [
+            "u"
+          ],
+          "type_hash": 2975726331,
+          "value_hash": 2107910111
+        },
+        "normalised_type_sha256_16": "d85ae914f2a22419",
+        "identical": true
+      },
+      "statement": "unchanged: same full name, universe parameters [u], Expr.hash of type and of value; the elaborated type, printed with macro scopes erased, is the same string; #check @ output byte-identical (Probe.lean; dump diff)",
+      "docstring": "moved with it; one sentence changed. HEAD said '(`Extensible.of_top_tail` does not keep the extension at the past end: its pause adds parameters above the image of the reparametrisation.)'. That pause no longer exists in Extensible.of_top_tail, so the sentence now reads '(The pause of `FutureExtensible.of_top_tail` does not keep an extension at the past end: it adds parameters above the image of the reparametrisation.)'. The rest is byte-identical."
+    },
+    {
+      "name": "Causal.Causality.FutureExtensible.of_top_tail",
+      "kind": "theorem",
+      "change": "moved",
+      "old_location": "Causal/PastInextensibleMeetsCauchy.lean:207 (HEAD 31bc63e7)",
+      "new_location": "Causal/CExtConnexeCauchy/SubArc.lean:335",
+      "type_check": {
+        "before": {
+          "levels": [
+            "u"
+          ],
+          "type_hash": 1085155926,
+          "value_hash": 3537694027
+        },
+        "after": {
+          "levels": [
+            "u"
+          ],
+          "type_hash": 1085155926,
+          "value_hash": 3537694027
+        },
+        "normalised_type_sha256_16": "0eaf6b981b31aceb",
+        "identical": true
+      },
+      "statement": "unchanged: same full name, universe parameters [u], Expr.hash of type and of value; the elaborated type, printed with macro scopes erased, is the same string; #check @ output byte-identical (Probe.lean; dump diff)",
+      "docstring": "moved with it, and rewritten in its second half. HEAD said 'the construction of `Extensible.of_top_tail` (the old extension paused at `ψ₁ t₁` by `pauseTop`, the piece compressed to length `< 1`), with the initial-segment property kept'. It now says 'the old extension paused at `ψ₁ t₁` by `pauseTop` for the constant piece, compressed to length `< 1` (`exists_compress`), and the image of the new reparametrisation is an initial segment of the new interval. This is the library's one pause construction: `Extensible.of_top_tail` is its corollary, with `PastExtensible.of_top_tail`.' The bold first sentence is unchanged."
+    },
+    {
+      "name": "Causal.Causality.PastExtensible.of_bottom_tail",
+      "kind": "theorem",
+      "change": "moved",
+      "old_location": "Causal/PastInextensibleMeetsCauchy.lean:334 (HEAD 31bc63e7)",
+      "new_location": "Causal/CExtConnexeCauchy/SubArc.lean:462",
+      "type_check": {
+        "before": {
+          "levels": [
+            "u"
+          ],
+          "type_hash": 866244712,
+          "value_hash": 213252198
+        },
+        "after": {
+          "levels": [
+            "u"
+          ],
+          "type_hash": 866244712,
+          "value_hash": 213252198
+        },
+        "normalised_type_sha256_16": "d83c8904ea1d6edd",
+        "identical": true
+      },
+      "statement": "unchanged: same full name, universe parameters [u], Expr.hash of type and of value; the elaborated type, printed with macro scopes erased, is the same string; #check @ output byte-identical (Probe.lean; dump diff)",
+      "docstring": "moved with it, byte-identical (docstring hash unchanged)"
+    },
+    {
+      "name": "Causal.Causality.PastInextensible.of_retraction",
+      "kind": "theorem",
+      "change": "moved (the dispatch's optional move, taken)",
+      "old_location": "Causal/PastInextensibleMeetsCauchy.lean:353 (HEAD 31bc63e7)",
+      "new_location": "Causal/CExtConnexeCauchy/SubArc.lean:568, right after its two-sided twin Inextensible.of_retraction (:510)",
+      "type_check": {
+        "before": {
+          "levels": [
+            "u"
+          ],
+          "type_hash": 3189547148,
+          "value_hash": 4166674618
+        },
+        "after": {
+          "levels": [
+            "u"
+          ],
+          "type_hash": 3189547148,
+          "value_hash": 4166674618
+        },
+        "normalised_type_sha256_16": "9339e7148f620e8d",
+        "identical": true
+      },
+      "statement": "unchanged: same full name, universe parameters [u], Expr.hash of type and of value; the elaborated type, printed with macro scopes erased, is the same string; #check @ output byte-identical (Probe.lean; dump diff). Its term-mode matcher Causal.Causality.PastInextensible.of_retraction.match_1_1 moved with it, under the same name: levels [], type 1826226788, value 3111014960, before and after.",
+      "docstring": "moved with it, byte-identical (docstring hash unchanged)"
+    },
+    {
+      "name": "Causal.Causality.pastExtensible_of_subArc",
+      "kind": "theorem",
+      "change": "moved (the dispatch's optional move, taken)",
+      "old_location": "Causal/PastInextensibleMeetsCauchy.lean:410 (HEAD 31bc63e7)",
+      "new_location": "Causal/CExtConnexeCauchy/SubArc.lean:748, § 4 (the sub-arc form). It sits after Inextensible.exists_subArc_of_le, in a `section` that reopens `variable {C : Causality M} {W : Opens M}`. § 4's own theorems bind C and W explicitly, so the section lets the source and the binder telescope stay byte-identical.",
+      "type_check": {
+        "before": {
+          "levels": [
+            "u"
+          ],
+          "type_hash": 248471968,
+          "value_hash": 2992384261
+        },
+        "after": {
+          "levels": [
+            "u"
+          ],
+          "type_hash": 248471968,
+          "value_hash": 2992384261
+        },
+        "normalised_type_sha256_16": "00a7ca768eb9f4a8",
+        "identical": true
+      },
+      "statement": "unchanged: same full name, universe parameters [u], Expr.hash of type and of value; the elaborated type, printed with macro scopes erased, is the same string; #check @ output byte-identical (Probe.lean; dump diff)",
+      "docstring": "moved with it, byte-identical (docstring hash unchanged)"
+    },
+    {
+      "name": "Causal.Causality.Extensible.of_top_tail",
+      "kind": "theorem",
+      "change": "proof rewritten, statement unchanged",
+      "old_location": "Causal/CExtConnexeCauchy/SubArc.lean:185-283 (HEAD 31bc63e7)",
+      "new_location": "Causal/CExtConnexeCauchy/SubArc.lean:482-489",
+      "type_check": {
+        "before": {
+          "levels": [
+            "u"
+          ],
+          "type_hash": 3241684421,
+          "value_hash": 4167501621
+        },
+        "after": {
+          "levels": [
+            "u"
+          ],
+          "type_hash": 3241684421,
+          "value_hash": 1313063214
+        },
+        "normalised_type_sha256_16": "6c5af08e8cf6244f",
+        "identical": true
+      },
+      "statement": "unchanged: same full name, module, universe parameters [u], type hash 3241684421. The elaborated type, printed with macro scopes erased, is the same string, the #check @ output is byte-identical, and the four statement lines of the source are byte-identical. Only `:= by` became `:=`.",
+      "proof": "term mode, 3 lines instead of 95 (HEAD :189-283): ((extensible_iff ⟨t₁, ht₁⟩).1 hext).elim, then PastExtensible.of_top_tail …|>.extensible for the past case, FutureExtensible.of_top_tail …|>.extensible for the future case. The hypotheses are passed verbatim. Or.elim is a function, so no matcher is created (kb/0066). The dump shows no new constant. The probe checks that the proof term cites extensible_iff, PastExtensible.of_top_tail, FutureExtensible.of_top_tail, PastExtensible.extensible and FutureExtensible.extensible, and cites neither pauseTop nor exists_compress.",
+      "docstring": "rewritten to describe the new proof: an extension is at the past end or at the future end (extensible_iff, I₁ ∋ t₁ non-empty), and each is carried over I by its one-sided lemma. The bold first sentence and the `t₁ …` clause are unchanged."
+    }
+  ],
+  "checks": {
+    "before_record": "Before any edit, lean-causal was clean in git at HEAD 31bc63e7 and `lake build --no-build` on the eight modules reported all up to date, so the before-record came from HEAD's oleans (kb/0063). Two files recorded it: (1) a statement probe (/tmp/aeps/Stmts.lean -> stmts-before.txt) with name, module, levelParams, Expr.hash of type and value, the elaborated type printed by toString, and `#check @` with pp.funBinderTypes; (2) a full constant dump (/tmp/aeps/DumpBefore.lean -> dump-before.txt; the dumper of T-abs-two-piece-hoist) of every constant of every Causal.* module in the closure of the eight modules: name, module, kind, universe parameters, type hash, binder telescope with macro scopes erased, value hash, reducibility, protected, noncomputable, internal, docstring hash. The hashes are also recorded in Probe.lean.",
+    "same_statements": "Re-run after the move (stmts-after.txt). For all six declarations, and for Extensible.of_bottom_tail, Inextensible.of_retraction and the matcher, the universe parameters and type Expr.hash are identical. The elaborated type printed by toString is identical once the hygienic binder names are normalised: the instance binder's name inst._@.<Module>.<n>._hygCtx._hyg.3 encodes the module (kb/0063). The 41 lines of `#check @` output are byte-identical. Script /tmp/aeps/scripts/norm_cmp.py, output /tmp/aeps/stmts-cmp.txt: 'SAME' for all 10.",
+    "declaration_diff": "dump-before vs dump-after (tools of T-abs-two-piece-hoist; /tmp/aeps/dump-diff.txt): constants 5259 5259; nothing removed, nothing added. Six constants changed module, Causal.PastInextensibleMeetsCauchy -> Causal.CExtConnexeCauchy.SubArc: the five lemmas and PastInextensible.of_retraction.match_1_1. In any other field there are four differences, all by design: Extensible.of_top_tail's value hash (4167501621 -> 1313063214) and docstring hash, and the docstring hashes of PastExtensible.of_top_tail and FutureExtensible.of_top_tail. No type, telescope, universe, reducibility or value of any other constant changed. That includes the moved proofs, so the smaller import closure (no Causal.CauchyDual) and SubArc's extra `open Filter Topology` changed no proof term, and the kb/0083 risk did not arise. It also includes Extensible.of_bottom_tail and Inextensible.of_retraction, which cite Extensible.of_top_tail by name, and every downstream constant.",
+    "byte_identity_of_the_moved_text": "/tmp/aeps/scripts/verbatim_check.py. The statement and proof of each moved lemma (HEAD PIMC :92-202, :207-330, :332-347, :349-404, :406-422, the last three with their docstrings) occur once in the new SubArc and not at all in the new PIMC. Outside its module docstring, the new PIMC equals HEAD minus HEAD :87-423. Outside its module docstring, the new SubArc equals HEAD plus the moved blocks, the § 2 comment, the two amended docstrings, the `section`/`variable`/`end` lines around pastExtensible_of_subArc, and the new docstring and 3-line proof of Extensible.of_top_tail. The imports of both files are unchanged.",
+    "pause_written_once": "After the move, the probe scans the whole environment. The only constant outside § 1's pauseTop lemmas whose proof term cites Causal.pauseTop is FutureExtensible.of_top_tail. In the sources, pauseTop and exists_compress now appear in code only in § 1 (SubArc :116-143) and in FutureExtensible.of_top_tail (:335-458). At HEAD they also appeared in Extensible.of_top_tail (SubArc :190-278).",
+    "probe": "campaign/T-abs-end-pieces-one-sided/Probe.lean imports SubArc and PastInextensibleMeetsCauchy. It checks the 6 moved constants against the record (module, universe parameters, type hash, value hash) and the 2 unchanged neighbours (type and value). It checks Extensible.of_top_tail: same module, universe parameters and type hash; a new value citing the one-sided lemmas and not the pause; pauseTop cited outside § 1 only by FutureExtensible.of_top_tail. Then it runs `#check @` and `#print axioms`. Output: '6 moved constants: module Causal.CExtConnexeCauchy.SubArc, universe parameters, type and value hashes as recorded; 2 neighbours unchanged; Extensible.of_top_tail: same type hash, new proof through extensible_iff and the one-sided lemmas; pauseTop cited outside § 1 only by [Causal.Causality.FutureExtensible.of_top_tail]'. Two mutation tests, each on a /tmp copy, make it fail. With one recorded type hash changed by 1: 'Causal.Causality.PastExtensible.of_bottom_tail: type hash 866244712, recorded 866244713'. With a demand that Extensible.of_top_tail cite pauseTop: 'mutant: Extensible.of_top_tail does not cite pauseTop'.",
+    "duplicates": "kb/0082. Grepping Causal/ and scaffold/ finds each of the six names declared once, in Causal/CExtConnexeCauchy/SubArc.lean. No package lean, lean-gx, lean-benzecri or lean-egf declares any of them.",
+    "earlier_probes": "The probes of T-abs-flrw-type, T-abs-boundary-chart-cauchy, T-loc-minkowski-past-boundary-chart, T-abs-ers-sc-witnesses, T-abs-inextensible-not-le-nested and T-abs-curves-free-ers-unions all still run, each exiting 0 with no error. The probe of T-abs-past-inextensible-meets-cauchy does not: see findings[3]. A /tmp copy retargeted at the strict module (`import Causal.PastInextensibleMeetsCauchy`) runs clean and prints its 16 axiom lines."
+  },
+  "axioms": "standard only: each of the six declarations, Extensible.of_bottom_tail, Inextensible.of_retraction and (2.4) PastInextensible.exists_mem_of_mem_Jplus depends on [propext, Classical.choice, Quot.sound]. No sorryAx, no axiom, no admit, no native_decide (campaign/T-abs-end-pieces-one-sided/axioms.txt).",
+  "curation_rows": "No row of any papers/*/certificate/curation.toml or binder.toml, and no ledger.json, names a moved declaration or lists Causal/PastInextensibleMeetsCauchy.lean or Causal/CExtConnexeCauchy/SubArc.lean in extra_lean_files (grep), so `ledger.py check` needs no new file (kb/0254).",
+  "stale_prose_outside_write_set": [
+    "lean-causal/README.md:220 (the Causal.PastInextensibleMeetsCauchy row) still lists PastInextensible.of_retraction, PastExtensible.of_top_tail, PastExtensible.of_bottom_tail and pastExtensible_of_subArc. They are now in Causal.CExtConnexeCauchy.SubArc, and the row at :101 could name them with FutureExtensible.of_top_tail and say that Extensible.of_top_tail is their corollary.",
+    "lean-causal/kb/entries/0315-constant-end-pieces.md says PastInextensible.of_retraction is in Causal.PastInextensibleMeetsCauchy. lean-causal/kb/entries/0244-trim-keeps-inextensible.md says Extensible.of_top_tail and of_bottom_tail work by 'pausing the old extension with pauseTop'. That is now true only through FutureExtensible.of_top_tail (kb_proposals).",
+    "programme/ladder.toml comments cite PastInextensibleMeetsCauchy line numbers that moved: :452 ':513, :520' (now :191, :198); :4929-4943 ':469' (now :147), ':484' (:162), ':496' (:174), ':504' (:182), ':430' (:108), and 'PastInextensible.of_retraction (:353 …)', which is now Causal/CExtConnexeCauchy/SubArc.lean:568; :4959 ':513' (now :191). These are comments only: ladder.check gives 0 errors, and every name still resolves.",
+    "programme/roadmap.toml evidence of done targets cites old PIMC lines: T-lad-record-past-inextensible-meets-cauchy (:513), T-abs-flrw-type (:469, :496), T-abs-boundary-chart-cauchy (:484). That is history and was not edited.",
+    "reports/atlas/lean/facts-lean-causal.json (generated) records the old modules and lines until it is regenerated."
+  ],
+  "findings": [
+    "Library, not paper: the pause construction is now written once. Extensible.of_top_tail is a 3-line corollary of PastExtensible.of_top_tail (no pause) and FutureExtensible.of_top_tail (the pause), through extensible_iff. Its 95-line proof is gone, and the module loses no statement.",
+    "Library, not paper: moving the five lemmas into SubArc changed no proof term (Expr.hash), although SubArc's closure lacks Causal.CauchyDual and it opens Filter and Topology besides. kb/0083's risk did not arise.",
+    "Library, not paper: PastInextensible.of_retraction's term-mode matcher (PastInextensible.of_retraction.match_1_1) has the same type and value hash as Inextensible.of_retraction.match_1_1. Placed in the same module, after it, it was not shared: it keeps its own name and its parent's value hash is unchanged. So within a module Lean 4.31 does not deduplicate a matcher of one declaration against an identical matcher of an earlier declaration, and a hoist next to a twin keeps its auxiliary constants (kb/0066's count stands).",
+    "Library, not paper: lean-causal/campaign/T-abs-past-inextensible-meets-cauchy/Probe.lean imports CausalScaffold.PastInextensibleMeetsCauchy. That module's source was graduated and no longer exists, but a stale olean of it remains in .lake/build. Its import now fails with 'environment already contains Causal.Causality.PastInextensible.of_retraction.match_1_1 from Causal.CExtConnexeCauchy.SubArc'. The stale olean declares the matcher again on top of the strict SubArc it imports. The error is reported for the matcher, a def. kb/0082's silent merge of equal theorems does not cover it. The library is not affected: the gate builds the scaffold from its sources, and the stale olean has none. The probe's content (#check and #print axioms of the moved names) runs clean when retargeted at Causal.PastInextensibleMeetsCauchy, and this target's Probe.lean covers it."
+  ],
+  "extra_decls": [],
+  "kb_proposals": [
+    "Update kb/0315 and kb/0244: the one-sided end-piece lemmas (PastExtensible.of_top_tail, FutureExtensible.of_top_tail, PastExtensible.of_bottom_tail), PastInextensible.of_retraction and pastExtensible_of_subArc are in Causal.CExtConnexeCauchy.SubArc (T-abs-end-pieces-one-sided; same full names). Extensible.of_top_tail is their corollary through extensible_iff, and FutureExtensible.of_top_tail is the library's one pause construction (pauseTop, exists_compress).",
+    "A hoist next to a twin with an identical term-mode matcher keeps its own matcher: Lean 4.31 does not share `<decl>.match_1_1` between declarations of one module, so the parent's value hash is unchanged (T-abs-end-pieces-one-sided: PastInextensible.of_retraction next to Inextensible.of_retraction).",
+    "After a hoist out of a graduated module, an old campaign probe that imports the graduated module's scaffold name (`import CausalScaffold.X`) may fail on a stale .lake olean. A matcher (a def) declared twice is an import error, unlike two equal theorems (kb/0082). Retarget the probe at the strict module; do not rebuild the scaffold name."
+  ],
+  "notes": "For the master. (1) Nothing outside the write set was edited. Causal.lean already imports both modules, and no import changed. (2) Run make -C lean-causal check. The constant dump changes only in the two edited modules: six constants moved module, Extensible.of_top_tail's value and three docstrings changed. Ledgers whose closure attribution reads these files can be rebuilt; no curation row needs a new file (curation_rows). (3) Optionally refresh the stale prose listed above (README rows, kb/0315 and kb/0244, ladder.toml comments). (4) T-abs-meets-cauchy-antisymmetry-sharp and T-abs-flrw-type-closed-ambient, which wait on this target, find the end-piece lemmas in SubArc, under the names their evidence uses. (5) Scratch on node1 in /tmp/aeps/: the HEAD copies of both files (SubArc.before.lean, PIMC.before.lean), the dumps dump-before.txt and dump-after.txt with dump-diff.txt, the statement records stmts-before.txt and stmts-after.txt with stmts-cmp.txt, and the scripts in /tmp/aeps/scripts/ (edit_code.py, edit_doc_subarc.py, edit_doc_pimc.py, norm_cmp.py, verbatim_check.py, ladder_after.py). The concurrent closer's files were not read, built or touched: git status at the end also shows lean-causal/Causal/ErsEtaleMghd.lean modified and lean-causal/scaffold/CausalScaffold/ErsEtaleMghdWitnesses.lean new. Both are theirs, outside this target's closures (lean_index: Causal.ErsEtaleMghd reaches neither edited module, and neither the edited modules nor their six downstream modules reach Causal.ErsEtaleMghd).",
+  "corrected_after_audit": "AUDIT-1 (minor), applied by the master: SubArc's module docstring says the two docstrings had the pause sentences rewritten (not 'lost'), and FutureExtensible.of_top_tail's docstring calls it 'the library's one pauseTop construction' (InextensibleNestedBasics has an ad-hoc pause). The stale prose of README (Causal.PastInextensibleMeetsCauchy's row) and kb/0315 now names SubArc. The ladder comments' line numbers (stale_prose_outside_write_set[2]) read, at 491b0a8b, :453, :4982–:4995 and :5011; left for the keeper. The stale scaffold oleans (110 leftover from graduations) affect no gate and are not cleaned: four old probes import graduated scaffold names through them."
+}
