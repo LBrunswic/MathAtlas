@@ -111,7 +111,8 @@
 # whose comments give the no-gluing reading (gated line 7, jump line 7, global line 2, deuxPushup 3;
 # the [[fails]] push_up ⇏ causally_plain also names Causal.deux_pushup, but its first component, the
 # lightlike line, which is absolutely minimal) and 2 (is_causal ⇏ strongly_causal,
-# strongly_causal_open) by Galileo's spacetime, whose non-minimality is argued, not in Lean: 20
+# strongly_causal_open) by Galileo's spacetime, whose non-minimality was argued then, not in Lean
+# (in Lean since: Causal.GluingModels.galileo_not_minimal): 20
 # non-minimal entries in all. After T-lad-record-minimal (2026-11-21) still 312 of 314: 261 implied
 # or refuted (259 of the 306 causality-sort pairs: 15 implied, 244 refuted) and 51 [[open]] entries
 # (47 causality-sort, 4 geometry-sort); of the 99 pairs it moved, 1 is implied (chronal_neighbours ⇒
@@ -345,6 +346,40 @@
 # consequence chains nothing. In all: 41 implied (37 causality-sort), 363 refuted (360 causality-sort),
 # 28 [[open]] (23 causality-sort, 4 geometry-sort, 1 pair-sort). No [[implies]] or [[fact]] entry
 # changes.
+# After T-lad-record-lsc-separations (2026-11-27) still 432 of 432, simulated in memory first
+# (kb/0276) and the matrix compared line by line before and after: exactly the 21 [[open]] pairs of
+# locally_strongly_causal moved, open → fails, with no contradiction, and their [[open]] entries are
+# removed in the same edit. The witnesses are the conjoined statements of four targets (wave 46), each
+# model absolutely minimal on every open set, so every entry holds in either reading of
+# defi:causalite (DEC-167, OQ-18):
+# * the symmetric rational line, Causal.symmRationalLine_separates_locallyStronglyCausal
+#   (T-abs-lsc-separations, 4f0c825f): one new entry, to = locally_strongly_causal, refuting it from
+#   absolutely_minimal, push_up, locally_push_up, curves_extend, future_one_connected; the line's five
+#   earlier entries re-pointed to it (its conjuncts 1–22 are the old witness's, in order);
+# * the loop fan, Causal.loopFan_separates_locallyStronglyCausal (the same target): its entry to
+#   strongly_causal re-pointed, future_one_connected and locally_strongly_causal joining `from`, which
+#   refutes locally_strongly_causal → strongly_causal, strongly_causal_open;
+# * Galileo's spacetime in its curve form, Causal.galileoCurve_separates (T-abs-galileo-curve-form,
+#   1b79d248): one new entry from its 16 positive nodes, refuting 16 X → locally_strongly_causal;
+# * the loop fan at every scale, Causal.scaledFan_separates (T-abs-loop-fan-every-scale): one new
+#   entry from its 10 positive nodes, the only witness of globally_hyperbolic, causally_compact →
+#   locally_strongly_causal;
+# * the flat time cylinder and the timelike circle,
+#   Causal.Flat.timeCylinder_separates_locallyStronglyCausal and
+#   Causal.Flat.timeCylinder_zero_separates_locallyStronglyCausal (T-loc-time-cylinder-lsc, 4efef56e;
+#   a model witness, layer 3): its three entries re-pointed, locally_strongly_causal joining `from`,
+#   the only witness of locally_strongly_causal → is_causal.
+# The node is fully separated: of its 40 pairs, 3 implied and 37 refuted, none open. In all: 41
+# implied (37 causality-sort), 384 refuted (381 causality-sort), 7 [[open]] (2 causality-sort, 4
+# geometry-sort, 1 pair-sort). The three consequences whose witness takes [R1Space M] (the precompact
+# chart diamonds, the diamond identification near every point, the given-curve form of the C⁰
+# skeleton) carry it as the word R1 in `standing`, out of `under`, since T-tool-ladder-r1-standing
+# (7b79cd94) made it a word; T2 → R1, so it holds on the ambient. One consequence is added at the
+# node, its invariance under causal isomorphisms (Causal.IsCausalIso.locallyStronglyCausal_iff).
+# Stale comments are fixed: the printed Galileo's non-minimality is in Lean
+# (Causal.GluingModels.galileo_not_minimal), the loop fan's local strong causality is Lean's argument
+# (loopLow, not the ball of radius 1/2 "meeting each tent in two arcs near its feet"), and the loop
+# fan at every scale chooses its level before U. No [[implies]] or [[fact]] entry changes.
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
 # described after `geometry`. A property of sort `causality` (the default: no `sort` field) has a Lean
@@ -1051,24 +1086,50 @@ what = "any two future chronal curves of M over [0, 1] with the same endpoints a
 #   chronological diamonds are empty, hence precompact, near every point, and which is not locally
 #   strongly causal (J_W(0, 0) = W). It is not absolutely minimal, so no causality under DEC-167's
 #   gluing, and it states no other node: a remark on the hypothesis, not a [[fails]] entry (its one
-#   pair would be curves_extend → locally_strongly_causal, through the [[fact]], in the no-gluing
-#   reading only; that [[open]] entry says so).
+#   pair, curves_extend → locally_strongly_causal, through the [[fact]], is refuted in either reading
+#   since T-lad-record-lsc-separations, by the symmetric rational line and Galileo's curve form).
+# * Invariant under causal isomorphisms (Causal.IsCausalIso.locallyStronglyCausal_iff, a consequence;
+#   Causal/StronglyCausalTransport.lean, ETT layer).
 # Layer 3 per model: every strongly causal model has it through the edge; the timelike line in Lean
 # (Causal.timelikeLine_locallyStronglyCausal, Causal/DiamondConfinement.lean:544, from
 # Causal.timelikeLine_stronglyCausal), with its precompact diamonds at 0
-# (Causal.timelikeLine_exists_isCompact_closure). For Sbierski's M̃, that Lemma 2.4's near-Minkowskian
-# chart is strongly causal as a spacetime is the C⁰ layer 3 (T-loc-c0-metric-causality,
-# T-loc-c0-chart-diameter). No model in Lean lacks the node (Causal/DiamondConfinement.lean SCOPE; the
-# existential above aside), and none is stated to have it without being strongly causal. Of its 40
-# pairs, 3 are implied (strongly_causal and strongly_causal_open → it, the edge; it → curves_extend,
-# the [[fact]]), 16 refuted (it → X for every X some strongly causal counterexample lacks: 15 in either
-# reading, → absolutely_minimal in the no-gluing reading only, by the gated and jump lines, true in any
-# gluing reading) and 21 are [[open]] entries, all false, argued (their section at the end of the
-# file): the 18 X → it by the symmetric rational line (in Lean but for the node), the loop fan at every
-# scale and Galileo's spacetime in its curve form (neither in Lean); it → is_causal, strongly_causal,
-# strongly_causal_open by the flat time cylinder and the loop fan (in Lean but for the node). The
-# binder papers/sbierski-schwarzschild keeps the id in `open_localisation`, with its [[proposed]]
-# block, until it cites the node (a binder follow-up).
+# (Causal.timelikeLine_exists_isCompact_closure). Every flat spacetime has it, the time cylinders
+# included (Causal.Flat.flatCausality_locallyStronglyCausal, Causal/Model/TimeCylinderLSC.lean:118,
+# T-loc-time-cylinder-lsc, 4efef56e: the source of every chart of the maximal atlas onto 𝐌ⁿ is strongly
+# causal as a spacetime), through the ETT-layer transport Causal.Causality.locallyStronglyCausal_of_chartIso
+# (Causal/StronglyCausalTransport.lean: a causality chart-isomorphic near each point to locally strongly
+# causal ones is locally strongly causal; no separation axiom, no absolute minimality). For Sbierski's
+# M̃, that Lemma 2.4's near-Minkowskian chart is strongly causal as a spacetime is the C⁰ layer 3
+# (T-loc-c0-metric-causality, T-loc-c0-chart-diameter).
+# Separations (wave 46; recorded by T-lad-record-lsc-separations, 2026-11-27): every pair is decided in
+# Lean, and no [[open]] entry joins the node. Of its 40 pairs, 3 are implied (strongly_causal and
+# strongly_causal_open → it, the edge; it → curves_extend, the [[fact]]) and 37 refuted. It → X for
+# the 16 X some strongly causal counterexample lacks (15 in either reading, → absolutely_minimal in the
+# no-gluing reading only, by the gated and jump lines, true in any gluing reading). The other 21, in
+# either reading, by five models absolutely minimal on every open set (the timelike circle counted
+# with the cylinder):
+# * lacking the node, the 18 X → it: the symmetric rational line (5: absolutely_minimal, push_up,
+#   locally_push_up, curves_extend, future_one_connected; Causal.symmRationalLine_separates_locallyStronglyCausal,
+#   Causal/LscSeparations.lean: no open set holding a point is strongly causal as a spacetime), Galileo's
+#   spacetime in its curve form (16, every X but globally_hyperbolic and causally_compact;
+#   Causal.galileoCurve_separates, Causal/GalileoCurveForm.lean: no non-empty open set is,
+#   Causal.galileoCurve_not_stronglyCausalOn) and the loop fan at every scale (10, globally_hyperbolic and
+#   causally_compact among them; Causal.scaledFan_separates, Causal/LoopFanEveryScale.lean: no open set
+#   holding a is, Causal.scaledFan_not_stronglyCausalOn);
+# * having it without strong causality, it → is_causal, strongly_causal, strongly_causal_open: the loop
+#   fan (→ strongly_causal, strongly_causal_open; Causal.loopFan_separates_locallyStronglyCausal, causal and
+#   globally hyperbolic with a time function; Causal.loopFan_locallyStronglyCausal) and the flat time
+#   cylinder and the timelike circle (all 3; Causal.Flat.timeCylinder_separates_locallyStronglyCausal,
+#   Causal.Flat.timeCylinder_zero_separates_locallyStronglyCausal, not causal; a model witness).
+# So strongly_causal ⇒ locally_strongly_causal is strict in Lean, and prop:GH_fortement_causal
+# (globally hyperbolic and tarentin give strong causality) needs its tarentin on both sides of the
+# node: globally hyperbolic, locally strongly causal and with a time function does not give strong
+# causality (the loop fan), and globally hyperbolic, causally arc-connected and with a time function
+# does not give local strong causality (the loop fan at every scale,
+# Causal.not_locallyStronglyCausal_of_globallyHyperbolic_bare); the loop fan itself has the node, so
+# that failure needs loops at every scale. The binder papers/sbierski-schwarzschild cites the node in
+# `localisation` (Lemma 2.4, Thm 3.1, Thms 4.9–4.11 and the introduction's twin) and in the C0 model's
+# `proves` since T-bind-schw-c0-skeleton (2026-11-27); its [[proposed]] block is gone.
 [[property]]
 id = "locally_strongly_causal"
 lean = "Causal.Causality.LocallyStronglyCausal"
@@ -1293,7 +1354,14 @@ status = "checked"
 # tarentin; bare form Causal.not_stronglyCausal_of_globallyHyperbolic_bare. Until then the [[open]]
 # globally_hyperbolic → strongly_causal(_open) said the globally hyperbolic Lean models without
 # tarentin (the spacelike, jump and half-lit lines and the half-lit line's reversal) were all
-# strongly causal.
+# strongly causal. Since T-lad-record-lsc-separations (2026-11-27) the loop fan's entry takes its full
+# form Causal.loopFan_separates_locallyStronglyCausal, which adds that it is locally strongly causal:
+# tarentin cannot be traded for local strong causality here (globally hyperbolic, locally strongly
+# causal and with a time function, not strongly causal); nor does the conclusion weaken to local
+# strong causality without tarentin (the loop fan at every scale, globally hyperbolic and causally
+# arc-connected with a time function and not locally strongly causal,
+# Causal.not_locallyStronglyCausal_of_globallyHyperbolic_bare; its [[fails]] entry below). Conjunctive
+# facts, in comments only: the matrix reads single premises.
 [[implies]]
 from = ["globally_hyperbolic", "tarentin"]
 to = "strongly_causal"
@@ -1557,9 +1625,10 @@ status = "checked"
 # closure within Causal (31 modules, itself included) holds no model and no
 # Causal.Ladder.* module, so emit-lean adds `import Causal.DiamondConfinement` to Rules.lean with no
 # import cycle (kb/0221). Since Rules then imports it, no module of that closure may use causal_ladder
-# or import Causal.Ladder.*. Strict, argued, not in Lean: no Lean model is stated locally strongly
-# causal and not strongly causal; the loop fan and the flat time cylinder are argued to be (the
-# [[open]] entries locally_strongly_causal → strongly_causal, is_causal).
+# or import Causal.Ladder.*. Strict in Lean since T-lad-record-lsc-separations (2026-11-27): the loop
+# fan and the flat time cylinder are locally strongly causal and not strongly causal
+# (Causal.loopFan_separates_locallyStronglyCausal, Causal.Flat.timeCylinder_separates_locallyStronglyCausal;
+# the [[fails]] entries to strongly_causal and to is_causal that cite them).
 [[implies]]
 from = ["strongly_causal"]
 to = "locally_strongly_causal"
@@ -2092,19 +2161,55 @@ status = "checked"
 # (Causal.galileoOn_isCausal) and, for n ≥ 1, not strongly causal (Causal.galileo_not_stronglyCausal,
 # the witness; split as above). The converse of rem:topological_spacetime_strongly_causal fails;
 # through strongly_causal_open ⇒ strongly_causal also is_causal ⇏ strongly_causal_open. Its other
-# properties (a time function T = fst, push-up, tarentin, causal openness) are not stated in Lean.
-# Reading: not recorded. Galileo's spacetime is argued not absolutely minimal (on a U-shaped open,
-# x ≪_U y across the bend is joined by no time-increasing chain of small steps; T-abs-galileo-ladder
-# asks it in Lean); if so, this entry holds in the no-gluing reading only (kb/0014, OQ-18), and
-# T-lad-record-no-gluing says so. Its two pairs no longer rest on the reading: since
+# properties (a time function T = fst, push-up, tarentin, causal openness) are not stated in Lean for
+# it; its curve form, the next entry, has them in Lean.
+# Reading: no-gluing only (kb/0014, OQ-18, DEC-167). Galileo's printed spacetime is not absolutely
+# minimal for n ≥ 1, in Lean: Causal.GluingModels.galileo_not_minimal (Causal/GluingModels/NonMinimal.lean:431,
+# through Causal.GluingModels.galileoOn_not_minimal: outside a cup-shaped wall, p inside the cup and q
+# above it lie in one component through a detour below the wall, so p ≪_U q, while every chain of steps
+# localised to the cover {t > 1/4}, {t < 1/2} stays in the cup), so it is no causality under DEC-167's gluing (OQ-108 asks whether item 4 is meant with the causality
+# its small open sets generate). Its two pairs do not rest on the reading: since
 # T-lad-record-separators (2026-11-21) the loop fan refutes them in either reading
-# (Causal.loopFan_separates: causal, globally hyperbolic, absolutely minimal on every open set,
-# strongly causal in neither form; a [[fails]] entry below). The entry stays as the paper's own
-# witness (rem:galileo_spacetime_not_strongly), not shown non-minimal in Lean.
+# (Causal.loopFan_separates_locallyStronglyCausal since T-lad-record-lsc-separations: causal, globally
+# hyperbolic, absolutely minimal on every open set, strongly causal in neither form; a [[fails]] entry
+# below), and so does Galileo's curve form since T-lad-record-lsc-separations (the next entry: causal,
+# and not locally strongly causal, hence strongly causal in neither form). The entry stays as the
+# paper's own witness (rem:galileo_spacetime_not_strongly).
 [[fails]]
 from = "is_causal"
 to = "strongly_causal"
 witness = "Causal.galileo_not_stronglyCausal"
+status = "checked"
+
+# Galileo's spacetime in its curve form (T-abs-galileo-curve-form, 1b79d248; recorded by
+# T-lad-record-lsc-separations, 2026-11-27). Causal.galileoCurve n on ℝ × (Fin n → ℝ)
+# (Causal/GalileoCurveForm.lean, ETT layer: its imports Causal.Ladder.Rules, Causal.Galileo and
+# Causal.GluingModels.NonMinimal, no model): p ≪_U q iff a continuous curve of U over [0, 1] with
+# strictly increasing time runs from p to q, p ≤_U q iff p ≪_U q or p = q ∈ U. Not the printed
+# causality: finer on every open set, equal on convex ones (Causal.galileoCurve_lt_iff_galileo_of_convex),
+# different for n ≥ 1 (Causal.galileoCurve_ne_galileo, through Causal.GluingModels.galileo_not_minimal).
+# Causal.galileoCurve_separates (:722), read from the source: (hn : 1 ≤ n) ⊢ CausallyArcConnected ∧
+# AbsolutelyMinimal ∧ (∀ W, AbsolutelyMinimalOn W) ∧ PushUp ∧ LocallyPushUp ∧ CausallyOpen ∧
+# CausallyOpenFuture ∧ LocallyCausallyOpen ∧ LocallyCausallyOpenFuture ∧ Tarentin ∧ ChronalNeighbours ∧
+# HasChronalNeighbourEverywhere ∧ CausallyPlain ∧ IsCausal ∧ HasTimeFunction ∧ IsTimeFunction Prod.fst ∧
+# FutureOneConnected ∧ CurvesExtend ∧ ¬ LocallyStronglyCausal ∧ ¬ StronglyCausal ∧
+# ¬ StronglyCausalOpen ∧ ¬ CausallyCompact ∧ ¬ GloballyHyperbolic, no instance argument: every
+# causality-sort node decided, 16 held and 5 lacked, at every n ≥ 1 (n = 1 suffices; the carrier is T2
+# and second countable, so no `space`). Stronger than ¬ LocallyStronglyCausal: no non-empty open set is
+# strongly causal as a spacetime (Causal.galileoCurve_not_stronglyCausalOn; a set causally convex in a
+# convex open W holding two points of distinct times holds the slab of W between them,
+# Causal.galileoCurve_slab_subset_of_convex, rem:galileo_spacetime_not_strongly's argument run in W).
+# One entry, `from` the 16 held, each a conjunct, ¬ LocallyStronglyCausal conjunct 19: it refutes
+# every X → locally_strongly_causal but globally_hyperbolic and causally_compact, 8 of them alone
+# (causally_open, causally_open_future, locally_causally_open, locally_causally_open_future, tarentin,
+# chronal_neighbours, has_chronal_neighbour, causally_plain). Entries to its other four lacks would
+# move no pair (simulated, the closer's REPORT).
+# Reading: either (absolutely minimal on every open set for every cover, conjunct 3; causally
+# arc-connected).
+[[fails]]
+from = ["causally_arc_connected", "absolutely_minimal", "push_up", "locally_push_up", "causally_open", "causally_open_future", "locally_causally_open", "locally_causally_open_future", "tarentin", "chronal_neighbours", "has_chronal_neighbour", "causally_plain", "is_causal", "time_function", "future_one_connected", "curves_extend"]
+to = "locally_strongly_causal"
+witness = "Causal.galileoCurve_separates"
 status = "checked"
 
 # ---- T-lad-record-lines (2026-11-21): the separations wave 10 put in the strict library, each
@@ -2539,19 +2644,33 @@ status = "checked"
 # it carries: absolute minimality, causal arc-connectedness, push-up, causal openness, tarentin,
 # chronal neighbours, plainness and curves_extend together do not make a spacetime causal: a flat
 # spacetime with all of them has closed timelike curves.
+# Since T-lad-record-lsc-separations (2026-11-27) the cylinder's two entries and the circle's one
+# (below) take the full forms Causal.Flat.timeCylinder_separates_locallyStronglyCausal (1 ≤ d) and
+# Causal.Flat.timeCylinder_zero_separates_locallyStronglyCausal (d = 0) (Causal/Model/TimeCylinderLSC.lean:135,
+# :152; T-loc-time-cylinder-lsc, 4efef56e; a model module, layer 3, flat-gx, cited as the old witness
+# was): the conjuncts of timeCylinder_separates and timeCylinder_zero_separates in their order, then
+# LocallyStronglyCausal ∧ ¬ StronglyCausal ∧ ¬ StronglyCausalOpen, read from the source;
+# locally_strongly_causal joins each `from`. Locally strongly causal as every flat spacetime is
+# (Causal.Flat.flatCausality_locallyStronglyCausal: the chart at a point is a chart isomorphism onto
+# minkowski d, strongly causal for every d, and Causal.ChartIso.stronglyCausalOn_chartSource carries it
+# to the chart's whole source; no covering map and no small ball, unlike the [[open]] note's argument).
+# The entry to is_causal is the only witness of locally_strongly_causal → is_causal and, read backwards
+# through strongly_causal ⇒ is_causal (T1) and strongly_causal_open ⇒ strongly_causal, a witness of →
+# strongly_causal, strongly_causal_open, which the loop fan's entry gives too; the other two move no pair.
+# A locally strongly causal spacetime with all the properties above need not be causal.
 # Reading: either (causally arc-connected, and absolutely minimal as every flat causality is,
 # Causal.Flat.flatCausality_absolutelyMinimal; OQ-18 does not touch it).
 [[fails]]
-from = ["curves_extend", "absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "chronal_neighbours", "causally_open", "causally_plain"]
+from = ["curves_extend", "absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "chronal_neighbours", "causally_open", "causally_plain", "locally_strongly_causal"]
 to = "is_causal"
-witness = "Causal.Flat.timeCylinder_separates"
+witness = "Causal.Flat.timeCylinder_separates_locallyStronglyCausal"
 status = "checked"
 
 # Reading: either (causally arc-connected; absolutely minimal, as every flat causality).
 [[fails]]
-from = ["curves_extend", "absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "chronal_neighbours", "causally_open", "causally_plain"]
+from = ["curves_extend", "absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "chronal_neighbours", "causally_open", "causally_plain", "locally_strongly_causal"]
 to = "causally_compact"
-witness = "Causal.Flat.timeCylinder_separates"
+witness = "Causal.Flat.timeCylinder_separates_locallyStronglyCausal"
 status = "checked"
 
 # The timelike circle, the cylinder at d = 0 (ℝ/ℤ with the timelike line's causality, compact; beyond
@@ -2563,12 +2682,15 @@ status = "checked"
 # globally_hyperbolic, strongly_causal, strongly_causal_open, time_function (5 [[open]] pairs, whose
 # notes argued them with the doubled line, not absolutely minimal). So the two conjuncts of
 # def:globally_hyperbolic are independent in either reading: causally_compact ⇏ is_causal here,
-# is_causal ⇏ causally_compact by the half-plane.
+# is_causal ⇏ causally_compact by the half-plane. Its full form with local strong causality since
+# T-lad-record-lsc-separations (the cylinder's comment above): a second witness of
+# locally_strongly_causal → is_causal, strongly_causal, strongly_causal_open, compact and causally
+# compact.
 # Reading: either (as for the cylinder).
 [[fails]]
-from = ["causally_compact", "curves_extend", "absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "chronal_neighbours", "causally_open", "causally_plain"]
+from = ["causally_compact", "curves_extend", "absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "chronal_neighbours", "causally_open", "causally_plain", "locally_strongly_causal"]
 to = "is_causal"
-witness = "Causal.Flat.timeCylinder_zero_separates"
+witness = "Causal.Flat.timeCylinder_zero_separates_locallyStronglyCausal"
 status = "checked"
 
 # ---- T-lad-record-separators (2026-11-21): the absolutely minimal separators of T-abs-one-way-membrane,
@@ -2746,16 +2868,80 @@ status = "checked"
 # strongly_causal_open (strongly_causal_open ⇒ strongly_causal) and, globally hyperbolic, tarentin
 # (prop:GH_fortement_causal's edge, T2, backwards) and chronal_neighbours. It settles
 # globally_hyperbolic, time_function → strongly_causal, strongly_causal_open, and gives is_causal →
-# strongly_causal, strongly_causal_open, refuted before by Galileo's spacetime only (argued not
-# absolutely minimal), a witness in either reading: prop:GH_fortement_causal is sharp in tarentin
-# (Causal.not_stronglyCausal_of_globallyHyperbolic_bare); T-abs-galileo-ladder's pairs
-# time_function → strongly_causal(_open) are moot.
-# Reading: either (absolutely minimal on every open set for every cover, Causal.loopFan_absolutelyMinimalOn;
-# OQ-18 does not touch it).
+# strongly_causal, strongly_causal_open, refuted before by Galileo's spacetime only (not absolutely
+# minimal, Causal.GluingModels.galileo_not_minimal), a witness in either reading:
+# prop:GH_fortement_causal is sharp in tarentin (Causal.not_stronglyCausal_of_globallyHyperbolic_bare);
+# T-abs-galileo-ladder's pairs time_function → strongly_causal(_open) are moot.
+# Since T-lad-record-lsc-separations (2026-11-27) the entry takes the full form
+# Causal.loopFan_separates_locallyStronglyCausal (Causal/LscSeparations.lean:450, T-abs-lsc-separations,
+# 4f0c825f; ETT layer), read from the source: the 15 conjuncts of loopFan_separates in their order,
+# with ∀ W, AbsolutelyMinimalOn W after AbsolutelyMinimal, then FutureOneConnected ∧
+# (∀ W, FutureOneConnectedOn W) (≪ empty) ∧ LocallyStronglyCausal, and after the four negations
+# ¬ CausallyPlain ∧ ¬ HasChronalNeighbourEverywhere (≪ empty). future_one_connected and
+# locally_strongly_causal join `from`, and the entry refutes locally_strongly_causal →
+# strongly_causal, strongly_causal_open. Locally strongly causal (Causal.loopFan_locallyStronglyCausal),
+# with three kinds of open set, in each of which the small centred boxes are causally convex
+# (Causal.loopFan_stronglyCausalOn_of_boxes; Causal.loopFan_causallyConvexIn_box: a box is causally
+# convex in W once every tent whose top lies in W, and which meets the box on both sides of that top,
+# has the top below the box's ceiling): at a, Causal.loopLow, the points of height below 1, holding no
+# tent's top (height 1 + ε_n); off the vertical through a, Causal.loopSide (x ≠ 0); at the top of γ_n,
+# the band Causal.loopCap n, holding no other top. The ball of radius 1/2 about a, the [[open]] notes'
+# W, lies in loopLow, so it is strongly causal as a spacetime by heredity, but it does not "meet each
+# tent in two arcs near its feet": it misses γ_0 and holds no foot of γ_1 (ε_0 = 1, ε_1 = 1/2). About a
+# the loop fan is strongly causal as a spacetime, though not at a in M
+# (Causal.loopFan_stronglyCausalOn_low_not_at). Conjunctive facts it carries, in comments only (the
+# matrix reads single premises): globally_hyperbolic ∧ locally_strongly_causal ∧ time_function ⇏
+# strongly_causal, so prop:GH_fortement_causal's tarentin cannot be traded for local strong causality;
+# its four causally open forms are argued (every point of a tent has a neighbourhood meeting that tent
+# only), not stated, and no pair needs them.
+# Reading: either (absolutely minimal on every open set for every cover, conjunct 4;
+# Causal.loopFan_absolutelyMinimalOn; OQ-18 does not touch it).
 [[fails]]
-from = ["absolutely_minimal", "causally_arc_connected", "push_up", "locally_push_up", "is_causal", "causally_compact", "globally_hyperbolic", "time_function", "curves_extend"]
+from = ["absolutely_minimal", "causally_arc_connected", "push_up", "locally_push_up", "is_causal", "causally_compact", "globally_hyperbolic", "time_function", "curves_extend", "future_one_connected", "locally_strongly_causal"]
 to = "strongly_causal"
-witness = "Causal.loopFan_separates"
+witness = "Causal.loopFan_separates_locallyStronglyCausal"
+status = "checked"
+
+# The loop fan at every scale (T-abs-loop-fan-every-scale; Causal/LoopFanEveryScale.lean, ETT layer, its
+# one import Causal.LscSeparations, no model; recorded by T-lad-record-lsc-separations, 2026-11-27).
+# Causal.scaledFan, the arc causality (Causal.arcCausality, ≪ empty) on Causal.scaledFanSet ⊆ ℝ³ of
+# a = (0, 0, 0) and, for every level k, the loop fan's tents carried into the vertical plane
+# Y = ε_k X through a by (x, y) ↦ 2⁻ᵏ (x, ε_k x, y) (Causal.levelEmbed, ε_k = 1/(k + 1)): a linear copy
+# of the loop fan scaled by 2⁻ᵏ. Two levels meet nowhere (off the vertical the slopes differ; on it an
+# arc has its top only, at a height in (2⁻ᵏ, 2¹⁻ᵏ]), so the arcs are coherent
+# (Causal.scaledFanγ_coherent). Causal.scaledFan_separates (:450), read from the source, a closed
+# statement with no instance argument: T2Space ∧ SecondCountableTopology ∧ AbsolutelyMinimal ∧
+# (∀ W, AbsolutelyMinimalOn W) ∧ CausallyArcConnected ∧ PushUp ∧ LocallyPushUp ∧ IsCausal ∧
+# CausallyCompact ∧ GloballyHyperbolic ∧ HasTimeFunction ∧ CurvesExtend ∧ FutureOneConnected ∧
+# (∀ W, FutureOneConnectedOn W) ∧ ¬ LocallyStronglyCausal ∧ (∀ W, a ∈ W → ¬ StronglyCausalOn W) ∧
+# ¬ StronglyCausal ∧ ¬ StronglyCausalOpen ∧ ¬ Tarentin ∧ ¬ ChronalNeighbours ∧ ¬ CausallyPlain ∧
+# ¬ HasChronalNeighbourEverywhere ∧ ¬ CausallyOpenFuture ∧ ¬ CausallyOpen ∧
+# ¬ LocallyCausallyOpenFuture ∧ ¬ LocallyCausallyOpen: all 21 causality-sort nodes decided, 10 held
+# and 11 lacked. No open set holding a is strongly causal as a spacetime
+# (Causal.scaledFan_not_stronglyCausalOn): an open W ∋ a holds a sup-ball B(a, r); the level k is
+# chosen first, with 2 · 2⁻ᵏ < r, so that level k lies in W (Causal.scaledFanγ_coord_le), and then
+# U = {Z < 2⁻ᵏ}; every V ∈ 𝓝 a inside U holds both feet of a loop of level k
+# (Causal.tendsto_scaledFanP, Causal.tendsto_scaledFanQ), and J_W of the two feet holds that loop's
+# top, at height 2⁻ᵏ (1 + ε_n), outside U. (The [[open]] notes took U = B(a, ρ), ρ < r/4, and then a
+# level k with 2⁻ᵏ ∈ (ρ, r/4], which need not exist: for r = 0.9 and ρ = 0.2 the interval
+# (0.2, 0.225] holds no power of 1/2. The level comes first.) The loop fan alone has the node (the
+# entry above): the failure needs loops at every scale. One entry, `from` the 10 held, each a
+# conjunct, ¬ LocallyStronglyCausal conjunct 15: the only witness of globally_hyperbolic,
+# causally_compact → locally_strongly_causal; Galileo's curve form refutes its other 8 too (and the
+# symmetric rational line 5 of them). Entries to its other lacks would move no pair (simulated, the
+# closer's REPORT). Conjunctive facts it carries, in comments only: prop:GH_fortement_causal is sharp
+# in tarentin even for local strong causality
+# (Causal.not_locallyStronglyCausal_of_globallyHyperbolic_bare: on a Hausdorff, second countable
+# space, a globally hyperbolic, causally arc-connected causality with a time function need not be
+# locally strongly causal); and it is causally open in no form, though the single loop fan is argued
+# causally open: the top (0, 0, 1) of the tent (1, 0) is the limit of level 0's tops, and for every
+# open W holding it J⁺_W(W ∩ {Y < X}) holds it and no point of level 0, so is not open
+# (Causal.scaledFan_not_causallyOpenFutureOn).
+# Reading: either (absolutely minimal on every open set for every cover, conjunct 4).
+[[fails]]
+from = ["absolutely_minimal", "causally_arc_connected", "push_up", "locally_push_up", "is_causal", "causally_compact", "globally_hyperbolic", "time_function", "curves_extend", "future_one_connected"]
+to = "locally_strongly_causal"
+witness = "Causal.scaledFan_separates"
 status = "checked"
 
 # ---- T-lad-record-plain-chronal (2026-11-21): the absolutely minimal separators of
@@ -3193,39 +3379,58 @@ status = "checked"
 # future one-connected by Causal.Causality.withoutChronology_futureOneConnected, would be a second
 # witness (not stated, a model follow-up). Its other negations refute pairs the rational line's
 # entries carry.
+# Since T-lad-record-lsc-separations (2026-11-27) the five entries take the full form
+# Causal.symmRationalLine_separates_locallyStronglyCausal (Causal/LscSeparations.lean:167,
+# T-abs-lsc-separations, 4f0c825f; ETT layer), read from the source: the 22 conjuncts above in their
+# order, then ¬ LocallyStronglyCausal ∧ (∀ W p, p ∈ W → ¬ StronglyCausalOn W). No open set holding a
+# point is strongly causal as a spacetime (Causal.symmRationalLine_not_stronglyCausalOn: with (l, u) ⊆ W
+# about p and m the midpoint of p and u, a neighbourhood V of p inside (l, m) holds a rational r, and
+# a rational r' of (m, u) has r ≤_W r' ≤_W r, uIcc r r' ⊆ W: r' ∈ J_W(r, r), outside V). A sixth
+# entry, to = locally_strongly_causal (the last below), refutes absolutely_minimal, push_up,
+# locally_push_up, curves_extend, future_one_connected → locally_strongly_causal; Galileo's curve form
+# refutes the five as well.
 # Reading: either (absolutely minimal on every open set for every cover, a conjunct).
 [[fails]]
 from = ["future_one_connected", "absolutely_minimal", "push_up", "locally_push_up", "curves_extend"]
 to = "is_causal"
-witness = "Causal.symmRationalLine_separates_futureOneConnected"
+witness = "Causal.symmRationalLine_separates_locallyStronglyCausal"
 status = "checked"
 
 # Reading: either (absolutely minimal on every open set for every cover, a conjunct).
 [[fails]]
 from = ["future_one_connected", "absolutely_minimal", "push_up", "locally_push_up", "curves_extend"]
 to = "strongly_causal"
-witness = "Causal.symmRationalLine_separates_futureOneConnected"
+witness = "Causal.symmRationalLine_separates_locallyStronglyCausal"
 status = "checked"
 
 # Reading: either (absolutely minimal on every open set for every cover, a conjunct).
 [[fails]]
 from = ["future_one_connected", "absolutely_minimal", "push_up", "locally_push_up", "curves_extend"]
 to = "strongly_causal_open"
-witness = "Causal.symmRationalLine_separates_futureOneConnected"
+witness = "Causal.symmRationalLine_separates_locallyStronglyCausal"
 status = "checked"
 
 # Reading: either (absolutely minimal on every open set for every cover, a conjunct).
 [[fails]]
 from = ["future_one_connected", "absolutely_minimal", "push_up", "locally_push_up", "curves_extend"]
 to = "globally_hyperbolic"
-witness = "Causal.symmRationalLine_separates_futureOneConnected"
+witness = "Causal.symmRationalLine_separates_locallyStronglyCausal"
 status = "checked"
 
 # Reading: either (absolutely minimal on every open set for every cover, a conjunct).
 [[fails]]
 from = ["future_one_connected", "absolutely_minimal", "push_up", "locally_push_up", "curves_extend"]
 to = "time_function"
-witness = "Causal.symmRationalLine_separates_futureOneConnected"
+witness = "Causal.symmRationalLine_separates_locallyStronglyCausal"
+status = "checked"
+
+# Lacking locally_strongly_causal, it lacks strongly_causal and strongly_causal_open (read backwards),
+# conjuncts besides. ¬ LocallyStronglyCausal is conjunct 23.
+# Reading: either (absolutely minimal on every open set for every cover, a conjunct).
+[[fails]]
+from = ["future_one_connected", "absolutely_minimal", "push_up", "locally_push_up", "curves_extend"]
+to = "locally_strongly_causal"
+witness = "Causal.symmRationalLine_separates_locallyStronglyCausal"
 status = "checked"
 
 # The spatially compact flat cylinder ℤe₁\𝐌^{1+1} (T-abs-not-future-one-connected, bdce0bdd):
@@ -4596,10 +4801,13 @@ status = "checked"
 # Causal/C0ExtensionSkeleton.lean (T-abs-c0-extension-skeleton, 1faaa160), both ETT layer, no model;
 # each signature is quoted in its comment, and each name was resolved by tools/ladder.py's index.
 # Every binder is {M : Type u} [TopologicalSpace M] {C : Causality M} with the opens, points and
-# curves, and the instances quoted. [R1Space M] is no word of the standing vocabulary: it is written in
-# `under` (every Hausdorff space is R₁, so it holds on the ambient). [LocallyCompactSpace M] is the
-# word locally_compact and [PreconnectedSpace M] preconnected, both beyond the ambient (a consequence
-# chains nothing).
+# curves, and the instances quoted. [R1Space M] is the word R1 since T-tool-ladder-r1-standing
+# (7b79cd94), in `standing` since T-lad-record-lsc-separations (2026-11-27; it was written in `under`
+# before): T2 → R1, every Hausdorff space being R₁, so it holds on the ambient. [LocallyCompactSpace M]
+# is the word locally_compact and [PreconnectedSpace M] preconnected, both beyond the ambient (a
+# consequence chains nothing). Of the witnesses here, three take [R1Space M] (the precompact chart
+# diamonds, the diamond identification near every point, the given-curve form of the C⁰ skeleton) and
+# the four assemblies [T2Space M] (the word T2), read from the sources.
 
 # Time reversal (:400): C.dual.LocallyStronglyCausal ↔ C.LocallyStronglyCausal, through
 # Causal.Causality.dual_stronglyCausalOn (causal convexity in W reads the diamonds J_W, which C.dual
@@ -4619,6 +4827,24 @@ statement = "every neighbourhood of every point contains an open neighbourhood o
 witness = "Causal.Causality.locallyStronglyCausal_iff_nhds"
 status = "checked"
 
+# Causal isomorphisms (T-lad-record-lsc-separations, 2026-11-27; Causal/StronglyCausalTransport.lean:189,
+# T-loc-time-cylinder-lsc, 4efef56e; ETT layer, its one import Causal.DiamondConfinement), read from
+# the source: {X : Type v} [TopologicalSpace X] {C : Causality M} {D : Causality X} {e : M ≃ₜ X}
+# (h : IsCausalIso C D e) ⊢ C.LocallyStronglyCausal ↔ D.LocallyStronglyCausal, through
+# Causal.IsCausalIso.stronglyCausalOn_iff (W to e.opensCongr W). As future_one_connected's
+# (Causal.IsCausalIso.futureOneConnected_iff). The chart form beside it,
+# Causal.Causality.locallyStronglyCausal_of_chartIso (a causality chart-isomorphic near each point to
+# locally strongly causal ones is locally strongly causal; no separation, no minimality), concludes
+# the node of C from the node of other causalities, its models: no entry at the node, whose `at` would
+# read it of C. It is how every flat spacetime has the node (Causal.Flat.flatCausality_locallyStronglyCausal,
+# a model fact).
+[[consequence]]
+at = "locally_strongly_causal"
+statement = "local strong causality is transported by a causal isomorphism e : M ≃ₜ X: C is locally strongly causal iff D is"
+witness = "Causal.IsCausalIso.locallyStronglyCausal_iff"
+under = "the homeomorphism e with Causal.IsCausalIso C D e"
+status = "checked"
+
 # The precompact chart diamonds (:471; Sbierski Thm 3.1 Step 1.2, :528, and Thm 4.11's "its closure
 # in M̃ is contained in Õ", :1625): [LocallyCompactSpace M] [R1Space M] (h : C.LocallyStronglyCausal)
 # (p : M) {N : Set M} (hN : N ∈ 𝓝 p) ⊢ ∃ Ũ : Opens M, p ∈ Ũ ∧ (Ũ : Set M) ⊆ N ∧ C.StronglyCausalOn Ũ ∧
@@ -4634,8 +4860,7 @@ status = "checked"
 at = "locally_strongly_causal"
 statement = "precompact chart diamonds (Sbierski 1507.00601 Thm 3.1 Step 1.2): inside every neighbourhood N of every point p there are an open Ũ ∋ p, strongly causal as a spacetime, and a neighbourhood V of p such that for all x, y ∈ V the closure in M of I⁺(x, Ũ) ∩ I⁻(y, Ũ) is compact and lies in Ũ"
 witness = "Causal.Causality.LocallyStronglyCausal.exists_isCompact_closure"
-under = "M R₁ ([R1Space M], no word of the vocabulary; T2 suffices, every Hausdorff space being R₁, so it holds on the ambient)"
-standing = ["locally_compact"]
+standing = ["locally_compact", "R1"]
 status = "checked"
 
 # The assembly of (i)–(iii), the diamond identification near every point (:487): the same binders ⊢
@@ -4654,8 +4879,8 @@ status = "checked"
 at = "locally_strongly_causal"
 statement = "the diamond identification near every point (Sbierski 1507.00601 Thm 3.1 Steps 1.2 and 3, (1.2) with equality): inside every neighbourhood of every point p, an open Ũ ∋ p and a neighbourhood V of p such that for all x, y ∈ V the closure of I⁺(x, Ũ) ∩ I⁻(y, Ũ) is compact and in Ũ, and for every open W causally arc-connected and future one-connected as a spacetime and every chronal curve of W from x to y over [0, 1] lying in Ũ, I⁺(x, W) ∩ I⁻(y, W) = I⁺(x, W ⊓ Ũ) ∩ I⁻(y, W ⊓ Ũ)"
 witness = "Causal.Causality.LocallyStronglyCausal.exists_diamond_identification"
-under = "M R₁ ([R1Space M]; T2 suffices, so it holds on the ambient). No other hypothesis: the open W, causally arc-connected and future one-connected as a spacetime (CausallyArcConnectedOn W, FutureOneConnectedOn W; at W = M the nodes causally_arc_connected and future_one_connected), is quantified in the conclusion"
-standing = ["locally_compact"]
+under = "no hypothesis but the instances: the open W, causally arc-connected and future one-connected as a spacetime (CausallyArcConnectedOn W, FutureOneConnectedOn W; at W = M the nodes causally_arc_connected and future_one_connected), is quantified in the conclusion"
+standing = ["locally_compact", "R1"]
 status = "checked"
 
 # The C⁰ skeleton (Causal/C0ExtensionSkeleton.lean; Sbierski 1507.00601 Thm 3.1, Thms 4.9–4.11, their
@@ -4679,8 +4904,8 @@ status = "checked"
 at = "locally_strongly_causal"
 statement = "the given-curve form of the C⁰ skeleton (the hypothesis of Sbierski 1507.00601 Thms 4.10, 4.11): a chronal curve γ of M over [0, 1] lying in W on [0, 1) has precompact chart diamonds at its end containing the diamonds of W between its points (ExitDiamonds W γ)"
 witness = "Causal.Causality.exitDiamonds_of_curve"
-under = "M R₁ ([R1Space M]; T2 suffices, so it holds on the ambient); W an open set causally arc-connected and future one-connected as a spacetime (CausallyArcConnectedOn W, FutureOneConnectedOn W); γ a chronal curve of M over [0, 1] with γ([0, 1)) ⊆ W"
-standing = ["locally_compact"]
+under = "W an open set causally arc-connected and future one-connected as a spacetime (CausallyArcConnectedOn W, FutureOneConnectedOn W); γ a chronal curve of M over [0, 1] with γ([0, 1)) ⊆ W"
+standing = ["locally_compact", "R1"]
 status = "checked"
 
 # The assembly, the target's form (:222; Thm 3.1 and Thm 4.9, §1 :145–158): [PreconnectedSpace M]
@@ -5452,8 +5677,9 @@ note = "False, argued: the pointed line in the spacelike line (Causal.pointedLin
 #     compact, globally hyperbolic, not tarentin, no chronal neighbours; the fork strongly causal in
 #     both forms without a time function, ≤_M and J⁺(w) not closed (Causal.fork_separates,
 #     Causal.fork_not_isClosed_le, Causal.fork_not_isClosed_Jplus); the loop fan with a time function
-#     (−x) and curves_extend, strongly causal in neither form (Causal.loopFan_separates); [[fails]]
-#     entries since T-lad-record-separators;
+#     (−x) and curves_extend, strongly causal in neither form (Causal.loopFan_separates), and locally
+#     strongly causal (Causal.loopFan_separates_locallyStronglyCausal, its entry's witness since
+#     T-lad-record-lsc-separations); [[fails]] entries since T-lad-record-separators;
 #   - the notched plane Causal.notchedCausality (Minkowski's plane with the open future cone of the
 #     origin removed, Causal.notchedPlane, a closed subspace of ℝ²; ≤_U and ≪_U along future causal
 #     and timelike polygons in U; Hausdorff and second countable, conjoined): L absolutely minimal on
@@ -5475,10 +5701,12 @@ note = "False, argued: the pointed line in the spacelike line (Causal.pointedLin
 #     open, not absolutely minimal (no target: T-abs-doubled-line-compact, which asked them, was dropped
 #     on 2026-11-21, settling no pair in either reading); every pair its notes asked is settled since
 #     T-lad-record-minimal by the flat time cylinder and the timelike circle, in either reading;
-#   - Galileo's spacetime Causal.galileo n, n ≥ 1: L causal, not strongly causal; A a time function
-#     (fst), push-up, tarentin, causally open, chronal neighbours, causally plain; not absolutely
-#     minimal (on a U-shaped open, x ≪_U y across the bend is generated by no chain of small steps,
-#     which never go back in time), not causally compact (its diamonds are slabs); its time function
+#   - Galileo's spacetime Causal.galileo n, n ≥ 1: L causal, not strongly causal, not absolutely
+#     minimal (Causal.GluingModels.galileo_not_minimal: outside a cup-shaped wall, p ≪_U q through a
+#     detour below the wall is generated by no chain of localised steps, which stay in the cup); A a time function (fst),
+#     push-up, tarentin, causally open, chronal neighbours, causally plain, not causally compact (its
+#     diamonds are slabs). Its curve form Causal.galileoCurve n, absolutely minimal, has all of these in
+#     Lean (Causal.galileoCurve_separates; its [[fails]] entry since T-lad-record-lsc-separations). Its time function
 #     would settle time_function → strongly_causal(_open), refuted in either reading since
 #     T-lad-record-separators (the loop fan), and its chronal neighbours chronal_neighbours →
 #     absolutely_minimal, causally_arc_connected; the second is refuted in either reading since
@@ -5560,8 +5788,9 @@ note = "False, argued: the pointed line in the spacelike line (Causal.pointedLin
 # neighbours in Lean. It said the pair holds in the gluing reading, where every causality is absolutely
 # minimal (OQ-18), so that no witness can refute it there; that stays true. Of the three
 # causality-sort entries above, two stay: causally_plain → locally_push_up and strongly_causal →
-# strongly_causal_open. The 21 of locally_strongly_causal are in their own section below, so 23
-# causality-sort entries stay in all.
+# strongly_causal_open. The 21 of locally_strongly_causal were in their own section below, so 23
+# causality-sort entries stayed in all; T-lad-record-lsc-separations (2026-11-27) removed those 21, so
+# the 2 here are the causality-sort entries left (7 with the 4 geometry-sort and the pair-sort one).
 
 # → absolutely_minimal: none since T-lad-record-dens-prop-4-63 (2026-11-27); the one entry that stood
 # here, from chronal_neighbours, is refuted by the density causality's entry (no-gluing only).
@@ -5603,183 +5832,36 @@ note = "Open: with causally_open it holds, no tarentin asked (the edge, Causal.C
 # time_function, argued on the flat time cylinder without chronology (a model, layer 3), take the
 # symmetric rational line (ETT layer).
 
-# ---- locally_strongly_causal (T-lad-c0-extension-nodes, 2026-11-27): its 21 pairs neither implied
-# nor refuted (of its 40, 3 are implied and 16 refuted: the node's comment). No model in Lean lacks the
-# node (Causal.exists_confining_not_locallyStronglyCausal aside: an existential stating no other node,
-# not absolutely minimal), and none is stated to have it without strong causality. Each pair is
-# "False, argued", and wants a conjoined Lean statement (the model, the node or its negation, and the
-# properties the entry needs) to be a [[fails]] entry. The models, with what the Lean states (L) and
-# what is argued (A):
+# ---- locally_strongly_causal: none since T-lad-record-lsc-separations (2026-11-27). Its 21 pairs
+# stood here from T-lad-c0-extension-nodes (2026-11-27), each "False, argued" on a model the section
+# named; wave 46 put each model in Lean, absolutely minimal on every open set, and their [[fails]]
+# entries stand with each model's earlier ones, every one in either reading:
 # * X → locally_strongly_causal (18, every X but strongly_causal and strongly_causal_open, implied):
-#   - the symmetric rational line Causal.symmRationalLine (Causal/StrongCausalityLifts.lean:514; its
-#     [[fails]] entries above). L (Causal.symmRationalLine_separates_futureOneConnected): absolutely
-#     minimal on every open set for every cover, push-up, locally push-up, curves_extend, future
-#     one-connected; not causal, not strongly causal (Causal.symmRationalLine_not_stronglyCausal). A:
-#     locally strongly causal at no point p: for an open W ∋ p with (p − ε, p + ε) ⊆ W and
-#     U = (p − ε/2, p + ε/2), every V ∈ 𝓝 p inside U holds a rational r, and J_W(r, r) holds every
-#     rational r' of (p + ε/2, p + ε) (uIcc r r' ⊆ W, so r ≤_W r' ≤_W r), which V misses. Either
-#     reading; 5 pairs (absolutely_minimal, push_up, locally_push_up, curves_extend,
-#     future_one_connected).
-#   - the loop fan at every scale (not in Lean): for every k ∈ ℕ a copy of the loop fan
-#     (Causal.loopFan, Causal/GHWithoutTarentin.lean: tents from p_n through height 1 + ε_n to q_n,
-#     p_n, q_n → a) scaled by 2⁻ᵏ, in the vertical plane of ℝ³ through a at an angle θ_k (the θ_k
-#     distinct modulo π), its feet tending to a. Two arcs of different levels meet nowhere: the
-#     planes meet on the vertical through a, which an arc meets at its top only, and the tops of level
-#     k have heights in (2⁻ᵏ, 2¹⁻ᵏ], disjoint intervals. The carrier is a and the arcs, with the arc
-#     causality (Causal.arcCausality, ≪ empty) of the family. A, as for the loop fan
-#     (Causal.loopFan_separates): causally arc-connected and absolutely minimal on every open set
-#     (Causal.arcCausality_causallyArcConnected, Causal.arcCausality_absolutelyMinimalOn), causal,
-#     causally compact and globally hyperbolic (coherent arcs, Causal.ArcCoherent), a time function
-#     (−x in each level's plane), push-up (Causal.arcCausality_pushUp), future one-connected
-#     (vacuously), curves_extend; not tarentin, no chronal neighbours. Not locally strongly causal at
-#     a: an open W ∋ a holds a ball B(a, r); for U = B(a, ρ), ρ < r/4, a level k with 2⁻ᵏ ∈ (ρ, r/4]
-#     has its loops of large index inside B(a, r) ⊆ W with both feet in any V ∈ 𝓝 a inside U, and
-#     J_W of the two feet holds the loop's top, at height > ρ, outside U. The loop fan itself is
-#     locally strongly causal (the second part of this comment): its loops have height > 1, and the
-#     node needs loops at every scale to fail. Either reading; 10 pairs (those 5 and is_causal,
-#     time_function, globally_hyperbolic, causally_compact, causally_arc_connected).
-#   - Galileo's spacetime in its curve form (not in Lean): ℝ^{1+n}, n ≥ 1, x ≤_U y iff x = y ∈ U or a
-#     curve of U with strictly increasing time runs from x to y, ≪_U the second clause. A: causally
-#     arc-connected, hence absolutely minimal; causal, a time function (the time coordinate), push-up,
-#     causally open (two-sided, locally too), tarentin, chronal neighbours (hence
-#     has_chronal_neighbour), causally plain, future one-connected (the straight-line homotopy of two
-#     such curves keeps the time increasing), curves_extend; not causally compact (its diamonds hold
-#     slabs). Not locally strongly causal: a set causally convex in a convex open W holding two points
-#     of distinct times holds the slab of W between them, which leaves every small neighbourhood
-#     (the argument of Causal.galileoOn_slab_subset, rem:galileo_spacetime_not_strongly, run in W).
-#     Galileo's printed causality (Causal.galileo n: x ≪_U y iff its time is less and both lie in one
-#     component of U; L causal, Causal.galileoOn_isCausal, and not strongly causal,
-#     Causal.galileo_not_stronglyCausal) has the same properties but causal arc-connectedness and
-#     absolute minimality: it is argued not absolutely minimal (on a U-shaped open set, x ≪_U y across
-#     the bend is generated by no chain of small steps), so no causality under DEC-167's gluing, and
-#     gives the same pairs in the no-gluing reading only. The curve form gives them in either reading:
-#     with the 10 above, the 8 left (causally_open, causally_open_future, locally_causally_open,
-#     locally_causally_open_future, tarentin, chronal_neighbours, has_chronal_neighbour,
-#     causally_plain).
-# * locally_strongly_causal → X (3: is_causal, strongly_causal, strongly_causal_open):
-#   - the flat time cylinder Causal.Flat.timeCylinder d and the timelike circle (d = 0). L
-#     (Causal.Flat.timeCylinder_separates, Causal.Flat.timeCylinder_zero_separates): causally
-#     arc-connected, hence absolutely minimal, push-up, tarentin, chronal neighbours, causally open and
-#     plain; not causal (Causal.Flat.timeCylinder_not_isCausal), strongly causal in neither form
-#     (Causal.Flat.timeCylinder_not_stronglyCausal, Causal.Flat.timeCylinder_not_stronglyCausalOpen).
-#     A: locally strongly causal: a point has an open neighbourhood that the covering map carries
-#     isomorphically onto a small Minkowski ball (an interval of the timelike line when d = 0), on
-#     which the flat causality is Minkowski's, strongly causal (Causal.minkowski_stronglyCausal,
-#     Causal.timelikeLine_stronglyCausal). Either reading; the 3 pairs.
-#   - the loop fan Causal.loopFan. L (Causal.loopFan_separates): absolutely minimal, causally
-#     arc-connected, causal, globally hyperbolic, a time function, curves_extend; strongly causal in
-#     neither form, failing at a (Causal.loopFan_not_stronglyCausalAt). A: locally strongly causal: the
-#     ball W of radius 1/2 about a meets each tent in two arcs near its feet, its top (height > 1)
-#     outside W, so ≤_W relates points of one such arc only, along which both coordinates are
-#     monotone; the boxes {|x| < δ, y < δ} about a are then causally convex in W, and every other point
-#     of W has a neighbourhood meeting one arc only (the tents accumulate on the vertical through a
-#     only). Either reading; strongly_causal, strongly_causal_open.
-#   - in the no-gluing reading only, Causal.timelikeLineTop (Causal/Morphism.lean: ≤_ℝ total, the
-#     timelike line's relations on every other open set). L: not causal
-#     (Causal.timelikeLineTop_not_isCausal), not strongly causal (Causal.timelikeLineTop_not_stronglyCausal),
-#     not absolutely minimal. A: locally strongly causal, W any bounded open interval. The 3 pairs.
-
-[[open]]
-from = "absolutely_minimal"
-to = "locally_strongly_causal"
-note = "False, argued, in either reading: the symmetric rational line Causal.symmRationalLine (x ≤_U y iff x = y ∈ U, or x, y rational with uIcc x y ⊆ U; ≪ empty) is absolutely minimal on every open set for every cover (Causal.symmRationalLine_separates_futureOneConnected) and is locally strongly causal at no point: in an open W ∋ p with (p − ε, p + ε) ⊆ W, every neighbourhood of p inside (p − ε/2, p + ε/2) holds a rational r whose J_W(r, r) holds every rational of (p + ε/2, p + ε), related to r both ways in W (Causal.symmRationalLine_not_stronglyCausal's argument run in W; the section's comment); the loop fan at every scale too; wants Causal.symmRationalLine_separates_locallyStronglyCausal, the conjuncts of Causal.symmRationalLine_separates_futureOneConnected with ¬ LocallyStronglyCausal (proposed: T-abs-lsc-separations)"
-
-[[open]]
-from = "push_up"
-to = "locally_strongly_causal"
-note = "False, argued, in either reading: the symmetric rational line Causal.symmRationalLine (x ≤_U y iff x = y ∈ U, or x, y rational with uIcc x y ⊆ U; ≪ empty) is push-up (vacuously, ≪ being empty) and absolutely minimal (Causal.symmRationalLine_separates_futureOneConnected) and is locally strongly causal at no point: in an open W ∋ p with (p − ε, p + ε) ⊆ W, every neighbourhood of p inside (p − ε/2, p + ε/2) holds a rational r whose J_W(r, r) holds every rational of (p + ε/2, p + ε), related to r both ways in W (Causal.symmRationalLine_not_stronglyCausal's argument run in W; the section's comment); the loop fan at every scale too (push-up, Causal.arcCausality_pushUp); wants Causal.symmRationalLine_separates_locallyStronglyCausal, the conjuncts of Causal.symmRationalLine_separates_futureOneConnected with ¬ LocallyStronglyCausal (proposed: T-abs-lsc-separations)"
-
-[[open]]
-from = "locally_push_up"
-to = "locally_strongly_causal"
-note = "False, argued, in either reading: the symmetric rational line Causal.symmRationalLine (x ≤_U y iff x = y ∈ U, or x, y rational with uIcc x y ⊆ U; ≪ empty) is locally push-up (it is push-up, ≪ being empty) and absolutely minimal (Causal.symmRationalLine_separates_futureOneConnected) and is locally strongly causal at no point: in an open W ∋ p with (p − ε, p + ε) ⊆ W, every neighbourhood of p inside (p − ε/2, p + ε/2) holds a rational r whose J_W(r, r) holds every rational of (p + ε/2, p + ε), related to r both ways in W (Causal.symmRationalLine_not_stronglyCausal's argument run in W; the section's comment); the loop fan at every scale too; wants Causal.symmRationalLine_separates_locallyStronglyCausal, the conjuncts of Causal.symmRationalLine_separates_futureOneConnected with ¬ LocallyStronglyCausal (proposed: T-abs-lsc-separations)"
-
-[[open]]
-from = "curves_extend"
-to = "locally_strongly_causal"
-note = "False, argued, in either reading: the symmetric rational line Causal.symmRationalLine (x ≤_U y iff x = y ∈ U, or x, y rational with uIcc x y ⊆ U; ≪ empty) is absolutely minimal, with curves_extend (a conjunct; the [[fact]] on ℝ) (Causal.symmRationalLine_separates_futureOneConnected) and is locally strongly causal at no point: in an open W ∋ p with (p − ε, p + ε) ⊆ W, every neighbourhood of p inside (p − ε/2, p + ε/2) holds a rational r whose J_W(r, r) holds every rational of (p + ε/2, p + ε), related to r both ways in W (Causal.symmRationalLine_not_stronglyCausal's argument run in W; the section's comment); the loop fan at every scale too; in the no-gluing reading also Causal.exists_confining_not_locallyStronglyCausal (a causality on ℝ, ≤_U = U × U, ≪ empty, not locally strongly causal, with curves_extend by the [[fact]]; not absolutely minimal, and an existential stating no other node: a remark, not an entry); wants Causal.symmRationalLine_separates_locallyStronglyCausal, the conjuncts of Causal.symmRationalLine_separates_futureOneConnected with ¬ LocallyStronglyCausal (proposed: T-abs-lsc-separations)"
-
-[[open]]
-from = "future_one_connected"
-to = "locally_strongly_causal"
-note = "False, argued, in either reading: the symmetric rational line Causal.symmRationalLine (x ≤_U y iff x = y ∈ U, or x, y rational with uIcc x y ⊆ U; ≪ empty) is future one-connected (vacuously, a conjunct) and absolutely minimal (Causal.symmRationalLine_separates_futureOneConnected) and is locally strongly causal at no point: in an open W ∋ p with (p − ε, p + ε) ⊆ W, every neighbourhood of p inside (p − ε/2, p + ε/2) holds a rational r whose J_W(r, r) holds every rational of (p + ε/2, p + ε), related to r both ways in W (Causal.symmRationalLine_not_stronglyCausal's argument run in W; the section's comment); the loop fan at every scale too (≪ empty, Causal.Causality.futureOneConnectedOn_of_forall_not_lt); wants Causal.symmRationalLine_separates_locallyStronglyCausal, the conjuncts of Causal.symmRationalLine_separates_futureOneConnected with ¬ LocallyStronglyCausal (proposed: T-abs-lsc-separations)"
-
-[[open]]
-from = "is_causal"
-to = "locally_strongly_causal"
-note = "False, argued, in either reading: the loop fan at every scale (the section's comment: for every k a copy of Causal.loopFan scaled by 2⁻ᵏ, in its own vertical plane through a in ℝ³ (the angles distinct modulo π), with the arc causality Causal.arcCausality of all the arcs, which meet nowhere) is causal, globally hyperbolic, causally arc-connected and absolutely minimal on every open set, as the loop fan is (Causal.loopFan_separates), and is not locally strongly causal at a: an open W ∋ a holds a ball B(a, r), and for U = B(a, ρ), ρ < r/4, a level of height in (ρ, r/2] has loops inside B(a, r) with feet in every neighbourhood of a inside U, whose diamond in W holds the loop's top, outside U; Galileo's spacetime in its curve form too; in the no-gluing reading also Galileo's printed spacetime Causal.galileo n, n ≥ 1 (causal, Causal.galileoOn_isCausal; not locally strongly causal, its slab argument run in W); wants the scaled loop fan's conjoined separation, its arc causality's nodes with ¬ LocallyStronglyCausal (proposed: T-abs-loop-fan-every-scale)"
-
-[[open]]
-from = "time_function"
-to = "locally_strongly_causal"
-note = "False, argued, in either reading: the loop fan at every scale (the section's comment: for every k a copy of Causal.loopFan scaled by 2⁻ᵏ, in its own vertical plane through a in ℝ³ (the angles distinct modulo π), with the arc causality Causal.arcCausality of all the arcs, which meet nowhere) is absolutely minimal with a time function (−x read in each level's plane, strictly increasing along every arc, as the loop fan's Causal.loopFan_hasTimeFunction), as the loop fan is (Causal.loopFan_separates), and is not locally strongly causal at a: an open W ∋ a holds a ball B(a, r), and for U = B(a, ρ), ρ < r/4, a level of height in (ρ, r/2] has loops inside B(a, r) with feet in every neighbourhood of a inside U, whose diamond in W holds the loop's top, outside U; Galileo's spacetime in its curve form too (the time coordinate); in the no-gluing reading also Galileo's printed spacetime (the time coordinate, argued); wants the scaled loop fan's conjoined separation, its arc causality's nodes with ¬ LocallyStronglyCausal (proposed: T-abs-loop-fan-every-scale)"
-
-[[open]]
-from = "globally_hyperbolic"
-to = "locally_strongly_causal"
-note = "False, argued, in either reading: the loop fan at every scale (the section's comment: for every k a copy of Causal.loopFan scaled by 2⁻ᵏ, in its own vertical plane through a in ℝ³ (the angles distinct modulo π), with the arc causality Causal.arcCausality of all the arcs, which meet nowhere) is causal and causally compact, hence globally hyperbolic (its diamonds are arc pieces, coherent arcs, Causal.ArcCoherent), and absolutely minimal, as the loop fan is (Causal.loopFan_separates), and is not locally strongly causal at a: an open W ∋ a holds a ball B(a, r), and for U = B(a, ρ), ρ < r/4, a level of height in (ρ, r/2] has loops inside B(a, r) with feet in every neighbourhood of a inside U, whose diamond in W holds the loop's top, outside U; it is not tarentin (globally_hyperbolic ∧ tarentin ⇒ strongly_causal ⇒ locally_strongly_causal, read backwards, T2), so prop:GH_fortement_causal's tarentin is needed even for local strong causality; no Lean model is globally hyperbolic and not strongly causal but the loop fan, which is argued locally strongly causal; wants the scaled loop fan's conjoined separation, its arc causality's nodes with ¬ LocallyStronglyCausal (proposed: T-abs-loop-fan-every-scale)"
-
-[[open]]
-from = "causally_compact"
-to = "locally_strongly_causal"
-note = "False, argued, in either reading: the loop fan at every scale (the section's comment: for every k a copy of Causal.loopFan scaled by 2⁻ᵏ, in its own vertical plane through a in ℝ³ (the angles distinct modulo π), with the arc causality Causal.arcCausality of all the arcs, which meet nowhere) is causally compact (its diamonds are arc pieces) and absolutely minimal, as the loop fan is (Causal.loopFan_separates), and is not locally strongly causal at a: an open W ∋ a holds a ball B(a, r), and for U = B(a, ρ), ρ < r/4, a level of height in (ρ, r/2] has loops inside B(a, r) with feet in every neighbourhood of a inside U, whose diamond in W holds the loop's top, outside U; in the no-gluing reading also the total causality of a compact space (≤_U relating any two points of U, ≪ empty: J_M(p, q) = M compact, not locally strongly causal as Causal.exists_confining_not_locallyStronglyCausal's causality on ℝ); wants the scaled loop fan's conjoined separation, its arc causality's nodes with ¬ LocallyStronglyCausal (proposed: T-abs-loop-fan-every-scale)"
-
-[[open]]
-from = "causally_arc_connected"
-to = "locally_strongly_causal"
-note = "False, argued, in either reading: the loop fan at every scale (the section's comment: for every k a copy of Causal.loopFan scaled by 2⁻ᵏ, in its own vertical plane through a in ℝ³ (the angles distinct modulo π), with the arc causality Causal.arcCausality of all the arcs, which meet nowhere) is causally arc-connected (an arc causality, Causal.arcCausality_causallyArcConnected), as the loop fan is (Causal.loopFan_separates), and is not locally strongly causal at a: an open W ∋ a holds a ball B(a, r), and for U = B(a, ρ), ρ < r/4, a level of height in (ρ, r/2] has loops inside B(a, r) with feet in every neighbourhood of a inside U, whose diamond in W holds the loop's top, outside U; Galileo's spacetime in its curve form too; wants the scaled loop fan's conjoined separation, its arc causality's nodes with ¬ LocallyStronglyCausal (proposed: T-abs-loop-fan-every-scale)"
-
-[[open]]
-from = "causally_open"
-to = "locally_strongly_causal"
-note = "False, argued, in either reading: Galileo's spacetime in its curve form (ℝ^{1+n}, n ≥ 1, ≤_U and ≪_U along curves of U with increasing time; the section's comment) is causally arc-connected, hence absolutely minimal, causally open (J±_U(V) the union of V and of open chronological cones in U), and is not locally strongly causal: a set causally convex in a convex open W holding two points of distinct times holds the slab of W between them, which leaves every small neighbourhood (Causal.galileoOn_slab_subset's argument); in the no-gluing reading also Galileo's printed spacetime Causal.galileo n (time order in one component of U; causal, Causal.galileoOn_isCausal, not strongly causal, Causal.galileo_not_stronglyCausal; argued not absolutely minimal, so no causality under DEC-167's gluing); wants the curve form's conjoined separation (proposed: T-abs-galileo-curve-form)"
-
-[[open]]
-from = "causally_open_future"
-to = "locally_strongly_causal"
-note = "False, argued, in either reading: Galileo's spacetime in its curve form (ℝ^{1+n}, n ≥ 1, ≤_U and ≪_U along curves of U with increasing time; the section's comment) is causally arc-connected, hence absolutely minimal, causally open in the future (J⁺_U(V) the union of V and of open chronological cones in U), and is not locally strongly causal: a set causally convex in a convex open W holding two points of distinct times holds the slab of W between them, which leaves every small neighbourhood (Causal.galileoOn_slab_subset's argument); in the no-gluing reading also Galileo's printed spacetime Causal.galileo n (time order in one component of U; causal, Causal.galileoOn_isCausal, not strongly causal, Causal.galileo_not_stronglyCausal; argued not absolutely minimal, so no causality under DEC-167's gluing); wants the curve form's conjoined separation (proposed: T-abs-galileo-curve-form)"
-
-[[open]]
-from = "locally_causally_open"
-to = "locally_strongly_causal"
-note = "False, argued, in either reading: Galileo's spacetime in its curve form (ℝ^{1+n}, n ≥ 1, ≤_U and ≪_U along curves of U with increasing time; the section's comment) is causally arc-connected, hence absolutely minimal, locally causally open (it is causally open, two-sided), and is not locally strongly causal: a set causally convex in a convex open W holding two points of distinct times holds the slab of W between them, which leaves every small neighbourhood (Causal.galileoOn_slab_subset's argument); in the no-gluing reading also Galileo's printed spacetime Causal.galileo n (time order in one component of U; causal, Causal.galileoOn_isCausal, not strongly causal, Causal.galileo_not_stronglyCausal; argued not absolutely minimal, so no causality under DEC-167's gluing); wants the curve form's conjoined separation (proposed: T-abs-galileo-curve-form)"
-
-[[open]]
-from = "locally_causally_open_future"
-to = "locally_strongly_causal"
-note = "False, argued, in either reading: Galileo's spacetime in its curve form (ℝ^{1+n}, n ≥ 1, ≤_U and ≪_U along curves of U with increasing time; the section's comment) is causally arc-connected, hence absolutely minimal, locally causally open in the future (it is causally open), and is not locally strongly causal: a set causally convex in a convex open W holding two points of distinct times holds the slab of W between them, which leaves every small neighbourhood (Causal.galileoOn_slab_subset's argument); in the no-gluing reading also Galileo's printed spacetime Causal.galileo n (time order in one component of U; causal, Causal.galileoOn_isCausal, not strongly causal, Causal.galileo_not_stronglyCausal; argued not absolutely minimal, so no causality under DEC-167's gluing); wants the curve form's conjoined separation (proposed: T-abs-galileo-curve-form)"
-
-[[open]]
-from = "tarentin"
-to = "locally_strongly_causal"
-note = "False, argued, in either reading: Galileo's spacetime in its curve form (ℝ^{1+n}, n ≥ 1, ≤_U and ≪_U along curves of U with increasing time; the section's comment) is causally arc-connected, hence absolutely minimal, tarentin (x lies in the open I⁺(p) ∩ I⁻(q) for p just before and q just after x in time), and is not locally strongly causal: a set causally convex in a convex open W holding two points of distinct times holds the slab of W between them, which leaves every small neighbourhood (Causal.galileoOn_slab_subset's argument); in the no-gluing reading also Galileo's printed spacetime Causal.galileo n (time order in one component of U; causal, Causal.galileoOn_isCausal, not strongly causal, Causal.galileo_not_stronglyCausal; argued not absolutely minimal, so no causality under DEC-167's gluing); wants the curve form's conjoined separation (proposed: T-abs-galileo-curve-form)"
-
-[[open]]
-from = "chronal_neighbours"
-to = "locally_strongly_causal"
-note = "False, argued, in either reading: Galileo's spacetime in its curve form (ℝ^{1+n}, n ≥ 1, ≤_U and ≪_U along curves of U with increasing time; the section's comment) is causally arc-connected, hence absolutely minimal, with chronal neighbours (in every open V, points of V just before and just after v on the vertical through v), and is not locally strongly causal: a set causally convex in a convex open W holding two points of distinct times holds the slab of W between them, which leaves every small neighbourhood (Causal.galileoOn_slab_subset's argument); in the no-gluing reading also Galileo's printed spacetime Causal.galileo n (time order in one component of U; causal, Causal.galileoOn_isCausal, not strongly causal, Causal.galileo_not_stronglyCausal; argued not absolutely minimal, so no causality under DEC-167's gluing); wants the curve form's conjoined separation (proposed: T-abs-galileo-curve-form)"
-
-[[open]]
-from = "has_chronal_neighbour"
-to = "locally_strongly_causal"
-note = "False, argued, in either reading: Galileo's spacetime in its curve form (ℝ^{1+n}, n ≥ 1, ≤_U and ≪_U along curves of U with increasing time; the section's comment) is causally arc-connected, hence absolutely minimal, with a chronal neighbour at every point (it has chronal neighbours), and is not locally strongly causal: a set causally convex in a convex open W holding two points of distinct times holds the slab of W between them, which leaves every small neighbourhood (Causal.galileoOn_slab_subset's argument); in the no-gluing reading also Galileo's printed spacetime Causal.galileo n (time order in one component of U; causal, Causal.galileoOn_isCausal, not strongly causal, Causal.galileo_not_stronglyCausal; argued not absolutely minimal, so no causality under DEC-167's gluing); wants the curve form's conjoined separation (proposed: T-abs-galileo-curve-form)"
-
-[[open]]
-from = "causally_plain"
-to = "locally_strongly_causal"
-note = "False, argued, in either reading: Galileo's spacetime in its curve form (ℝ^{1+n}, n ≥ 1, ≤_U and ≪_U along curves of U with increasing time; the section's comment) is causally arc-connected, hence absolutely minimal, causally plain (J±_U(A) is I±_U(A) with A ∩ U, and every point of A ∩ U is a limit of its own chronological future and past in U), and is not locally strongly causal: a set causally convex in a convex open W holding two points of distinct times holds the slab of W between them, which leaves every small neighbourhood (Causal.galileoOn_slab_subset's argument); in the no-gluing reading also Galileo's printed spacetime Causal.galileo n (time order in one component of U; causal, Causal.galileoOn_isCausal, not strongly causal, Causal.galileo_not_stronglyCausal; argued not absolutely minimal, so no causality under DEC-167's gluing); wants the curve form's conjoined separation (proposed: T-abs-galileo-curve-form)"
-
-[[open]]
-from = "locally_strongly_causal"
-to = "is_causal"
-note = "False, argued, in either reading: the flat time cylinder Causal.Flat.timeCylinder d and the timelike circle (d = 0), causally arc-connected, hence absolutely minimal, and not causal (Causal.Flat.timeCylinder_separates, Causal.Flat.timeCylinder_zero_separates, Causal.Flat.timeCylinder_not_isCausal), a closed timelike curve through every point, are locally strongly causal: a point has an open neighbourhood that the covering map carries isomorphically onto a small Minkowski ball (an interval of the timelike line when d = 0), on which the flat causality is Minkowski's, strongly causal (Causal.minkowski_stronglyCausal, Causal.timelikeLine_stronglyCausal; the section's comment); in the no-gluing reading also Causal.timelikeLineTop (≤_ℝ total, the timelike line on every other open set: not causal, Causal.timelikeLineTop_not_isCausal; locally strongly causal, with W any bounded open interval; not absolutely minimal); wants Causal.Flat.timeCylinder_separates_locallyStronglyCausal, its separation with LocallyStronglyCausal (proposed: T-loc-time-cylinder-lsc)"
-
-[[open]]
-from = "locally_strongly_causal"
-to = "strongly_causal"
-note = "False, argued, in either reading: the loop fan Causal.loopFan, absolutely minimal, causally arc-connected, causal, globally hyperbolic, with a time function and not strongly causal (at a: Causal.loopFan_not_stronglyCausalAt) (Causal.loopFan_separates), is locally strongly causal: the ball W of radius 1/2 about a meets each tent in two arcs near its feet, its top (height > 1) outside W, so ≤_W relates points of one such arc, along which both coordinates are monotone; the boxes {|x| < δ, y < δ} are then causally convex in W, and every other point of W has a neighbourhood meeting one arc only (the section's comment); the flat time cylinder too, strongly causal in neither form (Causal.Flat.timeCylinder_not_stronglyCausal) and argued locally strongly causal; in the no-gluing reading also Causal.timelikeLineTop (≤_ℝ total, the timelike line on every other open set: not strongly causal, Causal.timelikeLineTop_not_stronglyCausal; locally strongly causal, with W any bounded open interval; not absolutely minimal); wants Causal.loopFan_separates_locallyStronglyCausal, the conjuncts of Causal.loopFan_separates with LocallyStronglyCausal (proposed: T-abs-lsc-separations)"
-
-[[open]]
-from = "locally_strongly_causal"
-to = "strongly_causal_open"
-note = "False, argued, in either reading: the loop fan Causal.loopFan, absolutely minimal, causally arc-connected, causal, globally hyperbolic, with a time function and strongly causal in neither form (Causal.loopFan_separates), is locally strongly causal: the ball W of radius 1/2 about a meets each tent in two arcs near its feet, its top (height > 1) outside W, so ≤_W relates points of one such arc, along which both coordinates are monotone; the boxes {|x| < δ, y < δ} are then causally convex in W, and every other point of W has a neighbourhood meeting one arc only (the section's comment); the flat time cylinder too (Causal.Flat.timeCylinder_not_stronglyCausalOpen); in the no-gluing reading also Causal.timelikeLineTop (≤_ℝ total, the timelike line on every other open set: not strongly causal, so in neither form; locally strongly causal, with W any bounded open interval; not absolutely minimal); wants Causal.loopFan_separates_locallyStronglyCausal, the conjuncts of Causal.loopFan_separates with LocallyStronglyCausal (proposed: T-abs-lsc-separations)"
+#   the symmetric rational line 5 (absolutely_minimal, push_up, locally_push_up, curves_extend,
+#   future_one_connected; Causal.symmRationalLine_separates_locallyStronglyCausal, T-abs-lsc-separations),
+#   Galileo's spacetime in its curve form 16 (every X but globally_hyperbolic and causally_compact;
+#   Causal.galileoCurve_separates, T-abs-galileo-curve-form) and the loop fan at every scale 10 (the 5,
+#   is_causal, time_function, globally_hyperbolic, causally_compact, causally_arc_connected;
+#   Causal.scaledFan_separates, T-abs-loop-fan-every-scale), overlapping;
+# * locally_strongly_causal → X (3: is_causal, strongly_causal, strongly_causal_open): the flat time
+#   cylinder and the timelike circle, all 3 (Causal.Flat.timeCylinder_separates_locallyStronglyCausal,
+#   Causal.Flat.timeCylinder_zero_separates_locallyStronglyCausal, T-loc-time-cylinder-lsc, a model
+#   witness), and the loop fan → strongly_causal, strongly_causal_open
+#   (Causal.loopFan_separates_locallyStronglyCausal, T-abs-lsc-separations).
+# What the Lean changed in the notes' arguments (each entry's comment has the detail):
+# * the loop fan's local strong causality: not the ball of radius 1/2 about a "meeting each tent in
+#   two arcs near its feet" (it misses γ_0 and holds no foot of γ_1), but Causal.loopLow at a, the
+#   points of height below 1, holding no top, Causal.loopSide off the vertical through a, and
+#   Causal.loopCap n at the top of γ_n, the small centred boxes causally convex in each;
+# * the loop fan at every scale: its level is chosen before U (2 · 2⁻ᵏ < r, U = {Z < 2⁻ᵏ}); the notes'
+#   "U = B(a, ρ), ρ < r/4, a level k with 2⁻ᵏ ∈ (ρ, r/4]" need not give a level (r = 0.9, ρ = 0.2), the
+#   carrier is ℝ³ with the slope ε_k in place of the angle θ_k, and it is causally open in no form;
+# * the flat time cylinder: locally strongly causal from its charts, as every flat spacetime
+#   (Causal.Flat.flatCausality_locallyStronglyCausal), with no covering map and no small ball;
+# * Galileo's printed causality, which the notes argued not absolutely minimal, is so in Lean
+#   (Causal.GluingModels.galileo_not_minimal): it would give the 8 pairs in the no-gluing reading only,
+#   and its curve form gives them in either.
+# The notes' no-gluing remarks stay remarks, no entry: Causal.exists_confining_not_locallyStronglyCausal
+# (an existential on ℝ, not absolutely minimal, stating no other node; the node's comment) and
+# Causal.timelikeLineTop (argued locally strongly causal, any bounded open interval being strongly
+# causal as a spacetime; not strongly causal and not absolutely minimal in Lean).
