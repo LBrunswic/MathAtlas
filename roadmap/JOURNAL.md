@@ -1327,3 +1327,10 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 8b97dcc4 91d452de b0c00c28 bd650015
 - wall time: 09:59–10:45; agents in parallel: 3
 - next: T-bz-c3-facette-interieure ready; T-bz-c3-balayable-somme-prop5 unblocked (planner); the exclusive dedupes and T-hub-paper-attr-export (master)
+
+## 2026-11-28 10:55 · plan · roadmap-planner (rule 2)
+- ready (lean-benzecri): T-bz-c3-balayable-somme-prop5 (evidence refreshed on the strict prop4_produit), T-bz-c3-simples-somme (the refinement lemma split from -cor), T-bz-c3-boole-projectif-domaines (Th. 3 for open w with a line, and for closed w), T-bz-c3-prop4-tore (t ≠ 1 needed, formalized); with -facette-interieure: five closers
+- T-bz-c3-balayable-somme-cor stays planned (depends on -prop5 and -simples-somme)
+- lean-gx and lean/: nothing dispatchable without a ruling or an unwritten route
+- gates: roadmap ✓
+- next: -prop5, -simples-somme, -facette-interieure
