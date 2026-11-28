@@ -1401,3 +1401,9 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: selftest ✓, tests ✓, roadmap ✓, atlas ✓, hub: no new red
 - commits: cb468af7
 - next: T-arch-package-leases when the other loops are idle; otherwise only rulings remain
+
+## 2026-11-28 13:40 · master · T-bbs-informal-triage
+- T-bbs-informal-triage: bbsrem:far_know_kind_singular, bbsrem:photon, bbsrem:now_allow_ourselves_qualify bucket T (informal: physics names and a naming convention); bbsrem:positive_negative2 re-pointed at T-bbs-q8 beside its parent; no Lean change
+- gates: roadmap ✓, atlas ✓, hub: no new red
+- commits: 7989c904 a5e2d19d
+- next: only T-arch-package-leases (waits for the other loops to be idle) and rulings remain
