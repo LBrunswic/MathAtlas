@@ -1883,13 +1883,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzthm:c3s2t3_algebre_boole_projective", "bzcor:c3s2t3c_algebre_parties_projective"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 10
 depends = ["T-bz-c3-boole-projectif"]
-evidence = "Two gaps the strict file states it leaves open. Chapter3/BooleProjectif.lean SCOPE (l.133–140): « A refutation of Th. 3 for an open `w` is NOT formalized (the open quarter refutes Déf. 6's uniqueness claim and the Corollary, not Th. 3 in Lean). The corrected statement adds `w` open and `F(w)` line-free (`theoreme3`); `w₂` shows that line-freeness alone does not suffice, and whether openness alone suffices is not settled here. » OQ-168 (registers/DECISIONS.md, OPEN): « no refutation for open w is formalized … Proved (theoreme3, corollaire_algebre_parties_projective, conjugue_unique): w open, F(w) without a line, E finite-dimensional. Alternative not settled: w closed (« corps convexe ») ». This target settles both, so that each hypothesis of the corrected form is shown necessary and the alternative is evaluated before the author rules; it decides nothing. (1) Open, with a line. Strict: BooleProjectifInstance.quartS (:1234), isOpen_quartS (:1243), supportK_quartS (:1258), noyau_quartS (:1261), Bt (:1352: the ray {z = 0, x = t y, y > 0}), quart_distingue_Bt (:1381), span_Bt_injective (:1385); linearSubvariety_subset_iff (:245); the shape of theoreme3 (:1069). [r] (planner) Statement: ¬ ∃ B : BooleanAlgebra (DistinguesS quartS), ∀ x y, B.le x y ↔ linearSubvariety x.1 ⊆ linearSubvariety y.1 (even: no distributive lattice with that order). Proof: x, y, z the lines span (Bt 0), span (Bt 1), span (Bt 2), all in the plane z = 0; x ⊓ y and x ⊓ z have submodule ⊥ (below two distinct lines), so they are equal and (x ⊓ y) ⊔ (x ⊓ z) has submodule ⊥; y ⊔ z contains both lines, so its submodule contains the plane, hence x ≤ y ⊔ z and x ⊓ (y ⊔ z) = x ≠ ⊥: distributivity fails. A refutation of the printed Th. 3 in the open case, so it joins the decls T-restate-held-curation keeps out of the curated set (as not_theoreme3). (2) Closed. [r] (planner, unchecked) For IsClosed w with supportK w = univ (E finite-dimensional normed), EstDistingueS w L ↔ L = ⊥ ∨ L = ⊤. In EstSomme2's third case (v₁, v₂ nonempty, supportK v₁ ∩ supportK v₂ = ∅, w = joint v₁ v₂, :182), a point m₁ ∈ v₁ is a limit of points of the open segments ]m₁, m₂[ ⊆ w, so m₁ ∈ w = joint v₁ v₂; but a point of an open segment ]a, b[ with a ∈ v₁, b ∈ v₂ is s(αa′ + βb′) with β > 0 and b′ ∈ F(v₂) ⊆ L′, and it lies in L only if βb′ ∈ L ⊓ L′ = ⊥ (the supports are disjoint), so b′ = 0, impossible. The two conventional cases give (⊤, ⊥) and (⊥, ⊤). Consequences to state: Th. 3 for closed w (the two-element Boolean algebra {∅, S(E)}, complement the conjugate, inf ∩, sup the hull) and simplesS w = {⊤} (cardinal 1, inside the Corollary's bounds). If the claim is false, the closer reports the counterexample instead. Readings: none new; « corps convexe » is read only as IsClosed (noyau ∅ is not used), which the closer discloses. Instances: (1) is itself one; for (2) the closed positive simplex of S(2) (TriangleInstance.simplexS, PointsExtremaux.lean:301, or FacetteDualeInstance.simplexS, FacetteDuale.lean:620; T-bz-c3-dedupe-simplexe merges them, so the closer uses whichever survives), where the open simplex has three simple subvarieties and the closed one only S(2). No mark changes (OQ-168 OPEN); one new file or a section of BooleProjectif.lean after its instances."
+evidence = "open w with a line refuted (not_theoreme3_ouvert); closed w degenerate (theoreme3_ferme); both corrected hypotheses necessary; unmarked on OQ-168; audit clean"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "9d95478e"
 
 [[target]]
 id = "T-bz-c3-prop4-tore"
@@ -1898,13 +1899,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzprop:c3s2p4_automorphisme_compatible"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 11
 depends = ["T-bz-c3-prop4-produit"]
-evidence = "Chapter3/BalayableSommeProduit.lean SCOPE (l.56–60): « **The torus factor is needed** (OQ-171): the printed proof's « élément de $GP(n, \\R)$ » reads, in Chapter 1's notation, as `φᵢ = cᵢ⁻¹ g|` and `t = [(cᵢ)]`, not `t = 1`; e.g. on the open segment of `S(1)` (two factors of dimension `0`, `F(Bᵢ) = ℝ₊*`, whose only conical automorphism is the identity), `g = diag(1, 2)` forces `t = [(1, 2)] ≠ 1` (argued here, not formalized). » OQ-171 (registers/DECISIONS.md, OPEN) rests one of its readings on it: « compatibility needs t ≠ 1 in general (the φᵢ are unimodular), which the proof does not say ». This target formalizes that clause, so that the author rules on a proved fact. Strict decls: IsCompatibleAssocPi, IsCompatiblePi (Applications/ConverseGeneral.lean:326, :334; t : PiTorus q), compatibleSubgroup (:453), piTorusAut (Applications/ProductsGeneral.lean:1133), IsConeIso; Sphere.prop4_produit (BalayableSommeProduit.lean:376), BooleProjectifInstance.simplexO_prop4_produit (:507) at n = 1, simplexO (BooleProjectif.lean:1607). [r] (planner) Route: with nᵢ = 0 and Bᵢ a point, FCone 0 Bᵢ is ℝ₊* and a cone isomorphism is linear of |det| = 1 preserving ℝ₊*, hence the identity; so an automorphism compatible with t = 1 is determined by its permutation σ ∈ Perm (Fin 2): at most two of them. GXAut of the open segment contains s(diag(1, c)) for every c > 0 (pairwise distinct on w), an infinite family; transported along any Ψ (an injective map of groups, h.toAut), at least one is not compatible with t = 1. Statement shape: ∀ Ψ with IsProjIso (pdim n) 1 Ψ, ∃ f : GXAut (GSR 1) (S 1) ⟨simplexO 1, _⟩ whose transport is IsCompatiblePi (prop4_produit) but satisfies no IsCompatibleAssocPi-with-t-=-1, i.e. ¬ ∃ σ φ, (∀ i, IsConeIso (n (σ i)) (n i) (φ i)) ∧ ∀ x, f′ • ConeBase.mk x = ConeBase.mk (fun i => φ i (x (σ i))). The concrete f = s(diag(1, 2)) is the SCOPE's example and may be stated as well. A strengthening of the evidence, not of Prop. 4: no mark change (OQ-168, OQ-171 OPEN); the SCOPE sentence « argued here, not formalized » is updated to cite the new theorem."
+evidence = "t ≠ 1 needed on the open segment for every Ψ (simplexO_one_prop4_tore); unmarked on OQ-171; audit minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "fa02fbde"
 
 [[target]]
 id = "T-bz-c3-dedupe-simplexe"

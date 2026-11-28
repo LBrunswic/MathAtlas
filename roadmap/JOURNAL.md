@@ -1344,3 +1344,12 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 73afe409 fab78bf0 fd691046 925d77ab
 - wall time: 10:45–11:15; agents in parallel: 3
 - next: T-bz-c3-balayable-somme-cor (now unblocked; planner), -boole-projectif-domaines, -prop4-tore
+
+## 2026-11-28 11:35 · wave of 2 · T-bz-c3-boole-projectif-domaines, T-bz-c3-prop4-tore
+- T-bz-c3-boole-projectif-domaines: § 2 Th. 3 refuted for open w with a line in F(w) (no distributive lattice on the open quarter's distinguished subvarieties), and degenerate for closed w (only ∅ and S(E) distinguished): both corrected hypotheses of theoreme3 are necessary, and the closed alternative of OQ-168 cannot serve Props. 4–5; unmarked; audit clean
+- T-bz-c3-prop4-tore: § 2 Prop. 4's torus factor is needed (open segment, every Ψ); OQ-171's clause now formalized; unmarked; audit minor (fixed by the master)
+- refutation not_theoreme3_ouvert added to the curation's T-restate-held-curation note (its target's evidence is not edited here)
+- gates: lean-benzecri ✓ (85 strict files, 0 sorry), roadmap ✓, atlas ✓, hub: no new red
+- commits: 9d95478e fa02fbde ffc51a35
+- wall time: 11:08–11:35; agents in parallel: 2
+- next: no closer ready → planner (T-bz-c3-balayable-somme-cor is unblocked); master targets T-bz-c3-dedupe-simplexe, T-btz-seg-unif-dedupe, T-hub-paper-attr-export wait
