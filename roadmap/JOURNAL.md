@@ -1360,3 +1360,11 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - then: the master targets T-bz-c3-dedupe-simplexe, T-btz-seg-unif-dedupe (exclusive), T-hub-paper-attr-export; then idle on rulings
 - gates: roadmap ✓
 - next: T-bz-c3-balayable-somme-cor, with T-btz-seg-unif-dedupe (lean-gx, master) beside it
+
+## 2026-11-28 11:58 · wave of 2 · T-bz-c3-balayable-somme-cor, T-btz-seg-unif-dedupe (master)
+- T-bz-c3-balayable-somme-cor: § 2 Corollary of Prop. 5 proved (any finite Déf. 5 sum, every choice of bases; each summand meets Prop. 4's hypotheses, simples and summands correspond); unmarked on OQ-168/OQ-171; audit minor (fixed by the master). Chapter 3 now has Lean for every row but bzprop:c3s3p11 and bzprop:c3s6p2, which need Chapter 4
+- T-btz-seg-unif-dedupe (master): E0Surgery.pathLength_le_seg_unif carries the segment bound once; edist_le_seg_unif and E0TraceComplete.pathLength_seg_unif derived from it; E0TraceDev.not_spacelikeDevelopment_graphDev derived from lem_surface_complete_two_lip_hyp_false; nothing renamed or retyped
+- gates: lean-benzecri ✓ (86 strict files, 0 sorry), lean-gx ✓, roadmap ✓, atlas ✓, hub: no new red
+- commits: 30cf72b9 2275d3a0 9d1ba15b 878cf598
+- wall time: 11:35–11:58; agents in parallel: 1 (+ master)
+- next: no closer ready; master T-bz-c3-dedupe-simplexe (exclusive, lean-benzecri) and T-hub-paper-attr-export (lean/); then idle on rulings
