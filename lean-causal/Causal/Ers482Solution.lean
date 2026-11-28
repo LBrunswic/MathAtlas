@@ -105,7 +105,9 @@ across which the glued solution has `S` as Cauchy surface), not "a strictly larg
   the witness. The uniform forms `_of_restarts`, `_of_restarts_isCausal` ask the restart of every
   pair, a hypothesis that names no maximal development and is exercised at non-maximal pairs. As
   theorems they are the fixed-`U₁` forms specialised at `U₀ = U₁`, so logically weaker. That the
-  conclusion does not imply their hypothesis is argued, not proved here; per pair, the witness
+  conclusion does not imply their hypothesis is proved in `Causal.Ers482RestartSeparation`
+  (`Ers482Separation.restart_separation`, at a model without `CausalityFollows`, which these forms
+  do not assume; with it, on the line, argued to collapse); per pair, the witness
   has the restart holding at `(]-1/2, 1/2[, ]-1, 1[)` while `]-1, 1[ ⊄ ]-1/2, 1/2[`. The old `Q`
   ("`∃ j, dom i₁ < dom j`") holds at a non-maximal base with `j = i₁` and no geometry.
 * **Witness** (kb/0011), `Causal.Ers482Witness`: on the timelike line, `S = {0}`, solutions `id`
@@ -554,7 +556,9 @@ theorem ers_theorem_4_82_solution_hstep_iff [T2Space M] [LocallyConnectedSpace M
 development (ERS's gluing, `ghd_02_19.tex:1138`, uses none; only "This is a contradiction" does).
 Specialised at `U₀ = U₁`: `ers_theorem_4_82_solution_of_globallyHyperbolicOn`, so as a theorem it
 is logically weaker than that form; its hypothesis is exercised at non-maximal pairs
-(`Ers482Witness.restarts82`), and that the conclusion does not imply it is argued, not proved. -/
+(`Ers482Witness.restarts82`), and that the conclusion does not imply it is proved in
+`Causal.Ers482RestartSeparation` (`Ers482Separation.restart_separation`, without
+`CausalityFollows`). -/
 theorem ers_theorem_4_82_solution_of_restarts [T2Space M] [LocallyConnectedSpace M]
     (hloc : SolutionLocal sol) (hglue : SolutionsGlue sol) (hres : SolutionRestricts sol)
     {s₀ : M} (hs₀ : s₀ ∈ S) {U₁ : Opens M} {u₁ : M → β}

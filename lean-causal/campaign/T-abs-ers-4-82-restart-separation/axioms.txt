@@ -1,0 +1,196 @@
+@Causal.spacelikeLine_subset_of_isCauchySurfaceOn : ∀ {U : TopologicalSpace.Opens ℝ} {S : Set ℝ},
+  Causal.spacelikeLine.IsCauchySurfaceOn U S → ↑U ⊆ S
+Causal.Ers482Separation.mark : ℝ → ℝ → ℝ
+Causal.Ers482Separation.cauSep : (ℝ → ℝ) → Causal.Causality ℝ
+Causal.Ers482Separation.dom₀ : TopologicalSpace.Opens ℝ
+Causal.Ers482Separation.dom₂ : TopologicalSpace.Opens ℝ
+Causal.Ers482Separation.glue₀₂ : ℝ → ℝ
+@Causal.Ers482Separation.mem_dom₀ : ∀ {x : ℝ}, x ∈ Causal.Ers482Separation.dom₀ ↔ x ∈ Set.Ioo (-(1 / 2)) (1 / 10)
+@Causal.Ers482Separation.mem_dom₂ : ∀ {x : ℝ}, x ∈ Causal.Ers482Separation.dom₂ ↔ x ∈ Set.Ioo (-(1 / 5)) (1 / 5)
+@Causal.Ers482Separation.mark_of_mem : ∀ {a x : ℝ}, x ∈ Set.Ioo (-a) a → Causal.Ers482Separation.mark a x = x
+@Causal.Ers482Separation.mark_of_notMem : ∀ {a x : ℝ}, x ∉ Set.Ioo (-a) a → Causal.Ers482Separation.mark a x = 7
+Causal.Ers482Separation.cauSep_id : Causal.Ers482Separation.cauSep id = Causal.timelikeLine
+@Causal.Ers482Separation.cauSep_mark : ∀ {a : ℝ},
+  a ∈ Set.Ioc 0 1 → Causal.Ers482Separation.cauSep (Causal.Ers482Separation.mark a) = Causal.timelikeLine
+@Causal.Ers482Separation.cauSep_of_not : ∀ {u : ℝ → ℝ},
+  ¬(u = id ∨ ∃ a ∈ Set.Ioc 0 1, u = Causal.Ers482Separation.mark a) →
+    Causal.Ers482Separation.cauSep u = Causal.spacelikeLine
+@Causal.Ers482Separation.cauSep_eq_of_isDevelopment : ∀ {U : TopologicalSpace.Opens ℝ} {u : ℝ → ℝ},
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U u →
+    Causal.Ers482Separation.cauSep u = Causal.timelikeLine
+@Causal.Ers482Separation.glue₀₂_of_mem : ∀ {x : ℝ},
+  x ∈ Set.Ioo (-(1 / 2)) (1 / 10) → Causal.Ers482Separation.glue₀₂ x = x
+@Causal.Ers482Separation.glue₀₂_of_notMem : ∀ {x : ℝ},
+  x ∉ Set.Ioo (-(1 / 2)) (1 / 10) → Causal.Ers482Separation.glue₀₂ x = Causal.Ers482Separation.mark (1 / 5) x
+Causal.Ers482Separation.cauSep_glue₀₂ : Causal.Ers482Separation.cauSep Causal.Ers482Separation.glue₀₂ =
+  Causal.spacelikeLine
+Causal.Ers482Separation.isDevelopment_ersWitnessIoo_sep : Causal.IsDevelopment Causal.Ers482Witness.sol82
+  Causal.Ers482Separation.cauSep {0} Causal.ersWitnessIoo id
+Causal.Ers482Separation.isMaximalDevelopment_ersWitnessIoo_sep : Causal.IsMaximalDevelopment Causal.Ers482Witness.sol82
+  Causal.Ers482Separation.cauSep {0} Causal.ersWitnessIoo id
+Causal.Ers482Separation.isDevelopment_dom₀ : Causal.IsDevelopment Causal.Ers482Witness.sol82
+  Causal.Ers482Separation.cauSep {0} Causal.Ers482Separation.dom₀ (Causal.Ers482Separation.mark (1 / 2))
+Causal.Ers482Separation.isDevelopment_dom₂ : Causal.IsDevelopment Causal.Ers482Witness.sol82
+  Causal.Ers482Separation.cauSep {0} Causal.Ers482Separation.dom₂ (Causal.Ers482Separation.mark (1 / 5))
+Causal.Ers482Separation.hG_sep : ∀ (U : TopologicalSpace.Opens ℝ) (u : ℝ → ℝ),
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U u →
+    (Causal.Ers482Separation.cauSep u).GloballyHyperbolicOn U
+Causal.Ers482Separation.hT_sep : ∀ (U : TopologicalSpace.Opens ℝ) (u : ℝ → ℝ),
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U u →
+    (Causal.Ers482Separation.cauSep u).TarentinOn U
+Causal.Ers482Separation.hconn_sep : ∀ (U : TopologicalSpace.Opens ℝ) (u : ℝ → ℝ),
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U u → IsPreconnected ↑U
+Causal.Ers482Separation.component₀₂ : connectedComponentIn
+    (↑Causal.Ers482Separation.dom₀ ∩ ↑Causal.Ers482Separation.dom₂) 0 =
+  Set.Ioo (-(1 / 5)) (1 / 10)
+Causal.Ers482Separation.frontier_component₀₂ : frontier
+    (connectedComponentIn (↑Causal.Ers482Separation.dom₀ ∩ ↑Causal.Ers482Separation.dom₂) 0) =
+  {-(1 / 5), 1 / 10}
+Causal.Ers482Separation.not_gluedRestartAt_pair : Causal.IsDevelopment Causal.Ers482Witness.sol82
+    Causal.Ers482Separation.cauSep {0} Causal.Ers482Separation.dom₀ (Causal.Ers482Separation.mark (1 / 2)) ∧
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} Causal.Ers482Separation.dom₂
+      (Causal.Ers482Separation.mark (1 / 5)) ∧
+    ¬Causal.IsMaximalDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0}
+          Causal.Ers482Separation.dom₀ (Causal.Ers482Separation.mark (1 / 2)) ∧
+      ¬Causal.IsMaximalDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0}
+            Causal.Ers482Separation.dom₂ (Causal.Ers482Separation.mark (1 / 5)) ∧
+        ¬Causal.Ers482Separation.dom₂ ≤ Causal.Ers482Separation.dom₀ ∧
+          1 / 10 ∈
+              frontier (connectedComponentIn (↑Causal.Ers482Separation.dom₀ ∩ ↑Causal.Ers482Separation.dom₂) 0) ∩
+                ↑Causal.Ers482Separation.dom₂ ∧
+            (Causal.Ers482Separation.cauSep (Causal.Ers482Separation.mark (1 / 5))).IsSpacelikeBoundaryPoint
+                Causal.Ers482Separation.dom₂ {0}
+                (frontier (connectedComponentIn (↑Causal.Ers482Separation.dom₀ ∩ ↑Causal.Ers482Separation.dom₂) 0))
+                (1 / 10) ∧
+              ¬Causal.GluedRestartAt Causal.Ers482Separation.cauSep {0} Causal.Ers482Separation.dom₀
+                    Causal.Ers482Separation.dom₂ (Causal.Ers482Separation.mark (1 / 2))
+                    (Causal.Ers482Separation.mark (1 / 5))
+                    (connectedComponentIn (↑Causal.Ers482Separation.dom₀ ∩ ↑Causal.Ers482Separation.dom₂) 0) (1 / 10) ∧
+                ¬(Causal.Ers482Separation.cauSep (Causal.Ers482Separation.mark (1 / 5))).SliceRestart
+                    Causal.Ers482Separation.dom₂ {0}
+                    (connectedComponentIn (↑Causal.Ers482Separation.dom₀ ∩ ↑Causal.Ers482Separation.dom₂) 0)
+                    (↑Causal.Ers482Separation.dom₂)
+                    (Causal.GluedRestartAt Causal.Ers482Separation.cauSep {0} Causal.Ers482Separation.dom₀
+                      Causal.Ers482Separation.dom₂ (Causal.Ers482Separation.mark (1 / 2))
+                      (Causal.Ers482Separation.mark (1 / 5))
+                      (connectedComponentIn (↑Causal.Ers482Separation.dom₀ ∩ ↑Causal.Ers482Separation.dom₂) 0))
+Causal.Ers482Separation.restart_separation : Causal.SolutionLocal Causal.Ers482Witness.sol82 ∧
+  Causal.SolutionsGlue Causal.Ers482Witness.sol82 ∧
+    Causal.SolutionRestricts Causal.Ers482Witness.sol82 ∧
+      0 ∈ {0} ∧
+        Causal.IsMaximalDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} Causal.ersWitnessIoo
+            id ∧
+          Causal.Causality.OneSidedBoundary Causal.ersWitnessIoo (closure {0}) ∧
+            (∀ (U : TopologicalSpace.Opens ℝ) (u : ℝ → ℝ),
+                Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U u →
+                  IsPreconnected ↑U) ∧
+              (∀ (U : TopologicalSpace.Opens ℝ) (u : ℝ → ℝ),
+                  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U u →
+                    (Causal.Ers482Separation.cauSep u).GloballyHyperbolicOn U) ∧
+                (∀ (U : TopologicalSpace.Opens ℝ) (u : ℝ → ℝ),
+                    Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U u →
+                      (Causal.Ers482Separation.cauSep u).TarentinOn U) ∧
+                  (∀ (U : TopologicalSpace.Opens ℝ) (u : ℝ → ℝ),
+                      Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U u →
+                        ∀ ⦃x y : ℝ⦄,
+                          (Causal.Ers482Separation.cauSep u).le U x y →
+                            (Causal.Ers482Separation.cauSep u).le U y x → x = y) ∧
+                    (∀ (U : TopologicalSpace.Opens ℝ) (u : ℝ → ℝ),
+                        Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U u →
+                          (Causal.Ers482Separation.cauSep u).SplitBy U {0}) ∧
+                      (∀ (U : TopologicalSpace.Opens ℝ) (u : ℝ → ℝ),
+                          Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U u →
+                            ∀ x ∈ U,
+                              closure ((Causal.Ers482Separation.cauSep u).Jminus U {x}) ∩ ↑U ⊆
+                                (Causal.Ers482Separation.cauSep u).Jminus U {x}) ∧
+                        (∀ (U : TopologicalSpace.Opens ℝ) (u : ℝ → ℝ),
+                            Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U u →
+                              ∀ x ∈ U,
+                                closure ((Causal.Ers482Separation.cauSep u).Jplus U {x}) ∩ ↑U ⊆
+                                  (Causal.Ers482Separation.cauSep u).Jplus U {x}) ∧
+                          (∀ (U : TopologicalSpace.Opens ℝ) (u : ℝ → ℝ),
+                              Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U u →
+                                (Causal.Ers482Separation.cauSep u).CompactSlabs U {0}) ∧
+                            (∀ (U : TopologicalSpace.Opens ℝ) (u : ℝ → ℝ),
+                                Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U u →
+                                  closure {0} ∩ ↑U ⊆ {0}) ∧
+                              (∀ (U₂ : TopologicalSpace.Opens ℝ) (u₂ : ℝ → ℝ),
+                                  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U₂
+                                      u₂ →
+                                    Set.EqOn id u₂ (connectedComponentIn (↑Causal.ersWitnessIoo ∩ ↑U₂) 0)) ∧
+                                (∀ (U₂ : TopologicalSpace.Opens ℝ) (u₂ : ℝ → ℝ),
+                                    Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0}
+                                        U₂ u₂ →
+                                      U₂ ≤ Causal.ersWitnessIoo ∧ Set.EqOn id u₂ ↑U₂) ∧
+                                  ¬∀ (U₀ : TopologicalSpace.Opens ℝ) (u₀ : ℝ → ℝ) (U₂ : TopologicalSpace.Opens ℝ)
+                                      (u₂ : ℝ → ℝ),
+                                      Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0}
+                                          U₀ u₀ →
+                                        Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep
+                                            {0} U₂ u₂ →
+                                          (Causal.Ers482Separation.cauSep u₂).SliceRestart U₂ {0}
+                                            (connectedComponentIn (↑U₀ ∩ ↑U₂) 0) (↑U₂)
+                                            (Causal.GluedRestartAt Causal.Ers482Separation.cauSep {0} U₀ U₂ u₀ u₂
+                                              (connectedComponentIn (↑U₀ ∩ ↑U₂) 0))
+Causal.Ers482Separation.restart_separation_forms : ((∀ (U₀ : TopologicalSpace.Opens ℝ) (u₀ : ℝ → ℝ)
+      (U₂ : TopologicalSpace.Opens ℝ) (u₂ : ℝ → ℝ),
+      Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U₀ u₀ →
+        Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U₂ u₂ →
+          (Causal.Ers482Separation.cauSep u₂).SliceRestart U₂ {0} (connectedComponentIn (↑U₀ ∩ ↑U₂) 0) (↑U₂)
+            (Causal.GluedRestartAt Causal.Ers482Separation.cauSep {0} U₀ U₂ u₀ u₂
+              (connectedComponentIn (↑U₀ ∩ ↑U₂) 0))) →
+    ∀ (U₂ : TopologicalSpace.Opens ℝ) (u₂ : ℝ → ℝ),
+      Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U₂ u₂ →
+        U₂ ≤ Causal.ersWitnessIoo ∧ Set.EqOn id u₂ ↑U₂) ∧
+  ((∀ (U₀ : TopologicalSpace.Opens ℝ) (u₀ : ℝ → ℝ) (U₂ : TopologicalSpace.Opens ℝ) (u₂ : ℝ → ℝ),
+      Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U₀ u₀ →
+        Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U₂ u₂ →
+          (Causal.Ers482Separation.cauSep u₂).SliceRestart U₂ {0} (connectedComponentIn (↑U₀ ∩ ↑U₂) 0) (↑U₂)
+            (Causal.GluedRestartAt Causal.Ers482Separation.cauSep {0} U₀ U₂ u₀ u₂
+              (connectedComponentIn (↑U₀ ∩ ↑U₂) 0))) →
+    ∀ (U₂ : TopologicalSpace.Opens ℝ) (u₂ : ℝ → ℝ),
+      Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U₂ u₂ →
+        U₂ ≤ Causal.ersWitnessIoo ∧ Set.EqOn id u₂ ↑U₂)
+Causal.Ers482Separation.hstep_solution : ∀ (U₂ : TopologicalSpace.Opens ℝ) (u₂ : ℝ → ℝ),
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U₂ u₂ →
+    (Causal.Ers482Separation.cauSep u₂).SliceRestart U₂ {0} (connectedComponentIn (↑Causal.ersWitnessIoo ∩ ↑U₂) 0) (↑U₂)
+      (Causal.GluedRestartAt Causal.Ers482Separation.cauSep {0} Causal.ersWitnessIoo U₂ id u₂
+        (connectedComponentIn (↑Causal.ersWitnessIoo ∩ ↑U₂) 0))
+Causal.Ers482Separation.cauSep_ers_theorem_4_82_solution : ∀ (U₂ : TopologicalSpace.Opens ℝ) (u₂ : ℝ → ℝ),
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Separation.cauSep {0} U₂ u₂ →
+    U₂ ≤ Causal.ersWitnessIoo ∧ Set.EqOn id u₂ ↑U₂
+Causal.Ers482Separation.not_causalityFollows_cauSep : ¬Causal.CausalityFollows Causal.Ers482Separation.cauSep
+'Causal.spacelikeLine_subset_of_isCauchySurfaceOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.mark' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.cauSep' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.dom₀' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.dom₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.glue₀₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.mem_dom₀' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.mem_dom₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.mark_of_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.mark_of_notMem' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.cauSep_id' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.cauSep_mark' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.cauSep_of_not' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.cauSep_eq_of_isDevelopment' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.glue₀₂_of_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.glue₀₂_of_notMem' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.cauSep_glue₀₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.isDevelopment_ersWitnessIoo_sep' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.isMaximalDevelopment_ersWitnessIoo_sep' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Ers482Separation.isDevelopment_dom₀' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.isDevelopment_dom₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.hG_sep' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.hT_sep' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.hconn_sep' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.component₀₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.frontier_component₀₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.not_gluedRestartAt_pair' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.restart_separation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.restart_separation_forms' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.hstep_solution' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.cauSep_ers_theorem_4_82_solution' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Separation.not_causalityFollows_cauSep' depends on axioms: [propext, Classical.choice, Quot.sound]

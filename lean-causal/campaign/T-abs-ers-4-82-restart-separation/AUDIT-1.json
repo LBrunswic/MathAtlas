@@ -1,0 +1,51 @@
+{
+ "target": "T-abs-ers-4-82-restart-separation",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "ersthm:ThmNotBlocking",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Not a certification target: the row stays partial and unmarked, and the module carries no **`label`** mark (the ledger regex tools/ledger.py:254 needs prefix:label; the three **`…`** spans at :61, :224, :431 are not labels). THE SEPARATION IS GENUINE. I checked each binder of Causal.ers_theorem_4_82_solution_of_restarts (Causal/Ers482Solution.lean:558) and _of_restarts_isCausal (:582), elaborated at M = β = ℝ, sol = sol82, cau = cauSep, S = {0}, s₀ = 0, U₁ = ersWitnessIoo, u₁ = id, against the conjuncts of restart_separation (scaffold/CausalScaffold/Ers482RestartSeparation.lean:360), using a MetaM probe (deleted afterwards). Results: hloc, hglue, hres ↔ conjuncts 1–3; hs₀, hmax, honesided, hconn, hG, hT, hcaus, hsplit, hJm, hJp, hK, hSclosed, hagree ↔ conjuncts 4–16; the conclusion ↔ conjunct 17; conjunct 18 ↔ ¬ (the hrestart binder). Every pair is defeq at reducible transparency. Where the terms were not syntactically equal, the only difference was an unsynthesised OfNat instance metavariable in my probe's own elaboration of ({0} : Set ℝ). So the last conjunct negates exactly hrestart: same quantifier order (U₀ u₀ U₂ u₂), both IsDevelopment premises, SliceRestart for (cauSep u₂) on U₂ with A = connectedComponentIn (U₀ ∩ U₂) 0, Q = GluedRestartAt cauSep {0} U₀ U₂ u₀ u₂ A. restart_separation_forms really applies both forms to the destructured conjuncts. Probe.lean's example additionally types one hr by both forms and feeds it to the negated conjunct. (b) cauSep : (ℝ → ℝ) → Causality ℝ, each value timelikeLine or spacelikeLine. sol82_local, sol82_glue, sol82_restricts are the graduated Ers482Witness lemmas. The hypotheses are not vacuous: (]-1,1[, id), (dom₀, mark ½), (dom₂, mark ⅕) are developments. (c) not_gluedRestartAt_pair (:289): both are IsDevelopment, neither is maximal, ¬ dom₂ ≤ dom₀. 1/10 ∈ frontier A ∩ dom₂, and IsSpacelikeBoundaryPoint holds for cauSep (mark ⅕) on dom₂ relative to {0} with B = frontier A: this is exactly SliceRestart's premise (ErsUniqueness.lean:211), in the future disjunct. GluedRestartAt (Ers482Solution.lean:176) is refuted at V = dom₂, a V it quantifies over: dom₂ ∈ 𝓝 (1/10), dom₂ ⊆ U₂, and dom₂ ∩ dom₀ = A. The glued function is glueSolutions dom₀ (mark ½) (mark ⅕), the one GluedRestartAt reads. Its causality is the spacelike line (cauSep_glue₀₂: x on ]-1/2, 1/5[, 7 off it; I re-derived the 1/2, -3/10, 1/4 evaluations by hand). (d) spacelikeLine_subset_of_isCauchySurfaceOn (:92) is correct: a spacelike-line causal curve is constant by CausalCurveIn.le_of_le and spacelikeLine_le, so the inextensible curve through x meets S at x. It is general, in namespace Causal, and named in the house style (spacelikeLine_le, timelikeLine_isCauchySurfaceOn_Ioo). No clash in any Lean package, nor with Causal.spacelikeLine_causalCurveOn_eq (Causal/InextensibleNotLeNested.lean:190). CausalityFollows: not_causalityFollows_cauSep prints as ¬ Causal.CausalityFollows cauSep (ErsMughd.lean:200), the library's predicate. The heq on dom₂ and the 0 ≤ 1/10 split are correct. The on-the-line survival claim is marked 'argued, not proved' in the SCOPE (:66–69) and in REPORT causality_follows.survives, findings[2], questions[0] and what_remains. OQ-156 stays OPEN (registers/DECISIONS.md:384); 'Reading taken: none'. The SCOPE's reduction sentence (:64–66: with CausalityFollows the glued solution is u₁ on U₀ ∪ U₂, so the restart reads cau u₁ only) is stated as fact. It is not in Lean, but I checked it: IsCauchySurfaceOn W reads only ≤_N for N ≤ W (CurveOn, Curves.lean:69–73), and the conclusion gives u₀ = u₁ on U₀ and u₂ = u₁ on U₂. The argued step (W = ]a₀, b₀+ε[ is Cauchy) is plausible: monotone curves on ℝ and S a singleton make uniqueness automatic. The REPORT correctly names the concatenation step as the missing piece. Paper: the REPORT makes no claim against ERS (findings[3]: 'Paper: none'). The quotes at ghd_02_19.tex:1106 and :1138 are verbatim."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "commands": [
+   "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/Ers482RestartSeparation.lean: exit 0, no output (lake build not run, as dispatched; the .olean, 00:58:54, is newer than the source, 00:58:51)",
+   "taskset -c 0-11 lake env lean campaign/T-abs-ers-4-82-restart-separation/Probe.lean: exit 0, output byte-identical to axioms.txt; all 32 declarations [propext, Classical.choice, Quot.sound]",
+   "own probe (campaign dir, deleted): binder-by-binder defeq of restart_separation's conjuncts against both uniform forms; #print axioms of the 8 principal declarations, standard",
+   "grep: no sorry, admit, axiom, native_decide, unsafe or implemented_by in the file (the one 'sorry' is docstring text, :79)"
+  ]
+ },
+ "checks": {
+  "layer_1": "One import, Causal.Ers482Solution. tools/ladder.py model_path, run in memory on lean_index('lean-causal') with the scaffold module added (kb/0247), is None for the module, for Causal.Ers482Solution and for every direct import (ErsMughd, ErsUniqueness, ErsWitnesses, MaximalZorn). The transitive closure (67 modules) contains no MODEL_LAYER module. No metric or PDE notion appears in a statement; Metric.isOpen_iff and Real.dist_eq appear only in the proof of cauSep_eq_of_isDevelopment.",
+  "scope": "git status --short: the closer's paths are only scaffold/CausalScaffold/Ers482RestartSeparation.lean and this campaign directory, and no tracked lean-causal file is modified. Other modified paths belong to other agents: papers/*/certificate/restatements.toml and RESTATED.md (mtimes 2026-11-25); lean-gx/README.md and programme/ladder.toml (mtimes 01:05, after the REPORT at 01:01); the roadmaps; Causal/InextensibleNotLeNested.lean and its campaign (another target).",
+  "names": "Causal.Ers482Separation is a new namespace. Its 31 short names do not collide with any declaration in Causal, Causal.Causality or Causal.Ers482Witness (both opened in the file); the _sep suffixes avoid isDevelopment_ersWitnessIoo / isMaximalDevelopment_ersWitnessIoo. Causal.spacelikeLine_subset_of_isCauchySurfaceOn is unique across lean, lean-causal, lean-gx, lean-egf, lean-benzecri, lean-syracuse and lean-yamabe.",
+  "docstring_contract": "kb/0006: title; 'No label is marked' within the first 4000 characters; verbatim > quotes (:1106, :1138); hypothesis checklist; SCOPE (disclosed); provenance line. All present. The checklist is true except the hSclosed attribution (finding 1).",
+  "proposals": "The curation notes_append and the binder note_append are accurate. Neither contains FALSE or '(false|wrong|incorrect) as (printed|written|stated)' (tools/restate.py:76–77), and no restate weak signal either. decls_add = [] keeps the not_… declarations out of the row's decls, so the restate gate's refuting-declaration signal (restate.py:80) is not triggered. Correct."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-causal/scaffold/CausalScaffold/Ers482RestartSeparation.lean:54",
+   "what": "The hypothesis checklist lists hSclosed among the conditions proved 'through cauSep_eq_of_isDevelopment'. The proof (:393) is closure_singleton plus inter_subset_left: {0} is closed, whatever the causality.",
+   "fix": "Move hSclosed to its own row ('✓ {0} closed, closure_singleton') or to the hconn/hsplit row ('any causality')."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/campaign/T-abs-ers-4-82-restart-separation/REPORT.json binder_proposal (and Causal/Ers482Solution.lean:107–108, :557)",
+   "what": "The binder proposal is append-only. The current binder note of ersthm:ThmNotBlocking (papers/ers-predictability/certificate/binder.toml) already says 'That the conclusion does not imply their hypothesis is argued, not proved; T-abs-ers-4-82-restart-separation states it on the line …'. Appending would leave that sentence contradicting the appended one. The graduated module's SCOPE (Ers482Solution.lean:107–108, 'argued, not proved here') and the _of_restarts docstring (:557) become stale the same way. The REPORT does not list them for the loop; the closer could not edit them, which is right.",
+   "fix": "In binder_proposal, replace the 'argued, not proved' sentence instead of appending. Add to what_remains or notes that Ers482Solution.lean:107–108 and :557 should cite Causal.Ers482Separation.restart_separation once the module graduates."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/campaign/T-abs-ers-4-82-restart-separation/REPORT.json notes",
+   "what": "It cites spacelikeLine_causalCurveOn_eq at scaffold/CausalScaffold/InextensibleNotLeNested.lean:190. That file graduated to Causal/InextensibleNotLeNested.lean (same line 190) at 00:51, before the REPORT was written (01:01). The scaffold path no longer exists.",
+   "fix": "Cite Causal/InextensibleNotLeNested.lean:190."
+  }
+ ]
+}

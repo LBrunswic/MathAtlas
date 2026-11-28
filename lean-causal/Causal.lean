@@ -354,6 +354,7 @@ import Causal.GalileoCurveForm
 import Causal.LoopFanEveryScale
 import Causal.Ers482Solution
 import Causal.InextensibleNotLeNested
+import Causal.Ers482RestartSeparation
 
 /-!
 # Causal — topological spacetimes

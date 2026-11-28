@@ -316,3 +316,6 @@ rediscover. One fact per entry.
 | [0308](entries/0308-timelike-cauchy-intervals.md) | pattern | On the timelike line {0} is a Cauchy surface of every bounded open interval about 0 |
 | [0309](entries/0309-rw-constant-family.md) | pitfall | A constant causality family defeats rw: unfold by term or by show |
 | [0310](entries/0310-constant-curves-inextensible.md) | pattern | Constant causal curves make every causal curve inextensible; the converse of le_nested under arc-connectedness |
+| [0311](entries/0311-solution-dependent-causality.md) | pattern | A solution-dependent causality separates hypotheses that read cau of a glued function |
+| [0312](entries/0312-spacelike-cauchy.md) | pattern | For the spacelike line a Cauchy surface contains its open set |
+| [0313](entries/0313-simp-only-def-if.md) | pitfall | simp only on a def with an if over u = id rewrites the test to True: state the lemma in term mode |

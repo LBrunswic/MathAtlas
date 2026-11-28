@@ -1,0 +1,344 @@
+{
+  "target": "T-abs-ers-4-82-restart-separation",
+  "package": "lean-causal",
+  "files": [
+    "scaffold/CausalScaffold/Ers482RestartSeparation.lean"
+  ],
+  "campaign_files": [
+    "campaign/T-abs-ers-4-82-restart-separation/REPORT.json",
+    "campaign/T-abs-ers-4-82-restart-separation/Probe.lean",
+    "campaign/T-abs-ers-4-82-restart-separation/axioms.txt"
+  ],
+  "status": "closed",
+  "builds": true,
+  "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 12-23 lake build CausalScaffold.Ers482RestartSeparation",
+  "build_result": "Build completed successfully (3151 jobs). Only CausalScaffold.Ers482RestartSeparation was built (1.4 s); no Causal.* or mathlib module was rebuilt. `taskset -c 12-23 lake env lean -DwarningAsError=true scaffold/CausalScaffold/Ers482RestartSeparation.lean` exits 0 with no output. The profiler (threshold 300 ms) reports one declaration above it: cauSep_glue₀₂ at 0.35 s. Probe.lean imports CausalScaffold.Ers482RestartSeparation and runs with `lake env lean` (exit 0). It is not a copy of the source. Its output is axioms.txt.",
+  "sorry_count": 0,
+  "axioms": "All 32 declarations depend on [propext, Classical.choice, Quot.sound] only (campaign/T-abs-ers-4-82-restart-separation/axioms.txt). No sorryAx, admit, axiom or native_decide in the module.",
+  "layer": "ETT layer (layer 1), a leaf. Its one direct import is Causal.Ers482Solution, whose tools/ladder.py model_path is None (checked in memory, kb/0247; so are Causal.CurvesExtendSecondCountable, Causal.ErsSecondCountable, Causal.ErsWitnesses and Causal.Lines, which it reaches). No import of Causal.Minkowski, Static, Flat.*, Model.*, Port.* or SingularFlat. The statements mention no metric, curve length, geodesic or PDE content: the problem is sol82, the causalities are the timelike and spacelike lines, the hypotheses are those of the uniform forms. Metric.isOpen_iff and Real.dist_eq appear in one proof only (cauSep_eq_of_isDevelopment), for a neighbourhood of 0. tools/ladder.py emit-lean was not run (kb/0252).",
+  "labels": [
+    {
+      "label": "ersthm:ThmNotBlocking",
+      "tex_lines": [
+        1100,
+        1139
+      ],
+      "status": "partial",
+      "marked": false,
+      "for_information": "This target certifies nothing of the paper. It separates two hypotheses of the row's Lean forms of record (ers_theorem_4_82_solution_of_restarts, _of_restarts_isCausal): the conclusion with the other hypotheses does not imply hrestart. The row stays partial and unmarked, as the dispatch says.",
+      "decls": [
+        "Causal.Ers482Separation.restart_separation",
+        "Causal.Ers482Separation.not_gluedRestartAt_pair",
+        "Causal.Ers482Separation.not_causalityFollows_cauSep",
+        "Causal.Ers482Separation.cauSep_ers_theorem_4_82_solution"
+      ],
+      "hypotheses": [
+        {
+          "paper": "the hypotheses of the uniform forms other than hrestart (hloc, hglue, hres, hs₀, hmax, honesided, hconn, hG, hT, hcaus, hsplit, hJm, hJp, hK, hSclosed, hagree)",
+          "here": "all proved at the model",
+          "note": "conjuncts 1–16 of restart_separation; restart_separation_forms checks that they are the binders by applying both forms to them"
+        },
+        {
+          "paper": "the conclusion: every GHD u : U → R satisfies U ⊆ U1 and u1|U = u (:1106)",
+          "here": "proved at the model",
+          "note": "conjunct 17; every development lies in ]-1, 1[ and is id there"
+        },
+        {
+          "paper": "hrestart (a Lean hypothesis, not the paper's: ERS restart only at the MGHD, :1138)",
+          "here": "refuted",
+          "note": "conjunct 18, at the non-maximal pair (]-1/2, 1/10[, mark (1/2)), (]-1/5, 1/5[, mark (1/5)), p = 1/10"
+        },
+        {
+          "paper": "CausalityFollows (the causality g(u, du) depends on u only through u on the set: (4.61))",
+          "here": "fails at the model, disclosed",
+          "note": "not_causalityFollows_cauSep; the forms do not assume it"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "declarations": [
+    {
+      "name": "Causal.spacelikeLine_subset_of_isCauchySurfaceOn",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:92",
+      "statement": "theorem {U : Opens ℝ} {S : Set ℝ} (h : spacelikeLine.IsCauchySurfaceOn U S) : (U : Set ℝ) ⊆ S",
+      "status": "proved",
+      "role": "a Cauchy surface for the spacelike line contains its open set: the inextensible curve through x ∈ U (inextensibleThrough_of_t1_secondCountable) is constant (CausalCurveIn.le_of_le); the planner's 'two lines inline', stated once"
+    },
+    {
+      "name": "Causal.Ers482Separation.mark",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:113",
+      "statement": "noncomputable def (a : ℝ) : ℝ → ℝ := fun x => if x ∈ Ioo (-a) a then x else 7",
+      "status": "defined",
+      "role": "the symmetric markers"
+    },
+    {
+      "name": "Causal.Ers482Separation.cauSep",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:118",
+      "statement": "noncomputable def : (ℝ → ℝ) → Causality ℝ := fun u => if u = id ∨ ∃ a ∈ Ioc (0 : ℝ) 1, u = mark a then timelikeLine else spacelikeLine",
+      "status": "defined",
+      "role": "the solution-dependent causality of the model"
+    },
+    {
+      "name": "Causal.Ers482Separation.dom₀",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:122",
+      "statement": "def : Opens ℝ := ⟨Ioo (-(1 / 2)) (1 / 10), isOpen_Ioo⟩",
+      "status": "defined",
+      "role": "U₀"
+    },
+    {
+      "name": "Causal.Ers482Separation.dom₂",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:125",
+      "statement": "def : Opens ℝ := ⟨Ioo (-(1 / 5)) (1 / 5), isOpen_Ioo⟩",
+      "status": "defined",
+      "role": "U₂"
+    },
+    {
+      "name": "Causal.Ers482Separation.glue₀₂",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:128",
+      "statement": "noncomputable def : ℝ → ℝ := glueSolutions dom₀ (mark (1 / 2)) (mark (1 / 5))",
+      "status": "defined",
+      "role": "the glued function of the pair (ERS's u₃)"
+    },
+    {
+      "name": "Causal.Ers482Separation.mem_dom₀",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:131",
+      "statement": "theorem {x : ℝ} : x ∈ dom₀ ↔ x ∈ Ioo (-(1 / 2) : ℝ) (1 / 10)",
+      "status": "proved",
+      "role": "helper"
+    },
+    {
+      "name": "Causal.Ers482Separation.mem_dom₂",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:134",
+      "statement": "theorem {x : ℝ} : x ∈ dom₂ ↔ x ∈ Ioo (-(1 / 5) : ℝ) (1 / 5)",
+      "status": "proved",
+      "role": "helper"
+    },
+    {
+      "name": "Causal.Ers482Separation.mark_of_mem",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:137",
+      "statement": "theorem {a x : ℝ} (hx : x ∈ Ioo (-a) a) : mark a x = x",
+      "status": "proved",
+      "role": "helper"
+    },
+    {
+      "name": "Causal.Ers482Separation.mark_of_notMem",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:143",
+      "statement": "theorem {a x : ℝ} (hx : x ∉ Ioo (-a) a) : mark a x = 7",
+      "status": "proved",
+      "role": "helper"
+    },
+    {
+      "name": "Causal.Ers482Separation.cauSep_id",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:149",
+      "statement": "theorem : cauSep id = timelikeLine",
+      "status": "proved",
+      "role": "helper"
+    },
+    {
+      "name": "Causal.Ers482Separation.cauSep_mark",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:153",
+      "statement": "theorem {a : ℝ} (ha : a ∈ Ioc (0 : ℝ) 1) : cauSep (mark a) = timelikeLine",
+      "status": "proved",
+      "role": "helper"
+    },
+    {
+      "name": "Causal.Ers482Separation.cauSep_of_not",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:157",
+      "statement": "theorem {u : ℝ → ℝ} (hu : ¬ (u = id ∨ ∃ a ∈ Ioc (0 : ℝ) 1, u = mark a)) : cauSep u = spacelikeLine",
+      "status": "proved",
+      "role": "helper"
+    },
+    {
+      "name": "Causal.Ers482Separation.cauSep_eq_of_isDevelopment",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:163",
+      "statement": "theorem {U : Opens ℝ} {u : ℝ → ℝ} (h : IsDevelopment sol82 cauSep {0} U u) : cauSep u = timelikeLine",
+      "status": "proved",
+      "role": "every development of the model carries the timelike line, so every side condition of the forms is the timelike line's"
+    },
+    {
+      "name": "Causal.Ers482Separation.glue₀₂_of_mem",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:182",
+      "statement": "theorem {x : ℝ} (hx : x ∈ Ioo (-(1 / 2) : ℝ) (1 / 10)) : glue₀₂ x = x",
+      "status": "proved",
+      "role": "helper"
+    },
+    {
+      "name": "Causal.Ers482Separation.glue₀₂_of_notMem",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:189",
+      "statement": "theorem {x : ℝ} (hx : x ∉ Ioo (-(1 / 2) : ℝ) (1 / 10)) : glue₀₂ x = mark (1 / 5) x",
+      "status": "proved",
+      "role": "helper"
+    },
+    {
+      "name": "Causal.Ers482Separation.cauSep_glue₀₂",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:198",
+      "statement": "theorem : cauSep glue₀₂ = spacelikeLine",
+      "status": "proved",
+      "role": "the glued function (x on ]-1/2, 1/5[, 7 off it) is neither id (at 1/2) nor a marker (at -3/10 and 1/4)"
+    },
+    {
+      "name": "Causal.Ers482Separation.isDevelopment_ersWitnessIoo_sep",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:219",
+      "statement": "theorem : IsDevelopment sol82 cauSep {0} ersWitnessIoo id",
+      "status": "proved",
+      "role": "U₁ = ]-1, 1[ with id is a development"
+    },
+    {
+      "name": "Causal.Ers482Separation.isMaximalDevelopment_ersWitnessIoo_sep",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:225",
+      "statement": "theorem : IsMaximalDevelopment sol82 cauSep {0} ersWitnessIoo id",
+      "status": "proved",
+      "role": "hmax"
+    },
+    {
+      "name": "Causal.Ers482Separation.isDevelopment_dom₀",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:231",
+      "statement": "theorem : IsDevelopment sol82 cauSep {0} dom₀ (mark (1 / 2))",
+      "status": "proved",
+      "role": "the pair's first development"
+    },
+    {
+      "name": "Causal.Ers482Separation.isDevelopment_dom₂",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:240",
+      "statement": "theorem : IsDevelopment sol82 cauSep {0} dom₂ (mark (1 / 5))",
+      "status": "proved",
+      "role": "the pair's second development"
+    },
+    {
+      "name": "Causal.Ers482Separation.hG_sep",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:249",
+      "statement": "theorem : ∀ (U : Opens ℝ) (u : ℝ → ℝ), IsDevelopment sol82 cauSep {0} U u → (cauSep u).GloballyHyperbolicOn U",
+      "status": "proved",
+      "role": "hG"
+    },
+    {
+      "name": "Causal.Ers482Separation.hT_sep",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:254",
+      "statement": "theorem : ∀ (U : Opens ℝ) (u : ℝ → ℝ), IsDevelopment sol82 cauSep {0} U u → (cauSep u).TarentinOn U",
+      "status": "proved",
+      "role": "hT"
+    },
+    {
+      "name": "Causal.Ers482Separation.hconn_sep",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:259",
+      "statement": "theorem : ∀ (U : Opens ℝ) (u : ℝ → ℝ), IsDevelopment sol82 cauSep {0} U u → IsPreconnected (U : Set ℝ)",
+      "status": "proved",
+      "role": "hconn"
+    },
+    {
+      "name": "Causal.Ers482Separation.component₀₂",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:267",
+      "statement": "theorem : connectedComponentIn ((dom₀ : Set ℝ) ∩ dom₂) 0 = Ioo (-(1 / 5)) (1 / 10)",
+      "status": "proved",
+      "role": "A"
+    },
+    {
+      "name": "Causal.Ers482Separation.frontier_component₀₂",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:280",
+      "statement": "theorem : frontier (connectedComponentIn ((dom₀ : Set ℝ) ∩ dom₂) 0) = {-(1 / 5), 1 / 10}",
+      "status": "proved",
+      "role": "∂A"
+    },
+    {
+      "name": "Causal.Ers482Separation.not_gluedRestartAt_pair",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:289",
+      "statement": "theorem : IsDevelopment sol82 cauSep {0} dom₀ (mark (1 / 2)) ∧ IsDevelopment sol82 cauSep {0} dom₂ (mark (1 / 5)) ∧ ¬ IsMaximalDevelopment sol82 cauSep {0} dom₀ (mark (1 / 2)) ∧ ¬ IsMaximalDevelopment sol82 cauSep {0} dom₂ (mark (1 / 5)) ∧ ¬ dom₂ ≤ dom₀ ∧ (1 / 10 : ℝ) ∈ frontier (connectedComponentIn ((dom₀ : Set ℝ) ∩ dom₂) 0) ∩ dom₂ ∧ (cauSep (mark (1 / 5))).IsSpacelikeBoundaryPoint dom₂ {0} (frontier (connectedComponentIn ((dom₀ : Set ℝ) ∩ dom₂) 0)) (1 / 10) ∧ ¬ GluedRestartAt cauSep {0} dom₀ dom₂ (mark (1 / 2)) (mark (1 / 5)) (connectedComponentIn ((dom₀ : Set ℝ) ∩ dom₂) 0) (1 / 10) ∧ ¬ (cauSep (mark (1 / 5))).SliceRestart dom₂ {0} (connectedComponentIn ((dom₀ : Set ℝ) ∩ dom₂) 0) dom₂ (GluedRestartAt cauSep {0} dom₀ dom₂ (mark (1 / 2)) (mark (1 / 5)) (connectedComponentIn ((dom₀ : Set ℝ) ∩ dom₂) 0))",
+      "status": "proved",
+      "role": "the failing pair: two developments, neither maximal, not nested; p = 1/10 a spacelike frontier point of A in U₂; GluedRestartAt fails at p (at V = U₂), so SliceRestart fails"
+    },
+    {
+      "name": "Causal.Ers482Separation.restart_separation",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:360",
+      "statement": "theorem : SolutionLocal sol82 ∧ SolutionsGlue sol82 ∧ SolutionRestricts sol82 ∧ (0 : ℝ) ∈ ({0} : Set ℝ) ∧ IsMaximalDevelopment sol82 cauSep {0} ersWitnessIoo id ∧ OneSidedBoundary ersWitnessIoo (closure ({0} : Set ℝ)) ∧ (∀ U u, IsDevelopment sol82 cauSep {0} U u → IsPreconnected (U : Set ℝ)) ∧ (∀ U u, IsDevelopment sol82 cauSep {0} U u → (cauSep u).GloballyHyperbolicOn U) ∧ (∀ U u, IsDevelopment sol82 cauSep {0} U u → (cauSep u).TarentinOn U) ∧ (∀ U u, IsDevelopment sol82 cauSep {0} U u → ∀ ⦃x y : ℝ⦄, (cauSep u).le U x y → (cauSep u).le U y x → x = y) ∧ (∀ U u, IsDevelopment sol82 cauSep {0} U u → (cauSep u).SplitBy U {0}) ∧ (∀ U u, IsDevelopment sol82 cauSep {0} U u → ∀ x ∈ U, closure ((cauSep u).Jminus U {x}) ∩ U ⊆ (cauSep u).Jminus U {x}) ∧ (∀ U u, IsDevelopment sol82 cauSep {0} U u → ∀ x ∈ U, closure ((cauSep u).Jplus U {x}) ∩ U ⊆ (cauSep u).Jplus U {x}) ∧ (∀ U u, IsDevelopment sol82 cauSep {0} U u → (cauSep u).CompactSlabs U {0}) ∧ (∀ U u, IsDevelopment sol82 cauSep {0} U u → closure ({0} : Set ℝ) ∩ U ⊆ {0}) ∧ (∀ U₂ u₂, IsDevelopment sol82 cauSep {0} U₂ u₂ → EqOn id u₂ (connectedComponentIn ((ersWitnessIoo : Set ℝ) ∩ U₂) 0)) ∧ (∀ U₂ u₂, IsDevelopment sol82 cauSep {0} U₂ u₂ → U₂ ≤ ersWitnessIoo ∧ EqOn id u₂ U₂) ∧ ¬ (∀ U₀ u₀ U₂ u₂, IsDevelopment sol82 cauSep {0} U₀ u₀ → IsDevelopment sol82 cauSep {0} U₂ u₂ → (cauSep u₂).SliceRestart U₂ {0} (connectedComponentIn ((U₀ : Set ℝ) ∩ U₂) 0) U₂ (GluedRestartAt cauSep {0} U₀ U₂ u₀ u₂ (connectedComponentIn ((U₀ : Set ℝ) ∩ U₂) 0)))",
+      "status": "proved",
+      "role": "THE DELIVERABLE: at one datum (sol82, cauSep, S = {0}, s₀ = 0, U₁ = ]-1, 1[, u₁ = id), the sixteen hypotheses of the two uniform forms other than hrestart (hloc, hglue, hres, hs₀, hmax, honesided, hconn, hG, hT, hcaus, hsplit, hJm, hJp, hK, hSclosed, hagree), their conclusion, and ¬ hrestart"
+    },
+    {
+      "name": "Causal.Ers482Separation.restart_separation_forms",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:401",
+      "statement": "theorem : (hrestart → conclusion) ∧ (hrestart → conclusion), hrestart and the conclusion written as in restart_separation",
+      "status": "proved",
+      "role": "mechanical check that the conjuncts are the binders: proved by ers_theorem_4_82_solution_of_restarts and _of_restarts_isCausal applied to the first sixteen conjuncts (vacuous as a fact, since hrestart is refuted; its content is the typecheck)"
+    },
+    {
+      "name": "Causal.Ers482Separation.hstep_solution",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:424",
+      "statement": "theorem : ∀ U₂ u₂, IsDevelopment sol82 cauSep {0} U₂ u₂ → (cauSep u₂).SliceRestart U₂ {0} (connectedComponentIn ((ersWitnessIoo : Set ℝ) ∩ U₂) 0) U₂ (GluedRestartAt cauSep {0} ersWitnessIoo U₂ id u₂ (connectedComponentIn ((ersWitnessIoo : Set ℝ) ∩ U₂) 0))",
+      "status": "proved",
+      "role": "the fixed-U₁ hstep of the paper's shape holds at the model (vacuously, ers_theorem_4_82_solution_hstep_of_le)"
+    },
+    {
+      "name": "Causal.Ers482Separation.cauSep_ers_theorem_4_82_solution",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:433",
+      "statement": "theorem : ∀ U₂ u₂, IsDevelopment sol82 cauSep {0} U₂ u₂ → U₂ ≤ ersWitnessIoo ∧ EqOn id u₂ U₂",
+      "status": "proved",
+      "role": "ers_theorem_4_82_solution (the paper's shape) instantiated at the model: it applies where the uniform forms do not"
+    },
+    {
+      "name": "Causal.Ers482Separation.not_causalityFollows_cauSep",
+      "file_line": "scaffold/CausalScaffold/Ers482RestartSeparation.lean:443",
+      "statement": "theorem : ¬ CausalityFollows cauSep",
+      "status": "proved",
+      "role": "the disclosure: mark (1/5) and glue₀₂ agree on ]-1/5, 1/5[, where 0 ≤ 1/10 holds for one causality and not the other"
+    }
+  ],
+  "extra_decls": [
+    "Causal.spacelikeLine_subset_of_isCauchySurfaceOn"
+  ],
+  "sketch_check": "The planner's sketch works as written and was kept, with three remarks. (1) V: the proof refutes GluedRestartAt at V = U₂ (V ∩ U₀ = A exactly), not at the planner's ]0, 1/5[. In fact the failure is uniform: for every open O, {0} is not a Cauchy surface of U₀ ∪ O for the glued causality, since -1/4 ∈ U₀ and the spacelike line's Cauchy surfaces contain their open set. (2) u₀ = id gives the same glued function (mark (1/2) = id on U₀), so the marker at U₀ is not needed; the planner's mark (1/2) is kept. (3) The bound a ≤ 1 in the marker family is never used: only a > 3/10 and a ≤ 3/10 are distinguished in cauSep_glue₀₂. The frontier of A = ]-1/5, 1/10[ is {-1/5, 1/10}, and -1/5 ∉ U₂, so 1/10 is the only point the restart reads. It is spacelike in the future form, J⁻_{U₂}(1/10) ∩ ∂A ∩ J⁺_{U₂}(0) = {1/10}, the shape of restart_exercised.",
+  "causality_follows": {
+    "proved": "¬ CausalityFollows cauSep (not_causalityFollows_cauSep): mark (1/5) and glue₀₂ agree on U₂ = ]-1/5, 1/5[. With V = U₂, 0 ≤_{U₂} 1/10 holds for the timelike line and fails for the spacelike line.",
+    "survives": "Argued, not proved. On ℝ with S = {0}, no separation survives CausalityFollows: there, under CausalityFollows, the conclusion and hcaus, the uniform restart holds. In general (other backgrounds) it is not settled; no reading is decided.",
+    "argument": [
+      "Under CausalityFollows and the conclusion, every development (U, u) has u = u₁ on U, so cau u and C := cau u₁ have the same ≤_N for every N ≤ U. The glued function g of a pair is u₁ on U₀ ∪ U₂. A Cauchy surface of W reads only ≤_N for N ≤ W (CurveOn quantifies over N ≤ W). So 'S Cauchy in U₀ ∪ O for cau g' is 'S Cauchy in U₀ ∪ O for C', and the uniform restart is a statement about C and its Cauchy domains in U₁, as the planner says.",
+      "On ℝ with S = {0} every development is an open interval about 0 (hconn, from S Cauchy on a second countable T1 space). A frontier point p of A = U₀ ∩ U₂ in U₂ is an end of U₀ inside U₂, say p = b₀ < b₂. Take O = ]b₀ - ε, b₀ + ε[ ⊆ V with ε < b₀. Then U₀ ∪ O = ]a₀, b₀ + ε[ = W.",
+      "W is Cauchy for C. Take c inextensible in W, image J connected. If 0 ∉ J, then J ⊆ ]a₀, 0[ or J ⊆ ]0, b₀ + ε[. In the first case c is a curve of U₀, extensible in U₀ (U₀ Cauchy), and an extension in U₀ is one in W: contradiction. In the second case c is a curve of U₂ (b₀ + ε ≤ b₂, a₂ < 0). An inextensible curve γ of U₂ through its image (exists_inextensible_of_t1_secondCountable) meets 0, since U₂ is Cauchy. γ is monotone: ≤_{U₂} is antisymmetric (hcaus at (U₂, u₂), through CausalityFollows) and curves are continuous (CurveOn.continuousOn). So the piece of γ between 0 and J lies in [0, sup J] ⊆ W, and concatenated with c it strictly extends c in W: contradiction.",
+      "Hence on the line the separation needs ¬ CausalityFollows, as the model has. The spacelike premise and V ∩ U₀ ⊆ A are not used.",
+      "Why not proved: the concatenation step is not in the library. CurvesExtend gives only image containment (kb/0212), so the extension of c must be built by hand from c and a monotone piece of γ, with the local relation at the junction. Add the monotonicity of curves of a causal open set of ℝ, and it is a module, not a cheap lemma.",
+      "Beyond the line: a separation with CausalityFollows needs one causality C whose Cauchy domains of S in U₁ are not closed under 'U₀ ∪ a small O near p', while every Cauchy domain stays GH and tarentin. In smooth Lorentzian geometry ERS's DΣ_V gives the restart at every pair (layer 3, T-loc-quasilinear-slice). In ETT, one route not attempted is a causality on ℝ² whose cones at points near p, outside U₀, are much wider than at p. Each J^±(x) would stay closed while the relation is not (kb/0030). That route is open."
+    ]
+  },
+  "lemmas_for_the_keeper": {
+    "summary": "None. The target separates two hypotheses of one theorem's Lean forms. It is not a pair of ladder nodes, and GluedRestartAt names solutions, so no [[fails]] or [[consequence]] entry applies (the planner's evidence: 'No ladder entry'). programme/ladder.toml was not edited.",
+    "entries": []
+  },
+  "binder_proposal": {
+    "file": "papers/ers-predictability/certificate/binder.toml",
+    "row": "ersthm:ThmNotBlocking",
+    "ett_add": [],
+    "note_append": "The uniform restart is not implied by the conclusion and the other hypotheses of the uniform forms (T-abs-ers-4-82-restart-separation): Causal.Ers482Separation.restart_separation, on the line with S = {0}, sol82 and a solution-dependent causality (the timelike line at id and at the markers, the spacelike line elsewhere). It proves the sixteen other hypotheses of _of_restarts and _of_restarts_isCausal, their conclusion and ¬ hrestart at one datum. hrestart fails at the non-maximal pair (]-1/2, 1/10[, ]-1/5, 1/5[), p = 1/10 (not_gluedRestartAt_pair). The model lacks CausalityFollows (not_causalityFollows_cauSep), which the forms do not assume. ers_theorem_4_82_solution (the paper's shape) applies to it (cauSep_ers_theorem_4_82_solution).",
+    "why_no_ett_add": "the separation is evidence about the forms, not a form of the statement; listing it in `ett` would bind a counterexample model as an ETT argument of the theorem"
+  },
+  "curation_proposal": {
+    "file": "papers/ers-predictability/certificate/curation.toml",
+    "label": "ersthm:ThmNotBlocking",
+    "decls_add": [],
+    "extra_lean_files_add": [],
+    "lean_proved_override": "partial (unchanged)",
+    "bucket": "B (unchanged)",
+    "marked": "no (unchanged)",
+    "notes_append": "Separation (T-abs-ers-4-82-restart-separation, 2026-11-28): the uniform restart hrestart is not implied by the conclusion and the other hypotheses of the uniform forms. Causal.Ers482Separation.restart_separation states, at sol82, a solution-dependent causality, S = {0}, U₁ = ]-1, 1[, u₁ = id: all sixteen other hypotheses, the conclusion, and ¬ hrestart, failing at a non-maximal pair. The model lacks CausalityFollows (not assumed by the forms). The paper's shape ers_theorem_4_82_solution applies to it. Evidence for OQ-156.",
+    "why_no_decls_add": "the separation is not a form of the row's statement: as a decl of the row it would enter the double DAG as an anchor-side declaration of 4.82. The loop may still add it if the ledger should list witnesses."
+  },
+  "findings": [
+    "Library (Lean forms, not the paper): the uniform restart of ers_theorem_4_82_solution_of_restarts and _of_restarts_isCausal is not implied by their conclusion with their other hypotheses. Proved in Lean at one datum (Causal.Ers482Separation.restart_separation, scaffold/CausalScaffold/Ers482RestartSeparation.lean:360). The fixed-U₁ form ers_theorem_4_82_solution behaves otherwise: its hstep is equivalent to the conclusion given the rest (ers_theorem_4_82_solution_hstep_iff, Causal/Ers482Solution.lean:526). The two shapes therefore differ in strength as hypotheses: the uniform restart carries content beyond the conclusion.",
+    "Library: at the same model the paper's shape applies (cauSep_ers_theorem_4_82_solution, :433, its hstep vacuous at ]-1, 1[: hstep_solution, :424). The uniform forms do not: their hrestart is false there. So without CausalityFollows some problems have the paper's conclusion, proved by the fixed-U₁ form, that the uniform forms cannot reach. As theorems the uniform forms are the fixed form specialised at U₀ = U₁ (Causal/Ers482Solution.lean:558–604), and this model shows the specialisation loses instances.",
+    "Library: the model breaks CausalityFollows (not_causalityFollows_cauSep, :443), which ERS's g(u, du) satisfies ((4.61), ghd_02_19.tex:1101; Causal.CausalityFollows, Causal/ErsMughd.lean:200). The separation is one of the Lean forms as stated (they take cau of the glued function itself, Causal/Ers482Solution.lean:59), not of ERS's setting. With CausalityFollows, on ℝ with S = {0}, the uniform restart follows from the rest and the conclusion (argued, causality_follows.argument).",
+    "Paper: none. ERS restart at the MGHD only (ghd_02_19.tex:1138, 'the domain of which contains that of the MGHD u1 : U1 → R. This is a contradiction'), so the paper's proof is unaffected. Its construction (DΣ_V, U₃ = U₁ ∪ DΣ_V a GHD) uses no maximality of U₁ until that last sentence, which is why the uniform form is natural. That the construction holds at every pair is a property of smooth quasilinear developments (layer 3), not of the abstract hypotheses."
+  ],
+  "questions": [
+    "OQ-156 (OPEN): are the uniform forms (_of_restarts, _of_restarts_isCausal) the form of record of Thm 4.82? Not decided here. The evidence it gains: (a) without CausalityFollows the uniform restart is strictly more than the conclusion given the rest, unlike the fixed-U₁ hstep, which is equivalent to it; (b) at that model the fixed-U₁ form applies and the uniform forms do not; (c) with CausalityFollows, on the line with S = {0}, the gap closes (argued). Reading taken: none.",
+    "Whether CausalityFollows should be a hypothesis of the uniform forms (ERS's causality g(u, du) has it; the forms do not ask it, Causal/Ers482Solution.lean:59). Reading taken: the forms as they stand, without it. The separation is stated for them, and its ¬ CausalityFollows is disclosed and proved."
+  ],
+  "kb_proposals": [
+    "A solution-dependent causality separates hypotheses that read cau of a glued function. Make cau u the timelike line on a set T of functions not closed under glueSolutions, and the spacelike line off T. Every development then has the timelike line, because a Cauchy surface for the spacelike line contains its open set (Causal.spacelikeLine_subset_of_isCauchySurfaceOn). The glued function of two members of T can fall outside T. Always disclose ¬ CausalityFollows (Causal.Ers482Separation, T-abs-ers-4-82-restart-separation).",
+    "spacelikeLine.IsCauchySurfaceOn U S → (U : Set ℝ) ⊆ S (Causal.spacelikeLine_subset_of_isCauchySurfaceOn): through x ∈ U the curve of inextensibleThrough_of_t1_secondCountable is constant by CausalCurveIn.le_of_le and spacelikeLine_le. So {0} is a Cauchy surface of no open set ∋ 0 for the spacelike line.",
+    "Pitfall: `simp only [f]` on a def `f := fun u => if u = id ∨ … then … else …` applied to id rewrites `id = id` to True, and `if_pos (Or.inl rfl)` then fails. State the lemma in term mode, `theorem f_id : f id = … := if_pos (Or.inl rfl)`: elaboration unfolds the def definitionally (Causal.Ers482Separation.cauSep_id)."
+  ],
+  "what_remains": "Nothing of the target: the conjoined theorem, the failing pair and the CausalityFollows disclosure are proved, with no sorry. Not done, reported: whether a separation survives CausalityFollows. It is argued not to on ℝ with S = {0}, and not proved, because the proof needs curve concatenation and monotonicity on ℝ. Elsewhere it is open. A separation with CausalityFollows, if one exists, would need a non-closed causal relation near p (one route sketched in causality_follows). It would be a target of its own if the author wants OQ-156 settled with CausalityFollows asked.",
+  "notes": "Graduation: the module is a leaf importing Causal.Ers482Solution only. Its namespace is Causal, with the model in Causal.Ers482Separation. One top-level lemma, Causal.spacelikeLine_subset_of_isCauchySurfaceOn, is general (no clash found in Causal/ or scaffold/). Names ending in _sep avoid ambiguity with Causal.Ers482Witness, which is opened in the namespace (isDevelopment_ersWitnessIoo, isMaximalDevelopment_ersWitnessIoo exist there). The concurrent T-abs-inextensible-not-le-nested module defines spacelikeLine_causalCurveOn_eq (a constant-curve lemma, scaffold/CausalScaffold/InextensibleNotLeNested.lean:190). This file does not use it and does not clash with it. After both graduate, spacelikeLine_subset_of_isCauchySurfaceOn could be re-proved through it. No existing file was edited; programme/ladder.toml, the binder, the curation, Causal.lean, README and kb are untouched (proposals above).",
+  "corrected_after_audit": "AUDIT-1 (minor), applied by the master: (1) the checklist row names closure_singleton for hSclosed ({0} closed whatever the causality), not cauSep_eq_of_isDevelopment. (2) The 'argued, not proved' sentences on the separation are replaced where they live: Causal/Ers482Solution.lean's module SCOPE and ers_theorem_4_82_solution_of_restarts' docstring now cite Ers482Separation.restart_separation (without CausalityFollows), and programme/ladder.toml's comment on the uniform forms; the binder note's sentence is to be replaced, not appended to (left to the planner, binder targets being the planner's). (3) notes' scaffold/CausalScaffold/InextensibleNotLeNested.lean:190 reads Causal/InextensibleNotLeNested.lean:190."
+}
