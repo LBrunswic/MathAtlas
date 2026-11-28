@@ -1,0 +1,236 @@
+{
+  "target": "T-abs-boundary-chart-cauchy",
+  "package": "lean-causal",
+  "files": [
+    "scaffold/CausalScaffold/BoundaryChartCauchy.lean"
+  ],
+  "campaign_files": [
+    "campaign/T-abs-boundary-chart-cauchy/REPORT.json",
+    "campaign/T-abs-boundary-chart-cauchy/Probe.lean",
+    "campaign/T-abs-boundary-chart-cauchy/axioms.txt"
+  ],
+  "builds": true,
+  "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 8-15 lake build CausalScaffold.BoundaryChartCauchy",
+  "build_result": "Built CausalScaffold.BoundaryChartCauchy (1.3 s), 3115 jobs, with no warning. The --no-build dry run (kb/0228) listed only this module as out of date, so nothing upstream was rebuilt. `lake env lean -DwarningAsError=true` on the file passes, as the strict library requires. Every typecheck and build ran under taskset -c 8-15. Probe.lean imports the module and runs #check and #print axioms on all 18 declarations; its output is axioms.txt.",
+  "sorry_count": 0,
+  "axioms": "All 18 declarations depend on [propext, Classical.choice, Quot.sound] only, checked by parsing axioms.txt (line-wrapped entries included). There is no sorryAx, admit, axiom declaration, native_decide or ofReduceBool.",
+  "layer": "ETT layer (layer 1). Direct imports: Causal.PastInextensibleMeetsCauchy, Causal.SchwCausalLemmas, and Causal.ErsUniqueness (the witnesses only: timelikeLine_isCauchySurfaceOn_range). tools/ladder.py's model_path is None for each, checked one at a time in memory on lean_index()['imports'] (kb/0247), and None for the module itself, entered in memory with these three imports. Its closure holds 44 Causal modules, none in MODEL_LAYER. It imports neither Causal.Ladder.Rules (import_chain None) nor Causal.CBG.Ppcm (import_chain None), and nothing imports it, so it is a leaf. No statement mentions a metric, a curve length or a geodesic (exp appears in a proof only). The hypotheses are the standing T2 and second countable, the ladder property causally_arc_connected at W and at Ũ (CausallyArcConnectedOn), the antisymmetry of ≤_W inline in the shape of the Cauchy lemma, and the declared data: S Cauchy in W (DEC-14), V ≤ W, V ⊆ J^∓(S, W), the frontier condition. causal_ladder does not apply: no statement concludes a ladder property.",
+  "labels": [],
+  "declarations": [
+    {
+      "name": "Causal.Causality.mapsTo_inside_of_boundaryChart",
+      "file_line": "scaffold/CausalScaffold/BoundaryChartCauchy.lean:94",
+      "statement": "[T2Space M] [SecondCountableTopology M] → hS : C.IsCauchySurfaceOn W S → hC : C.CausallyArcConnectedOn W → hcaus : (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) → hVW : V ≤ W → hVJ : ↑V ⊆ C.Jminus W S → hfr : (∀ x ∈ (↑U ∩ closure ↑V) \\ ↑V, x ∉ W) → C.CausalCurveOn U c a b → c a ∈ V → MapsTo c (Icc a b) ↑V",
+      "standing": "Deliverable (1), the curve form, under the target's proposed name, for the past boundary chart (U is Sbierski's Ũ). Proof: τ = sInf (Icc a b ∩ c⁻¹' Vᶜ), the first exit time (closed by ContinuousOn.preimage_isClosed_of_isClosed, attained by IsClosed.csInf_mem). a < τ, c lies in V on [a, τ), and c τ ∈ (U ∩ closure V) ∖ V (ContinuousWithinAt.mem_closure, closure_Ico), so c τ ∉ W. Over [a, τ), c is a future-inextensible causal curve of W (futureInextensible_of_leaving, with the larger open W ⊔ U, T2). Its point c a ∈ V ⊆ J⁻(S, W) gives t₀ ∈ [a, τ) with c t₀ ∈ S (FutureInextensible.exists_mem_of_mem_Jminus). For t ∈ [t₀, τ), c t ≤_W s for some s ∈ S, and c t₀ ≤_W c t ≤_W s, so c t₀ = s (IsCauchySurfaceOn.eq_of_le_of_t1_secondCountable) and c t = c t₀ by antisymmetry. So c τ ∈ closure {c t₀} = {c t₀} ⊆ W, a contradiction. V disjoint from S is not used.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.mapsTo_inside_of_boundaryChart_of_Iminus",
+      "file_line": "scaffold/CausalScaffold/BoundaryChartCauchy.lean:152",
+      "statement": "[T2Space M] [SecondCountableTopology M] → hS : C.IsCauchySurfaceOn W S → hC : C.CausallyArcConnectedOn W → hcaus : (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) → hVW : V ≤ W → hVI : ↑V ⊆ C.Iminus W S → hfr : (∀ x ∈ (↑U ∩ closure ↑V) \\ ↑V, x ∉ W) → C.CausalCurveOn U c a b → c a ∈ V → MapsTo c (Icc a b) ↑V",
+      "standing": "Sbierski's (2.2) shape for the past chart (V ⊆ I⁻(Σ)), through Iminus_subset_Jminus. No irreflexivity of ≪_W on S and no disjointness are asked (the target's evidence expected one of them).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.mapsTo_inside_of_boundaryChart_of_causalCurveIn",
+      "file_line": "scaffold/CausalScaffold/BoundaryChartCauchy.lean:164",
+      "statement": "[T2Space M] [SecondCountableTopology M] → hS : C.IsCauchySurfaceOn W S → hC : C.CausallyArcConnectedOn W → hcaus : (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) → hVW : V ≤ W → hVJ : ↑V ⊆ C.Jminus W S → hfr : (∀ x ∈ (↑U ∩ closure ↑V) \\ ↑V, x ∉ W) → C.CausalCurveIn U I c → t₀ ∈ I → c t₀ ∈ V → ∀ t ∈ I, t₀ ≤ t → c t ∈ V",
+      "standing": "The curve form over any interval (open, half-open or closed ends), from the segment form applied on [t₀, t].",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.Iplus_subset_Iplus_of_forall_mapsTo",
+      "file_line": "scaffold/CausalScaffold/BoundaryChartCauchy.lean:176",
+      "statement": "C.CausallyArcConnectedOn U → V ≤ U → (∀ c : ℝ → M, C.CausalCurveOn U c 0 1 → c 0 ∈ V → MapsTo c (Icc 0 1) ↑V) → ∀ x ∈ V, C.Iplus U {x} ⊆ C.Iplus V {x}   (no separation axiom)",
+      "standing": "The general step from curves to ≪. x ≪_U y gives a chronal curve of U over [0, 1] (CausallyArcConnectedOn U at U itself). It stays in V, so it is a chronal curve of V (CurveOn.restrict), and x ≪_V y (ChronalCurveOn.lt_of_lt).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.Jplus_subset_Jplus_of_forall_mapsTo",
+      "file_line": "scaffold/CausalScaffold/BoundaryChartCauchy.lean:190",
+      "statement": "C.CausallyArcConnectedOn U → V ≤ U → (∀ c : ℝ → M, C.CausalCurveOn U c 0 1 → c 0 ∈ V → MapsTo c (Icc 0 1) ↑V) → ∀ x ∈ V, C.Jplus U {x} ⊆ C.Jplus V {x}",
+      "standing": "The same for ≤ (CausalCurveOn.le_of_le).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.Iplus_subset_inside_of_boundaryChart",
+      "file_line": "scaffold/CausalScaffold/BoundaryChartCauchy.lean:205",
+      "statement": "[T2Space M] [SecondCountableTopology M] → hS : C.IsCauchySurfaceOn W S → hC : C.CausallyArcConnectedOn W → hcaus : (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) → hVW : V ≤ W → hVU : V ≤ U → hVJ : ↑V ⊆ C.Jminus W S → hfr : (∀ x ∈ (↑U ∩ closure ↑V) \\ ↑V, x ∉ W) → hU : C.CausallyArcConnectedOn U → ∀ x ∈ V, C.Iplus U {x} ⊆ C.Iplus V {x}",
+      "standing": "Deliverable (2), T-abs-flrw-type's field (iii) in exactly the agreed shape ∀ x ∈ V, C.Iplus Ũ {x} ⊆ C.Iplus V {x}.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.Jplus_subset_inside_of_boundaryChart",
+      "file_line": "scaffold/CausalScaffold/BoundaryChartCauchy.lean:215",
+      "statement": "[T2Space M] [SecondCountableTopology M] → hS : C.IsCauchySurfaceOn W S → hC : C.CausallyArcConnectedOn W → hcaus : (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) → hVW : V ≤ W → hVU : V ≤ U → hVJ : ↑V ⊆ C.Jminus W S → hfr : (∀ x ∈ (↑U ∩ closure ↑V) \\ ↑V, x ∉ W) → hU : C.CausallyArcConnectedOn U → ∀ x ∈ V, C.Jplus U {x} ⊆ C.Jplus V {x}",
+      "standing": "Deliverable (2), the J⁺ form.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.mapsTo_inside_of_futureBoundaryChart",
+      "file_line": "scaffold/CausalScaffold/BoundaryChartCauchy.lean:227",
+      "statement": "[T2Space M] [SecondCountableTopology M] → hS : C.IsCauchySurfaceOn W S → hC : C.CausallyArcConnectedOn W → hcaus : (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) → hVW : V ≤ W → hVJ : ↑V ⊆ C.Jplus W S → hfr : (∀ x ∈ (↑U ∩ closure ↑V) \\ ↑V, x ∉ W) → C.dual.CausalCurveOn U c a b → c a ∈ V → MapsTo c (Icc a b) ↑V",
+      "standing": "Deliverable (3), the time reversal, Sbierski's (2.4) as printed: the future boundary chart, a past-directed causal curve of Ũ (a future causal curve of C.dual) starting in V stays in V. The main theorem for C.dual through dual_isCauchySurfaceOn and dual_causallyArcConnectedOn; C.dual.Jminus W S is C.Jplus W S by rfl.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.mapsTo_inside_of_futureBoundaryChart_of_Iplus",
+      "file_line": "scaffold/CausalScaffold/BoundaryChartCauchy.lean:238",
+      "statement": "[T2Space M] [SecondCountableTopology M] → hS : C.IsCauchySurfaceOn W S → hC : C.CausallyArcConnectedOn W → hcaus : (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) → hVW : V ≤ W → hVI : ↑V ⊆ C.Iplus W S → hfr : (∀ x ∈ (↑U ∩ closure ↑V) \\ ↑V, x ∉ W) → C.dual.CausalCurveOn U c a b → c a ∈ V → MapsTo c (Icc a b) ↑V",
+      "standing": "(2.4) as printed with (2.2) as printed (Ũ_< ⊆ ι(I⁺(Σ, M)) ∩ Ũ).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.mapsTo_inside_of_futureBoundaryChart_of_end_mem",
+      "file_line": "scaffold/CausalScaffold/BoundaryChartCauchy.lean:250",
+      "statement": "[T2Space M] [SecondCountableTopology M] → hS : C.IsCauchySurfaceOn W S → hC : C.CausallyArcConnectedOn W → hcaus : (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) → hVW : V ≤ W → hVJ : ↑V ⊆ C.Jplus W S → hfr : (∀ x ∈ (↑U ∩ closure ↑V) \\ ↑V, x ∉ W) → C.CausalCurveOn U c a b → c b ∈ V → MapsTo c (Icc a b) ↑V",
+      "standing": "The same with a future-directed parameter: a future causal curve of Ũ ending in V lies in V (CurveOn.reverse, then the dual form).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.Iminus_subset_inside_of_futureBoundaryChart",
+      "file_line": "scaffold/CausalScaffold/BoundaryChartCauchy.lean:265",
+      "statement": "[T2Space M] [SecondCountableTopology M] → hS : C.IsCauchySurfaceOn W S → hC : C.CausallyArcConnectedOn W → hcaus : (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) → hVW : V ≤ W → hVU : V ≤ U → hVJ : ↑V ⊆ C.Jplus W S → hfr : (∀ x ∈ (↑U ∩ closure ↑V) \\ ↑V, x ∉ W) → hU : C.CausallyArcConnectedOn U → ∀ x ∈ V, C.Iminus U {x} ⊆ C.Iminus V {x}",
+      "standing": "The relation form of the future boundary chart, through C.dual.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.Jminus_subset_inside_of_futureBoundaryChart",
+      "file_line": "scaffold/CausalScaffold/BoundaryChartCauchy.lean:275",
+      "statement": "[T2Space M] [SecondCountableTopology M] → hS : C.IsCauchySurfaceOn W S → hC : C.CausallyArcConnectedOn W → hcaus : (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) → hVW : V ≤ W → hVU : V ≤ U → hVJ : ↑V ⊆ C.Jplus W S → hfr : (∀ x ∈ (↑U ∩ closure ↑V) \\ ↑V, x ∉ W) → hU : C.CausallyArcConnectedOn U → ∀ x ∈ V, C.Jminus U {x} ⊆ C.Jminus V {x}",
+      "standing": "The causal relation form of the future boundary chart.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_isCauchySurfaceOn_Ioi_zero_one",
+      "file_line": "scaffold/CausalScaffold/BoundaryChartCauchy.lean:289",
+      "statement": "timelikeLine.IsCauchySurfaceOn ⟨Ioi 0, isOpen_Ioi⟩ {1}",
+      "standing": "{1} = {exp 0} is a Cauchy surface of ]0, ∞[ = range exp (timelikeLine_isCauchySurfaceOn_range, Causal/ErsUniqueness.lean:851; Real.isOpenEmbedding_exp, Real.range_exp). The library had Cauchy surfaces of bounded intervals and of ℝ only.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_boundaryChart_witness",
+      "file_line": "scaffold/CausalScaffold/BoundaryChartCauchy.lean:301",
+      "statement": "(timelikeLine.IsCauchySurfaceOn W {1} ∧ CausallyArcConnectedOn W ∧ (≤_W antisymmetric) ∧ V ≤ W ∧ V ≤ U ∧ Ioo 0 1 ⊆ Jminus W {1} ∧ (Ioo (-1) 1 ∩ closure (Ioo 0 1)) \\ Ioo 0 1 = {0} ∧ 0 ∉ Ioi 0 ∧ CausallyArcConnectedOn U) ∧ (∀ c a b, timelikeLine.CausalCurveOn U c a b → c a ∈ Ioo 0 1 → MapsTo c (Icc a b) (Ioo 0 1)) ∧ (∀ x ∈ Ioo 0 1, Iplus U {x} ⊆ Iplus V {x}) ∧ (∀ x ∈ Ioo 0 1, Jplus U {x} ⊆ Jplus V {x}) ∧ ¬ Iminus U {1/2} ⊆ Iminus V {1/2}   where W = ⟨Ioi 0, _⟩, U = ⟨Ioo (-1) 1, _⟩, V = ⟨Ioo 0 1, _⟩",
+      "standing": "Deliverable (4), the kb/0011 witness the target names: W = Ioi 0, S = {1}, Ũ = Ioo (-1) 1, V = Ioo 0 1. The hypotheses hold jointly; the frontier of V in Ũ is {0}, W's past boundary point. The three conclusions are obtained by applying the theorems, not by hand. The last conjunct shows the statement is one-sided: -1/2 ∈ I⁻(1/2, Ũ) ∖ I⁻(1/2, V).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_isCauchySurfaceOn_Iio_zero_neg_one",
+      "file_line": "scaffold/CausalScaffold/BoundaryChartCauchy.lean:370",
+      "statement": "timelikeLine.IsCauchySurfaceOn ⟨Iio 0, isOpen_Iio⟩ {-1}",
+      "standing": "{-1} is a Cauchy surface of ]-∞, 0[, the range of x ↦ -exp (-x).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_futureBoundaryChart_witness",
+      "file_line": "scaffold/CausalScaffold/BoundaryChartCauchy.lean:392",
+      "statement": "(Cauchy {-1} of W ∧ CausallyArcConnectedOn W ∧ (≤_W antisymmetric) ∧ V ≤ W ∧ V ≤ U ∧ Ioo (-1) 0 ⊆ Jplus W {-1} ∧ (Ioo (-1) 1 ∩ closure (Ioo (-1) 0)) \\ Ioo (-1) 0 = {0} ∧ 0 ∉ Iio 0 ∧ CausallyArcConnectedOn U) ∧ (∀ c a b, timelikeLine.dual.CausalCurveOn U c a b → c a ∈ Ioo (-1) 0 → MapsTo c (Icc a b) (Ioo (-1) 0)) ∧ (∀ x ∈ Ioo (-1) 0, Iminus U {x} ⊆ Iminus V {x}) ∧ (∀ x ∈ Ioo (-1) 0, Jminus U {x} ⊆ Jminus V {x})   where W = ⟨Iio 0, _⟩, U = ⟨Ioo (-1) 1, _⟩, V = ⟨Ioo (-1) 0, _⟩",
+      "standing": "The witness for the time reversal, (2.4) as printed: the future boundary point 0 of W = ]-∞, 0[.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_boundaryChart_needs_frontier",
+      "file_line": "scaffold/CausalScaffold/BoundaryChartCauchy.lean:452",
+      "statement": "(Cauchy {1} of W ∧ CausallyArcConnectedOn W ∧ (≤_W antisymmetric) ∧ V ≤ W ∧ Ioo 0 1 ⊆ Jminus W {1} ∧ 1 ∈ (Ioo (-1) 2 ∩ closure (Ioo 0 1)) \\ Ioo 0 1 ∧ 1 ∈ Ioi 0) ∧ timelikeLine.CausalCurveOn ⟨Ioo (-1) 2, _⟩ id (1/2) (3/2) ∧ id (1/2) ∈ Ioo 0 1 ∧ ¬ MapsTo id (Icc (1/2) (3/2)) (Ioo 0 1)   where W = ⟨Ioi 0, _⟩, V = ⟨Ioo 0 1, _⟩",
+      "standing": "Sharpness: the frontier hypothesis cannot be dropped. With Ũ = ]-1, 2[ every other hypothesis holds, the frontier point 1 of V in Ũ lies in W, and id leaves V.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_boundaryChart_needs_Jminus",
+      "file_line": "scaffold/CausalScaffold/BoundaryChartCauchy.lean:485",
+      "statement": "(Cauchy {0} of W ∧ CausallyArcConnectedOn W ∧ (≤_W antisymmetric) ∧ (∀ x ∈ (Ioo (-2) 2 ∩ closure (Ioo (-1) 1)) \\ Ioo (-1) 1, x ∉ Ioo (-1) 1) ∧ 1/2 ∉ Jminus W {0}) ∧ timelikeLine.CausalCurveOn ⟨Ioo (-2) 2, _⟩ id (1/2) (3/2) ∧ id (1/2) ∈ Ioo (-1) 1 ∧ ¬ MapsTo id (Icc (1/2) (3/2)) (Ioo (-1) 1)   where W = V = ⟨Ioo (-1) 1, _⟩",
+      "standing": "Sharpness: V ⊆ J⁻(S, W) cannot be dropped. W = V = ]-1, 1[, S = {0}, Ũ = ]-2, 2[; the frontier {-1, 1} misses W, 1/2 ∈ V ∖ J⁻(S, W), and id leaves V.",
+      "status": "proved"
+    }
+  ],
+  "lean_vs_paper": {
+    "verdict": "The Lean is at least Sbierski's (2.4), in the library's reading of his objects (M̃ = M with the causality C, ι(M) = the open W, relations of opens, Σ a DEC-14 Cauchy surface; questions 1 and 2). Every hypothesis is carried or weakened; none is added. (2.4) as printed is mapsTo_inside_of_futureBoundaryChart_of_Iplus; the past-chart form the consumer uses is mapsTo_inside_of_boundaryChart.",
+    "rows": [
+      {
+        "paper": "M̃ a (C⁰ Lorentzian) manifold: Hausdorff, second countable",
+        "here": "carried",
+        "note": "[T2Space M] [SecondCountableTopology M]. T2 is used by futureInextensible_of_leaving, T1 and second countability by the Cauchy lemma and the acausality of S."
+      },
+      {
+        "paper": "(M, g) time-oriented, globally hyperbolic, g ∈ C²",
+        "here": "weakened",
+        "note": "Only two consequences are used: W = ι(M) causally arc-connected (the Lorentzian relations are defined by curves) and ≤_W antisymmetric (GH ⇒ causal). g ∈ C² is not used."
+      },
+      {
+        "paper": "Σ a Cauchy hypersurface of M",
+        "here": "carried (reading)",
+        "note": "C.IsCauchySurfaceOn W S, DEC-14, the library's standing reading (question 2)."
+      },
+      {
+        "paper": "p̃ ∈ ∂⁺ι(M), the chart φ̃ : Ũ → (−ε0, ε0) × (−ε1, ε1)^d, i)–ii), δ, the cone sandwich",
+        "here": "weakened",
+        "note": "Not used: Ũ is any open U."
+      },
+      {
+        "paper": "Ũ_< open, contained in ι(M) ∩ Ũ ((2.2))",
+        "here": "weakened",
+        "note": "V open with V ≤ W for the curve forms; V ≤ Ũ only for the relation forms (restriction of a curve to V)."
+      },
+      {
+        "paper": "(2.2): Ũ_< ⊆ ι(I⁺(Σ, M)) (future chart); I⁻ for the past chart",
+        "here": "weakened",
+        "note": "V ⊆ J^±(S, W) ⊇ I^±(S, W); the I forms (…_of_Iplus, …_of_Iminus) are corollaries."
+      },
+      {
+        "paper": "(2.3): the graph of f lies in ∂⁺ι(M) ∩ Ũ",
+        "here": "carried (as the frontier)",
+        "note": "No point of (Ũ ∩ closure V) ∖ V lies in W. For f continuous with values in (−ε0, ε0), (Ũ ∩ closure Ũ_<) ∖ Ũ_< is the graph, and ∂ι(M) misses the open ι(M)."
+      },
+      {
+        "paper": "the graph achronal; f Lipschitz",
+        "here": "weakened",
+        "note": "Not used."
+      },
+      {
+        "paper": "the target: V disjoint from S",
+        "here": "weakened",
+        "note": "Not assumed: after the curve meets S it is constant."
+      },
+      {
+        "paper": "conclusion: a past directed causal curve in Ũ starting below the graph remains below it",
+        "here": "carried",
+        "note": "C.dual.CausalCurveOn U c a b → c a ∈ V → MapsTo c (Icc a b) V; also for future-directed parameters ending in V, and over any interval (past chart)."
+      },
+      {
+        "paper": "the relation forms (not printed; T-abs-flrw-type's field (iii))",
+        "here": "added hypothesis of the target",
+        "note": "C.CausallyArcConnectedOn U, as the target specifies; for a C⁰ chart this is layer 3."
+      }
+    ]
+  },
+  "lemmas_for_the_keeper": [],
+  "lemmas_for_the_keeper_note": "None is due. No statement concludes a ladder property, and there is no boundary-chart node yet: T-lad-programme-properties adds it from T-abs-flrw-type's definition. Once it exists, Iplus_subset_inside_of_boundaryChart can witness 'Cauchy data ⇒ field (iii)' as a consequence. No ladder simulation was needed.",
+  "extra_decls": [
+    "Causal.Causality.Iplus_subset_Iplus_of_forall_mapsTo",
+    "Causal.Causality.Jplus_subset_Jplus_of_forall_mapsTo",
+    "Causal.Causality.mapsTo_inside_of_boundaryChart_of_causalCurveIn",
+    "Causal.timelikeLine_isCauchySurfaceOn_Ioi_zero_one",
+    "Causal.timelikeLine_isCauchySurfaceOn_Iio_zero_neg_one"
+  ],
+  "findings": [
+    "No defect in Sbierski's text. (2.4) and its proof (sbierski2023c.txt:352–358) are correct as printed. His sentence 'does not intersect Σ' rests on I⁺(Σ) ∩ Σ = ∅, which holds because a Cauchy hypersurface is achronal. In ETT ≪ is not irreflexive by axiom, so the formal proof replaces that step: once the curve meets S it is constant, so it cannot reach the frontier.",
+    "About the target's statement, not the paper: 'V disjoint from S' is not needed. The curve meets S at some t₀ < τ. For t ∈ [t₀, τ), c t ∈ V ⊆ J⁻(S, W) gives c t ≤_W s ∈ S, and c t₀ ≤_W c t ≤_W s, so c t₀ = s (S is acausal, IsCauchySurfaceOn.eq_of_le_of_t1_secondCountable) and c t = c t₀ (antisymmetry). Then continuity gives c τ = c t₀ ∈ W, which contradicts c τ ∉ W. So the I⁻ corollary the evidence allowed under 'irreflexivity of ≪_W on S' holds with no extra hypothesis (mapsTo_inside_of_boundaryChart_of_Iminus).",
+    "About the target's statement: the curve form needs only V ≤ W, not V ≤ W ⊓ Ũ. V ≤ Ũ is used only in the relation forms, where a curve of Ũ lying in V is restricted to V.",
+    "Sharpness, formalized on the timelike line. The frontier hypothesis cannot be dropped (timelikeLine_boundaryChart_needs_frontier: Ũ = ]-1, 2[, and the frontier point 1 lies in W). Nor can V ⊆ J⁻(S, W) (timelikeLine_boundaryChart_needs_Jminus: W = V = ]-1, 1[, S = {0}, Ũ = ]-2, 2[). The relation forms are one-sided: I⁻(1/2, Ũ) ⊄ I⁻(1/2, V) in the witness."
+  ],
+  "questions": [
+    "Reading 1, the objects (the reading of Causal.C0ExtensionSkeleton, OQ-154, not decided here). Sbierski's M̃ is M with the one causality C. ι(M) is the open W. His I^±(·, Ũ) and causal curves 'in Ũ' are the relations and curves of the open U. The time orientation of Ũ (∂₀ future-directed, 'agrees with the induced time orientation of M below the graph', :348–349) is built into the single causality C, as OQ-115 reads M̃ time-oriented for the C⁰ skeleton. 'Below the graph of f' is V, and the graph is the frontier of V in Ũ. So (2.3) becomes 'no point of (Ũ ∩ closure V) ∖ V lies in W'. Showing that a C⁰ boundary chart has these properties is layer 3 (T-loc-c0-past-boundary-chart).",
+    "Reading 2, 'Cauchy hypersurface' (:329) is read as DEC-14's IsCauchySurfaceOn: every inextensible causal curve meets S exactly once. This is the library's standing reading, as in T-abs-past-inextensible-meets-cauchy. One layer-3 caveat. If Sbierski's Σ is a Lorentzian Cauchy hypersurface in the timelike sense (met exactly once by every inextendible timelike curve) and contains a null segment, it is not DEC-14 Cauchy. Then the Lean applies only after Σ is replaced by an acausal Cauchy hypersurface S with Ũ_< ⊆ J^±(S). An ETT form for 'achronal and met by every inextensible causal curve' would need push-up and a one-sided re-proof of the Cauchy lemma. It is not attempted.",
+    "Reading 3, 'past directed causal curve in Ũ starting below the graph' is read as C.dual.CausalCurveOn U c a b with c a ∈ V, over a segment. The future-parameter form (a future curve of Ũ ending in V) and, for the past chart, the form over any interval are proved too, so nothing is decided between them."
+  ],
+  "kb_proposals": [
+    "Sbierski 2312.07443 (2.4) at a boundary chart is Causal.Causality.mapsTo_inside_of_boundaryChart: with S Cauchy in a causally arc-connected W, ≤_W antisymmetric, V ≤ W open, V ⊆ J⁻(S, W) and (Ũ ∩ closure V) ∖ V disjoint from W, every future causal curve of Ũ from V stays in V; V ∩ S = ∅ is not needed. Field (iii) of a past boundary chart, ∀ x ∈ V, I⁺(x, Ũ) ⊆ I⁺(x, V), is Iplus_subset_inside_of_boundaryChart (with Ũ causally arc-connected) (T-abs-boundary-chart-cauchy).",
+    "First exit of a curve from an open V: τ = sInf (Icc a b ∩ c ⁻¹' Vᶜ) is attained (ContinuousOn.preimage_isClosed_of_isClosed, IsClosed.csInf_mem), and c τ ∈ closure V by ContinuousWithinAt.mem_closure with closure_Ico. Then futureInextensible_of_leaving applies with the larger open W ⊔ Ũ, since it asks W ≤ U (T-abs-boundary-chart-cauchy).",
+    "A causal curve of W whose points lie in J⁻(S, W) is constant after it meets the Cauchy surface S, by acausality (eq_of_le_of_t1_secondCountable) and antisymmetry. This replaces Sbierski's 'I⁺(Σ) ∩ Σ = ∅', which ETT cannot use because ≪ is not irreflexive by axiom (T-abs-boundary-chart-cauchy).",
+    "On the timelike line, {1} is a Cauchy surface of ]0, ∞[ and {-1} of ]-∞, 0[: timelikeLine_isCauchySurfaceOn_range (Causal.ErsUniqueness) with exp and x ↦ -exp (-x) (Causal.timelikeLine_isCauchySurfaceOn_Ioi_zero_one, …_Iio_zero_neg_one). Use them for half-line witnesses; kb/0308 covers bounded intervals (T-abs-boundary-chart-cauchy)."
+  ],
+  "notes": "Nothing is marked: 2312.07443 is not ledgered and has no binder. The module is a leaf in namespace Causal and passes -DwarningAsError=true, so it can graduate as Causal.BoundaryChartCauchy by a file move (the Causal.lean import line is the loop's). It does not import scaffold/CausalScaffold/FlrwType.lean, and no name clashes with the strict library or the scaffold (grep, 2026-11-28). For T-abs-flrw-type: field (iii) is produced in exactly the agreed shape, ∀ x ∈ V, C.Iplus Ũ {x} ⊆ C.Iplus V {x}, by Iplus_subset_inside_of_boundaryChart. Its hypotheses take V ≤ W and V ≤ Ũ separately; a structure field V ≤ W ⊓ Ũ gives them by .trans inf_le_left and .trans inf_le_right. The import of Causal.ErsUniqueness serves the witnesses only. Checked against the parallel draft scaffold/CausalScaffold/FlrwType.lean (read, not imported, 2026-11-28). Its field PastBoundaryChartData.futureClosed : ∀ x ∈ inside, C.Iplus Ũ {x} ⊆ C.Iplus inside {x} is the conclusion of Iplus_subset_inside_of_boundaryChart with V := inside. Its inside_le : inside ≤ W ⊓ Ũ gives hVW and hVU. No names are shared.",
+  "what_remains": "Nothing mathematical for this target. (1) Graduation of the file. (2) Layer 3 (T-loc-c0-past-boundary-chart): a C⁰ boundary chart satisfies the hypotheses, namely V = Ũ_> open in ι(M) ∩ Ũ, V ⊆ I⁻(Σ), the frontier of V in Ũ (the graph) in ∂⁻ι(M), and Ũ causally arc-connected; also question 2's caveat on Σ. (3) T-abs-flrw-type may derive its field (iii) from Cauchy data with Iplus_subset_inside_of_boundaryChart once both graduate. (4) Optional: formalize the sharpness of the Cauchy, antisymmetry and arc-connectedness hypotheses, argued in the dependency's SCOPE but not formalized there or here.",
+  "corrected_after_audit": "AUDIT-1 (minor), applied by the master in the module docstring: the checklist reads the past chart as the reversal of the printed future chart (Ũ_> ⊆ ι(I⁻(Σ, M)), graph in ∂⁻ι(M); printed Ũ_< ⊆ ι(I⁺(Σ, M)), ∂⁺), f's continuity named as what turns (2.3) into the frontier condition (lean_vs_paper's 'f Lipschitz: not used' reads 'Lipschitz beyond continuity: not used'), the relation forms' Ũ arc-connectedness marked a hypothesis the target adds; a SCOPE bullet discloses the DEC-14 Cauchy caveat (a null segment) and the orientation reading (OQ-115). Statements unchanged."
+}

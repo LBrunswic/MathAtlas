@@ -358,6 +358,7 @@ import Causal.Ers482RestartSeparation
 import Causal.PastInextensibleMeetsCauchy
 import Causal.ErsEtaleGluing
 import Causal.TwoPiece
+import Causal.BoundaryChartCauchy
 
 /-!
 # Causal — topological spacetimes

@@ -1,0 +1,203 @@
+@Causal.Causality.mapsTo_inside_of_boundaryChart : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causal.Causality M}
+  {W U V : TopologicalSpace.Opens M} {S : Set M} [T2Space M] [SecondCountableTopology M],
+  C.IsCauchySurfaceOn W S →
+    C.CausallyArcConnectedOn W →
+      (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) →
+        V ≤ W →
+          ↑V ⊆ C.Jminus W S →
+            (∀ x ∈ (↑U ∩ closure ↑V) \ ↑V, x ∉ W) →
+              ∀ {c : ℝ → M} {a b : ℝ}, C.CausalCurveOn U c a b → c a ∈ V → Set.MapsTo c (Set.Icc a b) ↑V
+@Causal.Causality.mapsTo_inside_of_boundaryChart_of_Iminus : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W U V : TopologicalSpace.Opens M} {S : Set M} [T2Space M] [SecondCountableTopology M],
+  C.IsCauchySurfaceOn W S →
+    C.CausallyArcConnectedOn W →
+      (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) →
+        V ≤ W →
+          ↑V ⊆ C.Iminus W S →
+            (∀ x ∈ (↑U ∩ closure ↑V) \ ↑V, x ∉ W) →
+              ∀ {c : ℝ → M} {a b : ℝ}, C.CausalCurveOn U c a b → c a ∈ V → Set.MapsTo c (Set.Icc a b) ↑V
+@Causal.Causality.mapsTo_inside_of_boundaryChart_of_causalCurveIn : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W U V : TopologicalSpace.Opens M} {S : Set M} [T2Space M] [SecondCountableTopology M],
+  C.IsCauchySurfaceOn W S →
+    C.CausallyArcConnectedOn W →
+      (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) →
+        V ≤ W →
+          ↑V ⊆ C.Jminus W S →
+            (∀ x ∈ (↑U ∩ closure ↑V) \ ↑V, x ∉ W) →
+              ∀ {I : Set ℝ} {c : ℝ → M} {t₀ : ℝ}, C.CausalCurveIn U I c → t₀ ∈ I → c t₀ ∈ V → ∀ t ∈ I, t₀ ≤ t → c t ∈ V
+@Causal.Causality.Iplus_subset_Iplus_of_forall_mapsTo : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {U V : TopologicalSpace.Opens M},
+  C.CausallyArcConnectedOn U →
+    V ≤ U →
+      (∀ (c : ℝ → M), C.CausalCurveOn U c 0 1 → c 0 ∈ V → Set.MapsTo c (Set.Icc 0 1) ↑V) →
+        ∀ x ∈ V, C.Iplus U {x} ⊆ C.Iplus V {x}
+@Causal.Causality.Jplus_subset_Jplus_of_forall_mapsTo : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {U V : TopologicalSpace.Opens M},
+  C.CausallyArcConnectedOn U →
+    V ≤ U →
+      (∀ (c : ℝ → M), C.CausalCurveOn U c 0 1 → c 0 ∈ V → Set.MapsTo c (Set.Icc 0 1) ↑V) →
+        ∀ x ∈ V, C.Jplus U {x} ⊆ C.Jplus V {x}
+@Causal.Causality.Iplus_subset_inside_of_boundaryChart : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W U V : TopologicalSpace.Opens M} {S : Set M} [T2Space M] [SecondCountableTopology M],
+  C.IsCauchySurfaceOn W S →
+    C.CausallyArcConnectedOn W →
+      (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) →
+        V ≤ W →
+          V ≤ U →
+            ↑V ⊆ C.Jminus W S →
+              (∀ x ∈ (↑U ∩ closure ↑V) \ ↑V, x ∉ W) →
+                C.CausallyArcConnectedOn U → ∀ x ∈ V, C.Iplus U {x} ⊆ C.Iplus V {x}
+@Causal.Causality.Jplus_subset_inside_of_boundaryChart : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W U V : TopologicalSpace.Opens M} {S : Set M} [T2Space M] [SecondCountableTopology M],
+  C.IsCauchySurfaceOn W S →
+    C.CausallyArcConnectedOn W →
+      (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) →
+        V ≤ W →
+          V ≤ U →
+            ↑V ⊆ C.Jminus W S →
+              (∀ x ∈ (↑U ∩ closure ↑V) \ ↑V, x ∉ W) →
+                C.CausallyArcConnectedOn U → ∀ x ∈ V, C.Jplus U {x} ⊆ C.Jplus V {x}
+@Causal.Causality.mapsTo_inside_of_futureBoundaryChart : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W U V : TopologicalSpace.Opens M} {S : Set M} [T2Space M] [SecondCountableTopology M],
+  C.IsCauchySurfaceOn W S →
+    C.CausallyArcConnectedOn W →
+      (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) →
+        V ≤ W →
+          ↑V ⊆ C.Jplus W S →
+            (∀ x ∈ (↑U ∩ closure ↑V) \ ↑V, x ∉ W) →
+              ∀ {c : ℝ → M} {a b : ℝ}, C.dual.CausalCurveOn U c a b → c a ∈ V → Set.MapsTo c (Set.Icc a b) ↑V
+@Causal.Causality.mapsTo_inside_of_futureBoundaryChart_of_Iplus : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W U V : TopologicalSpace.Opens M} {S : Set M} [T2Space M] [SecondCountableTopology M],
+  C.IsCauchySurfaceOn W S →
+    C.CausallyArcConnectedOn W →
+      (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) →
+        V ≤ W →
+          ↑V ⊆ C.Iplus W S →
+            (∀ x ∈ (↑U ∩ closure ↑V) \ ↑V, x ∉ W) →
+              ∀ {c : ℝ → M} {a b : ℝ}, C.dual.CausalCurveOn U c a b → c a ∈ V → Set.MapsTo c (Set.Icc a b) ↑V
+@Causal.Causality.mapsTo_inside_of_futureBoundaryChart_of_end_mem : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W U V : TopologicalSpace.Opens M} {S : Set M} [T2Space M] [SecondCountableTopology M],
+  C.IsCauchySurfaceOn W S →
+    C.CausallyArcConnectedOn W →
+      (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) →
+        V ≤ W →
+          ↑V ⊆ C.Jplus W S →
+            (∀ x ∈ (↑U ∩ closure ↑V) \ ↑V, x ∉ W) →
+              ∀ {c : ℝ → M} {a b : ℝ}, C.CausalCurveOn U c a b → c b ∈ V → Set.MapsTo c (Set.Icc a b) ↑V
+@Causal.Causality.Iminus_subset_inside_of_futureBoundaryChart : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W U V : TopologicalSpace.Opens M} {S : Set M} [T2Space M] [SecondCountableTopology M],
+  C.IsCauchySurfaceOn W S →
+    C.CausallyArcConnectedOn W →
+      (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) →
+        V ≤ W →
+          V ≤ U →
+            ↑V ⊆ C.Jplus W S →
+              (∀ x ∈ (↑U ∩ closure ↑V) \ ↑V, x ∉ W) →
+                C.CausallyArcConnectedOn U → ∀ x ∈ V, C.Iminus U {x} ⊆ C.Iminus V {x}
+@Causal.Causality.Jminus_subset_inside_of_futureBoundaryChart : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W U V : TopologicalSpace.Opens M} {S : Set M} [T2Space M] [SecondCountableTopology M],
+  C.IsCauchySurfaceOn W S →
+    C.CausallyArcConnectedOn W →
+      (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) →
+        V ≤ W →
+          V ≤ U →
+            ↑V ⊆ C.Jplus W S →
+              (∀ x ∈ (↑U ∩ closure ↑V) \ ↑V, x ∉ W) →
+                C.CausallyArcConnectedOn U → ∀ x ∈ V, C.Jminus U {x} ⊆ C.Jminus V {x}
+Causal.timelikeLine_isCauchySurfaceOn_Ioi_zero_one : Causal.timelikeLine.IsCauchySurfaceOn
+  { carrier := Set.Ioi 0, is_open' := ⋯ } {1}
+Causal.timelikeLine_boundaryChart_witness : (Causal.timelikeLine.IsCauchySurfaceOn
+      { carrier := Set.Ioi 0, is_open' := ⋯ } {1} ∧
+    Causal.timelikeLine.CausallyArcConnectedOn { carrier := Set.Ioi 0, is_open' := ⋯ } ∧
+      (∀ ⦃x y : ℝ⦄,
+          Causal.timelikeLine.le { carrier := Set.Ioi 0, is_open' := ⋯ } x y →
+            Causal.timelikeLine.le { carrier := Set.Ioi 0, is_open' := ⋯ } y x → x = y) ∧
+        { carrier := Set.Ioo 0 1, is_open' := ⋯ } ≤ { carrier := Set.Ioi 0, is_open' := ⋯ } ∧
+          { carrier := Set.Ioo 0 1, is_open' := ⋯ } ≤ { carrier := Set.Ioo (-1) 1, is_open' := ⋯ } ∧
+            Set.Ioo 0 1 ⊆ Causal.timelikeLine.Jminus { carrier := Set.Ioi 0, is_open' := ⋯ } {1} ∧
+              (Set.Ioo (-1) 1 ∩ closure (Set.Ioo 0 1)) \ Set.Ioo 0 1 = {0} ∧
+                0 ∉ Set.Ioi 0 ∧
+                  Causal.timelikeLine.CausallyArcConnectedOn { carrier := Set.Ioo (-1) 1, is_open' := ⋯ }) ∧
+  (∀ (c : ℝ → ℝ) (a b : ℝ),
+      Causal.timelikeLine.CausalCurveOn { carrier := Set.Ioo (-1) 1, is_open' := ⋯ } c a b →
+        c a ∈ Set.Ioo 0 1 → Set.MapsTo c (Set.Icc a b) (Set.Ioo 0 1)) ∧
+    (∀ x ∈ Set.Ioo 0 1,
+        Causal.timelikeLine.Iplus { carrier := Set.Ioo (-1) 1, is_open' := ⋯ } {x} ⊆
+          Causal.timelikeLine.Iplus { carrier := Set.Ioo 0 1, is_open' := ⋯ } {x}) ∧
+      (∀ x ∈ Set.Ioo 0 1,
+          Causal.timelikeLine.Jplus { carrier := Set.Ioo (-1) 1, is_open' := ⋯ } {x} ⊆
+            Causal.timelikeLine.Jplus { carrier := Set.Ioo 0 1, is_open' := ⋯ } {x}) ∧
+        ¬Causal.timelikeLine.Iminus { carrier := Set.Ioo (-1) 1, is_open' := ⋯ } {1 / 2} ⊆
+            Causal.timelikeLine.Iminus { carrier := Set.Ioo 0 1, is_open' := ⋯ } {1 / 2}
+Causal.timelikeLine_isCauchySurfaceOn_Iio_zero_neg_one : Causal.timelikeLine.IsCauchySurfaceOn
+  { carrier := Set.Iio 0, is_open' := ⋯ } {-1}
+Causal.timelikeLine_futureBoundaryChart_witness : (Causal.timelikeLine.IsCauchySurfaceOn
+      { carrier := Set.Iio 0, is_open' := ⋯ } {-1} ∧
+    Causal.timelikeLine.CausallyArcConnectedOn { carrier := Set.Iio 0, is_open' := ⋯ } ∧
+      (∀ ⦃x y : ℝ⦄,
+          Causal.timelikeLine.le { carrier := Set.Iio 0, is_open' := ⋯ } x y →
+            Causal.timelikeLine.le { carrier := Set.Iio 0, is_open' := ⋯ } y x → x = y) ∧
+        { carrier := Set.Ioo (-1) 0, is_open' := ⋯ } ≤ { carrier := Set.Iio 0, is_open' := ⋯ } ∧
+          { carrier := Set.Ioo (-1) 0, is_open' := ⋯ } ≤ { carrier := Set.Ioo (-1) 1, is_open' := ⋯ } ∧
+            Set.Ioo (-1) 0 ⊆ Causal.timelikeLine.Jplus { carrier := Set.Iio 0, is_open' := ⋯ } {-1} ∧
+              (Set.Ioo (-1) 1 ∩ closure (Set.Ioo (-1) 0)) \ Set.Ioo (-1) 0 = {0} ∧
+                0 ∉ Set.Iio 0 ∧
+                  Causal.timelikeLine.CausallyArcConnectedOn { carrier := Set.Ioo (-1) 1, is_open' := ⋯ }) ∧
+  (∀ (c : ℝ → ℝ) (a b : ℝ),
+      Causal.timelikeLine.dual.CausalCurveOn { carrier := Set.Ioo (-1) 1, is_open' := ⋯ } c a b →
+        c a ∈ Set.Ioo (-1) 0 → Set.MapsTo c (Set.Icc a b) (Set.Ioo (-1) 0)) ∧
+    (∀ x ∈ Set.Ioo (-1) 0,
+        Causal.timelikeLine.Iminus { carrier := Set.Ioo (-1) 1, is_open' := ⋯ } {x} ⊆
+          Causal.timelikeLine.Iminus { carrier := Set.Ioo (-1) 0, is_open' := ⋯ } {x}) ∧
+      ∀ x ∈ Set.Ioo (-1) 0,
+        Causal.timelikeLine.Jminus { carrier := Set.Ioo (-1) 1, is_open' := ⋯ } {x} ⊆
+          Causal.timelikeLine.Jminus { carrier := Set.Ioo (-1) 0, is_open' := ⋯ } {x}
+Causal.timelikeLine_boundaryChart_needs_frontier : (Causal.timelikeLine.IsCauchySurfaceOn
+      { carrier := Set.Ioi 0, is_open' := ⋯ } {1} ∧
+    Causal.timelikeLine.CausallyArcConnectedOn { carrier := Set.Ioi 0, is_open' := ⋯ } ∧
+      (∀ ⦃x y : ℝ⦄,
+          Causal.timelikeLine.le { carrier := Set.Ioi 0, is_open' := ⋯ } x y →
+            Causal.timelikeLine.le { carrier := Set.Ioi 0, is_open' := ⋯ } y x → x = y) ∧
+        { carrier := Set.Ioo 0 1, is_open' := ⋯ } ≤ { carrier := Set.Ioi 0, is_open' := ⋯ } ∧
+          Set.Ioo 0 1 ⊆ Causal.timelikeLine.Jminus { carrier := Set.Ioi 0, is_open' := ⋯ } {1} ∧
+            1 ∈ (Set.Ioo (-1) 2 ∩ closure (Set.Ioo 0 1)) \ Set.Ioo 0 1 ∧ 1 ∈ Set.Ioi 0) ∧
+  Causal.timelikeLine.CausalCurveOn { carrier := Set.Ioo (-1) 2, is_open' := ⋯ } id (1 / 2) (3 / 2) ∧
+    id (1 / 2) ∈ Set.Ioo 0 1 ∧ ¬Set.MapsTo id (Set.Icc (1 / 2) (3 / 2)) (Set.Ioo 0 1)
+Causal.timelikeLine_boundaryChart_needs_Jminus : (Causal.timelikeLine.IsCauchySurfaceOn
+      { carrier := Set.Ioo (-1) 1, is_open' := ⋯ } {0} ∧
+    Causal.timelikeLine.CausallyArcConnectedOn { carrier := Set.Ioo (-1) 1, is_open' := ⋯ } ∧
+      (∀ ⦃x y : ℝ⦄,
+          Causal.timelikeLine.le { carrier := Set.Ioo (-1) 1, is_open' := ⋯ } x y →
+            Causal.timelikeLine.le { carrier := Set.Ioo (-1) 1, is_open' := ⋯ } y x → x = y) ∧
+        (∀ x ∈ (Set.Ioo (-2) 2 ∩ closure (Set.Ioo (-1) 1)) \ Set.Ioo (-1) 1, x ∉ Set.Ioo (-1) 1) ∧
+          1 / 2 ∉ Causal.timelikeLine.Jminus { carrier := Set.Ioo (-1) 1, is_open' := ⋯ } {0}) ∧
+  Causal.timelikeLine.CausalCurveOn { carrier := Set.Ioo (-2) 2, is_open' := ⋯ } id (1 / 2) (3 / 2) ∧
+    id (1 / 2) ∈ Set.Ioo (-1) 1 ∧ ¬Set.MapsTo id (Set.Icc (1 / 2) (3 / 2)) (Set.Ioo (-1) 1)
+'Causal.Causality.mapsTo_inside_of_boundaryChart' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.mapsTo_inside_of_boundaryChart_of_Iminus' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.mapsTo_inside_of_boundaryChart_of_causalCurveIn' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.Iplus_subset_Iplus_of_forall_mapsTo' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.Jplus_subset_Jplus_of_forall_mapsTo' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.Iplus_subset_inside_of_boundaryChart' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.Jplus_subset_inside_of_boundaryChart' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.mapsTo_inside_of_futureBoundaryChart' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.mapsTo_inside_of_futureBoundaryChart_of_Iplus' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.mapsTo_inside_of_futureBoundaryChart_of_end_mem' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.Iminus_subset_inside_of_futureBoundaryChart' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.Jminus_subset_inside_of_futureBoundaryChart' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.timelikeLine_isCauchySurfaceOn_Ioi_zero_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_boundaryChart_witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_isCauchySurfaceOn_Iio_zero_neg_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_futureBoundaryChart_witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_boundaryChart_needs_frontier' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_boundaryChart_needs_Jminus' depends on axioms: [propext, Classical.choice, Quot.sound]

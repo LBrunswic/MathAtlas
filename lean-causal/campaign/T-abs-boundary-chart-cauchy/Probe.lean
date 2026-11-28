@@ -1,0 +1,42 @@
+import CausalScaffold.BoundaryChartCauchy
+
+/-! Probe for T-abs-boundary-chart-cauchy: the statements and the axioms of every declaration of
+`CausalScaffold.BoundaryChartCauchy`. It imports the module; it restates nothing. -/
+
+#check @Causal.Causality.mapsTo_inside_of_boundaryChart
+#check @Causal.Causality.mapsTo_inside_of_boundaryChart_of_Iminus
+#check @Causal.Causality.mapsTo_inside_of_boundaryChart_of_causalCurveIn
+#check @Causal.Causality.Iplus_subset_Iplus_of_forall_mapsTo
+#check @Causal.Causality.Jplus_subset_Jplus_of_forall_mapsTo
+#check @Causal.Causality.Iplus_subset_inside_of_boundaryChart
+#check @Causal.Causality.Jplus_subset_inside_of_boundaryChart
+#check @Causal.Causality.mapsTo_inside_of_futureBoundaryChart
+#check @Causal.Causality.mapsTo_inside_of_futureBoundaryChart_of_Iplus
+#check @Causal.Causality.mapsTo_inside_of_futureBoundaryChart_of_end_mem
+#check @Causal.Causality.Iminus_subset_inside_of_futureBoundaryChart
+#check @Causal.Causality.Jminus_subset_inside_of_futureBoundaryChart
+#check @Causal.timelikeLine_isCauchySurfaceOn_Ioi_zero_one
+#check @Causal.timelikeLine_boundaryChart_witness
+#check @Causal.timelikeLine_isCauchySurfaceOn_Iio_zero_neg_one
+#check @Causal.timelikeLine_futureBoundaryChart_witness
+#check @Causal.timelikeLine_boundaryChart_needs_frontier
+#check @Causal.timelikeLine_boundaryChart_needs_Jminus
+
+#print axioms Causal.Causality.mapsTo_inside_of_boundaryChart
+#print axioms Causal.Causality.mapsTo_inside_of_boundaryChart_of_Iminus
+#print axioms Causal.Causality.mapsTo_inside_of_boundaryChart_of_causalCurveIn
+#print axioms Causal.Causality.Iplus_subset_Iplus_of_forall_mapsTo
+#print axioms Causal.Causality.Jplus_subset_Jplus_of_forall_mapsTo
+#print axioms Causal.Causality.Iplus_subset_inside_of_boundaryChart
+#print axioms Causal.Causality.Jplus_subset_inside_of_boundaryChart
+#print axioms Causal.Causality.mapsTo_inside_of_futureBoundaryChart
+#print axioms Causal.Causality.mapsTo_inside_of_futureBoundaryChart_of_Iplus
+#print axioms Causal.Causality.mapsTo_inside_of_futureBoundaryChart_of_end_mem
+#print axioms Causal.Causality.Iminus_subset_inside_of_futureBoundaryChart
+#print axioms Causal.Causality.Jminus_subset_inside_of_futureBoundaryChart
+#print axioms Causal.timelikeLine_isCauchySurfaceOn_Ioi_zero_one
+#print axioms Causal.timelikeLine_boundaryChart_witness
+#print axioms Causal.timelikeLine_isCauchySurfaceOn_Iio_zero_neg_one
+#print axioms Causal.timelikeLine_futureBoundaryChart_witness
+#print axioms Causal.timelikeLine_boundaryChart_needs_frontier
+#print axioms Causal.timelikeLine_boundaryChart_needs_Jminus

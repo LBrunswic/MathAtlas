@@ -325,3 +325,5 @@ rediscover. One fact per entry.
 | [0317](entries/0317-injectivity-not-agreement.md) | pitfall | Injectivity of the Einstein-style projection is U₁ ∩ U₂ ⊆ A, not agreement of the solutions |
 | [0318](entries/0318-mathlib-names-pin.md) | pitfall | Names at this pin: second countability from a countable cover, closed in a subtype, connected sets in clopen opens |
 | [0319](entries/0319-two-piece-ett-layer.md) | pattern | The two-piece gluing core is ETT-layer in Causal.TwoPiece |
+| [0320](entries/0320-boundary-chart-cauchy.md) | pattern | The inside of a boundary chart is future-closed: Sbierski's (2.4) without V ∩ S = ∅ |
+| [0321](entries/0321-first-exit.md) | pattern | The first exit of a curve from an open set is attained and lies in its closure |
