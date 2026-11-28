@@ -1,0 +1,144 @@
+@Causal.ers_coe_eq_inter_of_eqOn : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M}
+  {U₁ U₂ A : TopologicalSpace.Opens M} {u₁ u₂ : M → β} [T2Space M] [SecondCountableTopology M]
+  {Cm : Causal.Causality M},
+  Causal.SolutionLocal sol →
+    Causal.SolutionsGlue sol →
+      Causal.CausalityFollows cau →
+        (∀ (U : TopologicalSpace.Opens M) (u : M → β), sol U u → (cau u).CurveNestedOn Cm U) →
+          (∀ (U : TopologicalSpace.Opens M) (u : M → β), sol U u → (cau u).CausallyArcConnectedOn U) →
+            Cm.IsCausal →
+              Cm.IsAcausal S →
+                IsPreconnected S →
+                  Causal.IsDevelopment sol cau S U₁ u₁ →
+                    Causal.IsDevelopment sol cau S U₂ u₂ →
+                      ↑A ⊆ ↑U₁ →
+                        ↑A ⊆ ↑U₂ → S ⊆ ↑A → ↑U₁ ∩ ↑U₂ ∩ closure ↑A ⊆ ↑A → Set.EqOn u₁ u₂ (↑U₁ ∩ ↑U₂) → ↑A = ↑U₁ ∩ ↑U₂
+@Causal.real_eqOn_inter_of_isDevelopment : ∀ {β : Type u_1} {sol : TopologicalSpace.Opens ℝ → (ℝ → β) → Prop}
+  {cau : (ℝ → β) → Causal.Causality ℝ} {S : Set ℝ} {U₁ U₂ A : TopologicalSpace.Opens ℝ} {u₁ u₂ : ℝ → β},
+  Causal.IsDevelopment sol cau S U₁ u₁ →
+    Causal.IsDevelopment sol cau S U₂ u₂ →
+      IsPreconnected S →
+        (cau u₁).IsCommonDevelopment S U₁ U₂ (fun V => Set.EqOn u₁ u₂ ↑V) A →
+          ↑U₁ ∩ ↑U₂ ∩ closure ↑A ⊆ ↑A → Set.EqOn u₁ u₂ (↑U₁ ∩ ↑U₂)
+@Causal.timelikeLine_isCauchySurfaceOn_Ioo_of_mem : ∀ {a b c : ℝ},
+  a < c → c < b → ∀ {U : TopologicalSpace.Opens ℝ}, ↑U = Set.Ioo a b → Causal.timelikeLine.IsCauchySurfaceOn U {c}
+@Causal.timelikeLine_isCauchySurfaceOn_union_Ioo : ∀ {a b c d s t : ℝ},
+  a < s →
+    s < b →
+      b ≤ c →
+        c < t →
+          t < d →
+            ∀ {U : TopologicalSpace.Opens ℝ},
+              ↑U = Set.Ioo a b ∪ Set.Ioo c d → Causal.timelikeLine.IsCauchySurfaceOn U {s, t}
+Causal.ErsEtaleWitness.lineA_subset_top : ↑Causal.EtaleGluing.lineA ⊆ ↑⊤
+Causal.ErsEtaleWitness.lineA_subset_disU₂ : ↑Causal.EtaleGluing.lineA ⊆ ↑Causal.ErsWitness.disU₂
+Causal.ErsEtaleWitness.timelikeLine_ers_corollary_4_68_etale : (Causal.IsDevelopment (fun x x_1 => True)
+    (fun x => Causal.timelikeLine) {0} ⊤ fun x => 0) ∧
+  Causal.timelikeLine.IsCommonDevelopment {0} ⊤ Causal.ErsWitness.disU₂
+      (fun V => Set.EqOn (fun x => 0) Causal.ErsWitness.disSol₂ ↑V) Causal.EtaleGluing.lineA ∧
+    ↑⊤ ∩ ↑Causal.ErsWitness.disU₂ ∩ closure ↑Causal.EtaleGluing.lineA ⊆ ↑Causal.EtaleGluing.lineA ∧
+      5 / 2 ∈ ⊤ ∧
+        5 / 2 ∈ Causal.ErsWitness.disU₂ ∧
+          (fun x => 0) (5 / 2) ≠ Causal.ErsWitness.disSol₂ (5 / 2) ∧ ¬IsPreconnected (↑⊤ ∩ ↑Causal.ErsWitness.disU₂)
+Causal.ErsEtaleWitness.timelikeLine_ers_corollary_4_68_etale_doubled : T2Space
+    (Causal.EtaleGluing Causal.ErsEtaleWitness.lineA_subset_top Causal.ErsEtaleWitness.lineA_subset_disU₂) ∧
+  5 / 2 ∉ ↑Causal.EtaleGluing.lineA ∧
+    Causal.Gluing.ι₁ (Set.inclusion Causal.ErsEtaleWitness.lineA_subset_top)
+          (Set.inclusion Causal.ErsEtaleWitness.lineA_subset_disU₂) ⟨5 / 2, trivial⟩ ≠
+        Causal.Gluing.ι₂ (Set.inclusion Causal.ErsEtaleWitness.lineA_subset_top)
+          (Set.inclusion Causal.ErsEtaleWitness.lineA_subset_disU₂) ⟨5 / 2, ⋯⟩ ∧
+      ¬Function.Injective
+            (Causal.EtaleGluing.proj Causal.ErsEtaleWitness.lineA_subset_top
+              Causal.ErsEtaleWitness.lineA_subset_disU₂) ∧
+        ∀ (C₂ : Causal.Causality ℝ), ¬C₂.IsCauchySurfaceOn Causal.ErsWitness.disU₂ {0}
+Causal.ErsEtaleWitness.twoU₁ : TopologicalSpace.Opens ℝ
+Causal.ErsEtaleWitness.twoU₂ : TopologicalSpace.Opens ℝ
+Causal.ErsEtaleWitness.twoA : TopologicalSpace.Opens ℝ
+Causal.ErsEtaleWitness.twoSol₂ : ℝ → ℝ
+Causal.ErsEtaleWitness.twoA_subset₁ : ↑Causal.ErsEtaleWitness.twoA ⊆ ↑Causal.ErsEtaleWitness.twoU₁
+Causal.ErsEtaleWitness.twoA_subset₂ : ↑Causal.ErsEtaleWitness.twoA ⊆ ↑Causal.ErsEtaleWitness.twoU₂
+Causal.ErsEtaleWitness.eqOn_twoSol₂ : Set.EqOn (fun x => 0) Causal.ErsEtaleWitness.twoSol₂ ↑Causal.ErsEtaleWitness.twoA
+Causal.ErsEtaleWitness.timelikeLine_ers_corollary_4_68_etale_twoPoint : (Causal.IsDevelopment (fun x x_1 => True)
+    (fun x => Causal.timelikeLine) {0, 3} Causal.ErsEtaleWitness.twoU₁ fun x => 0) ∧
+  Causal.IsDevelopment (fun x x_1 => True) (fun x => Causal.timelikeLine) {0, 3} Causal.ErsEtaleWitness.twoU₂
+      Causal.ErsEtaleWitness.twoSol₂ ∧
+    Causal.timelikeLine.IsCommonDevelopment {0, 3} Causal.ErsEtaleWitness.twoU₁ Causal.ErsEtaleWitness.twoU₂
+        (fun V => Set.EqOn (fun x => 0) Causal.ErsEtaleWitness.twoSol₂ ↑V) Causal.ErsEtaleWitness.twoA ∧
+      ↑Causal.ErsEtaleWitness.twoU₁ ∩ ↑Causal.ErsEtaleWitness.twoU₂ ∩ closure ↑Causal.ErsEtaleWitness.twoA ⊆
+          ↑Causal.ErsEtaleWitness.twoA ∧
+        3 / 2 ∈ Causal.ErsEtaleWitness.twoU₁ ∧
+          3 / 2 ∈ Causal.ErsEtaleWitness.twoU₂ ∧
+            (fun x => 0) (3 / 2) ≠ Causal.ErsEtaleWitness.twoSol₂ (3 / 2) ∧
+              ¬IsPreconnected {0, 3} ∧ ¬IsPreconnected (↑Causal.ErsEtaleWitness.twoU₁ ∩ ↑Causal.ErsEtaleWitness.twoU₂)
+Causal.ErsEtaleWitness.timelikeLine_ers_theorem_3_45_etale_twoPoint : T2Space
+    (Causal.EtaleGluing Causal.ErsEtaleWitness.twoA_subset₁ Causal.ErsEtaleWitness.twoA_subset₂) ∧
+  (Causal.EtaleGluing.gluedCausality Causal.ErsEtaleWitness.twoA_subset₁ Causal.ErsEtaleWitness.twoA_subset₂
+          Causal.timelikeLine Causal.timelikeLine).TwoPiece
+      (Causal.EtaleGluing.sheet₁ Causal.ErsEtaleWitness.twoA_subset₁ Causal.ErsEtaleWitness.twoA_subset₂)
+      (Causal.EtaleGluing.sheet₂ Causal.ErsEtaleWitness.twoA_subset₁ Causal.ErsEtaleWitness.twoA_subset₂) ∧
+    (Causal.EtaleGluing.gluedCausality Causal.ErsEtaleWitness.twoA_subset₁ Causal.ErsEtaleWitness.twoA_subset₂
+          Causal.timelikeLine Causal.timelikeLine).IsCausal ∧
+      (Causal.EtaleGluing.gluedCausality Causal.ErsEtaleWitness.twoA_subset₁ Causal.ErsEtaleWitness.twoA_subset₂
+              Causal.timelikeLine Causal.timelikeLine).IsCauchySurface
+          (Causal.EtaleGluing.lift Causal.ErsEtaleWitness.twoA_subset₁ Causal.ErsEtaleWitness.twoA_subset₂ {0, 3}) ∧
+        3 / 2 ∉ ↑Causal.ErsEtaleWitness.twoA ∧
+          ¬Function.Injective
+                (Causal.EtaleGluing.proj Causal.ErsEtaleWitness.twoA_subset₁ Causal.ErsEtaleWitness.twoA_subset₂) ∧
+            ¬∃ v,
+                Causal.EtaleGluing.glue Causal.ErsEtaleWitness.twoA_subset₁ Causal.ErsEtaleWitness.twoA_subset₂
+                    (fun x => 0) Causal.ErsEtaleWitness.twoSol₂ Causal.ErsEtaleWitness.eqOn_twoSol₂ =
+                  v ∘ Causal.EtaleGluing.proj Causal.ErsEtaleWitness.twoA_subset₁ Causal.ErsEtaleWitness.twoA_subset₂
+Causal.ErsEtaleWitness.timelikeLine_ers_isPreconnected_inter_of_eqOn : (Causal.SolutionLocal fun x x_1 => True) ∧
+  (Causal.SolutionsGlue fun x x_1 => True) ∧
+    (Causal.CausalityFollows fun x => Causal.timelikeLine) ∧
+      (∀ (U : TopologicalSpace.Opens ℝ) (x : ℝ → ℝ), True → Causal.timelikeLine.CurveNestedOn Causal.timelikeLine U) ∧
+        (∀ (U : TopologicalSpace.Opens ℝ) (x : ℝ → ℝ), True → Causal.timelikeLine.CausallyArcConnectedOn U) ∧
+          Causal.timelikeLine.IsCausal ∧
+            Causal.timelikeLine.IsAcausal {0} ∧
+              IsPreconnected {0} ∧
+                Causal.IsDevelopment (fun x x_1 => True) (fun x => Causal.timelikeLine) {0} Causal.EtaleGluing.lineU₁
+                    0 ∧
+                  Causal.IsDevelopment (fun x x_1 => True) (fun x => Causal.timelikeLine) {0} Causal.EtaleGluing.lineU₂
+                      0 ∧
+                    Set.EqOn 0 0 (↑Causal.EtaleGluing.lineU₁ ∩ ↑Causal.EtaleGluing.lineU₂) ∧
+                      ¬↑Causal.EtaleGluing.lineU₁ ⊆ ↑Causal.EtaleGluing.lineU₂ ∧
+                        ¬↑Causal.EtaleGluing.lineU₂ ⊆ ↑Causal.EtaleGluing.lineU₁ ∧
+                          IsPreconnected (↑Causal.EtaleGluing.lineU₁ ∩ ↑Causal.EtaleGluing.lineU₂)
+Causal.ErsEtaleWitness.timelikeLine_ers_isOpenEmbedding_proj_of_eqOn : {0} ⊆ ↑Causal.EtaleGluing.lineA ∧
+  ↑Causal.EtaleGluing.lineU₁ ∩ ↑Causal.EtaleGluing.lineU₂ ∩ closure ↑Causal.EtaleGluing.lineA ⊆
+      ↑Causal.EtaleGluing.lineA ∧
+    Topology.IsOpenEmbedding
+        (Causal.EtaleGluing.proj Causal.EtaleGluing.lineA_subset₁ Causal.EtaleGluing.lineA_subset₂) ∧
+      ↑Causal.EtaleGluing.lineA = ↑Causal.EtaleGluing.lineU₁ ∩ ↑Causal.EtaleGluing.lineU₂
+'Causal.ers_coe_eq_inter_of_eqOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.real_eqOn_inter_of_isDevelopment' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_isCauchySurfaceOn_Ioo_of_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_isCauchySurfaceOn_union_Ioo' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsEtaleWitness.lineA_subset_top' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsEtaleWitness.lineA_subset_disU₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsEtaleWitness.timelikeLine_ers_corollary_4_68_etale' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.ErsEtaleWitness.timelikeLine_ers_corollary_4_68_etale_doubled' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.ErsEtaleWitness.twoU₁' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsEtaleWitness.twoU₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsEtaleWitness.twoA' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsEtaleWitness.twoSol₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsEtaleWitness.twoA_subset₁' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsEtaleWitness.twoA_subset₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsEtaleWitness.eqOn_twoSol₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsEtaleWitness.timelikeLine_ers_corollary_4_68_etale_twoPoint' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.ErsEtaleWitness.timelikeLine_ers_theorem_3_45_etale_twoPoint' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.ErsEtaleWitness.timelikeLine_ers_isPreconnected_inter_of_eqOn' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.ErsEtaleWitness.timelikeLine_ers_isOpenEmbedding_proj_of_eqOn' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

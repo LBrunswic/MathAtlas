@@ -12,7 +12,7 @@ import Causal.Ers482Solution
 # Two developments glued along a common development: a development over the background, étale
 
 Programme target `T-abs-ers-etale-mghd` (`programme/roadmap.toml`; layer 1: ETT-layer imports only,
-no model, no metric, `uses = [is_causal, causally_arc_connected, absolutely_minimal]`). The causal
+no model, no metric, `uses = [is_causal, causally_arc_connected, absolutely_minimal, curve_nested]`). The causal
 half of Eperon–Reall–Sbierski, arXiv 1802.03020, §4.2 (`papers/ers-predictability`,
 `legacy/labeled/ghd_02_19.tex`); its topological half is `Causal.ErsEtaleGluing`. **No label is
 marked.** Read for information (unmarked, SCOPE): `ersthm:ThmNonUniqueness` — `ghd_02_19.tex:560`
@@ -46,7 +46,11 @@ causality** `EtaleGluing.gluedCausality` is `Causal.Gluing.causality` of `C₁` 
   and `ers_isOpenEmbedding_proj_of_eqOn` (agreement gives a connected overlap, hence injectivity,
   in ERS's subluminal setting, `S` connected and `m`-acausal).
 * `6-witness` — `EtaleGluing.timelikeLine_etale_witness`, `timelikeLine_isEtaleDevelopment`,
-  `timelikeLine_ers_etale_witness`: the timelike line, `]-2, 1[ ⊔_{]-1, 1[} ]-1, 2[`, `S = {0}`.
+  `timelikeLine_ers_etale_witness`: the timelike line, `]-2, 1[ ⊔_{]-1, 1[} ]-1, 2[`, `S = {0}`;
+  and `Causal.ErsEtaleMghdWitnesses` (T-abs-ers-etale-mghd-witnesses):
+  `ErsEtaleWitness.timelikeLine_ers_corollary_4_68_etale` (4.68 étale asks only `(U₁, u₁)` a
+  development, and no connected `S`), `…_twoPoint`, `timelikeLine_ers_theorem_3_45_etale_twoPoint`,
+  `timelikeLine_ers_isPreconnected_inter_of_eqOn`, `timelikeLine_ers_isOpenEmbedding_proj_of_eqOn`.
 
 > However, in the case that $u_1$ and $u_2$ are two globally hyperbolic developments of a
 > quasilinear wave equation on a fixed background such that $U_1 \cap U_2$ is disconnected,
@@ -97,6 +101,10 @@ causality** `EtaleGluing.gluedCausality` is `Causal.Gluing.causality` of `C₁` 
   is injective (argued, not stated): the witness has a proper two-piece overlap but no doubled
   point. A doubled point needs a disconnected overlap, which no two developments of `{0}` on the
   line have; ERS's are two Born–Infeld developments in `1 + 1` dimensions (Thm 3.45, layer 3).
+  What blocks a doubled point is the connectedness of `S`, not the line: with `S = {0, 3}` the
+  étale development has one (`ErsEtaleWitness.timelikeLine_ers_theorem_3_45_etale_twoPoint`,
+  `Causal.ErsEtaleMghdWitnesses`); with `S` preconnected, `real_eqOn_inter_of_isDevelopment`
+  excludes it on `ℝ`.
 * **Imports.** ETT layer only (`tools/ladder.py` `model_path` `None`); the closure contains
   `Causal.CBG.CausalConvex`, `.Injective`, `.FamilyGluing`, `.SubExtensionAbstract` (ETT-layer,
   through `Causal.CExtConnexeSecondCountable` and `Causal.GluingGeneric.Generated`), whose
@@ -712,7 +720,11 @@ theorem ers_isPreconnected_inter_of_eqOn [T2Space M] [SecondCountableTopology M]
 /-- **Agreement gives injectivity in ERS's subluminal setting** (reported for
 `T-abs-ers-etale-mghd`): under `ers_isPreconnected_inter_of_eqOn`'s hypotheses, two developments
 agreeing on all of `U₁ ∩ U₂` have a connected overlap, so the Hausdorff gluing along any open
-`A ⊇ S` closed in `U₁ ∩ U₂` is `U₁ ∪ U₂` (`eq_inter_of_t2Space`): `π` is an open embedding. -/
+`A ⊇ S` closed in `U₁ ∩ U₂` is `U₁ ∪ U₂` (`eq_inter_of_t2Space`): `π` is an open embedding.
+Its hypotheses force `A = U₁ ∩ U₂` (`ers_coe_eq_inter_of_eqOn`, `Causal.ErsEtaleMghdWitnesses`),
+so "any open `A`" ranges over one set: it says nothing of gluing along a proper common
+development (ERS `:852`); beyond `ers_isPreconnected_inter_of_eqOn` its content is
+`eq_inter_of_t2Space`. -/
 theorem ers_isOpenEmbedding_proj_of_eqOn [T2Space M] [SecondCountableTopology M]
     {Cm : Causality M} (hloc : SolutionLocal sol) (hglue : SolutionsGlue sol)
     (hfollow : CausalityFollows cau)

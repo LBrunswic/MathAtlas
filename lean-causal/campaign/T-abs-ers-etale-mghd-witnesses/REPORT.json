@@ -1,0 +1,138 @@
+{
+  "target": "T-abs-ers-etale-mghd-witnesses",
+  "package": "lean-causal",
+  "files": [
+    "scaffold/CausalScaffold/ErsEtaleMghdWitnesses.lean",
+    "Causal/ErsEtaleMghd.lean (docstring line 15 only: `uses` gains curve_nested)"
+  ],
+  "campaign_files": [
+    "campaign/T-abs-ers-etale-mghd-witnesses/REPORT.json",
+    "campaign/T-abs-ers-etale-mghd-witnesses/Probe.lean",
+    "campaign/T-abs-ers-etale-mghd-witnesses/axioms.txt"
+  ],
+  "status": "closed",
+  "builds": true,
+  "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 12-23 lake build Causal.ErsEtaleMghd CausalScaffold.ErsEtaleMghdWitnesses",
+  "build_result": "Build completed successfully (3286 jobs). `lake build --no-build` after the docstring edit listed Causal.ErsEtaleMghd as the only stale target; it rebuilt in 1.6 s, then CausalScaffold.ErsEtaleMghdWitnesses (1.5 s); no other Causal.* or mathlib module was rebuilt. `taskset -c 12-23 lake env lean -DwarningAsError=true scaffold/CausalScaffold/ErsEtaleMghdWitnesses.lean` exits 0 with no output, so the file would pass the strict library's warningAsError as it stands. Profiler (`-Dtrace.profiler=true -Dtrace.profiler.threshold=200`): one declaration above 200 ms, timelikeLine_ers_corollary_4_68_etale_twoPoint at 0.30 s. Probe.lean imports the module (it is not a copy) and runs with `lake env lean` (exit 0); its output is axioms.txt.",
+  "sorry_count": 0,
+  "axioms": "Every one of the 19 declarations depends only on [propext, Classical.choice, Quot.sound] (campaign/T-abs-ers-etale-mghd-witnesses/axioms.txt). The module has no sorry, admit, axiom declaration or native_decide.",
+  "layer": "Layer 1, ETT layer, a leaf. Its one import is Causal.ErsEtaleMghd. tools/ladder.py model_path, computed in memory on lean_index() with the new module added to the import graph (kb/0247): None for CausalScaffold.ErsEtaleMghdWitnesses and None for Causal.ErsEtaleMghd. The transitive closure has 82 Causal modules, the same as Causal.ErsEtaleMghd's. It contains none of Causal.CBG.Ppcm, Causal.Minkowski, Causal.Static, Causal.Flat.*, Causal.Model.*, Causal.Port.*, Causal.SingularFlat, Causal.CExtConnexeCauchy.SubArc, Causal.PastInextensibleMeetsCauchy or Causal.ErsSCWitnesses. Causal.ErsSCWitnesses was deliberately not imported: its closure reaches SubArc through Causal.CExtConnexeCauchy.Basic. Through Causal.ErsMughd the closure contains Causal.Ladder.Rules, but the module does not use causal_ladder (kb/0221) and nothing imports it. No statement names a metric, a length, a geodesic or a PDE. The ladder properties are read as the theorems state them: curve_nested (hsub, CurveNestedOn), causally_arc_connected (harc, CausallyArcConnectedOn), is_causal (hm, and the antisymmetry of ≤_U in the 3.45 witness). tools/ladder.py emit-lean was not run (kb/0252).",
+  "labels": [],
+  "labels_note": "No label is marked or served for certification. The target is a kb/0011 witness target (AUDIT-1 finding 4 of T-abs-ers-etale-mghd). erscor:CorDisCon (ghd_02_19.tex:921) stays as T-abs-ers-etale-mghd left it, partial through Causal.ers_corollary_4_68_etale.",
+  "declarations": [
+    {
+      "name": "Causal.ers_coe_eq_inter_of_eqOn",
+      "line": 121,
+      "kind": "finding",
+      "statement": "[T2Space M] [SecondCountableTopology M]. Under every hypothesis of ers_isOpenEmbedding_proj_of_eqOn (hloc, hglue, hfollow, hsub, harc, hm, hmacausal, hSc, hd₁, hd₂, h₁, h₂, hSA, hclosed, hagree): (A : Set M) = U₁ ∩ U₂."
+    },
+    {
+      "name": "Causal.real_eqOn_inter_of_isDevelopment",
+      "line": 144,
+      "kind": "finding",
+      "statement": "On ℝ, for any sol and cau: IsDevelopment sol cau S U₁ u₁, IsDevelopment sol cau S U₂ u₂, IsPreconnected S, (cau u₁).IsCommonDevelopment S U₁ U₂ (EqOn u₁ u₂) A, and U₁ ∩ U₂ ∩ closure A ⊆ A imply EqOn u₁ u₂ (U₁ ∩ U₂). So ers_corollary_4_68_etale with U₂ also a development of a preconnected S has no instance on ℝ."
+    },
+    {
+      "name": "Causal.timelikeLine_isCauchySurfaceOn_Ioo_of_mem",
+      "line": 165,
+      "kind": "helper",
+      "statement": "a < c < b and (U : Set ℝ) = Ioo a b imply timelikeLine.IsCauchySurfaceOn U {c}."
+    },
+    {
+      "name": "Causal.timelikeLine_isCauchySurfaceOn_union_Ioo",
+      "line": 181,
+      "kind": "helper",
+      "statement": "a < s < b ≤ c < t < d and (U : Set ℝ) = Ioo a b ∪ Ioo c d imply timelikeLine.IsCauchySurfaceOn U {s, t}."
+    },
+    {
+      "name": "Causal.ErsEtaleWitness.lineA_subset_top",
+      "line": 219,
+      "kind": "data",
+      "statement": "]-1, 1[ ⊆ ℝ (lineA ⊆ ⊤)."
+    },
+    {
+      "name": "Causal.ErsEtaleWitness.lineA_subset_disU₂",
+      "line": 223,
+      "kind": "data",
+      "statement": "]-1, 1[ ⊆ ]-1, 1[ ∪ ]2, 3[ (lineA ⊆ ErsWitness.disU₂)."
+    },
+    {
+      "name": "Causal.ErsEtaleWitness.timelikeLine_ers_corollary_4_68_etale",
+      "line": 230,
+      "kind": "witness",
+      "witnesses": "Causal.ers_corollary_4_68_etale (Causal/ErsEtaleMghd.lean:616)",
+      "statement": "The conjunction of: IsDevelopment (fun _ _ => True) (fun _ => timelikeLine) {0} ⊤ (fun _ => 0); timelikeLine.IsCommonDevelopment {0} ⊤ disU₂ (EqOn 0 disSol₂) lineA; ⊤ ∩ disU₂ ∩ closure lineA ⊆ lineA; 5/2 ∈ ⊤; 5/2 ∈ disU₂; 0 ≠ disSol₂ (5/2); and the conclusion ¬ IsPreconnected (⊤ ∩ disU₂), obtained by applying ers_corollary_4_68_etale to the conjuncts."
+    },
+    {
+      "name": "Causal.ErsEtaleWitness.timelikeLine_ers_corollary_4_68_etale_doubled",
+      "line": 259,
+      "kind": "witness (non-triviality)",
+      "statement": "T2Space (EtaleGluing lineA_subset_top lineA_subset_disU₂); 5/2 ∉ lineA; ι₁(5/2) ≠ ι₂(5/2); ¬ Injective (proj …); and ∀ C₂ : Causality ℝ, ¬ C₂.IsCauchySurfaceOn disU₂ {0}."
+    },
+    {
+      "name": "Causal.ErsEtaleWitness.twoU₁ / twoU₂ / twoA / twoSol₂",
+      "line": 279,
+      "kind": "data",
+      "statement": "twoU₁ = ]-7/4, 7/4[ ∪ ]2, 4[, twoU₂ = ]-1, 1[ ∪ ]5/4, 19/4[, twoA = ]-1, 1[ ∪ ]2, 4[ (Opens ℝ); twoSol₂ = the indicator of ]1, 2[."
+    },
+    {
+      "name": "Causal.ErsEtaleWitness.twoA_subset₁, twoA_subset₂, eqOn_twoSol₂",
+      "line": 291,
+      "kind": "data",
+      "statement": "twoA ⊆ twoU₁; twoA ⊆ twoU₂; EqOn (fun _ => 0) twoSol₂ twoA."
+    },
+    {
+      "name": "Causal.ErsEtaleWitness.timelikeLine_ers_corollary_4_68_etale_twoPoint",
+      "line": 320,
+      "kind": "witness",
+      "witnesses": "Causal.ers_corollary_4_68_etale, in the paper's two-development shape",
+      "statement": "IsDevelopment True (fun _ => timelikeLine) {0, 3} twoU₁ 0; IsDevelopment … {0, 3} twoU₂ twoSol₂; timelikeLine.IsCommonDevelopment {0, 3} twoU₁ twoU₂ (EqOn 0 twoSol₂) twoA; twoU₁ ∩ twoU₂ ∩ closure twoA ⊆ twoA; 3/2 ∈ twoU₁; 3/2 ∈ twoU₂; 0 ≠ twoSol₂ (3/2); ¬ IsPreconnected {0, 3}; and ¬ IsPreconnected (twoU₁ ∩ twoU₂) by ers_corollary_4_68_etale."
+    },
+    {
+      "name": "Causal.ErsEtaleWitness.timelikeLine_ers_theorem_3_45_etale_twoPoint",
+      "line": 381,
+      "kind": "witness (beyond the three, cheap)",
+      "witnesses": "Causal.ers_theorem_3_45_etale (Causal/ErsEtaleMghd.lean:587)",
+      "statement": "With the data of the two-point witness, by ers_theorem_3_45_etale: T2Space (EtaleGluing twoA_subset₁ twoA_subset₂); the glued causality is TwoPiece over the two sheets and IsCausal; lift {0, 3} is a Cauchy surface; 3/2 ∉ twoA; ¬ Injective (proj …); and no v : ℝ → ℝ has glue … = v ∘ proj."
+    },
+    {
+      "name": "Causal.ErsEtaleWitness.timelikeLine_ers_isPreconnected_inter_of_eqOn",
+      "line": 409,
+      "kind": "witness",
+      "witnesses": "Causal.ers_isPreconnected_inter_of_eqOn (Causal/ErsEtaleMghd.lean:675)",
+      "statement": "SolutionLocal True; SolutionsGlue True; CausalityFollows (fun _ => timelikeLine); ∀ U u, True → CurveNestedOn timelikeLine timelikeLine U; ∀ U u, True → timelikeLine.CausallyArcConnectedOn U; timelikeLine.IsCausal; timelikeLine.IsAcausal {0}; IsPreconnected {0}; IsDevelopment … {0} lineU₁ 0; IsDevelopment … {0} lineU₂ 0; EqOn 0 0 (lineU₁ ∩ lineU₂); ¬ lineU₁ ⊆ lineU₂; ¬ lineU₂ ⊆ lineU₁; and IsPreconnected (lineU₁ ∩ lineU₂) by the theorem."
+    },
+    {
+      "name": "Causal.ErsEtaleWitness.timelikeLine_ers_isOpenEmbedding_proj_of_eqOn",
+      "line": 451,
+      "kind": "witness",
+      "witnesses": "Causal.ers_isOpenEmbedding_proj_of_eqOn (Causal/ErsEtaleMghd.lean:716)",
+      "statement": "{0} ⊆ lineA; lineU₁ ∩ lineU₂ ∩ closure lineA ⊆ lineA; IsOpenEmbedding (proj lineA_subset₁ lineA_subset₂) by the theorem (with the hypotheses of the previous witness and h₁ = lineA_subset₁, h₂ = lineA_subset₂); and lineA = lineU₁ ∩ lineU₂ by ers_coe_eq_inter_of_eqOn."
+    }
+  ],
+  "extra_decls": [
+    "Causal.ers_coe_eq_inter_of_eqOn",
+    "Causal.real_eqOn_inter_of_isDevelopment",
+    "Causal.timelikeLine_isCauchySurfaceOn_Ioo_of_mem",
+    "Causal.timelikeLine_isCauchySurfaceOn_union_Ioo"
+  ],
+  "findings": [
+    "ers_isOpenEmbedding_proj_of_eqOn (Causal/ErsEtaleMghd.lean:716): its hypotheses force A = U₁ ∩ U₂ on every background (Causal.ers_coe_eq_inter_of_eqOn). The overlap is connected by ers_isPreconnected_inter_of_eqOn, and A is a non-empty open subset of it that is closed in it (hclosed). So the gluing in that theorem is always the trivial one, along the whole overlap, and π is an open embedding by EtaleGluing.isOpenEmbedding_proj with no causal input; the theorem's content is the connectedness of the overlap. Its witness therefore has A = ]-1, 1[ = U₁ ∩ U₂, as every witness must; a witness with a proper A cannot exist in any model.",
+    "ers_isPreconnected_inter_of_eqOn (:675) on the line: two developments of a preconnected S always have a preconnected overlap, for any causalities (Causality.real_isPreconnected_inf_of_isCauchySurfaceOn, Causal/ErsWitnesses.lean:147). The witness shows that every hypothesis holds jointly with a proper overlap (neither domain contains the other), but on ℝ the conclusion already follows from hd₁, hd₂ and hSc. No ETT-layer model of the library makes the agreement hypothesis necessary (every other hypothesis holding, a disagreement, a disconnected overlap). Argued, not formalized: on a circle a causal Cm excludes such a model. A point of the far component of the overlap is reached from S along both arcs, by a cau u₁-curve in U₁ and a cau u₂-curve in U₂, both Cm-causal, so either two of its points are Cm-related both ways or S is not Cm-acausal. In 1+1 dimensions one model would be two thin slanted needles over S = {t = 0} that cross above a thin slab, where the cone of cau u at a point is a function of u there, tilted in opposite directions inside Minkowski's cone on the two needles. Such a model is beyond the library's ETT-layer causalities. It also shows that the abstract subluminal setting (sol arbitrary) does not give ERS Cor 4.71's global uniqueness (ghd_02_19.tex:959) without a local uniqueness input.",
+    "ers_corollary_4_68_etale (:616) asks for a development of U₁ only, so the line witnesses it with the roadmap's data: U₂ = ]-1, 1[ ∪ ]2, 3[, a development for no causality (ErsWitness.not_isCauchySurfaceOn_disU₂). The paper's statement (ghd_02_19.tex:921–923) has two GHDs and a connected S, and in that reading the hypotheses have no instance on ℝ for any causalities (Causal.real_eqOn_inter_of_isDevelopment: the solutions agree on the overlap). This is the étale counterpart of ErsWitnesses' real_ers_corollary_4_68_agree.",
+    "With S disconnected the paper's two-development shape is realised on the line (S = {0, 3}, twoU₁, twoU₂, twoA, disagreement at 3/2 in the component ]5/4, 7/4[ of the overlap). The étale development of ers_theorem_3_45_etale (:587) then has a doubled point: E is Hausdorff, two-piece and causal, the lift of {0, 3} is Cauchy, π is not injective, and the glued solution does not descend. Causal/ErsEtaleMghd.lean:95–99 (SCOPE, 'Witness') is right as written ('no two developments of {0} on the line have' a disconnected overlap), but the obstruction is the connectedness of S, not the line."
+  ],
+  "questions": [
+    "What a 4.68 witness must exhibit. ERS's Cor 4.68 (ghd_02_19.tex:921–923) has two GHDs and a connected S; ers_corollary_4_68_etale binds neither hd₂ nor the connectedness of S. Reading taken (kb/0011): a witness inhabits the Lean theorem's binders, so the main witness is the roadmap's (S = {0}, U₂ not a development). The paper's shape is given beside it with S = {0, 3}, since with S connected it has no instance on ℝ (real_eqOn_inter_of_isDevelopment). A witness with both developments and a connected S needs a background other than ℝ, which is not given.",
+    "Whether ers_isOpenEmbedding_proj_of_eqOn should state its sharper form. Its hypotheses force A = U₁ ∩ U₂ (ers_coe_eq_inter_of_eqOn), so 'π is an open embedding' could equally be stated as 'A is the whole overlap'. Reading taken: the theorem's statement is unchanged; the sharper form is a separate declaration in the witness module, for the author or planner to place."
+  ],
+  "kb_proposals": [
+    "On the timelike line {c} is a Cauchy surface of every bounded ]a, b[ ∋ c (Causal.timelikeLine_isCauchySurfaceOn_Ioo_of_mem: kb/0308's lemma translated by timelikeLine_isCausalIso_addRight and IsCausalIso.isCauchySurfaceOn_image), and {s, t} is one of ]a, b[ ∪ ]c, d[ when a < s < b ≤ c < t < d (timelikeLine_isCauchySurfaceOn_union_Ioo); both are in CausalScaffold.ErsEtaleMghdWitnesses and need no import of Causal.ErsSCWitnesses.",
+    "Causal.ErsSCWitnesses reaches Causal.CExtConnexeCauchy.SubArc through CExtConnexeCauchy.Basic, so its isCauchySurfaceOn_Ioo_center and twoIntervals cannot be used by a module that must avoid SubArc; use timelikeLine_isCauchySurfaceOn_Ioo_of_mem and timelikeLine_isCauchySurfaceOn_union_Ioo instead.",
+    "A doubled point of the étale development on the line needs a disconnected S: ErsEtaleWitness.timelikeLine_ers_theorem_3_45_etale_twoPoint has S = {0, 3}. With S preconnected, Causal.real_eqOn_inter_of_isDevelopment excludes it for every causality.",
+    "A witness of ers_isOpenEmbedding_proj_of_eqOn necessarily has A = U₁ ∩ U₂ (ers_coe_eq_inter_of_eqOn); do not look for one with a proper common development."
+  ],
+  "notes": "The docstring edit of Causal/ErsEtaleMghd.lean is one line (:15): `uses = [is_causal, causally_arc_connected, absolutely_minimal, curve_nested]`. `git diff` shows 1 insertion and 1 deletion, and no statement changed. The roadmap block also asks that ErsEtaleMghd's assertion list ('6-witness') and its SCOPE 'Witness' bullet name the new witnesses. The dispatch restricted the edit to the `uses` line, so that was not done. Proposed for graduation: in '6-witness' add CausalScaffold.ErsEtaleMghdWitnesses (ErsEtaleWitness.timelikeLine_ers_corollary_4_68_etale, _twoPoint, timelikeLine_ers_theorem_3_45_etale_twoPoint, timelikeLine_ers_isPreconnected_inter_of_eqOn, timelikeLine_ers_isOpenEmbedding_proj_of_eqOn); in the SCOPE 'Witness' bullet add that with S = {0, 3} the étale development has a doubled point on the line. The new module is a leaf with namespace Causal (data and witnesses in Causal.ErsEtaleWitness; findings and the two interval helpers in Causal). It passes -DwarningAsError=true, so graduating it to Causal/ErsEtaleMghdWitnesses.lean is a file move. It reuses ErsEtaleMghd §6 (lineU₁, lineU₂, lineA, timelikeLine_etale_witness, timelikeLine_ers_etale_witness) and ErsWitness (disU₂, disSol₂, isCommonDevelopment_Ioo, not_isCauchySurfaceOn_disU₂) unchanged. The target's `uses` (curve_nested, causally_arc_connected, is_causal) are the module docstring's.",
+  "remains": "Nothing of the dispatch. Outside it, unformalized: a model where the agreement hypothesis of ers_isPreconnected_inter_of_eqOn is necessary (argued in 1+1 with solution-dependent tilted cones; no ETT-layer causality of the library carries one); a witness of the paper's Cor 4.68 with both developments and a connected S, which ℝ excludes; and the two docstring additions to Causal/ErsEtaleMghd.lean listed in notes.",
+  "corrected_after_audit": "AUDIT-1 (minor), applied by the master: (1) findings[1]'s last sentence is withdrawn as misattributed: Cor 4.71 (:959) is superluminal; ERS say at :974 that subluminal global uniqueness fails in general, and what they add is the m-GHD hypothesis (Lemma 4.72, :978), not local uniqueness. (2) ers_isOpenEmbedding_proj_of_eqOn's docstring now says its hypotheses force A = U₁ ∩ U₂ (ers_coe_eq_inter_of_eqOn), so it says nothing of gluing along a proper common development. (3) ErsEtaleMghd's '6-witness' list and SCOPE witness bullet name the new witnesses, and note that 4.68 étale asks only (U₁, u₁) and no connected S, and that a doubled point needs a disconnected S. (4) findings[2]'s 'no instance on ℝ for any causalities' holds with hA and hclosed (or in the paper's PDE setting) only: without them, U₁ = U₂ = ]-1,1[ with u₂ the indicator of ]1/2,1[ gives two developments of {0} disagreeing on a connected overlap; the Lean declaration and SCOPE are precise."
+}

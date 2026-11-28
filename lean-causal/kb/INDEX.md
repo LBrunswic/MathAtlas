@@ -333,3 +333,5 @@ rediscover. One fact per entry.
 | [0325](entries/0325-open-set-as-spacetime.md) | pattern | An open set as a spacetime of its own: Subtype.val is an injective IsEMorphism |
 | [0326](entries/0326-etale-development.md) | pattern | Two developments glued along a closed common development: a Hausdorff TwoPiece spacetime étale over M |
 | [0327](entries/0327-connected-overlap.md) | pattern | A connected Cauchy surface of U₁, U₂ and U₁ ⊔ U₂ makes the overlap connected |
+| [0328](entries/0328-timelike-cauchy-unions.md) | pattern | Cauchy surfaces of translated intervals and of two disjoint intervals on the timelike line |
+| [0329](entries/0329-etale-witnesses-limits.md) | pitfall | What the étale development can show on the line: a doubled point needs a disconnected S |
