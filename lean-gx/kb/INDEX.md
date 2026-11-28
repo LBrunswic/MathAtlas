@@ -253,3 +253,12 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0243](entries/0243-to-share-proofs-between-a-finite-and-a-l.md) | pattern | To share proofs between a finite and a locally finite family of spears, state them over th |
 | [0244](entries/0244-behaviour-preservation-across-a-move-can.md) | pattern | Behaviour preservation across a move can be checked mechanically while the old .olean file |
 | [0245](entries/0245-when-inserting-a-block-before-a-docstrin.md) | pattern | When inserting a block before a docstring anchor, the `omit … in` line above the docstring |
+| [0246](entries/0246-the-e0-structure-of-flate0-e0regmflat-n.md) | pattern | The E0-structure of FlatE0 (e0RegMFlat N) is that of the open set E0LM.e0RegM N |
+| [0247](entries/0247-an-isometric-embedding-e0regmflat-m-e0re.md) | pattern | An isometric embedding e0RegMFlat M → e0RegMFlat N is an E0-morphism of the regular open s |
+| [0248](entries/0248-a-graph-whose-development-d-g-r-theta-r.md) | pattern | A graph whose development D(g(r,theta), r, theta) is a Causal.Flat.SpacelikeDevelopment is |
+| [0249](entries/0249-for-a-curve-gamma-with-eventually-non-ti.md) | pattern | For a curve Gamma with eventually non-timelike chords, the velocity is non-timelike (GX.E0 |
+| [0250](entries/0250-in-a-completeness-by-contradiction-argum.md) | pattern | In a completeness-by-contradiction argument on Causal.Flat.PulledLength F, Causal.Flat.Spa |
+| [0251](entries/0251-open-bridge-wanted-by-t-btz-cauchy-spear.md) | pattern | Open bridge, wanted by T-btz-cauchy-spear and to make lem_surface_complete_two a corollary |
+| [0252](entries/0252-flat-transport-along-a-bijective-isometr.md) | pattern | Flat transport along a bijective isometric embedding now exists for all of GH (lean-causal |
+| [0253](entries/0253-an-e0-morphism-restricts-to-a-flat-local.md) | pattern | An E0-morphism restricts to a flat local isometry of the regular parts (GX.BTZCauchyEasy.i |
+| [0254](entries/0254-pathlength-eq-of-local-generalizes-lean.md) | pattern | pathLength_eq_of_local generalizes lean-causal's pathLength_pulled_eq_of_local to two arbi |

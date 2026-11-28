@@ -1,0 +1,72 @@
+{
+  "target": "T-btz-cauchy-easy",
+  "package": "lean-gx",
+  "files": [
+    "scaffold/GXScaffold/BTZ/CauchyEasy.lean",
+    "scaffold/GXScaffold.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": ["propext", "Classical.choice", "Quot.sound"],
+  "labels": [
+    {
+      "label": "btzthm:BTZ_Cauchy-completness",
+      "tex_lines": [1582, 1593],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.BTZCauchyEasy.iii_imp_ii",
+        "GX.BTZCauchyEasy.ii_imp_i",
+        "GX.BTZCauchyEasy.iii_imp_i",
+        "GX.BTZCauchyEasy.CauchyCompleteMaximal",
+        "GX.BTZCauchyEasy.RegCauchyCompleteMaximal",
+        "GX.BTZCauchyEasy.regM_of_isBTZEmbedding",
+        "GX.BTZCauchyEasy.regMap",
+        "GX.BTZCauchyEasy.mem_e0RegM_of_isE0Mor",
+        "GX.BTZCauchyEasy.isLocalIsometry_regMap",
+        "GX.BTZCauchyEasy.isIsometricEmbedding_regMap",
+        "GX.BTZCauchyEasy.surjective_regMap",
+        "GX.BTZCauchyEasy.transfer_of_isIsometricEmbedding_of_surjective",
+        "GX.BTZCauchyEasy.mgh_of_isIsometricEmbedding_of_surjective",
+        "GX.BTZCauchyEasy.isCauchyComplete_of_isIsometricEmbedding_of_surjective",
+        "GX.BTZCauchyEasy.isIsometricEmbedding_surjInv",
+        "GX.BTZCauchyEasy.edist_inducedLengthSpace_le",
+        "GX.BTZCauchyEasy.pathLength_eq_of_local"
+      ],
+      "hypotheses": [
+        {"paper": "M an E_{>=0}-manifold", "here": "strengthened", "note": "E0 only (T-btz-scope, DEC-116 (b), DEC-125 (a)(e)); Reg_{>0} M = Reg M = E0LM.e0RegM M"},
+        {"paper": "(none; l.261)", "here": "strengthened", "note": "M connected: e0RegMFlat M is a Causal.Flat.FlatSpacetime, connected by definition (as in prop_reg_complete)"},
+        {"paper": "M second countable (l.261)", "here": "weakened", "note": "not used by any of the three theorems"},
+        {"paper": "M globally hyperbolic", "here": "weakened", "note": "not assumed: GH of Reg M is transported from Reg N"},
+        {"paper": "(ii) a BTZ-extension, Cauchy-complete and Cauchy-maximal", "here": "reading", "note": "GX.BTZMax.GHExt M (target globally hyperbolic) with E0C1CauchyComplete (OQ-142 (e)) and IsE0CauchyMaximal; GH is the paper's definition of having a Cauchy surface (l.222), ETT's GH is carried because the library does not derive it from a Cauchy surface"},
+        {"paper": "(iii) BTZext(M)", "here": "carried", "note": "any Causal.AbstractDev.IsMaximal GHExt M (OQ-150 (a), as in CauchySpear); IsMaximal is not used by (iii) => (ii)"},
+        {"paper": "(i) Reg_{>0}(M) Cauchy-complete and Cauchy-maximal", "here": "reading", "note": "Causal.Flat.GH, MGH (OQ-142 (f)), IsCauchyComplete 2 (spacelike Lipschitz, DEC-31/35, OQ-142 (e)) of e0RegMFlat M, as in prop_reg_complete'"}
+      ],
+      "sorries": [],
+      "findings": [
+        "BTZ_1.tex:1593 ('(ii) => (i) is a consequence of Proposition prop:reg_complete'): a missing step, not an error. prop:reg_complete gives the conclusion for Reg of the extension N, not of M; carrying it back needs (a) that a BTZ-embedding maps Reg M onto Reg N (types of points are preserved, and the complement of the image is BTZ), (b) that this restriction is an isometry of flat spacetimes, and (c) that global hyperbolicity, Cauchy-maximality and Cauchy-completeness (the image surface is a Cauchy surface, spacelike Lipschitz in the target charts, with isometric induced length spaces) are invariant under flat isometries. Supplied and proved (GX.BTZCauchyEasy.regM_of_isBTZEmbedding and the transport lemmas).",
+        "BTZ_1.tex:1582-1593: the standing hypothesis 'M globally hyperbolic' is used by neither (iii) => (ii) nor (ii) => (i); in (ii) => (i) the global hyperbolicity of Reg M comes from that of the extension. A remark, harmless.",
+        "BTZ_1.tex:1593 ('(iii) => (ii) is trivial'): confirmed; the maximality of BTZext(M) is not used, only that it is a BTZ-extension."
+      ],
+      "questions": [
+        "(ii) 'a BTZ-extension of M which is Cauchy-complete': taken as a globally hyperbolic BTZ-extension (GX.BTZMax.GHExt). By l.222 and l.227 a Cauchy-complete manifold has a Cauchy surface, which is the paper's definition of global hyperbolicity; ETT's GH (causal with compact diamonds) is not derived in the library from the existence of a Cauchy surface for E0-manifolds, so it is carried explicitly. If the author reads (ii) without GH, a Cauchy-surface-implies-GH lemma for E0-manifolds is what is missing.",
+        "OQ-142 (e), (f) and OQ-152 in force as in prop_reg_complete': 'Cauchy-complete' for the extension is E0C1CauchyComplete (DEC-31/119 plus the C1 rim of DEC-107); for Reg M it is the spacelike-Lipschitz Causal.Flat.IsCauchyComplete; 'Cauchy-maximal' of Reg M is Causal.Flat.MGH."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.BTZCauchyEasy.pathLength_eq_of_local",
+    "GX.BTZCauchyEasy.edist_inducedLengthSpace_le",
+    "GX.BTZCauchyEasy.isIsometricEmbedding_surjInv",
+    "GX.BTZCauchyEasy.isCauchyComplete_of_isIsometricEmbedding_of_surjective",
+    "GX.BTZCauchyEasy.mgh_of_isIsometricEmbedding_of_surjective",
+    "GX.BTZCauchyEasy.transfer_of_isIsometricEmbedding_of_surjective",
+    "GX.BTZCauchyEasy.isLocalIsometry_regMap"
+  ],
+  "kb_proposals": [
+    "Flat transport along a bijective isometric embedding now exists for all of GH (lean-causal Cla.cover_gh_of_isIsometricEmbedding_of_surjective), MGH and IsCauchyComplete (GXScaffold.BTZ.CauchyEasy); the last two are general flat facts, candidates to move to lean-causal Causal/Flat at graduation.",
+    "An E0-morphism restricts to a flat local isometry of the regular parts (GX.BTZCauchyEasy.isLocalIsometry_regMap: RepOn from liftPropOn_iff_repOn, then E0LM.e0_flat_transition_aux in the regular charts); the converse direction (flat isometry => E0-morphism) is T-btz-common-reg-iso's CommonRegIso.",
+    "pathLength_eq_of_local generalizes lean-causal's pathLength_pulled_eq_of_local to two arbitrary chart systems: locLipAt_pulled_iff_of_eventually applies with F := phiX (c t), since LocLipAt and localDensity only read the system at the base point."
+  ],
+  "notes": "Sorry-free; lake build GXScaffold.BTZ.CauchyEasy succeeded with no rebuild of GX or mathlib. Imports GXScaffold.BTZ.MaxExtension (scaffold, sorry-free, for GHExt), GX.BTZ.RegComplete and Causal.Flat.Cla.CoverMax. One import line added to scaffold/GXScaffold.lean after GXScaffold.BTZ.CauchySpear. (i) => (iii) is not in this file (CauchySpear, T-btz-cauchy-conservation), so the row stays partial; the label is written unmarked."
+}
