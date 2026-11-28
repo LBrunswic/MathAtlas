@@ -1106,3 +1106,21 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red (the benzecri red of 05:20 cleared by /atlas-team's ledger rebuild)
 - commits: 491b0a8b e7417c17 b5b0a37d 9dff5d73 (ledgers, the Lean sha only; restate detect 0)
 - next: a PLANNING RUN (rule 2), to promote the closed-ambient and antisymmetry-sharp targets; else the exclusive T-tac-dual-future-one-connected
+
+## 2026-11-28 06:23 · planning run · rule 2 after wave 52; 221 → 224 targets
+- Promoted to ready:
+  - T-abs-flrw-type-closed-ambient (closer, layer 1, p7): on a T2 space with ≤ closed and antisymmetric, (A) alone rules out a past boundary chart (fields (i), (ii), (iv), (v), (vi) at one compact set; it holds under OQ-159's weakenings);
+  - T-abs-meets-cauchy-antisymmetry-sharp (closer, layer 1, p8 → p7): the ray glued to a circle, (2.4)'s antisymmetry sharpness.
+- Added:
+  - T-abs-ers-overlap-sharp (closer, layer 1, ready, p8): ers_coe_eq_inter_of_eqOn moves beside ers_isOpenEmbedding_proj_of_eqOn in Causal.ErsEtaleMghd, which is then proved from it;
+  - T-abs-flrw-future-extension (closer, planned): the time-reversed extension corollary in FlrwType, after the exclusive hoist;
+  - T-lad-meets-cauchy-refresh (keeper, planned): the (2.4) block's stale line references, the antisymmetry witness, optionally the closed-ambient corollary.
+- Re-read, unchanged: T-abs-sc-open-hoist (exclusive; its FlrwType references one line early) and T-tac-dual-future-one-connected (exclusive; dual_closure.py still refuses on the same four rules).
+- Binder (planning run, no target): papers/ers-predictability's Thm 3.45 comment now says the subluminal open-embedding theorem's hypotheses force A = U₁ ∩ U₂, so neither theorem speaks of a proper common development; no row changed.
+- Not planned:
+  - an instance with exactly one of (A), (B) failing (no concrete model);
+  - the old campaign probes: 35 campaign files import graduated scaffold names, 111 stale scaffold oleans; no gate reads them, and a cleanup is the master's housekeeping, not taken now.
+- The planner's simulation: wave 53 the three closers, then a planning run to promote the keeper; wave 54 the keeper and T-tac-dual-future-one-connected; wave 55 T-abs-sc-open-hoist.
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 27, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
+- gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
+- next: T-abs-meets-cauchy-antisymmetry-sharp, T-abs-flrw-type-closed-ambient, T-abs-ers-overlap-sharp (closers, lean-causal)
