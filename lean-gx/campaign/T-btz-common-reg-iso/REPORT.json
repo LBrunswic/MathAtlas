@@ -1,0 +1,46 @@
+{
+  "package": "lean-gx",
+  "target": "T-btz-common-reg-iso",
+  "files": ["scaffold/GXScaffold/BTZ/CommonRegIso.lean", "scaffold/GXScaffold.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": ["propext", "Classical.choice", "Quot.sound"],
+  "labels": [
+    {
+      "label": "btzcor:common_reg",
+      "tex_lines": [1274, 1279],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.BTZCommonRegIso.common_reg_of_isometry",
+        "GX.BTZCommonRegIso.common_reg_either",
+        "GX.BTZCommonRegIso.isE0Mor_of_isIsometricEmbedding",
+        "GX.BTZCommonRegIso.regMap",
+        "GX.BTZCommonRegIso.isE0Mor_flatE0Val",
+        "GX.BTZCommonRegIso.isE0Mor_toFlatE0"
+      ],
+      "hypotheses": [
+        {"paper": "M, N E0-manifolds (Hausdorff, second countable)", "here": "carried", "note": ""},
+        {"paper": "(none)", "here": "strengthened", "note": "M, N connected, inherited from GX.BTZCommonReg.common_reg (OQ-150 (b), DEC-125 (e)); also needed for e0RegMFlat to be a flat spacetime"},
+        {"paper": "globally hyperbolic, Cauchy-maximal, Cauchy-compact", "here": "carried", "note": "as in common_reg"},
+        {"paper": "reg(M) ≃ reg(N) (l.1275)", "here": "reading", "note": "isometry reading of OQ-152 (a): f : e0RegMFlat M → e0RegMFlat N with Causal.Flat.IsIsometricEmbedding 2 f and Surjective f. common_reg_either takes the disjunction of this and the E0-morphism reading of common_reg"},
+        {"paper": "conclusion M ≃ N", "here": "carried, strengthened", "note": "F : M ≃ₜ N, E0-morphism both ways, F ∘ val = val ∘ regMap f (extends the isometry)"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "OQ-152 (a), l.1275: « reg(M) ≃ reg(N) » is now covered in both readings — a bijective E0-morphism of the regular open sets (GX.BTZCommonReg.common_reg) and a surjective isometric embedding of the flat spacetimes e0RegMFlat (GX.BTZCommonRegIso.common_reg_of_isometry); common_reg_either takes either. Not decided here; whichever the author rules, the row's mark then depends only on T-btz-scope and the added connectedness."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.BTZCommonRegIso.isE0Mor_flatE0Val",
+    "GX.BTZCommonRegIso.isE0Mor_toFlatE0",
+    "GX.BTZCommonRegIso.isE0Mor_of_isIsometricEmbedding"
+  ],
+  "kb_proposals": [
+    "The E0-structure of FlatE0 (e0RegMFlat N) is that of the open set E0LM.e0RegM N: the identity is an E0-morphism both ways (GX.BTZCommonRegIso.isE0Mor_flatE0Val, isE0Mor_toFlatE0, GXScaffold.BTZ.CommonRegIso), each through E0AbsMax.isLocalStructomorphWithinAt_of_eventually with g = 1 and the charts e0Inl.symm, regAtlasChart; work pointwise with OpenPartialHomeomorph.subtypeRestr_symm_apply / subtypeRestr_target_subset on regChartM, never by an equation of charts (the chart of FlatE0 and (chartAt E0Y y).trans ρ live over types that differ at instance transparency, and trans_assoc is not rfl).",
+    "An isometric embedding e0RegMFlat M → e0RegMFlat N is an E0-morphism of the regular open sets (GX.BTZCommonRegIso.isE0Mor_of_isIsometricEmbedding): E0AbsMax.isE0Mor_regExt, composed with isE0Mor_flatE0Val and isE0Mor_val, then isE0Mor_corestrict_iff."
+  ],
+  "notes": "Sorry-free, no added axiom; `lake build GXScaffold.BTZ.CommonRegIso` succeeded with no rebuild of GX.* or mathlib. The new module imports GXScaffold.BTZ.CommonReg (read-only, unchanged) and is listed in scaffold/GXScaffold.lean right after it (one line). The converse direction of the bridge (E0-morphism ⇒ isometry) is not built here (T-btz-cauchy-easy). The module docstring at the end of scaffold/GXScaffold.lean lists the BTZ modules and does not yet name CommonRegIso; it was not edited (only the import line was in dispatch)."
+}

@@ -1,0 +1,28 @@
+{
+  "target": "T-btz-common-reg-iso",
+  "auditor_round": 1,
+  "verdict": "clean",
+  "labels": [
+    {
+      "label": "btzcor:common_reg",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Checked against BTZ_1.tex l.1274-1279 and OQ-152 (a) (OPEN). common_reg_of_isometry (CommonRegIso.lean:152) keeps every printed hypothesis (globally hyperbolic, IsE0CauchyMaximal, E0CauchyCompact, for both M and N). It reads « reg(M) ≃ reg(N) » as f : e0RegMFlat M → e0RegMFlat N with Causal.Flat.IsIsometricEmbedding 2 f and Surjective f. That is a bijective local isometry, so an isometry of the flat spacetimes. The conclusion is a homeomorphism that is an E0-morphism both ways and extends f, which is stronger than the printed M ≃ N. IsIsometricEmbedding (lean-causal/Causal/Flat/FlatSpacetime.lean:312) is the real notion and is not vacuous: continuity, plus at every point the chart reading agrees near x with the action of an element of isom d = SO0(1,d) ⋉ R^{d+1} (Form.lean:132,198), plus injectivity. The isometries in this reading preserve orientation and time orientation. That is the structure group of the E0 category, the same group the E0-morphism reading uses, so it is not a narrowing. common_reg_either takes the disjunction of the two readings (it is no weaker than either) and concludes F with E0-morphisms both ways. The bridge isE0Mor_of_isIsometricEmbedding (isometry ⇒ E0-morphism of the open sets e0RegM) is faithful: it goes through E0AbsMax.isE0Mor_regExt, the identity lemmas isE0Mor_flatE0Val and isE0Mor_toFlatE0 (which state that the identity Reg N → N and Reg N → FlatE0 (e0RegMFlat N) are E0-morphisms), and isE0Mor_corestrict_iff. regMap is just the carrier identity (e0RegMFlat_carrier is rfl). Added hypothesis: M and N connected. It is inherited from common_reg (OQ-150 (b), DEC-125 (e)), e0RegMFlat needs it, and it is disclosed as ⚠ strengthened. The docstring has no ** mark. The E0-only scope (T-btz-scope) and OQ-152 are disclosed in SCOPE and left open: the closer took no decision. The curation row stays lean_proved_override = \"partial\" and was not edited."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "`taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/CommonRegIso.lean` (run in lean-gx) exited 0 with no output. The olean (00:31:19) is newer than the source (00:31:06). A one-shot probe (campaign/T-btz-common-reg-iso/Probe.lean, deleted afterwards) ran #print axioms on common_reg_of_isometry, common_reg_either, isE0Mor_of_isIsometricEmbedding, regMap, isE0Mor_flatE0Val and isE0Mor_toFlatE0. Each gives [propext, Classical.choice, Quot.sound]. The file contains no sorry, admit, axiom, native_decide or implemented_by."
+  },
+  "scope": "git status --short: CommonRegIso.lean (new), the campaign directory, and lean-gx/scaffold/GXScaffold.lean, whose diff is exactly the single line `import GXScaffold.BTZ.CommonRegIso`. The other changed paths (CauchyEasy.lean, SurfaceCompleteLip.lean, roadmap/programme toml files, binder.toml, the restatements registers) belong to concurrent loops or targets named in the dispatch, or were already modified at session start. Docstring contract (lean-causal kb 0006): title, label line with BTZ_1.tex:1274, quoted paper block, hypothesis checklist, SCOPE and provenance are all present and true.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold.lean (module docstring at end of file)",
+      "what": "The aggregator's module docstring lists the BTZ modules but does not name CommonRegIso. The REPORT discloses this: only the import line was in dispatch.",
+      "fix": "In a later commit allowed to touch the aggregator docstring, add CommonRegIso to its BTZ list. Nothing is needed for this target."
+    }
+  ]
+}
