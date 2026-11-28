@@ -21,6 +21,7 @@ GATES = {"host_guard.py": "host", "dropbox_ignore.py": "dropbox-ignore", "deps_r
          "no_legacy_prose.py": "no-legacy-prose", "papers_check.py": "papers-check",
          "doubledag.py": "doubledag", "ladder.py": "ladder", "corrections.py": "corrections", "restate.py": "restate",
          "import_gate.py": "import-gate",
+         "rename_tool.py": "rename",
          "reports/atlas/check.py": "atlas"}
 
 
