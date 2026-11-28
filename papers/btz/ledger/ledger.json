@@ -9,7 +9,7 @@
   },
   "lean": {
     "root": "/home/maxbrain/Dropbox/LeanArticles/lean-gx",
-    "git_commit": "ace864c"
+    "git_commit": "d403626"
   },
   "statements": [
     {
@@ -1027,21 +1027,30 @@
       "statement_sha256": "37e7fdada07addd84e6892371c238ec62837657450821a4dab04691c3812dd18",
       "statement_sha256_current": "37e7fdada07addd84e6892371c238ec62837657450821a4dab04691c3812dd18",
       "lean_files": [
-        "GX/BTZ/Surgery.lean"
+        "GX/BTZ/Surgery.lean",
+        "scaffold/GXScaffold/BTZ/SurfaceCompleteLip.lean"
       ],
       "decls": [
         "GX.E0Surgery.lem_surface_complete_one",
-        "GX.E0Surgery.lem_surface_complete_two"
+        "GX.E0Surgery.lem_surface_complete_two",
+        "GX.E0Surgery.lem_surface_complete_two_lip",
+        "GX.E0Surgery.edist_le_seg_lip",
+        "GX.E0Surgery.locallyLipschitzOn_of_spacelikeDevelopment"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "D",
-      "scope_notes": "T-btz-ledger (atlas-team, 2026-11-27): anchored on lean-gx's existing B21 row, marked there as brunswic2021cauchy:lem:surface_complete when they were gx's cited results (DEC-23), closed for E₀-manifolds. Partial here because the paper states it for E_{≥0}-manifolds: Lean narrower than the paper is never its anchor.",
-      "notes": "T-btz-ledger (atlas-team, 2026-11-27): anchored on lean-gx's existing B21 row, marked there as brunswic2021cauchy:lem:surface_complete when they were gx's cited results (DEC-23), closed for E₀-manifolds. Partial here because the paper states it for E_{≥0}-manifolds: Lean narrower than the paper is never its anchor.",
+      "scope_notes": "T-btz-ledger (atlas-team, 2026-11-27): anchored on lean-gx's existing B21 row, marked there as brunswic2021cauchy:lem:surface_complete when they were gx's cited results (DEC-23), closed for E₀-manifolds. Partial here because the paper states it for E_{≥0}-manifolds: Lean narrower than the paper is never its anchor. T-btz-surface-complete-lip (atlas-team, 2026-11-28), audit AUDIT-1 minor (a checklist cell, fixed). Part (ii) without smoothness (GXScaffold.BTZ.SurfaceCompleteLip, sorry-free): for any g whose development graphDev g R is a Causal.Flat.SpacelikeDevelopment with complete pulled length, g → +∞ at the axis (lem_surface_complete_two_lip); such a g is automatically locally Lipschitz (locallyLipschitzOn_of_spacelikeDevelopment). « spacelike » for a non-smooth graph read as SpacelikeDevelopment (OQ-152 (b)); that the paper's C¹ spacelike graphs meet it is not proved.",
+      "notes": "T-btz-ledger (atlas-team, 2026-11-27): anchored on lean-gx's existing B21 row, marked there as brunswic2021cauchy:lem:surface_complete when they were gx's cited results (DEC-23), closed for E₀-manifolds. Partial here because the paper states it for E_{≥0}-manifolds: Lean narrower than the paper is never its anchor. T-btz-surface-complete-lip (atlas-team, 2026-11-28), audit AUDIT-1 minor (a checklist cell, fixed). Part (ii) without smoothness (GXScaffold.BTZ.SurfaceCompleteLip, sorry-free): for any g whose development graphDev g R is a Causal.Flat.SpacelikeDevelopment with complete pulled length, g → +∞ at the axis (lem_surface_complete_two_lip); such a g is automatically locally Lipschitz (locallyLipschitzOn_of_spacelikeDevelopment). « spacelike » for a non-smooth graph read as SpacelikeDevelopment (OQ-152 (b)); that the paper's C¹ spacelike graphs meet it is not proved.",
       "blocked_on": "T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling): the Lean is for E₀-manifolds only (DEC-116 (b), DEC-125 (a)(e))",
       "lean_proved_override": "partial",
+      "paper_findings": [
+        "BTZ_1.tex l.842–846 (proof of (ii)): no smoothness is needed. The argument uses only that the developed velocity is non-timelike a.e. and that τ is absolutely continuous along the curve, both true for any graph whose development is spacelike Lipschitz (such a graph is locally Lipschitz); so (ii) holds in the form l.1602 applies to Σ₀ (GX.E0Surgery.lem_surface_complete_two_lip).",
+        "BTZ_1.tex l.836 and l.842, two slips of the printed proof: the interval ]r_n, r_{n+1}[ is printed with its ends reversed, and l.842 claims « > 0 » where only « ≥ 0 » is available and needed. Harmless."
+      ],
       "extra_lean_files": [
-        "GX/BTZ/Surgery.lean"
+        "GX/BTZ/Surgery.lean",
+        "scaffold/GXScaffold/BTZ/SurfaceCompleteLip.lean"
       ],
       "in_lean_scope": true,
       "stale": false
@@ -2014,7 +2023,8 @@
       "statement_sha256_current": "17f350f65cdb76451cb4a68843fa37b60eed2368d699352726ffb1a1e9728d37",
       "lean_files": [
         "scaffold/GXScaffold/BTZ/CommonReg.lean",
-        "scaffold/GXScaffold/BTZ/MaxExtension.lean"
+        "scaffold/GXScaffold/BTZ/MaxExtension.lean",
+        "scaffold/GXScaffold/BTZ/CommonRegIso.lean"
       ],
       "decls": [
         "GX.BTZCommonReg.common_reg",
@@ -2022,13 +2032,19 @@
         "GX.BTZCommonReg.isMaximal_regExt",
         "GX.BTZCommonReg.isMaximal_of_isE0Maximal",
         "GX.BTZCommonReg.regExt",
-        "GX.BTZCommonReg.connectedSpace_regM"
+        "GX.BTZCommonReg.connectedSpace_regM",
+        "GX.BTZCommonRegIso.common_reg_of_isometry",
+        "GX.BTZCommonRegIso.common_reg_either",
+        "GX.BTZCommonRegIso.isE0Mor_of_isIsometricEmbedding",
+        "GX.BTZCommonRegIso.regMap",
+        "GX.BTZCommonRegIso.isE0Mor_flatE0Val",
+        "GX.BTZCommonRegIso.isE0Mor_toFlatE0"
       ],
       "lean_stated": "scaffold",
       "lean_proved": "partial",
       "bucket": "D",
-      "scope_notes": "T-btz-curation-existing (2026-11-27): no Lean yet. T-btz-common-reg (atlas-team, 2026-11-28), audit AUDIT-1 clean. Scaffold (GXScaffold.BTZ.CommonReg), sorry-free, no RichardsInput: GX.BTZCommonReg.common_reg — the isomorphism of the regular parts extends to M ≃ₜ N, an E₀-morphism both ways (stronger than printed), through the uniqueness of the maximal BTZ-extension. M and N connected added.",
-      "notes": "T-btz-curation-existing (2026-11-27): no Lean yet. T-btz-common-reg (atlas-team, 2026-11-28), audit AUDIT-1 clean. Scaffold (GXScaffold.BTZ.CommonReg), sorry-free, no RichardsInput: GX.BTZCommonReg.common_reg — the isomorphism of the regular parts extends to M ≃ₜ N, an E₀-morphism both ways (stronger than printed), through the uniqueness of the maximal BTZ-extension. M and N connected added.",
+      "scope_notes": "T-btz-curation-existing (2026-11-27): no Lean yet. T-btz-common-reg (atlas-team, 2026-11-28), audit AUDIT-1 clean. Scaffold (GXScaffold.BTZ.CommonReg), sorry-free, no RichardsInput: GX.BTZCommonReg.common_reg — the isomorphism of the regular parts extends to M ≃ₜ N, an E₀-morphism both ways (stronger than printed), through the uniqueness of the maximal BTZ-extension. M and N connected added. T-btz-common-reg-iso (atlas-team, 2026-11-28), audit AUDIT-1 clean. The isometry reading of OQ-152 (a) closed too (GXScaffold.BTZ.CommonRegIso, sorry-free): an isometric embedding of the flat spacetimes e0RegMFlat is an E₀-morphism of the regular parts (isE0Mor_of_isIsometricEmbedding); common_reg_of_isometry (a surjective isometric embedding extends to M ≃ₜ N, E₀ both ways) and common_reg_either (either reading). The mark now waits only on T-btz-scope, the added connectedness (OQ-150 (b)) and the ruling of OQ-152 (a), with no Lean change.",
+      "notes": "T-btz-curation-existing (2026-11-27): no Lean yet. T-btz-common-reg (atlas-team, 2026-11-28), audit AUDIT-1 clean. Scaffold (GXScaffold.BTZ.CommonReg), sorry-free, no RichardsInput: GX.BTZCommonReg.common_reg — the isomorphism of the regular parts extends to M ≃ₜ N, an E₀-morphism both ways (stronger than printed), through the uniqueness of the maximal BTZ-extension. M and N connected added. T-btz-common-reg-iso (atlas-team, 2026-11-28), audit AUDIT-1 clean. The isometry reading of OQ-152 (a) closed too (GXScaffold.BTZ.CommonRegIso, sorry-free): an isometric embedding of the flat spacetimes e0RegMFlat is an E₀-morphism of the regular parts (isE0Mor_of_isIsometricEmbedding); common_reg_of_isometry (a surjective isometric embedding extends to M ≃ₜ N, E₀ both ways) and common_reg_either (either reading). The mark now waits only on T-btz-scope, the added connectedness (OQ-150 (b)) and the ruling of OQ-152 (a), with no Lean change.",
       "blocked_on": "T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling); OQ-152",
       "lean_proved_override": "partial",
       "paper_findings": [
@@ -2039,7 +2055,8 @@
       ],
       "extra_lean_files": [
         "scaffold/GXScaffold/BTZ/CommonReg.lean",
-        "scaffold/GXScaffold/BTZ/MaxExtension.lean"
+        "scaffold/GXScaffold/BTZ/MaxExtension.lean",
+        "scaffold/GXScaffold/BTZ/CommonRegIso.lean"
       ],
       "in_lean_scope": true,
       "stale": false
@@ -2754,7 +2771,8 @@
       "statement_sha256": "6ef7522291911d6be0426030851492ad1ed44aa33de2a58f4bda9c72973edcf6",
       "statement_sha256_current": "6ef7522291911d6be0426030851492ad1ed44aa33de2a58f4bda9c72973edcf6",
       "lean_files": [
-        "scaffold/GXScaffold/BTZ/CauchySpear.lean"
+        "scaffold/GXScaffold/BTZ/CauchySpear.lean",
+        "scaffold/GXScaffold/BTZ/CauchyEasy.lean"
       ],
       "decls": [
         "GX.BTZCauchySpear.cauchy_spear",
@@ -2766,22 +2784,41 @@
         "GX.BTZCauchySpear.causallyConvexIn_range",
         "GX.BTZCauchySpear.spearIntY",
         "GX.BTZCauchySpear.causallyConvexIn_union",
-        "GX.BTZCauchySpear.exists_axis_eq_of_le"
+        "GX.BTZCauchySpear.exists_axis_eq_of_le",
+        "GX.BTZCauchyEasy.iii_imp_ii",
+        "GX.BTZCauchyEasy.ii_imp_i",
+        "GX.BTZCauchyEasy.iii_imp_i",
+        "GX.BTZCauchyEasy.CauchyCompleteMaximal",
+        "GX.BTZCauchyEasy.RegCauchyCompleteMaximal",
+        "GX.BTZCauchyEasy.regM_of_isBTZEmbedding",
+        "GX.BTZCauchyEasy.regMap",
+        "GX.BTZCauchyEasy.mem_e0RegM_of_isE0Mor",
+        "GX.BTZCauchyEasy.isLocalIsometry_regMap",
+        "GX.BTZCauchyEasy.isIsometricEmbedding_regMap",
+        "GX.BTZCauchyEasy.surjective_regMap",
+        "GX.BTZCauchyEasy.transfer_of_isIsometricEmbedding_of_surjective",
+        "GX.BTZCauchyEasy.mgh_of_isIsometricEmbedding_of_surjective",
+        "GX.BTZCauchyEasy.isCauchyComplete_of_isIsometricEmbedding_of_surjective",
+        "GX.BTZCauchyEasy.isIsometricEmbedding_surjInv",
+        "GX.BTZCauchyEasy.edist_inducedLengthSpace_le",
+        "GX.BTZCauchyEasy.pathLength_eq_of_local"
       ],
       "lean_stated": "scaffold",
       "lean_proved": "none",
       "bucket": "D",
-      "scope_notes": "T-btz-curation-existing (2026-11-27): no Lean yet. T-btz-cauchy-spear (atlas-team, 2026-11-28), audits AUDIT-1 major (a false finding, reworded in round 1), AUDIT-2 clean. Step 1 assembled (GX.BTZCauchySpear.cauchy_spear): every BTZ point of a maximal extension M₁ of M₀ has a spear neighbourhood on its line, with no RichardsInput; two tagged sorrys (bluntSpear_subset_M0, globallyHyperbolicOn_union). Step 2 is T-btz-cauchy-conservation. T-btz-spear-union-gh (atlas-team, 2026-11-27), audit AUDIT-1 clean. globallyHyperbolicOn_union proved, statement unchanged (M₁ ∪ Int(S₁) causally convex in M₂, then B21 Remark 1); cauchy_spear rests on one tagged sorry, bluntSpear_subset_M0.",
-      "notes": "T-btz-curation-existing (2026-11-27): no Lean yet. T-btz-cauchy-spear (atlas-team, 2026-11-28), audits AUDIT-1 major (a false finding, reworded in round 1), AUDIT-2 clean. Step 1 assembled (GX.BTZCauchySpear.cauchy_spear): every BTZ point of a maximal extension M₁ of M₀ has a spear neighbourhood on its line, with no RichardsInput; two tagged sorrys (bluntSpear_subset_M0, globallyHyperbolicOn_union). Step 2 is T-btz-cauchy-conservation. T-btz-spear-union-gh (atlas-team, 2026-11-27), audit AUDIT-1 clean. globallyHyperbolicOn_union proved, statement unchanged (M₁ ∪ Int(S₁) causally convex in M₂, then B21 Remark 1); cauchy_spear rests on one tagged sorry, bluntSpear_subset_M0.",
+      "scope_notes": "T-btz-curation-existing (2026-11-27): no Lean yet. T-btz-cauchy-spear (atlas-team, 2026-11-28), audits AUDIT-1 major (a false finding, reworded in round 1), AUDIT-2 clean. Step 1 assembled (GX.BTZCauchySpear.cauchy_spear): every BTZ point of a maximal extension M₁ of M₀ has a spear neighbourhood on its line, with no RichardsInput; two tagged sorrys (bluntSpear_subset_M0, globallyHyperbolicOn_union). Step 2 is T-btz-cauchy-conservation. T-btz-spear-union-gh (atlas-team, 2026-11-27), audit AUDIT-1 clean. globallyHyperbolicOn_union proved, statement unchanged (M₁ ∪ Int(S₁) causally convex in M₂, then B21 Remark 1); cauchy_spear rests on one tagged sorry, bluntSpear_subset_M0. T-btz-cauchy-easy (atlas-team, 2026-11-28), audit AUDIT-1 minor (a checklist cell, fixed). (iii) ⇒ (ii) and (ii) ⇒ (i) sorry-free for E₀ (GXScaffold.BTZ.CauchyEasy: iii_imp_ii, ii_imp_i, iii_imp_i): a BTZ-embedding restricts to a bijective flat isometry Reg M → Reg N (isIsometricEmbedding_regMap, surjective_regMap), along which GH, MGH and IsCauchyComplete transport. M GH and second countable not used; M connected added; in (ii) the extension is taken globally hyperbolic (GHExt), redundant under l.222 but the lemma « a Cauchy surface gives ETT's GH for E₀-manifolds » is not in the library (open item).",
+      "notes": "T-btz-curation-existing (2026-11-27): no Lean yet. T-btz-cauchy-spear (atlas-team, 2026-11-28), audits AUDIT-1 major (a false finding, reworded in round 1), AUDIT-2 clean. Step 1 assembled (GX.BTZCauchySpear.cauchy_spear): every BTZ point of a maximal extension M₁ of M₀ has a spear neighbourhood on its line, with no RichardsInput; two tagged sorrys (bluntSpear_subset_M0, globallyHyperbolicOn_union). Step 2 is T-btz-cauchy-conservation. T-btz-spear-union-gh (atlas-team, 2026-11-27), audit AUDIT-1 clean. globallyHyperbolicOn_union proved, statement unchanged (M₁ ∪ Int(S₁) causally convex in M₂, then B21 Remark 1); cauchy_spear rests on one tagged sorry, bluntSpear_subset_M0. T-btz-cauchy-easy (atlas-team, 2026-11-28), audit AUDIT-1 minor (a checklist cell, fixed). (iii) ⇒ (ii) and (ii) ⇒ (i) sorry-free for E₀ (GXScaffold.BTZ.CauchyEasy: iii_imp_ii, ii_imp_i, iii_imp_i): a BTZ-embedding restricts to a bijective flat isometry Reg M → Reg N (isIsometricEmbedding_regMap, surjective_regMap), along which GH, MGH and IsCauchyComplete transport. M GH and second countable not used; M connected added; in (ii) the extension is taken globally hyperbolic (GHExt), redundant under l.222 but the lemma « a Cauchy surface gives ETT's GH for E₀-manifolds » is not in the library (open item).",
       "blocked_on": "one tagged sorry of GXScaffold.BTZ.CauchySpear, bluntSpear_subset_M0 (the regular part of a sub-spear lies in M₀; T-btz-cauchy-spear-m0); then Step 2, T-btz-cauchy-step2-surface, T-btz-cauchy-step2-max, T-btz-cauchy-conservation; T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling); OQ-152",
       "paper_findings": [
         "BTZ_1.tex:1604 ('Notice M_1 u Int(S_1) is a globally hyperbolic BTZ-extension of M_1'): a missing justification, not an error. Global hyperbolicity is asserted without proof. An open subset of the globally hyperbolic M_2 is globally hyperbolic when it is causally convex, and causal convexity here needs the causal past of the BTZ points of Int(S_1) to stay on S_1's axis. Supplied and proved (GX.BTZCauchySpear.causallyConvexIn_union, T-btz-spear-union-gh): every BTZ point above an axis point of the spear chart is on the axis (exists_axis_eq_of_le), BTZ points precede only BTZ points, and M₁ is causally convex; B21 Remark 1 then gives global hyperbolicity.",
         "BTZ_1.tex:1604 ('Therefore, every BTZ-line of M_1 admits a spear neighborhood'): Int(S_1) subset M_1 does not by itself give a spear of M_1, since the vertex p' of S_1 is on the boundary of Int(S_1). One shrinks to a spear of higher vertex and smaller radius inside Int(S_1), and checks it is around the same BTZ line of M_1 as p. That last point uses the causal convexity of M_1 in M_2, which the paper does not mention. Proved (exists_spearNbhd_of_subset, causallyConvexIn_range).",
         "BTZ_1.tex:1601 (with OQ-143 (e), already recorded): lem:blunt_spear_neighborhood is applied to Sigma_0 in M_0 with the spear of M_2 from lem:tube before reg(S) subset M_0 is established (l.1604). Not formalized.",
-        "BTZ_1.tex:1600 vs l.1598, a harmless notational slip: the proof's 'Delta a BTZ-line of M_2' is a line of M_1 read in M_2. Every BTZ line of M_2 meets Sigma_1 (a Cauchy surface of M_1, hence of its Cauchy extension M_2), and M_1 is causally convex in M_2, so the BTZ lines of M_1 and M_2 correspond one to one."
+        "BTZ_1.tex:1600 vs l.1598, a harmless notational slip: the proof's 'Delta a BTZ-line of M_2' is a line of M_1 read in M_2. Every BTZ line of M_2 meets Sigma_1 (a Cauchy surface of M_1, hence of its Cauchy extension M_2), and M_1 is causally convex in M_2, so the BTZ lines of M_1 and M_2 correspond one to one.",
+        "BTZ_1.tex l.1593 (« (ii) ⇒ (i) is a consequence of Proposition prop:reg_complete »): a missing step, not an error. The proposition concludes for Reg of the extension N, not of M; carrying it back needs that a BTZ-embedding maps Reg M onto Reg N, that this map is a flat isometry, and that GH, MGH and Cauchy-completeness are invariant under flat isometries — all supplied (GX.BTZCauchyEasy.ii_imp_i). The standing hypothesis « M globally hyperbolic » is used by neither (iii) ⇒ (ii) nor (ii) ⇒ (i)."
       ],
       "extra_lean_files": [
-        "scaffold/GXScaffold/BTZ/CauchySpear.lean"
+        "scaffold/GXScaffold/BTZ/CauchySpear.lean",
+        "scaffold/GXScaffold/BTZ/CauchyEasy.lean"
       ],
       "in_lean_scope": true,
       "stale": false
