@@ -310,3 +310,5 @@ rediscover. One fact per entry.
 | [0302](entries/0302-lsc-separations.md) | pattern | locally_strongly_causal is separated both ways on ETT-layer models |
 | [0303](entries/0303-galileo-curve-form.md) | pattern | Galileo's spacetime in its curve form: everything but local strong causality |
 | [0304](entries/0304-curve-relation.md) | pattern | A relation defined by curves holds between a curve's ends: IsRelFamily, CurveOn, rel_of_lt |
+| [0305](entries/0305-loop-fan-every-scale.md) | pattern | The loop fan at every scale: globally hyperbolic, causally compact, not locally strongly causal |
+| [0306](entries/0306-multi-scale-accumulation.md) | pitfall | Stacking scaled copies of a witness creates accumulation points: re-check what does not transfer |

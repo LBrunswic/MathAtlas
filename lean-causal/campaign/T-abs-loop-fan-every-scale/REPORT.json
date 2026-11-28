@@ -1,0 +1,189 @@
+{
+  "target": "T-abs-loop-fan-every-scale",
+  "package": "lean-causal",
+  "files": [
+    "scaffold/CausalScaffold/LoopFanEveryScale.lean"
+  ],
+  "campaign_files": [
+    "campaign/T-abs-loop-fan-every-scale/REPORT.json",
+    "campaign/T-abs-loop-fan-every-scale/Probe.lean",
+    "campaign/T-abs-loop-fan-every-scale/axioms.txt"
+  ],
+  "builds": true,
+  "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.LoopFanEveryScale",
+  "build_result": "Build completed successfully (3157 jobs), no warning, 1.7 s for the module. Before each build, the --no-build dry run (kb/0228) listed only CausalScaffold.LoopFanEveryScale as out of date (exit 3), so nothing upstream (Causal.*, mathlib) was rebuilt. After the build, the dry run exits 0. `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/LoopFanEveryScale.lean` exits 0 with no output. campaign/T-abs-loop-fan-every-scale/Probe.lean imports the module and runs #check and #print axioms on all 40 declarations (output in axioms.txt). It has 6 examples: the heart (T2, second countable, absolutely minimal on every open, GH, CC, ¬ LSC); the proposed entry's whole `from` with ¬ LSC; ¬ Tarentin by causal_ladder read backwards; level 0 as the linear copy (x, y) ↦ (x, x, y) of the loop fan; the contrast with loopFan_locallyStronglyCausal; and the strong form at a. The Probe passes under -DwarningAsError=true (exit 0). All 40 declarations depend on [propext, Classical.choice, Quot.sound] only. There is no sorryAx, admit, axiom or native_decide.",
+  "sorry_count": 0,
+  "layer": "ETT layer (layer 1). One direct import, Causal.LscSeparations, which brings Causal.FutureOneConnectedVacuous, Causal.GHWithoutTarentin, Causal.DiamondConfinement and Causal.Ladder.Rules. I ran tools/ladder.py's model_path in memory on lean_index()['imports'] with the new module added: it is None for the new module and None for Causal.LscSeparations. model_path is a breadth-first search over all imports, so None is exhaustive (kb/0247). The closure holds 76 Causal modules and no MODEL_LAYER module (Causal.Minkowski, Static, SingularFlat, Flat, Model, Port). Cycle check (kb/0221): import_chain(Causal.Ladder.Rules → CausalScaffold.LoopFanEveryScale) is None. The module reaches Rules through LscSeparations, so it must stay a leaf. Nothing imports it. No statement mentions a metric, curve length or geodesic: the carrier and the sets are given by coordinates of ℝ³ ({Z < 2⁻ᵏ}, {Y < X}). Metric.mem_nhds_iff and dist appear inside one proof only (scaledFan_not_stronglyCausalOn). A helper that first stated a dist bound was restated as coordinate bounds (scaledFanγ_coord_le) to keep the rule. causal_ladder closes 12 conjuncts of the witness: locally push-up, causal, causally compact, curves extend; and, read backwards, ¬ StronglyCausal, ¬ StronglyCausalOpen, ¬ Tarentin, ¬ CausallyOpenFuture, ¬ CausallyOpen, ¬ LocallyCausallyOpen.",
+  "labels": [],
+  "declarations": [
+    {
+      "name": "Causal.scaledFan_separates",
+      "file_line": "scaffold/CausalScaffold/LoopFanEveryScale.lean:450",
+      "statement": "T2Space scaledFanSet ∧ SecondCountableTopology scaledFanSet ∧ scaledFan.AbsolutelyMinimal ∧ (∀ W : Opens scaledFanSet, scaledFan.AbsolutelyMinimalOn W) ∧ scaledFan.CausallyArcConnected ∧ scaledFan.PushUp ∧ scaledFan.LocallyPushUp ∧ scaledFan.IsCausal ∧ scaledFan.CausallyCompact ∧ scaledFan.GloballyHyperbolic ∧ scaledFan.HasTimeFunction ∧ scaledFan.CurvesExtend ∧ scaledFan.FutureOneConnected ∧ (∀ W, scaledFan.FutureOneConnectedOn W) ∧ ¬ scaledFan.LocallyStronglyCausal ∧ (∀ W : Opens scaledFanSet, scaledFanA ∈ W → ¬ scaledFan.StronglyCausalOn W) ∧ ¬ scaledFan.StronglyCausal ∧ ¬ scaledFan.StronglyCausalOpen ∧ ¬ scaledFan.Tarentin ∧ ¬ scaledFan.ChronalNeighbours ∧ ¬ scaledFan.CausallyPlain ∧ ¬ scaledFan.HasChronalNeighbourEverywhere ∧ ¬ scaledFan.CausallyOpenFuture ∧ ¬ scaledFan.CausallyOpen ∧ ¬ scaledFan.LocallyCausallyOpenFuture ∧ ¬ scaledFan.LocallyCausallyOpen",
+      "standing": "Closed statement, no instance argument. 26 conjuncts in the order of Causal.loopFan_separates_locallyStronglyCausal, with ¬ LocallyStronglyCausal (15) in place of LocallyStronglyCausal. 16 is the 'at a' form. 23–26 (the causally open forms) are appended. It decides all 21 causality-sort nodes: 10 held, 11 lacked. Either reading of DEC-167 (conjunct 4). The proof destructures nothing: 7 haves, then one anonymous constructor with 12 causal_ladder calls (kb/0225: one conjunct per call).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.scaledFanSet, Causal.scaledFanγ, Causal.scaledFanA, Causal.scaledFan, Causal.scaledFanArc, Causal.levelEmbed, Causal.fanScale",
+      "file_line": "scaffold/CausalScaffold/LoopFanEveryScale.lean:101–157",
+      "statement": "fanScale k = 2⁻¹ ^ k. levelEmbed k (x, y) = (2⁻ᵏ x, 2⁻ᵏ ε_k x, 2⁻ᵏ y), with ε_k = combEps k = 1/(k+1). scaledFanArc (k, n) t = levelEmbed k (loopArc n t). scaledFanSet = insert (0, 0, 0) (⋃ i, range (scaledFanArc i)) ⊆ ℝ × ℝ × ℝ. scaledFanγ i t is the arc as a map into the carrier, and scaledFanA = (0, 0, 0). scaledFan = arcCausality scaledFanγ.",
+      "standing": "The construction. The index is ℕ × ℕ (level k, loop n). Level k lies in the vertical plane Y = ε_k X through a (scaledFanγ_plane). The slopes ε_k are distinct.",
+      "status": "defined"
+    },
+    {
+      "name": "Causal.scaledFanγ_coherent",
+      "file_line": "scaffold/CausalScaffold/LoopFanEveryScale.lean:215",
+      "statement": "ArcCoherent scaledFanγ",
+      "standing": "Arcs of two levels meet nowhere (scaledFanArc_level_eq, :182). Off the vertical, X ≠ 0 and the two slopes would agree, so the levels agree by combEps_strictAnti. On the vertical, both points are tops (loopArc_snd_of_fst_eq_zero), at heights 2⁻ᵏ(1 + ε_n) ∈ (2⁻ᵏ, 2¹⁻ᵏ], and fanScale_two_mul_le separates the levels. Within a level, levelEmbed k is injective, so Causal.loopγ_coherent applies.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.scaledFan_not_stronglyCausalOn",
+      "file_line": "scaffold/CausalScaffold/LoopFanEveryScale.lean:324",
+      "statement": "∀ {W : Opens scaledFanSet}, scaledFanA ∈ W → ¬ scaledFan.StronglyCausalOn W",
+      "standing": "The ladder's argument, with the level chosen first. Take B(a, r) ⊆ W (sup metric) and k with 2 · 2⁻ᵏ < r (exists_pow_lt_of_lt_one). Level k then lies in W (scaledFanγ_coord_le). Set U = {Z < 2⁻ᵏ}. A V ∈ 𝓝 a inside U holds both feet of some loop (k, n) (tendsto_scaledFanP/Q). The loop's top is in J_W of the feet, at height 2⁻ᵏ(1 + ε_n) > 2⁻ᵏ, so it is not in U.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.scaledFan_not_locallyStronglyCausal",
+      "file_line": "scaffold/CausalScaffold/LoopFanEveryScale.lean:359",
+      "statement": "¬ scaledFan.LocallyStronglyCausal",
+      "standing": "the previous theorem, at a.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.scaledFan_hasTimeFunction",
+      "file_line": "scaffold/CausalScaffold/LoopFanEveryScale.lean:367",
+      "statement": "scaledFan.HasTimeFunction",
+      "standing": "T = −X, through ArcCoherent.hasTimeFunction. Along the arc (k, n), X = 2⁻ᵏ ε_n (1 − 2t).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.scaledFan_not_causallyOpenFutureOn",
+      "file_line": "scaffold/CausalScaffold/LoopFanEveryScale.lean:394",
+      "statement": "∀ {W : Opens scaledFanSet}, scaledFanγ (1, 0) (1 / 2) ∈ W → ¬ scaledFan.CausallyOpenFutureOn W",
+      "standing": "Beyond the target. The top y = (0, 0, 1) of the tent (1, 0) is the limit of the tops (0, 0, 1 + ε_m) of level 0. Take V = W ⊓ {Y < X} (scaledFanBelow). J⁺_W(V) holds y: it is reached along its own tent from a point of the rising leg inside W, where Y = X/2 < X. J⁺_W(V) holds no point of level 0: level 0 lies in Y = X (scaledFanγ_zero_snd), and by coherence such a point is reached only along level 0. So J⁺_W(V) is not open.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.scaledFan_not_locallyCausallyOpenFuture",
+      "file_line": "scaffold/CausalScaffold/LoopFanEveryScale.lean:436",
+      "statement": "¬ scaledFan.LocallyCausallyOpenFuture",
+      "standing": "the previous theorem, at y.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.not_locallyStronglyCausal_of_globallyHyperbolic_bare",
+      "file_line": "scaffold/CausalScaffold/LoopFanEveryScale.lean:500",
+      "statement": "¬ ∀ (M : Type) [TopologicalSpace M] [T2Space M] [SecondCountableTopology M] (C : Causality M), C.GloballyHyperbolic → C.HasTimeFunction → C.CausallyArcConnected → C.LocallyStronglyCausal",
+      "standing": "prop:GH_fortement_causal is sharp in tarentin even for local strong causality. This is the LocallyStronglyCausal form of Causal.not_stronglyCausal_of_globallyHyperbolic_bare (the loop fan). Nothing is marked: no label is certified.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.scaledFan_le_iff",
+      "file_line": "scaffold/CausalScaffold/LoopFanEveryScale.lean:227",
+      "statement": "scaledFan.le U x y ↔ (x ∈ U ∧ x = y) ∨ arcStep scaledFanγ U x y",
+      "standing": "ArcCoherent.le_iff.",
+      "status": "proved"
+    }
+  ],
+  "proved": "Every conjunct the target asks: T2, second countable, absolutely minimal (on every open set for every cover, so either reading of DEC-167), causally arc-connected, push-up, causal, causally compact, globally hyperbolic, a time function, curves extend, future one-connected (vacuously, on every open set), ¬ LocallyStronglyCausal at a (no open W ∋ a is StronglyCausalOn), ¬ Tarentin and ¬ ChronalNeighbours. Also what the ladder's closure gives: locally push-up, ¬ StronglyCausal (both forms), ¬ CausallyPlain, ¬ HasChronalNeighbourEverywhere. Beyond the target: causally open in no form, ¬ CausallyOpenFuture, ¬ CausallyOpen, ¬ LocallyCausallyOpenFuture, ¬ LocallyCausallyOpen. So all 21 causality nodes are decided. Also the bare corollary not_locallyStronglyCausal_of_globallyHyperbolic_bare.",
+  "remains": "Nothing of the target. Not decided and not asked: whether a point other than a has an open neighbourhood strongly causal as a spacetime (the tops of level 0 accumulate at the top (0, 0, 1) of the tent (1, 0), so the loop fan's argument does not transfer verbatim), and the failure of the causally open forms for C.dual. No ladder pair needs either.",
+  "lemmas_for_the_keeper": [
+    {
+      "ladder_entry": "new [[fails]] entry (one): from = [\"absolutely_minimal\", \"causally_arc_connected\", \"push_up\", \"locally_push_up\", \"is_causal\", \"causally_compact\", \"globally_hyperbolic\", \"time_function\", \"curves_extend\", \"future_one_connected\"], to = \"locally_strongly_causal\", witness = \"Causal.scaledFan_separates\", status = \"checked\" (space: the ambient; a subspace of ℝ³ is T2 and second countable, conjuncts 1–2)",
+      "current_witness": "none (the pairs are [[open]], 'False, argued', naming this target)",
+      "replace_with": "Causal.scaledFan_separates",
+      "required": true,
+      "note": "Each id of `from` is a positive conjunct: 3, 5, 6, 7, 8, 9, 10, 11, 12, 13. The negated `to` is conjunct 15. counterexample() gives has = those 10 and lacks = {locally_strongly_causal, strongly_causal, strongly_causal_open, tarentin, chronal_neighbours}; each lacked id is a conjunct (15, 17, 18, 19, 20). On the ladder after the wave-46 records (Galileo's curve form, the symmetric rational line, the loop fan) it settles the last two [[open]] X → locally_strongly_causal: globally_hyperbolic → locally_strongly_causal and causally_compact → locally_strongly_causal (programme/ladder.toml, the [[open]] entries with those from/to; their notes at :5720 and :5725 at mtime 2026-11-27 22:38 UTC). Remove both [[open]] entries. On the ladder as it is on disk (none of the wave-46 records), it settles 10 pairs. The witness name resolves only once the module graduates into Causal/ (tools/ladder.py reads Causal/ only)."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml [[open]] from = globally_hyperbolic, to = locally_strongly_causal; [[open]] from = causally_compact, to = locally_strongly_causal",
+      "current_witness": "none",
+      "replace_with": "settled by the entry above: remove",
+      "required": true,
+      "note": "check() reports a settled [[open]] as an error."
+    },
+    {
+      "ladder_entry": "the [[open]] entries from = absolutely_minimal, push_up, locally_push_up, curves_extend, future_one_connected, is_causal, time_function, causally_arc_connected → locally_strongly_causal (notes :5685–5730, each naming 'the loop fan at every scale too')",
+      "current_witness": "none on disk; the wave-46 records (Causal.galileoCurve_separates, Causal.symmRationalLine_separates_locallyStronglyCausal) settle them",
+      "replace_with": "optionally a second witness: no pair moves beyond those records",
+      "required": false,
+      "note": "If the keeper records this entry before the wave-46 ones, it settles these 8 pairs as well (simulation B)."
+    },
+    {
+      "ladder_entry": "optional extra [[fails]] with the same `from`, to = locally_causally_open_future (conjunct 25), or to = tarentin / chronal_neighbours / causally_plain / has_chronal_neighbour / strongly_causal",
+      "current_witness": "none",
+      "replace_with": "Causal.scaledFan_separates",
+      "required": false,
+      "note": "None moves a pair (simulation C). They record the full form only."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:5623–5640 (the section comment's bullet 'the loop fan at every scale (not in Lean)') and the evidence of T-abs-loop-fan-every-scale",
+      "current_witness": "none",
+      "replace_with": "Causal.scaledFan_separates (CausalScaffold.LoopFanEveryScale until graduation)",
+      "required": false,
+      "note": "Comment only. At graduation, '(not in Lean)' and 'A:' become 'L:'. The text at :5635 reads 'for U = B(a, ρ), ρ < r/4, a level k with 2⁻ᵏ ∈ (ρ, r/4]'. Such a level need not exist: for r = 0.9 and ρ = 0.2 the interval (0.2, 0.225] holds no power of 1/2. The fix is to choose the level first (2⁻ᵏ ≤ r/4) and then ρ < 2⁻ᵏ, as the Lean proof does with U = {Z < 2⁻ᵏ}; ρ ≤ r/8 also works. The bullet's list of A-properties can add 'causally open in no form' (conjuncts 23–26)."
+    }
+  ],
+  "ladder_simulation": "In memory only: python3 -I /tmp/lfes/sim.py imports tools/ladder.py and writes no file (kb/0276). Run on programme/ladder.toml at mtime 2026-11-27 22:38:07 UTC. Baseline: 363 fails, 41 implied, 28 open, 270 ill-typed, 0 contradictions. Step 1: the pending wave-46 records, as the reports of T-abs-galileo-curve-form and T-abs-lsc-separations propose them (copy.deepcopy(load()) plus three entries: galileoCurve_separates → LSC with its 16 ids, symmRationalLine_separates_locallyStronglyCausal → LSC with its 5, loopFan_separates_locallyStronglyCausal → strongly_causal with 11). This settles 18 [[open]]: 381 fails, 10 open, 0 contradictions. The open pairs on locally_strongly_causal are then globally_hyperbolic → LSC, causally_compact → LSC and LSC → is_causal. (A) Step 1 plus this entry (the 10 ids → LSC): exactly 2 pairs move, globally_hyperbolic → LSC and causally_compact → LSC, open → fails. Both [[open]] removed: 383 fails, 41 implied, 8 open, 0 contradictions. check(d, lean_names() | {Causal.scaledFan_separates}) gives 0 errors. Without the new name, check() reports 'witness not found in lean-causal' for it, so the recording waits for graduation. The 8 remaining open pairs: germ_extension ↔ cauchy_slice, rigid → germ_extension, rigid → cauchy_slice, inextensible_nested → le_nested, causally_plain → locally_push_up, strongly_causal → strongly_causal_open, locally_strongly_causal → is_causal. None is on this witness. (B) The entry alone on the ladder as on disk: 10 pairs move (the 10 from ids → LSC), 373 fails, 18 open, 0 contradictions, 0 check errors with the new name. (C) (A) plus one more entry with the same from and to = locally_causally_open_future, tarentin, chronal_neighbours, causally_plain, has_chronal_neighbour or strongly_causal: no further pair moves, 0 contradictions each. 0 contradictions in every variant.",
+  "extra_decls": [
+    "Causal.fanScale",
+    "Causal.fanScale_pos",
+    "Causal.fanScale_two_mul_le",
+    "Causal.fanScale_zero",
+    "Causal.fanScale_one",
+    "Causal.combEps_zero",
+    "Causal.combEps_one",
+    "Causal.levelEmbed",
+    "Causal.continuous_levelEmbed",
+    "Causal.levelEmbed_injective",
+    "Causal.scaledFanArc",
+    "Causal.scaledFanSet",
+    "Causal.scaledFanγ",
+    "Causal.scaledFanA",
+    "Causal.scaledFan",
+    "Causal.continuous_scaledFanγ",
+    "Causal.scaledFanγ_val",
+    "Causal.scaledFanγ_plane",
+    "Causal.loopArc_snd_of_fst_eq_zero",
+    "Causal.scaledFanArc_level_eq",
+    "Causal.scaledFanγ_coherent",
+    "Causal.scaledFan_le_iff",
+    "Causal.scaledFanP_val",
+    "Causal.scaledFanQ_val",
+    "Causal.scaledFanPeak_val",
+    "Causal.scaledFanA_val",
+    "Causal.tendsto_scaledFanP",
+    "Causal.tendsto_scaledFanQ",
+    "Causal.abs_loopArc_fst_le",
+    "Causal.loopArc_snd_mem",
+    "Causal.scaledFanγ_coord_le",
+    "Causal.scaledFan_not_stronglyCausalOn",
+    "Causal.scaledFan_not_locallyStronglyCausal",
+    "Causal.scaledFan_hasTimeFunction",
+    "Causal.scaledFanγ_zero_snd",
+    "Causal.scaledFanBelow",
+    "Causal.scaledFan_not_causallyOpenFutureOn",
+    "Causal.scaledFan_not_locallyCausallyOpenFuture",
+    "Causal.scaledFan_separates",
+    "Causal.not_locallyStronglyCausal_of_globallyHyperbolic_bare"
+  ],
+  "findings": [
+    "No paper is involved: layer 1, no ETT label, nothing marked. Every claim the ladder argues for the loop fan at every scale (programme/ladder.toml, the section comment :5623–5640 and the [[open]] notes :5710–5730) is now a Lean theorem, and none is refuted. GH ∧ CC ∧ ¬ LSC holds on an absolutely minimal (either reading), causally arc-connected, T2, second countable model with a time function. So prop:GH_fortement_causal's tarentin cannot be weakened even to local strong causality (not_locallyStronglyCausal_of_globallyHyperbolic_bare). After the wave-46 records, no pair X → locally_strongly_causal is left open (simulation A).",
+    "Beyond the target: the loop fan at every scale is causally open in no form (conjuncts 23–26). The single loop fan is argued causally open (Causal.LscSeparations, SCOPE :76). Stacking the levels on one axis puts the tops of level k ≥ 1 on the vertical segment that level k − 1 accumulates on. At the top (0, 0, 1) of the tent (1, 0), every open W gives a J⁺_W(W ∩ {Y < X}) that holds the top and misses level 0 (scaledFan_not_causallyOpenFutureOn). The witness therefore decides all 21 causality nodes. This moves no pair (simulation C).",
+    "The ladder's argument is imprecise in one place. Its 'for U = B(a, ρ), ρ < r/4, a level k with 2⁻ᵏ ∈ (ρ, r/4]' (programme/ladder.toml:5635, repeated in the target's evidence) need not yield a level: for r = 0.9 and ρ = 0.2 the interval (0.2, 0.225] holds no power of 1/2. This is harmless because ρ is ours to choose. The Lean proof picks the level first (2 · 2⁻ᵏ < r, sup metric) and takes U = {Z < 2⁻ᵏ}. The notes' variant, 'a level of height in (ρ, r/2]' (:5710–5730), does contain a level once ρ < r/4.",
+    "The carrier is the target's, in coordinates: ℝ³, level k in the vertical plane Y = ε_k X through a, with slope ε_k = 1/(k+1) in place of an angle θ_k (θ_k = arctan ε_k ∈ (0, π/4], distinct modulo π). Each level is a linear copy of the loop fan, (x, y) ↦ 2⁻ᵏ(x, ε_k x, y), not an exact similarity: the plane's own horizontal direction is scaled by 2⁻ᵏ √(1 + ε_k²). The incidences, limits and local picture are the same, and the copies are homeomorphic (argued). The lighter ℝ² carrier with angular sectors would need tents redesigned near a, because the loop fan's feet approach a tangentially to the horizontal; it was not used."
+  ],
+  "questions": [
+    "Conjunct order. I followed Causal.loopFan_separates_locallyStronglyCausal's order, with ¬ LocallyStronglyCausal at position 15 where that witness has LocallyStronglyCausal. The 'at a' form is at 16, the four causally open negations are appended at 23–26, and the loop fan's own conjuncts come before them. I read the dispatch's list as a lower bound with the order free. If the keeper wants another order, the change is a reordering.",
+    "'¬ LocallyStronglyCausal (at a)' is read as two conjuncts: the node's negation (15), and the localised form 'no open W ∋ a is StronglyCausalOn W' (16), which is stronger. Both are proved.",
+    "'Absolutely minimal on every open' is read as ∀ W : Opens, AbsolutelyMinimalOn W (conjunct 4), with AbsolutelyMinimal beside it (3), as the dispatch says (either reading of DEC-167)."
+  ],
+  "kb_proposals": [
+    "The loop fan at every scale (Causal.scaledFan on Causal.scaledFanSet ⊆ ℝ³, CausalScaffold.LoopFanEveryScale; T-abs-loop-fan-every-scale) is the ETT-layer witness of globally_hyperbolic, causally_compact ⇏ locally_strongly_causal. Level k is the loop fan carried into the plane Y = ε_k X by (x, y) ↦ 2⁻ᵏ(x, ε_k x, y). Slopes in place of angles keep trigonometry out, and levelEmbed_injective reduces coherence within a level to Causal.loopγ_coherent. Across levels, the vertical holds only tops, whose heights 2⁻ᵏ(1 + ε_n) lie in the disjoint intervals (2⁻ᵏ, 2¹⁻ᵏ]. scaledFan_separates decides all 21 causality nodes. not_locallyStronglyCausal_of_globallyHyperbolic_bare shows that prop:GH_fortement_causal needs tarentin even for local strong causality.",
+    "Stacking scaled copies of a witness on a common axis creates new accumulation points: the tops of level k ≥ 1 lie on the segment that level k − 1 accumulates on. Here that kills causal openness in every form, though the single loop fan is argued causally open. The tool is a set that misses a whole level by its plane (V = W ∩ {Y < X}, scaledFan_not_causallyOpenFutureOn). Re-check causal openness and local strong causality away from the accumulation point for any multi-scale witness; neither transfers from one level."
+  ],
+  "notes": "One new Lean file (508 lines, 0 sorry, no ETT label, nothing marked **) and the three campaign files. No existing file was edited: not the ladder, not Causal.lean, not the README, not the kb, not the scaffold root. Graduation: the master either adds `import CausalScaffold.LoopFanEveryScale` to scaffold/CausalScaffold.lean, or moves the file to Causal/LoopFanEveryScale.lean with its import in Causal.lean; its one import is Causal.LscSeparations. The keeper then records the [[fails]] (T-lad-record-lsc-separations), because tools/ladder.py resolves witness names in Causal/ only. Ordering: on the ladder as on disk the entry settles 10 pairs; after the wave-46 records it settles 2. Either order gives 0 contradictions. Name clashes (kb/0082): grep -w of all 40 names over lean-causal/Causal, lean-causal/scaffold, lean-gx, lean-benzecri, lean, lean-egf, lean-syracuse and lean-yamabe finds none outside this file. The file adds no instance, attribute or notation. I ran no git command, no make check, no lake build without a module, and no tools/ladder.py emit-lean in any form. tools/ladder.py was only imported in memory (load, lean_index, model_path, import_chain, is_model, counterexample, matrix, closure, refuted, _contradictions, check, lean_names). The only build was `lake build CausalScaffold.LoopFanEveryScale`, after a --no-build dry run each time, so the concurrent closer's module was untouched. The simulation script is /tmp/lfes/sim.py, outside the repository.",
+  "corrected_after_audit": "AUDIT-1 (minor), applied by the master: (1) the checklist row 'pairwise disjoint' no longer cites scaledFanγ_coherent alone (ArcCoherent states no disjointness): across levels scaledFanArc_level_eq, within a level as in the loop fan (inside loopγ_coherent's proof). (2) Miscounts in this report, read as corrected: 10 causal_ladder calls (not 12; the list names 10), 8 haves and a haveI (not 7), 75 Causal modules in the closure besides the module itself (76 with it). Statements unchanged."
+}

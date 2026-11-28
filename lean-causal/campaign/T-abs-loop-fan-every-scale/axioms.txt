@@ -1,0 +1,118 @@
+# T-abs-loop-fan-every-scale — #check and #print axioms of every declaration of CausalScaffold.LoopFanEveryScale
+# produced 2026-11-27 on node1 by: cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true campaign/T-abs-loop-fan-every-scale/Probe.lean (exit 0)
+# after: taskset -c 0-11 lake build CausalScaffold.LoopFanEveryScale (Build completed successfully, 3157 jobs)
+# 40 declarations; each depends on [propext, Classical.choice, Quot.sound] only (no sorryAx)
+
+fanScale : ℕ → ℝ
+fanScale_pos : ∀ (k : ℕ), 0 < fanScale k
+@fanScale_two_mul_le : ∀ {k k' : ℕ}, k < k' → 2 * fanScale k' ≤ fanScale k
+fanScale_zero : fanScale 0 = 1
+fanScale_one : fanScale 1 = 1 / 2
+combEps_zero : combEps 0 = 1
+combEps_one : combEps 1 = 1 / 2
+levelEmbed : ℕ → ℝ × ℝ → ℝ × ℝ × ℝ
+continuous_levelEmbed : ∀ (k : ℕ), Continuous (levelEmbed k)
+levelEmbed_injective : ∀ (k : ℕ), Function.Injective (levelEmbed k)
+scaledFanArc : ℕ × ℕ → ℝ → ℝ × ℝ × ℝ
+scaledFanSet : Set (ℝ × ℝ × ℝ)
+scaledFanγ : ℕ × ℕ → ℝ → ↑scaledFanSet
+scaledFanA : ↑scaledFanSet
+scaledFan : Causality ↑scaledFanSet
+continuous_scaledFanγ : ∀ (i : ℕ × ℕ), Continuous (scaledFanγ i)
+scaledFanγ_val : ∀ (i : ℕ × ℕ) (t : ℝ), ↑(scaledFanγ i t) = levelEmbed i.1 (loopArc i.2 t)
+scaledFanγ_plane : ∀ (k n : ℕ) (t : ℝ), (↑(scaledFanγ (k, n) t)).2.1 = combEps k * (↑(scaledFanγ (k, n) t)).1
+@loopArc_snd_of_fst_eq_zero : ∀ {n : ℕ} {t : ℝ}, t ∈ Set.Icc 0 1 → (loopArc n t).1 = 0 → (loopArc n t).2 = 1 + combEps n
+@scaledFanArc_level_eq : ∀ {k k' n m : ℕ} {s s' : ℝ},
+  s ∈ Set.Icc 0 1 → s' ∈ Set.Icc 0 1 → scaledFanArc (k, n) s = scaledFanArc (k', m) s' → k = k'
+scaledFanγ_coherent : ArcCoherent scaledFanγ
+@scaledFan_le_iff : ∀ {U : Opens ↑scaledFanSet} {x y : ↑scaledFanSet},
+  scaledFan.le U x y ↔ x ∈ U ∧ x = y ∨ arcStep scaledFanγ U x y
+scaledFanP_val : ∀ (k n : ℕ), ↑(scaledFanγ (k, n) 0) = (fanScale k * combEps n, fanScale k * combEps k * combEps n, 0)
+scaledFanQ_val : ∀ (k n : ℕ), ↑(scaledFanγ (k, n) 1) = (fanScale k * -combEps n, fanScale k * combEps k * -combEps n, 0)
+scaledFanPeak_val : ∀ (k n : ℕ), ↑(scaledFanγ (k, n) (1 / 2)) = (0, 0, fanScale k * (1 + combEps n))
+scaledFanA_val : ↑scaledFanA = (0, 0, 0)
+tendsto_scaledFanP : ∀ (k : ℕ), Filter.Tendsto (fun n => scaledFanγ (k, n) 0) Filter.atTop (nhds scaledFanA)
+tendsto_scaledFanQ : ∀ (k : ℕ), Filter.Tendsto (fun n => scaledFanγ (k, n) 1) Filter.atTop (nhds scaledFanA)
+@abs_loopArc_fst_le : ∀ {n : ℕ} {t : ℝ}, t ∈ Set.Icc 0 1 → |(loopArc n t).1| ≤ 1
+@loopArc_snd_mem : ∀ {n : ℕ} {t : ℝ}, t ∈ Set.Icc 0 1 → 0 ≤ (loopArc n t).2 ∧ (loopArc n t).2 ≤ 2
+@scaledFanγ_coord_le : ∀ {k n : ℕ} {t : ℝ},
+  t ∈ Set.Icc 0 1 →
+    |(↑(scaledFanγ (k, n) t)).1| ≤ fanScale k ∧
+      |(↑(scaledFanγ (k, n) t)).2.1| ≤ fanScale k ∧
+        0 ≤ (↑(scaledFanγ (k, n) t)).2.2 ∧ (↑(scaledFanγ (k, n) t)).2.2 ≤ 2 * fanScale k
+@scaledFan_not_stronglyCausalOn : ∀ {W : Opens ↑scaledFanSet}, scaledFanA ∈ W → ¬scaledFan.StronglyCausalOn W
+scaledFan_not_locallyStronglyCausal : ¬scaledFan.LocallyStronglyCausal
+scaledFan_hasTimeFunction : scaledFan.HasTimeFunction
+scaledFanγ_zero_snd : ∀ (m : ℕ) (t : ℝ), (↑(scaledFanγ (0, m) t)).2.1 = (↑(scaledFanγ (0, m) t)).1
+scaledFanBelow : Opens ↑scaledFanSet
+@scaledFan_not_causallyOpenFutureOn : ∀ {W : Opens ↑scaledFanSet},
+  scaledFanγ (1, 0) (1 / 2) ∈ W → ¬scaledFan.CausallyOpenFutureOn W
+scaledFan_not_locallyCausallyOpenFuture : ¬scaledFan.LocallyCausallyOpenFuture
+scaledFan_separates : T2Space ↑scaledFanSet ∧
+  SecondCountableTopology ↑scaledFanSet ∧
+    scaledFan.AbsolutelyMinimal ∧
+      (∀ (W : Opens ↑scaledFanSet), scaledFan.AbsolutelyMinimalOn W) ∧
+        scaledFan.CausallyArcConnected ∧
+          scaledFan.PushUp ∧
+            scaledFan.LocallyPushUp ∧
+              scaledFan.IsCausal ∧
+                scaledFan.CausallyCompact ∧
+                  scaledFan.GloballyHyperbolic ∧
+                    scaledFan.HasTimeFunction ∧
+                      scaledFan.CurvesExtend ∧
+                        scaledFan.FutureOneConnected ∧
+                          (∀ (W : Opens ↑scaledFanSet), scaledFan.FutureOneConnectedOn W) ∧
+                            ¬scaledFan.LocallyStronglyCausal ∧
+                              (∀ (W : Opens ↑scaledFanSet), scaledFanA ∈ W → ¬scaledFan.StronglyCausalOn W) ∧
+                                ¬scaledFan.StronglyCausal ∧
+                                  ¬scaledFan.StronglyCausalOpen ∧
+                                    ¬scaledFan.Tarentin ∧
+                                      ¬scaledFan.ChronalNeighbours ∧
+                                        ¬scaledFan.CausallyPlain ∧
+                                          ¬scaledFan.HasChronalNeighbourEverywhere ∧
+                                            ¬scaledFan.CausallyOpenFuture ∧
+                                              ¬scaledFan.CausallyOpen ∧
+                                                ¬scaledFan.LocallyCausallyOpenFuture ∧ ¬scaledFan.LocallyCausallyOpen
+not_locallyStronglyCausal_of_globallyHyperbolic_bare : ¬∀ (M : Type) [inst : TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] (C : Causality M),
+    C.GloballyHyperbolic → C.HasTimeFunction → C.CausallyArcConnected → C.LocallyStronglyCausal
+'Causal.fanScale' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.fanScale_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.fanScale_two_mul_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.fanScale_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.fanScale_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.combEps_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.combEps_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.levelEmbed' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.continuous_levelEmbed' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.levelEmbed_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFanArc' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFanSet' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFanγ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFanA' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFan' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.continuous_scaledFanγ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFanγ_val' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFanγ_plane' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.loopArc_snd_of_fst_eq_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFanArc_level_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFanγ_coherent' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFan_le_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFanP_val' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFanQ_val' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFanPeak_val' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFanA_val' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.tendsto_scaledFanP' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.tendsto_scaledFanQ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.abs_loopArc_fst_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.loopArc_snd_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFanγ_coord_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFan_not_stronglyCausalOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFan_not_locallyStronglyCausal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFan_hasTimeFunction' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFanγ_zero_snd' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFanBelow' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFan_not_causallyOpenFutureOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFan_not_locallyCausallyOpenFuture' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.scaledFan_separates' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.not_locallyStronglyCausal_of_globallyHyperbolic_bare' depends on axioms: [propext, Classical.choice, Quot.sound]
