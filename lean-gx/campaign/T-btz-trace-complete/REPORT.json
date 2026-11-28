@@ -1,0 +1,87 @@
+{
+ "target": "T-btz-trace-complete",
+ "package": "lean-gx",
+ "files": [
+  "scaffold/GXScaffold/BTZ/TraceComplete.lean",
+  "scaffold/GXScaffold.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "labels": [
+  {
+   "label": "btzthm:BTZ_Cauchy-completness",
+   "tex_lines": [
+    1601,
+    1601
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.E0TraceComplete.trace_tendsto_atTop_of_complete",
+    "GX.E0TraceComplete.trace_tendsto_atTop_of_isCauchyComplete",
+    "GX.E0TraceComplete.exists_traceSig",
+    "GX.E0TraceComplete.trace_chart_local",
+    "GX.E0TraceComplete.pathLength_seg_unif",
+    "GX.E0TraceComplete.brokenLine",
+    "GX.E0TraceComplete.brokenLine_eq",
+    "GX.E0TraceComplete.continuous_brokenLine",
+    "GX.E0TraceComplete.tracePt",
+    "GX.E0TraceComplete.tracePt_mem",
+    "GX.E0TraceComplete.tracePt_mem_bspear",
+    "GX.E0TraceComplete.continuousOn_tracePt"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Sigma_0 complete (l.1601)",
+     "here": "carried",
+     "note": "read as the last two fields of Causal.Flat.IsCauchyComplete for Sig: CompleteSpace (InducedLengthSpace 2 Sig) and continuity of InducedLengthSpace.toSubtype into N (OQ-152 (b), the reading CauchySpear takes)"
+    },
+    {
+     "paper": "0 < R'' < R (target setting)",
+     "here": "weakened",
+     "note": "0 < R suffices (trace_tendsto_atTop_of_complete takes R'' = R/2 internally); the R'' form is a one-line corollary"
+    },
+    {
+     "paper": "InjOn psi W (setting of lem_blunt_spear)",
+     "here": "weakened",
+     "note": "not used"
+    },
+    {
+     "paper": "Sigma Cauchy (setting of lem_blunt_spear)",
+     "here": "weakened",
+     "note": "not used; spacelike Lipschitz is used (UnifSpacelike via trace_spacelikeDevelopment_openStrip)"
+    },
+    {
+     "paper": "tau_S continuous, above the shaft, graph equivalence on bspear v R",
+     "here": "carried",
+     "note": "the setting of GX.E0TraceDev.trace_tendsto_atTop, unchanged"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "BTZ_1.tex l.1601 (and again l.1603): « Since Σ₀ is complete, by Lemma lem:surface_complete lim τ₀ = +∞ » - a missing step, not an error. Lemma lem:surface_complete (ii) (l.781-790) asks the graph Σ over D_R^* to be complete. The completeness of Σ₀ does not give that by itself. The step needs the fact that a finite-length curve of Σ₀ ∩ S with r → 0 cannot converge in M₀ (here GX.E0AxisNoLimit.flat_curve_noLimit, from lem:blunt_spear_neighborhood's chart). The Lean proof supplies that argument directly. It never proves the completeness of the piece (hcomp of trace_tendsto_atTop): the broken line of Lemma 2.8(ii)'s proof is carried into Σ₀ and converges there, which contradicts flat_curve_noLimit."
+   ],
+   "questions": [
+    "« Σ₀ is complete » (l.1601): read as the Lipschitz completeness of Causal.Flat.IsCauchyComplete (CompleteSpace of the induced length space plus continuity of toSubtype into N), OQ-152 (b), the reading CauchySpear takes. The theorem uses only these two fields, not the Cauchy-surface field.",
+    "The proof (not the statement) uses OQ-158 reading (a), only through trace_spacelikeDevelopment_openStrip with Ω = openStrip R. The statement does not mention the strip's development, so it reads the same under either answer."
+   ]
+  }
+ ],
+ "instance": "Checked by hand, not as a Lean term (kb/0011: not cheap, because it needs the completeness of an induced length space). N = the flat regular part {r > 0} of E₀ (the instance the T-btz-axis-nolimit audit names for flat_curve_noLimit: W = the regular points of paperInY's image, ψ = the identification), v = 0, R = 1 (R'' = 1/2 for the target's form), τ_S z = 1/‖z‖, Sig = {τ = 1/r}. τ_S is continuous on 0 < ‖z‖. hpos: ‖z‖/2 < 1/‖z‖ iff ‖z‖² < 2, true for ‖z‖ ≤ 1. Graph equivalence: ψ∘paperInY is injective off the axis and rad > 0 on bspear. Metric: minkQ of a developed velocity is −2τ'r' + r'² + r²θ'² (hX of edist_le_seg_unif); on Sig (τ' = −r'/r²) it is (1 + 2/r²) dr² + r² dθ², positive definite, so Sig is a smooth spacelike surface, hence spacelike Lipschitz. Completeness: let ρ' = √(1 + 2/r²). Then ρ → −∞ at 0 (ρ' ≥ √2/r) and ρ → +∞ at ∞ (ρ' ≥ 1), and the induced distance is ≥ |Δρ|. So a Cauchy sequence stays in a compact annulus r₁ ≤ r ≤ r₂, where the length and subspace topologies agree (the metric is uniformly comparable to dr² + dθ²), and it converges. The same comparison gives continuity of toSubtype. Conclusion there: 1/r → +∞, consistent.",
+ "extra_decls": [
+  "GX.E0TraceComplete.pathLength_seg_unif",
+  "GX.E0TraceComplete.brokenLine",
+  "GX.E0TraceComplete.continuous_brokenLine",
+  "GX.E0TraceComplete.exists_traceSig"
+ ],
+ "kb_proposals": [
+  "Comparing the induced length of Σ ⊆ N with the pulled length of a parametrisation: Causal.Flat.pathLength_pulled_eq_of_local needs only, at each point, F = k • chartAt(q x)(q ·) near x. For the trace on a blunt spear chart this local fact is GX.E0TraceComplete.trace_chart_local (flatE0_regChart plus graphDev_eq_shift_sectorChartY).",
+  "To turn a sequence with summable step lengths into a continuous curve (for curve-based no-limit lemmas such as flat_curve_noLimit), use GX.E0TraceComplete.brokenLine u t = u ⌊t⌋₊ + (t − ⌊t⌋₊)•(u(⌊t⌋₊+1) − u ⌊t⌋₊), continuous on ℝ (continuous_brokenLine), and bound each point by the length of its piece with LocalLengthSpace.edist_le_pathLength. This needs a bound on the path length, not only on edist (pathLength_seg_unif)."
+ ],
+ "notes": "No upstream rebuild: lake build GXScaffold.BTZ.TraceComplete built only this module. The file imports the scaffold TraceDev and AxisNoLimit and graduates with or after them. pathLength_seg_unif repeats the proof of E0Surgery.edist_le_seg_unif (C1SpacelikeDevLip.lean:144) verbatim and stops one step before taking the infimum. If C1SpacelikeDevLip is ever edited, edist_le_seg_unif could be derived from it. The only change to scaffold/GXScaffold.lean is the import line plus `BTZ.TraceComplete` added to the root docstring's list of tools. No helper is named not_…."
+}
