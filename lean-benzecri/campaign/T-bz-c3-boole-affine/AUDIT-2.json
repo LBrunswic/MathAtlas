@@ -1,0 +1,43 @@
+{
+  "target": "T-bz-c3-boole-affine",
+  "auditor_round": 2,
+  "verdict": "minor",
+  "file": "scaffold/BenzecriScaffold/Chapter3/BooleAffine.lean",
+  "labels": [
+    {
+      "label": "bzthm:c3s2t2_algebre_boole_affine",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "AUDIT-1 major resolved. The module docstring writes the label without the ** mark, followed by « NOT marked (« le conjugué » depends on OQ-163, see SCOPE) ». The REPORT row is status partial, marked false, and its question names OQ-163 with the (a)/(b)/(c) consequences. The checklist row « complémentaire le conjugué » reads « ⚠ read (OQ-163) ». SCOPE says the row is NOT marked until OQ-163 is ruled. Under (b) or (c) it closes with no Lean change. Under (a) the statement of record uses « the conjugate meeting L only at 0 » (conjugue_eq_of_disjoint) or « the least distinguished conjugate » (conjugue_le_of_sontConjugues), and demiDroite_complement_conjugue is the witness that not every (a)-conjugate is the complement. OQ-163 is still OPEN in registers/DECISIONS.md:391, so unmarked/partial is the correct state. No Lean statement changed: theoreme2 (l.277–286) is exactly AUDIT-1's description (Convex, 0 ∈ W, span = ⊤, ¬ContientDroite; ∃ B : BooleanAlgebra (Distingues W) with le = inclusion, ⊤, ⊥, compl = conjugue W, ⊓, ⊔), and demiDroite_complement_conjugue (l.680) is unchanged in content."
+    },
+    {
+      "label": "bzcor:c3s2t2c_algebre_parties_affine",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Still unmarked and partial, which is correct. The AUDIT-1 minor is resolved: the REPORT row's questions now include OQ-163, and the checklist has a row « Cor.: the Boolean algebra of Théorème 2 … ⚠ read (OQ-163) ». The n = 0 question is still a REPORT question (DEC-177 covers Ch. 2 only). Opening the OQ is the loop's job, not the closer's. corollaire_algebre_parties (l.551–558) and cube_zero_corollaire (l.652–655) match AUDIT-1's description and are unchanged."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "command": "taskset -c 0-11 lake env lean scaffold/BenzecriScaffold/Chapter3/BooleAffine.lean (rc 0, no output); taskset -c 0-11 lake build BenzecriScaffold.Chapter3.BooleAffine (2005 jobs, success)",
+    "sorry": 0,
+    "axioms": "standard",
+    "axioms_probed": "theoreme2, algebreBoole, corollaire_algebre_parties, isoParties, cube_zero_corollaire, cube_simples, cube_simples_ncard, boule_simples, boule_simples_ncard, boule_hyps, conjugue_eq_of_isSommeConvexes, conjugue_le_of_sontConjugues, conjugue_eq_of_disjoint, demiDroite_complement_conjugue, cube_isoParties, cube_algebreBoole, simples_eq_empty_of_finrank_eq_zero, estDistingue_inf, estDistingue_sup, conjugue_inf, conjugue_sup: all [propext, Classical.choice, Quot.sound]. One-shot probe written under the campaign directory and deleted."
+  },
+  "scope": "Unchanged from AUDIT-1. This target's paths are the new BooleAffine.lean, the campaign directory, and one import line in scaffold/BenzecriScaffold.lean. That file also carries the ProprietesIII and FacetteDuale lines of other closers. The remaining dirty paths belong to other loops.",
+  "docstring_contract": "Present and true: title, labels with tex lines, NOT-marked notes, French quote block, Hypothesis checklist with both ⚠ rows (OQ-163, n = 0), SCOPE with the (a)/(b)/(c) consequences, provenance. One stale phrase (minor finding below).",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "scaffold/BenzecriScaffold/Chapter3/BooleAffine.lean:107-108 (SCOPE, first bullet)",
+      "what": "The bullet on « sup le produit » still says « No reading is needed for the mark ». No label is marked any more, so the phrase is stale. It could be misread as claiming a mark.",
+      "fix": "Reword to « No reading is needed here: … » (or « this part needs no reading »)."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/BenzecriScaffold.lean (aggregator)",
+      "what": "Carried over from AUDIT-1. The aggregator diff also carries the ProprietesIII and FacetteDuale import lines, which belong to other closers.",
+      "fix": "At graduation, commit only this target's import line, or co-ordinate with the other targets' graduations."
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-boole-affine",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter3/BooleAffine.lean"
+  ],
+  "import_lines": [
+    "scaffold/BenzecriScaffold.lean: import BenzecriScaffold.Chapter3.BooleAffine"
+  ],
+  "builds": true,
+  "build_command": "taskset -c 0-11 lake build BenzecriScaffold.Chapter3.BooleAffine (2005 jobs, nothing upstream rebuilt; no warning)",
+  "sorry_count": 0,
+  "axioms": "propext, Classical.choice, Quot.sound only (#print axioms of theoreme2, corollaire_algebre_parties, cube_zero_corollaire, cube_simples_ncard, boule_simples_ncard, conjugue_eq_of_isSommeConvexes, demiDroite_complement_conjugue, cube_isoParties); no axiom added, no named hypothesis",
+  "labels": [
+    {
+      "label": "bzthm:c3s2t2_algebre_boole_affine",
+      "tex_lines": [
+        524,
+        533
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.theoreme2",
+        "Benzecri.algebreBoole",
+        "Benzecri.Distingues",
+        "Benzecri.estDistingue_inf",
+        "Benzecri.conjugue_inf",
+        "Benzecri.estDistingue_sup",
+        "Benzecri.conjugue_sup",
+        "Benzecri.inf_sup_le_of_estDistingue",
+        "Benzecri.conjugue_le_of_sontConjugues",
+        "Benzecri.conjugue_eq_of_disjoint",
+        "Benzecri.conjugue_eq_of_isSommeConvexes",
+        "Benzecri.demiDroite_complement_conjugue",
+        "Benzecri.cube_algebreBoole"
+      ],
+      "hypotheses": [
+        {
+          "paper": "W convexe de E contenant l'origine, engendrant E, sans droite",
+          "here": "carried",
+          "note": "Convex ℝ W, 0 ∈ W, Submodule.span ℝ W = ⊤, ¬ ContientDroite W; any real vector space, any dimension"
+        },
+        {
+          "paper": "sous-espaces distingués (Déf. 3)",
+          "here": "carried",
+          "note": "EstDistingue W (IsCompl built in)"
+        },
+        {
+          "paper": "complémentaire le conjugué; inf l'intersection; sup le produit; 1 = E; 0 = l'origine",
+          "here": "carried",
+          "note": "theoreme2: ∃ B : BooleanAlgebra (Distingues W) whose ≤ is inclusion, ⊤ = E, ⊥ = 0, compl = conjugue W, ⊓ = ∩, ⊔ = sum"
+        },
+        {
+          "paper": "on prend comme complémentaire le conjugué",
+          "here": "⚠ read (OQ-163)",
+          "note": "conjugue W (Prop. 3 2°); under (b) or (c) closes with no Lean change; under (a) the statement of record is with « the conjugate meeting L only at 0 » (conjugue_eq_of_disjoint) or « the least distinguished conjugate » (conjugue_le_of_sontConjugues)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "No proof is printed (l.524 « De là on déduit aussitôt le »). The derivation is not immediate from Théorème 1 alone: it uses that the projection P_L along the conjugate preserves every distinguished subspace (Théorème 1's proof step, projection_mem_of_mem) three times — for closure under ∩ (conjugate L' + D', De Morgan), under + (conjugate L' ∩ D') and for distributivity.",
+        "« comme sup le produit » (l.531; so printed in the scan, journal p. 267) means the sum L + D: once inf is ∩ the order is inclusion and the sup is forced to be L ⊔ D, which is distinguished (estDistingue_sup)."
+      ],
+      "questions": [
+        "OQ-163 (Déf. 4) and « on prend comme complémentaire le conjugué »: the complement is Prop. 3 2°'s unique supplementary conjugate (conjugue W L). Under (b) it is the conjugate; under (c) the only distinguished conjugate (conjugue_eq_of_isSommeConvexes); under (a) (no supplementarity) it is the least distinguished conjugate and the only conjugate meeting L at 0 (conjugue_le_of_sontConjugues, conjugue_eq_of_disjoint), but not every (a)-conjugate is the complement: ℝ is (a)-conjugate to itself relative to [0,∞[, while its complement is 0 (demiDroite_complement_conjugue). The row is left unmarked (AUDIT-1) until OQ-163 is ruled: under (b) or (c) it closes with no Lean change; under (a) the statement of record is with « the conjugate meeting L only at 0 » or « the least distinguished conjugate »."
+      ]
+    },
+    {
+      "label": "bzcor:c3s2t2c_algebre_parties_affine",
+      "tex_lines": [
+        535,
+        543
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.corollaire_algebre_parties",
+        "Benzecri.isoParties",
+        "Benzecri.isoParties_apply",
+        "Benzecri.EstSimple",
+        "Benzecri.simples",
+        "Benzecri.simples_finite_ncard_le",
+        "Benzecri.eq_sSup_simples_le",
+        "Benzecri.le_sSup_iff_mem_of_estSimple",
+        "Benzecri.exists_estSimple_le",
+        "Benzecri.inf_eq_bot_of_estSimple",
+        "Benzecri.estDistingue_sSup",
+        "Benzecri.estDistingue_sSup_simples",
+        "Benzecri.sSup_le_sSup_iff_of_simples",
+        "Benzecri.inf_sSup_eq_bot",
+        "Benzecri.ncard_le_finrank_sSup",
+        "Benzecri.simples_eq_empty_of_finrank_eq_zero",
+        "Benzecri.cube_zero_corollaire",
+        "Benzecri.cube_simples",
+        "Benzecri.cube_simples_ncard",
+        "Benzecri.cube_estSimple_coord",
+        "Benzecri.cube_isoParties",
+        "Benzecri.boule_hyps",
+        "Benzecri.boule_simples",
+        "Benzecri.boule_simples_ncard"
+      ],
+      "hypotheses": [
+        {
+          "paper": "E de dimension finie n (and Théorème 2's W)",
+          "here": "carried",
+          "note": "FiniteDimensional ℝ E, n = Module.finrank ℝ E; W's four hypotheses"
+        },
+        {
+          "paper": "cardinal compris entre 1 et n",
+          "here": "strengthened",
+          "note": "the lower bound is carried under 0 < n only; false at n = 0"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "« imprecise » (l.537–538): « le cardinal est compris entre 1 et n » fails at n = 0. For E = 0 (e.g. W = [−1,1]⁰) the hypotheses of Théorème 2 hold, there is exactly one distinguished subspace (0 = E) and no simple one, so the Boolean algebra is the algebra of parts of the empty set (cardinal 0), and is not order-isomorphic to the parts of any nonempty set (cube_zero_corollaire, simples_eq_empty_of_finrank_eq_zero). Proved corrected form: card ≤ n always, card ≥ 1 when n ≥ 1 (corollaire_algebre_parties). Compare OQ-45 (a).",
+        "Everything else is proved as printed: the simple distinguished subspaces form a finite set S with |S| ≤ n, T ↦ ∑ T is an order isomorphism Set S ≃o {distinguished subspaces} (isoParties), and every distinguished subspace is the sum of exactly one set of simple ones. The extremes are attained: the cube [−1,1]ⁿ has exactly the n coordinate axes as simple subspaces (cube_simples, cube_simples_ncard), the closed unit ball of a nonzero Euclidean space has the single simple subspace E (boule_simples_ncard)."
+      ],
+      "questions": [
+        "« l'algèbre des parties d'un ensemble fini » is formalized as an order isomorphism with Set (simples W) (an order isomorphism of Boolean algebras preserves all Boolean operations); « famille » is read as a set of simple subspaces (no repetition — the uniqueness needs it).",
+        "« 1 correspond à la sphère » is read as the closed unit ball (the convex body bounded by the sphere) and as an example only, not as « cardinal 1 iff W is a ball » (cardinal 1 means only that W has no nontrivial decomposition; the converse is not claimed here, nor formalized).",
+        "Is the degenerate case E = 0 (n = 0) implicitly excluded by « dimension finie n »? If so the printed statement is the formalized one with 0 < n, and the row could be marked under that ruling.",
+        "OQ-163: the Corollary speaks of Théorème 2's Boolean algebra, whose complement is « le conjugué »; the isomorphism isoParties is an order isomorphism and does not depend on the reading, but the row inherits Théorème 2's OQ-163 dependence."
+      ]
+    }
+  ],
+  "instances": [
+    "cube [−1,1]ⁿ: cube_hyps (Fibres) gives the hypotheses; cube_algebreBoole : BooleanAlgebra (Distingues (cube n)); cube_isoParties : Set (simples (cube n)) ≃o Distingues (cube n); cube_simples, cube_simples_ncard = n; cube_estSimple_coord (an EstSimple term)",
+    "closed unit ball of a real inner product space: boule_hyps (convex, 0, spanning, no line), boule_simples = {⊤}, boule_simples_ncard = 1 (Nontrivial E)",
+    "dimension 0: cube_zero_corollaire",
+    "reading (a) of Déf. 4: demiDroite_complement_conjugue ([0,∞[ ⊂ ℝ)"
+  ],
+  "extra_decls": [
+    "Benzecri.mem_coord_iff",
+    "Benzecri.estDistingue_sSup",
+    "Benzecri.inf_sSup_eq_bot",
+    "Benzecri.estDistingue_inf",
+    "Benzecri.estDistingue_sup",
+    "Benzecri.inf_sup_le_of_estDistingue"
+  ],
+  "kb_proposals": [
+    "Chapter3/BooleAffine: the distinguished subspaces are closed under ⊓ and ⊔ with conjugue (L ⊓ D) = conjugue L ⊔ conjugue D and conjugue (L ⊔ D) = conjugue L ⊓ conjugue D (estDistingue_inf/sup, conjugue_inf/sup); the Boolean algebra is algebreBoole on Distingues W, whose order is the Subtype order (so Subtype lemmas apply); Théorème 3 (projective) should transfer through it.",
+    "Chapter3/BooleAffine: for finite-dimensional counting arguments on distinguished subspaces use simples W, isoParties, le_sSup_iff_mem_of_estSimple (a simple subspace below a finite sum of simple ones is one of them) and ncard_le_finrank_sSup; a minimal element by finrank is obtained with (measure finrank).wf.has_min.",
+    "Building a BooleanAlgebra on a subtype of a non-distributive lattice: Subtype.lattice + DistribLattice.ofInfSupLe + Subtype.boundedOrder, then a structure instance with compl, inf_compl_le_bot, top_le_sup_compl; mark the def @[implicit_reducible] (a class-valued def warns otherwise at this pin)."
+  ],
+  "notes": "Fix round 1 (AUDIT-1): Théorème 2 unmarked (partial, OQ-163); no Lean statement changed. One file, 0 sorry, no warning. the Corollaire unmarked (partial) because its lower bound 1 fails at n = 0. The page image (journal p. 267) was checked: transcription of both statements agrees (« le produit », « entre 1 et n », « sphère »). Import line appended to scaffold/BenzecriScaffold.lean (the file now also carries ProprietesIII's line, added by another closer).",
+  "fix_round": 1
+}

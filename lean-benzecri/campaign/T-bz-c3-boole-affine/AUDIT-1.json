@@ -1,0 +1,49 @@
+{
+  "target": "T-bz-c3-boole-affine",
+  "auditor_round": 1,
+  "verdict": "major",
+  "file": "scaffold/BenzecriScaffold/Chapter3/BooleAffine.lean",
+  "labels": [
+    {
+      "label": "bzthm:c3s2t2_algebre_boole_affine",
+      "faithful": true,
+      "marked_correctly": false,
+      "notes": "The statement is sound. theoreme2 carries Théorème 2's hypotheses on W: Convex, 0 ∈ W, span = ⊤, ¬ContientDroite, in any real vector space. It concludes ∃ B : BooleanAlgebra (Distingues W) with ≤ = inclusion, ⊤ = E, ⊥ = 0, compl = conjugue W, ⊓ = ∩, ⊔ = +. algebreBoole is a real structure (Subtype lattice, distributivity proved, complement laws from IsCompl), so the statement is not vacuous. The upstream definitions were checked (Fibres.lean: SontConjugues, FibreCylindriquement/EstDistingue with IsCompl, conjugue via choice, conjugue_eq for uniqueness among supplementary conjugates). « sup le produit » read as + is sound: once inf is ∩ the order is inclusion and the sup is forced (estDistingue_sup). The reading (c) claim is correct: conjugue_eq_of_isSommeConvexes needs hM : EstDistingue W M, and that suffices because the algebra's carrier is the distinguished subspaces. Non-distinguished (c)-conjugates do exist, so the hypothesis is needed. An auditor's example, worked by hand and not checked in Lean: W = [0,1]^3, L = span(e1,e2), M = span(e1−e2, e3). Then M ∩ W = [0,1]e3, the sum L∩W + M∩W = W is a bijection, and M is neither supplementary to L nor distinguished. The MARK is the problem, under reading (a) of OQ-163 (OPEN, and the formalization of record). Even among distinguished subspaces the conjugate is not unique: for W = [0,∞[, both ⊤ and ⊥ are distinguished (a)-conjugates of ⊤ (demiDroite_complement_conjugue). So « on prend comme complémentaire le conjugué » with the definite article has no unique referent. Read as « any conjugate », it is false. The closer saves it with a reading (« le conjugué » = the one conjugate that can be a complement, which conjugue_le_of_sontConjugues and conjugue_eq_of_disjoint justify), and the REPORT says the mark must be withdrawn if the author reads (a) otherwise. That is a mark contingent on an OPEN ruling. It does not hold under every live reading, as the dispatch required, and CAMPAIGN.md makes a row resting on a reading `partial`."
+    },
+    {
+      "label": "bzcor:c3s2t2c_algebre_parties_affine",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked and partial; that is correct. The n = 0 finding is real. cube 0 = {0} ⊂ ℝ^0 satisfies Théorème 2's hypotheses, has one distinguished subspace (0 = E) and no simple one. Its algebra is P(∅), and no Set X with X nonempty is order-isomorphic to it (cube_zero_corollaire, proved). The printed « compris entre 1 et n » is an empty range at n = 0, so as printed the statement is false there. DEC-177 (n ≥ 1 implied) rules on Ch. 2 only, so it does not cover Ch. 3: partial with the REPORT's question is the honest state, pending an OQ. corollaire_algebre_parties proves everything else as printed: simples finite, ncard ≤ n, ≥ 1 when n ≥ 1, an order isomorphism Set (simples W) ≃o Distingues W given by T ↦ sSup T, and the ∃! decomposition of every distinguished subspace as a sum of simple ones. It is ≥ the paper for n ≥ 1. The instances are real theorems, not stubs. cube_simples is a set equality with the n coordinate axes and cube_simples_ncard = n. boule_simples = {⊤} and boule_simples_ncard = 1 for a nontrivial real inner product space; boule_hyps proves the hypotheses. The Corollary refers to Théorème 2's Boolean algebra, so it also inherits OQ-163 (see the minor finding)."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "command": "taskset -c 0-11 lake env lean scaffold/BenzecriScaffold/Chapter3/BooleAffine.lean (rc 0, no output; elaboration confirmed by a throwaway copy with an injected error, which reported only that error)",
+    "sorry": 0,
+    "axioms": "standard",
+    "axioms_probed": "theoreme2, algebreBoole, corollaire_algebre_parties, isoParties, cube_zero_corollaire, cube_simples, cube_simples_ncard, boule_simples, boule_simples_ncard, conjugue_eq_of_isSommeConvexes, conjugue_le_of_sontConjugues, conjugue_eq_of_disjoint, demiDroite_complement_conjugue, cube_isoParties, cube_algebreBoole, simples_eq_empty_of_finrank_eq_zero: all [propext, Classical.choice, Quot.sound]. Probe written under the campaign directory and deleted."
+  },
+  "scope": "In git status, this target's paths are scaffold/BenzecriScaffold/Chapter3/BooleAffine.lean (new), the campaign directory, and the line `import BenzecriScaffold.Chapter3.BooleAffine` in scaffold/BenzecriScaffold.lean. That file also carries the ProprietesIII and FacetteDuale import lines, which belong to other closers (the REPORT discloses this). The other dirty paths (lean-causal, papers/*/certificate, roadmap and programme tomls) belong to other loops and are not attributable to this target.",
+  "docstring_contract": "Present and accurate: title, labels with tex line refs (526, 535; correct), French quote block, Hypothesis checklist, SCOPE, provenance line. The SCOPE discloses the OQ-163 reading, but states it as grounds for the mark rather than as a reason for partial.",
+  "findings": [
+    {
+      "severity": "major",
+      "where": "scaffold/BenzecriScaffold/Chapter3/BooleAffine.lean:14 (module docstring mark) and :85-93 (SCOPE); REPORT.json labels[0] status closed / marked true",
+      "what": "Théorème 2 is marked closed, but the mark rests on a reading of « le conjugué » that is contingent on OQ-163, which is OPEN. Under reading (a), the formalization of record, a distinguished subspace can have several distinguished conjugates. For example ⊤ relative to [0,∞[ is (a)-conjugate to both ⊤ and ⊥ (demiDroite_complement_conjugue), so the printed complement has no unique referent, and read as « any conjugate » it is false. The REPORT concedes the mark must be withdrawn under that reading. A mark must hold under every live reading (the dispatch's rule), and CAMPAIGN.md makes a row resting on a reading `partial`. The mathematics is not at fault: the Lean is the strongest true form under (a), and is exactly the paper under (b) and (c).",
+      "fix": "Unmark `bzthm:c3s2t2_algebre_boole_affine` in the module docstring (write it without the ** mark). Set the REPORT row to status partial, marked false, with a question naming OQ-163: under (b) or (c) the row is closed as is, with no Lean change; under (a) it is a restatement (« the conjugate meeting L at 0 », conjugue_eq_of_disjoint; or « the least distinguished conjugate », conjugue_le_of_sontConjugues). Reword SCOPE accordingly. Re-mark after a DEC ruling of (b) or (c). Alternatively the loop can open an OQ asking whether the definite article settles (a) for Théorème 2, but the closer cannot self-rule it."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[1].questions; BooleAffine.lean SCOPE (Corollaire)",
+      "what": "The Corollary speaks of « l'algèbre de Boole » of Théorème 2, so its complement inherits OQ-163 as well as the n = 0 question. Its row is already partial, so no mark is affected, but its questions name only the n = 0 issue.",
+      "fix": "Add OQ-163 to the Corollary row's questions. Raise the n = 0 question as an OQ for Ch. 3 (DEC-177 ruled n ≥ 1 for Ch. 2 only), citing cube_zero_corollaire."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/BenzecriScaffold.lean",
+      "what": "The working-tree diff of the aggregator adds three import lines: BooleAffine (this target) and ProprietesIII and FacetteDuale (other closers, FacetteDuale possibly still running).",
+      "fix": "When graduating, commit only this target's import line, or co-ordinate the aggregator commit with the other targets' graduations, so that this target's commit does not carry another closer's unaudited module."
+    }
+  ]
+}
