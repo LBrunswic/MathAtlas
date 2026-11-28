@@ -1249,3 +1249,8 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 0df97adf 9242348d 5258b1b2 7f94143a (+ statuses)
 - wall time: 06:51–15:30; agents in parallel: 3 closers, 3 auditors
 - next: plan (promote T-bz-c3-sature, -points-extremaux, -boole-affine and the rest unblocked)
+
+## 2026-11-28 15:50 · plan · roadmap-planner (rule 2)
+- Six Chapter 3 targets promoted to ready (T-bz-c3-boole-affine, -facette-duale, -proprietes-i-ii, -sature, -points-extremaux, -dualite-interieur), re-checked against the 17 strict modules; -reunion-convexes-sphere's dependency on -dualite-interieur dropped (its Corollary is Chapter 2's exists_forall_pos). Chapter 3: 43 of 90 rows closed; 35 without Lean (33 in Chapter 3 targets, 2 also needing Chapter 4); 12 partial waiting only on rulings (OQ-160, -162, -163, -164). No new question.
+- gates: roadmap ✓ (314 targets), atlas ✓
+- next: three of the six ready (lean-benzecri)
