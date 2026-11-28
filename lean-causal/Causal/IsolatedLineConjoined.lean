@@ -20,7 +20,7 @@ part of the `from`:
 
 > Since T-lad-record-sc-open-edge (2026-11-23) `from` also has strongly_causal and
 > strongly_causal_open: Causal.isolatedLine_scOpen_without_tarentin
-> (Causal/SCOpenWithoutTarentin.lean:282) states StronglyCausal ∧ CausallyOpen ∧
+> (Causal.SCOpenWithoutTarentin) states StronglyCausal ∧ CausallyOpen ∧
 > StronglyCausalOpen of the line (with ¬ Tarentin) (`programme/ladder.toml:2021–2023`, the entry
 > `→ has_chronal_neighbour`, witness `Causal.isolatedLine_separates_chronalNeighbours`)
 

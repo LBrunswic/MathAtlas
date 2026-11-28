@@ -45,7 +45,7 @@ DEC-13, `Causal.Inextensible`).
   are constant (`rat_not_causallyConnectedCurves`); it is not causally arc-connected
   (`rat_not_causallyArcConnected`) nor absolutely minimal (`rat_not_absolutelyMinimal`). Under
   causal arc-connectedness and causality, connectedness follows from "every causal curve lies on
-  an inextensible one" (`CurvesExtend`, `CauchyExtension.lean:82`;
+  an inextensible one" (`Causality.CurvesExtend`, `Causal.CauchyExtension`;
   `causallyConnectedCurves_of_curvesExtend`). OQ-20 (open): should connectedness also read maximal
   chains of `(M, ≤)`, as completeness does under DEC-21?
 * **(b) Completeness.** `CausallyCompleteCurves`: along every inextensible causal curve, every

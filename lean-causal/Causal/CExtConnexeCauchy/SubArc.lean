@@ -51,7 +51,7 @@ and the pitfall it answers (kb/0212):
    `γ` of `W` over `J` and a strictly increasing, continuous `ψ : I → J` with ordconnected image;
    an arbitrary causal curve is so on the sub-interval `I₀` of `exists_tailFree_retraction`, and
    constant off it. It is the proof of `exists_inextensible_of_t1_secondCountable`
-   (`Causal/CurvesExtendSecondCountable.lean:1376`) with the morphism of the maximal tail-free
+   (`Causal.CurvesExtendSecondCountable`) with the morphism of the maximal tail-free
    curve kept (`tailFreeMor`).
 4. **Inextensible curves of a smaller open set** (`Causality.Inextensible.exists_subArc_of_le`):
    an inextensible curve of `W ≤ U`, trimmed, is tail-free, still inextensible in `W`, has the

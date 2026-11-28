@@ -5,7 +5,7 @@ import Causal.LevinTimeFunction
 # Lemma K's characterisations in second countable spacetimes, without `CurvesExtend` (Levin's theorem)
 
 No label is marked. This module discharges the named model fact `Causality.CurvesExtend`
-(`Causal/CauchyExtension.lean:82`) in `Causal.LemmaKSC`'s two characterisations of Lemma K, in
+(`Causal.CauchyExtension`) in `Causal.LemmaKSC`'s two characterisations of Lemma K, in
 every **second countable** tarentin globally hyperbolic Hausdorff spacetime, with no measure:
 the curves extend by Levin's theorem for closed preorders
 (`Causality.curvesExtend_of_secondCountable`). Second countability is part of ETT's own definition

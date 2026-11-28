@@ -5,9 +5,9 @@ import Causal.Geroch
 # Every causal curve lies on an inextensible one, when there is a time function
 
 No label is marked. This module discharges the model fact `Causality.CurvesExtend`
-(`Causal/CauchyExtension.lean:82`: every future causal curve over a segment lies on an
+(`Causal.CauchyExtension`: every future causal curve over a segment lies on an
 inextensible causal curve over some interval), which the library carries as a named hypothesis
-(kb/0012) of `IsCauchySurface.isAcausal` (`Causal/CauchyExtension.lean:110`), of lemma K
+(kb/0012) of `Causality.IsCauchySurface.isAcausal` (`Causal.CauchyExtension`), of lemma K
 (`Causal.CompactCauchy`), of `CauchyDiamond` and of `SubExtension`. It is model-free (ETT
 generality, namespace `Causal.Causality`) and imports no model (ETT layer since
 T-abs-hoist-time-function: its static and Minkowski instances are in
@@ -78,7 +78,7 @@ whose inverse `T(K) → K` (`invFunOn T K`) is a causal curve: a curve with its 
 
 | hypothesis | here |
 |---|---|
-| `CurvesExtend` holds (the named fact of `CauchyExtension.lean:82`) | ✓ proved, for every open `W` and every interval, not only `⊤` and segments |
+| `CurvesExtend` holds (the named fact `Causality.CurvesExtend` of `Causal.CauchyExtension`) | ✓ proved, for every open `W` and every interval, not only `⊤` and segments |
 | a time function `t` (Barbot l.498–500) | ⚠ reading: a continuous `T`, strictly increasing along `≤_M`; DEC-10's openness is not used. It is the only hypothesis of the general theorem: no separation, no countability, no causal arc-connectedness, no causality (implied) |
 | `t` proper, fibers spacelike (l.498–502) | ⚠ weakened: not used |
 | "diffeomorphism onto the entire `t(M)`" (l.503–504) | ⚠ reading: `T ∘ γ = id` on `J` (a homeomorphism onto `J`, no smoothness in ETT); `J = ℝ` when `T` is a Cauchy time function |

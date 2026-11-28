@@ -106,7 +106,7 @@ imports it.
 * Sbierski uses Step 2.1 for `γ|[−s₀, −s₁]` (`:606`), a curve over another segment: the `[0, 1]`
   notion after an affine change of parameter (`Causal.TimelikeHomotopy`'s SCOPE).
 * `minkowski_chronalCurveOn_iff` is the Minkowski cousin of `timelikeLine_chronalCurveOn_iff`
-  (`Causal/TimelikeHomotopy.lean:666`), and is of general use for building chronal curves of
+  (`Causal.TimelikeHomotopy`), and is of general use for building chronal curves of
   `ℝ^{1,n}`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.

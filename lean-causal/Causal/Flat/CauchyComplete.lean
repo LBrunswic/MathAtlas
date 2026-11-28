@@ -2399,7 +2399,7 @@ theorem connectedSpace_preimage_of_splitting {Y : Type*} [TopologicalSpace Y]
 
 `exists_splitting_of_hasChronalCausalFlow` asks a chronal causal flow and `IsAcausal S`. The flow
 is `Flat.flat_hasChronalCausalFlow` (`Splitting.lean`, proved, under `[SecondCountableTopology M]`);
-acausality is `IsCauchySurface.isAcausal` (`Causal/CauchyExtension.lean:110`), whose two named
+acausality is `Causality.IsCauchySurface.isAcausal` (`Causal.CauchyExtension`), whose two named
 hypotheses are discharged here for a flat spacetime carrying a causal flow:
 `flatCausality_causallyArcConnected` (charts + absolute minimality) and
 `curvesExtend_of_isCausalFlow` (prolong a causal segment by two orbits). -/

@@ -17,7 +17,7 @@ marked**. The statement, as the target words it:
 > one of its members (uncountable cofinality, through T-abs-omega-one-constant); maximal is
 > inextensible
 
-The fact it discharges, as the library states it (`Causal/CauchyExtension.lean:79–81`):
+The fact it discharges, as the library states it (the docstring of `Causality.CurvesExtend`, `Causal.CauchyExtension`):
 
 > **A model fact, carried as a named hypothesis** (kb/0012): every future causal curve over a
 > segment lies on an inextensible causal curve. In a Lorentzian manifold this is the existence of
@@ -93,7 +93,7 @@ rationals of the excess.
 | "with no other hypothesis" | ✓ no T2, no causality (`IsCausal`), no time function, no causal arc-connectedness, no local compactness; any causality |
 | `CurvesExtendOn W` for every open `W` | ✓ `curvesExtendOn_of_t1_secondCountable C W`; ⚠ weakened (stronger theorem): any interval, not only segments (`exists_inextensible_of_t1_secondCountable`) |
 | hence `CurvesExtend` | ✓ `curvesExtend_of_t1_secondCountable`, through `curvesExtendOn_top` |
-| the definitions | ✓ the library's: `Causality.CurvesExtendOn` (`Causal/CBG/CausalConvex.lean:153`), `Causality.CurvesExtend` (`Causal/CauchyExtension.lean:82`), `Causality.Inextensible` (`Causal/Inextensible.lean:184`, DEC-11, DEC-13) |
+| the definitions | ✓ the library's: `Causality.CurvesExtendOn` (`Causal/CBG/CausalConvex.lean:153`), `Causality.CurvesExtend` (`Causal.CauchyExtension`), `Causality.Inextensible` (`Causal/Inextensible.lean:184`, DEC-11, DEC-13) |
 
 ## SCOPE (disclosed)
 
@@ -107,7 +107,7 @@ rationals of the excess.
   reparametrisations is needed, kb/0094). It is not unique, and its interval is not normalised.
 * **Library prose that this module makes outdated** (not edited here, a frozen strict library):
   * the docstring of `Causality.CurvesExtend` ("the library does not prove it for topological
-    spacetimes", `Causal/CauchyExtension.lean:81`);
+    spacetimes", `Causal.CauchyExtension`);
   * the SCOPE of `Causal.CurvesExtend` ("whether `CurvesExtend` holds in every strongly causal
     spacetime is open here", `Causal/CurvesExtend.lean:97–98`).
 
@@ -1427,7 +1427,7 @@ theorem curvesExtendOn_of_t1_secondCountable [T1Space M] [SecondCountableTopolog
     (C : Causality M) (W : Opens M) : C.CurvesExtendOn W :=
   fun _ _ _ hab hc => exists_inextensible_of_t1_secondCountable (hc.causalCurveIn_Icc hab)
 
-/-- **`CurvesExtend`**, the named model fact of kb/0012 (`Causal/CauchyExtension.lean:82`), holds
+/-- **`CurvesExtend`**, the named model fact of kb/0012 (`Causality.CurvesExtend`, `Causal.CauchyExtension`), holds
 in every T1, second countable space with a causality: the witness of the ladder's premise-free
 fact `curves_extend` (standing T1, second countable). -/
 theorem curvesExtend_of_t1_secondCountable [T1Space M] [SecondCountableTopology M]

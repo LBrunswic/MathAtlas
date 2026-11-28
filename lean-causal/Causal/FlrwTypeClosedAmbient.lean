@@ -56,7 +56,9 @@ J. Sbierski, *The C⁰-inextendibility of a class of FLRW spacetimes*,
    with `timelikeLine_not_pastBoundaryChart`. (B)'s time reversal applies there too
    (`timelikeLine_posHalfLine_not_futureBoundaryChart_of_flrwTypeB`), with (B) for `S ⊆ I⁺(x, W)`
    carried from `ℝ` by the extension `exp_isSpacetimeExtension.dual`; it agrees with
-   `timelikeLine_not_futureBoundaryChart`.
+   `timelikeLine_not_futureBoundaryChart`. The time reversals of items 4 and 5 are not vacuous:
+   `Causal.minkowski_pastBoundaryChart` (item 3), read at `(minkowski n).dual` through
+   `Causality.dual_dual` (`rfl`), inhabits `FutureBoundaryChart` at `0` for the half-space `{t > 0}`.
 
 ## The fields of the chart that are used
 
@@ -77,8 +79,8 @@ once more: `I⁻(γ̃ s₀, Ũ)` is an open neighbourhood of `p` (`Causality.isO
 | `W` future one-connected | ⚠ weakened: not used, by either theorem |
 | `≤_W` antisymmetric | ⚠ strengthened (the target's hypothesis): `≤_M` antisymmetric (`C.IsCausal`), or `≤_U` for an open `U ≥ W ⊔ Ũ`; `≤_W` follows |
 | — (none) | ⚠ strengthened (the target's hypothesis): `{z ∣ z.1 ≤_M z.2}` closed, or `≤_U` closed in `U × U` |
-| (A) | ✓ carried, in the shape of `FlrwType.lean:318–319` (the (A)-theorem) |
-| (B) | ✓ carried, in the shape of `FlrwType.lean:320` (the (B)-theorem) |
+| (A) | ✓ carried by the (A)-theorem, in the shape of the hypothesis `hA` of `Causality.not_pastBoundaryChart_of_flrwType` (`Causal.FlrwType`) |
+| (B) | ✓ carried by the (B)-theorem, in the shape of the hypothesis `hB` of `Causality.not_pastBoundaryChart_of_flrwType` (`Causal.FlrwType`) |
 | (A) **and** (B) | ⚠ weakened: either one alone |
 
 ## SCOPE (disclosed)
@@ -315,7 +317,7 @@ theorem GloballyHyperbolic.not_flrwTypeA_of_pastBoundaryChart [T2Space M] (hT : 
 /-- **(A) for future-inextensible curves is (A) for the reversed causality**: if every
 future-inextensible chronal curve of `W` has chronological past `W`, then every past-inextensible
 chronal curve of `W` for `C.dual` has chronological future `W` for `C.dual`. This is the
-conversion inside `not_futureBoundaryChart_of_flrwType` (`FlrwType.lean:364–378`). -/
+conversion inside `Causality.not_futureBoundaryChart_of_flrwType` (`Causal.FlrwType`). -/
 theorem dual_iUnion_Iplus_eq_of_futureInextensible
     (hA : ∀ (I : Set ℝ) (γ : ℝ → M), C.FutureInextensible W I γ →
       (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iminus W {γ t} = W) :
