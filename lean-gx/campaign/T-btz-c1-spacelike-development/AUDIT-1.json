@@ -1,0 +1,30 @@
+{
+  "target": "T-btz-c1-spacelike-development",
+  "auditor_round": 1,
+  "verdict": "clean",
+  "labels": [
+    {
+      "label": "btzlem:surface_complete",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked in both new modules and the REPORT row is partial (T-btz-scope plus the reading of 'spacelike'); nothing is claimed in full. (1) Refutation checked: Causal.Flat.SpacelikeDevelopment (lean-causal Causal/Flat/CauchyComplete.lean, read-only) asks that every point have an open U whose image F '' U is IsSpacelikeLipschitzIn V (InducedLength.lean:118), i.e. near each of its points the image IS a full graph over an open U of R^2 (locGraph), so it has no boundary. graphDev g R (Surgery.lean:634) has domain {p | 0 < p.1 and p.1 <= R}, so it contains the rim r = R. spacelikeDevelopment_graphDev_iff : SpacelikeDevelopment (graphDev g R) <-> R <= 0 is quantified over every g and every R with no other hypothesis (#check confirms). The proof is sound as read: rCoordL (btzPaperDev p) = p.2.1 = r <= R on the image, = R at the rim point (R,0); tauDirDev = btzPaperDev(1,0,0) is nonzero future causal and rCoordL tauDirDev = 0; exists_lt_of_null (null line through q0 + eps*e meets the local graph, exists_nullShift / continuousOn_nullShift) yields an image point with r > R, a contradiction. The <- direction is the empty strip. (2) Consequently GX.E0Surgery.lem_surface_complete_two_lip (strict, lean-gx/GX/BTZ/SurfaceCompleteLip.lean:361-365; hypotheses 0 < R, periodicity, SpacelikeDevelopment (graphDev g R), completeness) IS VACUOUS: for every R > 0 and every g its third hypothesis is false (lem_surface_complete_two_lip_hyp_false). (3) The new forms: spacelikeDevelopment_graphDevOn (open Omega within r > 0, g C^1 on Omega, delta > 0 at every point of Omega) is proved through the zero set of nullHeightExpl and Cla.exists_isSpacelikeLipschitzIn_zeroSet; spacelikeDevelopment_openStrip specialises it to 0 < r < R from IsSpacelikeGraph + C^1 on the closed strip; cusp_spacelikeDevelopment gives Lemma 2.6(ii)'s cusp a spacelike development over r > 0, complete pulled length over the strip, the limit, and the negative conjunct. lem_surface_complete_two_unif, lem_surface_complete_two_lipOn and lem_surface_complete_two_of_open have exactly the strict lip lemma's conclusion (Tendsto g (comap Prod.fst (nhds_within 0 (Ioi 0))) atTop) and its periodicity and completeness hypotheses (completeness still over graphDev g R, the strict strip); lipOn replaces the unsatisfiable hypothesis by SpacelikeDevelopment (graphDevOn g Omega) with stripSet R subset Omega (Lean does not even ask Omega open, wider than its docstring says). cusp_lipOn_hyps discharges every hypothesis of lipOn (0 < R given; periodicity from IsSpacelikeGraph; stripSet R subset {r > 0}; SpacelikeDevelopment over {r > 0}; CompleteSpace over the strip) for any positive 2pi-periodic C^n rim datum, n >= 1, so lipOn, and through it unif (via unifSpacelike_of_graphDevOn and continuous_toSpace_of_graphDevOn), are non-vacuous. (4) Paper reading confirmed: BTZ_1.tex l.680-681 identifies D_R with {tau = 0, r <= R}, so D_R^* has the rim r = R as boundary; Lemma 2.8 (l.781-790) is not refuted, only the library's encoding of 'spacelike' for a surface with boundary; the REPORT's 'reading, no change requested' is right."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "lake env lean on scaffold/GXScaffold/BTZ/C1SpacelikeDev.lean and C1SpacelikeDevLip.lean: exit 0, no output; oleans newer than sources. grep sorry: only the docstring line '0 `sorry`' in each file. One-shot probe (campaign dir, deleted): #print axioms on all 11 declarations the REPORT names gives [propext, Classical.choice, Quot.sound]. lake build not rerun, per dispatch."
+  },
+  "scope": "git status --short: the target's paths are the two new scaffold files, two added import lines in lean-gx/scaffold/GXScaffold.lean (diff checked: those two lines only) and the campaign directory. The other modified or untracked paths (TraceDev.lean, AxisNoLimit.lean, lean-gx/README.md, roadmap.toml, papers/*/certificate/restat*, CHECK files) belong to concurrent loops, as the dispatch says.",
+  "docstring_contract": "Both files have a title, the label unmarked with BTZ_1.tex:781, the paper quoted, a Hypothesis checklist, SCOPE (disclosed) and Provenance. The SCOPE text matches the Lean: the refutation, the off-rim bridge, the lipOn/unif readings, and the strict lem_surface_complete_two still not derived.",
+  "findings": [],
+  "library_findings": [
+    {
+      "severity": "major",
+      "where": "lean-gx/GX/BTZ/SurfaceCompleteLip.lean:361-365 (and its SCOPE l.48, l.56-61); papers/btz ledger row btzlem:surface_complete scope_notes/notes and finding citing lem_surface_complete_two_lip",
+      "what": "Pre-existing; this target did not cause it, and its REPORT discloses it. Confirmed by spacelikeDevelopment_graphDev_iff: the strict, already graduated lem_surface_complete_two_lip is vacuous for every R > 0, since its hypothesis SpacelikeDevelopment (graphDev g R) never holds. Its SCOPE claim 'wider than the paper's: Lean >= paper' and its checklist line 'that a C^1 spacelike graph meets it is expected but not proved' are false, and the row's notes and its finding about l.842-846 (anchored on lem_surface_complete_two_lip) say the same false thing. The row stays partial and the strict lem_surface_complete_two (C^1) is unaffected, so no badge is wrong, but the strict module now carries a false disclosure.",
+      "fix": "Outside this target's dispatch: a follow-up target that fixes the SCOPE of SurfaceCompleteLip (or replaces lem_surface_complete_two_lip by lem_surface_complete_two_lipOn / _unif when the scaffold files graduate), updates the btz row's notes and decls, and opens an OQ on the reading of 'spacelike' for the closed-rim strip, as the REPORT's question asks. Per the REPORT's kb proposal, T-btz-cauchy-spear must not ask for SpacelikeDevelopment (graphDev tau_0 R)."
+    }
+  ]
+}

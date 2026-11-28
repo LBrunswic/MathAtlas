@@ -1,0 +1,163 @@
+{
+  "package": "lean-gx",
+  "target": "T-btz-c1-spacelike-development",
+  "files": [
+    "scaffold/GXScaffold/BTZ/C1SpacelikeDev.lean (new; imports the strict GX.BTZ.SurfaceCompleteLip only)",
+    "scaffold/GXScaffold/BTZ/C1SpacelikeDevLip.lean (new; imports GXScaffold.BTZ.C1SpacelikeDev)",
+    "scaffold/GXScaffold.lean (two import lines, GXScaffold.BTZ.C1SpacelikeDev and GXScaffold.BTZ.C1SpacelikeDevLip, after GXScaffold.BTZ.CauchySpear)"
+  ],
+  "builds": true,
+  "build_command": "taskset -c 0-11 lake build GXScaffold.BTZ.C1SpacelikeDev GXScaffold.BTZ.C1SpacelikeDevLip (8749 jobs, success; only the two new modules rebuilt)",
+  "sorry_count": 0,
+  "axioms": {
+    "GX.E0Surgery.spacelikeDevelopment_graphDev_iff": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0Surgery.lem_surface_complete_two_lip_hyp_false": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0Surgery.IsSpacelikeLipschitzIn.exists_lt_of_null": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0Surgery.spacelikeDevelopment_graphDevOn": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0Surgery.spacelikeDevelopment_openStrip": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0Surgery.cusp_spacelikeDevelopment": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0Surgery.lem_surface_complete_two_unif": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0Surgery.lem_surface_complete_two_lipOn": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0Surgery.lem_surface_complete_two_of_open": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0Surgery.cusp_lipOn_hyps": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0Surgery.continuous_toSpace_of_graphDevOn": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "labels": [
+    {
+      "label": "btzlem:surface_complete",
+      "tex_lines": [
+        781,
+        850
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.E0Surgery.spacelikeDevelopment_graphDev_iff",
+        "GX.E0Surgery.lem_surface_complete_two_lip_hyp_false",
+        "GX.E0Surgery.IsSpacelikeLipschitzIn.exists_lt_of_null",
+        "GX.E0Surgery.spacelikeDevelopment_graphDevOn",
+        "GX.E0Surgery.spacelikeDevelopment_openStrip",
+        "GX.E0Surgery.cusp_spacelikeDevelopment",
+        "GX.E0Surgery.lem_surface_complete_two_unif",
+        "GX.E0Surgery.lem_surface_complete_two_lipOn",
+        "GX.E0Surgery.lem_surface_complete_two_of_open",
+        "GX.E0Surgery.cusp_lipOn_hyps",
+        "GX.E0Surgery.continuous_toSpace_of_graphDevOn"
+      ],
+      "hypotheses": [
+        {
+          "paper": "tau_Sigma : D_R^* -> R, R > 0",
+          "here": "carried",
+          "note": "g : R x R -> R on the strip (0,R] x R, 2pi-periodic, the strict reading; the refutation needs only R > 0"
+        },
+        {
+          "paper": "piecewise smooth",
+          "here": "weakened",
+          "note": "lipOn: none; of_open: C^1 on an open neighbourhood of the strip; the bridge: C^1 on an open Omega within r > 0"
+        },
+        {
+          "paper": "Sigma spacelike",
+          "here": "read",
+          "note": "SpacelikeDevelopment (graphDevOn g Omega) for an open Omega containing (0,R] x R (spacelike Lipschitz across the rim), or the weaker UnifSpacelike g R plus 'pulled-length topology finer than the strip's' (lem_surface_complete_two_unif). The reading of the strict lem_surface_complete_two_lip, SpacelikeDevelopment (graphDev g R), is unsatisfiable"
+        },
+        {
+          "paper": "Sigma complete",
+          "here": "carried",
+          "note": "CompleteSpace (PulledLength (graphDev g R)), the strict reading"
+        },
+        {
+          "paper": "E_{>=0}-manifolds",
+          "here": "strengthened",
+          "note": "E_0 only, as the whole btz row (T-btz-scope)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "LIBRARY DEFECT, not the paper's (strict GX/BTZ/SurfaceCompleteLip.lean, lem_surface_complete_two_lip, l.361-365): its hypothesis Causal.Flat.SpacelikeDevelopment (graphDev g R) is false for EVERY g when R > 0 (GX.E0Surgery.spacelikeDevelopment_graphDev_iff : SpacelikeDevelopment (graphDev g R) <-> R <= 0, no hypothesis on g). Reason: graphDev is defined on the strip (0,R] x R, which contains its rim r = R, while SpacelikeDevelopment asks the image of a neighbourhood of every point to be a full spacelike Lipschitz graph over an open set of R^2 (IsSpacelikeLipschitzIn.locGraph, a surface without boundary). Proof without invariance of domain: rCoordL = t - x of the development equals r, is <= R on the image and = R at the rim point (R,0), and is constant along the developed null direction d_tau; the null line through D(g(R,0), R+eps, 0) meets the local graph near the rim point (exists_nullShift + continuousOn_nullShift) at a point of the image with rCoordL = R + eps > R (IsSpacelikeLipschitzIn.exists_lt_of_null). So lem_surface_complete_two_lip is vacuously true, the row's 'Lean >= paper' claim for it does not hold, and kb lean-gx/0251's bridge cannot be proved in the form asked.",
+        "The dispatched bridge 'C^1 IsSpacelikeGraph g R => SpacelikeDevelopment (graphDev g R)' is false as printed in roadmap T-btz-c1-spacelike-development (counterexample: every g, e.g. Lemma 2.6(ii)'s cusp, cusp_spacelikeDevelopment's last conjunct). Strongest true form proved: over any open Omega within {r > 0} on which g is C^1 with delta > 0, graphDevOn g Omega is a SpacelikeDevelopment (spacelikeDevelopment_graphDevOn); for a C^1 IsSpacelikeGraph g R this gives the open strip 0 < r < R (spacelikeDevelopment_openStrip), and for the cusp the whole half-plane r > 0.",
+        "Consequently 'derive the strict lem_surface_complete_two from lem_surface_complete_two_lip' is impossible (the lip lemma's hypothesis is never met), and the cusp is NOT an instance of the lip lemma. Corrected Lipschitz form proved instead: lem_surface_complete_two_unif (the strict lip proof verbatim over the two consequences of SpacelikeDevelopment it uses: UnifSpacelike g R and continuity of PulledLength.toSpace) and lem_surface_complete_two_lipOn (development spacelike over an open Omega containing the strip). It is non-vacuous: the cusp meets every hypothesis with Omega = {r > 0} (cusp_lipOn_hyps). A C^1 graph with delta > 0 on an open neighbourhood of the strip is a case (lem_surface_complete_two_of_open).",
+        "Paper, BTZ_1.tex l.781-790 (no change requested, a reading): Sigma* over D_R^* is a surface with boundary (the rim circle r = R, which completeness needs: without it a Cauchy sequence escapes through r -> R). 'Spacelike' for a non-smooth surface with boundary is therefore not Barbot's notion of an embedded spacelike Lipschitz hypersurface, which has no boundary; the readings available are 'extends across the rim' (lipOn) or 'uniformly spacelike near each point including the rim' (unif)."
+      ],
+      "questions": [
+        "Reading of 'spacelike' for the paper's Sigma over the closed-rim strip (l.781-786) when it is not C^1: taken here as SpacelikeDevelopment of the development over an open Omega containing (0,R] x R (Sigma extends a little across its rim as a spacelike Lipschitz surface), with the weaker UnifSpacelike + topology form also proved. The paper defines spacelike only for piecewise smooth graphs (Lemma 2.7). Which reading becomes the formalization of record, and whether the strict lem_surface_complete_two_lip should be replaced by lem_surface_complete_two_lipOn, is the author's."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.E0Surgery.IsSpacelikeLipschitzIn.exists_lt_of_null",
+    "GX.E0Surgery.tauDirDev",
+    "GX.E0Surgery.btzPaperDev_add_tau",
+    "GX.E0Surgery.tauDirDev_eq",
+    "GX.E0Surgery.isFutureCausal_tauDirDev",
+    "GX.E0Surgery.tauDirDev_ne_zero",
+    "GX.E0Surgery.rCoordL_tauDirDev",
+    "GX.E0Surgery.graphDevOn",
+    "GX.E0Surgery.nullDom",
+    "GX.E0Surgery.isOpen_nullDom",
+    "GX.E0Surgery.contDiffOn_nullHeightExpl_on",
+    "GX.E0Surgery.nullHeightExpl_btzPaperNull",
+    "GX.E0Surgery.btzPaperNull_mem_nullDom",
+    "GX.E0Surgery.eq_btzPaperNull_of_nullHeightExpl",
+    "GX.E0Surgery.fderiv_nullHeightExpl_pos",
+    "GX.E0Surgery.openStrip",
+    "GX.E0Surgery.UnifSpacelike",
+    "GX.E0Surgery.locallyLipschitzOn_of_unif",
+    "GX.E0Surgery.edist_le_seg_unif",
+    "GX.E0Surgery.stripIncl",
+    "GX.E0Surgery.continuous_stripIncl",
+    "GX.E0Surgery.unifSpacelike_of_graphDevOn",
+    "GX.E0Surgery.edist_stripIncl_le"
+  ],
+  "kb_proposals": [
+    "Causal.Flat.SpacelikeDevelopment F is a no-boundary notion: on a space with a boundary point it fails. For the btz strip, SpacelikeDevelopment (graphDev g R) <-> R <= 0 for every g (GX.E0Surgery.spacelikeDevelopment_graphDev_iff); strict lem_surface_complete_two_lip is vacuous. Use SpacelikeDevelopment (graphDevOn g Omega) with an open Omega containing the strip, or UnifSpacelike g R (GXScaffold.BTZ.C1SpacelikeDevLip).",
+    "No-boundary test without invariance of domain: a continuous linear functional constant along a nonzero future causal N has no maximum on an IsSpacelikeLipschitzIn set (GX.E0Surgery.IsSpacelikeLipschitzIn.exists_lt_of_null, via exists_nullShift and continuousOn_nullShift); for the btz development use rCoordL and N = btzPaperDev (1,0,0).",
+    "The C^1 bridge: g C^1 with delta > 0 on an open Omega within {r > 0} gives SpacelikeDevelopment (graphDevOn g Omega) (GX.E0Surgery.spacelikeDevelopment_graphDevOn): zero set of nullHeightExpl g in null coordinates (no periodicity needed, fderiv_nullHeightExpl_pos), embedding read off (b, -c/max b (r0/2)).",
+    "Pulled length is monotone under inclusion of the domain: a path of the strip mapped into Omega has the same pathLength by rfl (GX.E0Surgery.edist_stripIncl_le), so continuity of PulledLength.toSpace transfers from Omega to the strip.",
+    "T-btz-cauchy-spear must not ask SpacelikeDevelopment (graphDev tau_0 R): it is unsatisfiable; ask SpacelikeDevelopment over an open Omega containing the strip (the cusp has one over r > 0) and feed lem_surface_complete_two_lipOn."
+  ],
+  "notes": "Both files sorry-free, standard axioms only, typechecked by lake env lean and built (only the two new modules rebuilt). No existing file edited beyond the two import lines; no axiom; the only declaration naming a refutation is lem_surface_complete_two_lip_hyp_false / spacelikeDevelopment_graphDev_iff (it refutes a library hypothesis and the roadmap bridge, not a printed paper statement, so no not_ name). Before graduating: the strict SurfaceCompleteLip's SCOPE and the row's ledger notes describe lem_surface_complete_two_lip as 'Lean >= paper' and its hypothesis as 'expected but not proved' for C^1 graphs; both are now known false (the hypothesis is unsatisfiable). The strict lem_surface_complete_two (C^1 on the closed strip only) is still not derived from a Lipschitz form: that would need UnifSpacelike and continuity of toSpace at the rim for a C^1-within-the-closed-strip graph (a mean-value argument on the convex strip for the first; a pulled-length lower bound near the rim for the second), not attempted."
+}

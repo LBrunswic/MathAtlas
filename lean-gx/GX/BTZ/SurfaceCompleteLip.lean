@@ -45,7 +45,7 @@ the topology of the pulled length is finer than that of the strip
 |---|---|
 | `τ_Σ : 𝔻_R^* → ℝ`, `R > 0` | ✓ `g : ℝ × ℝ → ℝ` in `(r, θ)`, `2π`-periodic in `θ`, `0 < R`; the strip `(0, R] × ℝ` is the universal cover of `𝔻_R^*` (the strict reading) |
 | « piecewise smooth » | ⚠ weakened: none; not even continuity of `g` is assumed (it follows from that of the development) |
-| « spacelike » | ⚠ read: `Causal.Flat.SpacelikeDevelopment (graphDev g R)` — locally an embedded spacelike Lipschitz hypersurface of `𝐌³` (Barbot's notion, OQ-152 (b)); that a `C¹` spacelike graph of the paper (Lemma 2.7) meets it is expected but not proved here (SCOPE) |
+| « spacelike » | ⚠ read: `Causal.Flat.SpacelikeDevelopment (graphDev g R)` — locally an embedded spacelike Lipschitz hypersurface of `𝐌³` (Barbot's notion, OQ-152 (b)); **this hypothesis is never satisfied for `R > 0`**: the closed strip includes the rim `r = R` and a `SpacelikeDevelopment` has no boundary (`GX.E0Surgery.spacelikeDevelopment_graphDev_iff`, scaffold `GXScaffold.BTZ.C1SpacelikeDev`), so this theorem is vacuous (SCOPE) |
 | « complete » | ✓ read as in the strict row: `CompleteSpace (Causal.Flat.PulledLength (graphDev g R))` |
 | `𝔼_{≥0}`-manifolds (the paper's scope) | ⚠ `𝔼₀` only (T-btz-scope) |
 
@@ -53,12 +53,16 @@ the topology of the pulled length is finer than that of the strip
 
 * Item (ii) only; item (i) is the strict `lem_surface_complete_one`.
 * The row stays `partial` on T-btz-scope (`𝔼₀` only) and on the reading of « spacelike ».
-* The theorem is wider than the paper's (no piecewise smoothness): Lean ≥ paper. That a `C¹`
-  graph with `δ > 0` (`IsSpacelikeGraph`) has a `SpacelikeDevelopment` is NOT proved here, so the
-  `C¹` case is not derived from this theorem; it is the strict `lem_surface_complete_two`.
-* No example of the hypotheses is given (kb/0011: not cheap): the natural one, Lemma 2.6(ii)'s
-  cusp `τ^R(θ) + M(1/r − 1/R)`, has complete pulled length (`lem_curve_extension_ii_complete`),
-  but its `SpacelikeDevelopment` is the unproved bridge above.
+* **Vacuous (T-btz-c1-spacelike-development, 2026-11-28).** `SpacelikeDevelopment (graphDev g R)
+  ↔ R ≤ 0` (`GX.E0Surgery.spacelikeDevelopment_graphDev_iff`, with
+  `lem_surface_complete_two_lip_hyp_false`): the closed strip's rim is a boundary. So
+  `lem_surface_complete_two_lip` is true for no `g` with `R > 0` and is not an anchor of
+  `btzlem:surface_complete`. The non-vacuous Lipschitz forms are the scaffold
+  `GXScaffold.BTZ.C1SpacelikeDevLip`'s `lem_surface_complete_two_lipOn` (a development spacelike
+  over an open set containing the strip; the cusp `τ^R(θ) + M(1/r − 1/R)` meets it,
+  `cusp_lipOn_hyps`) and `lem_surface_complete_two_unif`; their reading is OQ-158. The lemmas
+  `locallyLipschitzOn_of_spacelikeDevelopment` and `edist_le_seg_lip` of this file stay useful
+  (the `unif` proof reuses this file's argument).
 * 0 `sorry`; standard axioms only (`propext`, `Classical.choice`, `Quot.sound`).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; imports the strict

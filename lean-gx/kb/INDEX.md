@@ -262,3 +262,15 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0252](entries/0252-flat-transport-along-a-bijective-isometr.md) | pattern | Flat transport along a bijective isometric embedding now exists for all of GH (lean-causal |
 | [0253](entries/0253-an-e0-morphism-restricts-to-a-flat-local.md) | pattern | An E0-morphism restricts to a flat local isometry of the regular parts (GX.BTZCauchyEasy.i |
 | [0254](entries/0254-pathlength-eq-of-local-generalizes-lean.md) | pattern | pathLength_eq_of_local generalizes lean-causal's pathLength_pulled_eq_of_local to two arbi |
+| [0255](entries/0255-causal-flat-spacelikedevelopment-f-is-a.md) | pattern | Causal.Flat.SpacelikeDevelopment F is a no-boundary notion |
+| [0256](entries/0256-no-boundary-test-without-invariance-of-d.md) | pattern | No-boundary test without invariance of domain |
+| [0257](entries/0257-the-c-1-bridge.md) | pattern | The C^1 bridge |
+| [0258](entries/0258-pulled-length-is-monotone-under-inclusio.md) | pattern | Pulled length is monotone under inclusion of the domain |
+| [0259](entries/0259-t-btz-cauchy-spear-must-not-ask-spacelik.md) | pattern | T-btz-cauchy-spear must not ask SpacelikeDevelopment (graphDev tau_0 R) |
+| [0260](entries/0260-rigidity-of-a-flat-e0-morphism-on-the-un.md) | pattern | Rigidity of a flat E0-morphism on the universal cover |
+| [0261](entries/0261-a-curve-off-the-axis-lifts-to-the-univer.md) | pattern | A curve off the axis lifts to the universal cover inside one component (open-closed argume |
+| [0262](entries/0262-a-blunt-spear-chart-into-a-flat-n-has-no.md) | pattern | A blunt spear chart into a flat N has no limit along ANY continuous curve of bspear v R wi |
+| [0263](entries/0263-a-spacelikedevelopment-over-a-domain-wit.md) | pattern | A SpacelikeDevelopment over a domain with boundary (such as the closed strip (0,R]xR) is i |
+| [0264](entries/0264-flate0-n-chart-lemma.md) | pattern | FlatE0 N chart lemma |
+| [0265](entries/0265-the-development-btzpaperdev-is-globally.md) | pattern | The development btzPaperDev is globally injective on r > 0 |
+| [0266](entries/0266-restricting-isspacelikelipschitzin-to-a.md) | pattern | Restricting IsSpacelikeLipschitzIn to a smaller open set |
