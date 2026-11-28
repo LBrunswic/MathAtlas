@@ -1086,3 +1086,23 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors). Hub: 3 new red, all on paths /atlas-team holds (lean-benzecri, papers/benzecri/ledger). Its T-bz-c3-cone-appui and T-bz-c3-propriete-i were committed at 05:19 and the benzecri ledger rebuild is pending ("ledger.json is not what `build` would write"). gate-tests' test_no_model_in_gates counts the same red. Not this loop's; not reverted.
 - commits: db6172db c0b91db1
 - next: T-lad-programme-properties (keeper), T-abs-end-pieces-one-sided, T-abs-ers-etale-mghd-witnesses (closers, lean-causal); then the exclusive targets
+
+## 2026-11-28 06:01 · wave of 3 · T-lad-programme-properties, T-abs-end-pieces-one-sided, T-abs-ers-etale-mghd-witnesses
+- T-lad-programme-properties (keeper): the past boundary chart in the ladder as a sixth [[edge_hypothesis]], past_boundary_chart (PastBoundaryChart as it stands; FutureBoundaryChart; the theorem; the Minkowski instance; the points with no chart), not a node since it has no parameter-free form; OQ-159 cited, and the instance its row calls unbuilt recorded. A consequence at [causally_arc_connected, future_one_connected, is_causal]: the extension corollary. Matrix unchanged; 126 consequences. Checked by its tool.
+- T-abs-end-pieces-one-sided (abstract, layer 1, refactor): five one-sided end-piece lemmas moved to Causal.CExtConnexeCauchy.SubArc with the same names and proof terms. Extensible.of_top_tail becomes a 3-line corollary (was 95), its statement unchanged, so pauseTop is written once. A constant dump shows nothing else changed. Audit minor, applied (two wordings). The README row was committed with the witnesses (e7417c17) by a staging slip, noted in b5b0a37d.
+- T-abs-ers-etale-mghd-witnesses (abstract, layer 1): Causal.ErsEtaleMghdWitnesses: witnesses on the timelike line, for 4.68's Lean form and the paper's two-development shape (S = {0, 3}, a doubled point), and for the two subluminal theorems. Limits proved:
+  - two developments of a connected S agree on the overlap on ℝ;
+  - ers_isOpenEmbedding_proj_of_eqOn's hypotheses force A = U₁ ∩ U₂, so it says nothing of a proper common development; its docstring now says so.
+
+  Audit minor, applied (the report's Cor 4.71 attribution withdrawn: ERS :974 say subluminal global uniqueness fails in general, and Lemma 4.72 adds the m-GHD hypothesis).
+- For the planner:
+  - T-abs-flrw-type-closed-ambient and T-abs-meets-cauchy-antisymmetry-sharp waited on the end pieces: promote;
+  - the keeper's proposals: T-abs-flrw-future-extension (IsSpacetimeExtension.not_futureBoundaryChart_of_flrwType) and an instance with exactly one of (A), (B) failing;
+  - ers_isOpenEmbedding_proj_of_eqOn: consider graduating the sharp form beside it (ers_coe_eq_inter_of_eqOn is in the witness module) or restating it;
+  - stale ladder line numbers in the (2.4) comments (:453, :4982–:4995, :5011 at 491b0a8b), for a keeper pass;
+  - the old campaign probes importing graduated scaffold names run only through leftover oleans (four of them); pointing them at the strict names is the fix, the .lake cleanup the master's call.
+- ladder: 27 properties, 28 implications, 108 counterexamples, 126 consequences, 6 edge hypotheses; 432/432 within a sort: 41 implied, 385 fails, 6 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 27, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red (the benzecri red of 05:20 cleared by /atlas-team's ledger rebuild)
+- commits: 491b0a8b e7417c17 b5b0a37d 9dff5d73 (ledgers, the Lean sha only; restate detect 0)
+- next: a PLANNING RUN (rule 2), to promote the closed-ambient and antisymmetry-sharp targets; else the exclusive T-tac-dual-future-one-connected
