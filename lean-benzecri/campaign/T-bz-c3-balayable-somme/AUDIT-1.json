@@ -1,0 +1,35 @@
+{
+  "target": "T-bz-c3-balayable-somme",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bzprop:c3s2p4_automorphisme_compatible",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked (module docstring l.14 is a plain bullet, no **`label`** anywhere), REPORT status partial: correct under OQ-168 OPEN and the open sorry. First assertion: prop4_somme (BalayableSomme.lean:557) carries every printed hypothesis (IsConvexPart, IsOpen, noyau = ∅) plus the disclosed ¬ ContientDroite (F w) (OQ-168) and the disclosed reading w.Nonempty (simplesS_empty_and_not_estSommeS justifies it). It holds for every finite-dimensional real normed E, which is stronger than S(R^{n+1}). It concludes finiteness, 1 ≤ p ≤ dim E, and for EVERY enumeration Fin p ≃ simplesS w: EstSommeS w of the composantes (Déf. 5: F(w) is the direct sum of the F(v_i)), each v_i a nonempty convex part of support l_i that is open in l_i, and uniqueness among families with v_i ⊆ l_i. That is at least the paper's « v_i les convexes de l_i dont w est la somme ». The Ch. 1 form « w = F⁻¹(F(v_1)×…×F(v_p)) » as a projective isomorphism with PiBase exists only in prop4_produit (sorry), and this is disclosed. Second assertion: prop4_gxAut + prop4_permute + prop4_automorphisme_compatible (l.826). The substantive content is that every GXAut f of w is the restriction of a linear g preserving w that permutes the l_i, g(l_{τ i}) = l_i, and maps F(v_{τ i}) onto F(v_i). This is the content of Ch. 1 Déf. 2 in w's own coordinates. It is WEAKER than the Ch. 1 form, IsCompatiblePi on PiBase, in three ways: (a) no isomorphism w ≅ PiBase is given; (b) the φ_i = g|F(v_{τ i}) are not shown to be IsConeIso, i.e. GUR-morphisms; Ch. 1 l.489-512 confirms that the conical affine structure is a GU structure, so in general they must be renormalised and t ≠ 1 (REPORT finding 4 is correct); (c) the displayed sum identity is a tautology (see finding 1). The Ch. 1 form is exactly the statement of the sorry'd prop4_produit, which is stated sensibly: Fin (q+1) is fine since p ≥ 1, and pdim n = m is forced by the bases b_i. Under the disclosure and the unmarked label, calling the w-coordinate form 'the paper's second assertion in w's coordinates' is honest. Counterexample not_prop4_simplesS_finite (l.910) is in the printed domain. quartS = s({y>0, z>0}) is open, a convex part, nonempty and of empty noyau: noyau = {m | m ∈ k ∧ -m ∈ k} (FacettesSphere noyau_eq), which is empty because e1 ∉ quart. It has infinitely many simple distinguished subvarieties, span(t,1,0) for t ∈ R: each is conjugate to span(e1,e3), so w is the join of a point and an open half-circle, and each is one-dimensional, hence minimal (quart_estSimpleS_Bt, injective by span_Bt_injective). So « les p sous-variétés distinguées simples » cannot be finitely many and the printed statement is genuinely refuted, so the not_ name is justified. Instances are real Lean terms: simplexO_hyps4 (every n, p = n+1), capS_hyps4 (p = 1), simplexO_prop4 (an application of prop4_somme). Hyps4 is therefore satisfiable and not vacuous."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 1,
+    "axioms": "standard (propext, Classical.choice, Quot.sound) for all 25 declarations probed: the 10 label decls, the 12 extra_decls and the 3 instance theorems. Benzecri.Sphere.prop4_produit adds sorryAx, its tagged SORRY(bzprop:c3s2p4_automorphisme_compatible) at l.870. `lake env lean scaffold/BenzecriScaffold/Chapter3/BalayableSomme.lean` emits only `declaration uses sorry` at l.848. The probe was a copy of the file under the campaign dir with #print axioms appended; it has been deleted."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "scaffold/BenzecriScaffold/Chapter3/BalayableSomme.lean:834-835, 838, 841-842 (and docstring l.820-825, checklist l.82)",
+      "what": "The last conjunct of prop4_automorphisme_compatible, `∀ x, (∀ i, x i ∈ sommandeS w (l i)) → g (∑ i, x i) = ∑ i, g (x (τ i))`, is a tautology. It holds for every linear g and every permutation τ: the hypothesis on x is discarded (`fun x _`) and the proof is map_sum + Equiv.sum_comp. The docstring and the checklist row '✓ in w's coordinates' present it as Ch. 1 Déf. 2's formula m′_i = φ_i m_{τ(i)}. The real content is the first conjunct, that g permutes the l_i and the F(v_i). The statement is not false and the label is unmarked, but the conjunct inflates what is proved.",
+      "fix": "Replace the conjunct with the non-trivial factor-wise form, e.g. `∀ x, (∀ i, x i ∈ sommandeS w (l i)) → ∀ i, g (x (τ i)) ∈ sommandeS w (l i)`, or drop it. Say in the docstring and the checklist (⚠ reading rather than ✓) that the φ_i = g|… are linear but not GU-normalised and that there is no PiBase isomorphism, so this form is weaker than IsCompatiblePi."
+    },
+    {
+      "severity": "minor",
+      "where": "campaign/T-bz-c3-balayable-somme/REPORT.json instances[2]",
+      "what": "The instance 'hg of prop4_permute: g = id' is not a named Lean term. Only the general prop4_gxAut produces an hg. This is harmless, because the Hyps4 hypotheses are instantiated by simplexO_hyps4 and capS_hyps4, but the REPORT lists it as an instance.",
+      "fix": "Either add a one-line example (`prop4_permute … (LinearEquiv.refl ℝ E) (by simp)` on simplexO) or reword the entry as a remark."
+    }
+  ],
+  "scope": "git status --short within lean-benzecri: M scaffold/BenzecriScaffold.lean, which now has three new import lines, one per closer; this target's is `import BenzecriScaffold.Chapter3.BalayableSomme`. The new files are Chapter3/{BalayableSomme,FacetteConique,ReunionConvexesSphere}.lean and the three campaign dirs. Nothing in Benzecri/ (strict) is modified. The other hub modifications (papers/*/certificate/restatements.toml and RESTATED.md, roadmap/roadmap.toml, restate CHECK files) are outside lean-benzecri and belong to other loops (/restate, roadmap); they are not attributable to this closer.",
+  "split_question": "prop4_produit is the last declaration of section Model (l.848-870). No declaration in this file uses it, and no other .lean file in lean-benzecri/Benzecri, lean-benzecri/scaffold, lean or lean-causal references it or the module. Moving it to its own scaffold file (e.g. Chapter3/BalayableSommeProduit.lean, importing BalayableSomme) leaves BalayableSomme.lean sorry-free. That file imports only Benzecri.* modules and emits no other warning, so it should compile under the strict lib's warningAsError and is graduable as a file move. The label must still stay unmarked because of OQ-168. On the move, rewrite the docstring passages that describe prop4_produit as stated here (l.25-27, 80, 82, 92-95). Benzecri.Applications.ConverseGeneral is then likely needed only by the split file.",
+  "docstring_contract": "Present and in order: title; label line with tex:LINE, unmarked; the paper's sentences verbatim in a > block (matches tex l.600-608); Hypothesis checklist; SCOPE (disclosed); Provenance. The checklist and SCOPE are true, except the ✓ on l.82 (finding 1)."
+}

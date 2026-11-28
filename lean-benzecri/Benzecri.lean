@@ -72,3 +72,6 @@ import Benzecri.Chapter3.PointsExtremaux
 import Benzecri.Chapter3.ReunionConvexes
 import Benzecri.Chapter3.FacetteExposee
 import Benzecri.Chapter3.BooleProjectif
+import Benzecri.Chapter3.FacetteConique
+import Benzecri.Chapter3.ReunionConvexesSphere
+import Benzecri.Chapter3.BalayableSomme

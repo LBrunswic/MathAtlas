@@ -1,0 +1,119 @@
+{
+ "package": "lean-benzecri",
+ "target": "T-bz-c3-balayable-somme",
+ "files": [
+  "scaffold/BenzecriScaffold/Chapter3/BalayableSomme.lean (0 sorry, no warning)",
+  "scaffold/BenzecriScaffold/Chapter3/BalayableSommeProduit.lean (holds the single sorry: Benzecri.Sphere.prop4_produit)",
+  "scaffold/BenzecriScaffold.lean (two import lines added)"
+ ],
+ "builds": true,
+ "sorry_count": 1,
+ "axioms": "standard only (propext, Classical.choice, Quot.sound) for every proved decl; sorryAx only under Benzecri.Sphere.prop4_produit",
+ "labels": [
+  {
+   "label": "bzprop:c3s2p4_automorphisme_compatible",
+   "tex_lines": [
+    599,
+    611
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Benzecri.Sphere.prop4_somme",
+    "Benzecri.Sphere.prop4_permute",
+    "Benzecri.Sphere.prop4_gxAut",
+    "Benzecri.Sphere.prop4_automorphisme_compatible",
+    "Benzecri.Sphere.prop4_produit",
+    "Benzecri.BooleProjectifInstance.not_prop4_simplesS_finite",
+    "Benzecri.Sphere.composanteS",
+    "Benzecri.Sphere.sommandeS",
+    "Benzecri.Sphere.projS",
+    "Benzecri.Sphere.autresS",
+    "Benzecri.BooleProjectifInstance.simplexO_permute_id"
+   ],
+   "hypotheses": [
+    {
+     "paper": "w ouvert de S(n)",
+     "here": "carried",
+     "note": "IsOpen w; w : Opens (S m) for the automorphism statements"
+    },
+    {
+     "paper": "w convexe",
+     "here": "carried",
+     "note": "IsConvexPart w"
+    },
+    {
+     "paper": "w de noyau vide",
+     "here": "carried",
+     "note": "noyau w = ∅"
+    },
+    {
+     "paper": "(not printed) F(w) contains no line",
+     "here": "added",
+     "note": "¬ ContientDroite (F w), the hypothesis of corollaire_algebre_parties_projective (OQ-168); without it the statement is false (not_prop4_simplesS_finite)"
+    },
+    {
+     "paper": "(not printed) w non vide",
+     "here": "reading",
+     "note": "w.Nonempty; for w = ∅, p = 0 and w is not the empty sum (simplesS_empty_and_not_estSommeS)"
+    },
+    {
+     "paper": "S(R^{n+1})",
+     "here": "strengthened",
+     "note": "the decomposition and the permutation hold for every finite-dimensional real normed E"
+    },
+    {
+     "paper": "compatible au sens du ch. 1 § 3 Déf. 2",
+     "here": "reading",
+     "note": "prop4_automorphisme_compatible: g permutes the l_i and maps F(v_{τ i}) onto F(v_i), g(x_{τ i}) ∈ F(v_i); the φ_i = g|… are linear but not GU-normalised and no PiBase isomorphism is given, so weaker than IsCompatiblePi (that is prop4_produit, sorry)"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "Benzecri.Sphere.prop4_produit",
+     "obstruction": "the transport of prop4_somme / prop4_automorphisme_compatible to Chapter 1's PiBase: (i) the global cone chart FCone.coneChart of the inclusion chart of each open B_i ⊆ S(n_i) (source everything, target toSphere⁻¹' B_i); (ii) the product chart piChart of these and its ConeBase.baseChart on PiBase, composed with the linear iso (y_i) ↦ Σ b_i⁻¹ y_i (which maps Π b_i(F(v_i)) onto F(w) by prop4_somme), turned into a Homeomorph onto the subtype w and shown a GSR morphism after subst of pdim n = m; (iii) the conical isomorphisms φ_i, read c_i⁻¹ b_i g b_{τ(i)}⁻¹ in these charts, must be normalised to |det| = 1 because the cone groupoid is GU, the torus element t = [(c_i)] absorbing the normalisation, and f • [x] = t • [φ(x ∘ τ)] checked through (i)–(ii). No mathematical gap: the content is proved intrinsically."
+    }
+   ],
+   "findings": [
+    "Prop. 4 (benzecri1960_ch3.tex:599-605) is FALSE as printed: the open quarter {y>0, z>0} of S(2) is a nonempty open convex part of empty noyau with infinitely many simple distinguished subvarieties (the pairs {±(t e1 + e2)}, t ∈ R), so 'les p sous-variétés distinguées simples' and a finite sum w = F⁻¹(F(v_1) × … × F(v_p)) over them do not exist (Benzecri.BooleProjectifInstance.not_prop4_simplesS_finite). The failure is the line x ↦ (x,1,1) in F(w), which 'noyau vide' does not exclude; it is the same defect as Déf. 6 / Th. 3's Corollary (OQ-168).",
+    "Under the added hypothesis ¬ ContientDroite (F w) (and w nonempty), both assertions hold, proved for every finite-dimensional real normed E: prop4_somme (the simple ones are finitely many, 1 ≤ p ≤ n+1, and w is the sum, Déf. 5, of the v_i = s(P_{l_i}(F(w))), each a nonempty convex part of support l_i, open in l_i, unique among convexes contained in the l_i) and prop4_permute / prop4_automorphisme_compatible (every projective automorphism of w is a linear g permuting the l_i and their summands: Ch. 1 Déf. 2's formula with φ_i = g, t = 1).",
+    "The printed proof (l.606-608) is complete only modulo two facts it leaves implicit, both formalized: F(w) is convex for w open with no line in its closed cone (Hyps4.convex_F, so w is connected and an automorphism is ONE element of GS(n), Ch. 1 Prop. 1), and the lift g of an automorphism preserves w (rigidity of GS on the open w, GSE.eq_one_of_eqOn).",
+    "In Chapter 1's notation the compatible form needs t ≠ 1 in general: the conical isomorphisms φ_i of Déf. 2 are morphisms for the cone groupoid GU (|det| = 1), so g|F(v_{τ(i)}) must be rescaled by |det|^{-1/(n_i+1)} and the scalars collected in t ∈ R^{+p}/R^+; the printed proof does not mention t (it is not needed in w's own coordinates)."
+   ],
+   "questions": [
+    "OQ-168 (OPEN): which corrected hypothesis is of record. The reading taken: w open with ¬ ContientDroite (F w) (the hypotheses of theoreme3 / corollaire_algebre_parties_projective); the label stays unmarked until the ruling.",
+    "« w = F⁻¹(F(v_1) × … × F(v_p)) » is read (dispatch reading (2)) as a projective isomorphism PiBase n B ≃ₜ w, B_i = s(b_i(F(v_i))) ⊆ S(n_i) through bases b_i : l_i ≅ R^{n_i+1} (stated: prop4_produit); its content, F(w) = ⊕ F(v_i) (Déf. 5's sum), is prop4_somme.",
+    "« w » is read nonempty (an empty w has p = 0 and is not the empty sum).",
+    "« automorphisme projectif de w » is read GXAut (GSR m) (S m) w for w as an open subset of S(m); « compatible » in w's own coordinates is read: g(l_{τ(i)}) = l_i, g(F(v_{τ(i)})) = F(v_i), g(Σ x_j) = Σ_i g(x_{τ(i)}); the Ch. 1 reading (IsCompatiblePi on PiBase) is prop4_produit, stated.",
+    "'GP(n, R)' in the proof (l.607) is read as GS(n, R) = GL(n+1)/R^+ acting on S(n) (the group of the projective structure), not as a separately defined group."
+   ],
+   "instances": [
+    "Benzecri.BooleProjectifInstance.simplexO_hyps4: the open n-simplex satisfies every hypothesis (convex, open, nonempty, noyau ∅, no line in F) with p = n + 1; simplexO_prop4: it is the sum of its n+1 summands over an enumeration Fin (n+1) ≃ simplesS",
+    "Benzecri.BooleProjectifInstance.capS_hyps4: the open round cap of S(2) satisfies every hypothesis with simplesS capS = {⊤} (p = 1)",
+    "Benzecri.BooleProjectifInstance.simplexO_permute_id: prop4_permute applied to g = LinearEquiv.refl on the open simplex"
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Benzecri.Sphere.Hyps4.convex_F",
+  "Benzecri.Sphere.Hyps4.isPreconnected",
+  "Benzecri.Sphere.Hyps4.span_F",
+  "Benzecri.Sphere.Hyps4.conj_sSup",
+  "Benzecri.Sphere.Hyps4.mix_of_conj",
+  "Benzecri.Sphere.Hyps4.sum_mem",
+  "Benzecri.Sphere.Hyps4.estConjugueS_map",
+  "Benzecri.Sphere.Hyps4.estSimpleS_map",
+  "Benzecri.Sphere.exists_linearEquiv_of_gxAut",
+  "Benzecri.Sphere.simplesS_empty_and_not_estSommeS",
+  "Benzecri.BooleProjectifInstance.quart_estSimpleS_Bt",
+  "Benzecri.BooleProjectifInstance.span_Bt_eq"
+ ],
+ "kb_proposals": [
+  "Chapter3/BalayableSomme: for an open convex w of S(E) with no line in F(w), (∑T, ∑(S∖T)) is a conjugate pair for every set T of simple ones (Hyps4.conj_sSup); conjugate pairs mix (P_L x + P_L' y ∈ F(w), mix_of_conj), and a Finset induction on T gives ∑ P_i x_i ∈ F(w): the decomposition F(w) = ⊕ P_i(F(w)) (prop4_somme).",
+  "To compute with the projections P_i of a decomposition E = ⊕ l_i, prove linear-map identities by checking them on each simple subspace (Hyps4.linearMap_ext: sSup S ≤ LinearMap.eqLocus f g), with P_i x = if i = k then x else 0 for x ∈ l_k (projS_apply_l).",
+  "A GXAut of an open w ⊆ S(m) is one element of GS(m) when w is preconnected: exists_smul_eq_on_of_isPreconnected with φ = chartAt (S m) x₀ on the Opens (source univ) and ψ = φ.trans_aut f (exists_linearEquiv_of_gxAut); lift through QuotientGroup.mk_surjective and GSE.mk_smul.",
+  "Inside a `namespace Foo` with a structure `Foo`, `mk` resolves to `Foo.mk`: write `Sphere.mk` explicitly (Hyps4)."
+ ],
+ "notes": "Audit round 1 fixes applied: (1) the tautological sum conjunct of prop4_automorphisme_compatible replaced by ∀ i, g (x (τ i)) ∈ sommandeS w (l i), checklist row marked ⚠; (2) g = id instance named simplexO_permute_id; (3) prop4_produit split into BalayableSommeProduit.lean (imports BenzecriScaffold.Chapter3.BalayableSomme and Benzecri.Applications.ConverseGeneral; rename the first import on graduation). BalayableSomme.lean is sorry-free, warning-free, builds; its ConverseGeneral import was dropped. Label stays unmarked (OQ-168).",
+ "sorry_location": "scaffold/BenzecriScaffold/Chapter3/BalayableSommeProduit.lean, Benzecri.Sphere.prop4_produit"
+}
