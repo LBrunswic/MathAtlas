@@ -1,0 +1,77 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-balayable-somme-cor",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter3/BalayableSommeCor.lean"
+  ],
+  "import_line_added": "scaffold/BenzecriScaffold.lean: import BenzecriScaffold.Chapter3.BalayableSommeCor",
+  "builds": true,
+  "warningAsError_typecheck": true,
+  "sorry_count": 0,
+  "axioms": ["propext", "Classical.choice", "Quot.sound"],
+  "labels": [
+    {
+      "label": "bzcor:c3s2p5c_balayable_somme_quelconque",
+      "tex_lines": [623, 632],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.Sphere.corollaire_balayable_somme",
+        "Benzecri.Sphere.hyps4_lecture",
+        "Benzecri.Sphere.exists_bases_supports",
+        "Benzecri.Sphere.simplesS_eq_iUnion_lecture",
+        "Benzecri.Sphere.sommandeS_lecture",
+        "Benzecri.Sphere.preimage_sommandeS_lecture",
+        "Benzecri.Sphere.prop5_lecture",
+        "Benzecri.Sphere.Lecture",
+        "Benzecri.Sphere.lecture_congr"
+      ],
+      "hypotheses": [
+        {"paper": "w ouvert convexe de S(R^{n+1})", "here": "carried", "note": "IsOpen w, IsConvexPart w, w : Set (S m)"},
+        {"paper": "w de noyau vide", "here": "carried", "note": "noyau w = ∅"},
+        {"paper": "(not printed) F(w) contains no line", "here": "added", "note": "¬ ContientDroite (F w), OQ-168 / OQ-171, inherited from Prop. 4 and Prop. 5 (prop5_balayable_somme); whether the Corollary itself needs it is not settled"},
+        {"paper": "(not printed) w non vide", "here": "reading", "note": "w.Nonempty, as in Prop. 5; for w = ∅ a Déf. 5 sum has some v_i = ∅ and the others arbitrary (argued, not formalized)"},
+        {"paper": "somme de p convexes v_1, ..., v_p", "here": "carried", "note": "Déf. 5, EstSommeS w v, v : I → Set (S m), I any Fintype; each v_i nonempty follows (nonempty_F_summand)"},
+        {"paper": "les v_i le sont (balayables / homogènes)", "here": "reading", "note": "V_i = ofCone (c_i '' F(v_i)) ⊆ S(k_i): v_i read in its support L_i = span F(v_i) through a basis c_i : L_i ≃ ℝ^{k_i+1}, for EVERY choice of bases; bases exist (exists_bases_supports); each V_i is open, convex, nonempty, of empty noyau, line-free (hyps4_lecture)"}
+      ],
+      "sorries": [],
+      "findings": [
+        "No new refutation. The Corollary (benzecri1960_ch3.tex:623-626) is proved by its printed route (l.628-632) under the hypotheses already carried by Prop. 4 / Prop. 5: F(w) without a line (OQ-168, OQ-171) and w nonempty. The reduction 'on se ramène à une décomposition de w en somme de convexes contenus dans des variétés distinguées simples' needs, beyond T-bz-c3-simples-somme, that each summand v_i, read in its support, is itself a domain of Prop. 4 (open, empty noyau, no line) and that the Prop. 4 summands of w and of the v_i correspond; the paper leaves both implicit, both are proved here (hyps4_lecture, sommandeS_lecture).",
+        "Degenerate case w = ∅ (∅ is an open convex of empty noyau): a Déf. 5 sum of ∅ has some v_j = ∅ and the other v_i arbitrary convexes, so 'w balayable ⇒ les v_i le sont' fails there unless every convex is sweepable; argued, not formalized (no non-sweepable / non-homogeneous open is available in the library). Imprecise only, the reading w ≠ ∅ is Prop. 5's."
+      ],
+      "questions": [
+        "« les v_i le sont »: v_i is not open in S(n); read as v_i in its support l_i = s(span F(v_i) − O) ≅ S(k_i) through a basis, Vᵢ = s(cᵢ(F(vᵢ))), for every basis (the conclusion does not depend on the basis).",
+        "« convexes »: Déf. 5 summands (F(v_i) convex); nonemptiness and the absence of lines in F(v_i) are derived from those of w, not assumed.",
+        "Inherited and OPEN: OQ-168 / OQ-171 (no line in F(w)). Whether the Corollary as printed (without it) holds is not settled here; the known counterexample to Prop. 4 (the open quarter of S(2)) is not a counterexample to the Corollary."
+      ]
+    }
+  ],
+  "instances": [
+    "Benzecri.SimplesSommeInstance.simplexO_corollaire: the open 3-simplex of S(3) as the sum of its two open edges (simplexO_estSommeS_edges) satisfies every hypothesis of corollaire_balayable_somme, with bases from exists_bases_supports, and its conclusion holds",
+    "Benzecri.SimplesSommeInstance.edges_isHomogeneous: the ⇒ direction at work: each open edge, read in S(k_i), is homogeneous because the simplex is (simplexO_isHomogeneous)",
+    "Benzecri.SimplesSommeInstance.simplexO_lecture_isHomogeneous: the new definition Lecture is inhabited: the open n-simplex has n+1 simple subvarieties and each of its Prop. 4 summands satisfies Lecture … IsHomogeneous"
+  ],
+  "extra_decls": [
+    "Benzecri.Sphere.estDistingue_map_of",
+    "Benzecri.Sphere.estDistingue_image",
+    "Benzecri.Sphere.estSimple_image",
+    "Benzecri.Sphere.simples_image",
+    "Benzecri.Sphere.nonempty_F_summand",
+    "Benzecri.Sphere.exists_family_F",
+    "Benzecri.Sphere.isCompl_supports",
+    "Benzecri.Sphere.projection_sum_supports",
+    "Benzecri.Sphere.F_summand_eq",
+    "Benzecri.Sphere.not_contientDroite_summand",
+    "Benzecri.Sphere.isPosCone_lecture",
+    "Benzecri.Sphere.zero_notMem_lecture",
+    "Benzecri.Sphere.F_lecture",
+    "Benzecri.Sphere.closure_kPrime_lecture"
+  ],
+  "kb_proposals": [
+    "Prop. 5 basis-free (Sphere.prop5_lecture, Chapter3/BalayableSommeCor): X sweepable/homogeneous iff for every simple s, Lecture s (sommandeS X s) P (∃ n, basis b, hB, P ⟨ofCone (b '' val⁻¹' A), hB⟩); the ⇐ direction just `choose`s the bases, since prop5_balayable_somme holds for every bases — no basis-independence (IsProjIso) lemma needed.",
+    "Simple distinguished subspaces transport along any linear equiv: simples (e '' W) = map e '' simples W (Sphere.simples_image; IsCompl via Disjoint/Codisjoint.map_orderIso (Submodule.orderIsoMapComap e), Minkowski sum via Set.image_add).",
+    "A Déf. 5 summand v_i, read in S(k_i) through c_i : span F(v_i) ≃ ℝ^{k_i+1}, satisfies Hyps4 (Sphere.hyps4_lecture): F(v_i) = π_i(F(w)) (F_summand_eq) and LinearMap.isOpenMap_of_finiteDimensional on c_i ∘ projectionOnto.",
+    "Pitfall: `set L := span F (v i)` when a hypothesis c : ↥(span F (v i)) ≃ₗ … is in context shadows c as c✝ and breaks every later term; write the span out. Likewise `rw [F_summand_eq]` on `↑u ∈ F (v i)` with u : ↥(span F (v i)) fails the motive; rewrite the membership with Set.ext_iff.1 h ↑u, or use congrArg (fun X => …) h."
+  ],
+  "notes": "One new file, 0 sorry, passes `lake env lean -DwarningAsError=true`, sets no option; `lake build BenzecriScaffold.Chapter3.BalayableSommeCor` built only this module. Imports Benzecri.Chapter3.BalayableSommeProp5 and Benzecri.Chapter3.SimplesSomme (strict). No declaration name collides with the strict library or scaffold. The general affine lemmas (estDistingue_image, simples_image) sit in namespace Benzecri.Sphere; a graduation may move them beside estDistingue_map_iff in SimplesSomme.lean. The ledger row should gain decls corollaire_balayable_somme etc. and stay partial (OQ-168, OQ-171)."
+}

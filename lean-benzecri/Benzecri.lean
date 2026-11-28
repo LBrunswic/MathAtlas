@@ -83,3 +83,4 @@ import Benzecri.Chapter3.SimplesSomme
 import Benzecri.Chapter3.FacetteInterieure
 import Benzecri.Chapter3.BooleProjectifDomaines
 import Benzecri.Chapter3.Prop4Tore
+import Benzecri.Chapter3.BalayableSommeCor

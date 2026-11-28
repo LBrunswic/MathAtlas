@@ -1,0 +1,35 @@
+{
+  "target": "T-bz-c3-balayable-somme-cor",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bzcor:c3s2p5c_balayable_somme_quelconque",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Sphere.corollaire_balayable_somme (BalayableSommeCor.lean:561) checked against benzecri1960_ch3.tex:623-626, one hypothesis at a time. Carried: w : Set (S m), IsConvexPart w, IsOpen w, noyau w = ∅; 'somme de p convexes' is the strict Déf. 5 EstSommeS w v (F(v_i) convex, F(w) the Déf. 1 sum) over any Fintype I; the bases c_i : span F(v_i) ≃ ℝ^{k_i+1} are universally quantified (every choice), and exists_bases_supports shows they exist, so the statement is not vacuous. Conclusion: openness of every V_i = ofCone(c_i '' F(v_i)) is proved (∃ hV), not assumed, and both equivalences (IsBalayable, IsHomogeneous) are stated. Two hypotheses are added and disclosed, and the row stays partial: ¬ ContientDroite (F w) (OQ-168/OQ-171, inherited from Prop. 4/5) and w.Nonempty (a reading). The 'les v_i le sont' reading (v_i read in its support through a basis) is disclosed. Intermediate lemmas: hyps4_lecture, simplesS_eq_iUnion_lecture, sommandeS_lecture and prop5_lecture assume only Hyps4 w, EstSommeS w v, bases and (for sommandeS_lecture) t ∈ simplesS V_i. All of these are inhabited by simplexO_hyps4, simplexO_estSommeS_edges and exists_bases_supports, and simplesS V_i is nonempty. None is vacuous. prop5_lecture ⇐ chooses bases, which is legitimate because prop5_balayable_somme holds for every enumeration and every basis. Lecture is an existential over a basis with the openness witness, not a trivially inhabited structure, and the corollary's final statement does not go through Lecture with a fixed basis. The label appears in backticks without the ** mark, which is correct for a partial result."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Chapter3/BalayableSommeCor.lean` rc=0 with no output. The single grep hit for 'sorry' is docstring prose (l.14). No set_option, linter, axiom, admit or native_decide in the file. #print axioms gives [propext, Classical.choice, Quot.sound] for corollaire_balayable_somme, hyps4_lecture, exists_bases_supports, simplesS_eq_iUnion_lecture, sommandeS_lecture, preimage_sommandeS_lecture, prop5_lecture, lecture_congr, simplexO_corollaire, edges_isHomogeneous and simplexO_lecture_isHomogeneous. The probe file was written under the campaign directory and then deleted. No lake build was run, as the dispatch required."
+  },
+  "instances": "simplexO_corollaire, edges_isHomogeneous and simplexO_lecture_isHomogeneous are real theorems with proofs, and they use the strict simplexO_hyps4, simplexO_estSommeS_edges, simplexO_isHomogeneous and simplexO_simplesS_ncard. The p = 2 instance (two open edges, each an arc of S(1) and not simple) exercises the refinement step.",
+  "scope": "Within lean-benzecri the only changes are the new scaffold/BenzecriScaffold/Chapter3/BalayableSommeCor.lean, the one added import line in scaffold/BenzecriScaffold.lean (diff checked), and campaign/T-bz-c3-balayable-somme-cor/. The other modified paths in git status (restatements, ladder, roadmap, lean-causal kb, tests) were already in the session-start snapshot and belong to other loops. lean-gx shows no working-tree change.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "scaffold/BenzecriScaffold/Chapter3/BalayableSommeCor.lean:52-53",
+      "what": "The hypothesis checklist uses the tags '⚠ ADDED' and '⚠ reading' rather than the kb 0006 vocabulary ('⚠ strengthened' when the Lean theorem assumes more). The meaning is clear and both rows are disclosed, but the wording does not follow the contract.",
+      "fix": "Change the two rows to '⚠ strengthened (added: …)'."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json findings[1]; BalayableSommeCor.lean:53",
+      "what": "The w = ∅ remark is substantively correct. With F(∅) = ∅, the Déf. 5 bijection forces I to be nonempty and some F(v_j) = ∅, while the other v_i are unconstrained. Under Déf. 15 as formalized, ∅ is vacuously sweepable (K = ∅) and vacuously homogeneous, so the ⇒ direction would require arbitrary convexes to be sweepable. The remark leaves out that load-bearing step (the empty open is vacuously sweepable and homogeneous). It is also correctly worded as 'imprecise' and 'argued, not formalized', not as a refutation.",
+      "fix": "Add one clause, e.g. '(∅ is vacuously sweepable and homogeneous under Déf. 15)', so that the degenerate failure can be checked by the author."
+    }
+  ]
+}
