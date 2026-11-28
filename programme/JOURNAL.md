@@ -961,3 +961,21 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
 - commits: a4fb5a09 6671496d cc039ab3 bdc22114 49add0f7 9659db7a (ledgers; ers-predictability curated; restate detect 0)
 - next: a PLANNING RUN (rule 2: one ready abstract target, T-abs-sc-open-hoist, exclusive). If it can add no ready target, the exclusive targets come next, one per lean-causal wave: T-tac-dual-future-one-connected (wave picks it now), then T-abs-sc-open-hoist
+
+## 2026-11-28 01:49 · planning run · rule 2 after wave 48; 204 → 208 targets
+- New targets:
+  - ready:
+    - T-abs-ers-etale-gluing (closer, layer 1): gluing U₁ and U₂ along an open A with Causal.Gluing; the projection a local homeomorphism, injective iff U₁ ∩ U₂ ⊆ A; Hausdorff iff A is closed in U₁ ∩ U₂; functions glue and descend iff they agree on U₁ ∩ U₂ (ERS l.850–852, Thm 3.45). It is the design pass T-abs-ers-etale-mghd waited for.
+    - T-abs-past-inextensible-meets-cauchy (closer, layer 1): on a T1 second countable space, a past-inextensible causal curve through J⁺(S, W) meets the Cauchy surface S (W causally arc-connected, ≤_W antisymmetric); Sbierski 2312.07443's (2.4), the last step of his Thm 1.5.
+    - T-lad-record-curve-nested-rational (keeper): curve_nested ⇏ le_nested re-pointed to Causal.rationalLine_separates_curveNested (either reading), and CurveNestedOn.inextensibleNestedOn_of_causalCurveOn_eq at curve_nested.
+  - done: T-bind-ers-4-82-restart-separation (planner, applied; a2ddd264): the ERS binder's "argued" sentence on the restart separation replaced by restart_separation, OQ-157 cited.
+- Rescoped:
+  - T-abs-flrw-type and T-lad-programme-properties no longer wait on each other: the property target now depends on the FLRW target, which writes the boundary-chart definition.
+  - T-abs-ers-etale-mghd depends on the étale gluing.
+  - T-lad-gluing-reading: the curve_nested item moved out.
+- The 6 open pairs: nothing plannable. strongly_causal → strongly_causal_open has no construction (none of waves 46–48's witnesses applies). The rest wait on OQ-95/96 and OQ-97.
+- Beyond the ladder: the partial ledger rows wait on layer 3 (OQ-100) or on readings, not on layer 1. The layer-1 gaps are ERS's Born–Infeld rows (the topological half now ready) and MGHD's data rows (OQ-97).
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
+- gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
+- commits: a2ddd264
+- next: T-lad-record-curve-nested-rational (keeper), T-abs-ers-etale-gluing, T-abs-past-inextensible-meets-cauchy (closers, lean-causal); then the exclusive T-tac-dual-future-one-connected and T-abs-sc-open-hoist
