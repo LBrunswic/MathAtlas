@@ -1116,3 +1116,10 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - T-btz-trace-complete promoted to ready, re-scoped onto the corrected route (lipOn, R″ < R), with a named instance of its hypotheses (Sig = {τ = 1/r} in E₀'s regular part) for the auditor to check; reads the same under either answer of OQ-158. T-btz-trace-graduate added (planned, exclusive master). T-btz-cauchy-spear-m0 stays planned (a relative lem_blunt_spear and the « simple analysis » remain). Evidence that still asked for SpacelikeDevelopment (graphDev _ R) corrected on four targets. No new question.
 - gates: roadmap ✓ (280 targets), atlas ✓
 - next: T-btz-trace-complete (one closer); exclusive masters T-btz-g3-dedupe, T-btz-gluing-dedupe
+
+## 2026-11-28 03:20 · wave of 1 · T-btz-trace-complete
+- T-btz-trace-complete: the second half of l.1601 — the trace of a complete spacelike-Lipschitz Σ in a blunt spear tends to +∞ at the axis (sorry-free; no hcomp needed). Non-vacuity checked binder by binder by the audit on the instance Sig = {τ = 1/r} in E₀'s regular part (no Lean term; kb/0011). Audit minor (a line number). Dispatched alone: the planner's run just before found it the only closer-sized target (rule 2 would have planned again for nothing).
+- gates: lean-gx ✓, roadmap ✓, atlas ✓, hub: no new red; restate: 0 new
+- commits: 32ea593b b55e45b7 (+ statuses)
+- wall time: 01:42–03:20; agents: 1 closer, 1 auditor
+- next: T-btz-trace-graduate (now unblocked, exclusive master) or T-btz-g3-dedupe / T-btz-gluing-dedupe (exclusive); then plan
