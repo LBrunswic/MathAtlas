@@ -1917,12 +1917,13 @@ kind = "tooling"
 paper = "benzecri"
 package = "lean-benzecri"
 exclusive = true
-status = "ready"
+status = "done"
 owner = "master"
 priority = 10
-evidence = "Found 2026-11-28 by the planner while refining T-bz-c3-somme-facettes-coniques. Both copies read « def orthant (n : ℕ) : Set (Fin (n + 1) → ℝ) := {v | ∀ i, 0 ≤ v i} » and « def simplexS (n : ℕ) : Set (S n) := ofCone (orthant n) » (FacetteDuale.lean:617/620, PointsExtremaux.lean:297/301, the second with m). FacetteConique.lean:711–712 joins them: « theorem isCorpsConvexeS_simplexS : IsCorpsConvexeS 2 (simplexS 2) := TriangleInstance.isCorpsConvexeS_simplexS ». Users: FacetteDuale, FacetteExposee (:510) and FacetteConique (:628) open FacetteDualeInstance; PointsExtremaux and ReunionConvexesSphere (:668) open TriangleInstance. Import order: PointsExtremaux imports Chapter3.FacettesSphere, FacetteDuale imports ConeAppuiAlpha, which imports FacettesSphere, so one definition fits in FacettesSphere.lean's instance section or a new Chapter3/Simplexe.lean importing it, imported by both. No curated decl names either simplexS, orthant or vertex0 (grep of papers/benzecri/certificate/curation.toml: only ReunionSphereInstance.vertex_proprietes), so a removed copy needs no curation edit; behaviour-preserving, no statement or mark changes, the benzecri ledger rebuilt. Precedents: T-bz-c2-dedupe-demidroite, T-bz-c2-dedupe-majore (exclusive, master). Run after the wave's closers, since it touches files they import."
+evidence = "one orthant/simplexS in Chapter3/Simplexe.lean, re-exported by FacetteDualeInstance; nothing renamed or retyped"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "041dd6e5"
 
 [[target]]
 id = "T-bz-c3-propriete-i"
@@ -3366,13 +3367,14 @@ title = "lean/: the exporter half of @[paper] (PAPER-ATTRIBUTE.md §5). scripts/
 stream = "hub"
 kind = "tooling"
 package = "lean"
-status = "ready"
+status = "done"
 owner = "master"
 priority = 7
 depends = ["T-hub-paper-attribute"]
-evidence = "Split 2026-11-28 by the planner from T-hub-paper-attr-curation, whose evidence says: « the attribute is built but §5 of PAPER-ATTRIBUTE.md is NOT — the exporter fields paper/conjuncts in lean/scripts/lean_facts.lean and its two throws … It is this target's first deliverable, before any placement. » lean/campaign/T-hub-paper-attribute/REPORT.json, findings: « the cross-module duplicate check (one label on two declarations from modules that do not import each other) lives only in the exporter edit, which this target does not include. No placement exists yet, so nothing is unguarded today, but the export must land before the first placement. » Checked 2026-11-28: lean/scripts/lean_facts.lean contains neither `paper` nor `conjuncts`; GFNBounds/Paper/Attribute.lean has labels (:104) and conjunctsOf (:173). tools/leanlink/docs/design/PAPER-ATTRIBUTE.md §5: « Throw if one label maps to two different declarations, naming the label and both declarations. This is the cross-module duplicate check add cannot make (§3); it runs in make facts, hence in make check, and fails it. » « In the per-declaration object, add (\"paper\", Json.arr labels) only when the array is non-empty. » « Every throw happens before the first IO.FS.writeFile, so a failing export leaves the committed docs/lean-facts.json untouched. » So with no placement the export is byte-identical, which is this target's check; its fixtures place labels only in a module outside the walk or under withoutModifyingEnv, as AttributeTest does (REPORT kb: « Fixtures that declare theorems inside run_cmd withoutModifyingEnv … leave nothing in the .olean or in lean-facts.json »). CLAUDE.md: « A gate must be able to fail. Every gate has a fixture under tools/fixtures/<gate>/ ». lean/'s gate regenerates lean/docs/ and lean/paper-map.json: restore them after the gate unless they are the commit's purpose. Unblocks T-hub-paper-attr-curation."
+evidence = "§5 exporter in scripts/lean_facts.lean; byte-identical with no placement; fixture fires all three throws, not yet in make selftest; committed lean-facts.json stale since Paper/Attribute (regenerate before the first placement); audit minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "b5b7f50b"
 
 [[target]]
 id = "T-atlas-overlay-refresh"

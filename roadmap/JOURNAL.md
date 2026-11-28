@@ -1368,3 +1368,12 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 30cf72b9 2275d3a0 9d1ba15b 878cf598
 - wall time: 11:35–11:58; agents in parallel: 1 (+ master)
 - next: no closer ready; master T-bz-c3-dedupe-simplexe (exclusive, lean-benzecri) and T-hub-paper-attr-export (lean/); then idle on rulings
+
+## 2026-11-28 12:30 · wave of 2 (master) · T-bz-c3-dedupe-simplexe, T-hub-paper-attr-export
+- T-bz-c3-dedupe-simplexe: one orthant / simplexS of S(m), in the new Chapter3/Simplexe.lean, re-exported by FacetteDualeInstance; nothing renamed, retyped or re-marked
+- T-hub-paper-attr-export: the @[paper] exporter (§5) in lean/scripts/lean_facts.lean; byte-identical with no placement; a fixture fires the three throws (dup label, unwalked placement, glue in an assembly) and fails against the old exporter; audit minor
+- open for T-hub-paper-attr-curation (not edited here): wire the fixture into make selftest (tools/selftest.py); regenerate the committed lean/docs/lean-facts.json, stale since Paper/Attribute.lean (36 keys), in its own commit before the first placement; lean_facts counts 5746 declarations for 5739 keys (7 pushed twice), uninvestigated
+- gates: lean-benzecri ✓ (87 strict files), lean/ ✓, roadmap ✓, atlas ✓, hub: no new red
+- commits: 041dd6e5 921dd4ec b5b7f50b 3acd040b
+- wall time: 12:00–12:30
+- next: nothing dispatchable in benzecri, lean-gx or lean/ without a ruling
