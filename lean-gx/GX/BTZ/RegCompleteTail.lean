@@ -1,12 +1,12 @@
-import GXScaffold.BTZ.LengthCompare
+import GX.BTZ.LengthCompare
 
 /-!
-# `GXScaffold.BTZ.RegCompleteTail` — a Cauchy sequence of `Σ*` converges when the spear radii are summable (btz § 5.4)
+# `GX.BTZ.RegCompleteTail` — a Cauchy sequence of `Σ*` converges when the spear radii are summable (btz § 5.4)
 
 Target T-btz-reg-complete-tail. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.tex`). Row
 (unmarked, partial: `𝔼₀`-scoped, T-btz-scope, and the readings OQ-142; this file is the last step
 of `btzprop:reg_complete`'s Cauchy-completeness, the tail lemma
-`LFSurgeryData.exists_isCompact_of_cauchySeq` of `GXScaffold/BTZ/RegCompleteLength.lean`, which is
+`LFSurgeryData.exists_isCompact_of_cauchySeq` of `GX/BTZ/RegCompleteLength.lean`, which is
 now proved from `exists_isCompact_of_cauchySeq_of` below):
 
 * `btzprop:reg_complete` — `BTZ_1.tex:1566–1569`, proof l.1570–1576: « the proof of
@@ -25,7 +25,7 @@ now proved from `exists_isCompact_of_cauchySeq_of` below):
   rim point (`exists_rimPt_of_notMem_core`); a point of `Σ*` off every core lies on `S`
   (`mem_of_forall_notMem_core`).
 * **A curve of `Σ*` lying on `S`** over `[a, b]` joins its ends in `S` within its `Σ*`-length
-  (`edist_le_localLength_of_mem`, through `GXScaffold.BTZ.LengthCompare`'s comparison).
+  (`edist_le_localLength_of_mem`, through `GX.BTZ.LengthCompare`'s comparison).
 * **The surgery estimate** (`edist_le_localLength_add`, `edist_le_pathLength_add`): for a curve of
   `Σ*` with ends off every core, the `S`-distance of its ends is at most its `Σ*`-length plus
   `π Σᵢ Rᵢ` over the spears whose core it meets — spear by spear in order of first entry, the
@@ -53,7 +53,7 @@ now proved from `exists_isCompact_of_cauchySeq_of` below):
 ## SCOPE (disclosed)
 
 Nothing is assumed beyond the hypotheses above, each discharged in
-`GXScaffold.BTZ.RegCompleteLength` (`LFSurgeryData.exists_isCompact_of_cauchySeq`).
+`GX.BTZ.RegCompleteLength` (`LFSurgeryData.exists_isCompact_of_cauchySeq`).
 `btzprop:reg_complete` stays partial: `𝔼₀`-scoped, and the readings of OQ-142 / DEC-31/35.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
@@ -473,7 +473,7 @@ theorem edist_le_of_path {a : Causal.Flat.InducedLengthSpace 2 Dat.sigmaStarReg}
   Causal.Flat.LocalLengthSpace.edist_le_pathLength (Causal.Flat.chartSys 2 Dat.sigmaStarReg) γ t
 
 /-- **A Cauchy sequence of `Σ*` converges** when the spear radii are summable, from three facts
-proved in `GXScaffold.BTZ.RegCompleteLength` and taken here as hypotheses so that the file does not
+proved in `GX.BTZ.RegCompleteLength` and taken here as hypotheses so that the file does not
 import it: (`htend`) a Cauchy sequence whose tail lies in a compact set of `M` converges
 (`LFSurgeryData.tendsto_of_cauchySeq_of_isCompact`), and (`hlog`) Lemma 2.8's `log r` estimate on
 `Σ*`, spear by spear (`LFSurgeryData.ofReal_abs_logRad_sub_le_edist`); and of `S` only that its

@@ -1,0 +1,125 @@
+{
+ "package": "lean-gx",
+ "target": "T-btz-reg-complete-graduate",
+ "files": [
+  "GX/BTZ/CompleteCauchy.lean",
+  "GX/BTZ/SpearFamily.lean",
+  "GX/BTZ/RegCompleteCauchy.lean",
+  "GX/BTZ/LengthCompare.lean",
+  "GX/BTZ/RegCompleteTail.lean",
+  "GX/BTZ/RegCompleteLength.lean",
+  "GX/BTZ/RegComplete.lean",
+  "GX/BTZ/Surgery.lean",
+  "GX/BTZ/LocalModel.lean",
+  "GX.lean",
+  "scaffold/GXScaffold.lean"
+ ],
+ "files_moved": {
+  "scaffold/GXScaffold/BTZ/CompleteCauchy.lean": "GX/BTZ/CompleteCauchy.lean",
+  "scaffold/GXScaffold/BTZ/SpearFamily.lean": "GX/BTZ/SpearFamily.lean",
+  "scaffold/GXScaffold/BTZ/RegCompleteCauchy.lean": "GX/BTZ/RegCompleteCauchy.lean",
+  "scaffold/GXScaffold/BTZ/LengthCompare.lean": "GX/BTZ/LengthCompare.lean",
+  "scaffold/GXScaffold/BTZ/RegCompleteTail.lean": "GX/BTZ/RegCompleteTail.lean",
+  "scaffold/GXScaffold/BTZ/RegCompleteLength.lean": "GX/BTZ/RegCompleteLength.lean",
+  "scaffold/GXScaffold/BTZ/RegComplete.lean": "GX/BTZ/RegComplete.lean"
+ },
+ "module_renames": {
+  "GXScaffold.BTZ.CompleteCauchy": "GX.BTZ.CompleteCauchy",
+  "GXScaffold.BTZ.SpearFamily": "GX.BTZ.SpearFamily",
+  "GXScaffold.BTZ.RegCompleteCauchy": "GX.BTZ.RegCompleteCauchy",
+  "GXScaffold.BTZ.LengthCompare": "GX.BTZ.LengthCompare",
+  "GXScaffold.BTZ.RegCompleteTail": "GX.BTZ.RegCompleteTail",
+  "GXScaffold.BTZ.RegCompleteLength": "GX.BTZ.RegCompleteLength",
+  "GXScaffold.BTZ.RegComplete": "GX.BTZ.RegComplete"
+ },
+ "builds": true,
+ "sorry_count": 0,
+ "make_check": "taskset -c 0-11 make -C lean-gx check: green (strict build warningAsError, scaffold build, causal_import_gate, sorry count strict 0 in 76 files / scaffold 5 in 26 files (unchanged, none in BTZ chain), axiom sweep strict 16201 declarations in 77 modules all within propext/Classical.choice/Quot.sound)",
+ "strict_line_count": {
+  "before": 153683,
+  "after": 157179,
+  "note": "wc -l over lean-gx/GX/**/*.lean. The 7 graduated files were 4198 lines in the scaffold and are 3310 in GX/BTZ; Surgery.lean 7548 -> 7725 (+177: the LFSpears structure and its Sigma* basics, the SurgeryData forms rewritten as one-line corollaries, a docstring item); LocalModel.lean 5035 -> 5044 (+9). A verbatim graduation would have given 157881; net 702 lines fewer."
+ },
+ "lines_removed": {
+  "GX/BTZ/RegCompleteLength.lean": "1323 -> 438: the ~990 lines copied from Surgery.lean (cusp interior/rim, isSpacelikeLipschitzAt_cusp, isSpacelikeLipschitz_sigmaStar, the logRad stack) replaced by one-line corollaries of E0Surgery.LFSpears.*; isClosed_of_isCauchySurface now a corollary of E0LM.sfa_isClosed_cauchy",
+  "GX/BTZ/RegCompleteCauchy.lean": "945 -> 935: sigmaStar_diff, sigmaStar_inter_spearSet, isClosed_iUnion_spearSet read off LFSpears",
+  "GX/BTZ/Surgery.lean": "the SurgeryData proofs of isSpacelikeLipschitzAt_cusp(_interior/_rim), isSpacelikeLipschitz_sigmaStar, logRad_le, abs_deriv_logRad_le, eventually_logRad_const, eventually_logRad_formula, exists_lipschitzOnWith_logRad, ofReal_abs_logRad_sub_le_edist, sigmaStar_diff, sigmaStar_inter_spearSet moved (not copied) to E0Surgery.LFSpears; the SurgeryData forms are now one-line corollaries through SurgeryData.toLFSpears"
+ },
+ "rename_map": {},
+ "rename_note": "No declaration renamed, no namespace changed, no signature changed. Checked mechanically: every constant of the seven old scaffold .olean files (.lake/build/lib/lean/GXScaffold/BTZ/*.olean, still on disk) exists in the new environment with an Expr-identical type (178 constants; the only absences are the on-demand equation lemmas sigmaStar.eq_1, sigmaStarReg.eq_1 and a proof-internal match_1_2). For Surgery.lean, whose old olean was rebuilt, every declaration header and its omit line were compared textually with HEAD's: 293 declarations, all identical.",
+ "new_decls": [
+  "GX.E0Surgery.LFSpears (structure: ι, D, disjoint, isClosed, locallyFinite)",
+  "GX.E0Surgery.LFSpears.sigmaStar",
+  "GX.E0Surgery.LFSpears.sigmaStarReg",
+  "GX.E0Surgery.LFSpears.sigmaStar_diff",
+  "GX.E0Surgery.LFSpears.sigmaStar_inter_spearSet",
+  "GX.E0Surgery.LFSpears.isClosed_iUnion_spearSet",
+  "GX.E0Surgery.LFSpears.isSpacelikeLipschitzAt_cusp_interior",
+  "GX.E0Surgery.LFSpears.isSpacelikeLipschitzAt_cusp_rim (S only spacelike Lipschitz in Reg M: hSreg)",
+  "GX.E0Surgery.LFSpears.isSpacelikeLipschitzAt_cusp",
+  "GX.E0Surgery.LFSpears.isSpacelikeLipschitz_sigmaStar",
+  "GX.E0Surgery.LFSpears.logRad",
+  "GX.E0Surgery.LFSpears.logRad_le",
+  "GX.E0Surgery.LFSpears.abs_deriv_logRad_le",
+  "GX.E0Surgery.LFSpears.eventually_logRad_const",
+  "GX.E0Surgery.LFSpears.eventually_logRad_formula",
+  "GX.E0Surgery.LFSpears.exists_lipschitzOnWith_logRad",
+  "GX.E0Surgery.LFSpears.ofReal_abs_logRad_sub_le_edist",
+  "GX.E0Surgery.SurgeryData.toLFSpears",
+  "GX.E0Surgery.SurgeryData.sigmaStar_toLFSpears (rfl)",
+  "GX.E0Surgery.SurgeryData.logRad_toLFSpears (rfl)",
+  "GX.E0SpearFamily.LFSurgeryData.toLFSpears",
+  "GX.E0SpearFamily.LFSurgeryData.sigmaStar_toLFSpears (rfl)",
+  "GX.E0SpearFamily.LFSurgeryData.logRad_toLFSpears (rfl)",
+  "GX.E0LM.sfa_isClosed_cauchy (a Cauchy surface of a globally hyperbolic E≥0-manifold with SingularFlatAxioms and CurvesExtend is closed; the general home of E0SpearFamily.isClosed_of_isCauchySurface, which is kept and derived from it)"
+ ],
+ "labels": [
+  {
+   "label": "btzprop:reg_complete",
+   "tex_lines": [
+    1566,
+    1569
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.E0RegComplete.prop_reg_complete",
+    "GX.E0RegComplete.prop_reg_complete'"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "note": "Unchanged mathematically (tooling target): the row stays partial for its E₀ scope and the OQ-142 readings, as before; only its files moved to the strict library."
+  }
+ ],
+ "isClosed_of_isCauchySurface": "Checked first that it was not in the strict libraries under another name: lean-causal has IsAcausal.Jplus_inter_Jminus (Causal.CauchySeparation) and IsCauchySurface.sigma_separe_of_isOpen (closedness of S under openness of J^±(S)∖S), and lean-gx has sfa_isClosed_Jplus_cauchy / sfa_isClosed_Jminus_cauchy (GX.BTZ.LocalModel), but no « a Cauchy surface is closed » for singular flat spacetimes. The general statement is now GX.E0LM.sfa_isClosed_cauchy beside its two siblings in GX/BTZ/LocalModel.lean (any Causality with SingularFlatAxioms, GH, CurvesExtend); lean-causal itself is outside this dispatch, so the strict home is lean-gx's. GX.E0SpearFamily.isClosed_of_isCauchySurface keeps its name and type.",
+ "docstrings": "Corrected: RegCompleteLength ('verbatim' copies -> read off LFSpears; isClosed_of_isCauchySurface), SpearFamily (toLFSpears; SCOPE 'SurgeryData left as it is'), RegCompleteCauchy (sigmaStar_toLFSpears), Surgery (new item (g)), the scaffold root docstring (which BTZ modules remain). Every GXScaffold.BTZ.<chain> module path and scaffold/GXScaffold/BTZ/<chain>.lean path in GX/ and scaffold/ rewritten to GX.BTZ.<chain> / GX/BTZ/<chain>.lean (word-bounded sed). The stale items the tail's REPORT listed (RegComplete l.39, l.58–65; SpearFamily l.61; RegCompleteCauchy l.65; LengthCompare l.8 and SCOPE l.55–56) had already been rewritten at the tail's integration; they were re-read and now only had their module paths re-pointed.",
+ "scaffold_importers": "None of the scaffold modules named in the dispatch (CauchySpear, CommonReg, LineStructure, MaxExtension, Admissible, AdmissibleLinear, RichardsSplit, SurfaceGroupNonMetabelian) imports a chain module (they import GX.BTZ.* strict modules and each other: MaxExtension, AdmissibleLinear, LineStructure); grep -rl over lean-gx found the chain imported only by the chain itself and by scaffold/GXScaffold.lean. So no import of theirs needed re-pointing; their docstrings name no chain module path.",
+ "curation_extra_lean_files": {
+  "papers/btz/certificate/curation.toml, row btzprop:reg_complete": {
+   "scaffold/GXScaffold/BTZ/CompleteCauchy.lean": "GX/BTZ/CompleteCauchy.lean",
+   "scaffold/GXScaffold/BTZ/SpearFamily.lean": "GX/BTZ/SpearFamily.lean",
+   "scaffold/GXScaffold/BTZ/RegCompleteCauchy.lean": "GX/BTZ/RegCompleteCauchy.lean",
+   "scaffold/GXScaffold/BTZ/LengthCompare.lean": "GX/BTZ/LengthCompare.lean",
+   "scaffold/GXScaffold/BTZ/RegCompleteTail.lean": "GX/BTZ/RegCompleteTail.lean",
+   "scaffold/GXScaffold/BTZ/RegCompleteLength.lean": "GX/BTZ/RegCompleteLength.lean",
+   "scaffold/GXScaffold/BTZ/RegComplete.lean": "GX/BTZ/RegComplete.lean"
+  }
+ },
+ "findings": [
+  "Not about the paper. GX/BTZ/RegCompleteCauchy.lean still carries a second copy of Surgery.lean's G3 section (cuspUp, cuspDown, futSide, pastSide, eventually_other, the sides lemmas, eventually_eq_of_sigmaStar, exists_pastSide/futSide, eq_of_forall_mem_sigmaStar: HEAD Surgery.lean l.6686–7396 against RegCompleteCauchy l.170–878, about 570 of 710 lines in common, retyped from SurgeryData to LFSurgeryData). It was not in this target's scope (the AUDIT named the ~950 lines of RegCompleteLength). The same route would work, but G3 uses `covers` and the global Cauchy facts (cauchy_facts vs cauchy_facts_lf), so LFSpears would need a `covers` field or the lemmas a hypothesis: a follow-up target.",
+  "Not about the paper. E0Surgery.SurgeryData.isSpacelikeLipschitzAt_cusp_rim (and so isSpacelikeLipschitzAt_cusp, isSpacelikeLipschitz_sigmaStar) uses only the `reg` field of IsE0C1SpacelikeCauchy: the LFSpears forms take hSreg : IsSpacelikeLipschitz 2 (regSet M S), and the SurgeryData forms keep hS (types unchanged) and pass hS.reg."
+ ],
+ "questions": [],
+ "extra_decls": [
+  "GX.E0LM.sfa_isClosed_cauchy",
+  "GX.E0Surgery.LFSpears and its 16 lemmas (new_decls)"
+ ],
+ "kb_proposals": [
+  "To share proofs between a finite and a locally finite family of spears, state them over the common structure (E0Surgery.LFSpears: ι, D, disjoint, isClosed, locallyFinite) and give each family a toLFSpears; keep each family's own definitions (sigmaStar, logRad) with identical bodies, so `X.toLFSpears.sigmaStar = X.sigmaStar` is rfl and the old lemmas become one-line terms `Dat.toLFSpears.foo ...` that the elaborator accepts by unfolding, with no rewrite and with downstream `rw [SurgeryData.logRad, if_pos h]` unchanged.",
+  "Behaviour preservation across a move can be checked mechanically while the old .olean files are still on disk: readModuleData each old olean and compare every constant's type Expr with the new environment's (`c'.type != c.type`); the only expected absences are on-demand eq_n lemmas and proof-internal match_ auxiliaries.",
+  "When inserting a block before a docstring anchor, the `omit … in` line above the docstring belongs to the following declaration: insert before the omit, or the next declaration silently gains an instance argument (here caught by linter.unusedSectionVars and a failed instance search downstream)."
+ ],
+ "notes": "Nothing committed; the seven moves are staged by git mv (the dispatch's instruction), every other edit is unstaged. For the loop: (1) rewrite papers/btz/certificate/curation.toml row btzprop:reg_complete extra_lean_files as listed, and its notes still say 'in the scaffold (GXScaffold.BTZ.RegComplete)' (historical); (2) lean-gx/README.md's module table and its 'State' line do not list the seven new strict modules (README is outside this dispatch); (3) roadmap evidence strings name GXScaffold.BTZ.* (historical, left); (4) stale oleans of the moved modules remain under lean-gx/.lake/build/lib/lean/GXScaffold/BTZ/ (I do not touch .lake/; nothing imports them, make check is green with them present; delete them if a clean tree is wanted); (5) the btz and gx ledgers must be rebuilt (decl locations moved from scaffold to strict); new decls (E0Surgery.LFSpears.*) may be added to the brunswic2021cauchy rows (prop:abs_max G4/G5) if the curation wants the principal there — the SurgeryData forms remain and now use them."
+}

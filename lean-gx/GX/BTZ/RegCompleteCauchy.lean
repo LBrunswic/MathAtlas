@@ -1,12 +1,12 @@
-import GXScaffold.BTZ.SpearFamily
+import GX.BTZ.SpearFamily
 
 /-!
-# `GXScaffold.BTZ.RegCompleteCauchy` — the surgered surface `Σ*` of a locally finite spear family is a Cauchy surface of `Reg M` (btz § 5.4)
+# `GX.BTZ.RegCompleteCauchy` — the surgered surface `Σ*` of a locally finite spear family is a Cauchy surface of `Reg M` (btz § 5.4)
 
 Target T-btz-reg-complete-cauchy. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.tex`). Row
 (unmarked, partial; this file is step (2) of the Cauchy-completeness of `Reg M`,
 `GX.E0RegComplete.regM_isCauchyComplete_of_complete`, assembled in
-`GXScaffold/BTZ/RegCompleteLength.lean`):
+`GX/BTZ/RegCompleteLength.lean`):
 
 * `btzprop:reg_complete` — `BTZ_1.tex:1566–1569`, proof l.1570–1576, which cites the surgery of
   `prop:abs_max`'s proof (l.1090–1093) with possibly infinitely many spears.
@@ -21,9 +21,11 @@ Target T-btz-reg-complete-cauchy. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.
 
 ## What is proved (no `sorry` in this file; standard axioms only)
 
-* `LFSurgeryData.sigmaStar`: `Σ*` of an `LFSurgeryData` (`GXScaffold.BTZ.SpearFamily`), `S`
+* `LFSurgeryData.sigmaStar`: `Σ*` of an `LFSurgeryData` (`GX.BTZ.SpearFamily`), `S`
   outside the spears and the cusp of Lemma 2.6(ii) inside each; `sigmaStar_toSurgeryData`: for a
-  finite family it is the strict `E0Surgery.SurgeryData.sigmaStar`.
+  finite family it is the strict `E0Surgery.SurgeryData.sigmaStar`; `sigmaStar_toLFSpears`: it is
+  `E0Surgery.LFSpears.sigmaStar` of `toLFSpears` (`rfl`), whence `sigmaStar_diff`,
+  `sigmaStar_inter_spearSet` and `isClosed_iUnion_spearSet`.
 * `LFSurgeryData.isCauchySurface_sigmaStar`: **`Σ*` is a Cauchy surface of `Reg M`** for every
   locally finite family, finitely or infinitely many spears, for `S` only a Cauchy surface of `M`
   (no compactness, no completeness, no smoothness). Remark 2.12 (`rem:curve_spear`) is not a
@@ -62,7 +64,7 @@ along the curve and a neighbourhood meets finitely many spears (`eventually_othe
 ## SCOPE (disclosed)
 
 Step (2) only. That `Σ*` is complete for its induced length with infinitely many spears (step (3))
-is `GXScaffold.BTZ.RegCompleteLength` (sorry-free since T-btz-reg-complete-tail);
+is `GX.BTZ.RegCompleteLength` (sorry-free since T-btz-reg-complete-tail);
 `btzprop:reg_complete` stays partial for its `𝔼₀` scope.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
@@ -133,31 +135,19 @@ theorem finite_spears_of_isCompact {K : Set M} (hK : IsCompact K) :
   Dat.locallyFinite.finite_nonempty_inter_compact hK
 
 omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
+/-- `Σ*` is the one of the common family `toLFSpears`. -/
+theorem sigmaStar_toLFSpears : Dat.toLFSpears.sigmaStar = Dat.sigmaStar := rfl
+
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
 /-- `Σ*` is `Σ` outside the spears. -/
-theorem sigmaStar_diff : Dat.sigmaStar \ ⋃ i, (Dat.D i).spearSet = S \ ⋃ i, (Dat.D i).spearSet := by
-  ext y
-  simp only [sigmaStar, Set.mem_sdiff, mem_union, mem_iUnion]
-  constructor
-  · rintro ⟨h | ⟨i, hi⟩, hn⟩
-    · exact h
-    · exact absurd ⟨i, (Dat.D i).cusp_subset_spearSet hi⟩ hn
-  · rintro ⟨h, hn⟩
-    exact ⟨Or.inl ⟨h, hn⟩, hn⟩
+theorem sigmaStar_diff : Dat.sigmaStar \ ⋃ i, (Dat.D i).spearSet = S \ ⋃ i, (Dat.D i).spearSet :=
+  Dat.toLFSpears.sigmaStar_diff
 
 omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
 /-- `Σ*` is the cusp inside each spear. -/
 theorem sigmaStar_inter_spearSet (i : Dat.ι) :
-    Dat.sigmaStar ∩ (Dat.D i).spearSet = (Dat.D i).cusp := by
-  ext y
-  simp only [sigmaStar, mem_inter_iff, mem_union, Set.mem_sdiff, mem_iUnion]
-  constructor
-  · rintro ⟨⟨-, hn⟩ | ⟨j, hj⟩, hi⟩
-    · exact absurd ⟨i, hi⟩ hn
-    · rcases eq_or_ne j i with rfl | hji
-      · exact hj
-      · exact absurd hi (Set.disjoint_left.1 (Dat.disjoint hji) ((Dat.D j).cusp_subset_spearSet hj))
-  · intro hy
-    exact ⟨Or.inr ⟨i, hy⟩, (Dat.D i).cusp_subset_spearSet hy⟩
+    Dat.sigmaStar ∩ (Dat.D i).spearSet = (Dat.D i).cusp :=
+  Dat.toLFSpears.sigmaStar_inter_spearSet i
 
 omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] in
 /-- **`Σ*` lies in `Reg M`.** -/
@@ -203,7 +193,7 @@ theorem eq_of_mem_spearSet {i j : Dat.ι} {y : M} (hi : y ∈ (Dat.D i).spearSet
 omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
 /-- **The union of the spears is closed** (local finiteness, in place of finiteness). -/
 theorem isClosed_iUnion_spearSet : IsClosed (⋃ i, (Dat.D i).spearSet) :=
-  Dat.locallyFinite.isClosed_iUnion Dat.isClosed
+  Dat.toLFSpears.isClosed_iUnion_spearSet
 
 omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
 /-- **Near a point of spear `i`, no other spear** (local finiteness: a neighbourhood meets

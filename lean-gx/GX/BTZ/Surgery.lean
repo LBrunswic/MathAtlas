@@ -136,6 +136,16 @@ and DEC-116 (d):
 * (f) WP-47c (DEC-125 (d)(e)): the two remaining rows, Remark 2.12 (with `M` globally hyperbolic)
   and Prop 2.17's first assertion (`𝔼₀` only, `A = {0}`), close under the author's readings with
   no code change; both were already 0 `sorry`.
+* (g) T-btz-reg-complete-graduate: (G4a) at the cusps (`isSpacelikeLipschitzAt_cusp_interior`,
+  `_rim`, `isSpacelikeLipschitzAt_cusp`), (G4) and Lemma 2.8's `log r` stack (`logRad`,
+  `logRad_le`, `abs_deriv_logRad_le`, `eventually_logRad_const`, `eventually_logRad_formula`,
+  `exists_lipschitzOnWith_logRad`, `ofReal_abs_logRad_sub_le_edist`) are stated once over
+  `E0Surgery.LFSpears`, a locally finite family of pairwise disjoint closed spears with its own
+  `Σ*` (`LFSpears.sigmaStar`); the rim case asks of `S` only that it be spacelike Lipschitz in
+  `Reg M` (`hSreg`, the field `reg` of `IsE0C1SpacelikeCauchy`). The `SurgeryData` forms, names
+  and types unchanged, are read off through `SurgeryData.toLFSpears` (a finite family is locally
+  finite; `sigmaStar_toLFSpears` and `logRad_toLFSpears` are `rfl`), as the locally finite
+  `E0SpearFamily.LFSurgeryData` of `GX.BTZ.RegCompleteLength` is.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`); lean-causal `ca2ad78` (imports strict
 `Causal.Flat.CauchyComplete`, DEC-33).
@@ -2753,7 +2763,7 @@ structure IsE0C1SpacelikeCauchy (S : Set M) : Prop where
 
 omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
 /-- **The `C¹` rim condition** on a surface `S` (the field `rim` of `IsE0C1SpacelikeCauchy`,
-verbatim; T-gx-btz-cleanup, moved here from `GXScaffold.BTZ.SpearFamily`): the trace of `S` on the
+verbatim; T-gx-btz-cleanup, moved here from `GX.BTZ.SpearFamily`): the trace of `S` on the
 shaft of every spear chart meeting it along a continuous graph is a `C¹` circle. With the Cauchy
 property it is all the spear data of the surgery use of `S` (`exists_spearSurgeryDatum`,
 `exists_spearSurgeryDatum_cover`, `SpearSurgeryDatum.exists_shrink`); neither compactness nor the
@@ -2963,23 +2973,26 @@ theorem SpearSurgeryDatum.exists_shrink {S : Set M} (hrim : RimC1 M S)
     hsl, habove, hC, hcomp, hlim, hδ⟩, rfl, rfl, rfl, rfl⟩
 
 variable (M) in
-/-- **The data of the surgery** (B21 Prop 2.17's proof, l.1091): finitely many spears, one
-around each BTZ line, pairwise disjoint, closed (B21 Def 2.1: the boundary of a spear
-neighbourhood is its head and its shaft), covering `S ∩ sing₀(M)`. -/
-structure SurgeryData (S : Set M) where
+/-- **A locally finite family of pairwise disjoint closed spears** around points of `S`: the
+common part of the finite `SurgeryData` (B21 Prop 2.17's proof, l.1091) and the countable,
+locally finite `E0SpearFamily.LFSurgeryData` (B21 l.1090–1091, btz l.1574). The surgered surface
+`Σ*`, the spacelike Lipschitz property at the cusps ((G4a), Lemma 2.7) and Lemma 2.8's `log r`
+estimate use one spear at a time, the disjointness and the closedness of the union of the other
+spears only, so they are stated once here and read off for both families
+(`SurgeryData.toLFSpears`, `E0SpearFamily.LFSurgeryData.toLFSpears`). -/
+structure LFSpears (S : Set M) where
   ι : Type
-  finite : Finite ι
   D : ι → SpearSurgeryDatum M S
   disjoint : Pairwise fun i j => Disjoint (D i).spearSet (D j).spearSet
   isClosed : ∀ i, IsClosed (D i).spearSet
-  covers : S ∩ E0CBG.S0 M ⊆ ⋃ i, (D i).spearSet
+  locallyFinite : LocallyFinite fun i => (D i).spearSet
 
-namespace SurgeryData
+namespace LFSpears
 
-variable {S : Set M} (Dat : SurgeryData M S)
+variable {S : Set M} (Dat : LFSpears M S)
 
-/-- **The surgery `Σ*`** (B21 l.1091): « equal to `Σ` outside the spear neighbourhoods and
-equal to the graph obtained by the point (ii) of Lemma 2.6 inside each ». -/
+/-- **The surgery `Σ*`** of the family: `Σ` outside the spears, the cusp of Lemma 2.6(ii) inside
+each. -/
 def sigmaStar : Set M := (S \ ⋃ i, (Dat.D i).spearSet) ∪ ⋃ i, (Dat.D i).cusp
 
 /-- `Σ*` read in `Reg M`. -/
@@ -3011,6 +3024,57 @@ theorem sigmaStar_inter_spearSet (i : Dat.ι) :
       · exact absurd hi (Set.disjoint_left.1 (Dat.disjoint hji) ((Dat.D j).cusp_subset_spearSet hj))
   · intro hy
     exact ⟨Or.inr ⟨i, hy⟩, (Dat.D i).cusp_subset_spearSet hy⟩
+
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
+/-- **The union of the spears is closed** (local finiteness). -/
+theorem isClosed_iUnion_spearSet : IsClosed (⋃ i, (Dat.D i).spearSet) :=
+  Dat.locallyFinite.isClosed_iUnion Dat.isClosed
+
+end LFSpears
+
+variable (M) in
+/-- **The data of the surgery** (B21 Prop 2.17's proof, l.1091): finitely many spears, one
+around each BTZ line, pairwise disjoint, closed (B21 Def 2.1: the boundary of a spear
+neighbourhood is its head and its shaft), covering `S ∩ sing₀(M)`. -/
+structure SurgeryData (S : Set M) where
+  ι : Type
+  finite : Finite ι
+  D : ι → SpearSurgeryDatum M S
+  disjoint : Pairwise fun i j => Disjoint (D i).spearSet (D j).spearSet
+  isClosed : ∀ i, IsClosed (D i).spearSet
+  covers : S ∩ E0CBG.S0 M ⊆ ⋃ i, (D i).spearSet
+
+namespace SurgeryData
+
+variable {S : Set M} (Dat : SurgeryData M S)
+
+/-- **The surgery `Σ*`** (B21 l.1091): « equal to `Σ` outside the spear neighbourhoods and
+equal to the graph obtained by the point (ii) of Lemma 2.6 inside each ». -/
+def sigmaStar : Set M := (S \ ⋃ i, (Dat.D i).spearSet) ∪ ⋃ i, (Dat.D i).cusp
+
+/-- `Σ*` read in `Reg M`. -/
+def sigmaStarReg : Set (e0RegMFlat M) := regSet M Dat.sigmaStar
+
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
+/-- **A finite family is locally finite**: the common `LFSpears` of the surgery. -/
+def toLFSpears : LFSpears M S :=
+  haveI := Dat.finite
+  ⟨Dat.ι, Dat.D, Dat.disjoint, Dat.isClosed, locallyFinite_of_finite _⟩
+
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
+/-- `Σ*` is the one of the family `toLFSpears`. -/
+theorem sigmaStar_toLFSpears : Dat.toLFSpears.sigmaStar = Dat.sigmaStar := rfl
+
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
+/-- `Σ*` is `Σ` outside the spears. -/
+theorem sigmaStar_diff : Dat.sigmaStar \ ⋃ i, (Dat.D i).spearSet = S \ ⋃ i, (Dat.D i).spearSet :=
+  Dat.toLFSpears.sigmaStar_diff
+
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
+/-- `Σ*` is the cusp inside each spear. -/
+theorem sigmaStar_inter_spearSet (i : Dat.ι) :
+    Dat.sigmaStar ∩ (Dat.D i).spearSet = (Dat.D i).cusp :=
+  Dat.toLFSpears.sigmaStar_inter_spearSet i
 
 omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] in
 /-- **`Σ*` lies in `Reg M`.** -/
@@ -5298,7 +5362,7 @@ Lipschitz. Near `ψ(x)` the flat chart of `Reg M` is `g • chartMap x ∘ ψ⁻
 set of the height `chartHeight G g`, `C¹` with derivative positive on the future causal cone at
 the point (Lemma 2.7, `fderiv_chartHeight_pos`), hence cone-increasing on a ball
 (`exists_ball_isConeIncreasingOn`). -/
-theorem SurgeryData.isSpacelikeLipschitzAt_cusp_interior {S : Set M} (Dat : SurgeryData M S)
+theorem LFSpears.isSpacelikeLipschitzAt_cusp_interior {S : Set M} (Dat : LFSpears M S)
     (i : Dat.ι) {y : e0RegMFlat M} {x : E0} (hx : x ∈ graphSet (Dat.D i).G (Dat.D i).R)
     (hxR : rad x < (Dat.D i).R) (hy : regVal M y = (Dat.D i).ψ (paperInY x)) :
     IsSpacelikeLipschitzAt Dat.sigmaStarReg y := by
@@ -5412,18 +5476,27 @@ theorem SurgeryData.isSpacelikeLipschitzAt_cusp_interior {S : Set M} (Dat : Surg
     exact ⟨z₀, ⟨hT, hz₀src⟩, hez₀⟩
 
 omit [SecondCountableTopology M] in
+/-- (G4a), interior case, for the finite family (`LFSpears.isSpacelikeLipschitzAt_cusp_interior`). -/
+theorem SurgeryData.isSpacelikeLipschitzAt_cusp_interior {S : Set M} (Dat : SurgeryData M S)
+    (i : Dat.ι) {y : e0RegMFlat M} {x : E0} (hx : x ∈ graphSet (Dat.D i).G (Dat.D i).R)
+    (hxR : rad x < (Dat.D i).R) (hy : regVal M y = (Dat.D i).ψ (paperInY x)) :
+    IsSpacelikeLipschitzAt Dat.sigmaStarReg y :=
+  Dat.toLFSpears.isSpacelikeLipschitzAt_cusp_interior i hx hxR hy
+
+omit [SecondCountableTopology M] in
 open scoped Pointwise in
 set_option maxHeartbeats 1000000 in
 /-- **(G4a), rim case**: at a point `ψ(x)` of a cusp with `r(x) = R`, `Σ*` is spacelike Lipschitz.
-In the frame `g₁` in which `S` is locally the graph of a `c₁`-Lipschitz `u` (`hS.reg`), `Σ*` is
+In the frame `g₁` in which `S` is locally the graph of a `c₁`-Lipschitz `u` (`hSreg`), `Σ*` is
 the zero set of the function equal to the cusp height `chartHeight G (g₁ g)` on `{r ≤ R}` and to
 the null-shift height `σ` of `S` along the developed `∂_τ` on `{r > R}` (`exists_nullShift`). The
 two agree on the cylinder `r = R` (the rim `C = C*`: shifting along `∂_τ` stays on the cylinder,
 where the cusp and `S` meet `τ`-lines at the same point), so the function is continuous; each is
 cone-increasing, and across the cylinder a segment is cut at a crossing point (intermediate value
 theorem), so the glued function is cone-increasing. -/
-theorem SurgeryData.isSpacelikeLipschitzAt_cusp_rim {S : Set M} (hS : IsE0C1SpacelikeCauchy M S)
-    (Dat : SurgeryData M S) (i : Dat.ι) {y : e0RegMFlat M} {x : E0}
+theorem LFSpears.isSpacelikeLipschitzAt_cusp_rim {S : Set M}
+    (hSreg : Causal.Flat.IsSpacelikeLipschitz 2 (regSet M S))
+    (Dat : LFSpears M S) (i : Dat.ι) {y : e0RegMFlat M} {x : E0}
     (hx : x ∈ graphSet (Dat.D i).G (Dat.D i).R) (hxR : rad x = (Dat.D i).R)
     (hy : regVal M y = (Dat.D i).ψ (paperInY x)) :
     IsSpacelikeLipschitzAt Dat.sigmaStarReg y := by
@@ -5444,7 +5517,7 @@ theorem SurgeryData.isSpacelikeLipschitzAt_cusp_rim {S : Set M} (hS : IsE0C1Spac
   have hxS : D.ψ (paperInY x) ∈ S := (D.graph x hxsp).2 (by rw [hx1, rim_value D.rim hxR])
   have hyS : y ∈ regSet M S := show regVal M y ∈ S by rw [hy]; exact hxS
   set e := chartAt (Causal.Minkowski 2) y with he
-  obtain ⟨V, hpV, hVt, hVL⟩ := hS.reg y hyS
+  obtain ⟨V, hpV, hVt, hVL⟩ := hSreg y hyS
   set Sc := e '' (regSet M S ∩ e.source) ∩ (V : Set (Causal.Minkowski 2)) with hSc
   have hySc : e y ∈ Sc := ⟨⟨y, ⟨hyS, mem_chart_source _ y⟩, rfl⟩, hpV⟩
   obtain ⟨g₁, O, U', u, c₁, hc₁, hpO, hOV, hU', hu, hgr⟩ := hVL.locGraph (e y) hySc
@@ -5491,9 +5564,9 @@ theorem SurgeryData.isSpacelikeLipschitzAt_cusp_rim {S : Set M} (hS : IsE0C1Spac
     rw [hΦ₀]; exact hx.2.2
   -- the other spears
   set Oth : Set M := ⋃ j : {j : Dat.ι // j ≠ i}, (Dat.D j).spearSet with hOth
-  have hOthc : IsClosed Oth := by
-    haveI := Dat.finite
-    exact isClosed_iUnion_of_finite fun j => Dat.isClosed j
+  have hOthc : IsClosed Oth :=
+    (Dat.locallyFinite.comp_injective Subtype.val_injective).isClosed_iUnion
+      fun j => Dat.isClosed j
   have hxOth : D.ψ (paperInY x) ∉ Oth := by
     rintro hm'
     obtain ⟨⟨j, hj⟩, hjm⟩ := mem_iUnion.1 hm'
@@ -5809,6 +5882,62 @@ theorem SurgeryData.isSpacelikeLipschitzAt_cusp_rim {S : Set M} (hS : IsE0C1Spac
       exact ⟨h1, h2⟩
 
 omit [SecondCountableTopology M] in
+/-- (G4a), rim case, for the finite family (`LFSpears.isSpacelikeLipschitzAt_cusp_rim`, with
+`hS.reg`). -/
+theorem SurgeryData.isSpacelikeLipschitzAt_cusp_rim {S : Set M} (hS : IsE0C1SpacelikeCauchy M S)
+    (Dat : SurgeryData M S) (i : Dat.ι) {y : e0RegMFlat M} {x : E0}
+    (hx : x ∈ graphSet (Dat.D i).G (Dat.D i).R) (hxR : rad x = (Dat.D i).R)
+    (hy : regVal M y = (Dat.D i).ψ (paperInY x)) :
+    IsSpacelikeLipschitzAt Dat.sigmaStarReg y :=
+  Dat.toLFSpears.isSpacelikeLipschitzAt_cusp_rim hS.reg i hx hxR hy
+
+omit [SecondCountableTopology M] in
+/-- **(G4a) for the family**: `Σ*` is spacelike Lipschitz at the points of the cusps
+(`isSpacelikeLipschitzAt_cusp_interior` for `r < R`, `isSpacelikeLipschitzAt_cusp_rim` for
+`r = R`). -/
+theorem LFSpears.isSpacelikeLipschitzAt_cusp {S : Set M}
+    (hSreg : Causal.Flat.IsSpacelikeLipschitz 2 (regSet M S))
+    (Dat : LFSpears M S) (i : Dat.ι) {y : e0RegMFlat M}
+    (hy : regVal M y ∈ (Dat.D i).cusp) : IsSpacelikeLipschitzAt Dat.sigmaStarReg y := by
+  obtain ⟨_, ⟨x, hx, rfl⟩, hxy⟩ := hy
+  rcases hx.2.1.lt_or_eq with h | h
+  · exact Dat.isSpacelikeLipschitzAt_cusp_interior i hx h hxy.symm
+  · exact Dat.isSpacelikeLipschitzAt_cusp_rim hSreg i hx h hxy.symm
+
+omit [SecondCountableTopology M] in
+/-- **(G4) for the family**: `Σ*` is spacelike Lipschitz in the flat charts of `Reg M`; outside
+the (closed, by local finiteness) union of the spears it is `S` near the point
+(`IsSpacelikeLipschitzAt.congr`, `sigmaStar_diff`), inside a spear the cusp. -/
+theorem LFSpears.isSpacelikeLipschitz_sigmaStar {S : Set M}
+    (hSreg : Causal.Flat.IsSpacelikeLipschitz 2 (regSet M S))
+    (Dat : LFSpears M S) : Causal.Flat.IsSpacelikeLipschitz 2 Dat.sigmaStarReg := by
+  intro y hy
+  by_cases hin : regVal M y ∈ ⋃ i, (Dat.D i).spearSet
+  · obtain ⟨i, hi⟩ := mem_iUnion.1 hin
+    have hc : regVal M y ∈ (Dat.D i).cusp := by
+      rw [← Dat.sigmaStar_inter_spearSet i]; exact ⟨hy, hi⟩
+    exact Dat.isSpacelikeLipschitzAt_cusp hSreg i hc
+  · have hcl : IsClosed (⋃ i, (Dat.D i).spearSet) := Dat.isClosed_iUnion_spearSet
+    set O : Set (e0RegMFlat M) := regSet M (⋃ i, (Dat.D i).spearSet)ᶜ
+    have hO : IsOpen O := hcl.isOpen_compl.preimage continuous_subtype_val
+    have hyS : y ∈ regSet M S := by
+      have h : regVal M y ∈ Dat.sigmaStar \ ⋃ i, (Dat.D i).spearSet := ⟨hy, hin⟩
+      rw [Dat.sigmaStar_diff] at h
+      exact h.1
+    refine IsSpacelikeLipschitzAt.congr (hSreg y hyS) hO hin ?_
+    ext z
+    simp only [LFSpears.sigmaStarReg, regSet, O, mem_inter_iff, mem_setOf_eq]
+    constructor
+    · rintro ⟨hz, hzO⟩
+      have h : regVal M z ∈ Dat.sigmaStar \ ⋃ i, (Dat.D i).spearSet := ⟨hz, hzO⟩
+      rw [Dat.sigmaStar_diff] at h
+      exact ⟨h.1, hzO⟩
+    · rintro ⟨hz, hzO⟩
+      have h : regVal M z ∈ S \ ⋃ i, (Dat.D i).spearSet := ⟨hz, hzO⟩
+      rw [← Dat.sigmaStar_diff] at h
+      exact ⟨h.1, hzO⟩
+
+omit [SecondCountableTopology M] in
 /-- `SpearSurgeryDatum.eventually_regChart` for an arbitrary chart of the flat atlas of `Reg M`
 (compatibility, `Causal.exists_smul_eq_of_mem_gxGroupoid`). -/
 theorem SpearSurgeryDatum.eventually_atlasChart {S : Set M} (D : SpearSurgeryDatum M S) {x : E0}
@@ -5841,7 +5970,7 @@ open Classical in
 /-- **The clamped log-radius of the `i`-th cusp**, a function on `M`: `log (min r (R/2))` in the
 spear, `log (R/2)` off it (B21 Lemma 2.8's `log r` estimate, cut below `R/2` so that the function
 is locally constant near the rims). -/
-noncomputable def SurgeryData.logRad {S : Set M} (Dat : SurgeryData M S) (i : Dat.ι) (z : M) : ℝ :=
+noncomputable def LFSpears.logRad {S : Set M} (Dat : LFSpears M S) (i : Dat.ι) (z : M) : ℝ :=
   if z ∈ (Dat.D i).spearSet then Real.log (min (rad ((Dat.D i).coord z)) ((Dat.D i).R / 2))
   else Real.log ((Dat.D i).R / 2)
 
@@ -5854,9 +5983,9 @@ theorem SpearSurgeryDatum.coord_mem_graphSet {S : Set M} (D : SpearSurgeryDatum 
 
 omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
 /-- On `Σ*` the clamped log-radius is at most `log (R/2)`. -/
-theorem SurgeryData.logRad_le {S : Set M} (Dat : SurgeryData M S) (i : Dat.ι) {z : M}
+theorem LFSpears.logRad_le {S : Set M} (Dat : LFSpears M S) (i : Dat.ι) {z : M}
     (hz : z ∈ Dat.sigmaStar) : Dat.logRad i z ≤ Real.log ((Dat.D i).R / 2) := by
-  unfold SurgeryData.logRad
+  unfold LFSpears.logRad
   split_ifs with h
   · have hc : z ∈ (Dat.D i).cusp := by rw [← Dat.sigmaStar_inter_spearSet i]; exact ⟨hz, h⟩
     have hr := ((Dat.D i).coord_mem_graphSet hc).1
@@ -5878,7 +6007,7 @@ omit [SecondCountableTopology M] in
 in a flat chart, the derivative of the clamped log-radius is at most `√(ds²(v))` (where the clamp
 is active it is locally constant or has a local maximum; in the cusp below `R/2`, `v` is tangent
 to the height's level set and `δ ≥ 1/r²`, `sq_le_minkQ_of_tangent`). -/
-theorem SurgeryData.abs_deriv_logRad_le {S : Set M} (Dat : SurgeryData M S) (i : Dat.ι)
+theorem LFSpears.abs_deriv_logRad_le {S : Set M} (Dat : LFSpears M S) (i : Dat.ι)
     (hδ : ∀ q : ℝ × ℝ, 0 < q.1 → ∃ L : ℝ × ℝ →L[ℝ] ℝ, HasFDerivAt (Dat.D i).G L q ∧
       1 / q.1 ^ 2 ≤ spacelikeDelta (L (1, 0)) (L (0, 1)) q.1)
     {c : ℝ → e0RegMFlat M} {t : ℝ} (hc : ContinuousAt c t)
@@ -5900,7 +6029,7 @@ theorem SurgeryData.abs_deriv_logRad_le {S : Set M} (Dat : SurgeryData M S) (i :
   swap
   · apply hconst
     filter_upwards [hcM.preimage_mem_nhds ((Dat.isClosed i).isOpen_compl.mem_nhds hin)] with s hs
-    simp only [f, SurgeryData.logRad, if_neg (show regVal M (c s) ∉ (Dat.D i).spearSet from hs)]
+    simp only [f, LFSpears.logRad, if_neg (show regVal M (c s) ∉ (Dat.D i).spearSet from hs)]
     rfl
   have hcSt : regVal M (c t) ∈ Dat.sigmaStar := hcS.self_of_nhds
   have hcusp : regVal M (c t) ∈ D.cusp := by
@@ -5977,7 +6106,7 @@ theorem SurgeryData.abs_deriv_logRad_le {S : Set M} (Dat : SurgeryData M S) (i :
         rfl
       refine ⟨?_, ?_⟩
       · show Dat.logRad i (regVal M (c s)) = _
-        rw [SurgeryData.logRad, if_pos (show regVal M (c s) ∈ (Dat.D i).spearSet from hsp),
+        rw [LFSpears.logRad, if_pos (show regVal M (c s) ∈ (Dat.D i).spearSet from hsp),
           show (Dat.D i).coord (regVal M (c s)) = w from hcw, hβw,
           min_eq_left (show rad w ≤ (Dat.D i).R / 2 from hsr.le)]
       · have hcs : regVal M (c s) ∈ D.cusp := by
@@ -6023,7 +6152,7 @@ theorem SurgeryData.abs_deriv_logRad_le {S : Set M} (Dat : SurgeryData M S) (i :
   · -- `r = R/2`: a local maximum
     have hft : f t = Real.log (D.R / 2) := by
       show Dat.logRad i (regVal M (c t)) = _
-      rw [SurgeryData.logRad, if_pos (show regVal M (c t) ∈ (Dat.D i).spearSet from hin),
+      rw [LFSpears.logRad, if_pos (show regVal M (c t) ∈ (Dat.D i).spearSet from hin),
         show (Dat.D i).coord (regVal M (c t)) = x from rfl, heq, min_self]
     have hmax : IsLocalMax f t := by
       filter_upwards [hcS] with s hs
@@ -6034,7 +6163,7 @@ theorem SurgeryData.abs_deriv_logRad_le {S : Set M} (Dat : SurgeryData M S) (i :
     apply hconst
     have hev := hTw.eventually ((continuous_rad.isOpen_preimage _ isOpen_Ioi).mem_nhds hgt)
     filter_upwards [hev] with s hs
-    simp only [f, SurgeryData.logRad]
+    simp only [f, LFSpears.logRad]
     split_ifs with h
     · rw [hcoord _ h, min_eq_right (le_of_lt hs)]
     · rfl
@@ -6042,14 +6171,14 @@ theorem SurgeryData.abs_deriv_logRad_le {S : Set M} (Dat : SurgeryData M S) (i :
 omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] in
 /-- **Where the clamp is active, `logRad` is locally constant** (off the closed spear, or in the
 spear above `r = R/2`). -/
-theorem SurgeryData.eventually_logRad_const {S : Set M} (Dat : SurgeryData M S) (i : Dat.ι)
+theorem LFSpears.eventually_logRad_const {S : Set M} (Dat : LFSpears M S) (i : Dat.ι)
     {z₀ : M} (h : z₀ ∉ (Dat.D i).spearSet ∨
       (z₀ ∈ (Dat.D i).spearSet ∧ (Dat.D i).R / 2 < rad ((Dat.D i).coord z₀))) :
     ∀ᶠ z in 𝓝 z₀, Dat.logRad i z = Real.log ((Dat.D i).R / 2) := by
   set D := Dat.D i with hD
   rcases h with hout | ⟨hin, hgt⟩
   · filter_upwards [(Dat.isClosed i).isOpen_compl.mem_nhds hout] with z hz
-    simp only [SurgeryData.logRad, if_neg (show z ∉ (Dat.D i).spearSet from hz)]
+    simp only [LFSpears.logRad, if_neg (show z ∉ (Dat.D i).spearSet from hz)]
     rfl
   obtain ⟨hxsp, hxe⟩ := D.coord_mem hin
   set x := D.coord z₀ with hxdef
@@ -6070,7 +6199,7 @@ theorem SurgeryData.eventually_logRad_const {S : Set M} (Dat : SurgeryData M S) 
     rwa [hz2] at this
   filter_upwards [hTw.eventually ((continuous_rad.isOpen_preimage _ isOpen_Ioi).mem_nhds hgt)]
     with z hz
-  unfold SurgeryData.logRad
+  unfold LFSpears.logRad
   split_ifs with h
   · rw [hcoord _ h, min_eq_right (le_of_lt hz)]
   · rfl
@@ -6078,7 +6207,7 @@ theorem SurgeryData.eventually_logRad_const {S : Set M} (Dat : SurgeryData M S) 
 omit [SecondCountableTopology M] in
 /-- **Below the clamp, `logRad` is `log (min r (R/2))` with `r` affine in the chart** at a point of
 the open spear interior off the axis. -/
-theorem SurgeryData.eventually_logRad_formula {S : Set M} (Dat : SurgeryData M S) (i : Dat.ι)
+theorem LFSpears.eventually_logRad_formula {S : Set M} (Dat : LFSpears M S) (i : Dat.ι)
     {z₀ : e0RegMFlat M} (hin : regVal M z₀ ∈ (Dat.D i).spearSet)
     (hr0 : 0 < rad ((Dat.D i).coord (regVal M z₀)))
     (hrR : rad ((Dat.D i).coord (regVal M z₀)) < (Dat.D i).R)
@@ -6134,14 +6263,14 @@ theorem SurgeryData.eventually_logRad_formula {S : Set M} (Dat : SurgeryData M S
     have hsp : regVal M z ∈ D.spearSet := by rw [hzs]; exact ⟨paperInY w, ⟨w, hwsp, rfl⟩, rfl⟩
     have hcw : D.coord (regVal M z) = w := by rw [hzs]; exact D.coord_apply hwsp
     refine ⟨hsrc, ?_⟩
-    rw [SurgeryData.logRad, if_pos (show regVal M z ∈ (Dat.D i).spearSet from hsp),
+    rw [LFSpears.logRad, if_pos (show regVal M z ∈ (Dat.D i).spearSet from hsp),
       show (Dat.D i).coord (regVal M z) = w from hcw, hes, hval]
   · obtain ⟨-, het⟩ := hg.self_of_nhds z₀ hxe.symm
     rw [het, hval]
 
 omit [SecondCountableTopology M] in
 /-- **The clamped log-radius is locally Lipschitz along a path of `Σ*` Lipschitz in charts.** -/
-theorem SurgeryData.exists_lipschitzOnWith_logRad {S : Set M} (Dat : SurgeryData M S) (i : Dat.ι)
+theorem LFSpears.exists_lipschitzOnWith_logRad {S : Set M} (Dat : LFSpears M S) (i : Dat.ι)
     {a b : Dat.sigmaStarReg} (γ : Path a b)
     (hL : Causal.Flat.IsLocLip (Causal.Flat.chartSys 2 Dat.sigmaStarReg) γ.extend) (t₀ : ℝ) :
     ∃ ε > (0 : ℝ), ∃ K : NNReal, LipschitzOnWith K
@@ -6226,7 +6355,7 @@ omit [SecondCountableTopology M] in
 `log r` estimate, l.799–806, on the glued surface): along every path Lipschitz in charts, its
 derivative is a.e. at most the density (`abs_deriv_logRad_le`, Rademacher in a chart near each
 time), and `le_localLength_of_lipschitzOnWith` integrates. -/
-theorem SurgeryData.ofReal_abs_logRad_sub_le_edist {S : Set M} (Dat : SurgeryData M S)
+theorem LFSpears.ofReal_abs_logRad_sub_le_edist {S : Set M} (Dat : LFSpears M S)
     (i : Dat.ι)
     (hδ : ∀ q : ℝ × ℝ, 0 < q.1 → ∃ L : ℝ × ℝ →L[ℝ] ℝ, HasFDerivAt (Dat.D i).G L q ∧
       1 / q.1 ^ 2 ≤ spacelikeDelta (L (1, 0)) (L (0, 1)) q.1)
@@ -6280,6 +6409,83 @@ theorem SurgeryData.ofReal_abs_logRad_sub_le_edist {S : Set M} (Dat : SurgeryDat
     (f := f) zero_le_one zero_le_one hK hd
   simp only [f, c, Path.extend_zero, Path.extend_one, one_mul] at key
   exact key
+
+open Classical in
+/-- **The clamped log-radius of the `i`-th cusp** of the finite family (the body of
+`LFSpears.logRad`). -/
+noncomputable def SurgeryData.logRad {S : Set M} (Dat : SurgeryData M S) (i : Dat.ι) (z : M) : ℝ :=
+  if z ∈ (Dat.D i).spearSet then Real.log (min (rad ((Dat.D i).coord z)) ((Dat.D i).R / 2))
+  else Real.log ((Dat.D i).R / 2)
+
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
+/-- The clamped log-radius is the one of `toLFSpears`. -/
+theorem SurgeryData.logRad_toLFSpears {S : Set M} (Dat : SurgeryData M S) :
+    Dat.toLFSpears.logRad = Dat.logRad := rfl
+
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
+/-- `LFSpears.logRad_le` for the finite family. -/
+theorem SurgeryData.logRad_le {S : Set M} (Dat : SurgeryData M S) (i : Dat.ι) {z : M}
+    (hz : z ∈ Dat.sigmaStar) : Dat.logRad i z ≤ Real.log ((Dat.D i).R / 2) :=
+  Dat.toLFSpears.logRad_le i hz
+
+omit [SecondCountableTopology M] in
+/-- `LFSpears.abs_deriv_logRad_le` for the finite family. -/
+theorem SurgeryData.abs_deriv_logRad_le {S : Set M} (Dat : SurgeryData M S) (i : Dat.ι)
+    (hδ : ∀ q : ℝ × ℝ, 0 < q.1 → ∃ L : ℝ × ℝ →L[ℝ] ℝ, HasFDerivAt (Dat.D i).G L q ∧
+      1 / q.1 ^ 2 ≤ spacelikeDelta (L (1, 0)) (L (0, 1)) q.1)
+    {c : ℝ → e0RegMFlat M} {t : ℝ} (hc : ContinuousAt c t)
+    (hcS : ∀ᶠ s in 𝓝 t, c s ∈ Dat.sigmaStarReg)
+    {e₀ : OpenPartialHomeomorph (e0RegMFlat M) (Causal.Minkowski 2)}
+    (he₀ : e₀ ∈ atlas (Causal.Minkowski 2) (e0RegMFlat M)) (hct : c t ∈ e₀.source)
+    {v : Causal.Minkowski 2} (hv : HasDerivAt (fun s => e₀ (c s)) v t) :
+    |deriv (fun s => Dat.logRad i (regVal M (c s))) t| ≤ Real.sqrt (Causal.Flat.minkQ v) :=
+  Dat.toLFSpears.abs_deriv_logRad_le i hδ hc hcS he₀ hct hv
+
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] in
+/-- `LFSpears.eventually_logRad_const` for the finite family. -/
+theorem SurgeryData.eventually_logRad_const {S : Set M} (Dat : SurgeryData M S) (i : Dat.ι)
+    {z₀ : M} (h : z₀ ∉ (Dat.D i).spearSet ∨
+      (z₀ ∈ (Dat.D i).spearSet ∧ (Dat.D i).R / 2 < rad ((Dat.D i).coord z₀))) :
+    ∀ᶠ z in 𝓝 z₀, Dat.logRad i z = Real.log ((Dat.D i).R / 2) :=
+  Dat.toLFSpears.eventually_logRad_const i h
+
+omit [SecondCountableTopology M] in
+/-- `LFSpears.eventually_logRad_formula` for the finite family. -/
+theorem SurgeryData.eventually_logRad_formula {S : Set M} (Dat : SurgeryData M S) (i : Dat.ι)
+    {z₀ : e0RegMFlat M} (hin : regVal M z₀ ∈ (Dat.D i).spearSet)
+    (hr0 : 0 < rad ((Dat.D i).coord (regVal M z₀)))
+    (hrR : rad ((Dat.D i).coord (regVal M z₀)) < (Dat.D i).R)
+    (hfv : (Dat.D i).v < fcoord ((Dat.D i).coord (regVal M z₀))) :
+    ∃ g : Causal.Flat.isom 2, (∀ᶠ z in 𝓝 z₀, z ∈ (chartAt (Causal.Minkowski 2) z₀).source ∧
+      Dat.logRad i (regVal M z) =
+        Real.log (min (chartNull g (chartAt (Causal.Minkowski 2) z₀ z)).2.1 ((Dat.D i).R / 2))) ∧
+      (chartNull g (chartAt (Causal.Minkowski 2) z₀ z₀)).2.1 = rad ((Dat.D i).coord (regVal M z₀)) :=
+  Dat.toLFSpears.eventually_logRad_formula i hin hr0 hrR hfv
+
+omit [SecondCountableTopology M] in
+/-- `LFSpears.exists_lipschitzOnWith_logRad` for the finite family. -/
+theorem SurgeryData.exists_lipschitzOnWith_logRad {S : Set M} (Dat : SurgeryData M S) (i : Dat.ι)
+    {a b : Dat.sigmaStarReg} (γ : Path a b)
+    (hL : Causal.Flat.IsLocLip (Causal.Flat.chartSys 2 Dat.sigmaStarReg) γ.extend) (t₀ : ℝ) :
+    ∃ ε > (0 : ℝ), ∃ K : NNReal, LipschitzOnWith K
+      (fun t => Dat.logRad i (regVal M ((γ.extend t : Dat.sigmaStarReg) : e0RegMFlat M)))
+      (Icc (t₀ - ε) (t₀ + ε)) :=
+  Dat.toLFSpears.exists_lipschitzOnWith_logRad i γ hL t₀
+
+omit [SecondCountableTopology M] in
+/-- `LFSpears.ofReal_abs_logRad_sub_le_edist` for the finite family: Lemma 2.8's `log r`
+estimate on the glued surface. -/
+theorem SurgeryData.ofReal_abs_logRad_sub_le_edist {S : Set M} (Dat : SurgeryData M S)
+    (i : Dat.ι)
+    (hδ : ∀ q : ℝ × ℝ, 0 < q.1 → ∃ L : ℝ × ℝ →L[ℝ] ℝ, HasFDerivAt (Dat.D i).G L q ∧
+      1 / q.1 ^ 2 ≤ spacelikeDelta (L (1, 0)) (L (0, 1)) q.1)
+    (a b : Causal.Flat.InducedLengthSpace 2 Dat.sigmaStarReg) :
+    ENNReal.ofReal |Dat.logRad i (regVal M
+        ((Causal.Flat.InducedLengthSpace.toSubtype b : Dat.sigmaStarReg) : e0RegMFlat M)) -
+      Dat.logRad i (regVal M
+        ((Causal.Flat.InducedLengthSpace.toSubtype a : Dat.sigmaStarReg) : e0RegMFlat M))| ≤
+      edist a b :=
+  Dat.toLFSpears.ofReal_abs_logRad_sub_le_edist i hδ a b
 
 omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
 /-- The graph of `G` over the annulus `ρ ≤ r ≤ R` is compact. -/
@@ -7478,45 +7684,16 @@ charts of `Reg M`). **Proved** (WP-46e): `SurgeryData.isSpacelikeLipschitzAt_cus
 (`r < R`) and `SurgeryData.isSpacelikeLipschitzAt_cusp_rim` (`r = R`, the corner along `C = C*`). -/
 theorem SurgeryData.isSpacelikeLipschitzAt_cusp {S : Set M} (hS : IsE0C1SpacelikeCauchy M S)
     (Dat : SurgeryData M S) (i : Dat.ι) {y : e0RegMFlat M}
-    (hy : regVal M y ∈ (Dat.D i).cusp) : IsSpacelikeLipschitzAt Dat.sigmaStarReg y := by
-  obtain ⟨_, ⟨x, hx, rfl⟩, hxy⟩ := hy
-  rcases hx.2.1.lt_or_eq with h | h
-  · exact Dat.isSpacelikeLipschitzAt_cusp_interior i hx h hxy.symm
-  · exact Dat.isSpacelikeLipschitzAt_cusp_rim hS i hx h hxy.symm
+    (hy : regVal M y ∈ (Dat.D i).cusp) : IsSpacelikeLipschitzAt Dat.sigmaStarReg y :=
+  Dat.toLFSpears.isSpacelikeLipschitzAt_cusp hS.reg i hy
 
 omit [SecondCountableTopology M] in
 /-- **(G4) `Σ*` is spacelike Lipschitz** in the flat charts of `Reg M`: outside the (closed)
 spears it is `S` near the point (`IsSpacelikeLipschitzAt.congr`, `sigmaStar_diff`); inside a
 spear it is the cusp (`isSpacelikeLipschitzAt_cusp`). -/
 theorem SurgeryData.isSpacelikeLipschitz_sigmaStar {S : Set M} (hS : IsE0C1SpacelikeCauchy M S)
-    (Dat : SurgeryData M S) : Causal.Flat.IsSpacelikeLipschitz 2 Dat.sigmaStarReg := by
-  intro y hy
-  by_cases hin : regVal M y ∈ ⋃ i, (Dat.D i).spearSet
-  · obtain ⟨i, hi⟩ := mem_iUnion.1 hin
-    have hc : regVal M y ∈ (Dat.D i).cusp := by
-      rw [← Dat.sigmaStar_inter_spearSet i]; exact ⟨hy, hi⟩
-    exact Dat.isSpacelikeLipschitzAt_cusp hS i hc
-  · have hcl : IsClosed (⋃ i, (Dat.D i).spearSet) := by
-      haveI := Dat.finite
-      exact isClosed_iUnion_of_finite Dat.isClosed
-    set O : Set (e0RegMFlat M) := regSet M (⋃ i, (Dat.D i).spearSet)ᶜ
-    have hO : IsOpen O := hcl.isOpen_compl.preimage continuous_subtype_val
-    have hyS : y ∈ regSet M S := by
-      have h : regVal M y ∈ Dat.sigmaStar \ ⋃ i, (Dat.D i).spearSet := ⟨hy, hin⟩
-      rw [Dat.sigmaStar_diff] at h
-      exact h.1
-    refine IsSpacelikeLipschitzAt.congr (hS.reg y hyS) hO hin ?_
-    ext z
-    simp only [SurgeryData.sigmaStarReg, regSet, O, mem_inter_iff, mem_setOf_eq]
-    constructor
-    · rintro ⟨hz, hzO⟩
-      have h : regVal M z ∈ Dat.sigmaStar \ ⋃ i, (Dat.D i).spearSet := ⟨hz, hzO⟩
-      rw [Dat.sigmaStar_diff] at h
-      exact ⟨h.1, hzO⟩
-    · rintro ⟨hz, hzO⟩
-      have h : regVal M z ∈ S \ ⋃ i, (Dat.D i).spearSet := ⟨hz, hzO⟩
-      rw [← Dat.sigmaStar_diff] at h
-      exact ⟨h.1, hzO⟩
+    (Dat : SurgeryData M S) : Causal.Flat.IsSpacelikeLipschitz 2 Dat.sigmaStarReg :=
+  Dat.toLFSpears.isSpacelikeLipschitz_sigmaStar hS.reg
 
 /-- **(G5) `Σ*` is complete for its induced length** (B21 l.1093: « The surface `Σ*` is
 metrically complete », no proof printed; DEC-31). **Proved** (WP-46e):

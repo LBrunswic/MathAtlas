@@ -1,0 +1,53 @@
+{
+ "target": "T-btz-reg-complete-graduate",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "btzprop:reg_complete",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Tooling target, statement unchanged: GX.E0RegComplete.prop_reg_complete / prop_reg_complete' have byte-identical headers and omit lines to HEAD's scaffold versions; the row stays partial (E0 scope, OQ-142 readings) and no module docstring carries the bold mark. Both depend only on propext/Classical.choice/Quot.sound (probe run, then deleted)."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "notes": "taskset -c 0-11 make -C lean-gx check, run once (no lake build was running beforehand): green. Strict build with warningAsError; causal_import_gate ok; strict sorry count 0 in 76 files; scaffold 5 in 26 files, none in the BTZ chain; axiom sweep covers 16201 strict declarations in 77 modules, all within the standard three. The 9 touched strict files contain no `sorry` token outside docstrings and no `axiom`. A #print axioms probe on prop_reg_complete('), sfa_isClosed_cauchy, LFSpears.isSpacelikeLipschitz_sigmaStar, LFSpears.ofReal_abs_logRad_sub_le_edist, SurgeryData.isCauchySurface_sigmaStar, E0SpearFamily.isClosed_of_isCauchySurface and LFSurgeryData.isSpacelikeLipschitz_sigmaStar showed only standard axioms."
+ },
+ "checks": {
+  "moves": "git status: the 7 files are git mv'd (R) from scaffold/GXScaffold/BTZ to GX/BTZ, with imports renamed. GX.lean adds the 7 imports. GXScaffold.lean drops them and its docstring is updated. RegCompleteLength shows as D+A in the diff stat only because its content shrank (1323 -> 438 lines); it is staged as a rename.",
+  "behaviour_preserving": "I compared every declaration header (keyword to :=, whitespace-normalised) and the omit line governing it, between git show HEAD:<old path> and the new file. Results: CompleteCauchy 3/3, SpearFamily 9/9 (+toLFSpears), RegCompleteCauchy 36/36 (+sigmaStar_toLFSpears), LengthCompare 33/33, RegCompleteTail 21/21, RegCompleteLength 18/18 (+logRad_toLFSpears), RegComplete 10/10, Surgery.lean 300/300 (+16 LFSpears decls), LocalModel 239/239 (+sfa_isClosed_cauchy). All identical, nothing missing. Spot checks: SurgeryData.isSpacelikeLipschitzAt_cusp_interior/_rim/_cusp, isSpacelikeLipschitz_sigmaStar, the SurgeryData and LFSurgeryData logRad stacks, isCauchySurface_sigmaStar (#check), isClosed_of_isCauchySurface.",
+  "LFSpears": "E0Surgery.LFSpears {ι, D, disjoint, isClosed, locallyFinite} is SurgeryData minus finite and covers, plus locallyFinite. SurgeryData.toLFSpears uses locallyFinite_of_finite and LFSurgeryData.toLFSpears passes its own locallyFinite, so it is a genuine common generalisation. The only proof change inside the moved lemmas is in the rim case: the closedness of the other spears now comes from LocallyFinite.comp_injective instead of finiteness. The rim/G4 forms take hSreg (IsSpacelikeLipschitz of regSet M S), and the SurgeryData forms pass hS.reg with unchanged types. Every SurgeryData and LFSurgeryData form of the G4a/G4/logRad lemmas is now a one-term corollary. The finite proofs were removed, not kept beside the new ones. sigmaStar and logRad bodies are duplicated per family by design so the bridges are rfl; these are definitions, not proofs. The one proof duplication left is the G3 section of RegCompleteCauchy, which the REPORT discloses.",
+  "sfa_isClosed_cauchy": "New general strict lemma beside sfa_isClosed_Jplus_cauchy/_Jminus_cauchy, over any Causality with SingularFlatAxioms, GloballyHyperbolic and CurvesExtend. E0SpearFamily.isClosed_of_isCauchySurface keeps its name and type and is derived from it.",
+  "docstrings": "grep for GXScaffold[./]BTZ[./]<each moved module> over lean-gx (excluding .lake and campaign) finds no hit in GX/ or scaffold/. The one remaining hit is kb/entries/0213 (see findings). The checklist and SCOPE sections of the moved files are present and agree with the code.",
+  "scope": "Inside lean-gx, git status shows only the dispatched files and the campaign directory. The other modified or untracked paths in the tree (lean-causal/*, programme/*, papers/*/certificate/restate*, roadmap/roadmap.toml) are each covered by a live lease held by the programme, restate or atlas loop (tools/lease.py show), so none of them is this closer's edit. The closer did not touch lakefile, papers/ or lean-causal."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-gx/GX/BTZ/RegCompleteCauchy.lean:170-878",
+   "what": "There is still a second copy of Surgery.lean's G3 section (cuspUp/cuspDown, futSide/pastSide, eventually_other, eventually_eq_of_sigmaStar, exists_pastSide/futSide, eq_of_forall_mem_sigmaStar), about 570 lines retyped from SurgeryData to LFSurgeryData. The REPORT discloses it as out of scope.",
+   "fix": "Open a follow-up target that states G3 over LFSpears, either with a covers field or a covers/cauchy_facts hypothesis, and derives both families from it."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/kb/entries/0213-causal-flat-chartsys-2-t-t-reg-m-and-gx.md:7",
+   "what": "The kb entry still names the module path GXScaffold.BTZ.LengthCompare, which is now GX.BTZ.LengthCompare. kb/ was outside the dispatch, so the closer was right to leave it.",
+   "fix": "The loop should re-point it to GX.BTZ.LengthCompare at integration."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold.lean:28",
+   "what": "Root docstring grammar: the comma or 'and' before 'the angle-tied Troyanov statement' was lost when the BTZ clause was appended ('...graduates with it) the angle-tied Troyanov statement ...').",
+   "fix": "Insert ', ' after 'graduates with it)'."
+  },
+  {
+   "severity": "minor",
+   "where": "loop integration (REPORT notes)",
+   "what": "These items are disclosed by the closer and are outside the dispatch. The extra_lean_files of curation.toml row btzprop:reg_complete still point at the scaffold paths. lean-gx/README.md's module table and State line do not list the 7 strict modules. Stale oleans remain under .lake/build/lib/lean/GXScaffold/BTZ/. The btz and gx ledgers need a rebuild.",
+   "fix": "Rewrite the curation paths as REPORT.curation_extra_lean_files lists them, update the README, and rebuild the btz/gx ledgers before committing."
+  }
+ ]
+}

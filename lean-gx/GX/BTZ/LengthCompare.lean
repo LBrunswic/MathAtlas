@@ -1,11 +1,11 @@
-import GXScaffold.BTZ.RegCompleteCauchy
+import GX.BTZ.RegCompleteCauchy
 
 /-!
-# `GXScaffold.BTZ.LengthCompare` — the induced length of `Σ*` is the DEC-31 length of `S` on their common part, and a rim arc of a spear is at most `π R` long (btz § 5.4)
+# `GX.BTZ.LengthCompare` — the induced length of `Σ*` is the DEC-31 length of `S` on their common part, and a rim arc of a spear is at most `π R` long (btz § 5.4)
 
 Target T-btz-length-compare. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.tex`). Row (unmarked,
 partial; this file is a tool of step (3) of `btzprop:reg_complete`'s Cauchy-completeness,
-`LFSurgeryData.exists_isCompact_of_cauchySeq`, closed with it in `GXScaffold.BTZ.RegCompleteTail`):
+`LFSurgeryData.exists_isCompact_of_cauchySeq`, closed with it in `GX.BTZ.RegCompleteTail`):
 
 * `btzprop:reg_complete` — `BTZ_1.tex:1566–1569`, proof l.1570–1576: « the proof of
   Cauchy-completeness of Proposition prop:abs_max applies as is » (l.1571), which is B21 l.1093.
@@ -52,7 +52,7 @@ partial; this file is a tool of step (3) of `btzprop:reg_complete`'s Cauchy-comp
 ## SCOPE (disclosed)
 
 This file proves tools only; `LFSurgeryData.exists_isCompact_of_cauchySeq` is closed with them in
-`GXScaffold.BTZ.RegCompleteTail` (T-btz-reg-complete-tail); `btzprop:reg_complete` stays partial
+`GX.BTZ.RegCompleteTail` (T-btz-reg-complete-tail); `btzprop:reg_complete` stays partial
 (`𝔼₀`-scoped).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.

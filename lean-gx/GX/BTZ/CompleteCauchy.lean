@@ -2,13 +2,13 @@ import GX.BTZ.MixedDiamond
 import GX.BTZ.Uniformization
 
 /-!
-# `GXScaffold.BTZ.CompleteCauchy` — the reading of « Cauchy-complete » for btz § 5.4 (a `C¹` spacelike complete Cauchy surface)
+# `GX.BTZ.CompleteCauchy` — the reading of « Cauchy-complete » for btz § 5.4 (a `C¹` spacelike complete Cauchy surface)
 
 Target T-btz-reg-complete-length (a file move, no new mathematics). Paper `btz`
 (`papers/btz/legacy/labeled/BTZ_1.tex`). This file certifies no label: it holds the definition
 `GX.E0RegComplete.IsE0C1CompleteCauchy` (and `E0C1CauchyComplete`), moved verbatim from
-`GXScaffold.BTZ.RegComplete` with their full names, so that the surgery files
-(`GXScaffold.BTZ.SpearFamily`, `RegCompleteCauchy`, `RegCompleteLength`) can use the reading
+`GX.BTZ.RegComplete` with their full names, so that the surgery files
+(`GX.BTZ.SpearFamily`, `RegCompleteCauchy`, `RegCompleteLength`) can use the reading
 without importing `RegComplete`, which now imports them to prove `btzprop:reg_complete`'s
 Cauchy-completeness.
 

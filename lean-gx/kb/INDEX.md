@@ -250,3 +250,6 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0240](entries/0240-lean-gx-s-pinned-causal-did-not-have-acd.md) | pattern | lean-gx's pinned Causal did not have ACDProof / MaxUnipProof / BieberbachProof built; `lak |
 | [0241](entries/0241-to-refute-metabelianity-of-a-presented-g.md) | pattern | To refute metabelianity of a presented group, surject onto FreeGroup (Fin 2) via Presented |
 | [0242](entries/0242-relator-checks-under-presentedgroup-togr.md) | pattern | Relator checks under PresentedGroup.toGroup |
+| [0243](entries/0243-to-share-proofs-between-a-finite-and-a-l.md) | pattern | To share proofs between a finite and a locally finite family of spears, state them over th |
+| [0244](entries/0244-behaviour-preservation-across-a-move-can.md) | pattern | Behaviour preservation across a move can be checked mechanically while the old .olean file |
+| [0245](entries/0245-when-inserting-a-block-before-a-docstrin.md) | pattern | When inserting a block before a docstring anchor, the `omit … in` line above the docstring |

@@ -1,13 +1,13 @@
 import GX.BTZ.Surgery
-import GXScaffold.BTZ.CompleteCauchy
+import GX.BTZ.CompleteCauchy
 
 /-!
-# `GXScaffold.BTZ.SpearFamily` — a locally finite family of disjoint spears around the BTZ points of a Cauchy surface (btz § 5.4)
+# `GX.BTZ.SpearFamily` — a locally finite family of disjoint spears around the BTZ points of a Cauchy surface (btz § 5.4)
 
 Target T-btz-spear-family. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.tex`). Row (unmarked,
 partial; this file is step (1) of the Cauchy-completeness of `Reg M`,
 `GX.E0RegComplete.regM_isCauchyComplete_of_complete`, assembled in
-`GXScaffold/BTZ/RegCompleteLength.lean`):
+`GX/BTZ/RegCompleteLength.lean`):
 
 * `btzprop:reg_complete` — `BTZ_1.tex:1566–1569`, proof l.1570–1576, which cites the surgery of
   `prop:abs_max`'s proof (l.1090–1091) « in disjoint spear neighborhoods of `sing₀(M)` » (l.1574).
@@ -43,7 +43,9 @@ partial; this file is step (1) of the Cauchy-completeness of `Reg M`,
   thinned again until its head avoids the (closed, by local finiteness) union of the others, and
   `E0Surgery.SpearSurgeryDatum.disjoint_of_head` makes them pairwise disjoint.
 * `LFSurgeryData.toSurgeryData`: a finite family is the strict `E0Surgery.SurgeryData`;
-  `countable_inter_S0`: `S ∩ sing₀(M)` is countable.
+  `LFSurgeryData.toLFSpears`: the family as an `E0Surgery.LFSpears`, over which (G4a) and the
+  `log r` stack are stated once (`GX.BTZ.Surgery`); `countable_inter_S0`: `S ∩ sing₀(M)` is
+  countable.
 
 ## Hypothesis checklist
 
@@ -59,8 +61,8 @@ partial; this file is step (1) of the Cauchy-completeness of `Reg M`,
 This is the data of the surgery only (step (1) of the Cauchy-completeness of `Reg M`). That `Σ*`
 is a Cauchy surface of `Reg M` with infinitely many spears (step (2), `RegCompleteCauchy`) and that
 it is complete (step (3), `RegCompleteLength`) are not proved here; `btzprop:reg_complete` stays partial for
-its `𝔼₀` scope. The strict `E0Surgery.SurgeryData` (finite) is left as it
-is. The reading `IsE0C1CompleteCauchy` is imported from `GXScaffold.BTZ.CompleteCauchy`.
+its `𝔼₀` scope. The finite `E0Surgery.SurgeryData` and this locally finite family both map to
+`E0Surgery.LFSpears` (`toLFSpears`), the common part on which the cusp lemmas are proved. The reading `IsE0C1CompleteCauchy` is imported from `GX.BTZ.CompleteCauchy`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -184,6 +186,11 @@ omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e
 /-- **A finite family is the strict `E0Surgery.SurgeryData`.** -/
 def toSurgeryData (h : Finite Dat.ι) : SurgeryData M S :=
   ⟨Dat.ι, h, Dat.D, Dat.disjoint, Dat.isClosed, Dat.covers⟩
+
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
+/-- **The common `E0Surgery.LFSpears`** of the family (its spears, disjoint, closed, locally
+finite), on which `Σ*`, (G4a) and Lemma 2.8's `log r` estimate are stated once. -/
+def toLFSpears : LFSpears M S := ⟨Dat.ι, Dat.D, Dat.disjoint, Dat.isClosed, Dat.locallyFinite⟩
 
 omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
 /-- `S ∩ sing₀(M)` is countable. -/

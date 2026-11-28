@@ -1,9 +1,9 @@
 import GX.BTZ.MixedDiamond
 import GX.BTZ.Uniformization
-import GXScaffold.BTZ.RegCompleteLength
+import GX.BTZ.RegCompleteLength
 
 /-!
-# `GXScaffold.BTZ.RegComplete` — `Reg M` of a Cauchy-complete `𝔼₀`-manifold (btz § 5.4)
+# `GX.BTZ.RegComplete` — `Reg M` of a Cauchy-complete `𝔼₀`-manifold (btz § 5.4)
 
 Target T-btz-reg-complete. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.tex`), § 5.4
 « A complement on Cauchy-completeness », l.1562–1576. Row (unmarked, partial):
@@ -33,12 +33,12 @@ Target T-btz-reg-complete. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.tex`), 
   Cauchy-maximality of `M`, and `f` is onto.
 * **Cauchy-completeness** of `Reg M` (l.1571, « the proof of Cauchy-completeness of Proposition
   prop:abs_max applies as is »): `regM_isCauchyComplete_of_complete`, which is
-  `E0SpearFamily.regM_isCauchyComplete_of_lf` (`GXScaffold.BTZ.RegCompleteLength`): the
+  `E0SpearFamily.regM_isCauchyComplete_of_lf` (`GX.BTZ.RegCompleteLength`): the
   non-compact surgery with a countable locally finite family of spears (steps (1)–(2),
   `SpearFamily`, `RegCompleteCauchy`), `Σ*` spacelike Lipschitz and Lemma 2.8's `log r` estimate
-  on it; sorry-free since T-btz-reg-complete-tail (`GXScaffold.BTZ.RegCompleteTail`).
+  on it; sorry-free since T-btz-reg-complete-tail (`GX.BTZ.RegCompleteTail`).
 * The reading `IsE0C1CompleteCauchy` / `E0C1CauchyComplete` now lives in
-  `GXScaffold.BTZ.CompleteCauchy` (same full names), so that the surgery files need not import
+  `GX.BTZ.CompleteCauchy` (same full names), so that the surgery files need not import
   this one.
 
 ## Hypothesis checklist
@@ -58,7 +58,7 @@ Target T-btz-reg-complete. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.tex`), 
 `prop_reg_complete` and `prop_reg_complete'` have no `sorry` beneath them. The step that needed
 uniformity across infinitely many spears, `E0SpearFamily.LFSurgeryData.exists_isCompact_of_cauchySeq`
 (the tail of a Cauchy sequence of `Σ*` lies in a compact set of `M`), is proved in
-`GXScaffold.BTZ.RegCompleteTail` (summable radii, spear-by-spear surgery). B21's proof of
+`GX.BTZ.RegCompleteTail` (summable radii, spear-by-spear surgery). B21's proof of
 `prop:abs_max` uses that a Cauchy-compact `M` has **finitely many** BTZ lines (l.1091) and a
 compact `S`, so it does not apply « as is » to a Cauchy-complete `M`, which may have countably
 many (kb/0217); the uniformity across the spears is not printed. The row stays partial: the

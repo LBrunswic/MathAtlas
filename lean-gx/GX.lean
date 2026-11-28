@@ -51,6 +51,13 @@ import GX.BTZ.Pgcd
 import GX.BTZ.PpcmHausdorff
 import GX.BTZ.Ppcm
 import GX.BTZ.IsomE0
+import GX.BTZ.CompleteCauchy
+import GX.BTZ.SpearFamily
+import GX.BTZ.RegCompleteCauchy
+import GX.BTZ.LengthCompare
+import GX.BTZ.RegCompleteTail
+import GX.BTZ.RegCompleteLength
+import GX.BTZ.RegComplete
 import GX.Topology.SLSCCompact
 import GX.Spherical.S3Model
 import GX.Spherical.ConeSurface

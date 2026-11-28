@@ -1854,6 +1854,15 @@ theorem sfa_isClosed_Jminus_cauchy (h : C.SingularFlatAxioms sing) (hG : C.Globa
     exact ⟨r, hr, mem_of_superset (C.isOpen_Iplus.mem_nhds
       (Causal.Precausality.mem_Iplus_singleton.2 hrp)) Causal.Causality.Iplus_subset_Jplus⟩
 
+/-- **A Cauchy surface `Σ` of a globally hyperbolic `𝔼≥0`-manifold is closed**: `Σ` is acausal, so
+`Σ = J⁺(Σ) ∩ J⁻(Σ)` (`IsAcausal.Jplus_inter_Jminus`), and both are closed
+(`sfa_isClosed_Jplus_cauchy`, `sfa_isClosed_Jminus_cauchy`). -/
+theorem sfa_isClosed_cauchy (h : C.SingularFlatAxioms sing) (hG : C.GloballyHyperbolic)
+    (hext : C.CurvesExtend) (hS : C.IsCauchySurface S) : IsClosed S := by
+  haveI := h.t2
+  rw [← (hS.isAcausal h.causallyArcConnected hext).Jplus_inter_Jminus hG.1]
+  exact (sfa_isClosed_Jplus_cauchy h hG hext hS).inter (sfa_isClosed_Jminus_cauchy h hG hext hS)
+
 end CauchyClosed
 
 section Reductions
