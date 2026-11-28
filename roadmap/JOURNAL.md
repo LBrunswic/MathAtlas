@@ -1254,3 +1254,13 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - Six Chapter 3 targets promoted to ready (T-bz-c3-boole-affine, -facette-duale, -proprietes-i-ii, -sature, -points-extremaux, -dualite-interieur), re-checked against the 17 strict modules; -reunion-convexes-sphere's dependency on -dualite-interieur dropped (its Corollary is Chapter 2's exists_forall_pos). Chapter 3: 43 of 90 rows closed; 35 without Lean (33 in Chapter 3 targets, 2 also needing Chapter 4); 12 partial waiting only on rulings (OQ-160, -162, -163, -164). No new question.
 - gates: roadmap ✓ (314 targets), atlas ✓
 - next: three of the six ready (lean-benzecri)
+
+## 2026-11-28 16:50 · wave of 3 · T-bz-c3-boole-affine, T-bz-c3-facette-duale, T-bz-c3-proprietes-i-ii (lean-benzecri)
+- T-bz-c3-facette-duale: § 4 Props. 4, 5, 7 and Déf. 4 marked (no half-line convention enters); Prop. 6 partial (needs the facette ∅ of dimension −1); audit minor.
+- T-bz-c3-boole-affine: § 2 Theorem 2 (the Boolean algebra) and its Corollary proved, both partial — Theorem 2's « le conjugué » is not unique under OQ-163 (a), the Corollary's lower bound fails at n = 0; audits AUDIT-1 major (Theorem 2 had been marked on a reading), AUDIT-2 minor.
+- T-bz-c3-proprietes-i-ii: § 5 Cor. 1 marked; Prop. 8 and Cor. 2 partial (fail only in E = 0); audit minor.
+- All three graduated to strict Benzecri/Chapter3/. New OQ-165 (four readings). benzecri: 131 curated rows.
+- gates: lean-benzecri ✓ (0 sorry in 68 strict files), roadmap ✓, atlas ✓, hub: no new red; restate: 0 new
+- commits: fedb3a41 2b42667c 50c0409a d62c4943 (+ statuses)
+- wall time: 07:24–16:50; agents in parallel: 3 closers, 4 auditors
+- next: T-bz-c3-sature, -points-extremaux, -dualite-interieur (ready)
