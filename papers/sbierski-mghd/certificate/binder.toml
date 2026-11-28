@@ -16,6 +16,10 @@
 # (planning run after wave 43; T-bind-edge-hypotheses): the data form of local uniqueness is the
 # proposed id data_local_uniqueness, because the ladder's [[edge_hypothesis]] local_uniqueness
 # (T-lad-edge-hypotheses, 1b8e26a1) is the fixed-background form (ERS Prop 4.63, Causal.Causality.LocalUniqueness).
+# Refreshed 2026-11-28 (planning run after wave 50; T-bind-mghd-two-piece-home): the header's finding on
+# the ETT layer and the notes of Thm 2.7 and Lemma 3.8 say where the gluing cores live now that
+# T-abs-two-piece-hoist (7d87aa29) moved TwoPiece to Causal.TwoPiece and DEC-197 dropped
+# T-abs-hoist-cbg-gluing; no `ett`, `localisation` or geometric entry changed.
 #
 # curves_extend, a [[fact]] of the ladder since T-lad-record-curves-fact (71b5cc7): every causality on
 # a T1, second countable space has CurvesExtend (Causal.Causality.curvesExtend_of_t1_secondCountable)
@@ -95,10 +99,14 @@
 #   Thm 3.4's isCauchyInclusion_iSup and causallyConvexIn_of_isCauchySurfaceOn and Cor 3.2's
 #   c_ext_connexe_of_connectedSpace (Causal.CBG.CausalConvex), Causality.HasTimeFunction with the ladder
 #   edges HasTimeFunction.curvesExtend, .isCausal (Causal.CurvesExtend; T-abs-hoist-time-function,
-#   7eff58c). Still behind a model-layer import: TwoPiece/ManyPiece and the definitions correspondingSet,
-#   correspondingExt (T-abs-hoist-cbg-gluing, ready), and the CBG interface itself (Geometry, Dev, Pgcd,
-#   Ppcm, Maximal, cbg), whose only model-layer import is now Causal.SingularFlat through A2, a layer-1
-#   question for the author (T-abs-hoist-cbg-geometry).
+#   7eff58c); the two-piece core Causal.Causality.TwoPiece with TwoPiece.le_top_iff, .isCausal and
+#   .isCauchySurface (Causal.TwoPiece; T-abs-two-piece-hoist, 7d87aa29). Still behind a model-layer
+#   import: TwoPiece.globallyHyperbolic with the Cauchy sides and piece charts (Causal.CBG.Ppcm),
+#   ManyPiece (Causal.CBG.Maximal), the definitions correspondingSet, correspondingExt, and the CBG
+#   interface itself (Geometry, Dev, Pgcd, Ppcm, Maximal, cbg), whose only model-layer import is now
+#   Causal.SingularFlat through A2, a layer-1 question for the author (T-abs-hoist-cbg-geometry). By
+#   DEC-197 they become ETT-layer in place once it lands; T-abs-hoist-cbg-gluing, which was to move
+#   them, is dropped.
 # * Def 3.5, Thm 2.7's Hausdorff criterion and the bare gluing are Causal.GluingHausdorff (pure
 #   topology, T-abs-gluing-hausdorff): Sbierski's Def 3.5 notion is Causal.Gluing.IsCorrespondingBoundaryPair,
 #   the gluing is Hausdorff iff no pair corresponds (t2Space_iff_forall_not_isCorrespondingBoundaryPair,
@@ -206,7 +214,7 @@ ett = ["Causal.CBG.exists_common_extension", "Causal.CBG.exists_ppcm", "Causal.C
 localisation = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "rigid", "germ_extension", "cauchy_slice", "curves_extend", "time_function"]
 open_localisation = ["data_local_uniqueness"]
 open_reason = "data_local_uniqueness: T-lad-development-nodes, behind T-abs-cbg-initial-data. Every other localisation property is a ladder node (rigid, germ_extension, cauchy_slice of sort geometry since T-lad-cbg-geometry-nodes); flat-gx proves them in Lean, smooth-vacuum owes them."
-note = "Thm 2.7 (Maximal_GHD2.tex:411, proof 723–775). Gluing along the MCGHD (Thm 3.4) is Hausdorff because it has no corresponding boundary points (Thm 3.13 + the topological criterion of Causal.GluingHausdorff, T-abs-gluing-hausdorff); its GH is proved by chains (TwoPiece, model-free, in Causal.CBG.Ppcm until T-abs-hoist-cbg-gluing), not Sbierski's timelike curves. For two GHDs of the same DATA, take the datum M₀ := their CGHD (Thm 2.6): T-abs-cbg-initial-data."
+note = "Thm 2.7 (Maximal_GHD2.tex:411, proof 723–775). Gluing along the MCGHD (Thm 3.4) is Hausdorff because it has no corresponding boundary points (Thm 3.13 + the topological criterion of Causal.GluingHausdorff, T-abs-gluing-hausdorff); its GH is proved by chains (Causal.Causality.TwoPiece.globallyHyperbolic, in Causal.CBG.Ppcm with the Cauchy sides and piece charts, over the two-piece core Causal.Causality.TwoPiece, ETT-layer in Causal.TwoPiece since T-abs-two-piece-hoist), not Sbierski's timelike curves. For two GHDs of the same DATA, take the datum M₀ := their CGHD (Thm 2.6): T-abs-cbg-initial-data."
 [[bind.geometric]]
 model = "smooth-vacuum"
 proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "rigid", "germ_extension", "cauchy_slice", "curves_extend", "time_function"]
@@ -342,7 +350,7 @@ by = ["Causal.cosmicString_pushUp", "Causal.cosmicString_tarentin", "Causal.cosm
 label = "mghdlem:ExtendIso"
 ett = ["Causal.CBG.CGHDData.isOpen_correspondingSet", "Causal.CBG.CGHDData.exists_isMor_eqOn_correspondingExt", "Causal.CBG.CGHDData.ext_continue"]
 localisation = ["germ_extension"]
-note = "Lemma 3.8 (Maximal_GHD2.tex:585, proof 590–611). The extension IS A3, the ladder node germ_extension (Causal.CBG.LocalModel.GermExtFuture/Past), an axiom of the geometry; 'C open in ∂U' is derived from it (isOpen_correspondingSet, the ladder's consequence at germ_extension) and false as topology (Causal.Gluing.shearGluing_not_isOpen_in_frontier, OQ-40). Sbierski's proof (exponential maps in convex neighbourhoods, after Prop 3.7 (ii)) is the smooth-vacuum proof of A3; flat-gx's is one group element on a connected chart. Prop 3.7 (ii) is in Lean without A3 since T-abs-sbierski-prop-3-7 (48d1cf0), Causal.CBG.sbierski_prop_3_7_i_imp_ii, so the smooth-vacuum discharge along Sbierski's route is not circular (rebound 2026-11-21; it was, while Lean had (ii) only through A3). The set C and the extension ψ̂ are the model-free definitions Causal.CBG.correspondingSet and correspondingExt, still in Causal.CBG.Corresponding and NoCorresponding (T-abs-hoist-cbg-gluing moves them into the ETT layer)."
+note = "Lemma 3.8 (Maximal_GHD2.tex:585, proof 590–611). The extension IS A3, the ladder node germ_extension (Causal.CBG.LocalModel.GermExtFuture/Past), an axiom of the geometry; 'C open in ∂U' is derived from it (isOpen_correspondingSet, the ladder's consequence at germ_extension) and false as topology (Causal.Gluing.shearGluing_not_isOpen_in_frontier, OQ-40). Sbierski's proof (exponential maps in convex neighbourhoods, after Prop 3.7 (ii)) is the smooth-vacuum proof of A3; flat-gx's is one group element on a connected chart. Prop 3.7 (ii) is in Lean without A3 since T-abs-sbierski-prop-3-7 (48d1cf0), Causal.CBG.sbierski_prop_3_7_i_imp_ii, so the smooth-vacuum discharge along Sbierski's route is not circular (rebound 2026-11-21; it was, while Lean had (ii) only through A3). The set C and the extension ψ̂ are the model-free definitions Causal.CBG.correspondingSet and correspondingExt, still in Causal.CBG.Corresponding and NoCorresponding, which reach Causal.SingularFlat through Causal.CBG.Geometry; by DEC-197 they become ETT-layer in place once T-abs-hoist-cbg-geometry lands (T-abs-hoist-cbg-gluing, which was to move them, is dropped)."
 [[bind.geometric]]
 model = "smooth-vacuum"
 proves = ["germ_extension"]
