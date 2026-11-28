@@ -55,7 +55,7 @@ Labels (the companion BrunswicPerforated, `papers/perforated`; lines of
 
 | paper hypothesis | here |
 |---|---|
-| `Σ` compact (l.311, l.328) | model: ⚠ carried as `IsFiniteMeasure (vol g)` and `RellichProp`; manifold: ✓ `CompactSpace`, `T2Space` (Rellich proved, `μ` finite derived) |
+| `Σ` compact (l.311, l.328) | model: ⚠ carried as `RellichProp` (finite volume derived from it, `isFiniteMeasure_of_rellich`); manifold: ✓ `CompactSpace`, `T2Space` (Rellich proved, `μ` finite derived) |
 | `Σ` connected (l.311, l.328) | model: ⚠ carried as `ConstLimit` (`toyCut_lambda1_eq_zero`); manifold: ✓ `ConnectedSpace` |
 | Lipschitz metric (l.311), « Lipschitz » (l.328) | ⚠ read (OQ-93 (a)): a smooth manifold with boundary and a smooth metric, narrower |
 | `v ∈ W^{1,2}(Σ)` (l.324) | ⚠ read: model `D` with measurable values (`hD`); manifold `C¹(M)` (OQ-93 (b)) |
@@ -122,12 +122,22 @@ theorem memLp_two_of_rellich (hD : ∀ u, AEStronglyMeasurable (M.val u) (M.vol 
     linarith
   exact hf.ae_eq hfu
 
+/-- **Rellich gives finite volume**: applied to `M.one`, `memLp_two_of_rellich` puts the constant
+`1` in `L²(vol g)`, which forces `vol g` to be finite (`memLp_const_iff`). So the theorems below
+need no `IsFiniteMeasure (vol g)` binder of their own. -/
+theorem isFiniteMeasure_of_rellich (hD : ∀ u, AEStronglyMeasurable (M.val u) (M.vol g))
+    (hR : M.RellichProp g) : IsFiniteMeasure (M.vol g) := by
+  have h := M.memLp_two_of_rellich g hD hR M.one
+  rw [M.val_one] at h
+  exact ⟨((memLp_const_iff two_ne_zero ENNReal.ofNat_ne_top).1 h).resolve_left one_ne_zero⟩
+
 /-- **The Poincaré inequality around the mean** (l.320–321, l.328, l.394): from
 Rellich–Kondrachov and the constancy of energy-free `L²` limits (the connectedness of `Σ`),
 by the contradiction of lem:positivity. -/
-theorem meanPoincare_of_rellich [IsFiniteMeasure (M.vol g)]
+theorem meanPoincare_of_rellich
     (hD : ∀ u, AEStronglyMeasurable (M.val u) (M.vol g))
     (hR : M.RellichProp g) (hC : M.ConstLimit g) : M.MeanPoincare g := by
+  haveI := M.isFiniteMeasure_of_rellich g hD hR
   set ν := M.vol g with hν
   have hL2 : ∀ u, MemLp (M.val u) 2 ν := M.memLp_two_of_rellich g hD hR
   suffices hK : ∃ K : ℝ, ∀ v : D,
@@ -338,9 +348,10 @@ theorem lambda1_eq_zero_of_forall_const [IsFiniteMeasure (M.vol g)]
 
 /-- **`λ₁ ∈ (0, ∞)`** (l.319, l.328) from Rellich–Kondrachov, the constancy of energy-free limits
 and a non-constant function. -/
-theorem lambda1_pos_of_rellich [IsFiniteMeasure (M.vol g)]
+theorem lambda1_pos_of_rellich
     (hD : ∀ u, AEStronglyMeasurable (M.val u) (M.vol g))
     (hR : M.RellichProp g) (hC : M.ConstLimit g) (hne : M.NonConst g) : 0 < M.lambda1 g := by
+  haveI := M.isFiniteMeasure_of_rellich g hD hR
   obtain ⟨v, hv⟩ := hne
   exact (M.lambda1_pos_iff g).mpr
     ⟨M.exists_isPoincareConst_of_meanPoincare g (M.meanPoincare_of_rellich g hD hR hC),
@@ -383,7 +394,7 @@ theorem exists_isSobolevPoincareConst (hS : M.SobolevIneq g) (hP : M.MeanPoincar
 inequality, Rellich–Kondrachov, the constancy of energy-free limits and a non-constant function,
 `λ₁ ∈ (0, ∞)` is the best Poincaré constant, `C_SP < ∞` is the least Sobolev–Poincaré constant,
 and the Poincaré inequality `MeanPoincare` holds. -/
-theorem def_constants_of_analytic [IsFiniteMeasure (M.vol g)]
+theorem def_constants_of_analytic
     (hD : ∀ u, AEStronglyMeasurable (M.val u) (M.vol g)) (hS : M.SobolevIneq g)
     (hR : M.RellichProp g) (hC : M.ConstLimit g) (hne : M.NonConst g) :
     (0 < M.lambda1 g ∧ M.IsPoincareConst g (M.lambda1 g) ∧
@@ -391,6 +402,7 @@ theorem def_constants_of_analytic [IsFiniteMeasure (M.vol g)]
     ((∃ C : ℝ, M.IsSobolevPoincareConst g C) ∧ M.IsSobolevPoincareConst g (M.Csp g) ∧
       ∀ C : ℝ, 0 ≤ C → M.IsSobolevPoincareConst g C → M.Csp g ≤ C) ∧
     M.MeanPoincare g := by
+  haveI := M.isFiniteMeasure_of_rellich g hD hR
   have hP := M.meanPoincare_of_rellich g hD hR hC
   have hl := M.lambda1_pos_of_rellich g hD hR hC hne
   have hSP := M.exists_isSobolevPoincareConst g hS hP
