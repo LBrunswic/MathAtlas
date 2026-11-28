@@ -28,7 +28,9 @@ that a layer-1 module may use them. This module imports `Causal.CurvesExtendSeco
 Steps numbered as in `Causal.SingularCauchy`.
 
 * (1) `IsCauchySurface.cover_of_t1_secondCountable`: `M = J⁺(S) ∪ J⁻(S)` for every Cauchy surface
-  `S`, on every T1, second countable space, for any causality.
+  `S`, on every T1, second countable space, for any causality. Since T-abs-sc-open-hoist it is the
+  case `W = ⊤` of the split `IsCauchySurfaceOn.mem_Jplus_union_Jminus`
+  (`Causal.CurvesExtendSecondCountable`), and is proved from it.
 * (2) `IsAcausal.Jplus_inter_Jminus`: `J⁺(S) ∩ J⁻(S) = S` for an acausal `S` of a causal
   spacetime.
 * The connectedness step `CausalCurveIn.mem_image_of_between`, Hausdorff and causal only.
@@ -89,25 +91,12 @@ variable {C : Causality M} {S : Set M}
 
 /-- Step (1): in a T1, second countable space, every point lies on an inextensible causal curve (the
 constant one, extended), which meets a Cauchy surface `S` at a point comparable with it, so
-`M = J⁺(S) ∪ J⁻(S)`. No causality, no global hyperbolicity. -/
+`M = J⁺(S) ∪ J⁻(S)`. No causality, no global hyperbolicity. The case `W = ⊤` of
+`IsCauchySurfaceOn.mem_Jplus_union_Jminus` (`Causal.CurvesExtendSecondCountable`), from which it is
+re-proved by T-abs-sc-open-hoist (`IsCauchySurface S` is `IsCauchySurfaceOn ⊤ S` by definition). -/
 theorem IsCauchySurface.cover_of_t1_secondCountable [T1Space M] [SecondCountableTopology M]
-    (hS : C.IsCauchySurface S) (x : M) : x ∈ C.Jplus ⊤ S ∪ C.Jminus ⊤ S := by
-  have hconst : C.CausalCurveIn ⊤ (Icc 0 1) (fun _ => x) :=
-    (causalCurveOn_const (a := 0) (b := 1) (show x ∈ (⊤ : Opens M) from trivial)).causalCurveIn_Icc
-      zero_le_one
-  obtain ⟨J, γ, hγ, hsub⟩ := exists_inextensible_of_t1_secondCountable hconst
-  obtain ⟨t, ht, htx⟩ := hsub ⟨0, ⟨le_rfl, zero_le_one⟩, rfl⟩
-  have htx' : γ t = x := htx
-  obtain ⟨σ, ⟨⟨s, hs, rfl⟩, hσS⟩, -⟩ := hS J γ hγ
-  rcases le_total s t with hst | hts
-  · left
-    refine ⟨γ s, hσS, ?_⟩
-    rw [← htx']
-    exact hγ.1.le_of_le hs ht hst
-  · right
-    refine ⟨γ s, hσS, ?_⟩
-    rw [← htx']
-    exact hγ.1.le_of_le ht hs hts
+    (hS : C.IsCauchySurface S) (x : M) : x ∈ C.Jplus ⊤ S ∪ C.Jminus ⊤ S :=
+  IsCauchySurfaceOn.mem_Jplus_union_Jminus hS (show x ∈ (⊤ : Opens M) from trivial)
 
 /-- Step (2): an acausal set of a causal spacetime is `J⁺(S) ∩ J⁻(S)`. -/
 theorem IsAcausal.Jplus_inter_Jminus (hc : C.IsCausal) (hS : C.IsAcausal S) :

@@ -1,0 +1,169 @@
+{
+ "target": "T-abs-sc-open-hoist",
+ "package": "lean-causal",
+ "kind": "abstract",
+ "layer": 1,
+ "status": "closed: all five parts done; every full name kept; every moved statement unchanged; the dump changed only as expected",
+ "files": {
+  "new": [
+   "Causal/StrongCausalityHull.lean"
+  ],
+  "edited": [
+   "Causal/SCOpenWithoutTarentin.lean",
+   "Causal/Model/FlatSpaceCylinder.lean",
+   "Causal/CauchyExtension.lean",
+   "Causal/TimelikeHomotopy.lean",
+   "Causal/ChronalNeighbourBridge.lean",
+   "Causal/CurvesExtend.lean",
+   "Causal/FlrwType.lean",
+   "Causal/C0ExtensionSkeleton.lean",
+   "Causal/FlrwTypeClosedAmbient.lean",
+   "Causal/CurvesExtendSecondCountable.lean",
+   "Causal/ErsSecondCountable.lean",
+   "Causal/CauchySeparation.lean"
+  ],
+  "campaign": [
+   "campaign/T-abs-sc-open-hoist/REPORT.json",
+   "campaign/T-abs-sc-open-hoist/Probe.lean",
+   "campaign/T-abs-sc-open-hoist/axioms.txt",
+   "campaign/T-abs-sc-open-hoist/dump-diff.txt",
+   "campaign/T-abs-sc-open-hoist/scratch/Dump.lean",
+   "campaign/T-abs-sc-open-hoist/scratch/dump_cmp.py",
+   "campaign/T-abs-sc-open-hoist/scratch/move_b.py",
+   "campaign/T-abs-sc-open-hoist/scratch/move_d.py",
+   "campaign/T-abs-sc-open-hoist/scratch/move_e.py",
+   "campaign/T-abs-sc-open-hoist/scratch/reprove_e.py",
+   "campaign/T-abs-sc-open-hoist/scratch/verbatim_check.py",
+   "campaign/T-abs-sc-open-hoist/scratch/imports_probe.py",
+   "campaign/T-abs-sc-open-hoist/scratch/emit_probe.py",
+   "campaign/T-abs-sc-open-hoist/scratch/lineref_probe.py",
+   "campaign/T-abs-sc-open-hoist/scratch/BinderOrder.lean",
+   "campaign/T-abs-sc-open-hoist/scratch/HomotopyImport.lean"
+  ],
+  "not_edited": "Causal.lean, Causal/Ladder/{Rules,Test,Dual,DualTest}.lean, README.md, kb/, programme/ladder.toml, lakefile.toml, .lake/, the scaffold, papers/, tools/. tools/ladder.py emit-lean was not run; ladder.emit_lean and emit_test were called in memory only (scratch/emit_probe.py, which writes nothing), and ladder.check in memory (green: 432 of 432 pairs classified, no error). No git command that writes."
+ },
+ "builds": true,
+ "build_command": "cd lean-causal && taskset -c 0-11 lake build Causal",
+ "build_detail": [
+  {
+   "cmd": "taskset -c 0-11 lake build --no-build Causal (before any edit, HEAD d7642a74)",
+   "result": "All targets up-to-date (8931 jobs): the before-dump read current oleans"
+  },
+  {
+   "cmd": "taskset -c 0-11 lake build Causal.StrongCausalityHull",
+   "result": "green, 917 jobs (built first so that SCOpenWithoutTarentin could be typechecked)"
+  },
+  {
+   "cmd": "taskset -c 0-11 lake build Causal",
+   "result": "green, 8932 jobs (one more than before: the new module). It rebuilt 290 Causal.* modules and the root; no warning, no error in the log (the strict lib is warningAsError)."
+  },
+  {
+   "cmd": "taskset -c 0-11 lake env lean -DwarningAsError=true Causal/<f>.lean, for the 13 files",
+   "result": "silent, exit 0, on each: StrongCausalityHull, SCOpenWithoutTarentin, Model/FlatSpaceCylinder, CauchyExtension, TimelikeHomotopy, ChronalNeighbourBridge, CurvesExtend, FlrwType, C0ExtensionSkeleton, FlrwTypeClosedAmbient, CurvesExtendSecondCountable, ErsSecondCountable, CauchySeparation"
+  },
+  {
+   "cmd": "taskset -c 0-11 lake build --no-build Causal (after)",
+   "result": "All targets up-to-date (8932 jobs)"
+  },
+  {
+   "cmd": "taskset -c 0-11 lake build --no-build CausalScaffold (read-only)",
+   "result": "not up to date: GerochEquiv, GerochCauchy, SubExtension, CompactCauchy, LemmaKSCOpen, SingularRowsGerochEquiv import modules downstream of the edits. Not rebuilt (CAMPAIGN.md: never lake build CausalScaffold). No scaffold declaration has a moved name (grep). lake env lean on scaffold/CausalScaffold/GerochEquiv.lean, the one scaffold file importing an edited module directly (Causal.CauchySeparation), typechecks with its two pre-existing tagged sorries (:757, :809) only."
+  }
+ ],
+ "sorry_count": 0,
+ "labels": [],
+ "parts": {
+  "a": {
+   "status": "done",
+   "what": "The model-free half of Causal.SCOpenWithoutTarentin, its three sections 'The causal hull' (HEAD :112-155), 'Strong causality gives the open form' (:157-203) and 'What a counterexample ... must look like' (:205-239): 13 theorems, moved byte for byte (one block of 7118 bytes, checked by scratch/verbatim_check.py), same full names, same scope (universe u; variable {M : Type u} [TopologicalSpace M]; namespace Causality; variable {C : Causality M} {A V : Set M} {p : M}; open Set TopologicalSpace Topology Filter).",
+   "moved": [
+    "Causal.Causality.subset_Jplus_top_inter_Jminus_top: SCOpenWithoutTarentin.lean:115 -> StrongCausalityHull.lean:116",
+    "Causal.Causality.causallyConvexIn_Jplus_top_inter_Jminus_top: :121 -> :122",
+    "Causal.Causality.causallyConvexIn_top_iff: :129 -> :130",
+    "Causal.Causality.CausallyConvexIn.Jplus_top_inter_Jminus_top_subset: :139 -> :140",
+    "Causal.Causality.exists_opens_causallyConvexIn_of_isOpen_hull: :148 -> :149",
+    "Causal.Causality.StronglyCausal.stronglyCausalOpen_of_isOpen_hull: :161 -> :162",
+    "Causal.Causality.StronglyCausal.stronglyCausalOpen_of_isOpen_Jplus_Jminus: :172 -> :173",
+    "Causal.Causality.CausallyOpen.isOpen_Jplus_top_Jminus_top: :178 -> :179",
+    "Causal.Causality.StronglyCausal.stronglyCausalOpen_of_causallyOpen (the ladder witness): :187 -> :188",
+    "Causal.Causality.stronglyCausalOpen_iff_stronglyCausal_of_causallyOpen: :193 -> :194",
+    "Causal.Causality.GloballyHyperbolic.stronglyCausalOpen_of_isOpen_Jplus_Jminus: :200 -> :201",
+    "Causal.Causality.StronglyCausal.exists_not_isOpen_hull: :212 -> :213",
+    "Causal.Causality.StronglyCausal.not_causallyOpen_of_not_stronglyCausalOpen: :233 -> :234"
+   ],
+   "new_module": "Causal/StrongCausalityHull.lean (243 lines). Imports Causal.GlobalHyperbolicity only (GloballyHyperbolic.stronglyCausal; Causal.Properties and Causal.StrongCausality come with it). Its Causal.* closure, read off the compiled environment (Probe.lean): Causal.Causality, Causal.Properties, Causal.StrongCausality, Causal.GlobalHyperbolicity, itself. No model, no Causal.Ladder.*, none of the witnesses' modules. Module docstring: what moved in and by which target; the hull argument, the list of results, 'Which causal openness (DEC-163)', the hypothesis checklist and the SCOPE of the theorem (moved from SCOpenWithoutTarentin's), with a note that the witnesses stay there.",
+   "stays": "Causal/SCOpenWithoutTarentin.lean (165 lines) keeps the witnesses byte for byte (HEAD :242-342 -> :65-165): timelikeLine_scOpen_of_causallyOpen, spacelikeLine_scOpen_without_tarentin, isolatedLine_le_top, isolatedLine_causallyConvexIn_Icc, isolatedLine_stronglyCausal, isolatedLine_scOpen_without_tarentin, oneWayMembrane_hull_not_isOpen (and its _simp_1_1). Its import of Causal.GlobalHyperbolicity is replaced by Causal.StrongCausalityHull (which reaches it), the other five imports stay; its now unused `universe u`, `variable {M : Type u} [TopologicalSpace M]` and empty `namespace Causality` block are gone, `open Set TopologicalSpace Topology Filter` stays (the dump shows every witness unchanged). Its docstring says what moved out, by which target, and keeps the witnesses' section."
+  },
+  "b": {
+   "status": "done",
+   "moved": [
+    "Causal.IsEMorphismOn.chronalCurveOn_comp: Causal/Model/FlatSpaceCylinder.lean:105 -> Causal/CauchyExtension.lean:265, in the namespace IsEMorphismOn (now :200-404) right after causalCurveOn_comp (its twin, :243) and causalCurveIn_comp. Docstring, binders and proof byte for byte; the only text change is the header `theorem IsEMorphismOn.chronalCurveOn_comp` -> `theorem chronalCurveOn_comp`, the prefix now being the enclosing namespace. Its own binders {M N : Type*} ... shadow the module's variables, so the statement keeps its universes u_1 u_2 and its telescope (dump).",
+    "Causal.Causality.ChronalHomotopyOn.homotopicRel: Causal/Model/FlatSpaceCylinder.lean:124 -> Causal/TimelikeHomotopy.lean:349, at the end of the namespace Causality.ChronalHomotopyOn (after congr_lt). Same rule: header `theorem Causality.ChronalHomotopyOn.homotopicRel` -> `theorem homotopicRel`, the rest byte for byte."
+   ],
+   "imports": "TimelikeHomotopy gains `import Mathlib.Topology.Homotopy.Basic` (ContinuousMap.HomotopyRel and HomotopicRel were not reached: the first typecheck failed on them) and no Causal import. Measured (scratch/HomotopyImport.lean): it adds exactly one module, Mathlib.Topology.Homotopy.Basic, to the closures of TimelikeHomotopy (4718 -> 4719) and of Causal.Ladder.Rules (4754 -> 4755); its own imports were already there. No constant of the library changed with it (dump).",
+   "source": "FlatSpaceCylinder drops the section '/-! ### Two model-free lemmas -/' (HEAD :100-149) and replaces its SCOPE bullet 'Model-free lemmas stranded here (kb/0061)' by a 'Moved out' bullet (both full names, both new homes, `isLocalIsometry_mk_top` kept); its 4-winding item says where the bridge is now. Its uses (:356 -> :307, :382 -> :333) keep the names; it reaches both homes through its imports (Causal.TimelikeHomotopy directly, Causal.CauchyExtension transitively). Its imports are unchanged."
+  },
+  "c": {
+   "status": "done",
+   "edits": [
+    "Causal/ChronalNeighbourBridge.lean:11: `LadderLocal.lean:178` (stale; ChronalNeighbours is at Causal/LadderLocal.lean:182) -> `Causality.ChronalNeighbours`, the name, no line number; the paragraph reflowed to 100 columns (:11-13). The other reference of the sentence, `LocateExtension.lean:138` (HasChronalNeighbour), is still right and stays.",
+    "Causal/CurvesExtend.lean:515 (docstring of Causality.HasTimeFunction): `IsCauchyTimeFunction` (`Causal/Cauchy.lean:83`) (stale; it is at :86) -> `Causality.IsCauchyTimeFunction` (`Causal.Cauchy`), module and name, no line number; reflowed (:515-516). `Causal/Morphism.lean:832` in the same sentence is still right and stays."
+   ]
+  },
+  "d": {
+   "status": "done",
+   "moved": [
+    "Causal.IsEMorphismOn.pastInextensible_invComp: Causal/FlrwType.lean:397 -> Causal/CauchyExtension.lean:937. Docstring, statement and proof byte for byte, together with FlrwType's `variable {N : Type v} [TopologicalSpace N] {C : Causality M} {D : Causality N} {W : Opens M} {φ : M → N}` line. It sits in a last block after CauchyExtension's `end Causal` that reopens FlrwType's scope (namespace Causal; open Set Function TopologicalSpace Topology Filter; universe u v; variable {M : Type u} [TopologicalSpace M]; open Causality; namespace IsEMorphismOn), not physically beside inextensible_iff_invComp (:302 at HEAD, now :325, in the namespace IsEMorphismOn now at :200-404; the last block's namespace is :929-953): CauchyExtension's own variable line `{M : Type u} {N : Type v} [TopologicalSpace M] [TopologicalSpace N]` orders the binders M, N, [TopM], [TopN] where FlrwType had M, [TopM], N, [TopN], so the same text inside the namespace (HEAD :195-381) elaborates to a different statement (shown by scratch/BinderOrder.lean: `same type: false`). The full name, namespace and universes [u, v] are those of the dispatch.",
+    "Causal.IsSpacetimeExtension.isEMorphismOn: Causal/FlrwType.lean:422 -> Causal/C0ExtensionSkeleton.lean:335, in the namespace IsSpacetimeExtension (now :293-552) after `dual`, byte for byte (docstring and proof); its variables (M, [TopM] at file level; N, [TopN], [Nonempty N] in section Extension; CN, C, ι in the namespace) are FlrwType's in the same order, so no scope is reopened. It uses le_chartSource (:300) and coe_chartImage_eq (:305)."
+   ],
+   "source": "FlrwType drops its namespace IsEMorphismOn block (HEAD :389-413) and the isEMorphismOn proof; 'What is proved' item 4 (:38-45) names both lemmas as moved out by T-abs-sc-open-hoist with their new homes. Its later uses keep the names: isCauchySurfaceOn_image (HEAD :453 -> :400), iUnion_Iplus_eq_of_pastInextensible (:483 -> :430), the extension corollary (:523 -> :470). No import changes: CauchyExtension and C0ExtensionSkeleton are both in FlrwType's closure.",
+   "imports": "none added"
+  },
+  "e": {
+   "status": "done",
+   "moved": "Causal.Causality.IsCauchySurfaceOn.mem_Jplus_union_Jminus: Causal/FlrwTypeClosedAmbient.lean:137 -> Causal/CurvesExtendSecondCountable.lean:1409, right after exists_inextensible_of_t1_secondCountable, in a `section CauchySplit` with `variable {C : Causality M} {W : Opens M}` (FlrwTypeClosedAmbient's variables, same order after `{M : Type u} [TopologicalSpace M]`). Statement and proof byte for byte (verbatim_check.py); its docstring's last sentence, 'The twin of splitBy_of_t1_secondCountable (Causal/ErsSecondCountable.lean:158), which lies outside Causal.FlrwType's import closure.', now false, is replaced by: splitBy_of_t1_secondCountable is this statement and cover_of_t1_secondCountable its case W = ⊤, both proved from it, moved here by T-abs-sc-open-hoist.",
+   "reproved": [
+    "Causal.Causality.splitBy_of_t1_secondCountable (Causal/ErsSecondCountable.lean:158 -> :162): value `splitBy_of_inextensibleThrough hS (inextensibleThrough_of_t1_secondCountable C W)` -> `fun _ hq => hS.mem_Jplus_union_Jminus hq`; statement unchanged (dump: type hash, telescope, universes equal). splitBy_of_inextensibleThrough and inextensibleThrough_of_t1_secondCountable stay (other ERS forms use them).",
+    "Causal.Causality.IsCauchySurface.cover_of_t1_secondCountable (Causal/CauchySeparation.lean:93 -> :97): the 18-line tactic proof -> `IsCauchySurfaceOn.mem_Jplus_union_Jminus hS (show x ∈ (⊤ : Opens M) from trivial)` (IsCauchySurface S is IsCauchySurfaceOn ⊤ S by definition); statement unchanged (dump). Probe.lean checks both by `rfl` against the split."
+   ],
+   "source": "FlrwTypeClosedAmbient drops its copy; its section header 'Two general lemmas' becomes 'A general lemma' (isClosed_inter_preimage_setOf_le stays); item 6 of 'What is proved' (:45-51) names the new home. Its uses (HEAD :425, :436 -> :409, :420) keep the name; no import added (FlrwType's closure reaches CurvesExtendSecondCountable).",
+   "docstrings": "CurvesExtendSecondCountable's 'What is proved' gains a 'Cauchy split' bullet (moved in, by which target, and the two re-proved forms); ErsSecondCountable's module docstring (:30-36) and the theorem's docstring, and CauchySeparation's step (1) item and the theorem's docstring, say that they are proved from the split since T-abs-sc-open-hoist.",
+   "other_forms_untouched": "Causal.Causality.mem_Jplus_union_Jminus_of_isCauchySurface (Causal/CorrespondingPoints.lean:151) and Causal.IsCauchyEmbedding.mem_Jplus_union_Jminus_of_secondCountable (Causal/CExtConnexeSecondCountable.lean:401) stay as they are, per the dispatch."
+  }
+ },
+ "dump": {
+  "how": "scratch/Dump.lean (kb/0063; imports Causal and the five Causal.PlainnessModels.* that Causal.lean does not): for every constant of a Causal.* module, its module, kind, universe parameters, type hash, binder telescope (macro scopes erased, binder infos), value hash, reducibility, protection, noncomputability, internality. Before: HEAD d7642a74 with `lake build --no-build Causal` up to date (the whole library, a superset of the affected modules and their closures). After: the working tree after `lake build Causal`. Compared by scratch/dump_cmp.py, which also checks each module change against the expected moves.",
+  "result": "18881 constants before and after; 0 removed, 0 added, 0 duplicates. 18 constants changed module only, exactly the 18 moved declarations (13 SCOpenWithoutTarentin -> StrongCausalityHull; chronalCurveOn_comp FlatSpaceCylinder -> CauchyExtension; homotopicRel FlatSpaceCylinder -> TimelikeHomotopy; pastInextensible_invComp FlrwType -> CauchyExtension; isEMorphismOn FlrwType -> C0ExtensionSkeleton; mem_Jplus_union_Jminus FlrwTypeClosedAmbient -> CurvesExtendSecondCountable): same kind, universes, type hash, telescope and value hash (kb/0083: no proof term changed under the smaller closures). No auxiliary constant moved (none existed). 2 field differences, both expected: the value hash of splitBy_of_t1_secondCountable (1590987985 -> 1640807631) and of IsCauchySurface.cover_of_t1_secondCountable (1755354501 -> 1807294425), the re-proofs; their types are unchanged. Every other constant of the library, in all 290 rebuilt modules included, is identical, despite the new Mathlib import of TimelikeHomotopy. UNEXPECTED: 0.",
+  "file": "campaign/T-abs-sc-open-hoist/dump-diff.txt"
+ },
+ "import_changes": {
+  "Causal.StrongCausalityHull (new)": "imports Causal.GlobalHyperbolicity. model_path None (ETT layer), import_chain to Causal.Ladder.Rules None (no cycle), from tools/ladder.py's index in memory; confirmed on the compiled environment by Probe.lean.",
+  "Causal.SCOpenWithoutTarentin": "import Causal.GlobalHyperbolicity -> import Causal.StrongCausalityHull (its closure gains the new module only); the other five imports unchanged. model_path None; no chain to Rules.",
+  "Causal.TimelikeHomotopy": "+ import Mathlib.Topology.Homotopy.Basic (one module added to its closure and to Rules'). No Causal import.",
+  "others": "no import changed in CauchyExtension, C0ExtensionSkeleton, CurvesExtendSecondCountable, FlrwType, FlrwTypeClosedAmbient, ErsSecondCountable, CauchySeparation, FlatSpaceCylinder, ChronalNeighbourBridge, CurvesExtend.",
+  "cycles_and_models": "Every module that received a declaration (StrongCausalityHull, CauchyExtension, TimelikeHomotopy, C0ExtensionSkeleton, CurvesExtendSecondCountable) has model_path None and no import chain to Causal.Ladder.Rules. FlatSpaceCylinder (a model, which imports Rules) only lost declarations.",
+  "kb_0221": "None of the moved or re-proved proofs uses causal_ladder (grep: the word occurs in StrongCausalityHull and C0ExtensionSkeleton in docstrings only; ErsSecondCountable uses it at :369, :384 in witnesses that were not touched, and is downstream of Rules)."
+ },
+ "emit_lean": {
+  "dry_run": "scratch/emit_probe.py: ladder.emit_lean / emit_test in memory on the working tree, diffed with the files on disk (HEAD's sources emit exactly the files on disk, checked the same way). 26 rules, 2 skipped, 1 fact, unchanged.",
+  "Rules.lean": "one import line: `import Causal.SCOpenWithoutTarentin` (:17) is dropped and `import Causal.StrongCausalityHull` is added after `import Causal.StrongCausality` (sorted). The attribute line for Causal.Causality.StronglyCausal.stronglyCausalOpen_of_causallyOpen (:52) is unchanged (same name). No rule changes.",
+  "Test.lean": "identical to the file on disk (no change), contrary to the dispatch's expectation that Test changes too.",
+  "closure_effect": "After the switch Rules' Causal.* closure loses Causal.SCOpenWithoutTarentin, Causal.NestedTransfer and Causal.OneWayMembrane (55 -> 52 modules); none enters; no model in it (Causal.Lines, LadderLocal and LocateExtension stay, reached through other imports)."
+ },
+ "findings": [],
+ "questions": [
+  "pastInextensible_invComp: the evidence places it 'beside inextensible_iff_invComp (:302) in the namespace IsEMorphismOn (:195-381)'. Reading taken: the invariant 'statement unchanged' wins over the placement. Inside that namespace CauchyExtension's variable line reorders the binders (scratch/BinderOrder.lean), so the lemma is in the namespace IsEMorphismOn of the same file, in a last block that reopens FlrwType's scope (kb/0255's recipe). The alternatives were a section redeclaring shadowing variables, or explicit binders on the theorem (a text change).",
+  "chronalCurveOn_comp and homotopicRel: their names carried a namespace prefix (`IsEMorphismOn.`, `Causality.ChronalHomotopyOn.`) under `namespace Causal`. Reading taken: they go inside their namespaces (the evidence's 'its home is that namespace') with the prefix dropped from the header; the full names, statements and proofs are unchanged. The alternative was to keep the header text and place them outside those namespaces.",
+  "mem_Jplus_union_Jminus's docstring: 'Docstrings move with their declarations', but its last sentence (a twin outside FlrwType's closure) became false. Reading taken: that sentence is replaced (the evidence's 'drops ... the twin sentence'); the rest of the docstring is byte for byte."
+ ],
+ "extra_decls": [],
+ "kb_proposals": [
+  "Binder order in a hoist: a module's own `variable` line can reorder the statement of a moved declaration with the same text. CauchyExtension orders `{M} {N} [TopologicalSpace M] [TopologicalSpace N]` where FlrwType had `{M} [TopologicalSpace M] {N} [TopologicalSpace N]` (scratch/BinderOrder.lean of T-abs-sc-open-hoist: same type false). Compare the variable lines, and reopen the source's scope in a last block when they differ, as kb/0255 does for universes. A declaration whose binders are all its own (`{M N : Type*} ...`) moves anywhere.",
+  "Causal.StrongCausalityHull (T-abs-sc-open-hoist): the model-free half of SCOpenWithoutTarentin (the hull, StronglyCausal.stronglyCausalOpen_of_causallyOpen and its forms, exists_not_isOpen_hull), importing Causal.GlobalHyperbolicity only. Rules imports it after emit-lean; SCOpenWithoutTarentin keeps the witnesses. kb/0257 should name the new module.",
+  "kb/0218 / kb/0061 update: the Cauchy split Causality.IsCauchySurfaceOn.mem_Jplus_union_Jminus lives in Causal.CurvesExtendSecondCountable (in Rules' closure); splitBy_of_t1_secondCountable (ErsSecondCountable) and IsCauchySurface.cover_of_t1_secondCountable (CauchySeparation) are proved from it. IsEMorphismOn.chronalCurveOn_comp and .pastInextensible_invComp are in Causal.CauchyExtension, IsSpacetimeExtension.isEMorphismOn in Causal.C0ExtensionSkeleton, Causality.ChronalHomotopyOn.homotopicRel in Causal.TimelikeHomotopy.",
+  "Causal.TimelikeHomotopy imports Mathlib.Topology.Homotopy.Basic (T-abs-sc-open-hoist): ContinuousMap.HomotopyRel / HomotopicRel are in Rules' closure. The import added that one module and changed no constant of the library.",
+  "README: a row for Causal.StrongCausalityHull, and the rows of Causal.SCOpenWithoutTarentin (:193, now witnesses only) and Causal.Model.FlatSpaceCylinder (:209, homotopicRel's home) to refresh."
+ ],
+ "notes": "For the master, in this order. (1) Add `import Causal.StrongCausalityHull` to Causal.lean; the lakefile's glob already builds it and Causal.lean reaches it through SCOpenWithoutTarentin, so this is only the listing. (2) Run emit-lean: the dry run changes only Rules.lean's import line (above); Test.lean is unchanged. Rules then rebuilds and so does every causal_ladder user. (3) make -C lean-causal check. CausalScaffold has not been rebuilt (six modules are stale, above); no scaffold name collides with a moved one. (4) No ledger row lists a moved declaration or a file it left (grep of papers/*/certificate/curation.toml and ledger.json, kb/0254); the two re-proved names stay in their files (ers-predictability, ett rows). reports/atlas/lean/facts-lean-causal.json, generated, records the old modules and lines. (5) programme/ladder.toml's comments cite line numbers in the edited files that have moved (scratch/lineref_probe.py): :1522 SCOpenWithoutTarentin.lean:187 -> StrongCausalityHull.lean:188; :2320, :2592 SCOpenWithoutTarentin.lean:282 -> :105; :3649 FlatSpaceCylinder.lean:419 -> :370; :4784 CauchySeparation.lean:93 -> :97; :4929 :113 -> :102; :4943 :236 -> :225; :4959 :283 -> :272; :471 FlrwType.lean:156 -> :160; :1454 :121 -> :125; :1503 :163 -> :167 and :544 -> :491; :5203 :544 -> :491; :1179 TimelikeHomotopy.lean:156 -> :162; :1199 :646 -> :683; :5888, :5911, :5919, :5938, :6173, :6194 ErsSecondCountable.lean +4 (:177 -> :181, :206 -> :210, :261 -> :265, :230 -> :234, :288 -> :292, :322 -> :326); :5199's `(:137)` for the split is now CurvesExtendSecondCountable.lean:1409. Names are unchanged, so no ladder entry changes; this is for the ladder-keeper. (6) The before-dump is /tmp/T-abs-sc-open-hoist/before.txt (2.6 MB, not kept in the campaign directory); it is reproducible from HEAD d7642a74 with scratch/Dump.lean.",
+ "axioms": "Standard only (propext, Classical.choice, Quot.sound) for all 24 moved or re-proved declarations, the 4 witnesses that stay, and three downstream users (spaceCylinder_not_futureOneConnected, IsSpacetimeExtension.not_pastBoundaryChart_of_flrwType, not_pastBoundaryChart_of_flrwTypeB_of_isClosed_le): axioms.txt, from Probe.lean. No sorry, admit, axiom or native_decide in any edited file (grep: the words occur in prose only)."
+}

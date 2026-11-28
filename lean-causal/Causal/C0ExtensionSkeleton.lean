@@ -71,6 +71,11 @@ layer 3) contradicts.
 * `ExitDiamonds` asks `Ũ` inside every neighbourhood of `γ 1` (Sbierski's `Ũ` is a chart domain).
 * `LocallyStronglyCausal` is a named hypothesis (no ladder node yet); `causal_ladder` is not used:
   every ladder property enters as a hypothesis.
+* **Moved in** (T-abs-sc-open-hoist): `IsSpacetimeExtension.isEMorphismOn`, an extension is an
+  abstract `𝕄≥0`-morphism on `N` (`IsEMorphismOn`, `Causal.CauchyExtension`), from
+  `Causal.FlrwType`, byte for byte under the same full name, in the namespace
+  `IsSpacetimeExtension` after `dual` (it uses `le_chartSource` and `coe_chartImage_eq`). No import
+  is added.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -324,6 +329,37 @@ theorem rel_top_iff (hι : IsSpacetimeExtension CN C ι) (x y : N) :
 theorem dual (hι : IsSpacetimeExtension CN C ι) : IsSpacetimeExtension CN.dual C.dual ι :=
   ⟨hι.isOpenEmbedding, hι.range_ne_univ,
     fun U hU x hx y hy => ⟨(hι.chartIso U hU y hy x hx).1, (hι.chartIso U hU y hy x hx).2⟩⟩
+
+/-- **An extension is an abstract `𝕄≥0`-morphism** on `N`: the `ChartIso` along `ι` gives the
+strong morphism and the local isomorphism (one chart, `V = N`). -/
+theorem isEMorphismOn (hι : IsSpacetimeExtension CN C ι) : IsEMorphismOn CN C ⊤ ι where
+  continuousOn := hι.isOpenEmbedding.continuous.continuousOn
+  isOpen_image V _ := hι.isOpenEmbedding.isOpenMap V V.isOpen
+  map_le V U _ hmaps x y hxy := by
+    have h := ((hι.chartIso V (hι.le_chartSource V) x (CN.le_mem_left hxy) y
+      (CN.le_mem_right hxy)).1).1 hxy
+    simp only [IsOpenEmbedding.toOpenPartialHomeomorph_apply] at h
+    refine C.le_mono ?_ h
+    intro z hz
+    rw [← SetLike.mem_coe, hι.coe_chartImage_eq] at hz
+    obtain ⟨w, hw, rfl⟩ := hz
+    exact hmaps hw
+  map_lt V U _ hmaps x y hxy := by
+    have h := ((hι.chartIso V (hι.le_chartSource V) x (CN.lt_mem_left hxy) y
+      (CN.lt_mem_right hxy)).2).1 hxy
+    simp only [IsOpenEmbedding.toOpenPartialHomeomorph_apply] at h
+    refine C.lt_mono ?_ h
+    intro z hz
+    rw [← SetLike.mem_coe, hι.coe_chartImage_eq] at hz
+    obtain ⟨w, hw, rfl⟩ := hz
+    exact hmaps hw
+  locally x _ := ⟨⊤, le_rfl, trivial, hι.isOpenEmbedding.injective.injOn,
+    fun V' _ U hU y hy z hz => by
+      have h := hι.chartIso V' (hι.le_chartSource V') y hy z hz
+      have hVU : chartImage (hι.isOpenEmbedding.toOpenPartialHomeomorph ι) V' = U :=
+        SetLike.coe_injective (by rw [hι.coe_chartImage_eq, hU])
+      rw [hVU] at h
+      simpa only [IsOpenEmbedding.toOpenPartialHomeomorph_apply] using h⟩
 
 /-- **The diamonds of `N` are those of `ι(N)`**: `ι(I⁺(x, N) ∩ I⁻(y, N)) =
 I⁺(ι x, ι(N)) ∩ I⁻(ι y, ι(N))`, the identification of `M` with `ι(M)` in (1.2) (`:155`). -/

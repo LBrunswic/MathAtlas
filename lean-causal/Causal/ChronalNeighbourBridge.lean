@@ -8,9 +8,9 @@ Programme target `T-abs-chronal-neighbour-bridge` (`programme/roadmap.toml:571â€
 label of `ETT.tex`; ETT-layer imports only, no model, no metric notion). It joins
 `HasChronalNeighbour` of `Causal.LocateExtension` (one point, one side, chronology in `M`;
 `LocateExtension.lean:138`) and `ChronalNeighbours` of `Causal.LadderLocal` (every point, both
-sides, chronology in every open `V`; `LadderLocal.lean:178`), through two named forms of chronology
-in `M`: `HasChronalNeighbourEverywhere` (every point, one side) and `NonemptyChronalCones` (every
-point, both sides).
+sides, chronology in every open `V`; `Causality.ChronalNeighbours`), through two named forms of
+chronology in `M`: `HasChronalNeighbourEverywhere` (every point, one side) and
+`NonemptyChronalCones` (every point, both sides).
 
 * **`T-abs-chronal-neighbour-bridge/0-everywhere`** â€” `ChronalNeighbours.hasChronalNeighbour`,
   `ChronalNeighbours.hasChronalNeighbourEverywhere`: chronal neighbours in every open set give a

@@ -512,8 +512,8 @@ end Causality
 body verbatim. It is neither the strict library's `Causality.IsTimeFunction`
 (`defi:fonction_temps`, `Causal/Morphism.lean:832`, a strong morphism to `timelikeLine`: open,
 non-decreasing, and it does not make `C` causal, `exists_isTimeFunction_not_isCausal`, kb/0058)
-nor `IsCauchyTimeFunction` (`Causal/Cauchy.lean:83`), and must not be read as either: it is exactly
-the hypothesis form of `curvesExtend_of_timeFunction`. Defined in `Causal.CBG.Pgcd` until
+nor `Causality.IsCauchyTimeFunction` (`Causal.Cauchy`), and must not be read as either: it is
+exactly the hypothesis form of `curvesExtend_of_timeFunction`. Defined in `Causal.CBG.Pgcd` until
 T-abs-hoist-time-function; same full name. -/
 def Causality.HasTimeFunction {M : Type*} [TopologicalSpace M] (C : Causality M) : Prop :=
   ∃ T : M → ℝ, Continuous T ∧ ∀ x y, C.le ⊤ x y → x ≠ y → T x < T y

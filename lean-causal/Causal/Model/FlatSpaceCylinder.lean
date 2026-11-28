@@ -30,9 +30,9 @@ as they stand.
 `spaceCylinder_hasTimeFunction`.
 **`T-abs-not-future-one-connected/4-winding`** — the bridge
 `Causality.ChronalHomotopyOn.homotopicRel` (a chronal homotopy is a homotopy of paths rel
-`{0, 1}`), the winding curves `windCurve k` (`windCurve_chronalCurveOn`, `|k| < 3`),
-`windCurve_not_chronallyHomotopicOn` (winding numbers `m ≠ n`, in every open set), and
-`spaceCylinder_not_futureOneConnected`.
+`{0, 1}`; in `Causal.TimelikeHomotopy` since T-abs-sc-open-hoist), the winding curves
+`windCurve k` (`windCurve_chronalCurveOn`, `|k| < 3`), `windCurve_not_chronallyHomotopicOn`
+(winding numbers `m ≠ n`, in every open set), and `spaceCylinder_not_futureOneConnected`.
 **`T-abs-not-future-one-connected/5-separation`** — `spaceCylinder_separates`: T2, second
 countable, connected; the seven provided nodes, the twelve of their ladder closure, absolute
 minimality on every open set, and `¬ FutureOneConnected`.
@@ -81,10 +81,12 @@ minimality on every open set, and `¬ FutureOneConnected`.
   under `T2Space` and `SecondCountableTopology` (strong causality and the time function from
   `globally_hyperbolic ∧ tarentin`, `curves_extend` the fact). The time function is Geroch's, not
   the time coordinate (which is one too, argued in the ladder note; not stated).
-* **Model-free lemmas stranded here (kb/0061).** `Causal.IsEMorphismOn.chronalCurveOn_comp` (the
-  `≪` twin of `IsEMorphismOn.causalCurveOn_comp`, `Causal/CauchyExtension.lean`) and
-  `Causal.Causality.ChronalHomotopyOn.homotopicRel` (Mathlib homotopies only; its home would be
-  `Causal/TimelikeHomotopy.lean`) need no model; `isLocalIsometry_mk_top` is for every `d`.
+* **Moved out** (T-abs-sc-open-hoist; kb/0061). The two model-free lemmas first proved here are
+  in their ETT-layer homes, byte for byte under the same full names:
+  `Causal.IsEMorphismOn.chronalCurveOn_comp` (the `≪` twin of `IsEMorphismOn.causalCurveOn_comp`)
+  in `Causal.CauchyExtension`, and `Causal.Causality.ChronalHomotopyOn.homotopicRel` (Mathlib
+  homotopies only) in `Causal.TimelikeHomotopy`. This module reaches both through its imports.
+  `isLocalIsometry_mk_top`, which stays, is for every `d`.
 * **Imports.** Directly: `Causal.Flat.CBG`, `Causal.Flat.Examples`, `Causal.Flat.SecondCountable`,
   `Causal.Model.MinkowskiFutureOneConnected`, `Causal.ChronalNeighbourBridge`,
   `Causal.CausallyPlainLocZ`, `Causal.TimelikeHomotopy`, `Causal.Ladder.Rules`; no `Causal.Port.*`
@@ -96,57 +98,6 @@ Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 namespace Causal
 
 open Set TopologicalSpace Topology Function
-
-/-! ### Two model-free lemmas -/
-
-/-- **Push-forward of a chronal curve** by an abstract morphism on `W`: the image of a future
-chronal curve of `V ⊆ W` is a future chronal curve of every open `U ⊇ φ(V)` (the `≪` twin of
-`IsEMorphismOn.causalCurveOn_comp`). -/
-theorem IsEMorphismOn.chronalCurveOn_comp {M N : Type*} [TopologicalSpace M]
-    [TopologicalSpace N] {C : Causality M} {D : Causality N} {W : Opens M} {φ : M → N}
-    (h : IsEMorphismOn C D W φ) {V : Opens M} (hVW : V ≤ W)
-    {U : Opens N} (hVU : MapsTo φ V U) {c : ℝ → M} {a b : ℝ} (hc : C.ChronalCurveOn V c a b) :
-    D.ChronalCurveOn U (φ ∘ c) a b where
-  mem t ht := hVU (hc.mem t ht)
-  rel t ht N' hN' hN't := by
-    have hO : IsOpen ((W : Set M) ∩ φ ⁻¹' N') :=
-      h.continuousOn.isOpen_inter_preimage W.isOpen N'.isOpen
-    let V' : Opens M := V ⊓ ⟨_, hO⟩
-    obtain ⟨l, u, hl, hu, hrel⟩ :=
-      hc.rel t ht V' inf_le_left ⟨hc.mem t ht, hVW (hc.mem t ht), hN't⟩
-    exact ⟨l, u, hl, hu, fun s hs s' hs' h1 h2 h3 =>
-      h.map_lt V' N' (inf_le_left.trans hVW) (fun z hz => hz.2.2) (hrel s hs s' hs' h1 h2 h3)⟩
-
-/-- **A chronal homotopy is a homotopy of paths relative to the endpoints**: for continuous maps
-`f₀, f₁ : [0, 1] → M` agreeing with `γ₀, γ₁` on `[0, 1]`, a chronal homotopy with fixed endpoints
-from `γ₀` to `γ₁` is a homotopy rel `{0, 1}` from `f₀` to `f₁`. Only the joint continuity on
-`[0, 1]²` and the fixed endpoints are read. -/
-theorem Causality.ChronalHomotopyOn.homotopicRel {M : Type*} [TopologicalSpace M]
-    {C : Causality M} {W : Opens M} {Γ : ℝ → ℝ → M} {γ₀ γ₁ : ℝ → M}
-    (h : C.ChronalHomotopyOn W Γ γ₀ γ₁) (f₀ f₁ : C(unitInterval, M))
-    (hf₀ : ∀ s : unitInterval, f₀ s = γ₀ s) (hf₁ : ∀ s : unitInterval, f₁ s = γ₁ s) :
-    f₀.HomotopicRel f₁ {0, 1} := by
-  have hcont : Continuous fun x : unitInterval × unitInterval => Γ x.1 x.2 :=
-    h.continuousOn.comp_continuous (f := fun x : unitInterval × unitInterval =>
-      ((x.1 : ℝ), (x.2 : ℝ))) (by fun_prop) fun x => ⟨x.1.2, x.2.2⟩
-  let F : ContinuousMap.HomotopyRel f₀ f₁ {0, 1} :=
-    { toFun := fun x => Γ x.1 x.2
-      continuous_toFun := hcont
-      map_zero_left := fun s => by
-        show Γ 0 s = f₀ s
-        rw [hf₀]; exact h.eqOn_zero s.2
-      map_one_left := fun s => by
-        show Γ 1 s = f₁ s
-        rw [hf₁]; exact h.eqOn_one s.2
-      prop' := fun t s hs => by
-        rcases hs with rfl | hs
-        · show Γ t 0 = f₀ 0
-          rw [hf₀]; exact h.fix_zero t t.2
-        · rw [Set.mem_singleton_iff] at hs
-          subst hs
-          show Γ t 1 = f₀ 1
-          rw [hf₀]; exact h.fix_one t t.2 }
-  exact ⟨F⟩
 
 namespace Flat
 

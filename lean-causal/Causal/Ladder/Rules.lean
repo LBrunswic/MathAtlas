@@ -14,8 +14,8 @@ import Causal.LadderLocal
 import Causal.LevinTimeFunction
 import Causal.Properties
 import Causal.PushUpOfMinimalLocal
-import Causal.SCOpenWithoutTarentin
 import Causal.StrongCausality
+import Causal.StrongCausalityHull
 
 /-!
 # The rules of `causal_ladder`, generated from the causality ladder

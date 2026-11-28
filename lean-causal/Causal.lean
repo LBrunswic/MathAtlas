@@ -259,6 +259,7 @@ import Causal.AbstractDev
 import Causal.MaximalZorn
 import Causal.OneWayMembraneChronal
 import Causal.GHWithoutTarentin
+import Causal.StrongCausalityHull
 import Causal.SCOpenWithoutTarentin
 import Causal.CurvesFreeCauchy.CompactCauchy
 import Causal.CurvesFreeCauchy.CausalConvex

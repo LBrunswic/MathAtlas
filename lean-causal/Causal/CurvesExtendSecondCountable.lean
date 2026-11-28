@@ -34,6 +34,12 @@ The fact it discharges, as the library states it (`Causal/CauchyExtension.lean:7
   curves extend in every one of them, on every open set. Two named hypotheses discharged, as
   examples: `Causality.IsCauchySurface.isAcausal_of_t1_secondCountable` and
   `Causality.IsCauchySurfaceOn.eq_of_le_of_t1_secondCountable`.
+* **The Cauchy split** `Causality.IsCauchySurfaceOn.mem_Jplus_union_Jminus`: a Cauchy surface `S`
+  of `W` puts every point of `W` in `J⁺(S, W) ∪ J⁻(S, W)`. Moved in from
+  `Causal.FlrwTypeClosedAmbient` by T-abs-sc-open-hoist, byte for byte under the same full name;
+  `Causality.splitBy_of_t1_secondCountable` (`Causal.ErsSecondCountable`) and
+  `Causality.IsCauchySurface.cover_of_t1_secondCountable` (`Causal.CauchySeparation`) are now
+  proved from it. No import is added.
 * **The Zorn class** (the target's (1)). `Causality.TailFreeCurve C W`: causal curves of `W`
   over an interval `I` that are `TailFree`, i.e. constant on no final or initial segment of `I`
   with two points. The carrier is the interval; the morphisms, `Causality.tailFreeMor`, are the
@@ -1388,6 +1394,32 @@ theorem exists_inextensible_of_t1_secondCountable [T1Space M] [SecondCountableTo
   refine ⟨f ⟨ρ t, hρm ht⟩, (f _).2, ?_⟩
   rw [hf.2.2]
   exact hρc t ht
+
+section CauchySplit
+
+variable {C : Causality M} {W : Opens M}
+
+/-- **A Cauchy surface splits its open set**, on a T1, second countable space: every point of `W`
+is in `J⁺(S, W) ∪ J⁻(S, W)`. Through the point runs an inextensible causal curve of `W`
+(`exists_inextensible_of_t1_secondCountable`, the constant curve extended), and it meets `S`.
+`splitBy_of_t1_secondCountable` (`Causal.ErsSecondCountable`) is this statement, and
+`IsCauchySurface.cover_of_t1_secondCountable` (`Causal.CauchySeparation`) its case `W = ⊤`:
+both are proved from it. Moved here from `Causal.FlrwTypeClosedAmbient` by T-abs-sc-open-hoist.
+-/
+theorem IsCauchySurfaceOn.mem_Jplus_union_Jminus [T1Space M] [SecondCountableTopology M]
+    {S : Set M} (hS : C.IsCauchySurfaceOn W S) {q : M} (hq : q ∈ W) :
+    q ∈ C.Jplus W S ∪ C.Jminus W S := by
+  have hc : C.CausalCurveIn W {0} (fun _ => q) :=
+    ⟨singleton_nonempty 0, ordConnected_singleton, fun _ _ _ _ => causalCurveOn_const hq⟩
+  obtain ⟨J, c, hc', hsub⟩ := exists_inextensible_of_t1_secondCountable hc
+  obtain ⟨t, ht, hct⟩ := hsub ⟨0, rfl, rfl⟩
+  replace hct : c t = q := hct
+  obtain ⟨_, ⟨⟨s, hs, rfl⟩, hsS⟩, -⟩ := hS J c hc'
+  rcases le_total s t with h | h
+  · exact Or.inl ⟨c s, hsS, hct ▸ hc'.1.le_of_le hs ht h⟩
+  · exact Or.inr ⟨c s, hsS, hct ▸ hc'.1.le_of_le ht hs h⟩
+
+end CauchySplit
 
 /-- **The target**: `CurvesExtendOn W` for every open `W` of every T1, second countable space with
 a causality. -/

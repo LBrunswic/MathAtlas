@@ -28,8 +28,10 @@ with `Cm.CurvesExtend` (`hmext`) and the through-hypotheses (`hthrough`, `hthrou
 `[SecondCountableTopology M]` added (every original is already `[T2Space M]`). They are discharged
 by the curves theorem (`Causality.curvesExtend_of_t1_secondCountable`, kb/0142; DEC-190) and its
 consequence on a constant curve, stated once here for every causality and every open set:
-`Causality.inextensibleThrough_of_t1_secondCountable` (`InextensibleThrough W`), hence
-`Causality.splitBy_of_t1_secondCountable` (`SplitBy W S` for a Cauchy surface `S` of `W`) and
+`Causality.inextensibleThrough_of_t1_secondCountable` (`InextensibleThrough W`),
+`Causality.splitBy_of_t1_secondCountable` (`SplitBy W S` for a Cauchy surface `S` of `W`; since
+T-abs-sc-open-hoist it is proved from the split `Causality.IsCauchySurfaceOn.mem_Jplus_union_Jminus`
+of `Causal.CurvesExtendSecondCountable`, of which `SplitBy` is the statement) and
 `Causality.IsCauchySurfaceOn.isAcausalOn_of_t1_secondCountable` (`IsAcausalOn W S` when `W` is
 causally arc-connected), which `T-abs-ers-4-64-second-countable` uses too.
 `ers_corollary_4_73_of_isCauchySurfaceOn_secondCountable` moreover trades 4.73's `hacausal` and
@@ -154,10 +156,12 @@ theorem inextensibleThrough_of_t1_secondCountable [T1Space M] [SecondCountableTo
   exact ⟨I, c, hc, hsub ⟨0, left_mem_Icc.2 le_rfl, rfl⟩⟩
 
 /-- **A Cauchy surface of an open set splits it**, in a T1, second countable space:
+`IsCauchySurfaceOn.mem_Jplus_union_Jminus` (`Causal.CurvesExtendSecondCountable`), whose statement
+`SplitBy W S` is. Re-proved from it by T-abs-sc-open-hoist; before, it was
 `splitBy_of_inextensibleThrough` with `InextensibleThrough W` discharged. -/
 theorem splitBy_of_t1_secondCountable [T1Space M] [SecondCountableTopology M] {C : Causality M}
     {W : Opens M} (hS : C.IsCauchySurfaceOn W S) : C.SplitBy W S :=
-  splitBy_of_inextensibleThrough hS (inextensibleThrough_of_t1_secondCountable C W)
+  fun _ hq => hS.mem_Jplus_union_Jminus hq
 
 /-- **A Cauchy surface of a causally arc-connected open set `W` is acausal in `W`**, in a T1,
 second countable space: `IsCauchySurfaceOn.eq_of_le_of_t1_secondCountable` in the form

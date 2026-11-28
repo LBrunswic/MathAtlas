@@ -36,9 +36,13 @@ spacetimes*, `references/sbierski/text/sbierski2023c.txt`: the proof of Thm 1.5 
    `Iplus_inter_Iminus_subset`); with (A), `Iminus_eq_diamond` (`I⁻(γ̃ s₀, W)` *is* the chart
    diamond); (4.3), `subset_diamond`.
 4. **The corollary for an extension** `IsSpacetimeExtension.not_pastBoundaryChart_of_flrwType`
-   (OQ-154's reading), through `IsSpacetimeExtension.isEMorphismOn`, `isCauchySurfaceOn_image`,
-   `le_antisymm_rangeOpens`, `iUnion_Iplus_eq_of_pastInextensible`,
-   `exists_isCauchySurfaceOn_subset_Iminus` and `IsEMorphismOn.pastInextensible_invComp`.
+   (OQ-154's reading), through `isCauchySurfaceOn_image`, `le_antisymm_rangeOpens`,
+   `iUnion_Iplus_eq_of_pastInextensible` and `exists_isCauchySurfaceOn_subset_Iminus`, and two
+   transport lemmas first proved here and moved out by T-abs-sc-open-hoist, byte for byte under
+   the same full names: `IsSpacetimeExtension.isEMorphismOn`, now in `Causal.C0ExtensionSkeleton`
+   beside `IsSpacetimeExtension`, and `IsEMorphismOn.pastInextensible_invComp`, now in
+   `Causal.CauchyExtension`, in the namespace of `IsEMorphismOn.inextensible_iff_invComp` (a last
+   block that keeps this module's binder order, kb/0255).
 5. **Witnesses** (kb/0011): the hypotheses hold jointly on `W = (0, ∞)` of the timelike line
    (`timelikeLine_flrwType_hypotheses_posHalfLine`), and the theorem applies there
    (`timelikeLine_posHalfLine_not_pastBoundaryChart`); the corollary applies to `exp : ℝ → ℝ`
@@ -386,67 +390,10 @@ end Causality
 
 open Causality
 
-namespace IsEMorphismOn
-
-variable {N : Type v} [TopologicalSpace N] {C : Causality M} {D : Causality N} {W : Opens M}
-  {φ : M → N}
-
-/-- **Past-inextensibility is pulled back** along a morphism injective on `W`: a past-inextensible
-curve of the image `U = φ(V)`, read through a left inverse, is past-inextensible in `V`. The
-one-sided half of `inextensible_iff_invComp`, with the same proof. -/
-theorem pastInextensible_invComp (h : IsEMorphismOn C D W φ) (hinj : InjOn φ W) {g : N → M}
-    (hg : LeftInvOn g φ W) {V : Opens M} (hVW : V ≤ W) {U : Opens N}
-    (hU : (U : Set N) = φ '' V) {I : Set ℝ} {e : ℝ → N} (he : D.PastInextensible U I e) :
-    C.PastInextensible V I (g ∘ e) := by
-  have hmaps : MapsTo φ V U := fun x hx => by
-    show φ x ∈ (U : Set N); rw [hU]; exact mem_image_of_mem φ hx
-  have hφg : ∀ t ∈ I, φ (g (e t)) = e t := fun t ht => (leftInvOn_image hg hVW hU (he.1.mem ht)).2
-  refine ⟨h.causalCurveIn_invComp hg hVW hU he.1, ?_⟩
-  rintro ⟨I', c', hc', ⟨ψ, h1, h2, h3, h4, h5⟩, ⟨t', ht', h6⟩⟩
-  refine he.2 ⟨I', φ ∘ c', h.causalCurveIn_comp hVW hmaps hc',
-    ⟨ψ, h1, h2, h3, fun t ht => ?_, h5⟩, ⟨t', ht', fun t ht heq => h6 t ht ?_⟩⟩
-  · simp only [comp_apply]; rw [h4 t ht]; exact hφg t ht
-  · refine hinj (hVW (hc'.mem ht')) (hVW (leftInvOn_image hg hVW hU (he.1.mem ht)).1) ?_
-    simp only [comp_apply] at heq ⊢
-    rw [heq, hφg t ht]
-
-end IsEMorphismOn
-
 namespace IsSpacetimeExtension
 
 variable {N : Type v} [TopologicalSpace N] [Nonempty N] {CN : Causality N} {C : Causality M}
   {ι : N → M}
-
-/-- **An extension is an abstract `𝕄≥0`-morphism** on `N`: the `ChartIso` along `ι` gives the
-strong morphism and the local isomorphism (one chart, `V = N`). -/
-theorem isEMorphismOn (hι : IsSpacetimeExtension CN C ι) : IsEMorphismOn CN C ⊤ ι where
-  continuousOn := hι.isOpenEmbedding.continuous.continuousOn
-  isOpen_image V _ := hι.isOpenEmbedding.isOpenMap V V.isOpen
-  map_le V U _ hmaps x y hxy := by
-    have h := ((hι.chartIso V (hι.le_chartSource V) x (CN.le_mem_left hxy) y
-      (CN.le_mem_right hxy)).1).1 hxy
-    simp only [IsOpenEmbedding.toOpenPartialHomeomorph_apply] at h
-    refine C.le_mono ?_ h
-    intro z hz
-    rw [← SetLike.mem_coe, hι.coe_chartImage_eq] at hz
-    obtain ⟨w, hw, rfl⟩ := hz
-    exact hmaps hw
-  map_lt V U _ hmaps x y hxy := by
-    have h := ((hι.chartIso V (hι.le_chartSource V) x (CN.lt_mem_left hxy) y
-      (CN.lt_mem_right hxy)).2).1 hxy
-    simp only [IsOpenEmbedding.toOpenPartialHomeomorph_apply] at h
-    refine C.lt_mono ?_ h
-    intro z hz
-    rw [← SetLike.mem_coe, hι.coe_chartImage_eq] at hz
-    obtain ⟨w, hw, rfl⟩ := hz
-    exact hmaps hw
-  locally x _ := ⟨⊤, le_rfl, trivial, hι.isOpenEmbedding.injective.injOn,
-    fun V' _ U hU y hy z hz => by
-      have h := hι.chartIso V' (hι.le_chartSource V') y hy z hz
-      have hVU : chartImage (hι.isOpenEmbedding.toOpenPartialHomeomorph ι) V' = U :=
-        SetLike.coe_injective (by rw [hι.coe_chartImage_eq, hU])
-      rw [hVU] at h
-      simpa only [IsOpenEmbedding.toOpenPartialHomeomorph_apply] using h⟩
 
 /-- **Cauchy surfaces are pushed forward**: `ι(S)` is a Cauchy surface of `ι(N)` for every Cauchy
 surface `S` of `N` (`IsEMorphismOn.isCauchySurfaceOn_image_iff`). -/

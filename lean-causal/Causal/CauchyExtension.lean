@@ -48,6 +48,11 @@ import Causal.Geroch
 * `IsCauchyInclusion` is the definition for an inclusion of open sets (kb/0001); the inclusion is
   an injective abstract morphism for any `A ≤ B` (`IsCauchyInclusion.isEMorphismOn_id`). `CurvesExtend`,
   a model fact (kb/0012), makes a Cauchy surface acausal (`IsCauchySurface.isAcausal`).
+* **Moved in** (T-abs-sc-open-hoist), byte for byte under the same full names:
+  `IsEMorphismOn.chronalCurveOn_comp`, the `≪` twin of `IsEMorphismOn.causalCurveOn_comp`, from
+  `Causal.Model.FlatSpaceCylinder` (beside its twin); `IsEMorphismOn.pastInextensible_invComp`, the
+  one-sided half of `IsEMorphismOn.inextensible_iff_invComp`, from `Causal.FlrwType` (the last
+  block, which keeps the binder order of its first home). No import is added.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -253,6 +258,24 @@ theorem causalCurveIn_comp (h : IsEMorphismOn C D W φ) {V : Opens M} (hVW : V �
     {U : Opens N} (hVU : MapsTo φ V U) {I : Set ℝ} {d : ℝ → M} (hd : C.CausalCurveIn V I d) :
     D.CausalCurveIn U I (φ ∘ d) :=
   ⟨hd.nonempty, hd.ordConnected, fun a ha b hb => h.causalCurveOn_comp hVW hVU (hd.curve a ha b hb)⟩
+
+/-- **Push-forward of a chronal curve** by an abstract morphism on `W`: the image of a future
+chronal curve of `V ⊆ W` is a future chronal curve of every open `U ⊇ φ(V)` (the `≪` twin of
+`IsEMorphismOn.causalCurveOn_comp`). -/
+theorem chronalCurveOn_comp {M N : Type*} [TopologicalSpace M]
+    [TopologicalSpace N] {C : Causality M} {D : Causality N} {W : Opens M} {φ : M → N}
+    (h : IsEMorphismOn C D W φ) {V : Opens M} (hVW : V ≤ W)
+    {U : Opens N} (hVU : MapsTo φ V U) {c : ℝ → M} {a b : ℝ} (hc : C.ChronalCurveOn V c a b) :
+    D.ChronalCurveOn U (φ ∘ c) a b where
+  mem t ht := hVU (hc.mem t ht)
+  rel t ht N' hN' hN't := by
+    have hO : IsOpen ((W : Set M) ∩ φ ⁻¹' N') :=
+      h.continuousOn.isOpen_inter_preimage W.isOpen N'.isOpen
+    let V' : Opens M := V ⊓ ⟨_, hO⟩
+    obtain ⟨l, u, hl, hu, hrel⟩ :=
+      hc.rel t ht V' inf_le_left ⟨hc.mem t ht, hVW (hc.mem t ht), hN't⟩
+    exact ⟨l, u, hl, hu, fun s hs s' hs' h1 h2 h3 =>
+      h.map_lt V' N' (inf_le_left.trans hVW) (fun z hz => hz.2.2) (hrel s hs s' hs' h1 h2 h3)⟩
 
 /-- A left inverse of `φ` on `W` inverts it on the image of every `V ⊆ W`. -/
 theorem leftInvOn_image {g : N → M} (hg : LeftInvOn g φ W) {V : Opens M} (hVW : V ≤ W)
@@ -882,5 +905,51 @@ theorem timelikeLine_curvesExtend : timelikeLine.CurvesExtend := fun _ _ _ _ _ =
 
 theorem timelikeLine_isGloballyHyperbolicOn_not :
     ¬ timelikeLineTop.GloballyHyperbolicOn ⊤ := fun h => timelikeLineTop_not_isCausal h.1
+
+end Causal
+
+/-! ### Past-inextensibility pulled back
+
+Moved here from `Causal.FlrwType` by T-abs-sc-open-hoist, byte for byte under the same full
+name. The block reopens the scope it was proved in: there `M` and its topology come before `N`
+(`universe u v`, `variable {M : Type u} [TopologicalSpace M]`), and this module's own `variable`
+line orders `M`, `N`, then their topologies, which would reorder the binders of the statement
+(kb/0255). -/
+
+namespace Causal
+
+open Set Function TopologicalSpace Topology Filter
+
+universe u v
+
+variable {M : Type u} [TopologicalSpace M]
+
+open Causality
+
+namespace IsEMorphismOn
+
+variable {N : Type v} [TopologicalSpace N] {C : Causality M} {D : Causality N} {W : Opens M}
+  {φ : M → N}
+
+/-- **Past-inextensibility is pulled back** along a morphism injective on `W`: a past-inextensible
+curve of the image `U = φ(V)`, read through a left inverse, is past-inextensible in `V`. The
+one-sided half of `inextensible_iff_invComp`, with the same proof. -/
+theorem pastInextensible_invComp (h : IsEMorphismOn C D W φ) (hinj : InjOn φ W) {g : N → M}
+    (hg : LeftInvOn g φ W) {V : Opens M} (hVW : V ≤ W) {U : Opens N}
+    (hU : (U : Set N) = φ '' V) {I : Set ℝ} {e : ℝ → N} (he : D.PastInextensible U I e) :
+    C.PastInextensible V I (g ∘ e) := by
+  have hmaps : MapsTo φ V U := fun x hx => by
+    show φ x ∈ (U : Set N); rw [hU]; exact mem_image_of_mem φ hx
+  have hφg : ∀ t ∈ I, φ (g (e t)) = e t := fun t ht => (leftInvOn_image hg hVW hU (he.1.mem ht)).2
+  refine ⟨h.causalCurveIn_invComp hg hVW hU he.1, ?_⟩
+  rintro ⟨I', c', hc', ⟨ψ, h1, h2, h3, h4, h5⟩, ⟨t', ht', h6⟩⟩
+  refine he.2 ⟨I', φ ∘ c', h.causalCurveIn_comp hVW hmaps hc',
+    ⟨ψ, h1, h2, h3, fun t ht => ?_, h5⟩, ⟨t', ht', fun t ht heq => h6 t ht ?_⟩⟩
+  · simp only [comp_apply]; rw [h4 t ht]; exact hφg t ht
+  · refine hinj (hVW (hc'.mem ht')) (hVW (leftInvOn_image hg hVW hU (he.1.mem ht)).1) ?_
+    simp only [comp_apply] at heq ⊢
+    rw [heq, hφg t ht]
+
+end IsEMorphismOn
 
 end Causal

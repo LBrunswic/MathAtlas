@@ -46,7 +46,9 @@ J. Sbierski, *The C⁰-inextendibility of a class of FLRW spacetimes*,
    `[0, 1]`, lying in `W` on `(0, 1]` and off the chart diamond, gives a contradiction once
    `p ≤_U σ t` for every `t ∈ (0, 1]` and every `γ̃ s` lies above some `σ t`. Both theorems feed it:
    (A) through chronal futures, (B) through `(2.4)` and a split by a Cauchy surface
-   (`IsCauchySurfaceOn.mem_Jplus_union_Jminus`).
+   (`IsCauchySurfaceOn.mem_Jplus_union_Jminus`, first proved here; moved by T-abs-sc-open-hoist,
+   byte for byte under the same full name, to `Causal.CurvesExtendSecondCountable`, which this
+   module reaches through `Causal.FlrwType`).
 7. **Witnesses** (kb/0011). On `W = (0, ∞)` of the timelike line, both theorems apply
    (`timelikeLine_posHalfLine_not_pastBoundaryChart_of_flrwTypeA`, `…_of_flrwTypeB`). They agree
    with `timelikeLine_not_pastBoundaryChart`.
@@ -111,7 +113,7 @@ namespace Causality
 
 variable {C : Causality M} {W Ũ : Opens M} {p : M}
 
-/-! ### Two general lemmas -/
+/-! ### A general lemma -/
 
 /-- **A relatively closed causal relation pulls back to a closed set.** If `≤_U` is closed in
 `U × U`, then for `F` continuous on a closed `B` with values in `U × U`, the set of `x ∈ B` with
@@ -128,24 +130,6 @@ theorem isClosed_inter_preimage_setOf_le {X : Type*} [TopologicalSpace X] {U : O
   have h1 : F x ∈ closure (F '' (B ∩ F ⁻¹' {z : M × M | C.le U z.1 z.2})) :=
     ((hF x hxB).mono inter_subset_left).mem_closure_image hx
   exact closure_mono ((image_mono inter_subset_right).trans (image_preimage_subset F _)) h1
-
-/-- **A Cauchy surface splits its open set**, on a T1, second countable space: every point of `W`
-is in `J⁺(S, W) ∪ J⁻(S, W)`. Through the point runs an inextensible causal curve of `W`
-(`exists_inextensible_of_t1_secondCountable`, the constant curve extended), and it meets `S`. The
-twin of `splitBy_of_t1_secondCountable` (`Causal/ErsSecondCountable.lean:158`), which lies outside
-`Causal.FlrwType`'s import closure. -/
-theorem IsCauchySurfaceOn.mem_Jplus_union_Jminus [T1Space M] [SecondCountableTopology M]
-    {S : Set M} (hS : C.IsCauchySurfaceOn W S) {q : M} (hq : q ∈ W) :
-    q ∈ C.Jplus W S ∪ C.Jminus W S := by
-  have hc : C.CausalCurveIn W {0} (fun _ => q) :=
-    ⟨singleton_nonempty 0, ordConnected_singleton, fun _ _ _ _ => causalCurveOn_const hq⟩
-  obtain ⟨J, c, hc', hsub⟩ := exists_inextensible_of_t1_secondCountable hc
-  obtain ⟨t, ht, hct⟩ := hsub ⟨0, rfl, rfl⟩
-  replace hct : c t = q := hct
-  obtain ⟨_, ⟨⟨s, hs, rfl⟩, hsS⟩, -⟩ := hS J c hc'
-  rcases le_total s t with h | h
-  · exact Or.inl ⟨c s, hsS, hct ▸ hc'.1.le_of_le hs ht h⟩
-  · exact Or.inr ⟨c s, hsS, hct ▸ hc'.1.le_of_le ht hs h⟩
 
 /-! ### The closing step -/
 
