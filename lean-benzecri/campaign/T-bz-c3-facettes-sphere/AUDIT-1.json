@@ -1,0 +1,42 @@
+{
+  "target": "T-bz-c3-facettes-sphere",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "file": "scaffold/BenzecriScaffold/Chapter3/FacettesSphere.lean",
+  "labels": [
+    {
+      "label": "bzdef:c3s1d4_facettes_sphere",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Checked against benzecri1960_ch3.tex l.246-261. k' = kPrime k = insert 0 (F k) (DEC-120 union reading, the same carrier as Ch. 1 IsConvexPart, so convex_kPrime is Ch. 1 Def. 8 itself). 'alpha(k') induit sur F(k) un preordre': alphaFPreorder (Preorder on the subtype F k, le = AlphaW (kPrime k)). 'compatible avec la projection': alphaW_kPrime_compat, any nonzero representatives of the same rays, under IsConvexPart only. alpha(k): AlphaK on someVector representatives, made representative-free by alphaK_iff; alphaKPreorder on k. F(alpha(k)) = FK, an equivalence on k (fkSetoid); k-facettes IsFacetteK = classes, proved equal to the quotient classes (isFacetteK_iff_quotient); order FacetteKLE, independent of representatives (facetteKLE_iff_forall), a PartialOrder on FacetteK k (facetteKPartialOrder, antisymmetry proved). Direct form: AlphaKDirect uses Ch. 1 Def. 7's closedSeg/openSeg with a' != -b (the segment is only defined for non-antipodal ends), and alphaK_iff_direct proves it is EQUIVALENT to the cone definition under IsConvexPart alone; alphaK_iff_direct_any proves the same without a' != -b. No hypothesis beyond 'k une partie convexe'. Reading 1 (a, b in k in the 'identiques ou diametralement opposes' clause) is forced: without it the clause relates points outside k, contradicting the paper's own 'relation de preordre ... sur k' and making the claimed equivalence false; it matches the graduated precedent of strict Chapter3/Facettes Def. 1 ('A = B and A in W', marked). Not a narrowing. Extra: isFacetteK_iff (k-facettes = projections of k'-facettes other than {O}), facetteK_eq_ofCone, F_facetteK."
+    },
+    {
+      "label": "bzdef:c3s1d5_noyau",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Checked against l.264-270. L = facetteOf (kPrime k) 0, proved = k' inter -k' (facetteOf_zero_kPrime) and to be a Submodule (noyauSub: add, zero, smul closures proved, not assumed) - the paper's 'sous-espace vectoriel'. noyau k = ofCone L = s(L - {O}); noyau_eq_linearSubvariety is rfl but carries the content of noyauSub (linearSubvariety L := ofCone L), so 'est une sous-variete lineaire' is genuinely established. 'ensemble de tous les points ... avec leur point diametralement oppose': noyau_eq, exact set equality. 'Un convexe strict est un convexe de noyau vide': isStrictConvexPart_iff_noyau_eq_empty, an iff with Ch. 1's IsStrictConvexPart (IsConvexPart and no antipodal pair, Ch. 1 Def. 9 l.255-258 verbatim). On OQ-160 (b): the transcription itself resolves '(cf. section 1, def. 9)' by \\ref{bzdef:c1s1d9_convexe_strict} and the ledger row's only dep is that label; Ch. 3 section 1 has no Def. 9, so there is no competing reading, and the Lean result is a theorem about the paper's own Ch. 1 notion whichever way the cross-reference is printed. The mark is honest. OQ-160 is the author's transcription check covering all c3 marks (its 'blocks' column says 'the c3 rows' marks'); this row is in the same position as the already graduated c3 rows (ConeAppui, ProprieteI), not worse. Extras isFacetteK_noyau / facetteKLE_noyau (noyau the greatest k-facette when nonempty) are correct and unclaimed by the paper."
+    }
+  ],
+  "transfers_p262": {
+    "notes": "No label (OQ-160 (c)); no mark claimed. supportK f = linearSubvariety (span F(f)) is reading 3 (the paper defines no support on S(E)); it is justified by subset_supportK + supportK_subset (least linear subvariety containing f) and coe_affineSpan_facetteOf (the affine span of the k'-facette is that span, so it is the projection of the section 1 support through k'). Prop. 2 (alphaK_iff_mem_supportK, b in k), Prop. 3 (facetteKLE_iff_supportK_subset, supportK_eq_iff), Prop. 4 (facettesK_filtrant: for two k-facettes a common lower one, the orientation of the strict Facettes Prop. 4; facettesK_isDirected on the PartialOrder), Corollary (supportsK_filtrant, supports directed upward for inclusion) are all stated under IsConvexPart only and match the section 1 statements transported. Prop. 4's degenerate case a' = -a (midpoint O) is handled honestly (a below both via a alpha(k) -a)."
+  },
+  "instances": {
+    "notes": "Real and non-vacuous. arcS1 is ConeAppuiInstance.arcS1 = closedSeg s(e0) s(e1) in S(1), convex by the strict isConvexPart_arcS1; kPrime_arcS1 = the closed quadrant (proved). facettesK_arcS1: the set of k-facettes is exactly {{a0},{b1},openSeg a0 b1}, and facettesK_arcS1_distinct proves the three distinct, so 'three facettes' holds exactly. noyau_arcS1 = empty. noyau_closedHemisphere: for every l, noyau of {l >= 0} = linearSubvariety (ker l), with isConvexPart_closedHemisphere proved (not assumed). The target's 'arc shorter than a half-circle' is witnessed by the quarter arc only, which is what an instance is."
+  },
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "how": "taskset -c 0-11 lake env lean scaffold/BenzecriScaffold/Chapter3/FacettesSphere.lean from lean-benzecri/: exit 0, no output. grep: the only 'sorry' token is in the SCOPE prose (l.80); no axiom/admit/native_decide/extern. One-shot probe campaign/T-bz-c3-facettes-sphere/AxProbe.lean (copy of the module + #print axioms of all 68 declarations the REPORT names: labels' decls, transfers, instances, extra_decls): every one depends on [propext, Classical.choice, Quot.sound] exactly; probe deleted. No lake build run."
+  },
+  "scope": "git status --short: the target's paths are the untracked Chapter3/FacettesSphere.lean, the campaign directory and the import line in BenzecriScaffold.lean (diff: three import lines, AlphaSomme / FacettesSphere / Appui, one per concurrent target; FacettesSphere's is the dispatched one). AlphaSomme.lean and Appui.lean are other targets'. The remaining modifications (lean-causal/**, programme/roadmap.toml, roadmap/roadmap.toml, papers/*/certificate/restate*) belong to other loops (ETT, atlas-team orchestrator, restate) and are not attributable to this closer. No out-of-scope edit by this target.",
+  "docstring_contract": "Present and true: title; both labels marked with tex:LINE within the first 4000 chars; French quotes in a > block matching the transcription; '## Hypothesis checklist'; '## SCOPE (disclosed)'; provenance line (mathlib fabf563a, v4.31.0). Namespace Benzecri. See the minor finding on how two readings are labelled.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "scaffold/BenzecriScaffold/Chapter3/FacettesSphere.lean:73,75,80",
+      "what": "Two readings are presented in the Hypothesis checklist as '✓ carried' and SCOPE says 'Nothing is omitted' without naming them: reading 1 (a, b in k in the direct form's 'identiques ou diametralement opposes' clause) and reading 2 ('cf. section 1, def. 9' = Ch. 1 Def. 9, OQ-160 (b), OPEN). The REPORT discloses both under 'questions', and both are forced readings consistent with the graduated Chapter3/Facettes precedent, so the marks stand; but CAMPAIGN.md lists 'a reading' among the grounds for partial, and the docstring should say explicitly why these do not narrow the statement.",
+      "fix": "In SCOPE add one bullet: 'Readings (not narrowings): the direct form's identical/opposite clause is read with a, b in k (alpha(k) is a relation on k; otherwise the equivalence with the cone definition fails), as in Chapter3/Facettes Def. 1; « cf. § 1, déf. 9 » is Ch. 1 Déf. 9 (the transcription's \\ref; OQ-160 (b), open with all c3 transcription readings).' Optionally mark rows 73 and 75 '✓ carried (reading)'. No change to any statement or mark."
+    }
+  ]
+}
