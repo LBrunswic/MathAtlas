@@ -1290,3 +1290,11 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 44ffa161 fbf057a6 8d317a78 e6a9c1d8
 - wall time: 08:21–09:50; agents in parallel: 3
 - next: T-bz-c3-raccordement (the last ready), then the planner for -balayable-somme, -facette-conique, -reunion-convexes-sphere
+
+## 2026-11-28 09:30 · plan · roadmap-planner (rule 2)
+- ready (lean-benzecri): T-bz-c3-balayable-somme (narrowed to § 2 Prop. 4; under OQ-168's line-free hypothesis, the printed form beside it), T-bz-c3-facette-conique (§ 4 Déf. 5, Prop. 10, Déf. 6), T-bz-c3-reunion-convexes-sphere (§ 5 Th. 1′); T-bz-c3-raccordement unchanged
+- new planned: T-bz-c3-balayable-somme-prop5 (Prop. 5 + Cor.), T-bz-c3-somme-facettes-coniques (the Remark)
+- T-bz-chapter4 planned → needs-ruling (transcribe Chapter 4 as DEC-195 did Chapter 3?); T-bz-chapter5 waits on it
+- no other benzecri label without Lean is targetable: the rest wait on Chapter 4/5 or on rulings
+- gates: roadmap ✓
+- next: three of the four ready (lean-benzecri)
