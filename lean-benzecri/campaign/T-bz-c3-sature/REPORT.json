@@ -1,0 +1,156 @@
+{
+ "package": "lean-benzecri",
+ "target": "T-bz-c3-sature",
+ "files": [
+  "scaffold/BenzecriScaffold/Chapter3/Sature.lean"
+ ],
+ "import_lines_added": [
+  "scaffold/BenzecriScaffold.lean: import BenzecriScaffold.Chapter3.Sature"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": "propext, Classical.choice, Quot.sound only (#print axioms on every marked decl and instance)",
+ "labels": [
+  {
+   "label": "bzdef:c3s6d1_prolonge",
+   "tex_lines": [
+    1424,
+    1430
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Benzecri.Prolonge",
+    "Benzecri.inter_closedHemisphere_eq_of_prolonge",
+    "Benzecri.inter_closedHemisphere_subset",
+    "Benzecri.prolonge_self"
+   ],
+   "hypotheses": [
+    {
+     "paper": "W un convexe contenu dans un hémisphère fermé H de S(E)",
+     "here": "context",
+     "note": "Prolonge l W V is defined for every W, l on any S(E); the claim does not use W ⊆ H"
+    },
+    {
+     "paper": "Si H̊ ∩ W ≠ ∅ et si V et W sont fermés",
+     "here": "carried",
+     "note": "on any S(E), E a topological vector space (IsTopologicalAddGroup, ContinuousSMul), every linear form l"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "bzprop:c3s6p1_sature",
+   "tex_lines": [
+    1432,
+    1439
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Benzecri.prop1_sature",
+    "Benzecri.prop1_sature_Sn",
+    "Benzecri.sature",
+    "Benzecri.isGreatest_sature",
+    "Benzecri.isClosed_sature",
+    "Benzecri.noyau_sature_nonempty_iff_isLeast",
+    "Benzecri.noyau_sature_nonempty_iff",
+    "Benzecri.apex_unique",
+    "Benzecri.apex_unique_Sn",
+    "Benzecri.prolonge_enveloppeConvexe_union",
+    "Benzecri.prolonge_join"
+   ],
+   "hypotheses": [
+    {
+     "paper": "W un convexe fermé",
+     "here": "carried",
+     "note": "the greatest V exists for any convex W; closedness used for « V fermé » and the noyau"
+    },
+    {
+     "paper": "de noyau vide (cf. § 2, déf. 4)",
+     "here": "carried",
+     "note": "noyau W = ∅ with Sphere.noyau (§ 1 Déf. 5); misprinted reference, OQ-160 (b), does not affect the statement"
+    },
+    {
+     "paper": "H un hémisphère fermé de frontière h",
+     "here": "carried",
+     "note": "closedHemisphere l, h = linearSubvariety (ker l); l continuous in the S(E) form (the equation of every DEC-114 closed hemisphere is, IsClosedHemisphere.exists_eq), used only for « V fermé »; automatic on S(n)"
+    },
+    {
+     "paper": "(the space E)",
+     "here": "carried",
+     "note": "T1Space E for « V fermé » only; the paper's E (finest locally convex topology) is Hausdorff"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.1436-1438: « Le noyau de V est vide, sauf si W est l'enveloppe convexe d'un point de H̊ et de W ∩ h » is true as an equivalence: the converse (not printed) holds too, since the rays of {s(−p) + w | s ≥ 0, w ∈ F(W) ∪ {O}} prolong W when W is the hull of p ∈ H̊ and W ∩ h (noyau_sature_nonempty_iff_isLeast)",
+    "l.1436-1438: the uniqueness of the apex needs only noyau W = ∅ (apex_unique); the existence of the greatest prolongation needs only W convex (isGreatest_sature), no closedness, no noyau hypothesis, no W ⊆ H",
+    "proof 3° (l.1471-1481): Zorn is unnecessary; the union of all prolongations is already a prolongation by 1° (two of its points lie in one prolongation)"
+   ],
+   "questions": [
+    "« l'enveloppe convexe » on S(E) read as the least convex part containing the set (IsLeast); on S(n) it is Benzecri.enveloppeConvexe (isLeast_iff_eq_enveloppeConvexe). Standard reading, no OQ"
+   ]
+  },
+  {
+   "label": "bzcor:c3s6p1c_sature_corps_convexe",
+   "tex_lines": [
+    1502,
+    1506
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Benzecri.sature_corps_convexe",
+    "Benzecri.sature_corps_convexe_of_ne_zero",
+    "Benzecri.inter_openHemisphere_nonempty"
+   ],
+   "hypotheses": [
+    {
+     "paper": "W un corps convexe de S(n), H un hémisphère fermé de frontière h contenant W",
+     "here": "carried",
+     "note": "any linear form l; l = 0 makes the printed hypothesis false (W is the hull of any of its points and W ∩ h = W)"
+    },
+    {
+     "paper": "W n'est pas l'enveloppe convexe d'un point et de W ∩ h",
+     "here": "carried",
+     "note": "∀ p in sature_corps_convexe; weakened to ∀ p ∈ H̊ (with l ≠ 0) in sature_corps_convexe_of_ne_zero"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.1502-1506 (no proof printed): the hypothesis can be weakened to « W is not the hull of a point of H̊ and W ∩ h » when H is a genuine hemisphere (l ≠ 0) (sature_corps_convexe_of_ne_zero); a convex body in H meets H̊ automatically"
+   ],
+   "questions": []
+  }
+ ],
+ "instances": [
+  "Benzecri.prolonge_self: every convex part prolongs itself (instance of Déf. 1)",
+  "Benzecri.arcY_hypotheses: arcY = {y ≥ |x|} ⊆ S(1), H = {y ≥ 0} (formY) satisfies every hypothesis of Prop. 1 (generic case)",
+  "Benzecri.noyau_sature_arcY: the noyau of its saturated convex is empty",
+  "Benzecri.arcY_corps_convexe: arcY is a convex body of S(1), and so is its saturated convex (instance of the Corollary, hypothesis proved: arcY_ne_enveloppeConvexe)",
+  "Benzecri.ptY_hypotheses: the point (0,1) satisfies Prop. 1's hypotheses and is the exception (hull of itself and W ∩ h = ∅); the noyau of its saturated convex is nonempty"
+ ],
+ "extra_decls": [
+  "Benzecri.isConvexPart_ofCone",
+  "Benzecri.isConvexPart_inter_sature",
+  "Benzecri.openHemisphere_subset_closedHemisphere'",
+  "Benzecri.isClosed_closedHemisphere'",
+  "Benzecri.enveloppeConvexe_eq_self",
+  "Benzecri.isLeast_iff_eq_enveloppeConvexe",
+  "Benzecri.mem_F_of_forall_add_smul",
+  "Benzecri.exists_smul_add_of_isLeast",
+  "Benzecri.smulAddCone_props",
+  "Benzecri.add_mem_F_of_prolonge"
+ ],
+ "kb_proposals": [
+  "Chapter3/Sature: sature l W := ⋃₀ {V | Prolonge l W V} is the greatest prolongation without Zorn (isGreatest_sature); its 1° works on any S(E) via ofCone (F V₁ ∪ {O} + F V₂ ∪ {O}) (prolonge_join), so enveloppeConvexe (S(n) only) is needed only to state the printed form",
+  "On S(n), IsLeast {k | IsConvexPart k ∧ A ⊆ k} W ↔ W = enveloppeConvexe A (isLeast_iff_eq_enveloppeConvexe): state hull conditions on S(E) with IsLeast and transfer through it",
+  "isConvexPart_ofCone: the rays of a convex IsPosCone containing O form a convex part — the cheap way to produce a convex part from a cone description",
+  "A closed part B of S(E) contains X when X + tY ∈ F(B) for all t > 0 (mem_F_of_forall_add_smul, through F_closure): the trace lemma inter_closedHemisphere_subset follows",
+  "rw [add_comm] on a goal over Fin (n + 1) → ℝ can rewrite n + 1 itself (motive not type correct): give the arguments, add_comm a b"
+ ],
+ "notes": "Imports Benzecri.Chapter3.FacettesSphere and Benzecri.Chapter2.Hemisphere only (strict). Names are new in namespace Benzecri; grep found no clash in the strict library or the two other Chapter3 scaffold files at the time of writing; generic names to watch at graduation: enveloppeConvexe_eq_self, inter_openHemisphere_nonempty, isConvexPart_ofCone, isClosed_closedHemisphere' (primed because Dualite has closure_openHemisphere'). The file builds with no warning (strict-ready). Instances deviate from the planner's suggestion (half-disc of S(2), cone over a segment of h): one-dimensional instances in S(1) exercise both alternatives of Prop. 1 and the Corollary. Ledger edge to bzdef:c3s2d4_conjugues (misprinted reference, OQ-160 (b)) untouched; the Lean uses Sphere.noyau."
+}

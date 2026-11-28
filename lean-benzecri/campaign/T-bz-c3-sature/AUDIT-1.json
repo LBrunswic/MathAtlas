@@ -1,0 +1,35 @@
+{
+ "target": "T-bz-c3-sature",
+ "auditor_round": 1,
+ "verdict": "clean",
+ "labels": [
+  {
+   "label": "bzdef:c3s6d1_prolonge",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Prolonge l W V := IsConvexPart V ∧ V ∩ openHemisphere l = W ∩ openHemisphere l is the printed definition (« si si » read as one « si »); the context « W ⊆ H » is not built in, which only widens it. The definition's claim (W ∩ H = V ∩ H for W, V closed, H̊ ∩ W ≠ ∅) is inter_closedHemisphere_eq_of_prolonge on any S(E) (topological vector space E), any linear form l, without W ⊆ H: Lean ≥ paper. The paper's E (finest locally convex topology) is a TVS (isTopologicalAddGroup_finestLC, continuousSMul_finestLC), so the general form applies to it. Instance prolonge_self is trivial but the claim is exercised by isClosed_sature / noyau_sature_nonempty_iff_isLeast through the trace lemma."
+  },
+  {
+   "label": "bzprop:c3s6p1_sature",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "prop1_sature_Sn (on S(n)) carries exactly the printed hypotheses (IsConvexPart W, IsClosed W, noyau W = ∅ with Sphere.noyau of § 1 Déf. 5, W ⊆ closedHemisphere l, W ∩ H̊ ≠ ∅) and concludes: a greatest prolongation exists, sature l W is it (IsGreatest), it is closed, (noyau V).Nonempty ↔ ∃ p ∈ H̊, W = enveloppeConvexe ({p} ∪ (W ∩ h)) — the « sauf si » as an equivalence, so it holds under both readings — and uniqueness of the apex in H̊. prop1_sature is the S(E) form with Continuous l and T1Space E: both hold for the paper's E (t2Space_finestLC, continuous_linearMap_finestLC) and every DEC-114 closed hemisphere has a continuous equation (IsClosedHemisphere.exists_eq returns a StrongDual), so neither narrows the paper; both disclosed in the checklist. h = linearSubvariety (ker l) is the frontier (frontier_openHemisphere). enveloppeConvexe is reused from Chapter2/Hemisphere.lean:240, not redefined; on S(E) the hull is read as IsLeast {k | IsConvexPart k ∧ A ⊆ k}, which exists (convex parts are closed under intersection, the whole sphere is convex) and coincides with enveloppeConvexe on S(n) (isLeast_iff_eq_enveloppeConvexe, proved): a legitimate reading. Step 1° as printed is prolonge_enveloppeConvexe_union (hull of V′ ∪ V″ prolongs W), with prolonge_join the S(E) form. Instances: arcY = {y ≥ |x|} ⊆ S(1), H = {y ≥ 0}, satisfies every hypothesis (arcY_hypotheses, proved: convex, closed, noyau empty, in H, meets H̊) and has noyau of V empty (noyau_sature_arcY); ptY = {(0,1)} satisfies every hypothesis and is the exception with noyau of V nonempty (ptY_hypotheses), exercising the converse direction. Both are non-vacuous."
+  },
+  {
+   "label": "bzcor:c3s6p1c_sature_corps_convexe",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "sature_corps_convexe: IsCorpsConvexeS n W (strict convex, compact, nonempty interior: the library's Déf. 11), W ⊆ closedHemisphere l for any l (l = 0 included and shown to make the printed hypothesis false), ∀ p : S n, W ≠ enveloppeConvexe ({p} ∪ (W ∩ h)) ⇒ IsCorpsConvexeS n (sature l W): exactly the printed statement, with sature l W the saturated convex of Prop. 1 (its hypotheses are derived: noyau empty from strictness, closed from compact, W ∩ H̊ ≠ ∅ from inter_openHemisphere_nonempty). sature_corps_convexe_of_ne_zero is the stronger form (hypothesis only over p ∈ H̊, l ≠ 0), and implies the printed one. Instance arcY_corps_convexe discharges the hypothesis (arcY_ne_enveloppeConvexe) and is a real convex body."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "notes": "`taskset -c 0-11 lake env lean scaffold/BenzecriScaffold/Chapter3/Sature.lean` from lean-benzecri/: rc 0, no warnings, no output. grep -c sorry = 0. #print axioms on all 23 declarations named in REPORT (decls and instances), probed by a copy of the source with the #print lines appended under the campaign directory (deleted afterwards): every one depends on [propext, Classical.choice, Quot.sound] only."
+ },
+ "scope": "git status --short: the target's files are the new scaffold/BenzecriScaffold/Chapter3/Sature.lean, the line `import BenzecriScaffold.Chapter3.Sature` in scaffold/BenzecriScaffold.lean, and campaign/T-bz-c3-sature/. The two other new import lines (DualiteInterieur, PointsExtremaux) and their files belong to the sibling targets of the same wave; roadmap/programme and restatement changes belong to the loops. Nothing attributable to this closer lies outside its dispatch.",
+ "findings_checked": "The REPORT's four findings are true and each is backed by a proved declaration: the converse of « sauf si » (noyau_sature_nonempty_iff_isLeast, ← direction); apex uniqueness needs only noyau W = ∅ (apex_unique, hypotheses: hnoy, p q ∈ H̊, the two hull conditions); existence of the greatest prolongation needs only convexity of W (isGreatest_sature); Zorn is avoidable (sature = ⋃₀ of all prolongations, convex by prolonge_join); the Corollary's hypothesis may be restricted to p ∈ H̊ when l ≠ 0 (sature_corps_convexe_of_ne_zero). None asserts an error in the paper; they are strengthenings, correctly worded as such.",
+ "docstring_contract": "Title, the three labels marked with `— benzecri1960_ch3.tex:LINE` within the first 4000 characters, the French statements in a > block as transcribed, ## Hypothesis checklist, ## SCOPE (disclosed), provenance line: all present. Checklist rows match the Lean (⚠ weakened rows are weakenings of hypotheses, i.e. Lean ≥ paper). SCOPE is true, including the disclosed deviation from the planner's suggested instances (half-disc of S(2), cone over a segment of h) in favour of one-dimensional instances that exercise both alternatives.",
+ "findings": []
+}
