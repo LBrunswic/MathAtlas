@@ -1124,3 +1124,18 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - binders: ers-predictability 28 rows bound, layer 1 in Lean 27, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
 - gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
 - next: T-abs-meets-cauchy-antisymmetry-sharp, T-abs-flrw-type-closed-ambient, T-abs-ers-overlap-sharp (closers, lean-causal)
+
+## 2026-11-28 07:07 · wave of 3 · T-abs-ers-overlap-sharp, T-abs-flrw-type-closed-ambient, T-abs-meets-cauchy-antisymmetry-sharp
+- T-abs-ers-overlap-sharp (abstract, layer 1, a move): ers_coe_eq_inter_of_eqOn moved into Causal.ErsEtaleMghd, byte for byte. ers_isOpenEmbedding_proj_of_eqOn, its statement unchanged, becomes its 3-line corollary. README rows and kb/0329 refreshed. Audit minor, applied (provenance).
+- T-abs-flrw-type-closed-ambient (abstract, layer 1): Causal.FlrwTypeClosedAmbient: with ≤ closed and antisymmetric (T2), (A) alone excludes a past boundary chart, and (B) alone does too (with second countability and W causally arc-connected). Local forms, GH tarentin corollaries, time reversals. Neither uses field (iii) nor (vi)'s last conjunct, which is evidence for OQ-159, not an answer. So no closed causal model separates (A) from (B). Audit minor, applied: the duplicate split lemma is kept because the import would reach Rules; the hoist is for the planner.
+- T-abs-meets-cauchy-antisymmetry-sharp (abstract, layer 1): Causal.MeetsCauchyAntisymmetrySharp: the ray glued to the circle refutes (2.4) without antisymmetry. Every other hypothesis holds: T2, second countable, arc-connected, absolutely minimal on every open set, {y} Cauchy. Also the bare form, and model-free extensible_of_graph and causalCurveIn_top_of_pieces. Audit minor, applied (the SCOPE's trigonometry sentence).
+- For the planner:
+  - T-lad-meets-cauchy-refresh (keeper) can be promoted: it records the antisymmetry witness, the closed-ambient corollaries (the closer proposes two consequences at [globally_hyperbolic, tarentin], (A) and (B)), and the stale line numbers;
+  - hoist the Cauchy split into Causal.CurvesExtendSecondCountable, re-proving splitBy_of_t1_secondCountable from it, to remove FlrwTypeClosedAmbient's twin;
+  - rename extensible_of_graph at a hoist (e.g. extensible_of_eq_comp_monotoneOn); extensible_of_timeGraph_openEnd and continuousOn_of_causalCurveIn (model layer) could become its corollaries;
+  - the exclusive T-tac-dual-future-one-connected and T-abs-sc-open-hoist are next.
+- ladder: 27 properties, 28 implications, 108 counterexamples, 126 consequences, 6 edge hypotheses; 432/432 within a sort: 41 implied, 385 fails, 6 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 27, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors). Hub: 3 new red, all on /atlas-team's paths: lean-benzecri's uncommitted scaffold edits make papers/benzecri's ledger stale ("not what build would write"), and gate-tests' whole-gate test counts the same red. Not this loop's; not reverted.
+- commits: 776ed707 a2671ebc 85a82c2c 6283bfb7 (ledgers, the Lean sha only; restate detect 0)
+- next: a planning run (rule 2) to promote T-lad-meets-cauchy-refresh, then the exclusive T-tac-dual-future-one-connected (wave 54) and T-abs-sc-open-hoist (wave 55), as the planner simulated
