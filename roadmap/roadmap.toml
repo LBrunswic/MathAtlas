@@ -1613,13 +1613,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzdef:c3s2d5_somme_sphere", "bzdef:c3s2d6_distingue_projectif", "bzthm:c3s2t3_algebre_boole_projective", "bzcor:c3s2t3c_algebre_parties_projective"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 9
 depends = ["T-bz-c3-boole-affine", "T-bz-c3-facettes-sphere"]
-evidence = "ledger rows benzecri1960_ch3.tex:548–579; the single printed proof (« il suffit de se reporter aux énoncés correspondants formulés dans le cas affin », l.~590) attaches to the Corollary, so Theorem 3 is open in the ledger. Déf. 5 (l.548): « w est dit somme des convexes v_i si les F(v_i) sont convexes et si F(w) est somme des convexes F(v_i) », with the two-summand form « l₁ ∩ l₂ est vide et … w est réunion de l'ensemble de tous les segments ouverts joignant un point de v₁ à un point de v₂ » to be proved equivalent. Uses the noyau (T-bz-c3-facettes-sphere) and Benzecri.Sphere.{F, IsConvexPart, linearSubvariety, openSeg}. Instance: the open n-simplex of S(n) (cardinal n+1, as printed). Promoted 2026-11-28 (planner), re-checked against Chapter3/BooleAffine.lean and Fibres.lean: the affine tools are Benzecri.theoreme2 (:277, the Boolean algebra algebreBoole :257 under the unique supplementary conjugate), corollaire_algebre_parties (:551), simples (:365), and sontConjugues_iff_isSommeConvexes / fibreCylindriquement_iff_isSommeConvexes (Fibres.lean:292, :324); Déf. 5's sum is Benzecri.IsSommeConvexes (Sommes.lean:137) on the cones F(vᵢ); noyau is Chapter3/FacettesSphere.lean:678. The transfer is through the cone insert 0 (F w), convex with no line iff noyau w = ∅. On OQ-163 / OQ-165: Déf. 6 defines conjugates by a sum of Déf. 5, whose two-summand form requires l₁ ∩ l₂ = ∅, and supp w = S(E) forces L + L′ = E; so the projective conjugate is supplementary by definition (OQ-163 (b), and a sum as in (c)), and Theorem 3's « la conjuguée » is unique by Déf. 6's own claim « La donnée … détermine complètement l′ », which is proved here. The closer proves that correspondence; if it holds, Theorem 3 marks without waiting on OQ-163 / OQ-165 (a), and otherwise it is partial on them as Theorem 2 is. The Corollary has dim E = n + 1 ≥ 1, so OQ-165 (b)'s n = 0 failure does not recur (S(0): w a point, cardinal 1); the closer checks it. Instances: the open n-simplex of S(n) (cardinal n + 1) and an open round cap of S(2) (cardinal 1)."
+evidence = "Déf. 5 marked; Déf. 6, Th. 3, Cor. refuted as printed, corrected forms proved, unmarked on OQ-168; audit minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "8d317a78"
 
 [[target]]
 id = "T-bz-c3-balayable-somme"
@@ -1754,13 +1755,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzprop:c3s4p8_D_cube", "bzprop:c3s4p9_facette_exposee"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 9
 depends = ["T-bz-c3-facette-duale", "T-bz-c3-dualite-sn"]
-evidence = "ledger rows bzprop:c3s4p8_D_cube (l.1072) and bzprop:c3s4p9_facette_exposee (l.1087), proved in print from Prop. 7's minimality. Prop. 9: « Une facette F vérifie 𝒟∘𝒟(F) = F si et seulement si F̄ est l'intersection de W avec un hyperplan. » Its proof's « p ∈ W » is read p ∈ D(W) ([sic?], OQ-160 (a)); the statement is unaffected. Mathlib's IsExposed (Analysis/Convex/Exposed.lean) is the comparison point. Instance: a stadium-shaped body of S(2) (round ends glued to segments), whose two endpoints of each flat edge are non-exposed facettes (𝒟∘𝒟(F) ≠ F). Promoted 2026-11-28 (planner), re-checked against Chapter3/FacetteDuale.lean: 𝒟 is Benzecri.facetteDuale (:422), with facetteDuale_spec (:427), prop7_facetteDuale (:492, the minimality the printed proof of Prop. 8 runs on), orthFacettes_facetteDuale (:515), and D′∘D = closure from D'_D_eq_closure (Chapter3/Dualite.lean:337) for dotPairing; 𝒟∘𝒟(F) is a facette of D(D(W)) = W̄, so W is taken closed (K(S(n)) is read IsConvexPart elsewhere in § 4: the closer names the reading). Scope the closers' findings imply: 𝒟(F) is an extended facette and is ∅ when D(W_a) = ∅ (the interior facette of a full-dimensional W, FacetteDuale's prop6_needs_extended_facette), and facetteDuale is only specified on genuine facettes, so 𝒟(∅) is undetermined in print; Prop. 8 and 9 are proved where every iterate is a genuine facette, and in full with 𝒟 extended to ∅ by Prop. 7's minimality (the proof's own characterization), the rows partial on OQ-165 (c) if the extension is needed. Prop. 9's proof « p ∈ W » is read p ∈ D(W) (OQ-160 (a)); « hyperplan » is a linear hyperplane's great sphere. Instance: a vertex of the closed simplex of S(2) (an exposed facette, 𝒟∘𝒟 = id there); the stadium of p. 276 is free text with no row and optional."
+evidence = "Prop. 8 marked; Prop. 9 proved for W closed, refuted for non-closed W, unmarked on OQ-167; audit minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "fbf057a6"
 
 [[target]]
 id = "T-bz-c3-facette-conique"
@@ -1848,13 +1850,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzthm:c3s5t1_reunion_convexes_affine"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 9
 depends = ["T-bz-c3-proprietes-i-ii", "T-bz-c3-hyperplan-separant"]
-evidence = "ledger rows bzthm:c3s5t1_reunion_convexes_affine (l.1381, open: only the lead-in « Des propositions 7, 8 et 4 résulte le », OQ-160 (c)) and bzthm:c3s5t1prime_reunion_convexes_sphere (l.1399, proved in print as « un corollaire du théorème 1 »; printed « THÉORÈME 1 », labelled 1′, OQ-160 (d)). Theorem 1, III (l.1389): « le support de V est une variété d'appui L de W, et V est l'intersection de W avec un demi-espace H de L (éventuellement, H ∩ W peut être égal à L ∩ W). » Builds on Benzecri.IsCorpsConvexeS and Sphere.closedHemisphere for 1′. Instance: a closed half of the closed disc (I, II, III all hold). Split 2026-11-28 by the planner: Theorem 1′ (S(n)) moved to T-bz-c3-reunion-convexes-sphere, whose proof also needs § 3's Corollary to Prop. 9 and § 1 Déf. 6; Theorem 1 is affine and needs neither. Prop. 7 enters through the U ∪ V-convex form of Prop. 6 (see T-bz-c3-hyperplan-separant), not the printed one. Promoted 2026-11-28 (planner), re-checked against the strict modules. Route, all proved: I ⇔ II is Benzecri.proprietes_I_II_of_ne when V ≠ W (Chapter3/ProprietesIII.lean:316); I ⇒ III by isVarieteAppui_affineSpan_of_proprieteI and proprieteI_iff_isVarieteAppui (Prop. 2, 4; ProprieteIAppui.lean:132, :236), then hyperplan_separant (Prop. 7, HyperplanSeparant.lean:577, with FermeLineaire from compactness by fermeLineaire_of_isClosed', ProprieteI.lean:272) in L ∩ W when V ≠ L ∩ W, H = L otherwise; III ⇒ I by convex_inter_compl_union_of_isVarieteAppui (Prop. 3, ProprieteIAppui.lean:166) with C = V. Scope the closers' findings imply: (i) II(V, W) is false in E = 0 (proprieteII_subsingleton_false, proprietes_I_II_dimZero), so Theorem 1 as printed fails exactly there (V = W = {0}: I holds, II does not); state it for Nontrivial E (or V ≠ W) with the E = 0 witness beside it, the row partial on OQ-165 (d) like Prop. 8 — the T-bz-c3-proprietes-i-ii kb_proposal « any § 5 statement concluding II (Thm 1, Thm 1′ via Prop. 8) needs E ≠ 0 or V ≠ W »; (ii) « un demi-espace H de L » must admit H = L (the printed parenthesis « H ∩ W peut être égal à L ∩ W », needed when V = L ∩ W, e.g. V a vertex of a square, L a point): the closer names the reading (closed half-space of L, or L itself) in SCOPE. Topology: a finite-dimensional real Hausdorff topological vector space (compactness is the canonical topology's)."
+evidence = "Th. 1 (affine) proved for E ≠ 0 and for V ≠ W; unmarked on OQ-166 (H = L reading, E = 0); audit minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "44ffa161"
 
 [[target]]
 id = "T-bz-c3-reunion-convexes-sphere"

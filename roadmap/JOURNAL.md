@@ -1279,3 +1279,14 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - Four Chapter 3 targets promoted to ready (T-bz-c3-reunion-convexes, -raccordement, -boole-projectif, -facette-exposee), re-checked against the strict modules and the closers' findings (Theorem 1 of § 5 under E ≠ 0 or V ≠ W; Theorem 3's projective conjugate may be supplementary by definition, so possibly free of OQ-163). Chapter 3 tally: 55 closed, 17 partial (rulings only), 18 without Lean (8 in the ready four, 8 in planned targets, 2 needing Chapter 4). No new question.
 - gates: roadmap ✓ (314 targets), atlas ✓
 - next: three of the four ready (lean-benzecri)
+
+## 2026-11-28 09:50 · wave of 3 · T-bz-c3-reunion-convexes, T-bz-c3-facette-exposee, T-bz-c3-boole-projectif
+- T-bz-c3-reunion-convexes: § 5 Th. 1 (affine) proved (I ⇔ II ⇔ III for E ≠ 0, and for V ≠ W; I ⇔ III in every dimension), unmarked on OQ-166 (« demi-espace H de L » must admit H = L; E = 0); audit minor (round 1 fixed)
+- T-bz-c3-facette-exposee: § 4 Prop. 8 closed and marked (both readings of OQ-165 (c)); Prop. 9 proved for W closed, refuted for a non-closed W in K(S(n)), unmarked on OQ-167; audit minor (round 1 fixed)
+- T-bz-c3-boole-projectif: § 2 Déf. 5 closed and marked; Déf. 6 (uniqueness of the conjugate), Th. 3 and its Corollary refuted in the printed domain, corrected forms (w open, F(w) line-free, finite dimension) proved, unmarked on OQ-168; audit minor (round 1 fixed)
+- four genuine refutations (not_conjugue_unique, not_theoreme3, not_corollaire_algebre_parties, not_prop9_nonclosed) kept out of the curated decls and worded « refuted »: /restate holds papers/benzecri's registers, so they wait on T-restate-held-curation, as not_remarque1_* do
+- 7 labels curated (2 marked, 5 partial); OQ-166, OQ-167, OQ-168; kb 0131–0140
+- gates: lean-benzecri ✓ (74 strict files, 0 sorry), roadmap ✓, atlas ✓, hub: no new red
+- commits: 44ffa161 fbf057a6 8d317a78 e6a9c1d8
+- wall time: 08:21–09:50; agents in parallel: 3
+- next: T-bz-c3-raccordement (the last ready), then the planner for -balayable-somme, -facette-conique, -reunion-convexes-sphere
