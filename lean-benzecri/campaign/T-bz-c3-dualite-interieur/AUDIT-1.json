@@ -1,0 +1,34 @@
+{
+  "target": "T-bz-c3-dualite-interieur",
+  "auditor_round": 1,
+  "verdict": "clean",
+  "labels": [
+    {
+      "label": "bzprop:c3s3p9_hemisphere_dual",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "benzecri1960_ch3.tex:801-806 against prop9 (DualiteInterieur.lean:197): A ∈ CS (Déf. 8, the ∪ reading ruled by DEC-120), M arbitrary, so H = D({M}) is covered as the paper defines it; 1° A ⊆ interior (D {M}) and 2° M ∈ interior (D A), with Mathlib's interior in the quotient topology of S(n). The pairing is dotPairing n, i.e. the printed ⟨M,N⟩ = Σ m_i n_i (l.751-755), with D' = D (D'_dotPairing), so OQ-160's « mis en dualité » reading does not enter. prop9_of_isClosed drops convexity, a strengthening. Finding (printed proof via geodesic balls not followed; [sic] D(B) ⊂ A read D(B) ⊂ D(A)) is accurate and not used."
+    },
+    {
+      "label": "bzcor:c3s3p9c_corps_convexe_hemisphere",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "l.825-828 against corollaire_hemisphere_ouvert (l.205): IsCorpsConvexeS n A (Déf. 11, independent of OQ-24) gives ∃ H, IsOpenHemisphere H (Déf. 5 as printed: open, F(H) = l⁻¹(ℝ⁺)) ∧ H.Nonempty (DEC-114 reading, added as a conclusion: a strengthening) ∧ A ⊆ H. Wraps the strict IsCorpsConvexeS.exists_forall_pos (Chapter2/Hilbert.lean:724), as the planner's evidence directs. corollaire_hemisphere_prop9 gives the Prop. 8 + Prop. 9 route with IsOpenHemisphere (int D({M})) proved. No proof printed; the REPORT says so."
+    },
+    {
+      "label": "bzprop:c3s3p10_interieur_dual",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "l.831-835 against prop10 (l.248): A, B ∈ CS, A ⊆ interior B ↔ D B ⊆ interior (D A), both directions (« et réciproquement »). Converse via dotPairing_prop1 (D ∘ D = id on C(S(n))), the paper's own argument. prop10_forward (A closed, B any) is a strengthening. Proof findings checked: the display int D(A) = ⋂_{M∈A} int D({M}) is an interior/infinite-intersection interchange, ⊆ always, ⊇ needing compactness of A (here the tube lemma in mem_interior_D_iff); and the last step must read D(B) ⊂ int D({M}) (which Prop. 9 applied to D(B), with D(D(B)) = B, does give) — the [sic?] at l.848, OQ-160 (a). Both accurate; the statement is unaffected, and OQ-160 bears only on the printed proof, so the mark is honest under every live reading."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard (propext, Classical.choice, Quot.sound) on prop9, prop9_of_isClosed, corollaire_hemisphere_ouvert, corollaire_hemisphere_prop9, prop10, prop10_forward, prop9_capQuart, prop10_capQuart, mk_mem_capQuart, capQuart_mem_CS, capQuart_subset, mem_interior_D_iff, interior_D_singleton, dotPairing_pos_of_mem_interior; one-shot probe under the campaign directory, deleted. `lake env lean scaffold/BenzecriScaffold/Chapter3/DualiteInterieur.lean` from lean-benzecri/: no errors, no warnings. No lake build run, per dispatch."
+  },
+  "instances": "capQuart = D({s(1,1), s(1,-1)}) ⊆ S(1) is the rays with |v1| ≤ v0 (mk_mem_capQuart), the closed cap of angular radius π/4 about s(1,0): a genuine, nonempty, proper closed convex part (capQuart_mem_CS), inside the open hemisphere int D({capCentre}) (capQuart_subset, a real proof that v0 > 0 there); prop9_capQuart and prop10_capQuart instantiate the anchors non-vacuously.",
+  "scope": "git status --short: this target's paths are the new Chapter3/DualiteInterieur.lean, its campaign directory, and the import line `import BenzecriScaffold.Chapter3.DualiteInterieur` in scaffold/BenzecriScaffold.lean. The adjacent `import BenzecriScaffold.Chapter3.PointsExtremaux` line and Sature/PointsExtremaux files belong to other closers; the RESTATED/restatements/roadmap modifications belong to the restate loop and the planner. Nothing attributable to this closer outside its dispatch.",
+  "docstring_contract": "Title, the three labels with tex lines and decls, the quoted printed statements, ## Hypothesis checklist, ## SCOPE (disclosed), provenance line (mathlib fabf563a = lake-manifest rev, tag v4.31.0): present and true. The checklist's « ⚠ weakened » entries for prop9_of_isClosed and prop10_forward denote weakened hypotheses (stronger theorems), not a narrowing.",
+  "findings": []
+}

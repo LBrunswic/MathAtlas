@@ -1,0 +1,59 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-dualite-interieur",
+  "files": ["scaffold/BenzecriScaffold/Chapter3/DualiteInterieur.lean", "scaffold/BenzecriScaffold.lean (one import line added)"],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": "propext, Classical.choice, Quot.sound only (#print axioms on prop9, prop9_of_isClosed, corollaire_hemisphere_ouvert, corollaire_hemisphere_prop9, prop10, prop10_forward, prop9_capQuart, prop10_capQuart, mk_mem_capQuart)",
+  "labels": [
+    {
+      "label": "bzprop:c3s3p9_hemisphere_dual",
+      "tex_lines": [801, 823],
+      "status": "closed",
+      "marked": true,
+      "decls": ["Benzecri.Sphere.prop9", "Benzecri.Sphere.prop9_of_isClosed", "Benzecri.Sphere.mem_interior_D_iff", "Benzecri.Sphere.mem_interior_D_singleton", "Benzecri.Sphere.interior_D_singleton"],
+      "hypotheses": [
+        {"paper": "A ∈ C(S(n)) un convexe fermé", "here": "carried", "note": "prop9 carries A ∈ CS; prop9_of_isClosed needs only A closed (convexity unused)"},
+        {"paper": "H = D({M}) un hémisphère fermé", "here": "carried", "note": "every point M (each D({M}) is a closed hemisphere, strict dotPairing_D_point)"}
+      ],
+      "sorries": [],
+      "findings": ["The printed proof (l.809–823) goes through geodesic balls of the round sphere; the Lean proof uses only the compactness of A and F(int X) = int F(X). Not a defect of the statement."],
+      "questions": []
+    },
+    {
+      "label": "bzcor:c3s3p9c_corps_convexe_hemisphere",
+      "tex_lines": [825, 829],
+      "status": "closed",
+      "marked": true,
+      "decls": ["Benzecri.Sphere.corollaire_hemisphere_ouvert", "Benzecri.Sphere.corollaire_hemisphere_prop9"],
+      "hypotheses": [
+        {"paper": "A un corps convexe de S(n)", "here": "carried", "note": "IsCorpsConvexeS n A"},
+        {"paper": "un hémisphère ouvert", "here": "carried", "note": "IsOpenHemisphere (Déf. 5) and nonempty (DEC-114)"}
+      ],
+      "sorries": [],
+      "findings": ["No proof is printed; the anchor wraps the strict IsCorpsConvexeS.exists_forall_pos (Chapter2/Hilbert). corollaire_hemisphere_prop9 also proves it by the route the placement suggests: D(A) is a convex body (Prop. 8, isCorpsConvexeS_D), take M ∈ int D(A), then Prop. 9 puts A in the open hemisphere int D({M})."],
+      "questions": []
+    },
+    {
+      "label": "bzprop:c3s3p10_interieur_dual",
+      "tex_lines": [831, 849],
+      "status": "closed",
+      "marked": true,
+      "decls": ["Benzecri.Sphere.prop10", "Benzecri.Sphere.prop10_forward", "Benzecri.Sphere.dotPairing_pos_of_mem_interior"],
+      "hypotheses": [
+        {"paper": "A, B ∈ C(S(n))", "here": "carried", "note": "prop10 carries both; the direct implication prop10_forward needs only A closed, B any part"}
+      ],
+      "sorries": [],
+      "findings": ["The printed proof (l.838–849) is not followed: its display int D(A) = ⋂_{M∈A} int D({M}) swaps interior with an infinite intersection, true here only because A is compact (it is the ← direction of mem_interior_D_iff, proved by the tube lemma), and its last step asks D(B) ⊂ D({M}) where int D({M}) is needed (the [sic?] at l.848, OQ-160 (a)). The statement is unaffected. The converse is the paper's: D ∘ D = id on C(S(n)) (dotPairing_prop1)."],
+      "questions": []
+    }
+  ],
+  "instances": [
+    "Benzecri.Sphere.capQuart : Set (S 1) := D({s(1,1), s(1,−1)}), the rays s(v) with |v₁| ≤ v₀ (mk_mem_capQuart), the closed cap of angular radius π/4 about capCentre = s(1,0); capQuart_mem_CS (∈ C(S(1))), capQuart_subset (⊆ int D({capCentre})); prop9_capQuart (capCentre ∈ int D(capQuart), by Prop. 9); prop10_capQuart (Prop. 10 with A = capQuart, B = D({capCentre}))."
+  ],
+  "extra_decls": ["Benzecri.Sphere.dotPairing_self_pos", "Benzecri.Sphere.dotPairing_pos_of_mem_interior", "Benzecri.Sphere.mem_interior_D_iff", "Benzecri.Sphere.mem_interior_D_singleton", "Benzecri.Sphere.interior_D_singleton"],
+  "kb_proposals": [
+    "On S(n), for A closed: s(x) ∈ int D(A) ↔ ∀ a ∈ F(A), 0 < ⟨a, x⟩ (mem_interior_D_iff, Chapter3/DualiteInterieur); the ← direction is the tube lemma IsCompact.eventually_forall_of_forall_eventually applied to (w, X) ↦ ⟨u(X), w⟩ with u = homeomorphUnitSphere; int D({M}) = openHemisphere ⟨m, ·⟩ (interior_D_singleton)."
+  ],
+  "notes": "One import line appended to scaffold/BenzecriScaffold.lean. All three labels are marked in the module docstring: no sorry, no added hypothesis, and no open OQ bears on the statements (OQ-160 (a) concerns only Prop. 10's printed proof). The names prop9, prop10 follow DualiteSn's prop6–prop8 in Benzecri.Sphere."
+}

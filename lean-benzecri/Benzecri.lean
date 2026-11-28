@@ -66,3 +66,6 @@ import Benzecri.Chapter3.HyperplanSeparant
 import Benzecri.Chapter3.BooleAffine
 import Benzecri.Chapter3.FacetteDuale
 import Benzecri.Chapter3.ProprietesIII
+import Benzecri.Chapter3.DualiteInterieur
+import Benzecri.Chapter3.Sature
+import Benzecri.Chapter3.PointsExtremaux
