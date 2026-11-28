@@ -439,6 +439,25 @@
 # this form "is not recorded", are refreshed. No [[implies]], [[fact]] or [[transfer]] entry changes. No
 # causality-sort pair moves, and emit-lean reads no pair-sort entry and no consequence, so neither
 # Causal/Ladder/Rules.lean nor Causal/Ladder/Test.lean would change.
+# After T-lad-record-past-inextensible-meets-cauchy (2026-11-28) still 432 of 432, the same 41, 385
+# and 6. It was simulated in memory first (kb/0276), on copy.deepcopy(ladder.load()): check gave no
+# error, the matrix was compared line by line, _contradictions was empty before and after, and the rule
+# selection (emitted, emitted_facts) was unchanged. It records the closer's lemmas_for_the_keeper of
+# T-abs-past-inextensible-meets-cauchy (graduated 770e92f7; AUDIT-1.json clean): two consequences at
+# is_causal ∧ causally_arc_connected, standing T1 and second_countable, in a block after
+# lem:Sigma_separe's.
+# * Sbierski 2312.07443's (2.4): for a Cauchy surface Σ of M, a past-inextensible causal curve with a
+#   point in J⁺(Σ) meets Σ (Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus_of_isCausal).
+# * Its time reversal (Causal.Causality.FutureInextensible.exists_mem_of_mem_Jminus_of_isCausal).
+# Both signatures were read from the source (Causal/PastInextensibleMeetsCauchy.lean:513, :520), with
+# no build. Each `under` says what the witness asks besides the nodes: Σ a Cauchy surface of M (DEC-14)
+# and the curve past- (future-) inextensible (DEC-13), not assumed tail-free. The open-set forms (any
+# W, causally arc-connected, ≤_W antisymmetric) and Sbierski's I± wording are named in the block's
+# comment and have no entry, since their hypotheses at an open W are not ladder nodes. Consequences go
+# from 123 to 125. No [[implies]], [[fails]], [[fact]], [[transfer]] or [[open]] entry changes. A
+# consequence chains nothing, and emit-lean reads none (tools/ladder.py: emit_lean and emit_test read
+# only [[property]], [[implies]] and [[fact]]), so neither Causal/Ladder/Rules.lean nor
+# Causal/Ladder/Test.lean would change.
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
 # described after `geometry`. A property of sort `causality` (the default: no `sort` field) has a Lean
@@ -4893,6 +4912,69 @@ at = ["is_causal", "causally_arc_connected"]
 statement = "lem:Sigma_separe with a named splitting: for a Cauchy surface Σ and a Cauchy splitting ψ : Σ × ℝ ≃ M, J⁺(Σ) = ψ(Σ × ℝ₊) and J⁻(Σ) = ψ(Σ × ℝ₋), so J±(Σ) are closed, J⁺(Σ) ∩ J⁻(Σ) = Σ and J⁺(Σ) is a neighbourhood of its points outside Σ"
 witness = "Causal.Causality.sigma_separe_of_t1_secondCountable"
 under = "Σ a Cauchy surface of M; ψ : Σ × ℝ ≃ₜ M a Cauchy splitting (Causal.Causality.IsCauchySplitting: ψ(x, 0) = x and s ≤ t gives ψ(x, s) ≤ ψ(x, t)), the homeomorphism of theo:geroch_sing carried as a named hypothesis (kb/0012)"
+standing = ["T1", "second_countable"]
+status = "checked"
+
+# ---- Sbierski 2312.07443's (2.4) in ETT: a past-inextensible causal curve through J⁺(Σ) meets the
+# Cauchy surface Σ (T-lad-record-past-inextensible-meets-cauchy, 2026-11-28). The source is
+# Causal/PastInextensibleMeetsCauchy.lean (T-abs-past-inextensible-meets-cauchy, graduated 770e92f7;
+# AUDIT-1.json clean). It is ETT layer and imports Causal.CExtConnexeCauchy.SubArc and
+# Causal.CauchyDual, with no model. No statement of ETT.tex is behind it, so there is no label. It is
+# the last step of Sbierski's Thm 1.5 (references/sbierski/text/sbierski2023c.txt:356–358,
+# :1139–1144). Each signature was read from the source, with no build (closers hold lean-causal), and
+# each name below was resolved by tools/ladder.py's index.
+#
+# The forms on an open W are not entries. Their hypotheses at W (≤_W antisymmetric, W causally
+# arc-connected, S a Cauchy surface of W) are not ladder nodes; the two entries below are their case
+# W = ⊤.
+# * Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus (:469): [T1Space M]
+#   [SecondCountableTopology M] (hS : C.IsCauchySurfaceOn W S) (hC : C.CausallyArcConnectedOn W)
+#   (hcaus : ∀ ⦃x y⦄, C.le W x y → C.le W y x → x = y) (hσ : C.PastInextensible W I σ)
+#   (hJ : ∃ t ∈ I, σ t ∈ C.Jplus W S) ⊢ ∃ t ∈ I, σ t ∈ S.
+# * Its time reversal, Causal.Causality.FutureInextensible.exists_mem_of_mem_Jminus (:484). Every
+#   hypothesis is stated for C itself, and the proof goes through Causal.Causality.dual_isCauchySurfaceOn,
+#   Causal.Causality.dual_causallyArcConnectedOn and Causal.Causality.dual_pastInextensible_iff.
+# * Sbierski's wording, a point in I⁺(Σ): Causal.Causality.PastInextensible.exists_mem_of_mem_Iplus
+#   (:496) and Causal.Causality.FutureInextensible.exists_mem_of_mem_Iminus (:504). They are corollaries
+#   through Causal.Causality.Iplus_subset_Jplus and Causal.Causality.Iminus_subset_Jminus.
+# * The tail-free case, Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus_of_tailFree (:430,
+#   T1, second countable, TailFree I σ besides). It goes through Causal.Causality.exists_subArc_of_tailFree.
+#   The trimming removes the hypothesis: Causal.exists_tailFree_retraction, with
+#   Causal.Causality.PastInextensible.of_retraction (:353, no separation axiom).
+#
+# At M the hypotheses are nodes. C.IsCausal is literally the antisymmetry of ≤_⊤
+# (Causal/Properties.lean:95), IsCauchySurface S is IsCauchySurfaceOn ⊤ S, and CausallyArcConnected is
+# CausallyArcConnectedOn ⊤; the audit's probe checked each by rfl. Lean ≥ Sbierski on two counts: the
+# given point is any point of the curve (his curve "starts in I⁺(Σ, M)"), and it may lie in J⁺ ⊇ I⁺.
+# Both nodes look necessary, but this is argued by the closer, not formalised (REPORT.json
+# findings[6]):
+# * without antisymmetry, a ray glued to a circle at q, with S = {y}, y ≠ q on the circle;
+# * without causal arc-connectedness, two timelike lines with the non-local relations (s, 0) ≤_M
+#   (r, 1) for s ≤ 0 ≤ r + 1, S = {0} × {0, 1}, and id over ]-∞, -1] on line 1.
+# Whether each of these is a causality of ETT was not checked in Lean, so neither is a [[fails]] entry
+# (a consequence is not a pair). The hypotheses are met on the timelike line with S = {0}
+# (Causal.timelikeLine_pastInextensible_meets_zero, Causal.timelikeLine_futureInextensible_meets_zero,
+# kb/0011).
+
+# (2.4) at M (Causal/PastInextensibleMeetsCauchy.lean:513): [T1Space M] [SecondCountableTopology M]
+# (hS : C.IsCauchySurface S) (hC : C.CausallyArcConnected) (hcaus : C.IsCausal)
+# (hσ : C.PastInextensible ⊤ I σ) (hJ : ∃ t ∈ I, σ t ∈ C.Jplus ⊤ S) ⊢ ∃ t ∈ I, σ t ∈ S. There is no
+# TailFree hypothesis.
+[[consequence]]
+at = ["is_causal", "causally_arc_connected"]
+statement = "Sbierski 2312.07443 (2.4): for a Cauchy surface Σ of M, every past-inextensible causal curve with a point in J⁺(Σ) meets Σ"
+witness = "Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus_of_isCausal"
+under = "Σ a Cauchy surface of M (DEC-14; Causal.Causality.IsCauchySurface); the curve past-inextensible (DEC-13; Causal.Causality.PastInextensible ⊤), not assumed tail-free; its point in J⁺(Σ) at any parameter"
+standing = ["T1", "second_countable"]
+status = "checked"
+
+# Its time reversal (:520): the same binders, with (hσ : C.FutureInextensible ⊤ I σ)
+# (hJ : ∃ t ∈ I, σ t ∈ C.Jminus ⊤ S) ⊢ ∃ t ∈ I, σ t ∈ S. There is no TailFree hypothesis.
+[[consequence]]
+at = ["is_causal", "causally_arc_connected"]
+statement = "the time reversal of (2.4): for a Cauchy surface Σ of M, every future-inextensible causal curve with a point in J⁻(Σ) meets Σ"
+witness = "Causal.Causality.FutureInextensible.exists_mem_of_mem_Jminus_of_isCausal"
+under = "Σ a Cauchy surface of M (DEC-14; Causal.Causality.IsCauchySurface); the curve future-inextensible (DEC-13; Causal.Causality.FutureInextensible ⊤), not assumed tail-free; its point in J⁻(Σ) at any parameter"
 standing = ["T1", "second_countable"]
 status = "checked"
 
