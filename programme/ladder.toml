@@ -425,7 +425,7 @@
 #   (Causal.pointedLine_separates_curveNested), which is not absolutely minimal
 #   (Causal.GluingModels.pointedLine_not_minimal) and so held in the no-gluing reading only. Its new
 #   witness is the rational line's conjoined statement Causal.rationalLine_separates_curveNested
-#   (Causal/NestedConverse.lean:413). It has every conjunct of the old one plus absolute minimality.
+#   (Causal/NestedConverse.lean). It has every conjunct of the old one plus absolute minimality.
 #   The rational line is absolutely minimal on every open (Causal.rationalLine_absolutelyMinimalOn) and
 #   so is the spacelike line (Causal.GluingModels.spacelikeLine_hereditary), so the entry holds in either
 #   reading of DEC-167, whichever form OQ-95 rules. The pair was already refuted in either reading
@@ -592,6 +592,36 @@
 # binders were read): Sbierski's MGHD argument uses the pair criterion
 # (Causal.Gluing.t2Space_iff_forall_not_isCorrespondingBoundaryPair), so no binder changes. The finding
 # against Chruściel 1112.5779 Lemma 3.3 stays in references/ (the master's).
+# After T-lad-lineref-names-rest (2026-11-28) still 432 of 432, the same 41, 385 and 6: the matrix was
+# saved before the edit and compared after it (byte-identical). It extends T-lad-lineref-names to the
+# modules outside that target's ten: the ladder's comments cite Lean declarations by name or module,
+# not by line number.
+# * The 28 stale references come first. The block of ERS Thm 4.82 over a solution predicate cited
+#   Causal/Ers482Solution.lean by bare line, as read at a4fb5a09. bdc22114
+#   (T-abs-ers-4-82-restart-separation) added two lines after its :107 and two after its :556, so
+#   each of the 27 was 2 or 4 lines off. Each now names its declaration. Where the comment already
+#   names it, the line number is dropped. Where the comment heads the entry whose witness it cited,
+#   the module (Causal.Ers482Solution) replaces it; the restart entry's comment, which gave two lines
+#   only, names its two witnesses on the line. The 28th is Causal.Causality.Jplus_inter_Jminus_eq,
+#   cited at Causal/CBG/Ppcm.lean:188 (aa3af230) and at :192 since; it now cites the module.
+# * Then 192 references that were current when read today, into 46 modules: Ers464SecondCountable 22,
+#   ErsUnions 19, ErsUniqueness 14, DiamondConfinement 14, Ers464WithoutArc 12, LadderLocal 11,
+#   ErsWitnesses 9, InextensibleNotLeNested 8, Ers475CauchyForm 8, InextensibleNestedBasics 8,
+#   NestedConverse 5, NestedCausalities 5, FutureOneConnectedVacuous 5, and 33 modules with 1 to 3
+#   each. The same rule applies: a named declaration loses its line number (a File.lean:N keeps its
+#   path); a bare line gains the full name, or the module above the entry whose witness it is. Three
+#   places gave only lines and now give names: Thm 4.64's two second countable trade forms, the field
+#   read in Causal.Causality.SingularFlatAxioms, and causally_compact's comment
+#   (Causal.Causality.GloballyHyperbolic).
+# * Kept: the 14 dated line numbers into PastInextensibleMeetsCauchy and SubArc, annotated with their
+#   commits (fb728e2b, 4a78ce34) since T-lad-lineref-names. Also every line of a frozen TeX source
+#   (ghd_02_19.tex, ETT.tex, InexSchwarzschild2.tex, the Sbierski text under references/), bare ones
+#   included.
+# Every dotted name and module path in the edited comments resolves in tools/ladder.py's index (56
+# names, 44 paths). Each converted reference was checked against the declaration its line held at the
+# commit that last wrote the ladder line (git blame). No entry is added or removed, and no witness,
+# `under`, `what`, `statement` or note changes. emit-lean reads no comment, so neither
+# Causal/Ladder/Rules.lean nor Causal/Ladder/Test.lean changes (emit-lean --dry-run).
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
 # described after `geometry`. A property of sort `causality` (the default: no `sort` field) has a Lean
@@ -668,7 +698,7 @@
 #   pair property (emit_test keeps the sort `causality` only; LeNested's binder `C C' : Causality M`
 #   would otherwise be misread as one causality), and reads no [[transfer]].
 # * Not nodes: Causal.Causality.LtNested (≪-nesting; no theorem of the library uses it); and
-#   Causal.Causality.NoCausalEndpoint (J^±(x) ≠ {x}, Causal/LadderLocal.lean:198), OQ-41 (b)'s other
+#   Causal.Causality.NoCausalEndpoint (J^±(x) ≠ {x}, Causal/LadderLocal.lean), OQ-41 (b)'s other
 #   branch, a node that would give the inextensible nesting on M, which DEC-161 (b) did not adopt: it
 #   is a property of one causality, written in words in the `under` of the consequences that need it
 #   (at curve_nested and le_nested below; Lemma K's, at globally_hyperbolic and curves_extend).
@@ -678,14 +708,14 @@
 # One-sided notions (DEC-166, OQ-52; T-lad-one-sided-node, 2026-11-22).
 # * (a) The one-sided notions of Causal.LadderLocal take the future as base since
 #   T-abs-one-sided-future-base (1cef44b, DEC-166 (a)), as CausallyOpenFuture does:
-#   Causal.Causality.ChronalFutureNeighbours (Causal/LadderLocal.lean:170) and
-#   Causal.Causality.NoFutureEndpoint (:187) are the bases, and the past forms their duals,
-#   ChronalPastNeighbours := C.dual.ChronalFutureNeighbours (:176) and NoPastEndpoint :=
-#   C.dual.NoFutureEndpoint (:192). No ladder id and no `lean` field changed. The two-sided node
-#   chronal_neighbours (Causal.Causality.ChronalNeighbours, :182, ChronalPastNeighbours ∧
+#   Causal.Causality.ChronalFutureNeighbours (Causal/LadderLocal.lean) and
+#   Causal.Causality.NoFutureEndpoint are the bases, and the past forms their duals,
+#   ChronalPastNeighbours := C.dual.ChronalFutureNeighbours and NoPastEndpoint :=
+#   C.dual.NoFutureEndpoint. No ladder id and no `lean` field changed. The two-sided node
+#   chronal_neighbours (Causal.Causality.ChronalNeighbours, ChronalPastNeighbours ∧
 #   ChronalFutureNeighbours, i.e. the future form of C.dual and of C,
 #   Causal.Causality.chronalNeighbours_iff_future) and the two-sided Causal.Causality.NoCausalEndpoint
-#   (:198, no node; "J⁺(x) ≠ {x} and J⁻(x) ≠ {x}" in words in `under`) keep their names and meaning.
+#   (no node; "J⁺(x) ≠ {x} and J⁻(x) ≠ {x}" in words in `under`) keep their names and meaning.
 #   The comments that cited the past names as the base (the localisation properties' header,
 #   chronal_neighbours' comment, the global line's entry) were moved to the future names by
 #   T-lad-has-chronal-neighbour (2026-11-23): chronal_neighbours' comment cites
@@ -699,7 +729,7 @@
 #   Causal.Causality.PushUp.causallyOpenFuture_of_chronalPastNeighbours, which the ladder uses only
 #   through chronal_neighbours (the edge push_up ∧ chronal_neighbours ⇒ causally_open, both sides);
 #   as a node it would come with its dual, a pair of nodes for one notion up to time reversal.
-# * (b) one_sided_boundary (Causal.Causality.OneSidedBoundary U B, Causal/LadderLocal.lean:216, the
+# * (b) one_sided_boundary (Causal.Causality.OneSidedBoundary U B, Causal/LadderLocal.lean, the
 #   topological content of ERS (4.83)) is an edge hypothesis only, not a ladder node. A predicate on an
 #   open U and a set B of M with no causality, it fits neither sort; it is written in words in the
 #   `under` of the consequences that take it (ERS Thm 4.82 at is_causal,
@@ -713,12 +743,12 @@
 #
 # The restart hypotheses of ERS §4 (DEC-162, OQ-57 (b) read as taken; T-lad-ers-restart-nodes,
 # 2026-11-22): two named localisation hypotheses, kept apart, and no node.
-# * slice_restart is Causal.Causality.SliceRestart C W S R L Q (Causal/ErsUniqueness.lean:211): at
+# * slice_restart is Causal.Causality.SliceRestart C W S R L Q (Causal/ErsUniqueness.lean): at
 #   every frontier point p of the region R lying in L at which that frontier is spacelike in W
-#   relative to S (Causal.Causality.IsSpacelikeBoundaryPoint, :196: J⁻_W(p) ∩ ∂R ∩ J⁺_W(S) = {p} or
+#   relative to S (Causal.Causality.IsSpacelikeBoundaryPoint: J⁻_W(p) ∩ ∂R ∩ J⁺_W(S) = {p} or
 #   the past form), Q p. It is Steps 3–5 of Thm 4.64 with Prop 4.63, and ERS Thm 4.82's `hstep`
 #   definitionally (ers_theorem_4_82_of_sliceRestart). Layer 3: T-loc-quasilinear-slice.
-# * frontier_stays_in is Causal.Causality.FrontierStaysIn C W S R L (:226): for every frontier point q
+# * frontier_stays_in is Causal.Causality.FrontierStaysIn C W S R L: for every frontier point q
 #   of R in L lying in J⁺_W(S), the frontier points of R in J⁻_W(q) ∩ J⁺_W(S) lie in L, and the past
 #   form. It is Step 2's "γ([0,1]) ⊆ U₂" (ghd_02_19.tex:880). Layer 3: T-loc-quasilinear-frontier.
 # * Neither has a parameter-free form, so neither is a node (the keeper's call, which the target
@@ -872,7 +902,8 @@
 # from Causal.Model.E0ChronalNeighbour) were read from the sources, with no build, each statement
 # quoted or listed conjunct by conjunct in its comment and each declaration name resolved by
 # tools/ladder.py's index (the field Causal.Causality.SingularFlatAxioms.mem_Zplus, which the index
-# does not hold, read at Causal/SingularFlat.lean:190; module names read as files). None takes an instance
+# does not hold, read in the structure Causal.Causality.SingularFlatAxioms, Causal/SingularFlat.lean;
+# module names read as files). None takes an instance
 # argument: no `space`, no standing. Each re-pointed witness has every id of its entry's `from` and
 # the negation of its `to` as conjuncts.
 # Those of T-lad-record-ers-cauchy-forms (2026-11-27: the new consequences' witnesses
@@ -947,7 +978,7 @@ label = "def:globally_hyperbolic"
 what = "causal, and every full diamond J_M(p,q) is compact (is_causal ∧ causally_compact: Causal.Causality.globallyHyperbolic_iff, Iff.rfl)"
 
 # T-lad-gh-causal (2026-11-21). The second conjunct of def:globally_hyperbolic, which the Lean
-# writes out rather than naming (Properties.lean:144); the three edges below make
+# writes out rather than naming (Causal.Causality.GloballyHyperbolic); the three edges below make
 # globally_hyperbolic ⇔ is_causal ∧ causally_compact. Reads ≤_M only, like is_causal: invariant
 # under time reversal and under any homeomorphism carrying ≤_M onto ≤_N (consequences below).
 [[property]]
@@ -1216,12 +1247,12 @@ what = "in every open V, every v ∈ V has p, p' ∈ V with p ≪_V v ≪_V p' (
 # Causal.cosmicString_chronalNeighbours, Causal.Flat.timeCylinder_chronalNeighbours); Schwarzschild's
 # comes through T-loc-smooth-causal-ladder's chronal_neighbours. E₀ has it without chronal_neighbours
 # (T-loc-e0-has-chronal-neighbour; recorded by T-lad-record-direct-witnesses, 2026-11-27):
-# Causal.E0.hasChronalNeighbourEverywhere (Causal/Model/E0ChronalNeighbour.lean:149), the future
+# Causal.E0.hasChronalNeighbourEverywhere (Causal/Model/E0ChronalNeighbour.lean), the future
 # disjunct I⁺(p) ≠ ∅ at every point, BTZ points included, the past one failing exactly on the axis
 # (Causal.E0.Iminus_nonempty_iff; defi:causal_E0's I⁻(p) = ∅); so E₀ has chronal future neighbours
 # and neither chronal past neighbours nor chronal neighbours (Causal.E0.chronalFutureNeighbours,
 # Causal.E0.not_chronalNeighbours). It is the instance at E₀ of
-# Causal.Causality.SingularFlatAxioms.hasChronalNeighbourEverywhere (:109: every causality with
+# Causal.Causality.SingularFlatAxioms.hasChronalNeighbourEverywhere (every causality with
 # SingularFlatAxioms, from the field Causal.Causality.SingularFlatAxioms.mem_Zplus read at U = M,
 # rem:btz_pas_tarentin; no instance argument). Every E_{≥0}-manifold has it too, for every causality
 # with an isomorphic chart at each point and no absolute minimality, separation or countability
@@ -1264,9 +1295,9 @@ what = "every point p has a chronal neighbour in M, on one side at least: I⁺(p
 # Causal/TimelikeHomotopy.lean; at M Causal.timelikeLine_futureOneConnected; time-reversed
 # Causal.timelikeLine_dual_futureOneConnected), and there the relation is not equality
 # (Causal.timelikeLine_chronallyHomotopicOn_sq). Minkowski space ℝ^{1,n}, every n, has it
-# (Causal.minkowski_futureOneConnected, Causal/Model/MinkowskiFutureOneConnected.lean:235,
+# (Causal.minkowski_futureOneConnected, Causal/Model/MinkowskiFutureOneConnected.lean,
 # T-loc-minkowski-future-one-connected, 3247324f), on every convex open set too
-# (Causal.minkowski_futureOneConnectedOn, :227), and time-reversed
+# (Causal.minkowski_futureOneConnectedOn), and time-reversed
 # (Causal.minkowski_dual_futureOneConnected, minkowski_dual_futureOneConnectedOn). Sbierski's Step 2.1,
 # every chronal curve homotopic to the straight segment, is Causal.minkowski_chronallyHomotopicOn_segment,
 # and the diamond identification applies there without restatement
@@ -1300,12 +1331,12 @@ what = "any two future chronal curves of M over [0, 1] with the same endpoints a
 # ---- locally_strongly_causal (T-lad-c0-extension-nodes, 2026-11-27): the confinement hypothesis of
 # Sbierski 1507.00601 Thm 3.1 Step 1.2 (InexSchwarzschild2.tex:528: the closure of the chart diamond
 # is compact in the chart) as a property of the extension M̃, which need not be strongly causal; no
-# ETT label. Causal.Causality.LocallyStronglyCausal (Causal/DiamondConfinement.lean:378,
+# ETT label. Causal.Causality.LocallyStronglyCausal (Causal/DiamondConfinement.lean,
 # T-abs-diamond-confinement, db0e8e7f; ETT layer: its one import is Causal.TimelikeHomotopy, no model)
-# is ∀ p, ∃ W : Opens M, p ∈ W ∧ C.StronglyCausalOn W, and Causal.Causality.StronglyCausalOn W (:371)
+# is ∀ p, ∃ W : Opens M, p ∈ W ∧ C.StronglyCausalOn W, and Causal.Causality.StronglyCausalOn W
 # is def:strongly_causal_spacetime for W seen as a spacetime (kb/0001): ∀ p ∈ W, ∀ U ∈ 𝓝 p,
 # ∃ V ∈ 𝓝 p, V ⊆ U ∧ C.CausallyConvexIn V W, DEC-7's neighbourhoods (not necessarily open) and
-# convexity in W (Causal.Causality.CausallyConvexIn, Causal/Properties.lean:99). A predicate on one
+# convexity in W (Causal.Causality.CausallyConvexIn, Causal/Properties.lean). A predicate on one
 # causality: the causality sort. The form, the keeper's choice:
 # * The local form of strongly_causal, as locally_push_up is of push_up. At W = M it is the node
 #   (Causal.Causality.stronglyCausalOn_top: StronglyCausalOn ⊤ ↔ StronglyCausal), whence the edge
@@ -1323,8 +1354,8 @@ what = "any two future chronal curves of M over [0, 1] with the same endpoints a
 # * Not the closure property itself. What Thm 3.1 Steps 1.2 and 3 use is the precompact chart
 #   diamond, which the node gives near every point on a locally compact R₁ space
 #   (Causal.Causality.LocallyStronglyCausal.exists_isCompact_closure, a consequence); that property
-#   is strictly weaker than the node: Causal.exists_confining_not_locallyStronglyCausal (:566,
-#   in namespace Causal, not Causal.Causality) is a causality on ℝ (≤_U = U × U, ≪ empty) whose
+#   is strictly weaker than the node: Causal.exists_confining_not_locallyStronglyCausal
+#   (in namespace Causal, not Causal.Causality) is a causality on ℝ (≤_U = U × U, ≪ empty) whose
 #   chronological diamonds are empty, hence precompact, near every point, and which is not locally
 #   strongly causal (J_W(0, 0) = W). It is not absolutely minimal, so no causality under DEC-167's
 #   gluing, and it states no other node: a remark on the hypothesis, not a [[fails]] entry (its one
@@ -1333,10 +1364,10 @@ what = "any two future chronal curves of M over [0, 1] with the same endpoints a
 # * Invariant under causal isomorphisms (Causal.IsCausalIso.locallyStronglyCausal_iff, a consequence;
 #   Causal/StronglyCausalTransport.lean, ETT layer).
 # Layer 3 per model: every strongly causal model has it through the edge; the timelike line in Lean
-# (Causal.timelikeLine_locallyStronglyCausal, Causal/DiamondConfinement.lean:544, from
+# (Causal.timelikeLine_locallyStronglyCausal, Causal/DiamondConfinement.lean, from
 # Causal.timelikeLine_stronglyCausal), with its precompact diamonds at 0
 # (Causal.timelikeLine_exists_isCompact_closure). Every flat spacetime has it, the time cylinders
-# included (Causal.Flat.flatCausality_locallyStronglyCausal, Causal/Model/TimeCylinderLSC.lean:118,
+# included (Causal.Flat.flatCausality_locallyStronglyCausal, Causal/Model/TimeCylinderLSC.lean,
 # T-loc-time-cylinder-lsc, 4efef56e: the source of every chart of the maximal atlas onto 𝐌ⁿ is strongly
 # causal as a spacetime), through the ETT-layer transport Causal.Causality.locallyStronglyCausal_of_chartIso
 # (Causal/StronglyCausalTransport.lean: a causality chart-isomorphic near each point to locally strongly
@@ -1471,7 +1502,7 @@ what = "C is curve-nested in C' on an open W: every future causal curve of W for
 # also the `hinext` of ERS Thms 4.79, 4.80 (Causal.ers_theorem_4_79, ers_theorem_4_80: S, m-Cauchy in
 # D_m(S) ∩ U₁, is g(u₁)-Cauchy there) and the hn₁, hn₂ of Cor 4.71 (Causal.Causality.ers_corollary_4_71).
 # Read 2026-11-22 by `#check`: InextensibleNestedOn : Causality M → Causality M → Opens M → Prop,
-# ∀ ⦃I c⦄, C.Inextensible W I c → C'.Inextensible W I c (Causal/NestedCausalities.lean:136). The ERS
+# ∀ ⦃I c⦄, C.Inextensible W I c → C'.Inextensible W I c (Causal/NestedCausalities.lean). The ERS
 # binder (papers/ers-predictability/certificate/binder.toml) proposed the id (rows 4.70, 4.71, 4.77,
 # 4.79, 4.80). Implied by neither le_nested nor curve_nested ([[fails]] below). It implies
 # curve_nested at the same open W on a T1, second countable M (edge below:
@@ -1504,8 +1535,8 @@ what = "C is inextensibly nested in C' on an open W: every inextensible causal c
 # which the witness takes it, and the binder (hstep, hstay, hloc, honesided, hchr). check() does not
 # read `under`. tools/binder.py accepts the ids as localisation, open_localisation and proves ids.
 # `lean` is the definition. `reads` is what it is a hypothesis on, read off its binders. `what` is its
-# body, read from the source with no build on 2026-11-27 (Causal/ErsUniqueness.lean:211, :226;
-# Causal/ErsUnions.lean:246; Causal/LadderLocal.lean:216; Causal/LocateExtension.lean:138); every name
+# body, read from the source with no build on 2026-11-27 (Causal/ErsUniqueness.lean;
+# Causal/ErsUnions.lean; Causal/LadderLocal.lean; Causal/LocateExtension.lean); every name
 # a note cites was resolved by tools/ladder.py's index. None has an ETT label: their sources are ERS
 # 1802.03020 §4 and Sbierski 1507.00601, and ETT states none of them. The first four ids were the
 # [[proposed]] ids of the binder papers/ers-predictability, so that T-bind-edge-hypotheses could cite
@@ -1603,7 +1634,7 @@ standing = ["T1"]
 status = "checked"
 
 # Fixed 2026-11-20 (T-lad-seed-check): the seed had `from = ["strongly_causal"]`; its witness then,
-# Causal.Causality.StronglyCausal.stronglyCausalOpen (Causal/GlobalHyperbolicity.lean:226), also
+# Causal.Causality.StronglyCausal.stronglyCausalOpen (Causal/GlobalHyperbolicity.lean), also
 # assumes tarentin and two-sided causal openness, which joined `from` (tarentin found a, b in the
 # causally convex neighbourhood with p in the open diamond, which causal openness makes causally
 # convex: Causal.Causality.CausallyOpen.causallyConvexIn_openDiamond). Re-pointed by
@@ -1917,7 +1948,7 @@ status = "checked"
 
 # The local form of strongly_causal (T-lad-c0-extension-nodes, 2026-11-27), as push_up ⇒ locally_push_up:
 # W = ⊤ (Causal.Causality.stronglyCausalOn_top). Read from the source, with no build
-# (Causal/DiamondConfinement.lean:404, T-abs-diamond-confinement, db0e8e7f): {M : Type u}
+# (Causal/DiamondConfinement.lean, T-abs-diamond-confinement, db0e8e7f): {M : Type u}
 # [TopologicalSpace M] {C : Causality M} (h : C.StronglyCausal) : C.LocallyStronglyCausal, the term
 # fun _ => ⟨⊤, trivial, stronglyCausalOn_top.2 h⟩. No instance argument (no standing), no side
 # condition (no `under`). A CausalLadder rule: Causal.DiamondConfinement is ETT layer, and its import
@@ -2094,7 +2125,7 @@ status = "checked"
 
 # The half-plane ℝ × ]0, ∞[ (Causal.staticCausality (Ioi 0), Causal/ChainsCurves.lean: the static
 # spacetime over the half-line, an open subset of 1+1 Minkowski with its causality of curves;
-# Hausdorff and second countable). Causal.halfPlane_hypotheses (Causal/ChainsCurves.lean:823)
+# Hausdorff and second countable). Causal.halfPlane_hypotheses (Causal/ChainsCurves.lean)
 # conjoins Tarentin, IsCausal, CausallyArcConnected, StronglyCausal, AbsolutelyMinimal and
 # ¬ CausallyCompact (T-lad-gh-causal). Through the closure each
 # entry also refutes `from` ⇒ globally_hyperbolic (which implies causally_compact), and the
@@ -2104,7 +2135,7 @@ status = "checked"
 # is_causal ⇏ causally_compact: the fan (ℕ discrete, 0 below and 1 above every event; Causal.fan_isCausal,
 # Causal.fan_not_causallyCompact, conjoined in Causal.not_causallyComplete_imp_causallyCompact).
 # Since T-lad-record-direct-witnesses (2026-11-27) these four entries and the five below point at
-# one statement, Causal.halfPlane_separates (Causal/Model/HalfPlaneLadder.lean:63, T-loc-ealpha-tidy),
+# one statement, Causal.halfPlane_separates (Causal/Model/HalfPlaneLadder.lean, T-loc-ealpha-tidy),
 # read from the source with no build: (T2Space ∧ SecondCountableTopology ∧ ConnectedSpace of
 # ℝ × Ioi 0) ∧ Tarentin ∧ IsCausal ∧ CausallyArcConnected ∧ StronglyCausal ∧ AbsolutelyMinimal ∧
 # PushUp ∧ ChronalNeighbours ∧ CausallyOpen ∧ StronglyCausalOpen ∧ HasTimeFunction ∧ CurvesExtend ∧
@@ -2397,7 +2428,7 @@ status = "checked"
 # The line with a chronologically isolated origin (Causal.isolatedLine, Causal/LocateExtension.lean:
 # the timelike line of ℝ ∖ {0}, 0 related to itself only). The witness, since T-lad-record-stale-refs
 # (2026-11-27), is the line's full form Causal.isolatedLine_separates
-# (Causal/IsolatedLineConjoined.lean:135, T-abs-isolated-line-conjoined, ETT layer, no instance
+# (Causal/IsolatedLineConjoined.lean, T-abs-isolated-line-conjoined, ETT layer, no instance
 # argument): CausallyArcConnected ∧ CausallyOpen ∧ CausallyPlain ∧ StronglyCausal ∧
 # StronglyCausalOpen ∧ AbsolutelyMinimal ∧ (∀ W, AbsolutelyMinimalOn W) ∧ PushUp ∧ LocallyPushUp ∧
 # CausallyOpenFuture ∧ LocallyCausallyOpenFuture ∧ LocallyCausallyOpen ∧ IsCausal ∧ CurvesExtend ∧
@@ -2463,7 +2494,7 @@ status = "checked"
 # properties (a time function T = fst, push-up, tarentin, causal openness) are not stated in Lean for
 # it; its curve form, the next entry, has them in Lean.
 # Reading: no-gluing only (kb/0014, OQ-18, DEC-167). Galileo's printed spacetime is not absolutely
-# minimal for n ≥ 1, in Lean: Causal.GluingModels.galileo_not_minimal (Causal/GluingModels/NonMinimal.lean:431,
+# minimal for n ≥ 1, in Lean: Causal.GluingModels.galileo_not_minimal (Causal/GluingModels/NonMinimal.lean,
 # through Causal.GluingModels.galileoOn_not_minimal: outside a cup-shaped wall, p inside the cup and q
 # above it lie in one component through a detour below the wall, so p ≪_U q, while every chain of steps
 # localised to the cover {t > 1/4}, {t < 1/2} stays in the cup), so it is no causality under DEC-167's gluing (OQ-108 asks whether item 4 is meant with the causality
@@ -2487,7 +2518,7 @@ status = "checked"
 # strictly increasing time runs from p to q, p ≤_U q iff p ≪_U q or p = q ∈ U. Not the printed
 # causality: finer on every open set, equal on convex ones (Causal.galileoCurve_lt_iff_galileo_of_convex),
 # different for n ≥ 1 (Causal.galileoCurve_ne_galileo, through Causal.GluingModels.galileo_not_minimal).
-# Causal.galileoCurve_separates (:722), read from the source: (hn : 1 ≤ n) ⊢ CausallyArcConnected ∧
+# Causal.galileoCurve_separates, read from the source: (hn : 1 ≤ n) ⊢ CausallyArcConnected ∧
 # AbsolutelyMinimal ∧ (∀ W, AbsolutelyMinimalOn W) ∧ PushUp ∧ LocallyPushUp ∧ CausallyOpen ∧
 # CausallyOpenFuture ∧ LocallyCausallyOpen ∧ LocallyCausallyOpenFuture ∧ Tarentin ∧ ChronalNeighbours ∧
 # HasChronalNeighbourEverywhere ∧ CausallyPlain ∧ IsCausal ∧ HasTimeFunction ∧ IsTimeFunction Prod.fst ∧
@@ -2651,7 +2682,7 @@ witness = "Causal.jumpLine_separates_causallyOpenFuture"
 status = "checked"
 
 # The isolated line (above) once more. The witness, since T-lad-record-stale-refs (2026-11-27), is
-# its full form Causal.isolatedLine_separates (Causal/IsolatedLineConjoined.lean:135, quoted at the
+# its full form Causal.isolatedLine_separates (Causal/IsolatedLineConjoined.lean, quoted at the
 # line's entry above): every id of `from` and ¬ HasChronalNeighbourEverywhere are conjuncts. Until
 # then it was Causal.isolatedLine_separates_chronalNeighbours (Causal/ChronalNeighbourBridge.lean,
 # T-abs-chronal-neighbour-bridge) : isolatedLine.CausallyArcConnected ∧ isolatedLine.CausallyOpen ∧
@@ -2721,7 +2752,7 @@ status = "checked"
 # either reading.
 # Since T-lad-record-direct-witnesses (2026-11-27) this entry, the next and the third all point at
 # one declaration, Causal.globalLine_separates_hasChronalNeighbour
-# (Causal/ChronalNeighbourConjoined.lean:230, T-abs-chronal-neighbour-conjoined), read from the source
+# (Causal/ChronalNeighbourConjoined.lean, T-abs-chronal-neighbour-conjoined), read from the source
 # with no build: globalLine.HasChronalNeighbourEverywhere ∧ Tarentin ∧ NonemptyChronalCones ∧
 # PushUp ∧ CausallyOpen ∧ IsCausal ∧ ¬ ChronalPastNeighbours ∧ ¬ ChronalNeighbours ∧
 # ¬ AbsolutelyMinimal (no instance argument): every conjunct of
@@ -2945,8 +2976,8 @@ status = "checked"
 # spacetime with all of them has closed timelike curves.
 # Since T-lad-record-lsc-separations (2026-11-27) the cylinder's two entries and the circle's one
 # (below) take the full forms Causal.Flat.timeCylinder_separates_locallyStronglyCausal (1 ≤ d) and
-# Causal.Flat.timeCylinder_zero_separates_locallyStronglyCausal (d = 0) (Causal/Model/TimeCylinderLSC.lean:135,
-# :152; T-loc-time-cylinder-lsc, 4efef56e; a model module, layer 3, flat-gx, cited as the old witness
+# Causal.Flat.timeCylinder_zero_separates_locallyStronglyCausal (d = 0) (Causal/Model/TimeCylinderLSC.lean;
+# T-loc-time-cylinder-lsc, 4efef56e; a model module, layer 3, flat-gx, cited as the old witness
 # was): the conjuncts of timeCylinder_separates and timeCylinder_zero_separates in their order, then
 # LocallyStronglyCausal ∧ ¬ StronglyCausal ∧ ¬ StronglyCausalOpen, read from the source;
 # locally_strongly_causal joins each `from`. Locally strongly causal as every flat spacetime is
@@ -3172,7 +3203,7 @@ status = "checked"
 # prop:GH_fortement_causal is sharp in tarentin (Causal.not_stronglyCausal_of_globallyHyperbolic_bare);
 # T-abs-galileo-ladder's pairs time_function → strongly_causal(_open) are moot.
 # Since T-lad-record-lsc-separations (2026-11-27) the entry takes the full form
-# Causal.loopFan_separates_locallyStronglyCausal (Causal/LscSeparations.lean:450, T-abs-lsc-separations,
+# Causal.loopFan_separates_locallyStronglyCausal (Causal/LscSeparations.lean, T-abs-lsc-separations,
 # 4f0c825f; ETT layer), read from the source: the 15 conjuncts of loopFan_separates in their order,
 # with ∀ W, AbsolutelyMinimalOn W after AbsolutelyMinimal, then FutureOneConnected ∧
 # (∀ W, FutureOneConnectedOn W) (≪ empty) ∧ LocallyStronglyCausal, and after the four negations
@@ -3208,7 +3239,7 @@ status = "checked"
 # Y = ε_k X through a by (x, y) ↦ 2⁻ᵏ (x, ε_k x, y) (Causal.levelEmbed, ε_k = 1/(k + 1)): a linear copy
 # of the loop fan scaled by 2⁻ᵏ. Two levels meet nowhere (off the vertical the slopes differ; on it an
 # arc has its top only, at a height in (2⁻ᵏ, 2¹⁻ᵏ]), so the arcs are coherent
-# (Causal.scaledFanγ_coherent). Causal.scaledFan_separates (:450), read from the source, a closed
+# (Causal.scaledFanγ_coherent). Causal.scaledFan_separates, read from the source, a closed
 # statement with no instance argument: T2Space ∧ SecondCountableTopology ∧ AbsolutelyMinimal ∧
 # (∀ W, AbsolutelyMinimalOn W) ∧ CausallyArcConnected ∧ PushUp ∧ LocallyPushUp ∧ IsCausal ∧
 # CausallyCompact ∧ GloballyHyperbolic ∧ HasTimeFunction ∧ CurvesExtend ∧ FutureOneConnected ∧
@@ -3340,7 +3371,7 @@ status = "checked"
 # Reading: either (absolutely minimal on every open set for every cover,
 # Causal.notchedCausality_dual_absolutelyMinimalOn; OQ-18 does not touch it).
 # Re-pointed by T-lad-record-direct-witnesses (2026-11-27) to
-# Causal.notchedCausality_dual_separates_hasChronalNeighbour (Causal/ChronalNeighbourConjoined.lean:191,
+# Causal.notchedCausality_dual_separates_hasChronalNeighbour (Causal/ChronalNeighbourConjoined.lean,
 # read from the source with no build): every conjunct of Causal.notchedCausality_dual_separates, the
 # witness until then, with HasChronalNeighbourEverywhere (through the future form,
 # Causal.Causality.ChronalFutureNeighbours.hasChronalNeighbourEverywhere), ∀ W, AbsolutelyMinimalOn W,
@@ -3488,7 +3519,7 @@ status = "checked"
 # needs both sides in every open set, not one side in M (bare form
 # Causal.not_tarentin_of_hasChronalNeighbourEverywhere_bare). The conjoined statement the keeper
 # proposed is the witness since T-lad-record-direct-witnesses (2026-11-27), read from the source
-# (Causal/ChronalNeighbourConjoined.lean:152, T-abs-chronal-neighbour-conjoined), with no build:
+# (Causal/ChronalNeighbourConjoined.lean, T-abs-chronal-neighbour-conjoined), with no build:
 # Causal.notchedCausality_separates_hasChronalNeighbour, every conjunct of
 # Causal.notchedCausality_separates (the witness until then) with HasChronalNeighbourEverywhere
 # (through Causal.Causality.ChronalPastNeighbours.hasChronalNeighbourEverywhere), ∀ W,
@@ -3533,7 +3564,7 @@ status = "checked"
 # is a homotopy of it (Causal.halfChronoLine_futureOneConnectedOn).
 
 # The rational line (Causal.rationalLine; its entries above). Causal.rationalLine_separates_futureOneConnected
-# (Causal/FutureOneConnectedVacuous.lean:219) : rationalLine.FutureOneConnected ∧ (∀ W,
+# (Causal/FutureOneConnectedVacuous.lean) : rationalLine.FutureOneConnected ∧ (∀ W,
 # FutureOneConnectedOn W) ∧ AbsolutelyMinimal ∧ (∀ W, AbsolutelyMinimalOn W) ∧ IsCausal ∧ PushUp ∧
 # LocallyPushUp ∧ HasTimeFunction ∧ CurvesExtend ∧ StronglyCausalOpen ∧ StronglyCausal ∧
 # ¬ CausallyArcConnected ∧ ¬ CausallyOpenFuture ∧ ¬ CausallyOpen ∧ ¬ LocallyCausallyOpenFuture ∧
@@ -3609,7 +3640,7 @@ witness = "Causal.rationalLine_separates_futureOneConnected"
 status = "checked"
 
 # The lightlike line (Causal.lightlikeLine: x ≤_U y iff x ≤ y and [x, y] ⊆ U, ≪ empty; its entries
-# above). Causal.lightlikeLine_separates_futureOneConnected (:247) :
+# above). Causal.lightlikeLine_separates_futureOneConnected :
 # lightlikeLine.FutureOneConnected ∧ (∀ W, FutureOneConnectedOn W) ∧ AbsolutelyMinimal ∧ (∀ W,
 # AbsolutelyMinimalOn W) ∧ PushUp ∧ LocallyPushUp ∧ CausallyOpen ∧ CausallyOpenFuture ∧
 # LocallyCausallyOpenFuture ∧ LocallyCausallyOpen ∧ GloballyHyperbolic ∧ CausallyCompact ∧ IsCausal ∧
@@ -3626,7 +3657,7 @@ status = "checked"
 
 # The half-chronological line (Causal.halfChronoLine: x ≪_U y iff −1 < x < y and [x, y] ⊆ U; its
 # entries above), future one-connected with a chronology. Causal.halfChronoLine_separates_futureOneConnected
-# (:276) : halfChronoLine.FutureOneConnected ∧ (∀ W, FutureOneConnectedOn W) ∧ AbsolutelyMinimal ∧
+# : halfChronoLine.FutureOneConnected ∧ (∀ W, FutureOneConnectedOn W) ∧ AbsolutelyMinimal ∧
 # (∀ W, AbsolutelyMinimalOn W) ∧ CausallyArcConnected ∧ GloballyHyperbolic ∧ CausallyCompact ∧
 # IsCausal ∧ StronglyCausal ∧ StronglyCausalOpen ∧ CausallyOpen ∧ CausallyOpenFuture ∧
 # LocallyCausallyOpenFuture ∧ LocallyCausallyOpen ∧ Tarentin ∧ HasTimeFunction ∧ CurvesExtend ∧
@@ -3649,7 +3680,7 @@ witness = "Causal.halfChronoLine_separates_futureOneConnected"
 status = "checked"
 
 # The jump line (Causal.jumpLine; its entries above). Causal.jumpLine_separates_futureOneConnected
-# (:303) : jumpLine.FutureOneConnected ∧ (∀ W, FutureOneConnectedOn W) ∧ PushUp ∧ LocallyPushUp ∧
+# : jumpLine.FutureOneConnected ∧ (∀ W, FutureOneConnectedOn W) ∧ PushUp ∧ LocallyPushUp ∧
 # LocallyCausallyOpen ∧ LocallyCausallyOpenFuture ∧ GloballyHyperbolic ∧ CausallyCompact ∧ IsCausal ∧
 # StronglyCausal ∧ StronglyCausalOpen ∧ HasTimeFunction ∧ CurvesExtend ∧ ¬ AbsolutelyMinimal ∧
 # ¬ CausallyOpenFuture ∧ ¬ CausallyOpen ∧ ¬ CausallyArcConnected ∧ ¬ ChronalNeighbours ∧ ¬ Tarentin ∧
@@ -3664,9 +3695,9 @@ to = "absolutely_minimal"
 witness = "Causal.jumpLine_separates_futureOneConnected"
 status = "checked"
 
-# The symmetric rational line (Causal.symmRationalLine, Causal/StrongCausalityLifts.lean:514: x ≤_U y
+# The symmetric rational line (Causal.symmRationalLine, Causal/StrongCausalityLifts.lean: x ≤_U y
 # iff x = y ∈ U, or x, y rational with uIcc x y ⊆ U; ≪ empty). Causal.symmRationalLine_separates_futureOneConnected
-# (:330) : symmRationalLine.FutureOneConnected ∧ (∀ W, FutureOneConnectedOn W) ∧ AbsolutelyMinimal ∧
+# : symmRationalLine.FutureOneConnected ∧ (∀ W, FutureOneConnectedOn W) ∧ AbsolutelyMinimal ∧
 # (∀ W, AbsolutelyMinimalOn W) ∧ PushUp ∧ LocallyPushUp ∧ CurvesExtend ∧ ¬ IsCausal ∧ ¬ StronglyCausal ∧
 # ¬ StronglyCausalOpen ∧ ¬ GloballyHyperbolic ∧ ¬ HasTimeFunction ∧ ¬ CausallyCompact ∧
 # ¬ CausallyArcConnected ∧ ¬ CausallyOpenFuture ∧ ¬ CausallyOpen ∧ ¬ LocallyCausallyOpenFuture ∧
@@ -3679,7 +3710,7 @@ status = "checked"
 # witness (not stated, a model follow-up). Its other negations refute pairs the rational line's
 # entries carry.
 # Since T-lad-record-lsc-separations (2026-11-27) the five entries take the full form
-# Causal.symmRationalLine_separates_locallyStronglyCausal (Causal/LscSeparations.lean:167,
+# Causal.symmRationalLine_separates_locallyStronglyCausal (Causal/LscSeparations.lean,
 # T-abs-lsc-separations, 4f0c825f; ETT layer), read from the source: the 22 conjuncts above in their
 # order, then ¬ LocallyStronglyCausal ∧ (∀ W p, p ∈ W → ¬ StronglyCausalOn W). No open set holding a
 # point is strongly causal as a spacetime (Causal.symmRationalLine_not_stronglyCausalOn: with (l, u) ⊆ W
@@ -3759,10 +3790,10 @@ status = "checked"
 
 # ---- the density causality (T-abs-dens-separates, 82a2f330; ETT layer; recorded by
 # T-lad-record-dens-prop-4-63, 2026-11-27). Causal.DensWitness.densCausality
-# (Causal/CBG/SubExtensionAbstract.lean:213), on ℝ: x ≤_U y iff x ≤ y, x, y ∈ U and
+# (Causal/CBG/SubExtensionAbstract.lean), on ℝ: x ≤_U y iff x ≤ y, x, y ∈ U and
 # y − x ≤ 2 |U ∩ ]x, y]|, and x ≪_U y likewise with strict inequalities. So U fills at least half of
 # ]x, y], and the causality relates points across gaps of U. Causal.densCausality_separates
-# (Causal/DensSeparates.lean:192), read from the source with no build, is a closed statement on ℝ
+# (Causal/DensSeparates.lean), read from the source with no build, is a closed statement on ℝ
 # with no instance argument:
 #   GloballyHyperbolic ∧ Tarentin ∧ IsCausal ∧ CausallyCompact ∧ StronglyCausal ∧ HasTimeFunction ∧
 #   CurvesExtend ∧ StronglyCausalOpen ∧ PushUp ∧ LocallyPushUp ∧ CausallyOpen ∧ CausallyOpenFuture ∧
@@ -3860,13 +3891,13 @@ status = "checked"
 
 # ---- pair sort (C, C' fixed, header): T-abs-nested-converse (2026-11-21).
 
-# The rational line (Causal.rationalLine, Causal/NestedConverse.lean:250: x ≤_U y iff x = y ∈ U, or
+# The rational line (Causal.rationalLine, Causal/NestedConverse.lean: x ≤_U y iff x = y ∈ U, or
 # x < y are both rational with [x, y] ⊆ U; no chronology) is curve-nested in the spacelike line
 # (Causal.spacelikeLine, ≤_U equality) on every open: its causal curves are constant
 # (Causal.rationalLine_causalCurveOn_eq), so it is curve-nested in every causality of ℝ
 # (Causal.rationalLine_curveNestedOn). It is not ≤-nested in it: 0 ≤ 1 in the first only
 # (Causal.rationalLine_not_leNested_spacelikeLine). The witness since
-# T-lad-record-curve-nested-rational (2026-11-28), read from the source (Causal/NestedConverse.lean:413),
+# T-lad-record-curve-nested-rational (2026-11-28), read from the source (Causal/NestedConverse.lean),
 # with no build: Causal.rationalLine_separates_curveNested : (∀ W : Opens ℝ, CurveNestedOn rationalLine
 # spacelikeLine W) ∧ ¬ rationalLine.LeNested spacelikeLine ∧ rationalLine.AbsolutelyMinimal ∧
 # ¬ rationalLine.CausallyArcConnected ∧ rationalLine.IsCausal ∧ rationalLine.PushUp ∧
@@ -3878,19 +3909,19 @@ status = "checked"
 # this witness does not state it. That nesting is the first conjunct of the witness of the [[fails]]
 # inextensible_nested ⇏ le_nested (below).
 # Both causalities are absolutely minimal on M and on every open set. For the rational line, M is a
-# conjunct and every open is Causal.rationalLine_absolutelyMinimalOn (Causal/RationalLineExtras.lean:149).
+# conjunct and every open is Causal.rationalLine_absolutelyMinimalOn (Causal/RationalLineExtras.lean).
 # For the spacelike line, M follows from causally_arc_connected ⇒ absolutely_minimal and every open is
-# Causal.GluingModels.spacelikeLine_hereditary (Causal/GluingModels/Minimal.lean:69). The two
+# Causal.GluingModels.spacelikeLine_hereditary (Causal/GluingModels/Minimal.lean). The two
 # hereditary lemmas are cited and not conjoined. So the entry holds in either reading of defi:causalite
 # (DEC-167, OQ-18: read with gluing, every ETT causality absolutely minimal), whichever form OQ-95 rules.
 # What changed: until this target the witness was the pointed line's (T-abs-nested-converse; recorded by
 # T-lad-classify-core, 2026-11-21, replacing the [[open]] entry for this pair). The pointed line is
-# Causal.pointedLine, Causal/LinesReachable.lean:366 (0 ≤ y for y > 0), and its causal curves are
+# Causal.pointedLine, Causal/LinesReachable.lean (0 ≤ y for y > 0), and its causal curves are
 # constant too (Causal.pointedLine_causalCurveOn_eq). That witness, Causal.pointedLine_separates_curveNested
-# (Causal/NestedConverse.lean:237), conjoins (∀ W, CurveNestedOn pointedLine spacelikeLine W) ∧
+# (Causal/NestedConverse.lean), conjoins (∀ W, CurveNestedOn pointedLine spacelikeLine W) ∧
 # ¬ LeNested pointedLine spacelikeLine with ¬ pointedLine.CausallyArcConnected, pointedLine.IsCausal,
 # pointedLine.PushUp and spacelikeLine.CausallyArcConnected. The pointed line is not absolutely minimal
-# (Causal.GluingModels.pointedLine_not_minimal, Causal/GluingModels/NonMinimal.lean:139; the gluing
+# (Causal.GluingModels.pointedLine_not_minimal, Causal/GluingModels/NonMinimal.lean; the gluing
 # inventory, lean-causal/campaign/T-abs-gluing-models/REPORT.json, lists this entry as resting on it), so
 # that witness holds in the no-gluing reading only. It stays cited here as the pair's first witness,
 # in that reading. The new witness has every conjunct of the old one, for the rational line, plus
@@ -3915,14 +3946,14 @@ witness = "Causal.rationalLine_separates_curveNested"
 status = "checked"
 
 # T-lad-nested-inextensible (2026-11-22), OQ-41 (b), kb/0045. The line cut at 1 (Causal.cutLine 1,
-# Causal/NestedCausalities.lean:214: the timelike line in which nothing lies causally before 1 but 1
+# Causal/NestedCausalities.lean: the timelike line in which nothing lies causally before 1 but 1
 # itself) is ≤-nested in the timelike line (Causal.cutLine_leNested), hence curve-nested in it on every
 # open, and not inextensibly nested in it at M: the identity over [1, ∞) is inextensible for the cut
 # line (Causal.cutLine_inextensible_Ici: it starts at 1, whose causal past is {1}) and misses the
 # timelike line's Cauchy surface {0} (Causal.timelikeLine_isCauchySurface_zero), so it is not
 # inextensible there (Causal.cutLine_not_inextensibleNestedOn_top). The witness, direct since
 # T-lad-record-direct-witnesses (2026-11-27; T-abs-cutline-inextensible-direct), read from the source
-# (Causal/CutLineInextensible.lean:96), with no build: Causal.cutLine_separates_inextensibleNested :
+# (Causal/CutLineInextensible.lean), with no build: Causal.cutLine_separates_inextensibleNested :
 # (cutLine 1).LeNested timelikeLine ∧ ¬ (cutLine 1).InextensibleNestedOn timelikeLine ⊤ ∧
 # (cutLine 1).IsCausal ∧ (cutLine 1).AbsolutelyMinimal ∧ (∀ W, (cutLine 1).AbsolutelyMinimalOn W) ∧
 # timelikeLine.AbsolutelyMinimal ∧ ∀ W, timelikeLine.AbsolutelyMinimalOn W (a closed statement, no
@@ -3952,7 +3983,7 @@ status = "checked"
 
 # T-lad-record-inextensible-not-le-nested (2026-11-28; the witness T-abs-inextensible-not-le-nested's,
 # Causal/InextensibleNotLeNested.lean). The rational line (Causal.rationalLine,
-# Causal/NestedConverse.lean:250: x ≤_U y iff x = y ∈ U, or x < y are both rational with [x, y] ⊆ U;
+# Causal/NestedConverse.lean: x ≤_U y iff x = y ∈ U, or x < y are both rational with [x, y] ⊆ U;
 # no chronology) is inextensibly nested in the spacelike line (Causal.spacelikeLine, ≤_U equality) on
 # every open and not ≤-nested in it: 0 ≤ 1 in the first only
 # (Causal.rationalLine_not_leNested_spacelikeLine). The causal curves of both are constant
@@ -3966,7 +3997,7 @@ status = "checked"
 # (Causal.rationalLine_inextensibleNestedOn_spacelikeLine, spacelikeLine_inextensibleNestedOn_rationalLine),
 # and the spacelike line is ≤-nested in the rational line (Causal.spacelikeLine_leNested_rationalLine),
 # so even inextensible nesting both ways and ≤-nesting one way do not give ≤-nesting the other way.
-# The witness, read from the source (Causal/InextensibleNotLeNested.lean:227), with no build:
+# The witness, read from the source (Causal/InextensibleNotLeNested.lean), with no build:
 # Causal.rationalLine_separates_inextensibleNested : (∀ W : Opens ℝ, rationalLine.InextensibleNestedOn
 # spacelikeLine W) ∧ ¬ rationalLine.LeNested spacelikeLine ∧ rationalLine.IsCausal ∧
 # rationalLine.AbsolutelyMinimal ∧ (∀ W, rationalLine.AbsolutelyMinimalOn W) ∧ spacelikeLine.IsCausal
@@ -3978,7 +4009,7 @@ status = "checked"
 # OQ-18), whichever form OQ-95 rules. The rational line replaces the [[open]] entry that stood for this
 # pair (end of file until this target), whose note argued it on the pointed line in the spacelike line:
 # the same mechanism, but the pointed line is not absolutely minimal
-# (Causal.GluingModels.pointedLine_not_minimal, Causal/GluingModels/NonMinimal.lean:139), so its
+# (Causal.GluingModels.pointedLine_not_minimal, Causal/GluingModels/NonMinimal.lean), so its
 # separation would hold in the no-gluing reading only; the name that note wanted,
 # Causal.pointedLine_separates_inextensibleNested, is not written. Through the closure
 # (inextensible_nested ⇒ curve_nested, T1, second countable, ambient; the rational line's curve nesting
@@ -4059,8 +4090,8 @@ status = "checked"
 
 # ERS19 Thm 4.82 (ersthm:ThmNotBlocking, ghd_02_19.tex:1100, proof 1114–1139), causal-topological
 # skeleton with (4.83) named (T-lad-one-sided-node, 2026-11-22). Read from the source, no build
-# (Causal/LadderLocal.lean:482, a corollary of Causal.Causality.ers_theorem_4_82,
-# Causal/NestedCausalities.lean:1305): [T2Space M] [LocallyConnectedSpace M]; developments
+# (Causal/LadderLocal.lean, a corollary of Causal.Causality.ers_theorem_4_82,
+# Causal/NestedCausalities.lean): [T2Space M] [LocallyConnectedSpace M]; developments
 # dom : ι → Opens M, cau : ι → Causality M, s₀ ∈ S, an index i₁ with dom i₁ maximal among the dom i
 # (hmax); for each i: S ⊆ dom i, dom i preconnected, (hcaus) ≤_{dom i} of cau i antisymmetric,
 # (hsplit) every point of dom i in J⁺_{dom i}(S) ∪ J⁻_{dom i}(S), (hJm, hJp) J∓_{dom i}(x) relatively
@@ -4070,7 +4101,7 @@ status = "checked"
 # as a spacetime, not on ≤_M as the two entries above (hcaus is IsCausal with ≤_{dom i} for ≤_M, the first conjunct of
 # Causal.Causality.GloballyHyperbolicOn), hence `at`; closed J's of points and compact slabs over S
 # are no nodes. DEC-166 (b) (OQ-52 (b)): one_sided_boundary is an edge hypothesis only, not a ladder
-# node. Causal.Causality.OneSidedBoundary U B (Causal/LadderLocal.lean:216: U one-sided,
+# node. Causal.Causality.OneSidedBoundary U B (Causal/LadderLocal.lean: U one-sided,
 # Causal.Causality.OneSidedAt, at each of its frontier points off B) is a predicate on an open U and
 # a set B of M with no causality, so it fits neither sort; it stands in `under`, in words. It is not
 # automatic: (0, ∞) has it in ℝ (Causal.oneSidedBoundary_Ioi_zero), ℝ ∖ {0} not
@@ -4078,15 +4109,15 @@ status = "checked"
 # locally the graph of a continuous function, U₁ below it, its complement above), which the done
 # T-loc-quasilinear-one-sided supplies at the quasilinear model for Lemma 4.86
 # (erslem:PropertyTimelike): Causal.ers_lemma_4_86_oneSidedBoundary
-# (Causal/Model/QuasilinearOneSided.lean:677; the slope-δ cone curve-nested in C or in C.dual on U₁,
+# (Causal/Model/QuasilinearOneSided.lean; the slope-δ cone curve-nested in C or in C.dual on U₁,
 # S a Cauchy surface of U₁ in {x⁰ = 0}; readings OQ-73, DEC-162), through
-# Causal.BoundaryGraph.oneSidedBoundary (:608, the chart condition gives OneSidedBoundary), and the
-# theorem with it supplied, Causal.ers_theorem_4_82_of_slopeCone (:722). Through this witness, each
+# Causal.BoundaryGraph.oneSidedBoundary (the chart condition gives OneSidedBoundary), and the
+# theorem with it supplied, Causal.ers_theorem_4_82_of_slopeCone. Through this witness, each
 # with the same honesided: Causal.Causality.ers_theorem_4_82_of_sliceRestart
-# (Causal/ErsUniqueness.lean:722; hstep written SliceRestart, hsplit SplitBy, hKm, hKp
-# CompactSlabs), ers_theorem_4_82_of_globallyHyperbolicOn (:749; hcaus, hJm, hJp from
+# (Causal/ErsUniqueness.lean; hstep written SliceRestart, hsplit SplitBy, hKm, hKp
+# CompactSlabs), ers_theorem_4_82_of_globallyHyperbolicOn (hcaus, hJm, hJp from
 # globally_hyperbolic and tarentin of each cau i on dom i) and
-# ers_theorem_4_82_of_isCauchySurfaceOn_secondCountable (Causal/Ers464SecondCountable.lean:636),
+# ers_theorem_4_82_of_isCauchySurfaceOn_secondCountable (Causal/Ers464SecondCountable.lean),
 # recorded below by T-lad-ers-restart-nodes (2026-11-22), each with honesided in these words and
 # slice_restart named in `under`. The `under` here was then reworded to name slice_restart too: the
 # hypothesis and the words describing it are unchanged.
@@ -4165,7 +4196,7 @@ status = "checked"
 #   the [[edge_hypothesis]] local_uniqueness); 4.68's printed form for two functions (_eqOn); Rem 4.67's trade forms of
 #   the time orientations; "any m-GHD is a UGHD" (Causal.IsMDevelopment.isUniqueDevelopment_secondCountable,
 #   and without harc Causal.IsMDevelopment.isUniqueDevelopment_secondCountable_noArc,
-#   Causal/Ers464WithoutArc.lean:394); Thm 4.75's claim (Causal.Causality.ers_theorem_4_75_eqOn_secondCountable).
+#   Causal/Ers464WithoutArc.lean); Thm 4.75's claim (Causal.Causality.ers_theorem_4_75_eqOn_secondCountable).
 #   Each `_noArc` form of these is named beside its entry's.
 #   Prop 4.63 (ersprop:PropLocUniqueness) was otherwise left to T-lad-development-nodes (DEC-162 splits
 #   it from 'S Cauchy'), which since 2026-11-27 plans the node for data only, data_local_uniqueness, the
@@ -4175,17 +4206,17 @@ status = "checked"
 #   local_uniqueness in words in its `under`, as hlocal is in Thm 4.64's. Its other forms are entries
 #   since T-lad-record-dens-prop-4-63 (2026-11-27). They follow the S Cauchy form's entry, and each
 #   names local_uniqueness by its id in `under`:
-#   - Causal.Causality.ers_prop_4_63 (Causal/ErsUnions.lean:299: [T2Space M]; hglue, hG, hacausal,
+#   - Causal.Causality.ers_prop_4_63 (Causal/ErsUnions.lean: [T2Space M]; hglue, hG, hacausal,
 #     hloc; the union of the local developments is a common development), at globally_hyperbolic;
-#   - ers_prop_4_63_globallyHyperbolicOn (:354, the printed conclusion, also GH and causally convex
+#   - ers_prop_4_63_globallyHyperbolicOn (the printed conclusion, also GH and causally convex
 #     in U₁; hS : C.IsCauchySurfaceOn U₁ S, hC : C.CausallyArcConnectedOn U₁ and
 #     hext : C.CurvesExtendOn U₁ in place of hacausal), at globally_hyperbolic,
 #     causally_arc_connected, curves_extend of C read on U₁;
 #   - its second countable form without hext,
 #     Causal.Causality.ers_prop_4_63_globallyHyperbolicOn_secondCountable
-#     (Causal/Ers464SecondCountable.lean:256: [T2Space M] [SecondCountableTopology M]; hglue, hG, hS,
+#     (Causal/Ers464SecondCountable.lean: [T2Space M] [SecondCountableTopology M]; hglue, hG, hS,
 #     hC, hloc), the GH entry of record, at globally_hyperbolic, causally_arc_connected of C read on U₁.
-#   ers_prop_4_63_of_hasTimeFunction (Causal/ErsUnions.lean:370: [T2Space M]; hglue, hG, hS,
+#   ers_prop_4_63_of_hasTimeFunction (Causal/ErsUnions.lean: [T2Space M]; hglue, hG, hS,
 #   hC : C.CausallyArcConnected and hTf : C.HasTimeFunction, both at M, hloc) is named here and has no
 #   entry. Its proof is the printed conclusion's form with hC restricted to U₁ and
 #   CurvesExtendOn U₁ from the time function (Causal.Causality.curvesExtendOn_of_timeFunction), so that
@@ -4211,27 +4242,27 @@ status = "checked"
 #   form, which had no witness of their own, have one since T-abs-ers-witnesses and
 #   T-abs-ers-sc-witnesses (ETT layer, no label marked; recorded by T-lad-record-stale-refs,
 #   2026-11-27). Causal/ErsWitnesses.lean: Causal.timelikeLine_ers_corollary_4_68 and its _eqOn,
-#   _of_isCauchySurfaceOn_secondCountable and _noArc forms (:406–444, on Causal.ErsWitness.data_4_68),
-#   Causal.timelikeLine_ers_corollary_4_69_secondCountable (:466) and
-#   Causal.timelikeLine_ers_corollary_4_69_of_isCauchySurface_secondCountable (:475),
-#   Causal.timelikeLine_ers_corollary_4_71_secondCountable (:504) and
-#   Causal.timelikeLine_ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable (:518), and
+#   _of_isCauchySurfaceOn_secondCountable and _noArc forms (on Causal.ErsWitness.data_4_68),
+#   Causal.timelikeLine_ers_corollary_4_69_secondCountable and
+#   Causal.timelikeLine_ers_corollary_4_69_of_isCauchySurface_secondCountable,
+#   Causal.timelikeLine_ers_corollary_4_71_secondCountable and
+#   Causal.timelikeLine_ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable, and
 #   Causal.timelikeLine_ers_theorem_4_82 with its _of_oneSidedBoundary, _of_sliceRestart,
-#   _of_globallyHyperbolicOn and _of_isCauchySurfaceOn_secondCountable forms (:638–671, on
+#   _of_globallyHyperbolicOn and _of_isCauchySurfaceOn_secondCountable forms (on
 #   Causal.ErsWitness.data_4_82: ι = Bool, dom true = ]-1, 1[ maximal, dom false = ]-1/2, 1/2[).
-#   Causal/ErsSCWitnesses.lean: Causal.timelikeLine_isUniqueDevelopment_secondCountable_noArc (:461),
-#   beside the harc form's Causal.timelikeLine_isUniqueDevelopment_secondCountable (:449) and Thms
-#   4.79, 4.80 on two m-development domains, Causal.timelikeLine_ers_theorem_4_79_4_80_secondCountable
-#   (:432). Two limits, disclosed in the modules' SCOPE. The 4.68 witnesses take a disconnected U₂
+#   Causal/ErsSCWitnesses.lean: Causal.timelikeLine_isUniqueDevelopment_secondCountable_noArc,
+#   beside the harc form's Causal.timelikeLine_isUniqueDevelopment_secondCountable and Thms
+#   4.79, 4.80 on two m-development domains, Causal.timelikeLine_ers_theorem_4_79_4_80_secondCountable.
+#   Two limits, disclosed in the modules' SCOPE. The 4.68 witnesses take a disconnected U₂
 #   (]-1, 1[ ∪ ]2, 3[), the Lean forms asking u₂ no development (no S Cauchy in U₂); in the paper's
 #   reading 4.68 has no instance on ℝ (Causal.Causality.real_ers_corollary_4_68_agree,
-#   Causal/ErsWitnesses.lean:162: S preconnected and Cauchy in U₂ for some causality, the solutions
+#   Causal/ErsWitnesses.lean: S preconnected and Cauchy in U₂ for some causality, the solutions
 #   agree on U₁ ∩ U₂ and hdis fails), the paper's own example winding around an annulus (d ≥ 2). The
 #   4.82 witnesses of these dom i forms never exercise hstep, and no witness can: when
 #   dom i ≤ dom i₁ the component Aᵢ is dom i, whose frontier misses dom i
-#   (Causal.Causality.ers_theorem_4_82_hstep_of_le, :196), so given
+#   (Causal.Causality.ers_theorem_4_82_hstep_of_le), so given
 #   the other hypotheses hstep is equivalent to the conclusion
-#   (Causal.Causality.ers_theorem_4_82_hstep_iff, :210).
+#   (Causal.Causality.ers_theorem_4_82_hstep_iff).
 #   Would a form of 4.82 whose restart ranges, as 4.64's over every common development, over every
 #   region it can occur at let a witness exercise hstep? (T-lad-record-stale-refs; argued, not in
 #   Lean.) Not by ranging the region alone. At a frontier point p ∈ dom i of any region
@@ -4261,7 +4292,7 @@ status = "checked"
 #   OQ-156's question (OPEN, registers/DECISIONS.md): the seven entries record both and decide
 #   nothing.
 
-# ERS19 Thm 4.82 with its hstep written as slice_restart (Causal/ErsUniqueness.lean:722, definitionally
+# ERS19 Thm 4.82 with its hstep written as slice_restart (Causal/ErsUniqueness.lean, definitionally
 # the theorem above): [T2Space M] [LocallyConnectedSpace M]; dom, cau, hs₀, i₁, hSU, hmax, hconn, hcaus;
 # hsplit : ∀ i, (cau i).SplitBy (dom i) S; hJm, hJp; hK : ∀ i, (cau i).CompactSlabs (dom i) S;
 # hSclosed; honesided : OneSidedBoundary (dom i₁) (closure S); hstep : ∀ i, (cau i).SliceRestart
@@ -4276,7 +4307,7 @@ standing = ["T2", "locally_connected"]
 status = "checked"
 
 # The same with hcaus, hJm, hJp derived from globally_hyperbolic and tarentin of each development
-# (Causal/ErsUniqueness.lean:749, through GloballyHyperbolicOn.closure_Jminus_inter_subset):
+# (Causal/ErsUniqueness.lean, through GloballyHyperbolicOn.closure_Jminus_inter_subset):
 # [T2Space M] [LocallyConnectedSpace M]; hG : ∀ i, (cau i).GloballyHyperbolicOn (dom i);
 # hT : ∀ i, (cau i).TarentinOn (dom i); otherwise the previous entry's binders.
 [[consequence]]
@@ -4288,7 +4319,7 @@ standing = ["T2", "locally_connected"]
 status = "checked"
 
 # DEC-162's reading, "u a GHD" as S a Cauchy surface of each development
-# (Causal/Ers464SecondCountable.lean:636): [T2Space M] [SecondCountableTopology M]
+# (Causal/Ers464SecondCountable.lean): [T2Space M] [SecondCountableTopology M]
 # [LocallyConnectedSpace M]; hcauchy : ∀ i,
 # (cau i).IsCauchySurfaceOn (dom i) S for the previous entry's hsplit (splitBy_of_t1_secondCountable
 # derives it); otherwise the previous entry's binders. A restatement: on the ambient it asks more
@@ -4308,11 +4339,11 @@ status = "checked"
 # abstract, as for Thms 4.79, 4.80 (Causal.ErsMughd): developments (U, u) of sol, cau
 # (Causal.IsDevelopment: sol U u, S ⊆ U, S a Cauchy surface of U for cau u; DEC-162), sol local,
 # gluing and, new here, restricting (Causal.SolutionLocal, Causal.SolutionsGlue,
-# Causal.SolutionRestricts, :140); (U₁, u₁) maximal in ERS l. 117's sense
+# Causal.SolutionRestricts); (U₁, u₁) maximal in ERS l. 117's sense
 # (Causal.IsMaximalDevelopment, Causal/MaximalZorn.lean). The restart keeps its id, slice_restart,
-# with a geometric conclusion: Q = Causal.GluedRestartAt cau S U₀ U₂ u₀ u₂ A (:176), i.e. every
+# with a geometric conclusion: Q = Causal.GluedRestartAt cau S U₀ U₂ u₀ u₂ A, i.e. every
 # neighbourhood V ⊆ U₂ of p with V ∩ U₀ ⊆ A contains an open O, not inside U₀, with S a Cauchy
-# surface of U₀ ∪ O for the causality of the glued solution Causal.glueSolutions U₀ u₀ u₂ (:145; u₀ on
+# surface of U₀ ∪ O for the causality of the glued solution Causal.glueSolutions U₀ u₀ u₂ (u₀ on
 # U₀, u₂ off it). It names no maximal development. "Not inside U₀" is ERS's "DΣ_V contains points
 # that lie above the graph of f" (ghd_02_19.tex:1138); the target's wording "an open O ∋ p" implies
 # it (Causal.GluedRestartAt.of_mem, Causal.sliceRestart_gluedRestartAt_of_mem), so the hypothesis
@@ -4326,44 +4357,45 @@ status = "checked"
 # (T-abs-ers-4-82-solution-form's audit round 1); the author's answer may reorder them. Each has an
 # `under`, so none is a rule and none chains: simulated in memory before the edit (kb/0276), matrix,
 # _contradictions and emitted unchanged.
-# * (ii) ers_theorem_4_82_solution_of_restarts_isCausal (:582; hloc, hglue, hres, hs₀, hmax,
+# * (ii) ers_theorem_4_82_solution_of_restarts_isCausal (hloc, hglue, hres, hs₀, hmax,
 #   honesided, hconn, hcaus, hsplit, hJm, hJp, hK, hSclosed, hagree, hrestart) and
-#   ers_theorem_4_82_solution_of_restarts (:558; hG, hT in place of hcaus, hJm, hJp), with
+#   ers_theorem_4_82_solution_of_restarts (hG, hT in place of hcaus, hJm, hJp), with
 #   hrestart : ∀ U₀ u₀ U₂ u₂, IsDevelopment sol cau S U₀ u₀ → IsDevelopment sol cau S U₂ u₂ →
 #   (cau u₂).SliceRestart U₂ S A₀₂ U₂ (GluedRestartAt cau S U₀ U₂ u₀ u₂ A₀₂),
 #   A₀₂ = connectedComponentIn (U₀ ∩ U₂) s₀; conclusion ∀ U₂ u₂, IsDevelopment sol cau S U₂ u₂ →
 #   U₂ ≤ U₁ ∧ EqOn u₁ u₂ U₂. Specialised at U₀ = U₁ they are the fixed-U₁ forms (i), so as theorems
 #   they are logically weaker; their hypothesis names no maximal development and is exercised at
-#   non-maximal pairs (Causal.Ers482Witness.restarts82, :882). That the conclusion does not imply it is
+#   non-maximal pairs (Causal.Ers482Witness.restarts82). That the conclusion does not imply it is
 #   proved in Lean without CausalityFollows, which these forms do not assume
 #   (Causal.Ers482Separation.restart_separation, T-abs-ers-4-82-restart-separation; OQ-157 asks
 #   whether the forms should assume it; with it, on the line, argued to collapse).
-# * The restart step, ers_theorem_4_82_restart (:243; h₁, h₂ developments, hnot : ¬ U₂ ≤ U₁, and
+# * The restart step, ers_theorem_4_82_restart (h₁, h₂ developments, hnot : ¬ U₂ ≤ U₁, and
 #   hconn, hcaus, hsplit, hJm, hJp, hK, hSclosed of U₂ for cau u₂, honesided of U₁, hagree, hstep;
 #   conclusion ∃ O ⊆ U₂ with U₁ < U₁ ⊔ O, the glued solution extending u₁, equal to u₂ on O and a
 #   development on U₁ ⊔ O). It is what has content: exercised at the non-maximal ]-1/2, 1/2[ against
-#   ]-1, 1[, p = ±1/2 (Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_restart, :930;
-#   restart_exercised, :744; its hstep proved, sliceRestart_halfIoo, :917).
-# * (i) ers_theorem_4_82_solution (:319; hstep the restart of the maximal U₁ against each development:
+#   ]-1, 1[, p = ±1/2 (Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_restart;
+#   restart_exercised; its hstep proved, sliceRestart_halfIoo).
+# * (i) ers_theorem_4_82_solution (hstep the restart of the maximal U₁ against each development:
 #   ∀ U₂ u₂, IsDevelopment sol cau S U₂ u₂ → (cau u₂).SliceRestart U₂ S A U₂ (GluedRestartAt cau S U₁
-#   U₂ u₁ u₂ A), A = connectedComponentIn (U₁ ∩ U₂) s₀), _of_globallyHyperbolicOn (:387; hG, hT),
-#   _of_ers_theorem_4_64 (:423; hagree derived from Causal.Causality.ers_theorem_4_64 for cau u₁ and the
-#   pair (U₁, A), through hacausal, hlocal, hstay, hstep₄₆₄) and _secondCountable (:468; hconn, hsplit
+#   U₂ u₁ u₂ A), A = connectedComponentIn (U₁ ∩ U₂) s₀), _of_globallyHyperbolicOn (hG, hT),
+#   _of_ers_theorem_4_64 (hagree derived from Causal.Causality.ers_theorem_4_64 for cau u₁ and the
+#   pair (U₁, A), through hacausal, hlocal, hstay, hstep₄₆₄) and _secondCountable (hconn, hsplit
 #   from S Cauchy, hacausal dropped through the _noArc form of Thm 4.64, hS : IsPreconnected S added).
 #   Given the rest, the hstep of each is equivalent to its conclusion
-#   (Causal.ers_theorem_4_82_solution_hstep_iff, :526; its converse half
-#   Causal.ers_theorem_4_82_solution_hstep_of_le, :511), as for the four 4.82 entries above
+#   (Causal.ers_theorem_4_82_solution_hstep_iff; its converse half
+#   Causal.ers_theorem_4_82_solution_hstep_of_le), as for the four 4.82 entries above
 #   (Causal.Causality.ers_theorem_4_82_hstep_iff): necessarily, the conclusion making A = U₂. The unique
-#   MGHD, Causal.ers_theorem_4_82_solution_unique (:357, "Then u1 : U1 → R is the unique MGHD"), has the
+#   MGHD, Causal.ers_theorem_4_82_solution_unique ("Then u1 : U1 → R is the unique MGHD"), has the
 #   hypotheses of ers_theorem_4_82_solution and no entry: the REPORT proposes none, and its conclusion
 #   follows from that entry's with maximality.
 # Non-vacuity (kb/0011): every form is instantiated at the maximal ]-1, 1[ on the timelike line, S = {0},
 # the solutions id on open subsets of ]-1, 1[ (Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution,
 # _unique, _of_globallyHyperbolicOn, _of_ers_theorem_4_64, _secondCountable, _of_restarts,
-# _of_restarts_isCausal, :954–1010). One causality and one solution there: no witness separates g(u₁)
+# _of_restarts_isCausal). One causality and one solution there: no witness separates g(u₁)
 # from g(u₂).
 
-# (ii) The uniform form at is_causal (:582): the restart asked of every pair of developments.
+# (ii) The uniform form at is_causal (Causal.Ers482Solution): the restart asked of every pair of
+# developments.
 [[consequence]]
 at = "is_causal"
 statement = "ERS Thm 4.82 (ersthm:ThmNotBlocking), skeleton over a solution predicate, the restart geometric and asked of every pair of developments: a maximal development (U₁, u₁) whose boundary off closure S is one-sided contains every development (U₂, u₂), which it extends: U₂ ⊆ U₁ and u₁ = u₂ on U₂"
@@ -4372,8 +4404,8 @@ under = "developments (U, u) of an abstract problem sol, cau (Causal.IsDevelopme
 standing = ["T2", "locally_connected"]
 status = "checked"
 
-# (ii) The uniform form, every development globally hyperbolic and tarentin (:558; hG, hT for
-# hcaus, hJm, hJp).
+# (ii) The uniform form, every development globally hyperbolic and tarentin (Causal.Ers482Solution;
+# hG, hT for hcaus, hJm, hJp).
 [[consequence]]
 at = ["globally_hyperbolic", "tarentin"]
 statement = "ERS Thm 4.82 (ersthm:ThmNotBlocking), skeleton over a solution predicate, the restart geometric and asked of every pair of developments, every development globally hyperbolic and tarentin: a maximal development (U₁, u₁) whose boundary off closure S is one-sided contains every development (U₂, u₂), which it extends: U₂ ⊆ U₁ and u₁ = u₂ on U₂"
@@ -4382,8 +4414,9 @@ under = "developments (U, u) of an abstract problem sol, cau (Causal.IsDevelopme
 standing = ["T2", "locally_connected"]
 status = "checked"
 
-# The restart step at any development, maximal or not (:243), and its witness at the non-maximal
-# ]-1/2, 1/2[ against ]-1, 1[ (:930, :744).
+# The restart step at any development, maximal or not (Causal.Ers482Solution), and its witness at the
+# non-maximal ]-1/2, 1/2[ against ]-1, 1[ (Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_restart,
+# restart_exercised).
 [[consequence]]
 at = "is_causal"
 statement = "ERS Thm 4.82's restart step (ersthm:ThmNotBlocking), at any development: a development (U₂, u₂) not inside a development (U₁, u₁), maximal or not, whose boundary off closure S is one-sided, gives an open O ⊆ U₂ with the glued solution a development on U₁ ∪ O, strictly larger than U₁, extending u₁ and equal to u₂ on O"
@@ -4392,7 +4425,7 @@ under = "developments (U₁, u₁), (U₂, u₂) of an abstract problem sol, cau
 standing = ["T2", "locally_connected"]
 status = "checked"
 
-# (i) The paper's shape at is_causal (:319): the restart of the maximal U₁ alone.
+# (i) The paper's shape at is_causal (Causal.Ers482Solution): the restart of the maximal U₁ alone.
 [[consequence]]
 at = "is_causal"
 statement = "ERS Thm 4.82 (ersthm:ThmNotBlocking), skeleton over a solution predicate in the paper's shape, the restart of the maximal development alone, geometric: a maximal development (U₁, u₁) whose boundary off closure S is one-sided contains every development (U₂, u₂), which it extends: U₂ ⊆ U₁ and u₁ = u₂ on U₂"
@@ -4401,7 +4434,7 @@ under = "developments (U, u) of an abstract problem sol, cau (Causal.IsDevelopme
 standing = ["T2", "locally_connected"]
 status = "checked"
 
-# (i) The paper's shape, every development globally hyperbolic and tarentin (:387).
+# (i) The paper's shape, every development globally hyperbolic and tarentin (Causal.Ers482Solution).
 [[consequence]]
 at = ["globally_hyperbolic", "tarentin"]
 statement = "ERS Thm 4.82 (ersthm:ThmNotBlocking), skeleton over a solution predicate in the paper's shape, the restart geometric, every development globally hyperbolic and tarentin: a maximal development (U₁, u₁) whose boundary off closure S is one-sided contains every development (U₂, u₂), which it extends: U₂ ⊆ U₁ and u₁ = u₂ on U₂"
@@ -4410,8 +4443,8 @@ under = "developments (U, u) of an abstract problem sol, cau (Causal.IsDevelopme
 standing = ["T2", "locally_connected"]
 status = "checked"
 
-# (i) The paper's shape with Remark 4.67's variation derived from Thm 4.64 for (U₁, A) (:423;
-# hacausal, hlocal, hstay, hstep₄₆₄ for hagree).
+# (i) The paper's shape with Remark 4.67's variation derived from Thm 4.64 for (U₁, A)
+# (Causal.Ers482Solution; hacausal, hlocal, hstay, hstep₄₆₄ for hagree).
 [[consequence]]
 at = ["globally_hyperbolic", "tarentin"]
 statement = "ERS Thm 4.82 (ersthm:ThmNotBlocking), skeleton over a solution predicate in the paper's shape, the restart geometric, Remark 4.67's variation derived from Thm 4.64 for U₁ and A: a maximal development (U₁, u₁) whose boundary off closure S is one-sided contains every development (U₂, u₂), which it extends: U₂ ⊆ U₁ and u₁ = u₂ on U₂"
@@ -4420,7 +4453,8 @@ under = "developments (U, u) of an abstract problem sol, cau (Causal.IsDevelopme
 standing = ["T2", "locally_connected"]
 status = "checked"
 
-# (i) The paper's shape on a second countable M, S preconnected (:468; less hconn, hsplit, hacausal).
+# (i) The paper's shape on a second countable M, S preconnected (Causal.Ers482Solution; less hconn,
+# hsplit, hacausal).
 [[consequence]]
 at = ["globally_hyperbolic", "tarentin"]
 statement = "ERS Thm 4.82 (ersthm:ThmNotBlocking), skeleton over a solution predicate in the paper's shape on a second countable background with S connected (ghd_02_19.tex:814), the restart geometric, Remark 4.67's variation derived: a maximal development (U₁, u₁) whose boundary off closure S is one-sided contains every development (U₂, u₂), which it extends: U₂ ⊆ U₁ and u₁ = u₂ on U₂"
@@ -4430,15 +4464,15 @@ standing = ["T2", "second_countable", "locally_connected"]
 status = "checked"
 
 # ERS19 Prop 4.63 (ersprop:PropLocUniqueness, ghd_02_19.tex:836, proof 840–844) with u₁ a GHD read as
-# S Cauchy in U₁ (DEC-162), on a T2, second countable background (Causal/Ers475CauchyForm.lean:181,
+# S Cauchy in U₁ (DEC-162), on a T2, second countable background (Causal/Ers475CauchyForm.lean,
 # T-abs-ers-4-75-cauchy-form, ee6ad88; recorded by T-lad-record-ers-cauchy-forms, 2026-11-27): [T2Space M]
 # [SecondCountableTopology M]; {U₁ U₂ agree}; hglue : AgreementGlues agree;
 # hG : C.GloballyHyperbolicOn U₁ (only hG.1, ≤_{U₁} antisymmetric, is used);
 # hcauchy : C.IsCauchySurfaceOn U₁ S; hloc : C.LocalUniqueness S (U₁ ⊓ U₂) agree; conclusion
 # C.IsCommonDevelopment S U₁ U₂ agree (C.localDevelopmentUnion S (U₁ ⊓ U₂) agree). It is
-# Causal.Causality.ers_prop_4_63 (Causal/ErsUnions.lean:299, [T2Space M]) with hacausal (OQ-41's
+# Causal.Causality.ers_prop_4_63 (Causal/ErsUnions.lean, [T2Space M]) with hacausal (OQ-41's
 # reading) traded for hcauchy, through isDevelopmentIn_localDevelopmentUnion_of_isCauchySurfaceOn_secondCountable
-# (Causal/Ers475CauchyForm.lean:162) and isCauchySurfaceOn_sSup_of_secondCountable: no
+# (Causal/Ers475CauchyForm.lean) and isCauchySurfaceOn_sSup_of_secondCountable: no
 # causally_arc_connected. The union's global hyperbolicity is not concluded; the form that concludes it,
 # ers_prop_4_63_globallyHyperbolicOn_secondCountable, asks U₁ causally arc-connected (its entry below,
 # since T-lad-record-dens-prop-4-63). Non-vacuity: no instance by name; Causal.ErsNoArcWitness.data proves its hypotheses
@@ -4452,17 +4486,17 @@ under = "globally_hyperbolic of C read on U₁ (ladder node, U₁ seen as a spac
 standing = ["T2", "second_countable"]
 status = "checked"
 
-# ERS19 Prop 4.63, the original skeleton (Causal/ErsUnions.lean:299; T-abs-ers-unions; recorded by
+# ERS19 Prop 4.63, the original skeleton (Causal/ErsUnions.lean; T-abs-ers-unions; recorded by
 # T-lad-record-dens-prop-4-63, 2026-11-27), read from the source with no build: [T2Space M]
 # {U₁ U₂ agree}; hglue : AgreementGlues agree; hG : C.GloballyHyperbolicOn U₁ (only hG.1, ≤_{U₁}
-# antisymmetric, is used: it is passed as hanti to isDevelopmentIn_localDevelopmentUnion, :279);
+# antisymmetric, is used: it is passed as hanti to isDevelopmentIn_localDevelopmentUnion);
 # hacausal : C.IsAcausalOn U₁ S (OQ-41's reading of 'u₁ a GHD'); hloc : C.LocalUniqueness S
 # (U₁ ⊓ U₂) agree. The conclusion is C.IsCommonDevelopment S U₁ U₂ agree
 # (C.localDevelopmentUnion S (U₁ ⊓ U₂) agree). No second countability: this is the form for a
 # Hausdorff background, beside the S Cauchy form above, which trades hacausal for hcauchy on a second
 # countable one. Neither is stronger than the other. It supplies hlocal to
-# Causal.Causality.ers_theorem_4_64_of_localUniqueness (:383). Non-vacuity: run inside
-# Causal.timelikeLine_ers_prop_4_63 (:775), through the printed conclusion's form below.
+# Causal.Causality.ers_theorem_4_64_of_localUniqueness. Non-vacuity: run inside
+# Causal.timelikeLine_ers_prop_4_63, through the printed conclusion's form below.
 [[consequence]]
 at = "globally_hyperbolic"
 statement = "ERS Prop 4.63 (ersprop:PropLocUniqueness), skeleton: two developments of the same data have a common development, the union of the local developments in U₁ ∩ U₂ (its global hyperbolicity is not concluded)"
@@ -4471,7 +4505,7 @@ under = "globally_hyperbolic of C read on U₁ (ladder node, U₁ seen as a spac
 standing = ["T2"]
 status = "checked"
 
-# ERS19 Prop 4.63, the printed conclusion (Causal/ErsUnions.lean:354; T-abs-ers-unions; recorded by
+# ERS19 Prop 4.63, the printed conclusion (Causal/ErsUnions.lean; T-abs-ers-unions; recorded by
 # T-lad-record-dens-prop-4-63, 2026-11-27), read from the source with no build: [T2Space M]
 # {U₁ U₂ agree}; hglue; hG : C.GloballyHyperbolicOn U₁; hS : C.IsCauchySurfaceOn U₁ S (u₁ a GHD with
 # Cauchy hypersurface S); hC : C.CausallyArcConnectedOn U₁; hext : C.CurvesExtendOn U₁ (kb/0012; hC,
@@ -4479,12 +4513,12 @@ status = "checked"
 # agree. The conclusion is IsCommonDevelopment … (localDevelopmentUnion …) ∧ GloballyHyperbolicOn
 # (localDevelopmentUnion …) ∧ CausallyConvexIn (localDevelopmentUnion …) U₁. The acausality of S in
 # U₁ is derived (Causal.Causality.IsCauchySurfaceOn.eq_of_le), then Causal.Causality.ers_prop_4_63 and
-# Causal.Causality.IsCommonDevelopment.globallyHyperbolicOn (:314). `at` reads three nodes on U₁ (U₁
+# Causal.Causality.IsCommonDevelopment.globallyHyperbolicOn. `at` reads three nodes on U₁ (U₁
 # seen as a spacetime; CurvesExtendOn ⊤ is CurvesExtend, Causal.Causality.curvesExtendOn_top).
 # curves_extend stands in `at` because the standing is T2 alone: off second countability the [[fact]]
 # curves_extend does not give it. On the ambient the next entry, without hext, subsumes this one, and
 # this one stays the form for a Hausdorff background that is not second countable, as Lemma K's
-# CurvesExtend form does (at curves_extend). Non-vacuity: Causal.timelikeLine_ers_prop_4_63 (:775: on
+# CurvesExtend form does (at curves_extend). Non-vacuity: Causal.timelikeLine_ers_prop_4_63 (on
 # the timelike line, U₁ = ℝ, U₂ = ]-1, 1[, S = {0}, u₁ = id, u₂ the clamp to [-1, 1], local
 # uniqueness by DS_0 = ]-1/2, 1/2[).
 [[consequence]]
@@ -4495,7 +4529,7 @@ under = "globally_hyperbolic, causally_arc_connected and curves_extend of C read
 standing = ["T2"]
 status = "checked"
 
-# Its second countable form, without hext (Causal/Ers464SecondCountable.lean:256;
+# Its second countable form, without hext (Causal/Ers464SecondCountable.lean;
 # T-abs-ers-4-64-second-countable;
 # recorded by T-lad-record-dens-prop-4-63, 2026-11-27), read from the source with no build:
 # [T2Space M] [SecondCountableTopology M] {U₁ U₂ agree}; hglue, hG, hS, hC, hloc as in the previous
@@ -4503,7 +4537,7 @@ status = "checked"
 # Causal.Causality.curvesExtendOn_of_t1_secondCountable C U₁. It only drops a binder, so by the
 # section's rule for second countable forms it is the entry of record on the ambient: the GH entry
 # of record that the section's comment named. Non-vacuity:
-# Causal.timelikeLine_ers_prop_4_63_secondCountable (:665, the previous witness's data, less
+# Causal.timelikeLine_ers_prop_4_63_secondCountable (the previous witness's data, less
 # CurvesExtendOn ⊤).
 [[consequence]]
 at = ["globally_hyperbolic", "causally_arc_connected"]
@@ -4514,16 +4548,16 @@ standing = ["T2", "second_countable"]
 status = "checked"
 
 # ERS19 Thm 4.64 (ersthm:ThmUnique, ghd_02_19.tex:858, proof 865–912), causal-topological skeleton
-# (Causal/ErsUniqueness.lean:466): [T2Space M]; hglue : AgreementGlues agree;
+# (Causal/ErsUniqueness.lean): [T2Space M]; hglue : AgreementGlues agree;
 # hG : C.GloballyHyperbolicOn U₁; hT : C.TarentinOn U₁; hacausal : C.IsAcausalOn U₁ S;
 # hsplit : C.SplitBy U₁ S; hK : C.CompactSlabs U₁ S; hconn : IsPreconnected (U₁ ⊓ U₂);
 # hlocal : ∃ V, C.IsCommonDevelopment S U₁ U₂ agree V; hstay : ∀ V, IsCommonDevelopment … V →
 # C.FrontierStaysIn U₁ S V (U₁ ⊓ U₂); hstep : ∀ V, IsCommonDevelopment … V → C.SliceRestart U₁ S V
 # (U₁ ⊓ U₂) (fun _ => ∃ V', IsCommonDevelopment … V' ∧ V < V'); conclusion agree (U₁ ⊓ U₂). Its form
-# for V₀: Causal.Causality.ers_theorem_4_64_maxCommonDevelopment (:433, the maximal common development
+# for V₀: Causal.Causality.ers_theorem_4_64_maxCommonDevelopment (the maximal common development
 # is U₁ ∩ U₂). With hlocal from local uniqueness (Prop 4.63):
-# Causal.Causality.ers_theorem_4_64_of_localUniqueness (Causal/ErsUnions.lean:383). Run in a region
-# L ≤ W (Thm 4.75's use): Causal.Causality.ers_theorem_4_64_in (:448), with frontier_stays_in and
+# Causal.Causality.ers_theorem_4_64_of_localUniqueness (Causal/ErsUnions.lean). Run in a region
+# L ≤ W (Thm 4.75's use): Causal.Causality.ers_theorem_4_64_in, with frontier_stays_in and
 # slice_restart located in L.
 [[consequence]]
 at = ["globally_hyperbolic", "tarentin"]
@@ -4533,20 +4567,22 @@ under = "globally_hyperbolic and tarentin of C read on U₁ (ladder nodes, U₁ 
 standing = ["T2"]
 status = "checked"
 
-# DEC-162's reading, with no causal arc-connectedness (Causal/Ers464WithoutArc.lean:188,
+# DEC-162's reading, with no causal arc-connectedness (Causal/Ers464WithoutArc.lean,
 # T-abs-ers-4-64-without-arc, 959b867b; the entry's witness since T-lad-record-ers-cauchy-forms,
 # 2026-11-27): [T2Space M] [SecondCountableTopology M]; hC₁ : C.IsCauchySurfaceOn U₁ S for hacausal,
 # hsplit (Step 1's union has S Cauchy through
-# isCommonDevelopment_maxCommonDevelopment_of_isCauchySurfaceOn_secondCountable, :132, with no
+# isCommonDevelopment_maxCommonDevelopment_of_isCauchySurfaceOn_secondCountable, with no
 # acausality; splitBy_of_t1_secondCountable gives the splitting); otherwise the previous entry's
 # binders. It is the trade form Causal.Causality.ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable
-# (Causal/Ers464SecondCountable.lean:293, the entry's witness until then, at the conjunction with
+# (Causal/Ers464SecondCountable.lean, the entry's witness until then, at the conjunction with
 # causally_arc_connected) less its binder harc : C.CausallyArcConnectedOn U₁. Its V₀ form:
 # ers_theorem_4_64_maxCommonDevelopment_of_isCauchySurfaceOn_secondCountable_noArc
-# (Causal/Ers464WithoutArc.lean:151); with local uniqueness:
-# ers_theorem_4_64_of_localUniqueness_of_isCauchySurfaceOn_secondCountable_noArc (:211,
-# Step 1's common development supplied by Prop 4.63's S Cauchy form, the entry above). Their trade
-# forms: Causal/Ers464SecondCountable.lean:272, :312.
+# (Causal/Ers464WithoutArc.lean); with local uniqueness:
+# ers_theorem_4_64_of_localUniqueness_of_isCauchySurfaceOn_secondCountable_noArc
+# (Step 1's common development supplied by Prop 4.63's S Cauchy form, the entry above). Their trade
+# forms, the same names less _noArc (Causal/Ers464SecondCountable.lean):
+#   Causal.Causality.ers_theorem_4_64_maxCommonDevelopment_of_isCauchySurfaceOn_secondCountable and
+#   Causal.Causality.ers_theorem_4_64_of_localUniqueness_of_isCauchySurfaceOn_secondCountable.
 [[consequence]]
 at = ["globally_hyperbolic", "tarentin"]
 statement = "ERS Thm 4.64 (ersthm:ThmUnique), skeleton, with S a Cauchy surface of U₁ (DEC-162): two developments of the same data with U₁ ∩ U₂ connected agree on U₁ ∩ U₂"
@@ -4555,7 +4591,7 @@ under = "globally_hyperbolic and tarentin of C read on U₁ (ladder nodes, U₁ 
 standing = ["T2", "second_countable"]
 status = "checked"
 
-# ERS19 Rem 4.67, first sentence (ersrem:RemTime, ghd_02_19.tex:914; Causal/ErsUniqueness.lean:486):
+# ERS19 Rem 4.67, first sentence (ersrem:RemTime, ghd_02_19.tex:914; Causal/ErsUniqueness.lean):
 # the binders of Thm 4.64's entry; conclusion IsGreatest {V | C.IsCommonDevelopment S U₁ U₂ agree V}
 # (U₁ ⊓ U₂). GH of U₁ ∩ U₂ is not concluded here (module SCOPE); the next entry concludes it.
 [[consequence]]
@@ -4566,12 +4602,12 @@ under = "Thm 4.64's (the entry above at globally_hyperbolic, tarentin): globally
 standing = ["T2"]
 status = "checked"
 
-# "The maximal common GHD" as printed (Causal/Ers464SecondCountable.lean:232, the hext-free form of
-# Causal.Causality.ers_remark_4_67_globallyHyperbolicOn, Causal/ErsUnions.lean:328): [T2Space M]
+# "The maximal common GHD" as printed (Causal/Ers464SecondCountable.lean, the hext-free form of
+# Causal.Causality.ers_remark_4_67_globallyHyperbolicOn, Causal/ErsUnions.lean): [T2Space M]
 # [SecondCountableTopology M]; hglue, hG, hT, hK, hconn, hlocal, hstay, hstep;
 # hS : C.IsCauchySurfaceOn U₁ S; hC : C.CausallyArcConnectedOn U₁. Conclusion: IsGreatest … (U₁ ⊓ U₂)
 # ∧ C.GloballyHyperbolicOn (U₁ ⊓ U₂) ∧ C.CausallyConvexIn (U₁ ⊓ U₂) U₁. The trade form
-# ers_remark_4_67_of_isCauchySurfaceOn_secondCountable (Causal/Ers464SecondCountable.lean:332) has
+# ers_remark_4_67_of_isCauchySurfaceOn_secondCountable (Causal/Ers464SecondCountable.lean) has
 # the same hypotheses and the first conjunct only; without harc, the next entry. This entry keeps
 # harc: V₀'s causal convexity in U₁
 # uses it (Causal/Ers464WithoutArc.lean, SCOPE).
@@ -4584,11 +4620,11 @@ standing = ["T2", "second_countable"]
 status = "checked"
 
 # Rem 4.67's first sentence in DEC-162's reading, with no causal arc-connectedness
-# (Causal/Ers464WithoutArc.lean:230, T-abs-ers-4-64-without-arc, 959b867b; recorded by
+# (Causal/Ers464WithoutArc.lean, T-abs-ers-4-64-without-arc, 959b867b; recorded by
 # T-lad-record-ers-cauchy-forms, 2026-11-27): [T2Space M] [SecondCountableTopology M]; hglue, hG, hT,
 # hC₁ : C.IsCauchySurfaceOn U₁ S, hK, hconn, hlocal, hstay, hstep; conclusion IsGreatest
 # {V | C.IsCommonDevelopment S U₁ U₂ agree V} (U₁ ⊓ U₂). It is the trade form
-# Causal.Causality.ers_remark_4_67_of_isCauchySurfaceOn_secondCountable (:332 of
+# Causal.Causality.ers_remark_4_67_of_isCauchySurfaceOn_secondCountable (in
 # Causal/Ers464SecondCountable.lean, named in the previous entry's comment, subsumed by that entry while
 # both took harc) less its binder harc. GH of U₁ ∩ U₂ is not concluded: the previous entry concludes it,
 # with harc.
@@ -4600,14 +4636,14 @@ under = "globally_hyperbolic and tarentin of C read on U₁ (ladder nodes: hG, h
 standing = ["T2", "second_countable"]
 status = "checked"
 
-# ERS19 Rem 4.67, second sentence (Causal/Ers464SecondCountable.lean:427,
+# ERS19 Rem 4.67, second sentence (Causal/Ers464SecondCountable.lean,
 # Causal.Causality.ers_remark_4_67_future less hthrough): [T2Space M] [SecondCountableTopology M];
 # {C₂}; hglue, hG, hT, hacausal;
 # hC₁ : C.IsCauchySurfaceOn U₁ S; hK, hconn, hlocal, hstay, hstep;
 # hfollow : FollowsSolution C C₂ agree (U₁ ⊓ U₂); conclusion ∀ x ∈ U₁ ⊓ U₂, x ∈ C.Jplus U₁ S →
-# x ∈ C₂.Jplus U₂ S. "Similarly for the past": Causal.Causality.ers_remark_4_67_past_secondCountable
-# (:447), the same binders. The trade forms, hacausal traded for harc:
-# ers_remark_4_67_future_of_isCauchySurfaceOn_secondCountable (:468), _past_ (:487).
+# x ∈ C₂.Jplus U₂ S. "Similarly for the past": Causal.Causality.ers_remark_4_67_past_secondCountable,
+# the same binders. The trade forms, hacausal traded for harc:
+# ers_remark_4_67_future_of_isCauchySurfaceOn_secondCountable, _past_.
 [[consequence]]
 at = ["globally_hyperbolic", "tarentin"]
 statement = "ERS Rem 4.67 (ersrem:RemTime), second sentence, skeleton: with the normal of S future directed in both developments, a point of U₁ ∩ U₂ to the future of S in U₁ (for C) is to the future of S in U₂ (for C₂) (the past form, ERS's 'similarly for the past', is named in the comment)"
@@ -4616,10 +4652,10 @@ under = "globally_hyperbolic and tarentin of C read on U₁ (ladder nodes: hG, h
 standing = ["T2", "second_countable"]
 status = "checked"
 
-# ERS19 Cor 4.68 (erscor:CorDisCon, ghd_02_19.tex:921; Causal/ErsUniqueness.lean:594), the
+# ERS19 Cor 4.68 (erscor:CorDisCon, ghd_02_19.tex:921; Causal/ErsUniqueness.lean), the
 # contrapositive of Thm 4.64: its binders less hconn, with hdis : ¬ agree (U₁ ⊓ U₂); conclusion
 # ¬ IsPreconnected (U₁ ⊓ U₂). As printed, for two functions u₁ x ≠ u₂ x:
-# Causal.Causality.ers_corollary_4_68_eqOn (:610).
+# Causal.Causality.ers_corollary_4_68_eqOn.
 [[consequence]]
 at = ["globally_hyperbolic", "tarentin"]
 statement = "ERS Cor 4.68 (erscor:CorDisCon), skeleton: if two developments of the same data disagree on U₁ ∩ U₂, then U₁ ∩ U₂ is not connected"
@@ -4628,13 +4664,13 @@ under = "globally_hyperbolic and tarentin of C read on U₁ (ladder nodes: hG, h
 standing = ["T2"]
 status = "checked"
 
-# DEC-162's reading, with no causal arc-connectedness (Causal/Ers464WithoutArc.lean:254,
+# DEC-162's reading, with no causal arc-connectedness (Causal/Ers464WithoutArc.lean,
 # T-abs-ers-4-64-without-arc, 959b867b; the entry's witness since T-lad-record-ers-cauchy-forms,
 # 2026-11-27): hC₁ for hacausal, hsplit; for two functions
-# ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable_noArc (:273). They are the trade forms
+# ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable_noArc. They are the trade forms
 # Causal.Causality.ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable
-# (Causal/Ers464SecondCountable.lean:351, the entry's witness until then, at the conjunction with
-# causally_arc_connected) and ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable (:370),
+# (Causal/Ers464SecondCountable.lean, the entry's witness until then, at the conjunction with
+# causally_arc_connected) and ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable,
 # less their binder harc.
 [[consequence]]
 at = ["globally_hyperbolic", "tarentin"]
@@ -4645,7 +4681,7 @@ standing = ["T2", "second_countable"]
 status = "checked"
 
 # ERS19 Cor 4.69 (erscor:globally_defined_globally_hyperbolic, ghd_02_19.tex:926), U₁ = M
-# (Causal/Ers464SecondCountable.lean:519, Causal.Causality.ers_corollary_4_69 less hthrough₂):
+# (Causal/Ers464SecondCountable.lean, Causal.Causality.ers_corollary_4_69 less hthrough₂):
 # [T2Space M] [SecondCountableTopology M]; {C₂ U₂}; hglue; hG : C.GloballyHyperbolic; hT : C.Tarentin
 # (the nodes at M); hacausal : C.IsAcausal S; hsplit : C.SplitBy ⊤ S; hK : C.CompactSlabs ⊤ S;
 # hS : IsPreconnected S; hC₂ : C₂.IsCauchySurfaceOn U₂ S; hlocal, hstay : … FrontierStaysIn ⊤ S V U₂,
@@ -4659,12 +4695,12 @@ under = "globally_hyperbolic and tarentin of C at M (ladder nodes: hG, hT); the 
 standing = ["T2", "second_countable"]
 status = "checked"
 
-# DEC-162's reading at M, with no causal arc-connectedness (Causal/Ers464WithoutArc.lean:295,
+# DEC-162's reading at M, with no causal arc-connectedness (Causal/Ers464WithoutArc.lean,
 # T-abs-ers-4-64-without-arc, 959b867b; the entry's witness since T-lad-record-ers-cauchy-forms,
 # 2026-11-27): hC₁ : C.IsCauchySurface S for hacausal, hsplit; U₂ preconnected from S preconnected
 # and Cauchy in U₂ (isPreconnected_of_isCauchySurfaceOn_of_t1_secondCountable). It is the trade form
 # Causal.Causality.ers_corollary_4_69_of_isCauchySurface_secondCountable
-# (Causal/Ers464SecondCountable.lean:537, the entry's witness until then, at the conjunction with
+# (Causal/Ers464SecondCountable.lean, the entry's witness until then, at the conjunction with
 # causally_arc_connected) less its binder harc : C.CausallyArcConnected (the node at M).
 [[consequence]]
 at = ["globally_hyperbolic", "tarentin"]
@@ -4674,18 +4710,18 @@ under = "globally_hyperbolic and tarentin of C at M (ladder nodes: hG, hT); S a 
 standing = ["T2", "second_countable"]
 status = "checked"
 
-# ERS19 Thm 4.75 (ersthm:ThmEx, ghd_02_19.tex:1001, proof 1011–1022; Causal/ErsUnions.lean:677):
+# ERS19 Thm 4.75 (ersthm:ThmEx, ghd_02_19.tex:1001, proof 1011–1022; Causal/ErsUnions.lean):
 # [T2Space M] [LocallyConnectedSpace M]; {ι β} [Nonempty β]; cau : ι → Causality M, D : ι → Opens M,
 # u : ι → M → β; hex : ∀ p ∈ S, ∃ i, p ∈ D i; hdev : ∀ i, (cau i).IsLocalDevelopment (D i) S;
 # hcomp : ∀ i j, i ≠ j → ∀ x ∈ D i ⊓ D j, (cau i).RestartsIn (D i) (componentOpens (D i ⊓ D j) x) S
 # (fun V => EqOn (u i) (u j) V). Conclusion: ∃ v, (∀ i, EqOn v (u i) (D i)) ∧ S ⊆ ⨆ D i ∧ ∀ Cu,
 # (Cu agrees with each cau i on the opens V ≤ D i) → (≤_{⨆ D i} of Cu antisymmetric) →
-# Cu.IsCauchySurfaceOn (⨆ D i) S. Causal.Causality.RestartsIn (:483) bundles, located in the component
+# Cu.IsCauchySurfaceOn (⨆ D i) S. Causal.Causality.RestartsIn bundles, located in the component
 # A: meets (S ∩ A ≠ ∅), localUniq (Causal.Causality.LocalUniqueness (S ∩ A) A), stay (FrontierStaysIn
 # (D i) S V A) and step (SliceRestart (D i) S V A), for every development V in A
-# (Causal.Causality.IsDevelopmentIn). Causal.Causality.IsLocalDevelopment (:469) is gh, tarentin,
+# (Causal.Causality.IsDevelopmentIn). Causal.Causality.IsLocalDevelopment is gh, tarentin,
 # acausal, split, slabs, cauchy of the patch. The claim u_p = u_q on DS_p ∩ DS_q:
-# Causal.Causality.ers_theorem_4_75_eqOn (:643), the same hdev, hcomp.
+# Causal.Causality.ers_theorem_4_75_eqOn, the same hdev, hcomp.
 [[consequence]]
 at = ["globally_hyperbolic", "tarentin"]
 statement = "ERS Thm 4.75 (ersthm:ThmEx), skeleton: local developments covering S patch to one solution v on U = ⋃ D i, equal to each u_i on D i, with S ⊆ U and S a Cauchy surface of U for every causality of v that is causal on U"
@@ -4695,23 +4731,23 @@ standing = ["T2", "locally_connected"]
 status = "checked"
 
 # ERS19 Thm 4.75 with each u_p a GHD read as S Cauchy in DS_p (DEC-162), on a T2, second countable
-# background (Causal/Ers475CauchyForm.lean:301, T-abs-ers-4-75-cauchy-form, ee6ad88; recorded by
+# background (Causal/Ers475CauchyForm.lean, T-abs-ers-4-75-cauchy-form, ee6ad88; recorded by
 # T-lad-record-ers-cauchy-forms, 2026-11-27): [T2Space M] [SecondCountableTopology M]
 # [LocallyConnectedSpace M]; {ι β} [Nonempty β]; cau, D, u; hex; hdev : ∀ i,
 # (cau i).IsCauchyLocalDevelopment (D i) S; hcomp as in the previous entry (RestartsIn in each
-# component); the previous entry's conclusion. Causal.Causality.IsCauchyLocalDevelopment (:124) is gh,
+# component); the previous entry's conclusion. Causal.Causality.IsCauchyLocalDevelopment is gh,
 # tarentin, slabs, cauchy of the patch: IsLocalDevelopment less acausal and split, which
-# IsLocalDevelopment implies with no hypothesis (Causal.Causality.IsLocalDevelopment.isCauchyLocalDevelopment,
-# :131), so on the ambient this form is at least as strong as the previous entry's (strictness is not
+# IsLocalDevelopment implies with no hypothesis (Causal.Causality.IsLocalDevelopment.isCauchyLocalDevelopment),
+# so on the ambient this form is at least as strong as the previous entry's (strictness is not
 # witnessed); the converse holds on a T1, second countable M when the patch is causally arc-connected
 # (Causal.Causality.IsCauchyLocalDevelopment.isLocalDevelopment). Thm 4.64 runs in each component as
-# ers_theorem_4_64_in_of_isCauchySurfaceOn_secondCountable (:246), through
-# maxDevelopmentIn_eq_of_isCauchySurfaceOn_secondCountable (:216), with no causal arc-connectedness: the
+# ers_theorem_4_64_in_of_isCauchySurfaceOn_secondCountable, through
+# maxDevelopmentIn_eq_of_isCauchySurfaceOn_secondCountable, with no causal arc-connectedness: the
 # acausality served only the union (kb/0265). ERS's S_p, Cauchy in DS_p, gives S Cauchy in DS_p when
-# S ∩ DS_p = S_p ∩ DS_p (Causal.Causality.IsCauchySurfaceOn.of_inter_eq, Causal/Cauchy.lean:126, its
+# S ∩ DS_p = S_p ∩ DS_p (Causal.Causality.IsCauchySurfaceOn.of_inter_eq, Causal/Cauchy.lean, its
 # module since T-abs-merge-stranded-duplicates). The claim u_p = u_q on
 # DS_p ∩ DS_q, with S a Cauchy surface of DS_p ∩ DS_q for cau p: ers_theorem_4_75_eqOn_secondCountable
-# (Causal/Ers475CauchyForm.lean:269), the same hdev, hcomp. Non-vacuity:
+# (Causal/Ers475CauchyForm.lean), the same hdev, hcomp. Non-vacuity:
 # Causal.timelikeLine_ers_theorem_4_75_secondCountable.
 [[consequence]]
 at = ["globally_hyperbolic", "tarentin"]
@@ -4818,7 +4854,7 @@ witness = "Causal.Causality.CausallyOpen.causallyConvexIn_openDiamond"
 status = "checked"
 
 # prop:tarentin_topological_spacetime_causality, (ii)⇒(i) (T-lad-record-rulings, 2026-11-22: DEC-163,
-# each theorem says which node it uses). Read from the source (Causal/StrongCausality.lean:150):
+# each theorem says which node it uses). Read from the source (Causal/StrongCausality.lean):
 # {M} [TopologicalSpace M] {C : Causality M}, C.CausallyOpen → C.alexandrovTopology = the topology of M
 # → C.StronglyCausalOpen, no other premise, no instance argument (tarentin is not used; the
 # conclusion is the open form, so strong causality too by strongly_causal_open ⇒ strongly_causal). It
@@ -4876,7 +4912,7 @@ status = "checked"
 # Nothing of C: no causality, no causal arc-connectedness, no global hyperbolicity. The proof extends
 # the constant curve at x (Causal.Causality.exists_inextensible_of_t1_secondCountable) and meets S.
 # It is the witness until then, Causal.Causality.mem_Jplus_union_Jminus_of_isCauchySurface
-# (Causal/CorrespondingPoints.lean:151: hext : C.CurvesExtend, no separation), with hext dropped and
+# (Causal/CorrespondingPoints.lean: hext : C.CurvesExtend, no separation), with hext dropped and
 # T1, second countable standing, so by the convention for forms that only drop binders (the ERS
 # block's "Second countable forms") it is the witness, standing its instance binders, both ambient.
 # The entry stays at curves_extend, which is the bottom of the causality sort on the ambient (the
@@ -4904,11 +4940,11 @@ status = "checked"
 
 # lem:C_ext_connexe re-routed, on a second countable N (T-abs-c-ext-connexe-second-countable, 65646df;
 # recorded by T-lad-record-curves-corollaries, 2026-11-22, DEC-190). Read from the source
-# (Causal/CExtConnexeSecondCountable.lean:210), with no build: [T2Space N] [SecondCountableTopology N]
+# (Causal/CExtConnexeSecondCountable.lean), with no build: [T2Space N] [SecondCountableTopology N]
 # [ConnectedSpace M] (hφ : IsCauchyEmbedding C D φ) {A B : Opens N}
 # (hA : IsCauchyInclusion D hφ.rangeOpens A) (hB : IsCauchyInclusion D hφ.rangeOpens B) :
 # IsConnected (A ⊓ B), the proof one line: Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace
-# (Causal/CBG/CausalConvex.lean:758, the entry's witness until then: [T2Space N] [ConnectedSpace M] and
+# (Causal/CBG/CausalConvex.lean, the entry's witness until then: [T2Space N] [ConnectedSpace M] and
 # hDext : D.CurvesExtend) with hDext := Causal.Causality.curvesExtend_of_t1_secondCountable D. No
 # named hypothesis is left. The entry is read at N, the space whose causality curves_extend was asked
 # of, so `standing` is N's instance binders; M connected is of the source, in words. At curves_extend,
@@ -4927,11 +4963,11 @@ under = "M connected (the source of φ); nothing of N's causality beyond φ a Ca
 standing = ["T2", "second_countable"]
 status = "checked"
 
-# lem:C_ext_connexe's acausality step on a second countable N (Causal/CExtConnexeSecondCountable.lean:238,
+# lem:C_ext_connexe's acausality step on a second countable N (Causal/CExtConnexeSecondCountable.lean,
 # T-abs-c-ext-connexe-second-countable's note for the keeper), read from the source: [T2Space N]
 # [SecondCountableTopology N] (hφ : IsCauchyEmbedding C D φ) {S : Set M} (hS : C.IsCauchySurface S)
 # {W : Opens N} {I c} (hc : D.CausalCurveIn W I c) : ∀ x ∈ c '' I ∩ φ '' S, ∀ y ∈ c '' I ∩ φ '' S,
-# x = y. It is Causal.IsCauchyEmbedding.eq_of_mem_image_inter (Causal/SubExtension.lean:326) without
+# x = y. It is Causal.IsCauchyEmbedding.eq_of_mem_image_inter (Causal/SubExtension.lean) without
 # hDext and without hDac (D causally arc-connected): φ(Σ) is a Cauchy surface of N, and every causal
 # curve lies on an inextensible one. Read at N, as the previous entry.
 [[consequence]]
@@ -5018,7 +5054,7 @@ status = "checked"
 
 # Step (2) (Causal/CauchySeparation.lean): (hc : C.IsCausal) (hS : C.IsAcausal S) ⊢
 # C.Jplus ⊤ S ∩ C.Jminus ⊤ S = S. No separation, no instance binder. Cited for J⁺(Σ) ∩ J⁻(Σ) = Σ in
-# place of its model-layer twin Causal.Causality.Jplus_inter_Jminus_eq (Causal/CBG/Ppcm.lean:188,
+# place of its model-layer twin Causal.Causality.Jplus_inter_Jminus_eq (Causal/CBG/Ppcm.lean,
 # which imports a model; kb/0256), as the module's SCOPE says; since T-abs-merge-stranded-duplicates
 # the twin cites this one, no longer re-proving it. A Cauchy surface is acausal under
 # causally_arc_connected (the entry at causally_arc_connected above), whence the clause at
@@ -5074,11 +5110,11 @@ under = "Σ a Cauchy surface of M; no past endpoint, J⁻(x) ≠ {x} for every x
 standing = ["T2", "second_countable"]
 status = "checked"
 
-# lem:Sigma_separe with the splitting named (Causal/CExtConnexeSecondCountable.lean:358):
+# lem:Sigma_separe with the splitting named (Causal/CExtConnexeSecondCountable.lean):
 # [T1Space M] [SecondCountableTopology M] (hcaus : C.IsCausal) (hC : C.CausallyArcConnected)
 # (hS : C.IsCauchySurface S) {ψ : S × ℝ ≃ₜ M} (hψ : IsCauchySplitting C S ψ) ⊢ J⁺(S) = ψ(S × [0, ∞)),
 # J⁻(S) = ψ(S × (−∞, 0]), J±(S) closed, J⁺(S) ∩ J⁻(S) = S, J⁺(S) ∈ 𝓝 y for y ∈ J⁺(S) ∖ S. It is
-# Causal.Causality.sigma_separe (Causal/CauchyDiamond.lean:129: S acausal in place of S Cauchy)
+# Causal.Causality.sigma_separe (Causal/CauchyDiamond.lean: S acausal in place of S Cauchy)
 # with the acausality from causally_arc_connected (IsCauchySurface.isAcausal_of_t1_secondCountable).
 # Beside the regular case, not below it: it asks ψ, and asks neither T2 nor the two hypotheses in
 # words of the regular case; it gives the two equalities, the lemma's main clause, and not the
@@ -5128,7 +5164,7 @@ status = "checked"
 #   Causal/CExtConnexeCauchy/SubArc.lean, no longer in this module).
 #
 # At M the hypotheses are nodes. C.IsCausal is literally the antisymmetry of ≤_⊤
-# (Causal/Properties.lean:95), IsCauchySurface S is IsCauchySurfaceOn ⊤ S, and CausallyArcConnected is
+# (Causal/Properties.lean), IsCauchySurface S is IsCauchySurfaceOn ⊤ S, and CausallyArcConnected is
 # CausallyArcConnectedOn ⊤; the audit's probe checked each by rfl. Lean ≥ Sbierski on two counts: the
 # given point is any point of the curve (his curve "starts in I⁺(Σ, M)"), and it may lie in J⁺ ⊇ I⁺.
 # Both nodes look necessary (the closer's REPORT.json findings[6]). Antisymmetry is needed, in Lean;
@@ -5548,7 +5584,7 @@ witness = "Causal.Causality.chronallyHomotopicOn_equivalence"
 under = "nothing (no instance, no hypothesis): the relation is an equivalence for every causality and every open W; the node reads it at W = M"
 status = "checked"
 
-# Confinement, the curve form (DiamondConfinement.lean:282; Sbierski Thm 4.11, :1623):
+# Confinement, the curve form (Causal/DiamondConfinement.lean; Sbierski Thm 4.11, :1623):
 # (hfoc : C.FutureOneConnectedOn W) (hγ : C.ChronalCurveOn W γ 0 1) (hx : γ 0 = x) (hy : γ 1 = y)
 # (hγŨ : MapsTo γ (Icc 0 1) Ũ) (hcl : closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ Ũ)
 # (hσ : C.ChronalCurveOn W σ 0 1) (hσx : σ 0 = x) (hσy : σ 1 = y) ⊢ C.ChronalCurveOn (W ⊓ Ũ) σ 0 1.
@@ -5561,7 +5597,8 @@ witness = "Causal.Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_s
 under = "read at W = M (the On form: W any open set future one-connected as a spacetime, σ then a chronal curve of W ⊓ Ũ); γ a chronal curve of M over [0, 1] from x to y with γ([0, 1]) ⊆ Ũ; closure (I⁺(x, Ũ) ∩ I⁻(y, Ũ)) ⊆ Ũ, the closure taken in M (hcl)"
 status = "checked"
 
-# The identification at M, (1.2) with equality (:357): (hcac : C.CausallyArcConnected)
+# The identification at M, (1.2) with equality (Causal/DiamondConfinement.lean):
+# (hcac : C.CausallyArcConnected)
 # (hfoc : C.FutureOneConnected) (hγ : C.ChronalCurveOn ⊤ γ 0 1) (hx : γ 0 = x) (hy : γ 1 = y)
 # (hγŨ : MapsTo γ (Icc 0 1) Ũ) (hcl : closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ Ũ) ⊢
 # C.Iplus ⊤ {x} ∩ C.Iminus ⊤ {y} = C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}. A point of the diamond of M lies on
@@ -5575,13 +5612,14 @@ witness = "Causal.Causality.Iplus_inter_Iminus_eq_of_futureOneConnected"
 under = "γ a chronal curve of M over [0, 1] from x to y with γ([0, 1]) ⊆ Ũ; closure (I⁺(x, Ũ) ∩ I⁻(y, Ũ)) ⊆ Ũ, the closure taken in M (hcl)"
 status = "checked"
 
-# The target's form, On W (:332): (hcac : C.CausallyArcConnectedOn W) (hfoc : C.FutureOneConnectedOn W)
+# The target's form, On W (Causal/DiamondConfinement.lean): (hcac : C.CausallyArcConnectedOn W)
+# (hfoc : C.FutureOneConnectedOn W)
 # (hγ : C.ChronalCurveOn W γ 0 1) (hx : γ 0 = x) (hy : γ 1 = y) (hγŨ : MapsTo γ (Icc 0 1) Ũ)
 # (hcl : closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ Ũ) ⊢ C.Iplus W {x} ∩ C.Iminus W {y} ⊆
 # C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}. At W = M a corollary of the equality above; the On form is for
 # Sbierski's embedded spacetime ι(M), an open set of the extension (Rem 2.3), causally arc-connected
 # and future one-connected as a spacetime. With equality for W ⊓ Ũ:
-# Causal.Causality.Iplus_inter_Iminus_eq_inf_of_futureOneConnectedOn (:318). On the timelike line
+# Causal.Causality.Iplus_inter_Iminus_eq_inf_of_futureOneConnectedOn. On the timelike line
 # (W = ℝ, Ũ = (−1, 2), x = 0, y = 1): Causal.timelikeLine_diamond_identification; on a convex open W
 # of Minkowski space: Causal.minkowski_Iplus_inter_Iminus_eq_inf_of_convex.
 [[consequence]]
@@ -5591,7 +5629,8 @@ witness = "Causal.Causality.Iplus_inter_Iminus_subset_of_futureOneConnectedOn"
 under = "the nodes read at W = M (the witness takes CausallyArcConnectedOn W and FutureOneConnectedOn W for any open W, Sbierski's ι(M)); γ a chronal curve of W over [0, 1] from x to y with γ([0, 1]) ⊆ Ũ; closure (I⁺(x, Ũ) ∩ I⁻(y, Ũ)) ⊆ Ũ, the closure taken in M (hcl)"
 status = "checked"
 
-# (1.2)'s ⊇ as printed (:347; InexSchwarzschild2.tex:153–158): the closure hypothesis on the diamond up
+# (1.2)'s ⊇ as printed (Causal/DiamondConfinement.lean; InexSchwarzschild2.tex:153–158): the closure
+# hypothesis on the diamond up
 # to y' with y ≪_Ũ y', (hyy' : C.lt Ũ y y') (hcl : closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y'}) ⊆ Ũ),
 # through Causal.Causality.closure_Iplus_inter_Iminus_subset_of_lt; the other hypotheses as above.
 [[consequence]]
@@ -5614,8 +5653,8 @@ status = "checked"
 # diamonds, the diamond identification near every point, the given-curve form of the C⁰ skeleton) and
 # the four assemblies [T2Space M] (the word T2), read from the sources.
 
-# Time reversal (:400): C.dual.LocallyStronglyCausal ↔ C.LocallyStronglyCausal, through
-# Causal.Causality.dual_stronglyCausalOn (causal convexity in W reads the diamonds J_W, which C.dual
+# Time reversal (Causal/DiamondConfinement.lean): C.dual.LocallyStronglyCausal ↔ C.LocallyStronglyCausal,
+# through Causal.Causality.dual_stronglyCausalOn (causal convexity in W reads the diamonds J_W, which C.dual
 # shares). The node's `dual` lemma for T-lad-dual-keys.
 [[consequence]]
 at = "locally_strongly_causal"
@@ -5623,8 +5662,8 @@ statement = "local strong causality is invariant under time reversal: C.dual is 
 witness = "Causal.Causality.dual_locallyStronglyCausal"
 status = "checked"
 
-# Arbitrarily small (:408): C.LocallyStronglyCausal ↔ ∀ p : M, ∀ N ∈ 𝓝 p, ∃ W : Opens M, p ∈ W ∧
-# (W : Set M) ⊆ N ∧ C.StronglyCausalOn W, by heredity (W ⊓ interior N,
+# Arbitrarily small (Causal/DiamondConfinement.lean): C.LocallyStronglyCausal ↔ ∀ p : M, ∀ N ∈ 𝓝 p,
+# ∃ W : Opens M, p ∈ W ∧ (W : Set M) ⊆ N ∧ C.StronglyCausalOn W, by heredity (W ⊓ interior N,
 # Causal.Causality.StronglyCausalOn.mono), as Causal.Causality.locallyPushUp_iff_nhds for locally_push_up.
 [[consequence]]
 at = "locally_strongly_causal"
@@ -5632,7 +5671,7 @@ statement = "every neighbourhood of every point contains an open neighbourhood o
 witness = "Causal.Causality.locallyStronglyCausal_iff_nhds"
 status = "checked"
 
-# Causal isomorphisms (T-lad-record-lsc-separations, 2026-11-27; Causal/StronglyCausalTransport.lean:189,
+# Causal isomorphisms (T-lad-record-lsc-separations, 2026-11-27; Causal/StronglyCausalTransport.lean,
 # T-loc-time-cylinder-lsc, 4efef56e; ETT layer, its one import Causal.DiamondConfinement), read from
 # the source: {X : Type v} [TopologicalSpace X] {C : Causality M} {D : Causality X} {e : M ≃ₜ X}
 # (h : IsCausalIso C D e) ⊢ C.LocallyStronglyCausal ↔ D.LocallyStronglyCausal, through
@@ -5650,7 +5689,8 @@ witness = "Causal.IsCausalIso.locallyStronglyCausal_iff"
 under = "the homeomorphism e with Causal.IsCausalIso C D e"
 status = "checked"
 
-# The precompact chart diamonds (:471; Sbierski Thm 3.1 Step 1.2, :528, and Thm 4.11's "its closure
+# The precompact chart diamonds (Causal/DiamondConfinement.lean; Sbierski Thm 3.1 Step 1.2, :528,
+# and Thm 4.11's "its closure
 # in M̃ is contained in Õ", :1625): [LocallyCompactSpace M] [R1Space M] (h : C.LocallyStronglyCausal)
 # (p : M) {N : Set M} (hN : N ∈ 𝓝 p) ⊢ ∃ Ũ : Opens M, p ∈ Ũ ∧ (Ũ : Set M) ⊆ N ∧ C.StronglyCausalOn Ũ ∧
 # ∃ V ∈ 𝓝 p, ∀ x ∈ V, ∀ y ∈ V, IsCompact (closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y})) ∧
@@ -5668,7 +5708,8 @@ witness = "Causal.Causality.LocallyStronglyCausal.exists_isCompact_closure"
 standing = ["locally_compact", "R1"]
 status = "checked"
 
-# The assembly of (i)–(iii), the diamond identification near every point (:487): the same binders ⊢
+# The assembly of (i)–(iii), the diamond identification near every point
+# (Causal/DiamondConfinement.lean): the same binders ⊢
 # ∃ Ũ : Opens M, p ∈ Ũ ∧ (Ũ : Set M) ⊆ N ∧ ∃ V ∈ 𝓝 p, ∀ x ∈ V, ∀ y ∈ V,
 # IsCompact (closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y})) ∧ closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ Ũ ∧
 # ∀ W : Opens M, C.CausallyArcConnectedOn W → C.FutureOneConnectedOn W → ∀ γ : ℝ → M,
@@ -5934,7 +5975,7 @@ statement = "curve nesting is invariant under time reversal: C.dual is curve-nes
 witness = "Causal.Causality.dual_curveNestedOn_iff"
 status = "checked"
 
-# Constant causal curves of the wider causality (Causal/InextensibleNotLeNested.lean:149,
+# Constant causal curves of the wider causality (Causal/InextensibleNotLeNested.lean,
 # T-abs-inextensible-not-le-nested; recorded by T-lad-record-curve-nested-rational, 2026-11-28). Read
 # from the source with no build; the only instance is the section's [TopologicalSpace M]:
 # {C C' : Causality M} {W : Opens M} (h : CurveNestedOn C C' W) (hC' : ∀ ⦃d : ℝ → M⦄ ⦃a b : ℝ⦄,
@@ -5951,10 +5992,10 @@ status = "checked"
 # spacelike line ([[fails]] curve_nested ⇏ le_nested) to its inextensible nesting in it ([[fails]]
 # inextensible_nested ⇏ le_nested; Causal.rationalLine_inextensibleNestedOn_spacelikeLine goes through
 # the composed form below). Its companions in the file:
-# Causal.Causality.curveNestedOn_of_causalCurveOn_eq (:141) gives curve nesting on W, into every C',
+# Causal.Causality.curveNestedOn_of_causalCurveOn_eq gives curve nesting on W, into every C',
 # from the constancy of C's causal curves of W. It is not recorded: it has no node premise, and it
 # concludes curve_nested. Its model case, proved apart, is Causal.rationalLine_curveNestedOn.
-# Causal.Causality.inextensibleNestedOn_of_causalCurveOn_eq (:156) is both lemmas composed, a
+# Causal.Causality.inextensibleNestedOn_of_causalCurveOn_eq is both lemmas composed, a
 # consequence at inextensible_nested.
 [[consequence]]
 at = "curve_nested"
@@ -6011,7 +6052,7 @@ under = "curve nesting at M; globally_hyperbolic, tarentin and causally_arc_conn
 status = "checked"
 
 # Its domain-of-dependence form, cited since the hoist of dependenceDomain (T-abs-hoist-model-free,
-# 02b43b6). Causal.Causality.dependenceDomainOn (Causal/NestedCausalities.lean:306) is an abbrev of
+# 02b43b6). Causal.Causality.dependenceDomainOn (Causal/NestedCausalities.lean) is an abbrev of
 # Causal.Causality.dependenceDomain (Causal/DependenceDomain.lean) since DEC-198
 # (T-abs-dependence-domain-home, bc2d546), the former name Causal.Flat.dependenceDomain a deprecated
 # wrapper of it; whether dependenceDomainOn is deprecated in turn, and these witnesses re-pointed, is
@@ -6036,7 +6077,7 @@ status = "checked"
 # [SecondCountableTopology M] {Cm C₂ U₁ U₂} (hS : IsPreconnected S) (hS₁ : S ⊆ U₁) (hS₂ : S ⊆ U₂)
 # (hm : Cm.IsCausal) (hacausal : Cm.IsAcausal S) (hmU₁ : Cm.IsCauchySurfaceOn U₁ S)
 # (hC₂ : C₂.IsCauchySurfaceOn U₂ S) (hnest : CurveNestedOn C₂ Cm U₂) : IsPreconnected (U₁ ⊓ U₂). It is
-# Causal.Causality.ers_lemma_4_72 (Causal/NestedCausalities.lean:1035, the entry's witness until then:
+# Causal.Causality.ers_lemma_4_72 (Causal/NestedCausalities.lean, the entry's witness until then:
 # [T2Space M], with hmext : Cm.CurvesExtend and hthrough, an inextensible causal curve of U₂ for C₂
 # through every point of U₁ ∩ U₂) with both discharged: hmext by the [[fact]]'s witness, hthrough by
 # Causal.Causality.inextensibleThrough_of_t1_secondCountable C₂ U₂ (the constant curve at x put on an
@@ -6067,7 +6108,7 @@ status = "checked"
 # which derives hacausal, hsplit, hnest and the curves; it is what Thms 4.79 and 4.80 below consume.
 # Without its harc (each cau u causally arc-connected on its domain, which served only 4.73's
 # hacausal): Causal.IsMDevelopment.isUniqueDevelopment_secondCountable_noArc
-# (Causal/Ers464WithoutArc.lean:394), through the next entry's witness; Thms 4.79 and 4.80 keep harc.
+# (Causal/Ers464WithoutArc.lean), through the next entry's witness; Thms 4.79 and 4.80 keep harc.
 # Lemma 4.72's entry (the previous one) takes its second countable form as witness since
 # T-lad-record-curves-corollaries (2026-11-22).
 [[consequence]]
@@ -6078,7 +6119,7 @@ under = "curve nesting of C₂ in Minkowski's Cm on W = U₂ (subluminality, C�
 standing = ["T2", "second_countable"]
 status = "checked"
 
-# DEC-162's reading, with no causal arc-connectedness (Causal/Ers464WithoutArc.lean:358,
+# DEC-162's reading, with no causal arc-connectedness (Causal/Ers464WithoutArc.lean,
 # T-abs-ers-4-64-without-arc, 959b867b; the entry's witness since T-lad-record-ers-cauchy-forms,
 # 2026-11-27): hC₁ : C.IsCauchySurfaceOn U₁ S for hacausal, hsplit; otherwise the previous entry's
 # binders. It is the trade form Causal.Causality.ers_corollary_4_73_of_isCauchySurfaceOn_secondCountable
@@ -6102,13 +6143,13 @@ status = "checked"
 # The structure of the nesting (T-abs-inextensible-nested-basics, Causal/InextensibleNestedBasics.lean,
 # layer 1, no model imported; recorded by T-lad-record-direct-witnesses, 2026-11-27), read from the
 # source with no build. No instance argument and no hypothesis beyond the nestings:
-# Causal.Causality.InextensibleNestedOn.refl (C : Causality M) (W : Opens M) : InextensibleNestedOn C C W
-# (:100); .trans (h : InextensibleNestedOn C C' W) (h' : InextensibleNestedOn C' C'' W) :
-# InextensibleNestedOn C C'' W (:105), nothing asked of the middle causality, since Inextensible is
+# Causal.Causality.InextensibleNestedOn.refl (C : Causality M) (W : Opens M) : InextensibleNestedOn C C W;
+# .trans (h : InextensibleNestedOn C C' W) (h' : InextensibleNestedOn C' C'' W) :
+# InextensibleNestedOn C C'' W, nothing asked of the middle causality, since Inextensible is
 # CausalCurveIn ∧ ¬ Extensible and so includes being one of its causal curves;
 # Causal.Causality.dual_inextensibleNestedOn_iff : InextensibleNestedOn C.dual C'.dual W ↔
-# InextensibleNestedOn C C' W (:130), whose forward half is Causal.Causality.InextensibleNestedOn.dual
-# (:125, through Causal.Causality.dual_inextensible_iff: a curve is inextensible iff, run backwards, it
+# InextensibleNestedOn C C' W, whose forward half is Causal.Causality.InextensibleNestedOn.dual
+# (through Causal.Causality.dual_inextensible_iff: a curve is inextensible iff, run backwards, it
 # is for the reversed causality). So at one open W the nesting is a preorder on the causalities of M,
 # as ≤-nesting and curve nesting are, and its past forms come from the future ones. The hypotheses of
 # trans and dual are met: Causal.timelikeLine_inextensibleNested_basics (the timelike line in itself,
@@ -6135,15 +6176,15 @@ witness = "Causal.Causality.dual_inextensibleNestedOn_iff"
 under = "nothing else (no instance)"
 status = "checked"
 
-# Change of open set (:148): (h : InextensibleNestedOn C C' W) (hVW : V ≤ W)
+# Change of open set (Causal/InextensibleNestedBasics.lean): (h : InextensibleNestedOn C C' W) (hVW : V ≤ W)
 # (hV : ∀ ⦃I c⦄, C.Inextensible V I c → C.Inextensible W I c) : InextensibleNestedOn C C' V, no
-# instance, through Causal.Causality.Inextensible.restrict (:138: an inextensible curve of W with image
+# instance, through Causal.Causality.Inextensible.restrict (an inextensible curve of W with image
 # in V is one of V). The condition hV is of the narrower C alone and no ladder node, hence in words.
 #
 # Not monotone in the open set: a note, and no entry. "Nested on W and V ≤ W give nested on V" joins
 # inextensible_nested to itself at two opens, no pair of ladder ids, so it fits neither a [[fails]]
 # nor an [[open]] entry (both ask two ids), and no pair of the matrix depends on it.
-# * Refuted in Lean, off the ambient: Causal.not_inextensibleNestedOn_mono (:523) : ¬ ∀ (M : Type)
+# * Refuted in Lean, off the ambient: Causal.not_inextensibleNestedOn_mono : ¬ ∀ (M : Type)
 #   [TopologicalSpace M] (C C' : Causality M) (V W : Opens M), V ≤ W → C.InextensibleNestedOn C' W →
 #   C.InextensibleNestedOn C' V, on the coarse space Causal.CoarsePoint (two near points forming an
 #   open set and a far point for each set of reals; its open sets are ∅, the near points and
@@ -6153,7 +6194,7 @@ status = "checked"
 #   space, vacuously (no causal curve of allRelated is inextensible there: its image misses a far
 #   point, by Cantor), and not on the near points (the step from one near point to the other is
 #   allRelated-inextensible there and no causal curve of diag). Bundled in
-#   Causal.CoarsePoint.separates_inextensibleNestedOn_mono (:509), with both causalities absolutely
+#   Causal.CoarsePoint.separates_inextensibleNestedOn_mono, with both causalities absolutely
 #   minimal on every open set (either form of DEC-167's gluing) and diag causal; allRelated is not.
 # * Argued false, not in Lean, on a Hausdorff, second countable space with one causality not causal
 #   (the witness file's SCOPE): on the circle ℝ/3ℤ, C' clockwise motion and C clockwise motion that
@@ -6172,13 +6213,13 @@ status = "checked"
 # The converse of the [[fails]] inextensible_nested ⇏ le_nested under a causality-sort property of the
 # narrower C, hence a consequence, as at curve_nested (an [[implies]] with it in `under` would be
 # chained as unconditional, against that [[fails]]). T-abs-inextensible-not-le-nested
-# (Causal/InextensibleNotLeNested.lean:180; recorded by T-lad-record-inextensible-not-le-nested,
+# (Causal/InextensibleNotLeNested.lean; recorded by T-lad-record-inextensible-not-le-nested,
 # 2026-11-28), read from the source with no build: [T1Space M] [SecondCountableTopology M]
 # {C C' : Causality M} (h : InextensibleNestedOn C C' ⊤) (hC : C.CausallyArcConnected) :
 # LeNested C C'. It is the edge inextensible_nested ⇒ curve_nested
 # (Causal.Causality.InextensibleNestedOn.curveNestedOn_of_t1_secondCountable, whose instance binders
 # are its standing) followed by the converse at curve_nested
-# (Causal.Causality.CurveNestedOn.leNested_of_causallyArcConnected). Open form, beside it (:171):
+# (Causal.Causality.CurveNestedOn.leNested_of_causallyArcConnected). Open form, beside it:
 # Causal.Causality.InextensibleNestedOn.le_of_causallyArcConnectedOn (the same instances;
 # InextensibleNestedOn C C' W, C.CausallyArcConnectedOn W, U ≤ W, C.le U x y : C'.le U x y), the
 # ≤-nesting on the opens of W. Sharp on both sides by the [[fails]]'s witness: the rational line is
@@ -6192,7 +6233,7 @@ under = "inextensible nesting at M (W = M); causally_arc_connected of C (ladder 
 standing = ["T1", "second_countable"]
 status = "checked"
 
-# Constant causal curves (Causal/InextensibleNotLeNested.lean:156, T-abs-inextensible-not-le-nested;
+# Constant causal curves (Causal/InextensibleNotLeNested.lean, T-abs-inextensible-not-le-nested;
 # recorded by T-lad-record-inextensible-not-le-nested, 2026-11-28), read from the source with no
 # build, no instance argument: {C C' : Causality M} {W : Opens M} (hC : ∀ ⦃d a b⦄,
 # C.CausalCurveOn W d a b → ∀ s ∈ Icc a b, ∀ t ∈ Icc a b, d s = d t) (hC' : the same for C') :
@@ -6201,7 +6242,7 @@ status = "checked"
 # causality: with all its causal curves of W constant, a curve of W over I is inextensible iff it is a
 # causal curve; its forward-only form inextensible_of_causalCurveOn_eq), which concerns inextensibility
 # of one causality, no node, hence a comment and no entry. The stronger form given curve nesting,
-# Causal.Causality.CurveNestedOn.inextensibleNestedOn_of_causalCurveOn_eq (:149: CurveNestedOn C C' W
+# Causal.Causality.CurveNestedOn.inextensibleNestedOn_of_causalCurveOn_eq (CurveNestedOn C C' W
 # and the wider C''s causal curves of W constant give InextensibleNestedOn C C' W), consumes
 # curve_nested. It is a consequence at curve_nested since T-lad-record-curve-nested-rational
 # (2026-11-28), and this entry's witness is curveNestedOn_of_causalCurveOn_eq followed by it. The
@@ -6248,7 +6289,7 @@ status = "checked"
 # countable background: the consequence of record of this nesting, as Lemma 4.72 is curve_nested's.
 # The node enters twice, Cτ (the causality of the field T, its inextensible causal curves of M the
 # maximal integral curves of T) the narrower causality in both: in C₁ on U₁ and in C₂ on U₂ ((4.62),
-# T timelike for every g(u, du)). Read from the source (Causal/Ers464SecondCountable.lean:558,
+# T timelike for every g(u, du)). Read from the source (Causal/Ers464SecondCountable.lean,
 # T-abs-ers-4-64-second-countable, c178342; recorded by T-lad-record-curves-corollaries, 2026-11-22,
 # DEC-190), with no build: [T2Space M] [SecondCountableTopology M] {Cτ C₁ C₂ U₁ U₂}
 # (hS : IsPreconnected S) (hS₁ : S ⊆ U₁) (hS₂ : S ⊆ U₂) (hC₁ : C₁.IsCauchySurfaceOn U₁ S)
@@ -6272,7 +6313,7 @@ standing = ["T2", "second_countable"]
 status = "checked"
 
 # ERS19 Cor 4.71 (erscor:CorSupLum, ghd_02_19.tex:959, proof 965–967: "This follows directly from
-# Lemma 4.70 and Theorem 4.64"), on a second countable background (Causal/Ers464SecondCountable.lean:586,
+# Lemma 4.70 and Theorem 4.64"), on a second countable background (Causal/Ers464SecondCountable.lean,
 # Causal.Causality.ers_corollary_4_71 less hthroughτ and hsplit): [T2Space M]
 # [SecondCountableTopology M]; {Cτ C₂ U₁ U₂ agree}; hglue; hG : C.GloballyHyperbolicOn U₁;
 # hT : C.TarentinOn U₁; hacausal : C.IsAcausalOn U₁ S; hK; hS : IsPreconnected S;
@@ -6287,11 +6328,11 @@ under = "inextensible nesting of Cτ in C on W = U₁ and of Cτ in C₂ on W = 
 standing = ["T2", "second_countable"]
 status = "checked"
 
-# DEC-162's reading, with no causal arc-connectedness (Causal/Ers464WithoutArc.lean:323,
+# DEC-162's reading, with no causal arc-connectedness (Causal/Ers464WithoutArc.lean,
 # T-abs-ers-4-64-without-arc, 959b867b; the entry's witness since T-lad-record-ers-cauchy-forms,
 # 2026-11-27): the previous entry's binders less hacausal. It is the trade form
 # Causal.Causality.ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable
-# (Causal/Ers464SecondCountable.lean:610, the entry's witness until then: harc :
+# (Causal/Ers464SecondCountable.lean, the entry's witness until then: harc :
 # C.CausallyArcConnectedOn U₁ for hacausal) less its binder harc; Lemma 4.70 composed with Thm 4.64's
 # `_noArc` form.
 [[consequence]]
@@ -6340,8 +6381,8 @@ status = "checked"
 # ERS19 Thm 4.80 (ersthm:consider_subluminal_quasilinear_wave, ghd_02_19.tex:1066, proof 1071–1073), on a
 # second countable background (Causal/ErsSecondCountable.lean, Causal.ers_theorem_4_80 less hmext
 # and hthrough): the previous entry's binders; conclusion ∃ U u, IsMaximalMDevelopment sol cau Cm S U u.
-# Unique by Causal.IsMaximalMDevelopment.unique (Causal/ErsMughd.lean:463); contained in the MUGHD by
-# IsMaximalMDevelopment.le_of_isMaximalUniqueDevelopment (:470).
+# Unique by Causal.IsMaximalMDevelopment.unique (Causal/ErsMughd.lean); contained in the MUGHD by
+# IsMaximalMDevelopment.le_of_isMaximalUniqueDevelopment.
 [[consequence]]
 at = ["curve_nested", "inextensible_nested"]
 statement = "ERS Thm 4.80 (ersthm:consider_subluminal_quasilinear_wave), skeleton: for a subluminal equation with data on a preconnected, m-acausal S, the m-MGHD exists: an m-development whose domain contains that of every m-development, which it extends"
