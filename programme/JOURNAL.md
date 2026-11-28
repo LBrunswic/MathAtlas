@@ -1233,3 +1233,16 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
 - commits: f7176a65 09468896 8362e1ac (ledgers; ett curated; restate detect 0)
 - next: `wave` is empty. A planning run (rule 2) can promote the two re-reads and the small follow-ups; after that the loop waits on rulings
+
+## 2026-11-28 11:02 · planning run · rule 2 after wave 57; 227 → 231 targets
+- Promoted:
+  - T-tac-ladder-dual-key (tactician, now package lean-causal, exclusive): emit Dual.lean's 44 rules from ladder keys, plus the missing inextensible_nested pair (dual_inextensibleNestedOn_iff); with no keys the generated files stay byte-identical;
+  - T-lad-gluing-nodes (keeper): the edge hypothesis corresponding_compact (Causal.Gluing.CorrespondingCompact). OQ-95/96 concern a causality's gluing field, not this topological gluing, so they do not block it.
+- Added:
+  - ready: T-lad-lineref-names-rest (keeper: the 28 stale ladder references first, then the ~190 other out-of-scope ones); T-abs-lineref-docstrings-rest (closer, exclusive: CurvesExtend.lean:110, IsolatedLineConjoined's dated quotes, CurvesExtendSecondCountable's outdated prose, optionally SubArc.lean:53); T-abs-flrw-future-a-witness (closer: the converse of dual_iUnion_Iplus_eq_of_futureInextensible, (A⁻) on (0, ∞), the witness);
+  - planned: T-lad-record-flrw-future-a (keeper: the fourth GH entry, 130 → 131).
+- The {t < 0} chart of minkowski n is not taken: the dual of Minkowski already has a future chart, and nothing uses the other.
+- Waves (simulated): 58 = T-lad-gluing-nodes and T-tac-ladder-dual-key; 59 = T-abs-flrw-future-a-witness and T-lad-lineref-names-rest; a planning run; 60 = T-abs-lineref-docstrings-rest, with T-lad-dual-keys if promoted; 61 = T-lad-record-flrw-future-a. After that only the blocking list remains: OQ-95/96 (the gluing chain), OQ-97 (the CBG interface), OQ-100 (21 localisation targets), three needs-ruling targets with no OQ row (C⁰ metrics, Lipschitz metrics, the scaffold C-extension anchor), OQ-145 with lean-gx, and four research targets.
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 27, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
+- gates: both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
+- next: T-lad-gluing-nodes (keeper), T-tac-ladder-dual-key (tactician, exclusive)
