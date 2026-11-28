@@ -1,0 +1,86 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-facette-ouverte",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter3/FinestLocallyConvex.lean",
+    "scaffold/BenzecriScaffold/Chapter3/FacetteOuverte.lean",
+    "scaffold/BenzecriScaffold.lean (two import lines appended)"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": "propext, Classical.choice, Quot.sound only (#print axioms of every principal and instance decl)",
+  "labels": [
+    {
+      "label": "bzprop:c3s1p1_facette_ouverte",
+      "tex_lines": [141, 150],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.facette_isOpen",
+        "Benzecri.facette_isOpen_induced",
+        "Benzecri.finestLC",
+        "Benzecri.isLeast_finestLC",
+        "Benzecri.isOpen_finestLC_iff_finiteDimensional"
+      ],
+      "hypotheses": [
+        {"paper": "un convexe W (espace vectoriel réel)", "here": "carried", "note": "Convex ℝ W, any real vector space, any dimension, no topology on E"},
+        {"paper": "F une facette de W", "here": "carried", "note": "IsFacette W F from Benzecri.Chapter3.Facettes"},
+        {"paper": "L la variété linéaire support de F", "here": "carried", "note": "affineSpan ℝ F"},
+        {"paper": "L muni de sa topologie localement convexe la plus fine", "here": "carried", "note": "finestLC of the direction of L, transported by v ↦ v + P for EVERY origin P (stronger than one origin); second reading: subspace topology from finestLC E (facette_isOpen_induced); the two coincide (induced_finestLC_eq_finestLC)"}
+      ],
+      "sorries": [],
+      "findings": [
+        "The printed proof (l.146–149) reduces openness for the finest locally convex topology to interiority in every finite-dimensional l ⊂ L. That reduction is valid for CONVEX sets (formalized as isOpen_finestLC_iff_finiteDimensional, which carries Convex), and the paper does not say at this point that a facette is convex (it is, but the proof does not show it). The Lean proof bypasses this: it applies the convex criterion to {v | v + P ∈ W}, not to F, and then uses B ± 2u ∈ W ⇒ B + u ∈ F_W(B) (add_mem_facette_of_two). Not an error in the statement; a missing step in the proof."
+      ],
+      "questions": [
+        "Which topology is « sa topologie localement convexe la plus fine » of the affine variety L? Reading taken: the finest locally convex vector topology of the direction V of L (least element of the locally convex TVS topologies on V, Hausdorffness not imposed; it is Hausdorff anyway), carried to L by v ↦ v + P; proved for every P, so origin-independent. The alternative reading (L as a subspace of E with E's finest l.c. topology) is also proved (facette_isOpen_induced), and the two topologies coincide (induced_finestLC_eq_finestLC), so the reading does not affect the result.",
+        "« localement convexe » read as Mathlib's LocallyConvexSpace ℝ together with IsTopologicalAddGroup and ContinuousSMul ℝ (a locally convex topological vector space)."
+      ]
+    }
+  ],
+  "instances": [
+    "Benzecri.isFacette_openSquare : IsFacette closedSquare openSquare (]0,1[² is a facette of [0,1]² in ℝ × ℝ)",
+    "Benzecri.affineSpan_openSquare : affineSpan ℝ openSquare = ⊤",
+    "Benzecri.openSquare_isOpen := facette_isOpen convex_closedSquare isFacette_openSquare 0 (Prop. 1 applied as a Lean term)",
+    "Benzecri.finestLC_prod : finestLC (ℝ × ℝ) = instTopologicalSpaceProd (the finest l.c. topology of ℝ² is the usual one)",
+    "Benzecri.openSquare_isOpen_finestLC : IsOpen[finestLC (ℝ × ℝ)] openSquare",
+    "Lean instances of the new topology's hypotheses: isTopologicalAddGroup_finestLC, continuousSMul_finestLC, locallyConvexSpace_finestLC, t2Space_finestLC (any real vector space)"
+  ],
+  "extra_decls": [
+    "Benzecri.allSeminorms",
+    "Benzecri.finestLC",
+    "Benzecri.withSeminorms_finestLC",
+    "Benzecri.isTopologicalAddGroup_finestLC",
+    "Benzecri.continuousSMul_finestLC",
+    "Benzecri.locallyConvexSpace_finestLC",
+    "Benzecri.t2Space_finestLC",
+    "Benzecri.continuous_linearMap_finestLC",
+    "Benzecri.finestLC_le",
+    "Benzecri.LCTopologies",
+    "Benzecri.isLeast_finestLC",
+    "Benzecri.finestLC_eq_sInf",
+    "Benzecri.mem_nhds_finestLC_iff",
+    "Benzecri.mem_nhds_finestLC_of_core",
+    "Benzecri.isOpen_finestLC_iff_core",
+    "Benzecri.isOpen_finestLC_iff_finiteDimensional",
+    "Benzecri.induced_finestLC_eq_finestLC",
+    "Benzecri.finestLC_eq_moduleTopology",
+    "Benzecri.induced_finestLC_eq_moduleTopology",
+    "Benzecri.finestLC_eq_of_finiteDimensional",
+    "Benzecri.vectorSpan_le_dirW",
+    "Benzecri.add_mem_facette_of_two",
+    "Benzecri.closedSquare",
+    "Benzecri.openSquare",
+    "Benzecri.convex_closedSquare",
+    "Benzecri.isOpen_openSquare",
+    "Benzecri.openSquare_subset"
+  ],
+  "kb_proposals": [
+    "The finest locally convex topology is Benzecri.finestLC (scaffold Chapter3/FinestLocallyConvex, Mathlib-only): the seminorm topology of ALL seminorms; finest by isLeast_finestLC; every linear map out of it into an l.c. TVS is continuous (continuous_linearMap_finestLC); a convex set is open iff algebraically open (isOpen_finestLC_iff_core / _finiteDimensional); it induces finestLC on every subspace and the module topology in finite dimension. § 5 Prop. 7 should import it.",
+    "Mathlib at the pin HAS PolynormableSpace.sInf/iInf (Analysis/LocallyConvex/WithSeminorms.lean:1059–1071) and PolynormableSpace ℝ → LocallyConvexSpace ℝ; the missing sInf lemma for LocallyConvexSpace is avoidable: define a topology by a seminorm family and get TVS/l.c. from WithSeminorms (⟨rfl⟩).",
+    "Comparing two seminorm topologies (or proving a linear map continuous into an l.c. space): WithSeminorms.continuous_of_isBounded with the target's with_gaugeSeminormFamily (𝕜 := ℝ) (E := X); the old name Seminorm.continuous_from_bounded is deprecated at the pin.",
+    "A convex C is a neighbourhood of a core point x for finestLC: U = (x+·)⁻¹'C ∩ −(x+·)⁻¹'C is convex, balanced (balanced_iff_neg_mem), absorbent (absorbent_iff_eventually_nhdsNE_zero), and gauge_lt_one_subset_self puts the gaugeSeminorm unit ball inside U.",
+    "With a topology given by letI on a type V, a Submodule of V picks up the subtype instance, not finestLC: pass topologies explicitly (@Continuous.isOpen_preimage _ _ t₁ t₂ f hf _ h) when both appear. Submodule.linearProjOfIsCompl is deprecated at the pin: use Submodule.projectionOnto / projectionOnto_apply_left."
+  ],
+  "notes": "Mathlib-only module FinestLocallyConvex is independent of Benzecri (graduates first, or with FacetteOuverte; FacetteOuverte imports Benzecri.Chapter3.Facettes and it). lake build BenzecriScaffold.Chapter3.FacetteOuverte succeeded, rebuilding only the two new modules. Both files compile without warnings under lake env lean. The S(E) transfer of Prop. 1 (l.276–280) is not in this target. The roadmap evidence suggested the module name Benzecri/Chapter3/TopologieFine.lean; the dispatch named FinestLocallyConvex.lean, which is used."
+}
