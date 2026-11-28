@@ -6,7 +6,7 @@ Paper `colI_v1.tex` at `snapshot`; Lean `/home/maxbrain/Dropbox/LeanArticles/lea
 
 **71 statements.** Natural language: 43 proved or definitional. Lean: **14 stated**, of which **3 closed** and 11 partial.
 
-**Closure: 2 of 71.** The target is the 71 in-scope statements less the 0 terminal ones (bucket `T`, each with its reason); a row counts as done only when it is closed in Lean **in bucket A**.
+**Closure: 2 of 68.** The target is the 71 in-scope statements less the 3 terminal ones (bucket `T`, each with its reason); a row counts as done only when it is closed in Lean **in bucket A**.
 
 ## How to read a row
 
@@ -98,7 +98,7 @@ Formalizing is a proof-reading pass with a machine holding the pen. These are th
 
 **In scope: 71 statements**, of which 3 are closed in Lean and 11 partial. Out of scope: 0.
 
-### Behind an obstruction — 61 statements, in scope
+### Behind an obstruction — 58 statements, in scope
 
 `C` is attempted-and-blocked, `D` is deferred; each row's `notes` field in `ledger.json` names the obstruction.
 
@@ -112,7 +112,7 @@ Formalizing is a proof-reading pass with a machine holding the pen. These are th
 
 | lvl | statement | natural language | Lean stated | Lean proved | bucket |
 |---:|---|---|---|---|---|
-| 0 | **Remark**<br>`bbsrem:photon` — [`colI_v1.tex:1457`](colI_v1.tex#L1457) | informal | — | — | D |
+| 0 | **Remark**<br>`bbsrem:photon` — [`colI_v1.tex:1457`](colI_v1.tex#L1457) | informal | — | — | T |
 | 1 | **Proposition**<br>`bbsprop:classising` — [`colI_v1.tex:531`](colI_v1.tex#L531) | proved — a summary stated at the head of §3 (l.531); the classification it lists is carried out in §3.3-3.5 (the (Gamma_p, l(p))-circles through RP1-circles, l.673 onward), with no proof environment | — | — | D |
 | 0 | **Definition**<br>`bbsdef:hs_surface_topological_surface_endowed` — [`colI_v1.tex:615`](colI_v1.tex#L615) | def | strict (HSModel.lean) | **yes** | D |
 | 0 | **Definition**<br>`bbsdef:circle_data_point_structure` — [`colI_v1.tex:766`](colI_v1.tex#L766) | def | strict (RP1Circles.lean, HSModel.lean) | **yes** | A |
@@ -129,14 +129,14 @@ Formalizing is a proof-reading pass with a machine holding the pen. These are th
 | 0 | **Remark**<br>`bbsrem:masspositive` — [`colI_v1.tex:1166`](colI_v1.tex#L1166) | informal | — | — | D |
 | 0 | **Remark**<br>`bbsrem:positive_negative` — [`colI_v1.tex:1240`](colI_v1.tex#L1240) | informal | — | — | D |
 | 0 | **Remark**<br>`bbsrem:cuttachyon2` — [`colI_v1.tex:1299`](colI_v1.tex#L1299) | informal | — | — | D |
-| 0 | **Remark**<br>`bbsrem:far_know_kind_singular` — [`colI_v1.tex:1323`](colI_v1.tex#L1323) | informal | — | — | D |
+| 0 | **Remark**<br>`bbsrem:far_know_kind_singular` — [`colI_v1.tex:1323`](colI_v1.tex#L1323) | informal | — | — | T |
 | 0 | **Remark**<br>`bbsrem:degk` — [`colI_v1.tex:1332`](colI_v1.tex#L1332) | informal | scaffold (HSDegree.lean, HSSingularities.lean, HSSuspension.lean) +5 | partial | — |
 | 0 | **Remark**<br>`bbsrem:open_domain_intersection_future` — [`colI_v1.tex:1379`](colI_v1.tex#L1379) | informal | — | — | D |
 | 1 | **Remark**<br>`bbsrem:kind_singularity_appears_several` — [`colI_v1.tex:1393`](colI_v1.tex#L1393) | informal | — | — | D |
 | 1 | **Remark**<br>`bbsrem:case_tachyons_see_remark` — [`colI_v1.tex:1466`](colI_v1.tex#L1466) | informal | scaffold (HSDegree.lean, HSSingularities.lean, HSSuspension.lean) +5 | partial | — |
 | 1 | **Remark**<br>`bbsrem:positive_negative2` — [`colI_v1.tex:1474`](colI_v1.tex#L1474) | informal | — | — | D |
 | 0 | **Remark**<br>`bbsrem:however_no_positive_negative` — [`colI_v1.tex:1480`](colI_v1.tex#L1480) | informal | — | — | D |
-| 0 | **Remark**<br>`bbsrem:now_allow_ourselves_qualify` — [`colI_v1.tex:1485`](colI_v1.tex#L1485) | informal | — | — | D |
+| 0 | **Remark**<br>`bbsrem:now_allow_ourselves_qualify` — [`colI_v1.tex:1485`](colI_v1.tex#L1485) | informal | — | — | T |
 | 0 | **Remark**<br>`bbsrem:cheminsing` — [`colI_v1.tex:1493`](colI_v1.tex#L1493) | informal | — | — | D |
 | 0 | **Definition**<br>`bbsdef:hs_surface_interaction_singular_line` — [`colI_v1.tex:1508`](colI_v1.tex#L1508) | def | scaffold (HSPositive.lean, HSSingularities.lean, HSSuspension.lean) +4 | partial | — |
 | 0 | **Remark**<br>`bbsrem:singular_ads_manifold_cone` — [`colI_v1.tex:1797`](colI_v1.tex#L1797) | proved — [`colI_v1.tex:1804`](colI_v1.tex#L1804) | scaffold (HSPositiveMass.lean) | partial | C |
