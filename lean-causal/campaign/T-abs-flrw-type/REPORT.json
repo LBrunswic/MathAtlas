@@ -1,0 +1,271 @@
+{
+  "target": "T-abs-flrw-type",
+  "package": "lean-causal",
+  "files": [
+    "scaffold/CausalScaffold/FlrwType.lean"
+  ],
+  "campaign_files": [
+    "campaign/T-abs-flrw-type/REPORT.json",
+    "campaign/T-abs-flrw-type/Probe.lean",
+    "campaign/T-abs-flrw-type/axioms.txt"
+  ],
+  "builds": true,
+  "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-7 lake build CausalScaffold.FlrwType",
+  "build_result": "The module built in 1.2 s (3128 jobs) with no warning. Before each real build, the --no-build dry run (kb/0228) listed only CausalScaffold.FlrwType as out of date, so nothing upstream was rebuilt. `lake env lean -DwarningAsError=true` on the file passes, as the strict library requires. Every typecheck ran under taskset -c 0-7. Probe.lean imports the module and runs #check and #print axioms on all 25 declarations; its output is axioms.txt.",
+  "sorry_count": 0,
+  "axioms": "All 25 declarations depend on [propext, Classical.choice, Quot.sound] only. This was checked by parsing axioms.txt, line-wrapped entries included. There is no sorryAx, admit, axiom declaration, native_decide or ofReduceBool.",
+  "layer": "ETT layer (layer 1). The direct imports are Causal.C0ExtensionSkeleton and Causal.PastInextensibleMeetsCauchy, and tools/ladder.py's model_path is None for each. This was checked one at a time in memory on lean_index()['imports'] (kb/0247). model_path is also None for the module itself, entered in memory with those two imports. Its closure holds 48 Causal modules, none in MODEL_LAYER. Causal.Ladder.Rules is not in the closure, so the module is a leaf. No statement mentions a metric, a curve length or a geodesic. The hypotheses are the standing T2 and second countable; the ladder properties at W (CausallyArcConnectedOn, FutureOneConnectedOn, and antisymmetry of ≤_W written inline in the shape of the Cauchy lemma); and the declared (A) and (B). The extension corollary takes the nodes themselves on N: CausallyArcConnected, FutureOneConnected, IsCausal. Nothing from Causal.Minkowski, Static, Flat.*, Model.*, Port.* or SingularFlat is imported.",
+  "labels": [],
+  "declarations": [
+    {
+      "name": "Causal.Causality.PastBoundaryChartData",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:113",
+      "statement": "structure (C : Causality M) (W Ũ : Opens M) (p : M) : Type u with fields (i) mem : p ∈ Ũ, not_mem : p ∉ W; (ii) inside : Opens M, inside_le : inside ≤ W ⊓ Ũ; (iii) futureClosed : ∀ x ∈ inside, C.Iplus Ũ {x} ⊆ C.Iplus inside {x}; (iv) curve : ℝ → M, chronalCurveOn : C.ChronalCurveOn Ũ curve 0 1, curve_zero : curve 0 = p, curve_mem : ∀ t ∈ Ioc 0 1, curve t ∈ inside; (v) s₀ : ℝ, s₀_mem : s₀ ∈ Ioo 0 1, isCompact_closure : IsCompact (closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve s₀})), closure_subset : closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve s₀}) ⊆ Ũ; (vi) avoid : ∀ K, IsCompact K → K ⊆ Ũ → ∃ σ, C.ChronalCurveOn Ũ σ 0 1 ∧ σ 0 ∉ W ∧ (∀ t ∈ Ioc 0 1, σ t ∈ inside ∧ σ t ∉ K) ∧ C.lt Ũ (curve 1) (σ 1)",
+      "standing": "Deliverable (i). Exactly the six fields of the target's evidence, none changed. It is a structure in Type, not Prop: a Prop-valued structure cannot carry the data V, γ̃, s₀ (Lean: 'failed to generate projection … field must be a proof', checked on a scratch file). (vi) quantifies over every compact K ⊆ Ũ, as designed (not weakened).",
+      "status": "defined"
+    },
+    {
+      "name": "Causal.Causality.PastBoundaryChart",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:148",
+      "statement": "C.PastBoundaryChart W Ũ p : Prop := Nonempty (C.PastBoundaryChartData W Ũ p)",
+      "standing": "The predicate of the target, Prop-valued, so that the conclusion is ¬ C.PastBoundaryChart W Ũ p.",
+      "status": "defined"
+    },
+    {
+      "name": "Causal.Causality.FutureBoundaryChart",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:155",
+      "statement": "C.FutureBoundaryChart W Ũ p : Prop := C.dual.PastBoundaryChart W Ũ p",
+      "standing": "Deliverable (i), the time reversal: Sbierski's future boundary chart, Prop 2.1 as printed. Read for C its field (iii) is I⁻(x, Ũ) ⊆ I⁻(x, V), (2.4) as printed.",
+      "status": "defined"
+    },
+    {
+      "name": "Causal.Causality.ChronalCurveOn.pastInextensible_Ioc_of_start_notMem",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:163",
+      "statement": "[T2Space M] → C.ChronalCurveOn Ũ c 0 1 → s ∈ Ioc 0 1 → (∀ t ∈ Ioc 0 s, c t ∈ W) → c 0 ∉ W → C.PastInextensible W (Ioc 0 s) c ∧ ∀ a ∈ Ioc 0 s, ∀ b ∈ Ioc 0 s, C.ChronalCurveOn W c a b",
+      "standing": "Step (a) and the first half of step (d). It is ChronalCurveOn.futureInextensible_of_leaving (SchwCausalLemmas.lean:259) for C.dual and t ↦ c (-t), with U = W ⊔ Ũ, read back by dual_futureInextensible_Ico_iff (:266). Stated for any s ∈ (0, 1], so that (A) can be applied to the initial piece (0, s₀/2].",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.PastBoundaryChartData.Iplus_inter_Iminus_subset",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:192",
+      "statement": "(d : C.PastBoundaryChartData W Ũ p) → C.CausallyArcConnectedOn W → C.FutureOneConnectedOn W → s ∈ Ioo 0 d.s₀ → C.Iplus W {d.curve s} ∩ C.Iminus W {d.curve d.s₀} ⊆ C.Iplus Ũ {p} ∩ C.Iminus Ũ {d.curve d.s₀}",
+      "standing": "Step (b), (4.2)'s ⊆ (sbierski2023c.txt:1108–1109). The curve is γ̃ on [s, s₀], restricted into V, lifted to W, affinely reparametrised over [0, 1] (CurveOn.comp_affine). The closure hypothesis comes from (v) through I⁺(γ̃ s, Ũ) ⊆ I⁺(p, Ũ). The confinement is Iplus_inter_Iminus_subset_of_futureOneConnectedOn (DiamondConfinement.lean:332).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.PastBoundaryChartData.biUnion_Iplus_inter_Iminus_eq",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:228",
+      "statement": "(d) → C.CausallyArcConnectedOn W → C.FutureOneConnectedOn W → ⋃ s ∈ Ioo 0 d.s₀, C.Iplus W {d.curve s} ∩ C.Iminus W {d.curve d.s₀} = C.Iplus Ũ {p} ∩ C.Iminus Ũ {d.curve d.s₀}",
+      "standing": "(4.2) as an equality (:1077–1109), the option the evidence left to the closer. ⊇ uses I⁺(p, Ũ) = ⋃_{s ∈ (0, s₀/2]} I⁺(γ̃ s, Ũ) (Iplus_eq_biUnion_Ioc, SchwCausalLemmas.lean:167) and field (iii) twice. It needs no (2.2) beyond V ≤ W.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.PastBoundaryChartData.Iminus_eq_diamond",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:259",
+      "statement": "[T2Space M] → (d) → C.CausallyArcConnectedOn W → C.FutureOneConnectedOn W → (A): ∀ I γ, C.PastInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iplus W {γ t} = W → C.Iminus W {d.curve d.s₀} = C.Iplus Ũ {p} ∩ C.Iminus Ũ {d.curve d.s₀}",
+      "standing": "(4.2) combined with Prop 3.6's first claim. Under (A), I⁻(γ̃ s₀, W) is exactly the chart diamond. (A) is applied to γ̃ over (0, s₀/2], so every point of W lies in some I⁺(γ̃ s, W) with s < s₀.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.PastBoundaryChartData.subset_diamond",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:281",
+      "statement": "[T2Space M] → (d) → C.CausallyArcConnectedOn W → C.FutureOneConnectedOn W → (A) → S ⊆ C.Iminus W {d.curve d.s₀} → S ⊆ C.Iplus Ũ {p} ∩ C.Iminus Ũ {d.curve d.s₀}",
+      "standing": "Deliverable (iii), (4.3) (:1110–1114), for any set inside I⁻(γ̃ s₀, W). It uses neither (B) nor the Cauchy property. This is weaker in hypotheses than the evidence's form ('a Cauchy surface … under (A), (B)'), so that form is a special case.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.not_pastBoundaryChart_of_flrwType",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:305",
+      "statement": "[T2Space M] [SecondCountableTopology M] → C.CausallyArcConnectedOn W → C.FutureOneConnectedOn W → (hcaus : ∀ ⦃x y⦄, C.le W x y → C.le W y x → x = y) → (A): ∀ I γ, C.PastInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iplus W {γ t} = W → (B): ∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iminus W {x} → ∀ (Ũ : Opens M) (p : M), ¬ C.PastBoundaryChart W Ũ p",
+      "standing": "Deliverable (ii), the main theorem, under the proposed name, with exactly the target's hypotheses. Steps: (B) at γ̃ s₀ gives S; (4.3) puts S in K = closure of the chart diamond; (vi) at K gives σ, past-inextensible in W over (0, 1] by step (a); S ≠ ∅, because W has an inextensible curve (exists_inextensible_of_t1_secondCountable applied to σ); σ 1 ∈ I⁺(S, W) by γ̃ s₀ ≪_Ũ γ̃ 1 ≪_Ũ σ 1 and (iii) at γ̃ s₀; PastInextensible.exists_mem_of_mem_Iplus (PastInextensibleMeetsCauchy.lean:496) gives σ t ∈ S ⊆ K, against (vi).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.not_futureBoundaryChart_of_flrwType",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:345",
+      "statement": "[T2Space M] [SecondCountableTopology M] → CausallyArcConnectedOn W → FutureOneConnectedOn W → hcaus → (∀ I γ, C.FutureInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iminus W {γ t} = W) → (∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iplus W {x}) → ∀ Ũ p, ¬ C.FutureBoundaryChart W Ũ p",
+      "standing": "Deliverable (ii), the future form. It is the theorem for C.dual. The dual hypotheses are read back through dual_causallyArcConnectedOn, dual_futureOneConnectedOn (the notion is two-sided), dual_pastInextensible_iff, CurveOn.neg and dual_isCauchySurfaceOn.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.IsEMorphismOn.pastInextensible_invComp",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:387",
+      "statement": "IsEMorphismOn C D W φ → InjOn φ W → LeftInvOn g φ W → V ≤ W → (U : Set N) = φ '' V → D.PastInextensible U I e → C.PastInextensible V I (g ∘ e)",
+      "standing": "New general lemma: the one-sided half of the library's inextensible_iff_invComp (CauchyExtension.lean:302), with the same proof plus the final-segment condition. The library had no one-sided transport.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.IsSpacetimeExtension.isEMorphismOn",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:412",
+      "statement": "IsSpacetimeExtension CN C ι → IsEMorphismOn CN C ⊤ ι",
+      "standing": "New: an extension (C0ExtensionSkeleton.lean:283) is an abstract 𝕄≥0-morphism on N. This opens the IsEMorphismOn transport API (Cauchy surfaces, inextensibility) to every IsSpacetimeExtension.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.IsSpacetimeExtension.isCauchySurfaceOn_image",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:443",
+      "statement": "IsSpacetimeExtension CN C ι → CN.IsCauchySurface S → C.IsCauchySurfaceOn hι.rangeOpens (ι '' S)",
+      "standing": "Through IsEMorphismOn.isCauchySurfaceOn_image_iff (CauchyExtension.lean:343).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.IsSpacetimeExtension.le_antisymm_rangeOpens",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:449",
+      "statement": "IsSpacetimeExtension CN C ι → CN.IsCausal → ∀ ⦃x y⦄, C.le hι.rangeOpens x y → C.le hι.rangeOpens y x → x = y",
+      "standing": "Through rel_top_iff (:316).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.IsSpacetimeExtension.iUnion_Iplus_eq_of_pastInextensible",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:460",
+      "statement": "IsSpacetimeExtension CN C ι → (A) on N, with ⋃ t ∈ I, CN.Iplus ⊤ {δ t} = univ → (A) on hι.rangeOpens",
+      "standing": "The curve is read in N through ι⁻¹ (pastInextensible_invComp, ChartIso.chronalCurveOn_symm_image), and the relations are read back through rel_top_iff.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.IsSpacetimeExtension.exists_isCauchySurfaceOn_subset_Iminus",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:497",
+      "statement": "IsSpacetimeExtension CN C ι → (∀ x : N, ∃ S, CN.IsCauchySurface S ∧ S ⊆ CN.Iminus ⊤ {x}) → (B) on hι.rangeOpens",
+      "standing": "The Cauchy surface is the image ι '' S.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.IsSpacetimeExtension.not_pastBoundaryChart_of_flrwType",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:513",
+      "statement": "[T2Space M] [SecondCountableTopology M] → IsSpacetimeExtension CN C ι → CN.CausallyArcConnected → CN.FutureOneConnected → CN.IsCausal → (A) on N → (B) on N → ∀ Ũ p, ¬ C.PastBoundaryChart hι.rangeOpens Ũ p",
+      "standing": "Deliverable (iv), the corollary for an embedded spacetime. It rests on OQ-154's reading of an extension (OPEN), which it records and does not decide. Its hypotheses on N are the ladder nodes causally_arc_connected, future_one_connected and is_causal, plus (A) and (B) on N.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.posHalfLine",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:529",
+      "statement": "posHalfLine : Opens ℝ := ⟨Ioi 0, isOpen_Ioi⟩",
+      "standing": "The witness's W.",
+      "status": "defined"
+    },
+    {
+      "name": "Causal.timelikeLine_not_pastBoundaryChart",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:534",
+      "statement": "∀ (W Ũ : Opens ℝ) (p : ℝ), ¬ timelikeLine.PastBoundaryChart W Ũ p",
+      "standing": "The 1D obstruction, which the evidence allowed the closer to prove ('Field (vi) fails there'). Take (vi) at K = [p, γ̃ 1]. Then σ cannot pass through γ̃ 1 (IVT: at t = 0 the point would be in V ⊆ W, and for t > 0 it would be in K), so σ 0 > γ̃ 1, and (iii) puts σ 0 in V ⊆ W. It holds for every open W, not only (0, ∞).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_iUnion_Iplus_eq_univ",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:564",
+      "statement": "timelikeLine.PastInextensible ⊤ I δ → ⋃ t ∈ I, timelikeLine.Iplus ⊤ {δ t} = univ",
+      "standing": "(A) on ℝ, without asking chronality: below any x the curve meets the Cauchy surface {x - 1} (exists_mem_of_mem_Jplus, timelikeLine_isCauchySurface_singleton).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_exists_cauchy_Iminus",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:581",
+      "statement": "∀ x : ℝ, ∃ S, timelikeLine.IsCauchySurface S ∧ S ⊆ timelikeLine.Iminus ⊤ {x}",
+      "standing": "(B) on ℝ, with S = {x - 1}.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.exp_rangeOpens_eq",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:587",
+      "statement": "exp_isSpacetimeExtension.rangeOpens = posHalfLine",
+      "standing": "Real.range_exp.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_exp_not_pastBoundaryChart",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:593",
+      "statement": "∀ Ũ p, ¬ timelikeLine.PastBoundaryChart exp_isSpacetimeExtension.rangeOpens Ũ p",
+      "standing": "Witness of the corollary: N = ℝ, ι = exp (C0ExtensionSkeleton.lean:567), and every hypothesis discharged.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_flrwType_hypotheses_posHalfLine",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:603",
+      "statement": "timelikeLine.CausallyArcConnectedOn posHalfLine ∧ timelikeLine.FutureOneConnectedOn posHalfLine ∧ (antisymmetry of ≤ on posHalfLine) ∧ (A) on posHalfLine ∧ (B) on posHalfLine",
+      "standing": "Deliverable (v): the hypotheses of the main theorem hold jointly on W = (0, ∞), transported from ℝ through exp. Arc-connectedness on the open set is derived (the library's timelikeLine_causallyArcConnected is at M).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_posHalfLine_not_pastBoundaryChart",
+      "file_line": "scaffold/CausalScaffold/FlrwType.lean:624",
+      "statement": "∀ Ũ p, (0 : ℝ) ∉ posHalfLine ∧ ¬ timelikeLine.PastBoundaryChart posHalfLine Ũ p",
+      "standing": "The main theorem applied to the witness, through not_pastBoundaryChart_of_flrwType and not through the 1D lemma.",
+      "status": "proved"
+    }
+  ],
+  "field_iii_match": "Field (iii) is `futureClosed : ∀ x ∈ inside, C.Iplus Ũ {x} ⊆ C.Iplus inside {x}`. This is the shape that T-abs-boundary-chart-cauchy fixes for its conclusion: its scaffold file currently states Causal.Causality.Iplus_subset_inside_of_boundaryChart as `∀ x ∈ V, C.Iplus U {x} ⊆ C.Iplus V {x}`, with V U : Opens M (scaffold/CausalScaffold/BoundaryChartCauchy.lean:189, read only, not imported). That theorem's conclusion can therefore be fed to the field as it stands, with U := Ũ and V := inside. Its hypotheses are V ≤ W, V ≤ U, V ⊆ J⁻(S, W), the frontier condition and CausallyArcConnectedOn U.",
+  "lemmas_for_the_keeper": [
+    {
+      "ladder_entry": "programme/ladder.toml: the boundary-chart node that T-lad-programme-properties is to add from this definition",
+      "proposal": {
+        "lean": "Causal.Causality.PastBoundaryChart",
+        "sort": "not causality-sort: it is indexed by (W, Ũ, p), so a node needs a sort of its own or a derived property (for instance `∃ Ũ p, C.PastBoundaryChart W Ũ p` at an open W)",
+        "dual": "Causal.Causality.FutureBoundaryChart (definitionally C.dual.PastBoundaryChart)",
+        "status": "proposed"
+      }
+    },
+    {
+      "ladder_entry": "programme/ladder.toml, a new [[consequence]] (the ladder form of abstract Thm 1.5)",
+      "proposal": {
+        "at": [
+          "causally_arc_connected",
+          "future_one_connected",
+          "is_causal"
+        ],
+        "statement": "Sbierski 2312.07443 Thm 1.5, abstract: if a spacetime N, with (A) and (B), embeds by an IsSpacetimeExtension into a T2, second countable M, then ι(N) has no past boundary chart",
+        "witness": "Causal.IsSpacetimeExtension.not_pastBoundaryChart_of_flrwType",
+        "under": "(A) every past-inextensible chronal curve of N has chronological future N; (B) every I⁻(x, N) contains a Cauchy surface of N; ι an IsSpacetimeExtension (OQ-154)",
+        "standing": [
+          "T2 (of M)",
+          "second_countable (of M)"
+        ],
+        "status": "checked"
+      },
+      "note": "The open-set form Causal.Causality.not_pastBoundaryChart_of_flrwType is empty at W = ⊤, because no point lies off ⊤. The extension form is the one whose hypotheses are nodes."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml, a possible witness note",
+      "proposal": {
+        "statement": "on the timelike line no open set has a past boundary chart at any point",
+        "witness": "Causal.timelikeLine_not_pastBoundaryChart",
+        "status": "checked"
+      },
+      "note": "Relevant if the node is added: every model of dimension 1 lacks the node trivially."
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.ChronalCurveOn.pastInextensible_Ioc_of_start_notMem",
+    "Causal.IsEMorphismOn.pastInextensible_invComp",
+    "Causal.IsSpacetimeExtension.isEMorphismOn",
+    "Causal.IsSpacetimeExtension.isCauchySurfaceOn_image",
+    "Causal.IsSpacetimeExtension.le_antisymm_rangeOpens"
+  ],
+  "findings": [
+    "No paper label is involved: 2312.07443 is not ledgered. These findings concern the target's design, Sbierski's text and the library.",
+    "The six fields hold as designed; none had to change. The one change of form is that PastBoundaryChart is `Nonempty` of a Type-valued structure PastBoundaryChartData, because a Prop-valued structure cannot carry the data fields V, γ̃, s₀. Lean refuses: 'failed to generate projection … field must be a proof'.",
+    "Field (i)'s p ∈ Ũ is redundant: it follows from (iv), since γ̃ is a chronal curve of Ũ with γ̃ 0 = p. It is kept for fidelity to Prop 2.1 i).",
+    "The proof uses field (vi) at a single compact set, K = closure (I⁺(p, Ũ) ∩ I⁻(γ̃ s₀, Ũ)) of field (v). It uses (v)'s compactness only to feed (vi). Both could therefore be weakened, to (vi) at that K and to (v) without the compactness, with no change to the proof (the evidence's allowance). The definition keeps 'every compact K ⊆ Ũ', as designed; this is for the author's OQ.",
+    "(4.2) holds as an equality from field (iii) alone (biUnion_Iplus_inter_Iminus_eq). Its ⊇ needs (2.2) only as V ≤ W, and Sbierski's (2.2) with (2.4) (sbierski2023c.txt:1107–1108) is exactly what (iii) packages. Under (A), I⁻(γ̃ s₀, W) equals the chart diamond (Iminus_eq_diamond), which is stronger than (4.3).",
+    "(4.3) needs neither (B) nor the Cauchy property of the slice: every subset of I⁻(γ̃ s₀, W) lies in the chart diamond once (A), arc-connectedness and future one-connectedness hold. (B) is used once, at the single point γ̃ s₀.",
+    "Sbierski does not mention that the slice is non-empty (:1139–1144). In ETT it follows because W has an inextensible causal curve: σ extends to one by exists_inextensible_of_t1_secondCountable (CurvesExtendSecondCountable.lean:1376), and that curve meets S. This uses second countability and T1.",
+    "As the evidence said, two of Sbierski's steps are not needed for the contradiction: (4.2)'s ⊇, and I⁺(p̃, Ũ) = ⋃ I⁺(γ̃(s), Ũ) (:1089–1100). Here they are proved anyway, for the equality form of (4.2).",
+    "Dimension. On the timelike line no open set has a past boundary chart at any point (timelikeLine_not_pastBoundaryChart), because field (vi) needs room to avoid K. Sbierski's chart likewise needs d ≥ 1 for x₀ ∈ (−ε₁, ε₁)^d (:1137). So the timelike-line witnesses show that the theorem's hypotheses are jointly satisfiable, not that the predicate is inhabited. Sbierski's own d ≥ 2 (Thm 1.5, :151) enters the abstract theorem only through future one-connectedness (Prop 3.1, :477), which is a hypothesis here, as he says at :299.",
+    "Library gaps closed in this file: there was no one-sided transport of past-inextensibility along an IsEMorphismOn (now IsEMorphismOn.pastInextensible_invComp), and no proof that an IsSpacetimeExtension is an IsEMorphismOn (now IsSpacetimeExtension.isEMorphismOn). With the second, the CauchyExtension transport lemmas apply to every extension, and isCauchySurfaceOn_image is one of them."
+  ],
+  "questions": [
+    "Is Causal.Causality.PastBoundaryChart (six fields; (vi) over every compact K ⊆ Ũ) the ETT notion of record for Sbierski's past boundary chart? It is the programme's definition, adopted unchanged; whether it is the notion of record is the author's question, to become an OQ row (like OQ-154 for IsSpacetimeExtension). Alternatives the proof allows: (vi) only at the closure of the (v) diamond; (v) without compactness once (vi) is so weakened; dropping (i)'s p ∈ Ũ, which (iv) implies.",
+    "(A) is read as the evidence states it. It covers every DEC-13 past-inextensible curve of W over any interval that is chronal on its segments, with the union taken over the whole curve. Sbierski's Prop 3.6 (:704–713, :729) concerns future-directed timelike curves parametrised by t over (0, 1), with the union over 0 < s < s₀. The two readings agree, because the theorem applies (A) to the initial piece (0, s₀/2], which is itself past-inextensible (step (a)). That an FLRW spacetime satisfies (A) in the DEC-13 sense is layer 3.",
+    "(B) is read at every point of W, as the evidence states it, where Sbierski has it at each γ(s₀) (:715). The slice {t₀} × S^d is read as a DEC-14 Cauchy surface of W. Only γ̃ s₀ is used.",
+    "Field (v) is read on ≪: closure (I⁺(p, Ũ) ∩ I⁻(γ̃ s₀, Ũ)) is compact in Ũ, where Sbierski asks compactness of the J_{g̃_w}-diamond (:1077). The I-diamond is contained in it. This is the evidence's reading, recorded here.",
+    "The extension corollary rests on OQ-154 (IsSpacetimeExtension as the ETT reading of a C⁰-extension, OPEN). This file records that dependence and decides nothing.",
+    "Timelike curves are read as chronal curves (DEC-6) over [0, 1], past inextendible as DEC-13's PastInextensible, and Cauchy hypersurfaces as DEC-14's IsCauchySurfaceOn. These are the library's standing readings, recorded so that no reading is made silently."
+  ],
+  "kb_proposals": [
+    "Sbierski's past boundary chart in ETT is Causal.Causality.PastBoundaryChart C W Ũ p. It is Nonempty of the six-field structure PastBoundaryChartData, which lives in Type because a Prop structure cannot hold V, γ̃, s₀. The future chart is its C.dual. Abstract Thm 1.5 is not_pastBoundaryChart_of_flrwType; the extension form is IsSpacetimeExtension.not_pastBoundaryChart_of_flrwType (T-abs-flrw-type).",
+    "Every IsSpacetimeExtension is an IsEMorphismOn CN C ⊤ ι (IsSpacetimeExtension.isEMorphismOn), so CauchyExtension's transport of Cauchy surfaces and inextensibility applies to extensions. IsEMorphismOn.pastInextensible_invComp is the one-sided pull-back (T-abs-flrw-type).",
+    "On the timelike line no open set has a past boundary chart (timelikeLine_not_pastBoundaryChart). A witness there shows a theorem's hypotheses consistent but not the chart inhabited; an instance needs dimension ≥ 2, which is layer 3 (T-loc-minkowski-past-boundary-chart). Galileo's curve form cannot supply one either, since its diamonds are slabs with non-compact closure."
+  ],
+  "notes": "One new file, 629 lines, 0 sorry, 25 declarations (1 structure, 3 defs, 21 theorems). Graduation checklist (kb/0015, kb/0025): the master adds `import CausalScaffold.FlrwType` to scaffold/CausalScaffold.lean, or the axiom sweep misses the module. At graduation the file moves to Causal/FlrwType.lean (the evidence's proposed name), and its import goes into Causal.lean. Its imports are already Causal.* only and ETT-layer, and it does not reach Causal.Ladder.Rules, so any module may import it. Name clashes (kb/0082): grep -w over Causal/ and scaffold/ finds none of the 25 names outside this file. IsSpacetimeExtension.isCauchySurfaceOn_image and IsCausalIso.isCauchySurfaceOn_image share a last component but live in different namespaces. The library's timelikeLine_isCauchySurface_singleton (CompactCauchy.lean:820) is reused, not restated. The file does not import BoundaryChartCauchy (the parallel closer's), which it only read. No existing file was edited: not ladder.toml, Causal.lean, the README or kb. I ran no git command that writes, no make check and no tools/ladder.py emit-lean; tools/ladder.py was only imported in memory. One scratch file, /tmp/flrw_probe/PropStruct.lean, was written outside the repository to check the Prop-structure claim. The concurrent closers' modules were neither built nor touched.",
+  "what_remains": "(1) Graduation, after which tools/ladder.py check can resolve the proposed witnesses. (2) An instance of the predicate, which is layer 3: T-loc-minkowski-past-boundary-chart, the half-space t > 0 of Minkowski 1+1 at 0, where the fields can be checked by hand. No ETT-layer causality in the library offers a cheap one: it needs dimension ≥ 2 and compact diamond closures, and Galileo's curve form fails (v). (3) The C⁰ derivation of fields (ii)–(vi) (T-loc-c0-past-boundary-chart), using T-abs-boundary-chart-cauchy for (iii). Prop 3.6 for FLRW, i.e. (A) and (B), and Prop 3.1 (future one-connectedness) are also layer 3. (4) Optional, cheap: the future form of the extension corollary, through hι.dual and the same dual conversion as not_futureBoundaryChart_of_flrwType. (5) The author's OQ on the definition (questions[0]) and the keeper's node (lemmas_for_the_keeper).",
+  "corrected_after_audit": "AUDIT-1 (minor), applied by the master: (1) SCOPE and the main theorem's docstring say plainly that no instance of PastBoundaryChart is built here and the theorem is non-vacuous once T-loc-minkowski-past-boundary-chart builds one (the auditor argues a 𝐌^{1+1} instance plausible at p = 0, W = {t > 0}); the keeper's proposed boundary-chart node waits for that target. (2) The checklist marks Prop 3.6's claims as hypotheses and the conclusion as the ETT form (∂⁻ι(M) = ∅ needs Prop 2.1, layer 3); SCOPE says Thm 1.5 for FLRW is not proved here. (3) findings[6] ('Sbierski does not mention that the slice is non-empty') is a remark about ETT, not a gap in the paper: {t₀}×S^d is visibly non-empty. (4) The four general lemmas at :379–454 (pastInextensible_invComp; IsSpacetimeExtension.isEMorphismOn and kin) stay in this leaf at graduation; their move to Causal/CauchyExtension.lean and Causal/C0ExtensionSkeleton.lean is left to the planner as a hoist (it edits two existing files)."
+}

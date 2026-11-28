@@ -327,3 +327,4 @@ rediscover. One fact per entry.
 | [0319](entries/0319-two-piece-ett-layer.md) | pattern | The two-piece gluing core is ETT-layer in Causal.TwoPiece |
 | [0320](entries/0320-boundary-chart-cauchy.md) | pattern | The inside of a boundary chart is future-closed: Sbierski's (2.4) without V ∩ S = ∅ |
 | [0321](entries/0321-first-exit.md) | pattern | The first exit of a curve from an open set is attained and lies in its closure |
+| [0322](entries/0322-past-boundary-chart.md) | pattern | Sbierski's past boundary chart in ETT, and why the timelike line has none |

@@ -1,0 +1,168 @@
+@Causal.Causality.PastBoundaryChartData : {M : Type u_1} →
+  [inst : TopologicalSpace M] → Causal.Causality M → TopologicalSpace.Opens M → TopologicalSpace.Opens M → M → Type u_1
+@Causal.Causality.PastBoundaryChart : {M : Type u_1} →
+  [inst : TopologicalSpace M] → Causal.Causality M → TopologicalSpace.Opens M → TopologicalSpace.Opens M → M → Prop
+@Causal.Causality.FutureBoundaryChart : {M : Type u_1} →
+  [inst : TopologicalSpace M] → Causal.Causality M → TopologicalSpace.Opens M → TopologicalSpace.Opens M → M → Prop
+@Causal.Causality.ChronalCurveOn.pastInextensible_Ioc_of_start_notMem : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} [T2Space M] {c : ℝ → M},
+  C.ChronalCurveOn Ũ c 0 1 →
+    ∀ {s : ℝ},
+      s ∈ Set.Ioc 0 1 →
+        (∀ t ∈ Set.Ioc 0 s, c t ∈ W) →
+          c 0 ∉ W →
+            C.PastInextensible W (Set.Ioc 0 s) c ∧ ∀ a ∈ Set.Ioc 0 s, ∀ b ∈ Set.Ioc 0 s, C.ChronalCurveOn W c a b
+@Causal.Causality.PastBoundaryChartData.Iplus_inter_Iminus_subset : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M} (d : C.PastBoundaryChartData W Ũ p),
+  C.CausallyArcConnectedOn W →
+    C.FutureOneConnectedOn W →
+      ∀ {s : ℝ},
+        s ∈ Set.Ioo 0 d.s₀ →
+          C.Iplus W {d.curve s} ∩ C.Iminus W {d.curve d.s₀} ⊆ C.Iplus Ũ {p} ∩ C.Iminus Ũ {d.curve d.s₀}
+@Causal.Causality.PastBoundaryChartData.biUnion_Iplus_inter_Iminus_eq : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M} (d : C.PastBoundaryChartData W Ũ p),
+  C.CausallyArcConnectedOn W →
+    C.FutureOneConnectedOn W →
+      ⋃ s ∈ Set.Ioo 0 d.s₀, C.Iplus W {d.curve s} ∩ C.Iminus W {d.curve d.s₀} =
+        C.Iplus Ũ {p} ∩ C.Iminus Ũ {d.curve d.s₀}
+@Causal.Causality.PastBoundaryChartData.Iminus_eq_diamond : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M} [T2Space M] (d : C.PastBoundaryChartData W Ũ p),
+  C.CausallyArcConnectedOn W →
+    C.FutureOneConnectedOn W →
+      (∀ (I : Set ℝ) (γ : ℝ → M),
+          C.PastInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iplus W {γ t} = ↑W) →
+        C.Iminus W {d.curve d.s₀} = C.Iplus Ũ {p} ∩ C.Iminus Ũ {d.curve d.s₀}
+@Causal.Causality.PastBoundaryChartData.subset_diamond : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M} [T2Space M] (d : C.PastBoundaryChartData W Ũ p),
+  C.CausallyArcConnectedOn W →
+    C.FutureOneConnectedOn W →
+      (∀ (I : Set ℝ) (γ : ℝ → M),
+          C.PastInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iplus W {γ t} = ↑W) →
+        ∀ {S : Set M}, S ⊆ C.Iminus W {d.curve d.s₀} → S ⊆ C.Iplus Ũ {p} ∩ C.Iminus Ũ {d.curve d.s₀}
+@Causal.Causality.not_pastBoundaryChart_of_flrwType : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T2Space M] [SecondCountableTopology M],
+  C.CausallyArcConnectedOn W →
+    C.FutureOneConnectedOn W →
+      (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) →
+        (∀ (I : Set ℝ) (γ : ℝ → M),
+            C.PastInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iplus W {γ t} = ↑W) →
+          (∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iminus W {x}) →
+            ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.PastBoundaryChart W Ũ p
+@Causal.Causality.not_futureBoundaryChart_of_flrwType : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T2Space M] [SecondCountableTopology M],
+  C.CausallyArcConnectedOn W →
+    C.FutureOneConnectedOn W →
+      (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) →
+        (∀ (I : Set ℝ) (γ : ℝ → M),
+            C.FutureInextensible W I γ →
+              (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iminus W {γ t} = ↑W) →
+          (∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iplus W {x}) →
+            ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.FutureBoundaryChart W Ũ p
+@Causal.IsEMorphismOn.pastInextensible_invComp : ∀ {M : Type u_1} [inst : TopologicalSpace M] {N : Type u_2}
+  [inst_1 : TopologicalSpace N] {C : Causal.Causality M} {D : Causal.Causality N} {W : TopologicalSpace.Opens M}
+  {φ : M → N},
+  Causal.IsEMorphismOn C D W φ →
+    Set.InjOn φ ↑W →
+      ∀ {g : N → M},
+        Set.LeftInvOn g φ ↑W →
+          ∀ {V : TopologicalSpace.Opens M},
+            V ≤ W →
+              ∀ {U : TopologicalSpace.Opens N},
+                ↑U = φ '' ↑V → ∀ {I : Set ℝ} {e : ℝ → N}, D.PastInextensible U I e → C.PastInextensible V I (g ∘ e)
+@Causal.IsSpacetimeExtension.isEMorphismOn : ∀ {M : Type u_1} [inst : TopologicalSpace M] {N : Type u_2}
+  [inst_1 : TopologicalSpace N] [inst_2 : Nonempty N] {CN : Causal.Causality N} {C : Causal.Causality M} {ι : N → M},
+  Causal.IsSpacetimeExtension CN C ι → Causal.IsEMorphismOn CN C ⊤ ι
+@Causal.IsSpacetimeExtension.isCauchySurfaceOn_image : ∀ {M : Type u_1} [inst : TopologicalSpace M] {N : Type u_2}
+  [inst_1 : TopologicalSpace N] [inst_2 : Nonempty N] {CN : Causal.Causality N} {C : Causal.Causality M} {ι : N → M}
+  (hι : Causal.IsSpacetimeExtension CN C ι) {S : Set N},
+  CN.IsCauchySurface S → C.IsCauchySurfaceOn hι.rangeOpens (ι '' S)
+@Causal.IsSpacetimeExtension.le_antisymm_rangeOpens : ∀ {M : Type u_1} [inst : TopologicalSpace M] {N : Type u_2}
+  [inst_1 : TopologicalSpace N] [inst_2 : Nonempty N] {CN : Causal.Causality N} {C : Causal.Causality M} {ι : N → M}
+  (hι : Causal.IsSpacetimeExtension CN C ι),
+  CN.IsCausal → ∀ ⦃x y : M⦄, C.le hι.rangeOpens x y → C.le hι.rangeOpens y x → x = y
+@Causal.IsSpacetimeExtension.iUnion_Iplus_eq_of_pastInextensible : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {N : Type u_2} [inst_1 : TopologicalSpace N] [inst_2 : Nonempty N] {CN : Causal.Causality N} {C : Causal.Causality M}
+  {ι : N → M} (hι : Causal.IsSpacetimeExtension CN C ι),
+  (∀ (I : Set ℝ) (δ : ℝ → N),
+      CN.PastInextensible ⊤ I δ →
+        (∀ a ∈ I, ∀ b ∈ I, CN.ChronalCurveOn ⊤ δ a b) → ⋃ t ∈ I, CN.Iplus ⊤ {δ t} = Set.univ) →
+    ∀ (I : Set ℝ) (γ : ℝ → M),
+      C.PastInextensible hι.rangeOpens I γ →
+        (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn hι.rangeOpens γ a b) → ⋃ t ∈ I, C.Iplus hι.rangeOpens {γ t} = ↑hι.rangeOpens
+@Causal.IsSpacetimeExtension.exists_isCauchySurfaceOn_subset_Iminus : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {N : Type u_2} [inst_1 : TopologicalSpace N] [inst_2 : Nonempty N] {CN : Causal.Causality N} {C : Causal.Causality M}
+  {ι : N → M} (hι : Causal.IsSpacetimeExtension CN C ι),
+  (∀ (x : N), ∃ S, CN.IsCauchySurface S ∧ S ⊆ CN.Iminus ⊤ {x}) →
+    ∀ x ∈ hι.rangeOpens, ∃ S, C.IsCauchySurfaceOn hι.rangeOpens S ∧ S ⊆ C.Iminus hι.rangeOpens {x}
+@Causal.IsSpacetimeExtension.not_pastBoundaryChart_of_flrwType : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {N : Type u_2} [inst_1 : TopologicalSpace N] [inst_2 : Nonempty N] {CN : Causal.Causality N} {C : Causal.Causality M}
+  {ι : N → M} [T2Space M] [SecondCountableTopology M] (hι : Causal.IsSpacetimeExtension CN C ι),
+  CN.CausallyArcConnected →
+    CN.FutureOneConnected →
+      CN.IsCausal →
+        (∀ (I : Set ℝ) (δ : ℝ → N),
+            CN.PastInextensible ⊤ I δ →
+              (∀ a ∈ I, ∀ b ∈ I, CN.ChronalCurveOn ⊤ δ a b) → ⋃ t ∈ I, CN.Iplus ⊤ {δ t} = Set.univ) →
+          (∀ (x : N), ∃ S, CN.IsCauchySurface S ∧ S ⊆ CN.Iminus ⊤ {x}) →
+            ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.PastBoundaryChart hι.rangeOpens Ũ p
+Causal.posHalfLine : TopologicalSpace.Opens ℝ
+Causal.timelikeLine_not_pastBoundaryChart : ∀ (W Ũ : TopologicalSpace.Opens ℝ) (p : ℝ),
+  ¬Causal.timelikeLine.PastBoundaryChart W Ũ p
+Causal.timelikeLine_iUnion_Iplus_eq_univ : ∀ (I : Set ℝ) (δ : ℝ → ℝ),
+  Causal.timelikeLine.PastInextensible ⊤ I δ → ⋃ t ∈ I, Causal.timelikeLine.Iplus ⊤ {δ t} = Set.univ
+Causal.timelikeLine_exists_cauchy_Iminus : ∀ (x : ℝ),
+  ∃ S, Causal.timelikeLine.IsCauchySurface S ∧ S ⊆ Causal.timelikeLine.Iminus ⊤ {x}
+Causal.exp_rangeOpens_eq : Causal.exp_isSpacetimeExtension.rangeOpens = Causal.posHalfLine
+Causal.timelikeLine_exp_not_pastBoundaryChart : ∀ (Ũ : TopologicalSpace.Opens ℝ) (p : ℝ),
+  ¬Causal.timelikeLine.PastBoundaryChart Causal.exp_isSpacetimeExtension.rangeOpens Ũ p
+Causal.timelikeLine_flrwType_hypotheses_posHalfLine : Causal.timelikeLine.CausallyArcConnectedOn Causal.posHalfLine ∧
+  Causal.timelikeLine.FutureOneConnectedOn Causal.posHalfLine ∧
+    (∀ ⦃x y : ℝ⦄,
+        Causal.timelikeLine.le Causal.posHalfLine x y → Causal.timelikeLine.le Causal.posHalfLine y x → x = y) ∧
+      (∀ (I : Set ℝ) (γ : ℝ → ℝ),
+          Causal.timelikeLine.PastInextensible Causal.posHalfLine I γ →
+            (∀ a ∈ I, ∀ b ∈ I, Causal.timelikeLine.ChronalCurveOn Causal.posHalfLine γ a b) →
+              ⋃ t ∈ I, Causal.timelikeLine.Iplus Causal.posHalfLine {γ t} = ↑Causal.posHalfLine) ∧
+        ∀ x ∈ Causal.posHalfLine,
+          ∃ S,
+            Causal.timelikeLine.IsCauchySurfaceOn Causal.posHalfLine S ∧
+              S ⊆ Causal.timelikeLine.Iminus Causal.posHalfLine {x}
+Causal.timelikeLine_posHalfLine_not_pastBoundaryChart : ∀ (Ũ : TopologicalSpace.Opens ℝ) (p : ℝ),
+  0 ∉ Causal.posHalfLine ∧ ¬Causal.timelikeLine.PastBoundaryChart Causal.posHalfLine Ũ p
+'Causal.Causality.PastBoundaryChartData' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.PastBoundaryChart' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.FutureBoundaryChart' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.ChronalCurveOn.pastInextensible_Ioc_of_start_notMem' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.PastBoundaryChartData.Iplus_inter_Iminus_subset' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.PastBoundaryChartData.biUnion_Iplus_inter_Iminus_eq' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.PastBoundaryChartData.Iminus_eq_diamond' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.PastBoundaryChartData.subset_diamond' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.not_pastBoundaryChart_of_flrwType' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.not_futureBoundaryChart_of_flrwType' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.IsEMorphismOn.pastInextensible_invComp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.IsSpacetimeExtension.isEMorphismOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.IsSpacetimeExtension.isCauchySurfaceOn_image' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.IsSpacetimeExtension.le_antisymm_rangeOpens' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.IsSpacetimeExtension.iUnion_Iplus_eq_of_pastInextensible' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.IsSpacetimeExtension.exists_isCauchySurfaceOn_subset_Iminus' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.IsSpacetimeExtension.not_pastBoundaryChart_of_flrwType' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.posHalfLine' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_not_pastBoundaryChart' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_iUnion_Iplus_eq_univ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_exists_cauchy_Iminus' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.exp_rangeOpens_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_exp_not_pastBoundaryChart' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_flrwType_hypotheses_posHalfLine' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_posHalfLine_not_pastBoundaryChart' depends on axioms: [propext, Classical.choice, Quot.sound]

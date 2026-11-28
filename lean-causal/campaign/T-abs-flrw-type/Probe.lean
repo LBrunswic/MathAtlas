@@ -1,0 +1,55 @@
+import CausalScaffold.FlrwType
+
+set_option pp.proofs false
+
+#check @Causal.Causality.PastBoundaryChartData
+#check @Causal.Causality.PastBoundaryChart
+#check @Causal.Causality.FutureBoundaryChart
+#check @Causal.Causality.ChronalCurveOn.pastInextensible_Ioc_of_start_notMem
+#check @Causal.Causality.PastBoundaryChartData.Iplus_inter_Iminus_subset
+#check @Causal.Causality.PastBoundaryChartData.biUnion_Iplus_inter_Iminus_eq
+#check @Causal.Causality.PastBoundaryChartData.Iminus_eq_diamond
+#check @Causal.Causality.PastBoundaryChartData.subset_diamond
+#check @Causal.Causality.not_pastBoundaryChart_of_flrwType
+#check @Causal.Causality.not_futureBoundaryChart_of_flrwType
+#check @Causal.IsEMorphismOn.pastInextensible_invComp
+#check @Causal.IsSpacetimeExtension.isEMorphismOn
+#check @Causal.IsSpacetimeExtension.isCauchySurfaceOn_image
+#check @Causal.IsSpacetimeExtension.le_antisymm_rangeOpens
+#check @Causal.IsSpacetimeExtension.iUnion_Iplus_eq_of_pastInextensible
+#check @Causal.IsSpacetimeExtension.exists_isCauchySurfaceOn_subset_Iminus
+#check @Causal.IsSpacetimeExtension.not_pastBoundaryChart_of_flrwType
+#check @Causal.posHalfLine
+#check @Causal.timelikeLine_not_pastBoundaryChart
+#check @Causal.timelikeLine_iUnion_Iplus_eq_univ
+#check @Causal.timelikeLine_exists_cauchy_Iminus
+#check @Causal.exp_rangeOpens_eq
+#check @Causal.timelikeLine_exp_not_pastBoundaryChart
+#check @Causal.timelikeLine_flrwType_hypotheses_posHalfLine
+#check @Causal.timelikeLine_posHalfLine_not_pastBoundaryChart
+
+#print axioms Causal.Causality.PastBoundaryChartData
+#print axioms Causal.Causality.PastBoundaryChart
+#print axioms Causal.Causality.FutureBoundaryChart
+#print axioms Causal.Causality.ChronalCurveOn.pastInextensible_Ioc_of_start_notMem
+#print axioms Causal.Causality.PastBoundaryChartData.Iplus_inter_Iminus_subset
+#print axioms Causal.Causality.PastBoundaryChartData.biUnion_Iplus_inter_Iminus_eq
+#print axioms Causal.Causality.PastBoundaryChartData.Iminus_eq_diamond
+#print axioms Causal.Causality.PastBoundaryChartData.subset_diamond
+#print axioms Causal.Causality.not_pastBoundaryChart_of_flrwType
+#print axioms Causal.Causality.not_futureBoundaryChart_of_flrwType
+#print axioms Causal.IsEMorphismOn.pastInextensible_invComp
+#print axioms Causal.IsSpacetimeExtension.isEMorphismOn
+#print axioms Causal.IsSpacetimeExtension.isCauchySurfaceOn_image
+#print axioms Causal.IsSpacetimeExtension.le_antisymm_rangeOpens
+#print axioms Causal.IsSpacetimeExtension.iUnion_Iplus_eq_of_pastInextensible
+#print axioms Causal.IsSpacetimeExtension.exists_isCauchySurfaceOn_subset_Iminus
+#print axioms Causal.IsSpacetimeExtension.not_pastBoundaryChart_of_flrwType
+#print axioms Causal.posHalfLine
+#print axioms Causal.timelikeLine_not_pastBoundaryChart
+#print axioms Causal.timelikeLine_iUnion_Iplus_eq_univ
+#print axioms Causal.timelikeLine_exists_cauchy_Iminus
+#print axioms Causal.exp_rangeOpens_eq
+#print axioms Causal.timelikeLine_exp_not_pastBoundaryChart
+#print axioms Causal.timelikeLine_flrwType_hypotheses_posHalfLine
+#print axioms Causal.timelikeLine_posHalfLine_not_pastBoundaryChart
