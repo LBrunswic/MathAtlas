@@ -1639,17 +1639,47 @@ proposed_by = "roadmap-planner"
 commit = "6f6d0590"
 
 [[target]]
-id = "T-bz-c3-balayable-somme-prop5"
-title = "Chapter 3 § 2, Prop. 5 and its Corollary: with the notations of Prop. 4, w is sweepable (resp. homogeneous) iff every v_i is; the same for any decomposition of w as a sum of p convexes"
+id = "T-bz-c3-prop4-produit"
+title = "Chapter 3 § 2, Prop. 4 in Chapter 1's notation: close the one tagged sorry of Benzecri.Sphere.prop4_produit (scaffold Chapter3/BalayableSommeProduit.lean), a projective isomorphism Ψ : PiBase n B ≃ₜ w (IsProjIso (pdim n) m) under which every projective automorphism of w is IsCompatiblePi, by transporting the strict prop4_somme and prop4_automorphisme_compatible through Chapter 1's cone charts. The statement is fixed; no retype"
 stream = "benzecri"
 kind = "close"
 paper = "benzecri"
-labels = ["bzprop:c3s2p5_balayable_somme", "bzcor:c3s2p5c_balayable_somme_quelconque"]
+labels = ["bzprop:c3s2p4_automorphisme_compatible"]
+status = "ready"
+owner = "closer"
+priority = 8
+depends = ["T-bz-c3-balayable-somme"]
+evidence = "Split 2026-11-28 by the planner, after T-bz-c3-balayable-somme (6f6d0590; journal 09:46: « the Chapter 1 form prop4_produit split into scaffold BalayableSommeProduit.lean on one tagged sorry »). The tag, lean-benzecri/scaffold/BenzecriScaffold/Chapter3/BalayableSommeProduit.lean:80: « SORRY(bzprop:c3s2p4_automorphisme_compatible): the transport of prop4_somme / prop4_automorphisme_compatible to PiBase (global cone charts of FCone over open subsets, base chart of the product chart, dimension cast pdim n = m, GU-normalisation of the φᵢ) ». The route is the file's own comment (l.68–76): « (i) the global cone chart FCone.coneChart of the inclusion chart of each open Bᵢ ⊆ S(nᵢ) (source everything, target toSphere⁻¹' Bᵢ); (ii) their product chart piChart and its base chart ConeBase.baseChart on PiBase, composed with the linear iso ℝ^{pdim n+1} ≅ ℝ^{m+1}, (yᵢ) ↦ ∑ bᵢ⁻¹ yᵢ (which maps ∏ bᵢ(F(vᵢ)) onto F(w) by prop4_somme), made a Homeomorph onto the subtype w and shown a GSR morphism after subst of pdim n = m; (iii) for f, the conical isomorphisms φᵢ read cᵢ⁻¹ bᵢ g b_{τ(i)}⁻¹ in these charts, NORMALISED to |det| = 1 by cᵢ = |det(bᵢ g b_{τ(i)}⁻¹)|^{1/(nᵢ+1)} because the cone groupoid is GU, the torus element t = [(cᵢ)] absorbing the normalisation, and the identity f • [x] = t • [φ(x ∘ τ)] checked through (i)–(ii) ». Strict inputs: Benzecri/Chapter3/BalayableSomme.lean prop4_somme (:559), prop4_permute (:728), exists_linearEquiv_of_gxAut (:768), prop4_gxAut (:797), prop4_automorphisme_compatible (:830); Chapter 1: FCone.coneChart (Benzecri/Cone/Lift.lean:553), ConeBase.baseChart (Cone/Base.lean:340), piChart and pdim (Applications/ProductsGeneral.lean:339, :185), IsProjIso, IsProjIso.trans/symm/toAut (Applications/ConverseGeneral.lean:108–135), IsCompatibleAssocPi / IsCompatiblePi (:322, :334), GU = {|det| = 1} (Projective/Groups.lean:319), so cᵢ > 0 suffices (no sign issue). OQ-171 already records the normalisation: « compatibility needs t ≠ 1 in general (the φᵢ are unimodular), which the proof does not say ». Instances (the hypotheses are met): the open n-simplex, simplexO_hyps4 (:897) and simplexO_prop4 (:912), with q = n, every nᵢ = 0 and each Bᵢ the point of S(0), so PiBase is the open simplex; the round cap, capS_hyps4 (:905), q = 0. Fallback if (iii) runs long: land (i)–(ii) sorry-free as a separate prop4_produit_iso (∃ hB Ψ, IsProjIso) and leave only the compatibility conjunct on the tag, said in the REPORT; T-bz-c3-balayable-somme-prop5's ⇐ needs only Ψ. The label stays unmarked whatever closes (OQ-171, OQ-168 OPEN); a sorry-free file graduates to strict Benzecri/Chapter3/ (its imports, Benzecri.Chapter3.BalayableSomme and Benzecri.Applications.ConverseGeneral, are already strict). Unblocks T-bz-c3-balayable-somme-prop5."
+added = "2026-11-28"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-bz-c3-balayable-somme-prop5"
+title = "Chapter 3 § 2, Prop. 5: with the notations of Prop. 4, w is sweepable (resp. homogeneous) iff every v_i is, through prop4_produit's projective isomorphism w ≅ PiBase n B and Chapter 1 § 3 Props. 3 and 4"
+stream = "benzecri"
+kind = "close"
+paper = "benzecri"
+labels = ["bzprop:c3s2p5_balayable_somme"]
 status = "planned"
 owner = "closer"
 priority = 9
-depends = ["T-bz-c3-balayable-somme"]
-evidence = "Split 2026-11-28 by the planner from T-bz-c3-balayable-somme. Ledger rows bzprop:c3s2p5_balayable_somme (benzecri1960_ch3.tex:613) and bzcor:c3s2p5c_balayable_somme_quelconque (:623), proved in print, no Lean. Prop. 5: « Avec les notations de la proposition 4, w est balayable (resp. homogène) si et seulement si les v_i le sont. » Its proof: « Cette proposition résulte de la précédente et de la proposition 4 du chapitre 1, paragraphe 3. » Corollary: « Soit w un ouvert convexe de S(ℝⁿ⁺¹) de noyau vide, somme de p convexes v₁, …, v_i, …, v_p. w est balayable (resp. homogène) si et seulement si les v_i le sont. » Its proof: « On se ramène à une décomposition de w en somme de convexes contenus dans des variétés distinguées simples et l'on applique la proposition précédente. » Strict decls: ⇒ from Applications/ConverseGeneral.lean prop4_reciproque_pi (:702; homogeneous_of_compatible_pi :604, balayable_of_compatible_pi :662), once Prop. 4 makes the compatible group all of GXAut; ⇐ from Ch. 1 § 3 Prop. 3, Applications/ProductsGeneral.lean prop3_produit_homogene_pi (:2046; isHomogeneous_piBase :1747, isBalayable_piBase :1761) — a step the printed proof does not cite, which the closer discloses; both transported along Prop. 4's GX-isomorphism; IsHomogeneous, IsBalayable: Structure/Classes.lean:299, :307. Readings: those of T-bz-c3-balayable-somme (OQ-168: F(w) without a line); the Corollary's « somme de p convexes » is Déf. 5 (EstSommeS, Chapter3/BooleProjectif.lean:176), each v_i open in its support. Instance: the open simplex of S(2) is homogeneous (simplexO, three summands, each a point of S(0)). Ready when T-bz-c3-balayable-somme is done."
+depends = ["T-bz-c3-prop4-produit"]
+evidence = "Split 2026-11-28 by the planner from T-bz-c3-balayable-somme. Ledger rows bzprop:c3s2p5_balayable_somme (benzecri1960_ch3.tex:613) and bzcor:c3s2p5c_balayable_somme_quelconque (:623), proved in print, no Lean. Prop. 5: « Avec les notations de la proposition 4, w est balayable (resp. homogène) si et seulement si les v_i le sont. » Its proof: « Cette proposition résulte de la précédente et de la proposition 4 du chapitre 1, paragraphe 3. » Corollary: « Soit w un ouvert convexe de S(ℝⁿ⁺¹) de noyau vide, somme de p convexes v₁, …, v_i, …, v_p. w est balayable (resp. homogène) si et seulement si les v_i le sont. » Its proof: « On se ramène à une décomposition de w en somme de convexes contenus dans des variétés distinguées simples et l'on applique la proposition précédente. » Strict decls: ⇒ from Applications/ConverseGeneral.lean prop4_reciproque_pi (:702; homogeneous_of_compatible_pi :604, balayable_of_compatible_pi :662), once Prop. 4 makes the compatible group all of GXAut; ⇐ from Ch. 1 § 3 Prop. 3, Applications/ProductsGeneral.lean prop3_produit_homogene_pi (:2046; isHomogeneous_piBase :1747, isBalayable_piBase :1761) — a step the printed proof does not cite, which the closer discloses; both transported along Prop. 4's GX-isomorphism; IsHomogeneous, IsBalayable: Structure/Classes.lean:299, :307. Readings: those of T-bz-c3-balayable-somme (OQ-168: F(w) without a line); the Corollary's « somme de p convexes » is Déf. 5 (EstSommeS, Chapter3/BooleProjectif.lean:176), each v_i open in its support. Instance: the open simplex of S(2) is homogeneous (simplexO, three summands, each a point of S(0)). Ready when T-bz-c3-balayable-somme is done. Refined 2026-11-28 (planner, after T-bz-c3-balayable-somme, 6f6d0590). Prop. 5 needs prop4_produit, still a tagged sorry (scaffold Chapter3/BalayableSommeProduit.lean:80): ⇒ uses its second conjunct (every GXAut of w, transported, is IsCompatiblePi, so the compatible subgroup is all of GXAut (PiBase n B) and homogeneous_of_compatible_pi / balayable_of_compatible_pi apply to the full group), ⇐ uses only Ψ (prop3_produit_homogene_pi, then transport). So this target now depends on T-bz-c3-prop4-produit, and the Corollary is T-bz-c3-balayable-somme-cor. Missing piece, the closer's to add: no lemma of lean-benzecri transports IsHomogeneous / IsBalayable (Structure/Classes.lean:299, :307) along an IsProjIso (a grep finds only Applications/Circle.lean's lifts to F(B), :339, :366); it is the conjugation GXAut X ≃* GXAut Y by Ψ. Statement shape: under prop4_produit's hypotheses (hw, hopen, hne, hn, hd, l, n, b) and its hB, IsHomogeneous (GSR m) (S m) w ↔ ∀ i, IsHomogeneous (GSR (n i)) (S (n i)) (Bᵢ), and the same for IsBalayable, for every choice of the bases bᵢ. Readings to disclose: « les v_i le sont » is read as « each Bᵢ = s(bᵢ(F(vᵢ))) ⊆ S(nᵢ) is », for every basis (the statement quantifies b); the hypotheses are OQ-171's (F(w) without a line, w nonempty), so the label stays unmarked with Prop. 4; [∀ i, Nonempty (Bᵢ)] comes from prop4_somme's nonempty composantes. Instance: the open n-simplex (simplexO_hyps4), each Bᵢ the point of S(0), trivially homogeneous, so ⇐ makes the open simplex homogeneous; the round cap (capS_hyps4, p = 1). Ready when T-bz-c3-prop4-produit is done."
+added = "2026-11-28"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-bz-c3-balayable-somme-cor"
+title = "Chapter 3 § 2, the Corollary of Prop. 5: an open convex w of S(ℝⁿ⁺¹) with empty noyau that is the sum (Déf. 5) of any p convexes v₁, …, v_p is sweepable (resp. homogeneous) iff every v_i is, by refining the decomposition to the simple distinguished subvarieties and applying Prop. 5 to w and to each v_i"
+stream = "benzecri"
+kind = "close"
+paper = "benzecri"
+labels = ["bzcor:c3s2p5c_balayable_somme_quelconque"]
+status = "planned"
+owner = "closer"
+priority = 9
+depends = ["T-bz-c3-balayable-somme-prop5"]
+evidence = "Split 2026-11-28 by the planner from T-bz-c3-balayable-somme-prop5. Ledger row bzcor:c3s2p5c_balayable_somme_quelconque (benzecri1960_ch3.tex:623, proved in print, no Lean): « Soit w un ouvert convexe de S(ℝⁿ⁺¹) de noyau vide, somme de p convexes v₁, …, v_i, …, v_p. w est balayable (resp. homogène) si et seulement si les v_i le sont. » Its proof: « On se ramène à une décomposition de w en somme de convexes contenus dans des variétés distinguées simples et l'on applique la proposition précédente. » What the reduction needs, beyond Prop. 5. For EstSommeS w v (Déf. 5, Chapter3/BooleProjectif.lean:176, over Déf. 1's IsSommeConvexes, Chapter3/Sommes.lean:137): each vᵢ is open in its support Lᵢ = span F(vᵢ), E = ⊕ Lᵢ, noyau vᵢ = ∅ and F(vᵢ) without a line (inherited from F(w)); the simple distinguished subvarieties of w are the disjoint union of those of the vᵢ relative to Lᵢ, with the same summands (prop4_somme's uniqueness clause, Chapter3/BalayableSomme.lean:559); then Prop. 5 for w and, through a basis Lᵢ ≅ ℝ^{kᵢ+1}, for each vᵢ (« vᵢ balayable » read through that basis, as in Prop. 5). Its own dispatch because the refinement lemma and the transport of each vᵢ to S(kᵢ) are new. Readings: those of Prop. 5 (OQ-171); « convexes » the nonempty Déf. 5 summands. Instance: the open 3-simplex as the sum of two open edges (p = 2, F(simplexO 3) the positive orthant of ℝ⁴ = (positive quadrant of ⟨e₀, e₁⟩) ⊕ (positive quadrant of ⟨e₂, e₃⟩)): each summand is an open arc of S(1), not simple, so the refinement step is exercised. Ready when T-bz-c3-balayable-somme-prop5 is done."
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
 
@@ -1798,16 +1828,46 @@ commit = "fe859ba7"
 
 [[target]]
 id = "T-bz-c3-somme-facettes-coniques"
-title = "Chapter 3 § 4, the Remark after Déf. 6: for S(n) the sum of L₁, …, L_p and convex bodies W_i of L_i, the closure of the sum of the W_i is a convex body of S(n) of which the W_i are conical facettes"
+title = "Chapter 3 § 4, the Remark after Déf. 6: for S(n) the sum of linear subvarieties L₁, …, L_p and convex bodies W_i of L_i, the closure of the sum of the W_i is a convex body of S(n) of which the W_i are conical facettes (each relative interior a facette of closure W_i, support L_i, conical in Déf. 5's sense)"
 stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzrem:c3s4r1_somme_facettes_coniques"]
-status = "planned"
+status = "ready"
+owner = "closer"
+priority = 9
+depends = ["T-bz-c3-facette-conique"]
+evidence = "Split 2026-11-28 by the planner from T-bz-c3-facette-conique. Ledger row bzrem:c3s4r1_somme_facettes_coniques (benzecri1960_ch3.tex:1142, a remark, no proof printed, no Lean): « Supposons données p sous-variétés linéaires L₁, …, L_i, …, L_p dont S(n) soit la somme. Soient W₁, …, W_i, …, W_p des corps convexes de L₁, …, L_i, …, L_p (W_i convexe fermé d'intérieur non vide pour la topologie de L_i). La fermeture de la somme des W_i est un corps convexe de S(n) dont les W_i sont des facettes coniques. » Builds on Déf. 5 of T-bz-c3-facette-conique, EstSommeS (Chapter3/BooleProjectif.lean:176) for « la somme des W_i » with « S(n) somme des L_i » the internal direct sum E = ⊕ L_i, IsCorpsConvexeS (Projective/Convex.lean:542). Reading to disclose: a facette is an α-class (Chapter3/FacettesSphere.lean facetteK), relatively open, so a closed W_i is not one when it is not a point: « les W_i sont des facettes coniques » is read as « the relative interior of each W_i is a conical facette, of closure W_i », or the closer records the reading it finds true. Instance: n + 1 points of S(n), whose closed sum is the closed simplex (Chapter3/PointsExtremaux.lean simplexS :301, isCorpsConvexeS_simplexS :327, facetteK_vertex :394). This is the « facette conique » of result C's final theorem (Ch. 5 p. 332, OCR layer). Ready when T-bz-c3-facette-conique is done. Refined and promoted 2026-11-28 (planner), T-bz-c3-facette-conique being done (fe859ba7). Strict decls: IsFacetteConique and isFacetteConique_iff_forall (Benzecri/Chapter3/FacetteConique.lean:157, :161), IsFacetteK.contingent_eq and coneAppui_eq_of_mem_facetteK (:148, :139), interior_facette_conique (:528), EstSommeLineaire / estSommeLineaire_iff (:179, :185); contingent (Chapter3/ConeAppui.lean:454); facetteK, IsFacetteK, supportK, noyau (Chapter3/FacettesSphere.lean:340, :343, :482, :678); linearSubvariety (Projective/Subvariety.lean:142); IsStrictConvexPart, IsCorpsConvexeS (Projective/Convex.lean:408, :542). The facette-conique REPORT's kb: « EstSomme2 univ (linSub L) (linSub L′) holds only in the degenerate cases (estSomme2_univ_linearSubvariety_iff). For « S(n) somme de L et L′ » use EstSommeLineaire ⇔ IsCompl »; for p subvarieties « S(n) somme des Lᵢ » is the internal direct sum E = ⊕ Lᵢ (the closer picks iSupIndep with ⨆ = ⊤ or DirectSum.IsInternal and says which). Readings to disclose, beyond the facette one above. (a) « la somme des W_i » of closed Wᵢ is Déf. 5's set s(Σ F(Wᵢ)) (every summand nonzero), whose closure is s(Σ (F(Wᵢ) ∪ {0}) − O). (b) « corps convexe de L_i »: the parenthetical lists « convexe fermé d'intérieur non vide pour la topologie de L_i » and not strictness, and without strictness the Remark fails (Wᵢ = Lᵢ = S(0) = {±e}: the closure of the sum contains an antipodal pair, so it is not a convex body); the closer proves it for Wᵢ strict, closed, of nonempty interior in Lᵢ (IsCorpsConvexeS's clauses relative to Lᵢ) and states the refutation of the parenthetical-only reading if it formalizes it. (c) p = 1 is the interior facette (interior_facette_conique), conical with support S(n). Instances: simplexS m (Chapter3/PointsExtremaux.lean:301; isCorpsConvexeS_simplexS :327, facetteK_vertex :394) as the closed sum of its m + 1 vertices, each Lᵢ = s(ℝeᵢ − O) ≅ S(0), as above; non-degenerate, S(3) = L₁ ⊕ L₂ with L₁ = s(⟨e₀, e₁⟩ − O), L₂ = s(⟨e₂, e₃⟩ − O) and Wᵢ the closed quarter arcs, whose closed sum is simplexS 3 and whose open arcs are two opposite open edges. lean-benzecri has two copies of the closed simplex (TriangleInstance.simplexS, PointsExtremaux.lean:301, any m; FacetteDualeInstance.simplexS, FacetteDuale.lean:620); use TriangleInstance's, and see T-bz-c3-dedupe-simplexe."
+added = "2026-11-28"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-bz-c3-facette-interieure"
+title = "Chapter 3 § 4, Prop. 10's hypothesis made exact: a facette F of a convex body W of S(n) with supportK F = univ is the interior facette, so the hypothesis supportK F ≠ univ of Sphere.prop10_contingent_conique says exactly « F is not the interior facette »"
+stream = "benzecri"
+kind = "close"
+paper = "benzecri"
+labels = ["bzprop:c3s4p10_contingent_conique"]
+status = "ready"
 owner = "closer"
 priority = 10
 depends = ["T-bz-c3-facette-conique"]
-evidence = "Split 2026-11-28 by the planner from T-bz-c3-facette-conique. Ledger row bzrem:c3s4r1_somme_facettes_coniques (benzecri1960_ch3.tex:1142, a remark, no proof printed, no Lean): « Supposons données p sous-variétés linéaires L₁, …, L_i, …, L_p dont S(n) soit la somme. Soient W₁, …, W_i, …, W_p des corps convexes de L₁, …, L_i, …, L_p (W_i convexe fermé d'intérieur non vide pour la topologie de L_i). La fermeture de la somme des W_i est un corps convexe de S(n) dont les W_i sont des facettes coniques. » Builds on Déf. 5 of T-bz-c3-facette-conique, EstSommeS (Chapter3/BooleProjectif.lean:176) for « la somme des W_i » with « S(n) somme des L_i » the internal direct sum E = ⊕ L_i, IsCorpsConvexeS (Projective/Convex.lean:542). Reading to disclose: a facette is an α-class (Chapter3/FacettesSphere.lean facetteK), relatively open, so a closed W_i is not one when it is not a point: « les W_i sont des facettes coniques » is read as « the relative interior of each W_i is a conical facette, of closure W_i », or the closer records the reading it finds true. Instance: n + 1 points of S(n), whose closed sum is the closed simplex (Chapter3/PointsExtremaux.lean simplexS :301, isCorpsConvexeS_simplexS :327, facetteK_vertex :394). This is the « facette conique » of result C's final theorem (Ch. 5 p. 332, OCR layer). Ready when T-bz-c3-facette-conique is done."
+evidence = "lean-benzecri/campaign/T-bz-c3-facette-conique/AUDIT-1.json, finding 2 (minor): « The claim that `supportK F ≠ univ` 'excludes exactly the interior facette' is stated as fact but is not proved in Lean. Only the forward direction is proved: the interior facette has support univ (interior_facette_conique). The converse (a facette with support S(n) is the interior one) is plausible but not formalized. » Its fix: « or prove the converse ». OQ-169 (a) asks « Prop. 10: is the support L of the conical facette ≠ S(n) implicit? At the interior facette L = S(n) … proved for L ≠ S(n) (Sphere.prop10_contingent_conique) ». With the converse the two readings of OQ-169 (a) become « every conical facette » against « every conical facette but the interior one », which is what the author is asked. Strict decls: prop10_contingent_conique, interior_facette_conique (Benzecri/Chapter3/FacetteConique.lean:481, :528); facetteK, IsFacetteK, supportK (Chapter3/FacettesSphere.lean:340, :343, :482). [r] (planner) Route: F is relatively open in its support (an α-class) and spans E, so it is open in S(n), hence inside interior W, and interior points are α-equivalent, so F = facetteK W a for an interior a. Also a corollary prop10 form with « F ≠ the interior facette » as hypothesis, beside the existing one. Instance: simplexS 2 (FacetteConique.lean:711), its interior facette (support univ) and a vertex facette (isFacetteConique_vertex0, :706; support L0 ≠ univ, supportK_vertex0_ne_univ :714). Small: one lemma and a corollary in FacetteConique.lean or a new file; no mark changes (OQ-169 OPEN)."
+added = "2026-11-28"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-bz-c3-dedupe-simplexe"
+title = "lean-benzecri: keep one closed positive simplex of S(m). FacetteDualeInstance.orthant / simplexS (Chapter3/FacetteDuale.lean:617, :620) and TriangleInstance.orthant / simplexS (Chapter3/PointsExtremaux.lean:297, :301) are the same definition, bridged by defeq in FacetteConiqueInstance.isCorpsConvexeS_simplexS (FacetteConique.lean:711); vertex0 (FacetteDuale.lean:705) is TriangleInstance.vertex 0 (PointsExtremaux.lean:310)"
+stream = "benzecri"
+kind = "tooling"
+paper = "benzecri"
+package = "lean-benzecri"
+exclusive = true
+status = "ready"
+owner = "master"
+priority = 10
+evidence = "Found 2026-11-28 by the planner while refining T-bz-c3-somme-facettes-coniques. Both copies read « def orthant (n : ℕ) : Set (Fin (n + 1) → ℝ) := {v | ∀ i, 0 ≤ v i} » and « def simplexS (n : ℕ) : Set (S n) := ofCone (orthant n) » (FacetteDuale.lean:617/620, PointsExtremaux.lean:297/301, the second with m). FacetteConique.lean:711–712 joins them: « theorem isCorpsConvexeS_simplexS : IsCorpsConvexeS 2 (simplexS 2) := TriangleInstance.isCorpsConvexeS_simplexS ». Users: FacetteDuale, FacetteExposee (:510) and FacetteConique (:628) open FacetteDualeInstance; PointsExtremaux and ReunionConvexesSphere (:668) open TriangleInstance. Import order: PointsExtremaux imports Chapter3.FacettesSphere, FacetteDuale imports ConeAppuiAlpha, which imports FacettesSphere, so one definition fits in FacettesSphere.lean's instance section or a new Chapter3/Simplexe.lean importing it, imported by both. No curated decl names either simplexS, orthant or vertex0 (grep of papers/benzecri/certificate/curation.toml: only ReunionSphereInstance.vertex_proprietes), so a removed copy needs no curation edit; behaviour-preserving, no statement or mark changes, the benzecri ledger rebuilt. Precedents: T-bz-c2-dedupe-demidroite, T-bz-c2-dedupe-majore (exclusive, master). Run after the wave's closers, since it touches files they import."
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
 
@@ -3247,6 +3307,20 @@ proposed_by = "author's rulings 2026-11-22 (applied by hand while /atlas-team wa
 commit = "90bc76f6"
 
 [[target]]
+id = "T-hub-paper-attr-export"
+title = "lean/: the exporter half of @[paper] (PAPER-ATTRIBUTE.md §5). scripts/lean_facts.lean builds labelsOf from GFNBounds.Paper.labels (identical pairs deduplicated), throws on one label on two declarations and on a placed declaration the walk did not emit, and emits `paper` (only when non-empty) and `conjuncts` (GFNBounds.Paper.conjunctsOf, on placed assembly theorems), every throw before the first write. A fixture makes each throw fire; with no label placed, docs/lean-facts.json is unchanged"
+stream = "hub"
+kind = "tooling"
+package = "lean"
+status = "ready"
+owner = "master"
+priority = 7
+depends = ["T-hub-paper-attribute"]
+evidence = "Split 2026-11-28 by the planner from T-hub-paper-attr-curation, whose evidence says: « the attribute is built but §5 of PAPER-ATTRIBUTE.md is NOT — the exporter fields paper/conjuncts in lean/scripts/lean_facts.lean and its two throws … It is this target's first deliverable, before any placement. » lean/campaign/T-hub-paper-attribute/REPORT.json, findings: « the cross-module duplicate check (one label on two declarations from modules that do not import each other) lives only in the exporter edit, which this target does not include. No placement exists yet, so nothing is unguarded today, but the export must land before the first placement. » Checked 2026-11-28: lean/scripts/lean_facts.lean contains neither `paper` nor `conjuncts`; GFNBounds/Paper/Attribute.lean has labels (:104) and conjunctsOf (:173). tools/leanlink/docs/design/PAPER-ATTRIBUTE.md §5: « Throw if one label maps to two different declarations, naming the label and both declarations. This is the cross-module duplicate check add cannot make (§3); it runs in make facts, hence in make check, and fails it. » « In the per-declaration object, add (\"paper\", Json.arr labels) only when the array is non-empty. » « Every throw happens before the first IO.FS.writeFile, so a failing export leaves the committed docs/lean-facts.json untouched. » So with no placement the export is byte-identical, which is this target's check; its fixtures place labels only in a module outside the walk or under withoutModifyingEnv, as AttributeTest does (REPORT kb: « Fixtures that declare theorems inside run_cmd withoutModifyingEnv … leave nothing in the .olean or in lean-facts.json »). CLAUDE.md: « A gate must be able to fail. Every gate has a fixture under tools/fixtures/<gate>/ ». lean/'s gate regenerates lean/docs/ and lean/paper-map.json: restore them after the gate unless they are the commit's purpose. Unblocks T-hub-paper-attr-curation."
+added = "2026-11-28"
+proposed_by = "roadmap-planner"
+
+[[target]]
 id = "T-atlas-overlay-refresh"
 title = "Standing: refresh the atlas's Lean overlay (lean_edges.py facts, per idle package) after each wave that changes Lean"
 stream = "hub"
@@ -3673,8 +3747,8 @@ package = "none"
 status = "planned"
 owner = "master"
 priority = 7
-depends = ["T-hub-paper-attribute", "T-gfn-ledger"]
-evidence = "DEC-201: « new declarations carry it; the curation reads both ». tools/leanlink/docs/design/PAPER-ATTRIBUTE.md: §3 « A query. GFNBounds.Paper.labels (env : Environment) : Array (String × Name), used by the export »; §5, the exporter (lean/scripts/lean_facts.lean) closes the import-time duplicate gap. lean/ is the only package with a pilot (T-hub-paper-attribute), and papers/gfnbounds (T-gfn-ledger, DEC-210) is the only ledger rooted there. CLAUDE.md: « A gate must be able to fail. Every gate has a fixture under tools/fixtures/<gate>/ » Atlas-team 2026-11-28 (T-hub-paper-attribute, 90bc76f6, AUDIT-1): the attribute is built but §5 of PAPER-ATTRIBUTE.md is NOT — the exporter fields paper/conjuncts in lean/scripts/lean_facts.lean and its two throws (one label on two declarations of modules that do not import each other; a placed declaration the walk did not emit). It is this target's first deliverable, before any placement."
+depends = ["T-hub-paper-attribute", "T-gfn-ledger", "T-hub-paper-attr-export"]
+evidence = "DEC-201: « new declarations carry it; the curation reads both ». tools/leanlink/docs/design/PAPER-ATTRIBUTE.md: §3 « A query. GFNBounds.Paper.labels (env : Environment) : Array (String × Name), used by the export »; §5, the exporter (lean/scripts/lean_facts.lean) closes the import-time duplicate gap. lean/ is the only package with a pilot (T-hub-paper-attribute), and papers/gfnbounds (T-gfn-ledger, DEC-210) is the only ledger rooted there. CLAUDE.md: « A gate must be able to fail. Every gate has a fixture under tools/fixtures/<gate>/ » Atlas-team 2026-11-28 (T-hub-paper-attribute, 90bc76f6, AUDIT-1): the attribute is built but §5 of PAPER-ATTRIBUTE.md is NOT — the exporter fields paper/conjuncts in lean/scripts/lean_facts.lean and its two throws (one label on two declarations of modules that do not import each other; a placed declaration the walk did not emit). It is this target's first deliverable, before any placement. Refined 2026-11-28 (planner): the exporter (§5) is split off as T-hub-paper-attr-export, which this target now depends on; what stays here is tools/ledger.py reading the placements, `ledger.py check` failing on a placement/curation disagreement, its fixture, and the first placements in papers/gfnbounds."
 added = "2026-11-25"
 proposed_by = "roadmap-planner"
 
@@ -4057,14 +4131,14 @@ commit = "749b441"
 
 [[target]]
 id = "T-restate-held-curation"
-title = "Curation held for the restatement registers: ett rem:deux_pushup and cexemple:point_transparent (T-ett-gluing-causality, 3f0815d), bbs bbsprop:classising's link half (T-bbs-classising-types, 3a8e7df) and bbsdef:Hcausal (T-bbs-hcausal, fe59a20). Each becomes a strong restatement candidate, so the curation, `restate.py seed` and the register are committed together once /restate releases papers/ett and papers/bbs's registers"
+title = "Curation held for the restatement registers: ett rem:deux_pushup and cexemple:point_transparent (T-ett-gluing-causality, 3f0815d), bbs bbsprop:classising's link half (T-bbs-classising-types, 3a8e7df) and bbsdef:Hcausal (T-bbs-hcausal, fe59a20). Each becomes a strong restatement candidate, so the curation, `restate.py seed` and the register are committed together once /restate releases papers/ett and papers/bbs's registers. Also benzecri's refutations kept out of the curated decls while /restate holds papers/benzecri's register: not_remarque1_famille_fin_zero, not_remarque1_infinite_vide (T-bz-c3-sommes), BooleProjectifInstance.not_conjugue_unique, not_theoreme3, not_corollaire_algebre_parties (T-bz-c3-boole-projectif), FacetteExposeeInstance.not_prop9_nonclosed (T-bz-c3-facette-exposee) and BooleProjectifInstance.not_prop4_simplesS_finite (T-bz-c3-balayable-somme)"
 stream = "hub"
 kind = "tooling"
 package = "none"
 status = "ready"
 owner = "master"
 priority = 5
-evidence = "roadmap/JOURNAL.md 2026-11-27 15:20: « Held back: the curation of ett rem:deux_pushup, cexemple:point_transparent and bbs bbsprop:classising. Each becomes a strong restatement candidate, and the ett and bbs registers are held by the live /restate loop. Their Lean is committed; curate them when the registers are free ». 16:00: « Held back for the restatement register (held by /restate): bbsdef:Hcausal's curation, with the three rows of the previous wave ». CLAUDE.md: « a loop that rebuilds a ledger runs restate.py seed <slug> and commits the register with it ». The findings to record: rem:deux_pushup's « neither implies the other » is false (plain ⇒ push-up on T1, REPORT of T-ett-gluing-causality); cexemple:point_transparent per OQ-95's two forms; classising's missing trivial-holonomy type (OQ-135 (a)); Hcausal's « in other words » on non-compact surfaces (OQ-139 (e)). No Lean. Dispatch when `lease.py show` has no live lease on those registers"
+evidence = "roadmap/JOURNAL.md 2026-11-27 15:20: « Held back: the curation of ett rem:deux_pushup, cexemple:point_transparent and bbs bbsprop:classising. Each becomes a strong restatement candidate, and the ett and bbs registers are held by the live /restate loop. Their Lean is committed; curate them when the registers are free ». 16:00: « Held back for the restatement register (held by /restate): bbsdef:Hcausal's curation, with the three rows of the previous wave ». CLAUDE.md: « a loop that rebuilds a ledger runs restate.py seed <slug> and commits the register with it ». The findings to record: rem:deux_pushup's « neither implies the other » is false (plain ⇒ push-up on T1, REPORT of T-ett-gluing-causality); cexemple:point_transparent per OQ-95's two forms; classising's missing trivial-holonomy type (OQ-135 (a)); Hcausal's « in other words » on non-compact surfaces (OQ-139 (e)). No Lean. Dispatch when `lease.py show` has no live lease on those registers Widened 2026-11-28 (planner) to the benzecri rows the journal holds for it: 2026-11-28 09:50 « four genuine refutations (not_conjugue_unique, not_theoreme3, not_corollaire_algebre_parties, not_prop9_nonclosed) kept out of the curated decls and worded « refuted »: /restate holds papers/benzecri's registers, so they wait on T-restate-held-curation, as not_remarque1_* do »; 09:46 « refutation not_prop4_simplesS_finite kept out of the curated decls, waiting on T-restate-held-curation like the four of the previous wave ». Lean: Benzecri/Chapter3/Sommes.lean:392, :414; BooleProjectif.lean:1345, :1590, :1402; FacetteExposee.lean:829; BalayableSomme.lean:889 (namespace BooleProjectifInstance). `lease.py show` (2026-11-28) lists papers/benzecri/certificate/restatements.toml among the restate loop's paths, so the dispatch condition above now covers papers/benzecri too."
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
 
@@ -4930,3 +5004,19 @@ evidence = "trans_inj through liftPropOn_glueTransition_of_ext; 63 constants unc
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
 commit = "f81c7758"
+
+[[target]]
+id = "T-btz-seg-unif-dedupe"
+title = "lean-gx clean-up of the two duplications T-btz-trace-graduate recorded: prove GX.E0Surgery.edist_le_seg_unif (GX/BTZ/C1SpacelikeDevLip.lean:144) from the path-length bound whose proof GX.E0TraceComplete.pathLength_seg_unif (GX/BTZ/TraceComplete.lean:215) repeats verbatim, moved upstream into C1SpacelikeDevLip.lean, keeping pathLength_seg_unif as its corollary (a btz curation decl); and derive one of GX.E0TraceDev.not_spacelikeDevelopment_graphDev (TraceDev.lean:130) and GX.E0Surgery.lem_surface_complete_two_lip_hyp_false (C1SpacelikeDev.lean:203), the same statement, from the other. No declaration renamed or retyped"
+stream = "btz"
+kind = "tooling"
+paper = "btz"
+package = "lean-gx"
+exclusive = true
+status = "ready"
+owner = "master"
+priority = 10
+depends = ["T-btz-trace-graduate"]
+evidence = "lean-gx/campaign/T-btz-trace-graduate/REPORT.json, findings: « Recorded duplication, not removed: GX.E0TraceComplete.pathLength_seg_unif repeats the proof of GX.E0Surgery.edist_le_seg_unif (GX/BTZ/C1SpacelikeDevLip.lean:144), as TraceComplete.lean:76-77 says. » and « GX.E0TraceDev.not_spacelikeDevelopment_graphDev is now a corollary of GX.E0Surgery.spacelikeDevelopment_graphDev_iff, as is the pre-existing GX.E0Surgery.lem_surface_complete_two_lip_hyp_false (C1SpacelikeDev.lean:203) — the two now state the same thing in two namespaces with the same one-line proof; a later dedupe could keep one (renaming is out of scope here). » TraceComplete.lean:210–212, pathLength_seg_unif's docstring: « (edist_le_seg_unif, whose proof is repeated verbatim, stopped one step earlier) … The bound on the path, not only on the distance, is what bounds the distance to every point of the segment (edist_le_pathLength) ». Feasible: C1SpacelikeDevLip.lean already uses stripSegment (:165, :197) and Causal.Flat.pathLength (:289, :431), and TraceComplete imports it through TraceDev (TraceDev.lean:4). papers/btz/certificate/curation.toml names GX.E0TraceComplete.pathLength_seg_unif, so that name and type stay. The third recorded duplication, GX.E0BluntSpear.flat_infall_noLimit_of_pos against GX.E0AxisNoLimit.flat_infall_noLimit_of_le, is out of this target (AxisNoLimit imports BluntSpear, and flat_infall_noLimit_of_le goes through flat_curve_noLimit, which needs Admissible). Behaviour-preserving, no label; the btz and gx ledgers rebuilt (uses_value edges move). Precedent: T-btz-trans-inj-dedupe."
+added = "2026-11-28"
+proposed_by = "roadmap-planner"

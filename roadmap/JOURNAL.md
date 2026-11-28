@@ -1309,3 +1309,11 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: fe859ba7 7bab2d58 6f6d0590 71977869
 - wall time: 09:16–09:50; agents in parallel: 3
 - next: T-bz-c3-raccordement alone ready → the planner (T-bz-c3-balayable-somme-prop5 and -somme-facettes-coniques now have their dependencies done)
+
+## 2026-11-28 10:05 · plan · roadmap-planner (rule 2)
+- ready: T-bz-c3-prop4-produit (closes the scaffold's tagged sorry; fallback: the isomorphism alone), T-bz-c3-somme-facettes-coniques (the § 4 Remark), T-bz-c3-facette-interieure (the converse behind OQ-169 (a)), with T-bz-c3-raccordement: four lean-benzecri closers
+- ready (master): T-hub-paper-attr-export (the @[paper] exporter, lean/), T-bz-c3-dedupe-simplexe and T-btz-seg-unif-dedupe (exclusive, after a wave's closers)
+- planned: T-bz-c3-balayable-somme-prop5 (now depends on -prop4-produit), T-bz-c3-balayable-somme-cor (split off)
+- T-restate-held-curation widened to the seven benzecri refutations waiting on /restate
+- gates: roadmap ✓
+- next: three lean-benzecri closers
