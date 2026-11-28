@@ -1,0 +1,22 @@
+{
+  "target": "T-btz-axis-nolimit",
+  "auditor_round": 1,
+  "verdict": "clean",
+  "labels": [
+    {
+      "label": "btzlem:blunt_spear_neighborhood",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked in scaffold/GXScaffold/BTZ/AxisNoLimit.lean, which is correct: the file proves an auxiliary of the row, used at BTZ_1.tex:1601-1602, and not the lemma at l.693-701. The quote of l.1601-1602 is verbatim. Against the roadmap statement: flat_curve_noLimit (l.309) carries 0 < R, IsOpen W, bspearY v R ⊆ W, IsE0Mor ψ W, and weakens the rest. gamma only has to be continuous on some (0, delta), with 0 < rad, v ≤ fcoord and rad → 0. It needs no rad ≤ R, no height bound [a1, a2] and no v < a1. The conclusion is the same: for every q, ¬ Tendsto (ψ ∘ paperInY ∘ γ) (𝓝[>] 0) (𝓝 q). flat_axis_noLimit (l.617) is the form for γ : (0,1] → bspear v R. flat_axis_noLimit_Icc (l.629) is the dispatch's form verbatim, and its height hypotheses are unused, so the statement is at least as strong as the dispatch's. Lean ≥ roadmap. Non-vacuity: the curve conditions are satisfiable for any data, because flat_infall_noLimit_of_le builds the in-falling ray s ↦ (a + s/2, s u), v ≤ a, as an instance of them inside its own proof. The (N, W, ψ) hypotheses are exactly those of the strict GX.E0BluntSpear.flat_infall_noLimit_of_pos, which lem_blunt_spear consumes. An instance is N = e0RegMFlat E0Y (the regular part of the model, a flat spacetime), with W the regular points and ψ the inverse of E0Spear.isE0Mor_val on W (in-tree tools: isE0Mor_val, Causal.CBG.liftPropOn_invFunOn as in Pgcd.lean:148). No Lean term of this instance exists in-tree, but nothing about the hypotheses is degenerate. not_flat_infall_noLimit shows why 0 < R is needed. Corollary: flat_infall_noLimit_of_le has the strict lemma's hypotheses with ha : v ≤ a in place of v < a. A probe applying it with ha.le to the strict lemma's exact statement typechecked. Need of T-btz-trace-complete: its broken line lies on the trace τS > v + R'/2 over the punctured disc of radius R'. There fcoord = τS - r/2 > v and rad > 0, the line is continuous and rad → 0, so it meets flat_curve_noLimit's hypotheses (height bounds not needed), and the conclusion (no limit in N = FlatE0 N) is exactly the contradiction that block asks for. The REPORT's correction of the planner's [r] step is sound. The development converges in null coordinates (2τ + rθ̃² − r, r, −rθ̃), so with r → 0 only τ + ½rθ̃² converges, and rθ̃ → 0 by (rθ̃)² ≤ r(u + r − 2v). τ need not converge. Example: take θ̃ → ∞, r = c(s)/θ̃² with c oscillating in [0, 1], and τ = T − ½c(s). Then rθ̃ → 0 and the development tends to (2T, 0, 0), while τ oscillates in [T − ½, T]. With T − ½ > v this is a continuous curve of bspear with bounded height and rad → 0. So 'τ convergent' does not follow from the developed convergence. The proof goes around it with the arc at constant developed time (l.563-614)."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/AxisNoLimit.lean: exit 0, no output. The two grep hits for 'sorry' are docstring prose (l.8, l.55), not tactics. A one-shot probe under the campaign dir (deleted afterwards) printed axioms for flat_curve_noLimit, flat_axis_noLimit, flat_axis_noLimit_Icc, flat_infall_noLimit_of_le and exists_eqOn_smul_dev: [propext, Classical.choice, Quot.sound] each. The same probe also checked that the strict lemma follows as a corollary. lake build was not run, per the dispatch."
+  },
+  "scope": "git status --short in lean-gx shows this target's files only: scaffold/GXScaffold/BTZ/AxisNoLimit.lean (new), one import line GXScaffold.BTZ.AxisNoLimit in scaffold/GXScaffold.lean, and campaign/T-btz-axis-nolimit/. The other modified or untracked lean-gx paths (C1SpacelikeDev*, TraceDev, README.md, SurfaceCompleteLip.lean, kb) are, per the dispatch, owned by other closers or by the loop. That includes the three other import lines in GXScaffold.lean.",
+  "docstring_contract": "lean-causal kb/0006 (the contract lean-gx's CAMPAIGN.md points to) is met: title, unmarked label with its line range, verbatim quote, a hypothesis checklist whose ✓/⚠ entries are true (both ⚠ are weakenings, none a strengthening), a SCOPE whose method description matches the proof, and provenance.",
+  "findings": []
+}

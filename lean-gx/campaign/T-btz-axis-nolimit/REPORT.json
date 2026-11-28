@@ -1,0 +1,80 @@
+{
+  "package": "lean-gx",
+  "target": "T-btz-axis-nolimit",
+  "files": [
+    "scaffold/GXScaffold/BTZ/AxisNoLimit.lean",
+    "scaffold/GXScaffold.lean (one import line: GXScaffold.BTZ.AxisNoLimit)"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "labels": [
+    {
+      "label": "btzlem:blunt_spear_neighborhood",
+      "tex_lines": [
+        693,
+        701
+      ],
+      "status": "closed",
+      "status_note": "the target (an auxiliary of the row, used at BTZ_1.tex:1601-1602) is closed in a stronger form than the roadmap states; the row itself stays as the strict GX.E0BluntSpear.lem_blunt_spear records it (unmarked, E0 scope). The file carries the label unmarked: it is not the label's statement.",
+      "marked": false,
+      "decls": [
+        "GX.E0AxisNoLimit.flat_curve_noLimit",
+        "GX.E0AxisNoLimit.flat_axis_noLimit",
+        "GX.E0AxisNoLimit.flat_axis_noLimit_Icc",
+        "GX.E0AxisNoLimit.flat_infall_noLimit_of_le"
+      ],
+      "hypotheses": [
+        {
+          "paper": "N flat, psi, W, v, R as in lem_blunt_spear, 0 < R",
+          "here": "carried",
+          "note": "IsOpen W, bspearY v R ⊆ W, IsE0Mor psi W, 0 < R; injectivity of psi not used"
+        },
+        {
+          "paper": "gamma : (0,1] -> bspear v R continuous",
+          "here": "weakened",
+          "note": "flat_curve_noLimit: continuous on some (0, delta), 0 < rad, v <= fcoord = tau - r/2; rad <= R not assumed"
+        },
+        {
+          "paper": "rad (gamma s) -> 0",
+          "here": "carried",
+          "note": ""
+        },
+        {
+          "paper": "time coordinate in [a1, a2], v < a1",
+          "here": "weakened",
+          "note": "not needed; flat_axis_noLimit_Icc carries the dispatch's form and ignores them"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "GX.E0AxisNoLimit.cov",
+    "GX.E0AxisNoLimit.continuous_cov",
+    "GX.E0AxisNoLimit.cov_add",
+    "GX.E0AxisNoLimit.rad_cov",
+    "GX.E0AxisNoLimit.exists_eq_add_of_cov_eq",
+    "GX.E0AxisNoLimit.sect",
+    "GX.E0AxisNoLimit.cov_sect",
+    "GX.E0AxisNoLimit.sect_cov",
+    "GX.E0AxisNoLimit.continuousAt_sect_cov",
+    "GX.E0AxisNoLimit.arg_real_mul_exp",
+    "GX.E0AxisNoLimit.cov_div_exp",
+    "GX.E0AxisNoLimit.exists_eq_smul_sectorChartY",
+    "GX.E0AxisNoLimit.eventually_eq_smul_dev",
+    "GX.E0AxisNoLimit.exists_eqOn_smul_dev"
+  ],
+  "kb_proposals": [
+    "Rigidity of a flat E0-morphism on the universal cover: GX.E0AxisNoLimit.exists_eqOn_smul_dev gives kappa o psi o cov = g • btzPaperDev on any preconnected set of {r > 0} mapped into W ∩ psi^-1(dom kappa), cov (tau, r, theta) = (tau, r e^{i theta}); no slit sector, no angle bookkeeping. Use it instead of exists_eqOn_sectorSmulInl whenever a curve or a region winds around the axis.",
+    "A curve off the axis lifts to the universal cover inside one component (open-closed argument with GX.E0AxisNoLimit.sect, the local section of cov, and the deck translations theta -> theta + 2 pi k); see the hlift step of flat_curve_noLimit.",
+    "A blunt spear chart into a flat N has no limit along ANY continuous curve of bspear v R with rad -> 0 (GX.E0AxisNoLimit.flat_axis_noLimit); no height bound is needed, and the in-falling ray at a = v (on the vertex's null cone) is included (flat_infall_noLimit_of_le)."
+  ],
+  "notes": "One new scaffold module, 0 sorry, standard axioms; lake build GXScaffold.BTZ.AxisNoLimit built only this module. Statement stronger than the roadmap's: the height bounds [a1, a2] and v < a1 are not needed (only v <= fcoord, i.e. the curve stays in the blunt spear), and rad <= R is not needed along the curve. The roadmap's [r] route was followed with two changes: (1) rigidity is done once on the universal cover (exists_eqOn_smul_dev) rather than per slit sector; (2) the developed time tau + r theta^2/2 converges but tau itself need not (a winding curve can converge in E0 to a different axis point than its development), so the holonomy contradiction is run not on a neighbourhood {|tau - a| < eps} of an axis point but on an arc theta -> (T + r pi^2/2 - r theta^2/2, r, theta) at constant developed time T, reached from one late lift by a vertical segment. The fallback form (gamma converges in E0 to an axis point) was not needed. For graduation: the strict GX.E0BluntSpear.flat_infall_noLimit_of_pos becomes a corollary (flat_infall_noLimit_of_le, with v <= a)."
+}
