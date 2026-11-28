@@ -1,0 +1,85 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-raccordement",
+  "files": ["scaffold/BenzecriScaffold/Chapter3/Raccordement.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": ["propext", "Classical.choice", "Quot.sound"],
+  "labels": [
+    {
+      "label": "bzprop:c3s6p3_raccordement",
+      "tex_lines": [1527, 1568],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.RaccordeVia",
+        "Benzecri.Raccorde",
+        "Benzecri.Accole",
+        "Benzecri.Accole.raccorde",
+        "Benzecri.prop3_accole",
+        "Benzecri.prop3_raccordement",
+        "Benzecri.raccordement_dimZero",
+        "Benzecri.accole_of_squeeze",
+        "Benzecri.pair_data",
+        "Benzecri.exists_squeeze",
+        "Benzecri.RaccordementInstance.simplexS_hypotheses",
+        "Benzecri.RaccordementInstance.accole_simplexS",
+        "Benzecri.RaccordementInstance.raccorde_simplexS"
+      ],
+      "hypotheses": [
+        {"paper": "W_i un corps convexe de S(n)", "here": "carried", "note": "IsCorpsConvexeS n W_i"},
+        {"paper": "H_i un hémisphère fermé tel que W_i ⊂ H_i", "here": "carried", "note": "W_i ⊆ closedHemisphere l_i with l_i ≠ 0 (every closed hemisphere of Ch. 1 Déf. 5 is one, IsClosedHemisphere.exists_eq, DEC-114); l_i = 0 would make H_i = S(n), not a hemisphere"},
+        {"paper": "le saturé V_i de W_i au-delà de H̊_i distinct de W_i", "here": "carried", "note": "sature l_i W_i ≠ W_i (Benzecri.sature of Sature.lean)"},
+        {"paper": "(not printed) n ≥ 1", "here": "strengthened", "note": "added in prop3_accole / prop3_raccordement; the statement is false for n = 0 (raccordement_dimZero)"}
+      ],
+      "sorries": [],
+      "findings": [
+        "benzecri1960_ch3.tex:1527-1548 (Ch. 3 § 6 Prop. 3) is imprecise in S(0): with W = H = {e} (the closed hemisphere {x₀ ≥ 0} of S(0)), W is a convex body, W ⊆ H, and its saturated convex beyond H̊ is all of S(0) ≠ W (S(0) is a convex part, non-strict, under DEC-120), so every hypothesis holds; yet no convex body of S(0) (a single point) contains two disjoint nonempty parts, so no W′ exists (Benzecri.raccordement_dimZero, for (W₁,H₁) = (W₂,H₂) = (W,H)). Prop. 4 two lines below (l.1570) prints « (n ≧ 1) », Prop. 3 does not. The roadmap evidence's claim « n = 0 makes the hypothesis V₁ ≠ W₁ unsatisfiable » is wrong.",
+        "For n ≥ 1 the statement is proved as printed and in the stronger « accolant » form (g₁ the identity always suffices): Benzecri.prop3_accole, Benzecri.prop3_raccordement.",
+        "The printed proof's step « Il est clair que les transformations g₁, g₂ utilisées permettront de raccorder W₁ et W₂ » (l.1560-1561) is not argued in the paper; it is true and proved here in the needed form: if every nonzero point of γ(F(W₂)) is x + cB (x ∈ F(W₁), c > 0, B ∈ F(V₁) with l₁ B < 0), then H₁ ∩ conv(W₁ ∪ γW₂) = W₁, because a point a + y of F(V₁) with l₁ ≥ 0 lies in F(W₁) (the trace V₁ ∩ H₁ = W₁ ∩ H₁ of Déf. 1) — Benzecri.accole_of_squeeze. The proof also uses, without saying it, that F₁ = h₁ ∩ W₁ is nonempty (and spans h₁); for n ≥ 1 this follows from V₁ ≠ W₁ (proved inside Benzecri.pair_data)."
+      ],
+      "questions": [
+        "Is n ≥ 1 implicit in Prop. 3 (as Prop. 4 states it explicitly)? Reading taken: n ≥ 1 added and the n = 0 failure proved; the label is left unmarked.",
+        "« raccordant » / « accolant » (OQ-160 (c): no rows) read as relations between (W₁, H₁), (W₂, H₂) and W′, with H′ᵢ = closedHemisphere l′ᵢ (l′ᵢ ≠ 0) and gᵢ ∈ GS(n, ℝ) existentially quantified (Benzecri.Raccorde, Benzecri.Accole; the witnesses kept by Benzecri.RaccordeVia), W′ᵢ := gᵢ • Wᵢ; the hypotheses Vᵢ ≠ Wᵢ are not part of the definitions. Is this the intended notion (in particular, should the definition remember H′ᵢ and gᵢ)?",
+        "« hémisphère fermé H » read as closedHemisphere l with l ≠ 0, and « le saturé au-delà de H̊ » as sature l W, the convention of Sature.lean (DEC-114)."
+      ]
+    }
+  ],
+  "instances": [
+    "Benzecri.RaccordementInstance.simplexS_hypotheses m: for the simplex W = simplexS (m+1) of S(m+1) (the closed triangle of S(2) for m = 1) and H = {x₀ ≥ 0}: l ≠ 0, W a convex body, W ⊆ H, sature ≠ W (the prolongation {x₀ + x₁ ≥ 0, xᵢ ≥ 0 for i ≠ 0} contains (−1, 1, 0, …) ∉ W) — every hypothesis of Prop. 3 holds with (W₁,H₁) = (W₂,H₂) = (W,H)",
+    "Benzecri.RaccordementInstance.accole_simplexS m / raccorde_simplexS m: ∃ W′, Accole / Raccorde for that pair (instances of the two new definitions)",
+    "Benzecri.raccordement_dimZero: the hypotheses also hold in S(0) (W = H = {e}), where the conclusion fails"
+  ],
+  "extra_decls": [
+    "Benzecri.inv_smul_mk_linearEquiv",
+    "Benzecri.F_smul_linearEquiv",
+    "Benzecri.kPrime_smul_linearEquiv",
+    "Benzecri.smul_closedHemisphere_linearEquiv",
+    "Benzecri.one_smul_set",
+    "Benzecri.isConvexPart_smul_linearEquiv",
+    "Benzecri.openHemisphere_zero",
+    "Benzecri.isLeast_ofCone_add",
+    "Benzecri.isCompact_ofCone",
+    "Benzecri.enveloppeConvexe_union_eq",
+    "Benzecri.exists_mem_notMem_span",
+    "Benzecri.kPrime_sature_trace",
+    "Benzecri.phiMap",
+    "Benzecri.phiMap_apply",
+    "Benzecri.phiMap_phiMap",
+    "Benzecri.phiMap_zero",
+    "Benzecri.continuous_phiMap",
+    "Benzecri.phiEquiv",
+    "Benzecri.phiEquiv_apply",
+    "Benzecri.phiEquiv_symm_apply",
+    "Benzecri.exists_linearEquiv_normal",
+    "Benzecri.S0_eq_neg_of_ne"
+  ],
+  "kb_proposals": [
+    "Chapter3/Raccordement: enveloppeConvexe (A ∪ B) = ofCone (kPrime A + kPrime B) for convex A, B (enveloppeConvexe_union_eq), obtained from Sature's prolonge_join with l = 0 (openHemisphere 0 = ∅, so every convex part prolongs everything beyond it).",
+    "A linear automorphism with prescribed first coordinate form ν and prescribed image e₁ of a vector p ∈ ker ν (exists_linearEquiv_normal): Module.Basis.mkFinCons u (Module.Basis.mkFinConsOfLE p … (Module.finBasisOfFinrankEq ℝ N hN)), with finrank N first computed from a throw-away basis built on Module.finBasis; then b.equivFun. Inside `namespace Benzecri` write `Module.Basis.…`, not `Basis.…`.",
+    "Two cones squeezed at once by one automorphism: Φ_s(x₀, x₁, x′) = (s²x₁, x₀, s x′) has Φ_s ∘ Φ_s = s² (so Φ_s⁻¹ ∝ Φ_s) and Φ₀ x = x₀ e₁; uniformity over a compact base by IsCompact.eventually_forall_of_forall_eventually, then intersect with 𝓝[>] 0.",
+    "ofCone C is compact for C compact with 0 ∉ C (isCompact_ofCone: Subtype.isCompact_iff, then the image under continuous_s); the rays of a convexJoin of two cone sections give the compactness of a hull.",
+    "In S(0) the convex part univ prolongs any W beyond H̊ ⊆ W, so `sature l W = univ`: hypotheses of the form « saturé ≠ W » are satisfiable in S(0); check n = 0 before calling a hypothesis vacuous there."
+  ],
+  "notes": "One new file, 0 sorry, standard axioms only (checked by #print axioms on prop3_accole, prop3_raccordement, raccordement_dimZero, accole_simplexS, raccorde_simplexS). Imports: Benzecri.Chapter3.Sature, ReunionConvexesSphere, PointsExtremaux, Chapter2.Hilbert, Mathlib.LinearAlgebra.Basis.Fin. The import line `import BenzecriScaffold.Chapter3.Raccordement` was appended to scaffold/BenzecriScaffold.lean. The label is left unmarked only because of the n = 0 case (a degenerate, plausibly excluded case: worded « imprecise », not named not_…); if the author rules n ≥ 1 implicit, the label can be marked with no code change (prop3_raccordement)."
+}

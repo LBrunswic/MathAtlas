@@ -1,0 +1,38 @@
+{
+  "target": "T-bz-c3-raccordement",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bzprop:c3s6p3_raccordement",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Read hypothesis by hypothesis against benzecri1960_ch3.tex:1527-1548. prop3_raccordement (and the stronger prop3_accole, g1 = 1) carries every printed hypothesis: IsCorpsConvexeS n W_i (strict convex part, compact, nonempty interior); W_i ⊆ closedHemisphere l_i with l_i ≠ 0 (Déf. 5 under l ≠ 0, DEC-114/DEC-120); sature l_i W_i ≠ W_i, where sature is the sUnion of the prolongations (Sature.lean:251), proved greatest by isGreatest_sature, so it is the paper's V_i (a convex body in H_i meets Prop. 1's hypotheses). The only added hypothesis is n ≥ 1, disclosed in the docstring SCOPE and checklist and in REPORT (status partial), and justified by raccordement_dimZero. Conclusion: RaccordeVia contains every clause of 1° and 2°: W' a convex body; l1', l2' ≠ 0 (closed hemispheres H'_i); H'_i ∩ W' = g_i • W_i; (g1•W1) ∩ (g2•W2) = ∅; W' = enveloppeConvexe(g1•W1 ∪ g2•W2); g_i • H_i = H'_i. W'_i := g_i • W_i is exactly the paper's 2° (g_i W_i = W'_i), so no clause is lost. g_i ∈ GSR n = GL(n+1)/ℝ⁺ is the right group of projective transformations of S(n): an element of the full projective group does not act on S(n). Raccorde/Accole quantify g_i and l_i' existentially, which is honest: « Nous dirons que W' est obtenu en raccordant » names the W' for which such H'_i, g_i exist. Accole fixes g1 = 1, as printed (« si g1 est l'identité »). Neither condition is too strong. Not requiring W_i ⊆ H_i or l_i ≠ 0 in the definitions is harmless: the first follows from H'_i ∩ W' = g_i•W_i together with g_i•H_i = H'_i, and l_i = 0 would force closedHemisphere l_i' = univ, which is impossible for l_i' ≠ 0. The n = 0 finding is fair. In S(0), W = H = closedHemisphere(proj 0) = {e}: l ≠ 0, a strict convex part, compact, with nonempty interior (S(0) is discrete); W ⊆ H; and univ prolongs W beyond H̊ (univ is a convex part under DEC-120's F(k) ∪ {O}: F(univ) ∪ {0} = ℝ), so sature = univ ≠ W. The conclusion then fails: the strict body W' would contain two disjoint nonempty parts, hence two distinct points of S(0), which are antipodal (S0_eq_neg_of_ne). The paper's own Prop. 4 two lines below prints (n ≧ 1). Calling this « imprecise » rather than a refutation, and not naming it not_…, is correct. The planner's claim that V ≠ W is unsatisfiable in S(0) is indeed wrong. The label is correctly unmarked: the module docstring has no **`label`** mark, and the only **`…`** in the file is a declaration docstring (« **`n = 0`: Prop. 3 fails** ») at l.879. Instances: simplexS_hypotheses m is a genuine theorem (the simplex of S(m+1), H = {x0 ≥ 0}, the prolongation {x0 + x1 ≥ 0, x_i ≥ 0 for i ≠ 0} containing (−1,1,0,…) ∉ W), so all four hypotheses hold for every m with n = m+1 ≥ 1, which is not degenerate. accole_simplexS and raccorde_simplexS are real proofs obtained from prop3_accole. These instances take (W1,H1) = (W2,H2), the same piece twice (disclosed; still non-vacuous)."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Chapter3/Raccordement.lean` (from lean-benzecri/) exits 0. grep finds no sorry/admit/axiom/native_decide/implemented_by/opaque. #print axioms (a probe that copied the file into the campaign directory, run with lake env lean, then deleted) on prop3_accole, prop3_raccordement, raccordement_dimZero, accole_of_squeeze, Accole.raccorde, pair_data, exists_squeeze, RaccordementInstance.simplexS_hypotheses / accole_simplexS / raccorde_simplexS: each gives [propext, Classical.choice, Quot.sound]. No lake build was run, per the dispatch."
+  },
+  "scope": "git status --short lean-benzecri shows, for this target, only the new Raccordement.lean, the campaign directory and one appended line `import BenzecriScaffold.Chapter3.Raccordement` in scaffold/BenzecriScaffold.lean (the SommeFacettesConiques import beside it and BalayableSommeProduit.lean belong to the sibling closers). Every other modified path in the tree is outside lean-benzecri and belongs to other loops. Nothing outside the dispatch was touched.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-benzecri/scaffold/BenzecriScaffold/Chapter3/Raccordement.lean:61",
+      "what": "The hypothesis-checklist row for the added n ≥ 1 reads « ⚠ ADDED ». The docstring contract (kb 0006) uses « ⚠ strengthened » for a Lean theorem that assumes more than the paper, and REPORT.json already uses that word. The disclosure itself is complete and true.",
+      "fix": "Write « ⚠ strengthened: n ≥ 1 added in prop3_accole / prop3_raccordement (false for n = 0, raccordement_dimZero) »."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-benzecri/scaffold/BenzecriScaffold/Chapter3/Raccordement.lean:1020",
+      "what": "The instances of Accole/Raccorde join a piece to a copy of itself ((W1,H1) = (W2,H2) = (simplexS, {x0 ≥ 0})). This is not degenerate and it is disclosed, but it does not exercise two different pieces, and it replaces the planner's disc instance.",
+      "fix": "Optional: add an instance with two different pieces (for example the simplex cut by two different facet hemispheres), or leave it and keep the disclosure."
+    }
+  ],
+  "questions_endorsed": [
+    "Whether n ≥ 1 is implicit in Prop. 3 (as Prop. 4 states it) is for the author: if ruled implicit, prop3_raccordement can carry the mark with no code change.",
+    "OQ-160 (c): whether « raccordant » / « accolant » are meant to record H'_i and g_i (RaccordeVia keeps them; Raccorde/Accole quantify them)."
+  ]
+}

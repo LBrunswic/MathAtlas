@@ -75,3 +75,6 @@ import Benzecri.Chapter3.BooleProjectif
 import Benzecri.Chapter3.FacetteConique
 import Benzecri.Chapter3.ReunionConvexesSphere
 import Benzecri.Chapter3.BalayableSomme
+import Benzecri.Chapter3.BalayableSommeProduit
+import Benzecri.Chapter3.SommeFacettesConiques
+import Benzecri.Chapter3.Raccordement
