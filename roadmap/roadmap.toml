@@ -1656,13 +1656,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzprop:c3s3p6_dual_sous_variete", "bzprop:c3s3p7_noyau_support", "bzprop:c3s3p8_dual_corps_convexe", "bzrem:c3s3r1_transposition"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-bz-c3-dualite", "T-bz-c3-facettes-sphere"]
-evidence = "ledger rows benzecri1960_ch3.tex:757–863, proved in print. Prop. 7 (l.768): « D transforme le noyau (resp. support) de W dans le support (resp. noyau) de D(W) et l'on a σ(W) + ν(D(W)) = n − 1, ν(W) + σ(D(W)) = n − 1. » Prop. 8 (l.783) is printed « Le dual d'un corps convexe de S(n) est un convexe. », flagged [sic?] because its proof gives « corps convexe » (OQ-160 (a), OPEN). Proceeds under the stronger reading, disclosed: prove D(W) is a corps convexe (Benzecri.IsCorpsConvexeS, Benzecri.isCorpsConvexeS_iff) and derive the printed « convexe » from it, so that either ruling marks with no Lean change (the T-bz-c2-prop2-literal precedent). Uses the noyau of T-bz-c3-facettes-sphere and Mathlib's Submodule.dualAnnihilator / finrank. Instance: dimension conventions at W = ∅ (σ = −1, D(∅) = S(n), ν = n) and at W a point. Re-checked 2026-11-28 (planner) against the strict Chapter3 modules built since the cut: On S(n) the pairing is Benzecri.Sphere.dotPairing (strict Chapter3/Dualite, 853a9dfa), which meets (a)–(d) as a Lean term (hypD_dotPairing, identifiesDual_dotPairing) and gives D′ = D (D'_dotPairing) and D′∘D = closure (D'_D_eq_closure): these rows do not wait on OQ-160's reading of « mis en dualité » (Props. 1, 2 of § 3, partial), since every reading holds there; anchor on dotPairing, not on a general HypD B. Prop. 6 starts from Prop. 5 (D_linearSubvariety, orth). The noyau now comes from the narrowed T-bz-c3-facettes-sphere (Déf. 4–5 only). Re-checked again 2026-11-28 (planner, after T-bz-c3-facettes-sphere, b12118ad): import Benzecri.Chapter3.FacettesSphere for the noyau (noyau, noyau_eq: noyau k = {m | m ∈ k ∧ −m ∈ k}, noyauSub, noyau_eq_linearSubvariety) and the support (supportK, the span of F f), and Benzecri.Chapter3.Dualite (dotPairing, D'_D_eq_closure, prop5 / D_linearSubvariety for Prop. 6). σ and ν are dimensions of linear subvarieties of S(n), finrank − 1 with ∅ of dimension −1 (as integers): fix that convention once and check it at W = ∅ and W = S(n)."
+evidence = "§ 3 Props. 6–8 marked; the Remark partial (OQ-164 (c)); audit AUDIT-1 clean"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "47951cd8"
 
 [[target]]
 id = "T-bz-c3-dualite-interieur"
@@ -1717,13 +1718,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzprop:c3s4p1_alpha_cone_appui", "bzprop:c3s4p2_dual_cone_appui_sature", "bzdef:c3s4d3_orthogonalite_points", "bzprop:c3s4p3_dual_cone_appui"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-bz-c3-cone-appui", "T-bz-c3-facettes-sphere", "T-bz-c3-dualite"]
-evidence = "ledger rows benzecri1960_ch3.tex:907–986, the three propositions proved in print. Prop. 1's proof cites « la définition de α(W) (cf. § 2 déf. 3) », a misprinted reference kept on the printed target (OQ-160 (b)); the statement uses α of § 1 Déf. 4 whatever the ruling, so the ledger edge to c3s2d3, not the Lean, is what OQ-160 (b) moves. Prop. 3 (l.986): « Soit a un point de S(n); W ∈ K(S(n)); alors D(W_a) = {m | m ∈ D(W), ⟨m, a⟩ = 0}. » Instance: W the closed quarter-circle of S(1), a an endpoint. Re-checked 2026-11-28 (planner) against the strict Chapter3 modules built since the cut: import Benzecri.Chapter3.ConeAppui (c3f76733) and Dualite. Prop. 1's (2)⇔(3) goes through Déf. 1′, which T-bz-c3-cone-appui found imprecise (closed half-lines: holds iff W ⊄ {a, a′}, OQ-162 (a)); in the case b ≠ a, a′ of (1)–(4), b ∈ W forces W ⊄ {a, a′}, so the closed-half-line form holds there (coneAppui_eq_demiDroitesFermeesW_iff) and Prop. 1 does not wait on OQ-162 (a); the exception-free form is coneAppui_eq_insert_demiDroitesW. (3)⇔(4) through Déf. 1 (isLeast_coneAppui, coneAppui_eq_ofCone). Prop. 2 assumes only hypothesis (a) of § 3 (a bilinear form, printed « cf. § 3, a) »): state it for any B with D B, no HypD. Prop. 3 and Déf. 3 on S(n) with dotPairing. α(k) of § 1 Déf. 4 comes from T-bz-c3-facettes-sphere. Re-checked again 2026-11-28 (planner): every dependency is strict (ConeAppui c3f76733, FacettesSphere b12118ad, Dualite 853a9dfa) and the names cited above exist; α(k) is Benzecri.Sphere.AlphaK (alphaK_iff: AlphaW (kPrime k) on representatives) — transfer § 1 facts through alphaK_iff and facetteK_eq_ofCone rather than re-proving on the sphere (facettes-sphere REPORT kb). Instance: arcS1 (kPrime_arcS1 = quadrant, facettesK_arcS1) is already a Lean term."
+evidence = "§ 4 Prop. 2, Déf. 3, Prop. 3 marked; Prop. 1 partial (OQ-164 (a)); audits AUDIT-1 major, AUDIT-2 minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "7c6a488c"
 
 [[target]]
 id = "T-bz-c3-facette-duale"
@@ -1793,13 +1795,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzprop:c3s5p2_support_appui", "bzprop:c3s5p3_complementaire_appui", "bzprop:c3s5p4_propriete_I_appui"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-bz-c3-propriete-i", "T-bz-c3-appui"]
-evidence = "ledger rows benzecri1960_ch3.tex:1183–1217 (Props. 2, 3 proved in print, Prop. 4 open). Prop. 4 (l.1217): « il est équivalent de dire que V possède la propriété I relativement à W, ou de dire que le support L de V est une variété d'appui de W et que V possède la propriété I relativement à L ∩ W. » Uses Déf. 3 (variété d'appui) and α from T-bz-c3-facettes / T-bz-c3-appui. Instance: an edge of the closed square. Re-checked 2026-11-28 (planner) against the strict Chapter3 modules built since the cut: import Benzecri.Chapter3.ProprieteI (f9c51c00: ProprieteI, prop1_supports) and the Déf. 3 of T-bz-c3-appui. § 5 Prop. 1's precise form is imprecise as printed (OQ-162 (b)); if Props. 2–4 lean on it, use prop1_supports or prop1_precis_of_disjoint (V and W − V are disjoint), never the printed precise form. Instance: proprieteI_segment_carre (an edge of [0,1]²) is already a Lean term. Re-checked again 2026-11-28 (planner, after T-bz-c3-appui, ebf9a6e7): Déf. 3 is Benzecri.IsVarieteAppui W S on AffineSubspaces (Chapter3/Appui; isVarieteAppui_iff_alphaW, isVarieteAppui_iff_openSegment, alphaW_inter_iff, alphaW_induit for I(V, L ∩ W)); « le support L de V » is affineSpan ℝ V. Both modules are strict."
+evidence = "§ 5 Props. 2–4 marked; audit AUDIT-1 clean"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "204a72dc"
 
 [[target]]
 id = "T-bz-c3-hyperplan-separant"

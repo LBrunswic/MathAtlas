@@ -1229,3 +1229,13 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - Six Chapter 3 targets promoted to ready, re-checked against the 11 strict modules: T-bz-c3-dualite-sn, -cone-appui-alpha, -propriete-i-appui, -hyperplan-separant, -appui-sphere, -conjugues (stated under the supplementary pair, OQ-163 (b), with the printed form proved or refuted beside it, so OQ-163 moves marks, not Lean). T-bz-c3-boole-affine refined (waits on -conjugues, not on OQ-163; « comme sup le produit » read as the sum). T-bz-c3-sature, -points-extremaux next to promote. No new question.
 - gates: roadmap ✓ (314 targets), atlas ✓
 - next: T-bz-c3-dualite-sn, -cone-appui-alpha, -propriete-i-appui (lean-benzecri)
+
+## 2026-11-28 14:10 · wave of 3 · T-bz-c3-dualite-sn, T-bz-c3-cone-appui-alpha, T-bz-c3-propriete-i-appui (lean-benzecri)
+- T-bz-c3-dualite-sn: § 3 Props. 6–8 marked (Prop. 8 in both OQ-160 (a) forms); the transposition Remark partial (« la transposition » must be ᵗg⁻¹); audit clean.
+- T-bz-c3-cone-appui-alpha: § 4 Prop. 2, Déf. 3, Prop. 3 marked; Prop. 1 partial — true only with open half-lines while Déf. 1′ needs closed ones (no single convention makes both true); audits AUDIT-1 major (Prop. 1 had been marked), AUDIT-2 minor.
+- T-bz-c3-propriete-i-appui: § 5 Props. 2–4 marked; audit clean.
+- All three graduated to strict Benzecri/Chapter3/. New OQ-164 (the § 4 half-line convention, extending OQ-162 (a); Prop. 3's a ∈ W; the Remark's transposition). benzecri: 116 curated rows.
+- gates: lean-benzecri ✓ (0 sorry in 62 strict files), roadmap ✓, atlas ✓, hub: no new red; restate: 0 new
+- commits: 47951cd8 7c6a488c 204a72dc 6cfd03e8 (+ statuses)
+- wall time: 06:29–14:10; agents in parallel: 3 closers, 4 auditors
+- next: T-bz-c3-hyperplan-separant, -appui-sphere, -conjugues (ready)
