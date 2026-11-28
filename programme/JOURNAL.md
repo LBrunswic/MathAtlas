@@ -1159,7 +1159,7 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - commits: 4a78ce34 b4d1d683 2780b0ed (ledgers, the Lean sha only; restate detect 0)
 - next: T-abs-sc-open-hoist (closer, exclusive; wave 55)
 
-## 2026-11-28 09:00 · wave of 1 · T-abs-sc-open-hoist
+## 2026-11-28 08:51 · wave of 1 · T-abs-sc-open-hoist
 - T-abs-sc-open-hoist (abstract, layer 1, exclusive): five parts, every full name and moved statement kept.
   - (a) SCOpenWithoutTarentin's model-free half moved to the new Causal.StrongCausalityHull, which imports GlobalHyperbolicity only. emit-lean switched Rules' import to it, so Rules' closure went 55 → 52, without SCOpenWithoutTarentin, NestedTransfer or OneWayMembrane; Test.lean and DualTest unchanged.
   - (b) IsEMorphismOn.chronalCurveOn_comp moved to CauchyExtension and ChronalHomotopyOn.homotopicRel to TimelikeHomotopy (+ one Mathlib import).
@@ -1176,3 +1176,15 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors). Hub: 3 new red, all on /atlas-team's paths: its in-flight lean-benzecri makes papers/benzecri's ledger stale, as at 07:07 and 07:58. Not this loop's; not reverted.
 - commits: 0f0e423e 85822c4c (ledgers, the Lean sha only; restate detect 0)
 - next: a planning run (rule 2), to promote T-abs-flrw-future-extension and plan the line-reference tidy; then wave 56 (T-abs-flrw-future-extension and T-abs-extensible-comp-hoist)
+
+## 2026-11-28 09:10 · planning run · rule 2 after wave 55; 225 → 227 targets
+- Promoted: T-abs-flrw-future-extension (closer, layer 1, p8). It is rescoped to today's FlrwType lines, and gains part (b): the one-line GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeB beside its (A) twin in FlrwTypeClosedAmbient (the keeper's proposal of 07:58), since the closer rebuilds that module anyway.
+- Re-read: T-abs-extensible-comp-hoist (ready); only CauchyExtension's continuousOn_Icc moved.
+- Added, both planned p8 and depending on the wave-55 and wave-56 targets:
+  - T-lad-lineref-names (keeper): the ladder's comments cite names, not line numbers (22 explicit and at least 33 bare references; the audit's list was incomplete);
+  - T-abs-lineref-docstrings (closer, exclusive: CurvesExtend and CurvesExtendSecondCountable are imported by Rules): the 15 stale Lean docstring references become names, one per line so no line count changes. The curation note papers/ett/certificate/curation.toml:1106 (row def:causally_connected, paper_findings) is the master's.
+- The wave-55 entry's heading is corrected from 09:00 to 08:51, its real time.
+- Waves (simulated): 56 = T-abs-flrw-future-extension and T-abs-extensible-comp-hoist; then a planning run promotes the tidies; 57 = T-lad-lineref-names and T-abs-lineref-docstrings (exclusive); 58 is empty. The rest of the queue waits on research targets, rulings (the DEC-167 gluing chain, OQ-97, OQ-100) or the blocked smooth-Lorentz package. One unplanned proposal: C0ExtensionSkeleton's three dual conversions as causal_ladder calls once it imports Rules.
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 27, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
+- gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
+- next: T-abs-flrw-future-extension, T-abs-extensible-comp-hoist (closers, lean-causal)
