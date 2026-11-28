@@ -1188,3 +1188,17 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - binders: ers-predictability 28 rows bound, layer 1 in Lean 27, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
 - gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
 - next: T-abs-flrw-future-extension, T-abs-extensible-comp-hoist (closers, lean-causal)
+
+## 2026-11-28 09:38 · wave of 2 · T-abs-flrw-future-extension, T-abs-extensible-comp-hoist
+- T-abs-flrw-future-extension (abstract, layer 1): IsSpacetimeExtension.not_futureBoundaryChart_of_flrwType in Causal.FlrwType (the time reversal through IsSpacetimeExtension.dual), and GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeB in Causal.FlrwTypeClosedAmbient (one line), with timelike-line witnesses; every existing statement unchanged. Audit minor, applied. Since Causality.dual_dual is rfl, minkowski_pastBoundaryChart already inhabits (minkowski n).dual.FutureBoundaryChart, so the time reversals are not vacuous (the closer's "no Lean instance" was wrong); FlrwType's SCOPE says so.
+- T-abs-extensible-comp-hoist (abstract, layer 1): the model-free curve lemmas of MeetsCauchyAntisymmetrySharp moved to the new Causal.ExtensibleAlongCurve, and extensible_of_graph was renamed extensible_of_eq_comp_monotoneOn. With the old names mapped back the dump is unchanged. Audit minor, applied (the module docstring lists every hypothesis).
+- For the planner:
+  - the two line-reference tidies (T-lad-lineref-names, T-abs-lineref-docstrings) are due. Wave 56's new shifts: MeetsCauchyAntisymmetrySharp :890→:711, :911→:732, :829→:650, :853→:674; the FlrwType and FlrwTypeClosedAmbient shifts are in T-abs-flrw-future-extension's REPORT notes. Also the ladder comment at :5187–:5188 ("(B)'s time reversal has no globally hyperbolic form") is now false, and the archived probe campaign/T-abs-meets-cauchy-antisymmetry-sharp/Probe.lean uses the old names;
+  - the keeper's two time-reversed consequences (REPORT lemmas_for_the_keeper, simulated 128 → 130), without the "no Lean instance" clause;
+  - the time reversal of (A) in the closed ambient has no timelike-line witness;
+  - the {t < 0} chart of minkowski n itself (layer 3), optional now that dual_dual gives the future chart.
+- ladder: 27 properties, 28 implications, 108 counterexamples, 128 consequences, 6 edge hypotheses; 432/432 within a sort: 41 implied, 385 fails, 6 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 27, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors). Hub: 3 new red, all on /atlas-team's paths: its in-flight lean-benzecri makes papers/benzecri's ledger stale, as in the last waves. Not this loop's; not reverted.
+- commits: c6cc212e 3bb18eb2 668cd912 (ledgers, the Lean sha only; restate detect 0)
+- next: a planning run (rule 2), to promote the two tidies; then wave 57; after it the queue waits on rulings
