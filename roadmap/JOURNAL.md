@@ -1143,3 +1143,10 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - No closer-sized target is ready without a ruling. Added T-btz-trans-inj-dedupe (ready, exclusive master); promoted T-btz-trace-graduate (ready, exclusive master). T-btz-cauchy-spear-m0, T-btz-cauchy-step2-max, T-gx-uniformization-via-btz refined, still planned: the first needs the unprinted « Σ₀ Cauchy in N » (l.1603) and has no nameable instance yet; the second needs a weaker cusp structure than SpearSurgeryDatum (Σ₀ only Lipschitz), waiting on T-btz-cauchy-regularity; the third splits into pieces each larger than a dispatch. No new question.
 - gates: roadmap ✓ (281 targets), atlas ✓
 - next: T-btz-trace-graduate, then T-btz-trans-inj-dedupe (each exclusive in lean-gx)
+
+## 2026-11-28 05:00 · wave of 1 · T-btz-trace-graduate (exclusive)
+- T-btz-trace-graduate: AxisNoLimit, C1SpacelikeDev, C1SpacelikeDevLip, TraceDev, TraceComplete graduated to GX.BTZ; no rename (160 constants hashed before/after, identical); not_spacelikeDevelopment_graphDev now a corollary of the iff; the scaffold's BTZ directory holds only CauchySpear; audit clean. Curation and kb paths re-pointed (and three older stale prose paths, 7a405ad3); README State line updated.
+- gates: lean-gx ✓ (strict 0 sorry in 92 files, 16,793 declarations), roadmap ✓, atlas ✓, hub: no new red; restate: 0 new
+- commits: 6c0da216 b2d61ae8 7a405ad3 (+ statuses)
+- wall time: 03:02–05:00; agents: 1 closer, 1 auditor
+- next: T-btz-trans-inj-dedupe (exclusive), builder refresh; then idle on rulings (T-btz-scope, T-btz-cauchy-regularity, OQ-158, …)

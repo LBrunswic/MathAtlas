@@ -4326,13 +4326,14 @@ kind = "tooling"
 paper = "btz"
 package = "lean-gx"
 exclusive = true
-status = "ready"
+status = "done"
 owner = "master"
 priority = 10
 depends = ["T-btz-trace-complete"]
-evidence = "T-btz-axis-nolimit REPORT notes: « For graduation: the strict GX.E0BluntSpear.flat_infall_noLimit_of_pos becomes a corollary (flat_infall_noLimit_of_le, with v <= a) ». T-btz-trace-development REPORT notes: « The file imports the scaffold GXScaffold.BTZ.C1SpacelikeDevLip (T-btz-c1-spacelike-development), so it graduates with or after that module ». Its AUDIT-1 finding 3: « Optionally prove it [not_spacelikeDevelopment_graphDev] as a corollary of spacelikeDevelopment_graphDev_iff when the files graduate together ». All four modules are sorry-free with standard axioms (their AUDIT-1 build sections). [r] (planner) Making flat_infall_noLimit_of_pos a corollary, as that REPORT proposes, would need flat_infall_noLimit_of_le above BluntSpear in the import order, which is a refactor and not a move. Precedent: T-btz-s5-graduate (9c28ce2d). Planned until T-btz-trace-complete lands, so that the chain moves once and TraceComplete is not left importing a moved file. Graduation changes no mark and no statement. In particular the vacuous strict lem_surface_complete_two_lip stays in place, docstring-corrected, until OQ-158 rules whether lipOn or unif replaces it. Exclusive: it rewrites the scaffold root and moves files that the btz chain imports Promoted to ready 2026-11-28 (planner, rule 2 run after T-btz-trace-complete, T-btz-g3-dedupe, T-btz-gluing-dedupe): its one dependency is done (32ea593b). The five modules are under lean-gx/scaffold/GXScaffold/BTZ/ (AxisNoLimit, C1SpacelikeDev, C1SpacelikeDevLip, TraceDev, TraceComplete), none has a sorry, and their only scaffold imports are each other, so the chain moves as one. Checked at HEAD: the strict GX/BTZ/SurfaceCompleteLip.lean names GXScaffold.BTZ.C1SpacelikeDevLip and GXScaffold.BTZ.C1SpacelikeDev in its docstring (l.48, l.61), so those references must be rewritten to the new module names; papers/btz/certificate/curation.toml names the scaffold modules too. not_spacelikeDevelopment_graphDev is in TraceDev.lean:128 and spacelikeDevelopment_graphDev_iff in C1SpacelikeDev.lean:184, so the derivation is a proof change in TraceDev only (name and type kept). A second duplication to record, not to remove: TraceComplete's pathLength_seg_unif repeats the proof of E0Surgery.edist_le_seg_unif (C1SpacelikeDevLip.lean:144), per TraceComplete.lean:76. Not in the same wave as T-btz-trans-inj-dedupe (both exclusive in lean-gx)"
+evidence = "five modules graduated to GX.BTZ (160 constants unchanged); scaffold BTZ holds only CauchySpear; audit AUDIT-1 clean"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "6c0da216"
 
 [[target]]
 id = "T-btz-cauchy-gh-e0"
