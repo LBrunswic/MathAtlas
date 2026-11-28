@@ -1,0 +1,225 @@
+@Causal.Causality.CausalCurveIn.continuousOn_interval : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} {I : Set ℝ} {c : ℝ → M},
+  C.CausalCurveIn W I c → ContinuousOn c I
+@Causal.Causality.causalCurveIn_top_of_pieces : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causal.Causality M}
+  {γ : ℝ → M} {J : Set ℝ},
+  Continuous γ →
+    J.Nonempty →
+      J.OrdConnected →
+        (∀ s ∈ J, ∀ s' ∈ J, s ≤ s' → ∀ (N : TopologicalSpace.Opens M), γ '' Set.Icc s s' ⊆ ↑N → C.le N (γ s) (γ s')) →
+          C.CausalCurveIn ⊤ J γ
+@Causal.Causality.extensible_of_graph_of_bddAbove : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} {I J : Set ℝ} {c γ : ℝ → M} {h : ℝ → ℝ} {t' : ℝ},
+  C.CausalCurveIn W J γ →
+    C.CausalCurveIn W I c →
+      BddAbove I →
+        MonotoneOn h I →
+          ContinuousOn h I →
+            Set.MapsTo h I J →
+              (∀ t ∈ I, γ (h t) = c t) → t' ∈ J → (∀ t ∈ I, h t ≤ t') → (∀ t ∈ I, γ t' ≠ c t) → C.Extensible W I c
+@Causal.Causality.extensible_of_graph : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causal.Causality M}
+  {W : TopologicalSpace.Opens M} {I J : Set ℝ} {c γ : ℝ → M} {h : ℝ → ℝ} {t' : ℝ},
+  C.CausalCurveIn W J γ →
+    C.CausalCurveIn W I c →
+      MonotoneOn h I →
+        ContinuousOn h I →
+          Set.MapsTo h I J →
+            (∀ t ∈ I, γ (h t) = c t) → t' ∈ J → (∀ t ∈ I, h t ≤ t') → (∀ t ∈ I, γ t' ≠ c t) → C.Extensible W I c
+Causal.rayCircleSet : Set (ℝ × ℝ)
+Causal.RayCircleArc : Type
+Causal.rayCircleArc : Causal.RayCircleArc → ℝ → ℝ × ℝ
+Causal.rayCircleArc_mem : ∀ (i : Causal.RayCircleArc) (s : ℝ), Causal.rayCircleArc i s ∈ Causal.rayCircleSet
+Causal.rayCircleγ : Causal.RayCircleArc → ℝ → ↑Causal.rayCircleSet
+Causal.rayCircle : Causal.Causality ↑Causal.rayCircleSet
+Causal.rayCircleQ : ↑Causal.rayCircleSet
+Causal.rayCircleY : ↑Causal.rayCircleSet
+Causal.continuous_rayCircleγ : ∀ (i : Causal.RayCircleArc), Continuous (Causal.rayCircleγ i)
+Causal.rayCircle_causallyArcConnected : Causal.rayCircle.CausallyArcConnected
+Causal.rayCircle_absolutelyMinimal : Causal.rayCircle.AbsolutelyMinimal
+Causal.rayCircle_absolutelyMinimalOn : ∀ (W : TopologicalSpace.Opens ↑Causal.rayCircleSet),
+  Causal.rayCircle.AbsolutelyMinimalOn W
+Causal.rayCircleQ_ne_Y : Causal.rayCircleQ ≠ Causal.rayCircleY
+Causal.rayCircleγ_up_zero : Causal.rayCircleγ Causal.RayCircleArc.up 0 = Causal.rayCircleQ
+Causal.rayCircleγ_up_one : Causal.rayCircleγ Causal.RayCircleArc.up 1 = Causal.rayCircleY
+Causal.rayCircleγ_low_zero : Causal.rayCircleγ Causal.RayCircleArc.low 0 = Causal.rayCircleY
+Causal.rayCircleγ_low_one : Causal.rayCircleγ Causal.RayCircleArc.low 1 = Causal.rayCircleQ
+Causal.rayCircle_le_Q_Y : Causal.rayCircle.le ⊤ Causal.rayCircleQ Causal.rayCircleY
+Causal.rayCircle_le_Y_Q : Causal.rayCircle.le ⊤ Causal.rayCircleY Causal.rayCircleQ
+Causal.rayCircle_not_isCausal : ¬Causal.rayCircle.IsCausal
+Causal.rayCircleC : ↑Causal.rayCircleSet → ℂ
+Causal.rayCircleC_re : ∀ (p : ↑Causal.rayCircleSet), (Causal.rayCircleC p).re = (↑p).1
+Causal.rayCircleC_im : ∀ (p : ↑Causal.rayCircleSet), (Causal.rayCircleC p).im = (↑p).2
+Causal.continuous_rayCircleC : Continuous Causal.rayCircleC
+@Causal.rayCircle_arg_cos_add_sin : ∀ {x : ℝ},
+  x ∈ Set.Ioc (-Real.pi) Real.pi → (↑(Real.cos x) + ↑(Real.sin x) * Complex.I).arg = x
+Causal.rayCircleAngle : ↑Causal.rayCircleSet → ℝ
+@Causal.rayCircleAngle_up : ∀ {s : ℝ},
+  s ∈ Set.Icc 0 1 → Causal.rayCircleAngle (Causal.rayCircleγ Causal.RayCircleArc.up s) = Real.pi * s
+@Causal.rayCircleAngle_low : ∀ {s : ℝ},
+  s ∈ Set.Ioc 0 1 → Causal.rayCircleAngle (Causal.rayCircleγ Causal.RayCircleArc.low s) = Real.pi * s - Real.pi
+Causal.rayCircleAngle_ray : ∀ (n : ℕ) {s : ℝ},
+  s ≤ 1 → Causal.rayCircleAngle (Causal.rayCircleγ (Causal.RayCircleArc.ray n) s) = -(↑n * (1 - s))
+@Causal.rayCircleAngle_le_of_arcStep : ∀ {U : TopologicalSpace.Opens ↑Causal.rayCircleSet},
+  Causal.rayCircleY ∉ U →
+    ∀ {x z : ↑Causal.rayCircleSet},
+      Causal.arcStep Causal.rayCircleγ U x z → Causal.rayCircleAngle x ≤ Causal.rayCircleAngle z
+@Causal.rayCircleAngle_le_of_le : ∀ {U : TopologicalSpace.Opens ↑Causal.rayCircleSet},
+  Causal.rayCircleY ∉ U →
+    ∀ {x z : ↑Causal.rayCircleSet}, Causal.rayCircle.le U x z → Causal.rayCircleAngle x ≤ Causal.rayCircleAngle z
+Causal.continuousOn_rayCircleAngle : ContinuousOn Causal.rayCircleAngle {Causal.rayCircleY}ᶜ
+Causal.rayCircleAngle_le_pi : ∀ (p : ↑Causal.rayCircleSet), Causal.rayCircleAngle p ≤ Real.pi
+Causal.rayCirclePathRay : ℝ → ℝ × ℝ
+Causal.rayCirclePathRay_mem : ∀ (τ : ℝ), Causal.rayCirclePathRay τ ∈ Causal.rayCircleSet
+Causal.rayCircleCurveRay : ℝ → ↑Causal.rayCircleSet
+Causal.rayCircleCurveLow : ℝ → ↑Causal.rayCircleSet
+Causal.rayCircleCurveRay_pi : Causal.rayCircleCurveRay Real.pi = Causal.rayCircleY
+Causal.rayCircleCurveLow_pi : Causal.rayCircleCurveLow Real.pi = Causal.rayCircleY
+Causal.continuous_rayCircleCurveRay : Continuous Causal.rayCircleCurveRay
+Causal.continuous_rayCircleCurveLow : Continuous Causal.rayCircleCurveLow
+Causal.rayCircleγ_ray_eq : ∀ (n : ℕ) {r : ℝ},
+  r ≤ 1 → Causal.rayCircleγ (Causal.RayCircleArc.ray n) r = Causal.rayCircleCurveRay (↑n * (r - 1))
+@Causal.rayCircleγ_up_eq_ray : ∀ {r : ℝ},
+  0 ≤ r → Causal.rayCircleγ Causal.RayCircleArc.up r = Causal.rayCircleCurveRay (Real.pi * r)
+Causal.rayCircleγ_up_eq_low : ∀ (r : ℝ),
+  Causal.rayCircleγ Causal.RayCircleArc.up r = Causal.rayCircleCurveLow (Real.pi * r)
+Causal.rayCircleγ_low_eq_low : ∀ (r : ℝ),
+  Causal.rayCircleγ Causal.RayCircleArc.low r = Causal.rayCircleCurveLow (Real.pi * r - Real.pi)
+@Causal.rayCircle_le_curveRay_of_nonpos : ∀ {N : TopologicalSpace.Opens ↑Causal.rayCircleSet} {s s' : ℝ},
+  s ≤ s' →
+    s' ≤ 0 →
+      Causal.rayCircleCurveRay '' Set.Icc s s' ⊆ ↑N →
+        Causal.rayCircle.le N (Causal.rayCircleCurveRay s) (Causal.rayCircleCurveRay s')
+@Causal.rayCircle_le_curveRay_of_nonneg : ∀ {N : TopologicalSpace.Opens ↑Causal.rayCircleSet} {s s' : ℝ},
+  0 ≤ s →
+    s ≤ s' →
+      s' ≤ Real.pi →
+        Causal.rayCircleCurveRay '' Set.Icc s s' ⊆ ↑N →
+          Causal.rayCircle.le N (Causal.rayCircleCurveRay s) (Causal.rayCircleCurveRay s')
+@Causal.rayCircle_le_curveLow_of_nonpos : ∀ {N : TopologicalSpace.Opens ↑Causal.rayCircleSet} {s s' : ℝ},
+  -Real.pi ≤ s →
+    s ≤ s' →
+      s' ≤ 0 →
+        Causal.rayCircleCurveLow '' Set.Icc s s' ⊆ ↑N →
+          Causal.rayCircle.le N (Causal.rayCircleCurveLow s) (Causal.rayCircleCurveLow s')
+@Causal.rayCircle_le_curveLow_of_nonneg : ∀ {N : TopologicalSpace.Opens ↑Causal.rayCircleSet} {s s' : ℝ},
+  0 ≤ s →
+    s ≤ s' →
+      s' ≤ Real.pi →
+        Causal.rayCircleCurveLow '' Set.Icc s s' ⊆ ↑N →
+          Causal.rayCircle.le N (Causal.rayCircleCurveLow s) (Causal.rayCircleCurveLow s')
+Causal.rayCircleCurveRay_causalCurveIn : Causal.rayCircle.CausalCurveIn ⊤ (Set.Iic Real.pi) Causal.rayCircleCurveRay
+Causal.rayCircleCurveLow_causalCurveIn : Causal.rayCircle.CausalCurveIn ⊤ (Set.Icc (-Real.pi) Real.pi)
+  Causal.rayCircleCurveLow
+@Causal.rayCircle_circle_of_le_one : ∀ {p : ↑Causal.rayCircleSet}, (↑p).1 ≤ 1 → (↑p).1 ^ 2 + (↑p).2 ^ 2 = 1
+@Causal.rayCircle_le_one_of_circle : ∀ {p : ↑Causal.rayCircleSet}, (↑p).1 ^ 2 + (↑p).2 ^ 2 = 1 → (↑p).1 ≤ 1
+@Causal.rayCircleC_norm_of_circle : ∀ {p : ↑Causal.rayCircleSet},
+  (↑p).1 ^ 2 + (↑p).2 ^ 2 = 1 → ‖Causal.rayCircleC p‖ = 1
+@Causal.rayCircleAngle_of_circle : ∀ {p : ↑Causal.rayCircleSet},
+  (↑p).1 ^ 2 + (↑p).2 ^ 2 = 1 → Causal.rayCircleAngle p = (Causal.rayCircleC p).arg
+@Causal.rayCircleCurveLow_arg : ∀ {p : ↑Causal.rayCircleSet},
+  (↑p).1 ^ 2 + (↑p).2 ^ 2 = 1 → Causal.rayCircleCurveLow (Causal.rayCircleC p).arg = p
+@Causal.rayCircleCurveRay_angle : ∀ {p : ↑Causal.rayCircleSet},
+  0 ≤ (↑p).2 → Causal.rayCircleCurveRay (Causal.rayCircleAngle p) = p
+@Causal.rayCircleCurveLow_angle : ∀ {p : ↑Causal.rayCircleSet},
+  (↑p).1 ≤ 1 → Causal.rayCircleCurveLow (Causal.rayCircleAngle p) = p
+@Causal.rayCircle_extensible_of_forall_ne : ∀ {I : Set ℝ} {c : ℝ → ↑Causal.rayCircleSet},
+  Causal.rayCircle.CausalCurveIn ⊤ I c → (∀ t ∈ I, c t ≠ Causal.rayCircleY) → Causal.rayCircle.Extensible ⊤ I c
+Causal.rayCircle_isCauchySurface_Y : Causal.rayCircle.IsCauchySurface {Causal.rayCircleY}
+Causal.rayCircleRay : ℝ → ↑Causal.rayCircleSet
+Causal.rayCircleRay_fst : ∀ (t : ℝ), (↑(Causal.rayCircleRay t)).1 = 1 - min t 0
+Causal.rayCircleRay_causalCurveIn : Causal.rayCircle.CausalCurveIn ⊤ Set.univ Causal.rayCircleRay
+Causal.rayCircleRay_pastInextensible : Causal.rayCircle.PastInextensible ⊤ Set.univ Causal.rayCircleRay
+Causal.rayCircleRay_zero : Causal.rayCircleRay 0 = Causal.rayCircleQ
+Causal.rayCircleRay_zero_mem_Jplus : Causal.rayCircleRay 0 ∈ Causal.rayCircle.Jplus ⊤ {Causal.rayCircleY}
+Causal.rayCircleRay_ne_Y : ∀ (t : ℝ), Causal.rayCircleRay t ≠ Causal.rayCircleY
+Causal.rayCircle_separates_pastInextensible_meets : T2Space ↑Causal.rayCircleSet ∧
+  SecondCountableTopology ↑Causal.rayCircleSet ∧
+    (∀ (U : TopologicalSpace.Opens ↑Causal.rayCircleSet) (x y : ↑Causal.rayCircleSet), ¬Causal.rayCircle.lt U x y) ∧
+      Causal.rayCircle.CausallyArcConnected ∧
+        Causal.rayCircle.AbsolutelyMinimal ∧
+          (∀ (W : TopologicalSpace.Opens ↑Causal.rayCircleSet), Causal.rayCircle.AbsolutelyMinimalOn W) ∧
+            ¬Causal.rayCircle.IsCausal ∧
+              (Causal.rayCircle.le ⊤ Causal.rayCircleQ Causal.rayCircleY ∧
+                  Causal.rayCircle.le ⊤ Causal.rayCircleY Causal.rayCircleQ ∧ Causal.rayCircleQ ≠ Causal.rayCircleY) ∧
+                Causal.rayCircle.IsCauchySurface {Causal.rayCircleY} ∧
+                  Causal.rayCircle.PastInextensible ⊤ Set.univ Causal.rayCircleRay ∧
+                    Causal.rayCircleRay 0 = Causal.rayCircleQ ∧
+                      (∃ t ∈ Set.univ, Causal.rayCircleRay t ∈ Causal.rayCircle.Jplus ⊤ {Causal.rayCircleY}) ∧
+                        ¬∃ t ∈ Set.univ, Causal.rayCircleRay t ∈ {Causal.rayCircleY}
+Causal.not_pastInextensible_exists_mem_of_mem_Jplus_bare : ¬∀ (M : Type) [inst : TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] (C : Causal.Causality M) (S : Set M) (I : Set ℝ) (σ : ℝ → M),
+    C.IsCauchySurface S →
+      C.CausallyArcConnected → C.PastInextensible ⊤ I σ → (∃ t ∈ I, σ t ∈ C.Jplus ⊤ S) → ∃ t ∈ I, σ t ∈ S
+'Causal.Causality.CausalCurveIn.continuousOn_interval' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.causalCurveIn_top_of_pieces' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.extensible_of_graph_of_bddAbove' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.extensible_of_graph' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleSet' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.RayCircleArc' does not depend on any axioms
+'Causal.rayCircleArc' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleArc_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleγ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircle' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleQ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleY' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.continuous_rayCircleγ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircle_causallyArcConnected' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircle_absolutelyMinimal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircle_absolutelyMinimalOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleQ_ne_Y' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleγ_up_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleγ_up_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleγ_low_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleγ_low_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircle_le_Q_Y' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircle_le_Y_Q' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircle_not_isCausal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleC' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleC_re' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleC_im' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.continuous_rayCircleC' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircle_arg_cos_add_sin' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleAngle' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleAngle_up' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleAngle_low' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleAngle_ray' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleAngle_le_of_arcStep' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleAngle_le_of_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.continuousOn_rayCircleAngle' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleAngle_le_pi' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCirclePathRay' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCirclePathRay_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleCurveRay' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleCurveLow' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleCurveRay_pi' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleCurveLow_pi' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.continuous_rayCircleCurveRay' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.continuous_rayCircleCurveLow' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleγ_ray_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleγ_up_eq_ray' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleγ_up_eq_low' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleγ_low_eq_low' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircle_le_curveRay_of_nonpos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircle_le_curveRay_of_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircle_le_curveLow_of_nonpos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircle_le_curveLow_of_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleCurveRay_causalCurveIn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleCurveLow_causalCurveIn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircle_circle_of_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircle_le_one_of_circle' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleC_norm_of_circle' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleAngle_of_circle' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleCurveLow_arg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleCurveRay_angle' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleCurveLow_angle' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircle_extensible_of_forall_ne' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircle_isCauchySurface_Y' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleRay' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleRay_fst' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleRay_causalCurveIn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleRay_pastInextensible' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleRay_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleRay_zero_mem_Jplus' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircleRay_ne_Y' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.rayCircle_separates_pastInextensible_meets' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.not_pastInextensible_exists_mem_of_mem_Jplus_bare' depends on axioms: [propext, Classical.choice, Quot.sound]

@@ -337,3 +337,5 @@ rediscover. One fact per entry.
 | [0329](entries/0329-etale-witnesses-limits.md) | pitfall | What the étale development can show on the line: a doubled point needs a disconnected S |
 | [0330](entries/0330-closed-ambient-a-or-b.md) | pattern | In a closed, antisymmetric ambient each of (A), (B) alone excludes a past boundary chart |
 | [0331](entries/0331-macron-identifier.md) | pitfall | A combining macron is not an identifier character |
+| [0332](entries/0332-antisymmetry-sharp.md) | pattern | Sbierski's (2.4) needs antisymmetry: the ray glued to the circle |
+| [0333](entries/0333-extensible-of-graph.md) | pattern | Extending a causal curve with no causality hypothesis: extensible_of_graph |

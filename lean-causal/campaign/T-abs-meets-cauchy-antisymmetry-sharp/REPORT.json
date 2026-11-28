@@ -1,0 +1,598 @@
+{
+  "target": "T-abs-meets-cauchy-antisymmetry-sharp",
+  "package": "lean-causal",
+  "files": [
+    "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean"
+  ],
+  "campaign_files": [
+    "campaign/T-abs-meets-cauchy-antisymmetry-sharp/REPORT.json",
+    "campaign/T-abs-meets-cauchy-antisymmetry-sharp/Probe.lean",
+    "campaign/T-abs-meets-cauchy-antisymmetry-sharp/axioms.txt"
+  ],
+  "builds": true,
+  "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-7 lake build CausalScaffold.MeetsCauchyAntisymmetrySharp",
+  "build_result": "Built CausalScaffold.MeetsCauchyAntisymmetrySharp (1.9 s), 3143 jobs, no warning. The --no-build dry run listed only this module as out of date, so nothing upstream was rebuilt. `lake env lean -DwarningAsError=true` on the file passes (the strict library's setting). Every typecheck and build ran under taskset -c 0-7. Probe.lean imports the module (not a copy) and runs #check and #print axioms on all 73 declarations; its output is axioms.txt.",
+  "sorry_count": 0,
+  "axioms": "All 73 declarations depend on [propext, Classical.choice, Quot.sound] at most (72 on exactly these three; the inductive RayCircleArc on none). Checked by parsing axioms.txt, wrapped lines joined. No sorryAx, admit, axiom declaration, native_decide or ofReduceBool.",
+  "layer": "ETT layer (layer 1). Direct imports: Causal.GHWithoutTarentin (arcCausality), Causal.PastInextensibleMeetsCauchy (the theorem refuted without antisymmetry), Causal.LineDevelopment (pastInextensible_of_not_tendsto_atBot), Causal.CauchyExtension (CausalCurveIn.continuousOn_Icc). tools/ladder.py's model_path is None for each, taken one at a time on lean_index()['imports'] in memory (kb/0247), and None for the module itself entered in memory with these four imports. Its closure holds 59 Causal modules, none in MODEL_LAYER (no Minkowski, Static, Flat.*, Model.*, Port.*, SingularFlat). Causal.Ladder.Rules is in the closure through Causal.GHWithoutTarentin, which the target's evidence accepts for a leaf (kb/0221 binds modules upstream of Rules). It imports neither concurrent closer's module (Causal.FlrwType's new leaf, Causal.ErsEtaleMghd*). The carrier is a subspace of ℝ × ℝ; cos, sin and Complex.arg occur in definitions and proofs only; no metric notion in a statement. causal_ladder is not used (no conclusion is a ladder node that a rule derives).",
+  "labels": [],
+  "declarations": [
+    {
+      "name": "Causal.Causality.CausalCurveIn.continuousOn_interval",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:100",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M} {I : Set ℝ} {c : ℝ → M}, C.CausalCurveIn W I c → ContinuousOn c I",
+      "status": "proved",
+      "standing": "From CausalCurveIn.continuousOn_Icc (Causal/CauchyExtension.lean:149) by the three cases of a point of I (interior, top, bottom, or I a point). The ETT-layer twin of the model-layer Causality.continuousOn_of_causalCurveIn (Causal/Remarks/SingularRowsCauchyExt.lean:203)."
+    },
+    {
+      "name": "Causal.Causality.causalCurveIn_top_of_pieces",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:126",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causal.Causality M} {γ : ℝ → M} {J : Set ℝ}, Continuous γ → J.Nonempty → J.OrdConnected → (∀ s ∈ J, ∀ s' ∈ J, s ≤ s' → ∀ (N : TopologicalSpace.Opens M), γ '' Set.Icc s s' ⊆ ↑N → C.le N (γ s) (γ s')) → C.CausalCurveIn ⊤ J γ",
+      "status": "proved",
+      "standing": "How the two standard curves are shown causal: the preimage of N under γ is open, so it contains a parameter ball around t, inside which every piece γ '' [s, s'] lies in N."
+    },
+    {
+      "name": "Causal.Causality.extensible_of_graph_of_bddAbove",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:143",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M} {I J : Set ℝ} {c γ : ℝ → M} {h : ℝ → ℝ} {t' : ℝ}, C.CausalCurveIn W J γ → C.CausalCurveIn W I c → BddAbove I → MonotoneOn h I → ContinuousOn h I → Set.MapsTo h I J → (∀ t ∈ I, γ (h t) = c t) → t' ∈ J → (∀ t ∈ I, h t ≤ t') → (∀ t ∈ I, γ t' ≠ c t) → C.Extensible W I c",
+      "status": "proved",
+      "standing": "The construction: g = h below b = sup I, k + (s − b) from b on (k = sup h(I)); γ ∘ g over I ∪ [b, b + t' − k] is a causal curve (SubArc's CausalCurveIn.comp_monotoneOn), φ = id, new value γ t' at b + t' − k. The left limit of g at b is the monotone supremum (b ∉ I) or the continuity of h at b (b ∈ I)."
+    },
+    {
+      "name": "Causal.Causality.extensible_of_graph",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:260",
+      "statement": "∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M} {I J : Set ℝ} {c γ : ℝ → M} {h : ℝ → ℝ} {t' : ℝ}, C.CausalCurveIn W J γ → C.CausalCurveIn W I c → MonotoneOn h I → ContinuousOn h I → Set.MapsTo h I J → (∀ t ∈ I, γ (h t) = c t) → t' ∈ J → (∀ t ∈ I, h t ≤ t') → (∀ t ∈ I, γ t' ≠ c t) → C.Extensible W I c",
+      "status": "proved",
+      "standing": "Model-free, no hypothesis on C or on M. Reduces to the bounded case by c ∘ tan over arctan '' I and Extensible.of_comp, as Causal/Remarks/SingularRowsCauchyExt.lean:347 does. Generalises the model-layer extensible_of_timeGraph_openEnd (:230): h = T ∘ c there, and its hTγ gives hnew."
+    },
+    {
+      "name": "Causal.rayCircleSet",
+      "kind": "def",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:295",
+      "statement": "Set (ℝ × ℝ)",
+      "status": "defined"
+    },
+    {
+      "name": "Causal.RayCircleArc",
+      "kind": "inductive",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:300",
+      "statement": "Type",
+      "status": "defined"
+    },
+    {
+      "name": "Causal.rayCircleArc",
+      "kind": "def",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:306",
+      "statement": "Causal.RayCircleArc → ℝ → ℝ × ℝ",
+      "status": "defined"
+    },
+    {
+      "name": "Causal.rayCircleArc_mem",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:311",
+      "statement": "∀ (i : Causal.RayCircleArc) (s : ℝ), Causal.rayCircleArc i s ∈ Causal.rayCircleSet",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleγ",
+      "kind": "def",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:322",
+      "statement": "Causal.RayCircleArc → ℝ → ↑Causal.rayCircleSet",
+      "status": "defined"
+    },
+    {
+      "name": "Causal.rayCircle",
+      "kind": "def",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:327",
+      "statement": "Causal.Causality ↑Causal.rayCircleSet",
+      "status": "defined"
+    },
+    {
+      "name": "Causal.rayCircleQ",
+      "kind": "def",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:330",
+      "statement": "↑Causal.rayCircleSet",
+      "status": "defined"
+    },
+    {
+      "name": "Causal.rayCircleY",
+      "kind": "def",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:333",
+      "statement": "↑Causal.rayCircleSet",
+      "status": "defined"
+    },
+    {
+      "name": "Causal.continuous_rayCircleγ",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:335",
+      "statement": "∀ (i : Causal.RayCircleArc), Continuous (Causal.rayCircleγ i)",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircle_causallyArcConnected",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:342",
+      "statement": "Causal.rayCircle.CausallyArcConnected",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircle_absolutelyMinimal",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:345",
+      "statement": "Causal.rayCircle.AbsolutelyMinimal",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircle_absolutelyMinimalOn",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:348",
+      "statement": "∀ (W : TopologicalSpace.Opens ↑Causal.rayCircleSet), Causal.rayCircle.AbsolutelyMinimalOn W",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleQ_ne_Y",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:354",
+      "statement": "Causal.rayCircleQ ≠ Causal.rayCircleY",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleγ_up_zero",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:359",
+      "statement": "Causal.rayCircleγ Causal.RayCircleArc.up 0 = Causal.rayCircleQ",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleγ_up_one",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:362",
+      "statement": "Causal.rayCircleγ Causal.RayCircleArc.up 1 = Causal.rayCircleY",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleγ_low_zero",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:365",
+      "statement": "Causal.rayCircleγ Causal.RayCircleArc.low 0 = Causal.rayCircleY",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleγ_low_one",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:368",
+      "statement": "Causal.rayCircleγ Causal.RayCircleArc.low 1 = Causal.rayCircleQ",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircle_le_Q_Y",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:372",
+      "statement": "Causal.rayCircle.le ⊤ Causal.rayCircleQ Causal.rayCircleY",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircle_le_Y_Q",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:378",
+      "statement": "Causal.rayCircle.le ⊤ Causal.rayCircleY Causal.rayCircleQ",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircle_not_isCausal",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:384",
+      "statement": "¬Causal.rayCircle.IsCausal",
+      "status": "proved",
+      "standing": "q ≤ y (upper half-circle, rayCircle_le_Q_Y) and y ≤ q (lower half-circle, rayCircle_le_Y_Q), q ≠ y."
+    },
+    {
+      "name": "Causal.rayCircleC",
+      "kind": "def",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:390",
+      "statement": "↑Causal.rayCircleSet → ℂ",
+      "status": "defined"
+    },
+    {
+      "name": "Causal.rayCircleC_re",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:392",
+      "statement": "∀ (p : ↑Causal.rayCircleSet), (Causal.rayCircleC p).re = (↑p).1",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleC_im",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:395",
+      "statement": "∀ (p : ↑Causal.rayCircleSet), (Causal.rayCircleC p).im = (↑p).2",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.continuous_rayCircleC",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:398",
+      "statement": "Continuous Causal.rayCircleC",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircle_arg_cos_add_sin",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:401",
+      "statement": "∀ {x : ℝ}, x ∈ Set.Ioc (-Real.pi) Real.pi → (↑(Real.cos x) + ↑(Real.sin x) * Complex.I).arg = x",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleAngle",
+      "kind": "def",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:407",
+      "statement": "↑Causal.rayCircleSet → ℝ",
+      "status": "defined"
+    },
+    {
+      "name": "Causal.rayCircleAngle_up",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:410",
+      "statement": "∀ {s : ℝ}, s ∈ Set.Icc 0 1 → Causal.rayCircleAngle (Causal.rayCircleγ Causal.RayCircleArc.up s) = Real.pi * s",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleAngle_low",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:419",
+      "statement": "∀ {s : ℝ}, s ∈ Set.Ioc 0 1 → Causal.rayCircleAngle (Causal.rayCircleγ Causal.RayCircleArc.low s) = Real.pi * s - Real.pi",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleAngle_ray",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:429",
+      "statement": "∀ (n : ℕ) {s : ℝ}, s ≤ 1 → Causal.rayCircleAngle (Causal.rayCircleγ (Causal.RayCircleArc.ray n) s) = -(↑n * (1 - s))",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleAngle_le_of_arcStep",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:442",
+      "statement": "∀ {U : TopologicalSpace.Opens ↑Causal.rayCircleSet}, Causal.rayCircleY ∉ U → ∀ {x z : ↑Causal.rayCircleSet}, Causal.arcStep Causal.rayCircleγ U x z → Causal.rayCircleAngle x ≤ Causal.rayCircleAngle z",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleAngle_le_of_le",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:464",
+      "statement": "∀ {U : TopologicalSpace.Opens ↑Causal.rayCircleSet}, Causal.rayCircleY ∉ U → ∀ {x z : ↑Causal.rayCircleSet}, Causal.rayCircle.le U x z → Causal.rayCircleAngle x ≤ Causal.rayCircleAngle z",
+      "status": "proved",
+      "standing": "By induction on the TransGen chain (the original hypothesis cleared first, kb/0003), each step by rayCircleAngle_le_of_arcStep: along the upper half the angle is π s, along the lower half π s − π for s > 0 (s = 0 is y, which U excludes), along the ray piece n it is −n(1 − s)."
+    },
+    {
+      "name": "Causal.continuousOn_rayCircleAngle",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:473",
+      "statement": "ContinuousOn Causal.rayCircleAngle {Causal.rayCircleY}ᶜ",
+      "status": "proved",
+      "standing": "Off y every point of X is in the slit plane (it has positive first coordinate or nonzero second), so Complex.continuousAt_arg applies."
+    },
+    {
+      "name": "Causal.rayCircleAngle_le_pi",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:495",
+      "statement": "∀ (p : ↑Causal.rayCircleSet), Causal.rayCircleAngle p ≤ Real.pi",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCirclePathRay",
+      "kind": "def",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:502",
+      "statement": "ℝ → ℝ × ℝ",
+      "status": "defined"
+    },
+    {
+      "name": "Causal.rayCirclePathRay_mem",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:504",
+      "statement": "∀ (τ : ℝ), Causal.rayCirclePathRay τ ∈ Causal.rayCircleSet",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleCurveRay",
+      "kind": "def",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:516",
+      "statement": "ℝ → ↑Causal.rayCircleSet",
+      "status": "defined"
+    },
+    {
+      "name": "Causal.rayCircleCurveLow",
+      "kind": "def",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:520",
+      "statement": "ℝ → ↑Causal.rayCircleSet",
+      "status": "defined"
+    },
+    {
+      "name": "Causal.rayCircleCurveRay_pi",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:523",
+      "statement": "Causal.rayCircleCurveRay Real.pi = Causal.rayCircleY",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleCurveLow_pi",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:528",
+      "statement": "Causal.rayCircleCurveLow Real.pi = Causal.rayCircleY",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.continuous_rayCircleCurveRay",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:533",
+      "statement": "Continuous Causal.rayCircleCurveRay",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.continuous_rayCircleCurveLow",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:536",
+      "statement": "Continuous Causal.rayCircleCurveLow",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleγ_ray_eq",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:540",
+      "statement": "∀ (n : ℕ) {r : ℝ}, r ≤ 1 → Causal.rayCircleγ (Causal.RayCircleArc.ray n) r = Causal.rayCircleCurveRay (↑n * (r - 1))",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleγ_up_eq_ray",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:551",
+      "statement": "∀ {r : ℝ}, 0 ≤ r → Causal.rayCircleγ Causal.RayCircleArc.up r = Causal.rayCircleCurveRay (Real.pi * r)",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleγ_up_eq_low",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:559",
+      "statement": "∀ (r : ℝ), Causal.rayCircleγ Causal.RayCircleArc.up r = Causal.rayCircleCurveLow (Real.pi * r)",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleγ_low_eq_low",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:562",
+      "statement": "∀ (r : ℝ), Causal.rayCircleγ Causal.RayCircleArc.low r = Causal.rayCircleCurveLow (Real.pi * r - Real.pi)",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircle_le_curveRay_of_nonpos",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:568",
+      "statement": "∀ {N : TopologicalSpace.Opens ↑Causal.rayCircleSet} {s s' : ℝ}, s ≤ s' → s' ≤ 0 → Causal.rayCircleCurveRay '' Set.Icc s s' ⊆ ↑N → Causal.rayCircle.le N (Causal.rayCircleCurveRay s) (Causal.rayCircleCurveRay s')",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircle_le_curveRay_of_nonneg",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:594",
+      "statement": "∀ {N : TopologicalSpace.Opens ↑Causal.rayCircleSet} {s s' : ℝ}, 0 ≤ s → s ≤ s' → s' ≤ Real.pi → Causal.rayCircleCurveRay '' Set.Icc s s' ⊆ ↑N → Causal.rayCircle.le N (Causal.rayCircleCurveRay s) (Causal.rayCircleCurveRay s')",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircle_le_curveLow_of_nonpos",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:612",
+      "statement": "∀ {N : TopologicalSpace.Opens ↑Causal.rayCircleSet} {s s' : ℝ}, -Real.pi ≤ s → s ≤ s' → s' ≤ 0 → Causal.rayCircleCurveLow '' Set.Icc s s' ⊆ ↑N → Causal.rayCircle.le N (Causal.rayCircleCurveLow s) (Causal.rayCircleCurveLow s')",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircle_le_curveLow_of_nonneg",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:632",
+      "statement": "∀ {N : TopologicalSpace.Opens ↑Causal.rayCircleSet} {s s' : ℝ}, 0 ≤ s → s ≤ s' → s' ≤ Real.pi → Causal.rayCircleCurveLow '' Set.Icc s s' ⊆ ↑N → Causal.rayCircle.le N (Causal.rayCircleCurveLow s) (Causal.rayCircleCurveLow s')",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleCurveRay_causalCurveIn",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:649",
+      "statement": "Causal.rayCircle.CausalCurveIn ⊤ (Set.Iic Real.pi) Causal.rayCircleCurveRay",
+      "status": "proved",
+      "standing": "causalCurveIn_top_of_pieces; pieces in ]−∞, 0] are one step along the ray piece n > −s, pieces in [0, π] one step along the upper half-circle, a piece across 0 is their transitivity."
+    },
+    {
+      "name": "Causal.rayCircleCurveLow_causalCurveIn",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:663",
+      "statement": "Causal.rayCircle.CausalCurveIn ⊤ (Set.Icc (-Real.pi) Real.pi) Causal.rayCircleCurveLow",
+      "status": "proved",
+      "standing": "causalCurveIn_top_of_pieces; pieces in [−π, 0] along the lower half-circle, in [0, π] along the upper one."
+    },
+    {
+      "name": "Causal.rayCircle_circle_of_le_one",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:678",
+      "statement": "∀ {p : ↑Causal.rayCircleSet}, (↑p).1 ≤ 1 → (↑p).1 ^ 2 + (↑p).2 ^ 2 = 1",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircle_le_one_of_circle",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:684",
+      "statement": "∀ {p : ↑Causal.rayCircleSet}, (↑p).1 ^ 2 + (↑p).2 ^ 2 = 1 → (↑p).1 ≤ 1",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleC_norm_of_circle",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:688",
+      "statement": "∀ {p : ↑Causal.rayCircleSet}, (↑p).1 ^ 2 + (↑p).2 ^ 2 = 1 → ‖Causal.rayCircleC p‖ = 1",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleAngle_of_circle",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:693",
+      "statement": "∀ {p : ↑Causal.rayCircleSet}, (↑p).1 ^ 2 + (↑p).2 ^ 2 = 1 → Causal.rayCircleAngle p = (Causal.rayCircleC p).arg",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleCurveLow_arg",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:698",
+      "statement": "∀ {p : ↑Causal.rayCircleSet}, (↑p).1 ^ 2 + (↑p).2 ^ 2 = 1 → Causal.rayCircleCurveLow (Causal.rayCircleC p).arg = p",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleCurveRay_angle",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:708",
+      "statement": "∀ {p : ↑Causal.rayCircleSet}, 0 ≤ (↑p).2 → Causal.rayCircleCurveRay (Causal.rayCircleAngle p) = p",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleCurveLow_angle",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:733",
+      "statement": "∀ {p : ↑Causal.rayCircleSet}, (↑p).1 ≤ 1 → Causal.rayCircleCurveLow (Causal.rayCircleAngle p) = p",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircle_extensible_of_forall_ne",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:744",
+      "statement": "∀ {I : Set ℝ} {c : ℝ → ↑Causal.rayCircleSet}, Causal.rayCircle.CausalCurveIn ⊤ I c → (∀ t ∈ I, c t ≠ Causal.rayCircleY) → Causal.rayCircle.Extensible ⊤ I c",
+      "status": "proved",
+      "standing": "The content of the Cauchy property. N = {y}ᶜ; c is a curve of N (CurveOn.restrict); the angle is monotone along c (rayCircleAngle_le_of_le) and continuous on I. Dichotomy: c does not meet both {v < 0} and {u > 1} (both of negative angle, disjoint, open; c '' [t₁, t₂] preconnected). Then c = Γ ∘ (angle ∘ c) with Γ = rayCircleCurveRay (if v ≥ 0 along c) or rayCircleCurveLow (if u ≤ 1 along c), and extensible_of_graph with t' = π, Γ π = y."
+    },
+    {
+      "name": "Causal.rayCircle_isCauchySurface_Y",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:827",
+      "statement": "Causal.rayCircle.IsCauchySurface {Causal.rayCircleY}",
+      "status": "proved",
+      "standing": "Uniqueness is free (∃! of a point of c '' I ∩ {y}); existence by contradiction with rayCircle_extensible_of_forall_ne."
+    },
+    {
+      "name": "Causal.rayCircleRay",
+      "kind": "def",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:836",
+      "statement": "ℝ → ↑Causal.rayCircleSet",
+      "status": "defined"
+    },
+    {
+      "name": "Causal.rayCircleRay_fst",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:838",
+      "statement": "∀ (t : ℝ), (↑(Causal.rayCircleRay t)).1 = 1 - min t 0",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleRay_causalCurveIn",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:843",
+      "statement": "Causal.rayCircle.CausalCurveIn ⊤ Set.univ Causal.rayCircleRay",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleRay_pastInextensible",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:851",
+      "statement": "Causal.rayCircle.PastInextensible ⊤ Set.univ Causal.rayCircleRay",
+      "status": "proved",
+      "standing": "LineDevelopment.pastInextensible_of_not_tendsto_atBot (Causal/LineDevelopment.lean:772): the first coordinate 1 − min t 0 ≥ −t tends to +∞ at −∞, so the curve has no limit in X."
+    },
+    {
+      "name": "Causal.rayCircleRay_zero",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:862",
+      "statement": "Causal.rayCircleRay 0 = Causal.rayCircleQ",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleRay_zero_mem_Jplus",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:868",
+      "statement": "Causal.rayCircleRay 0 ∈ Causal.rayCircle.Jplus ⊤ {Causal.rayCircleY}",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircleRay_ne_Y",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:872",
+      "statement": "∀ (t : ℝ), Causal.rayCircleRay t ≠ Causal.rayCircleY",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.rayCircle_separates_pastInextensible_meets",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:888",
+      "statement": "T2Space ↑Causal.rayCircleSet ∧ SecondCountableTopology ↑Causal.rayCircleSet ∧ (∀ (U : TopologicalSpace.Opens ↑Causal.rayCircleSet) (x y : ↑Causal.rayCircleSet), ¬Causal.rayCircle.lt U x y) ∧ Causal.rayCircle.CausallyArcConnected ∧ Causal.rayCircle.AbsolutelyMinimal ∧ (∀ (W : TopologicalSpace.Opens ↑Causal.rayCircleSet), Causal.rayCircle.AbsolutelyMinimalOn W) ∧ ¬Causal.rayCircle.IsCausal ∧ (Causal.rayCircle.le ⊤ Causal.rayCircleQ Causal.rayCircleY ∧ Causal.rayCircle.le ⊤ Causal.rayCircleY Causal.rayCircleQ ∧ Causal.rayCircleQ ≠ Causal.rayCircleY) ∧ Causal.rayCircle.IsCauchySurface {Causal.rayCircleY} ∧ Causal.rayCircle.PastInextensible ⊤ Set.univ Causal.rayCircleRay ∧ Causal.rayCircleRay 0 = Causal.rayCircleQ ∧ (∃ t ∈ Set.univ, Causal.rayCircleRay t ∈ Causal.rayCircle.Jplus ⊤ {Causal.rayCircleY}) ∧ ¬∃ t ∈ Set.univ, Causal.rayCircleRay t ∈ {Causal.rayCircleY}",
+      "status": "proved",
+      "standing": "The target's conjoined witness. Every conjunct of the title, plus ≪ empty, plain absolute minimality, q ≤ y, y ≤ q, q ≠ y and σ 0 = q, so that 'q ≤ y ≤ q for y = (−1, 0)' and 'the point q ∈ J⁺({y})' are literal. Proof: one anonymous-constructor term from the named lemmas below (no let-destructure, kb/0301)."
+    },
+    {
+      "name": "Causal.not_pastInextensible_exists_mem_of_mem_Jplus_bare",
+      "kind": "theorem",
+      "file_line": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:909",
+      "statement": "¬∀ (M : Type) [inst : TopologicalSpace M] [T2Space M] [SecondCountableTopology M] (C : Causal.Causality M) (S : Set M) (I : Set ℝ) (σ : ℝ → M), C.IsCauchySurface S → C.CausallyArcConnected → C.PastInextensible ⊤ I σ → (∃ t ∈ I, σ t ∈ C.Jplus ⊤ S) → ∃ t ∈ I, σ t ∈ S",
+      "status": "proved",
+      "standing": "The bare form, in the pattern of Causal.not_hasTimeFunction_of_globallyHyperbolic_bare: over all Hausdorff (so T1), second countable M, the hypotheses of PastInextensible.exists_mem_of_mem_Jplus_of_isCausal without hcaus do not give the conclusion. Destructured with obtain (kb/0301)."
+    }
+  ],
+  "lemmas_for_the_keeper": [
+    {
+      "ladder_entry": "programme/ladder.toml, the comment of the (2.4) block above the two [[consequence]] entries at [is_causal, causally_arc_connected] (lines 5001–5008: 'Both nodes look necessary, but this is argued by the closer, not formalised … * without antisymmetry, a ray glued to a circle at q … Whether each of these is a causality of ETT was not checked in Lean, so neither is a [[fails]] entry'). For T-lad-meets-cauchy-refresh.",
+      "proposal": {
+        "kind": "comment rewrite, no entry",
+        "text": "is_causal is necessary, formalised: Causal.rayCircle_separates_pastInextensible_meets (CausalScaffold/MeetsCauchyAntisymmetrySharp.lean until graduation). The unit circle with the ray {(1 + r, 0) : r ≥ 0} at q = (1, 0), Causal.arcCausality of arcs inward along the ray and counterclockwise round the circle (≪ empty): T2, second countable, causally arc-connected, absolutely minimal and absolutely minimal on every open set (so an ETT causality in either reading of DEC-167); q ≤ y ≤ q with y = (−1, 0), so not is_causal; {y} a Cauchy surface of M; the ray over ℝ (inward, then at rest at q) past-inextensible, with q ∈ J⁺({y}), missing y. Bare form: Causal.not_pastInextensible_exists_mem_of_mem_Jplus_bare. Still no [[fails]] entry: a consequence is not a pair, and causally_arc_connected ∧ absolutely_minimal ⇏ is_causal is already recorded (Causal.Flat.timeCylinder_separates_locallyStronglyCausal). The causally_arc_connected bullet is unchanged: the two-lines model is not absolutely minimal (the target's evidence), and an absolutely minimal witness is T-abs-minimal-not-arc-connected's question.",
+        "witness": "Causal.rayCircle_separates_pastInextensible_meets",
+        "bare": "Causal.not_pastInextensible_exists_mem_of_mem_Jplus_bare",
+        "standing": [
+          "T2",
+          "second_countable"
+        ],
+        "status": "checked (built, axioms standard); the names resolve in Causal/ only after graduation (kb/0276)"
+      }
+    },
+    {
+      "ladder_entry": "none (a hoist candidate, the master's or a planner's call)",
+      "proposal": {
+        "kind": "hoist note",
+        "text": "Causal.Causality.extensible_of_graph (model-free, no hypothesis on C) generalises the model-layer Causal.Causality.extensible_of_timeGraph_openEnd (Causal/Remarks/SingularRowsCauchyExt.lean:230, model layer through Causal.Port.CupCapBTZCounterexample): take h = T ∘ c; its hTγ gives γ t' ≠ c t, and hbdd, hnomax are not needed. Causal.Causality.CausalCurveIn.continuousOn_interval is the ETT-layer twin of that module's Causal.Causality.continuousOn_of_causalCurveIn (:203); the names differ, so no kb/0082 duplicate. Whether the model-layer pair should become corollaries after graduation is not decided here."
+      }
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.extensible_of_graph",
+    "Causal.Causality.extensible_of_graph_of_bddAbove",
+    "Causal.Causality.causalCurveIn_top_of_pieces",
+    "Causal.Causality.CausalCurveIn.continuousOn_interval"
+  ],
+  "findings": [
+    "No paper label is involved: this is the sharpness of a programme statement (Sbierski 2312.07443's (2.4), Causal/PastInextensibleMeetsCauchy.lean:147 and its M form :191). The findings concern the target's evidence (programme/roadmap.toml, the block of T-abs-meets-cauchy-antisymmetry-sharp), the ladder comment and the library, not ETT.tex.",
+    "The target's claim holds as titled, every conjunct, with nothing refuted and no hypothesis added: X ⊆ ℝ² is T2 and second countable; the arc causality (≪ empty) is causally arc-connected and absolutely minimal, plainly and on every open set for every cover; ≤ is not antisymmetric (q ≤ y ≤ q, q ≠ y); {y} is a Cauchy surface (DEC-14); the ray over ℝ is past-inextensible (DEC-13), its point at 0 is q ∈ J⁺({y}), and it misses y (rayCircle_separates_pastInextensible_meets, scaffold :888). Lean ≥ the target: T2 for the theorem's T1, both readings of absolute minimality, and the bare negation over every Hausdorff second countable space (:909).",
+    "The evidence's Cauchy argument is correct, with three sharpenings. (a) Its τ, the signed arc length from q, is rayCircleAngle (:407; 1 − x on the ray, the argument on the circle), and its monotonicity off y holds along ≤_U for every open U ∌ y, step by step (:442, :464). (b) The evidence's 'converges to a point of X' needs that a curve missing y stays in one incoming branch. That is true and is proved: the open ray and the open lower half-circle both have τ < 0, are disjoint and open, and τ is monotone, so a connected piece of the curve cannot meet both (:744). (c) The case split 'eventually constant, or converges' is not needed, and 'appending the arc forward from the end' fails as worded for a curve over an interval unbounded above, which has no end to append after. The proof extends every curve missing y along a standard causal curve up to y itself, so the new value is always y, after compressing the parameter by arctan (DEC-11's φ). No limit of the curve is taken, only the supremum of its angle.",
+    "What the evidence asked the closer to report as missing: the ETT layer had no extension lemma along a graph without a causality hypothesis. extensible_of_tendsto (Causal/Inextensible.lean:814) asks IsCausal, false here (rayCircle_not_isCausal), and StronglyCausal, which the loop breaks as the evidence says: a small arc about a circle point is not causally convex, since a curve leaves it and comes back round. That last point is argued, not formalised. The end-piece lemmas of Causal.CExtConnexeCauchy.SubArc (pauseTop :116, exists_compress :143, the of_top_tail family :218, :335, :482) handle constant end pieces, not a new piece of a different arc. The model-layer extensible_of_timeGraph_openEnd (Causal/Remarks/SingularRowsCauchyExt.lean:230) is the construction, but it is out of reach (model layer) and asks a time function. New here: Causality.extensible_of_graph (scaffold :260), with no hypothesis on the causality, the space or the interval. From SubArc only CausalCurveIn.comp_monotoneOn (:194) is used.",
+    "The arcs are not ArcCoherent (Causal/GHWithoutTarentin.lean:235): the upper half reaches q at parameter 0 and the lower half at 1, and coherence would make the causality causal (ArcCoherent.isCausal, :277). So the one-step tools of GHWithoutTarentin (ArcCoherent.le_iff, :258) do not apply. The monotone angle replaces them: it is the only invariant of ≤_U the proof uses, besides the two inverse formulas Γ(τ(p)) = p on each branch (:708, :733).",
+    "The ladder comment above the (2.4) consequences (programme/ladder.toml:5001–5008) says the antisymmetry model was 'argued by the closer, not formalised' and 'Whether each of these is a causality of ETT was not checked in Lean'. For the antisymmetry model both are now settled: it is formalised, and it is an arcCausality absolutely minimal on every open set, so an ETT causality under DEC-167. It is still no [[fails]] entry, because a consequence is not a pair, and no pair moves: causally_arc_connected ∧ absolutely_minimal ⇏ is_causal is already decided by the flat time cylinder."
+  ],
+  "questions": [
+    "'Absolutely minimal on every open set' is read as ∀ W, AbsolutelyMinimalOn W (for every cover of W, the gluing reading of OQ-18/DEC-167). The plain AbsolutelyMinimal is conjoined too. Both hold, so no reading is chosen.",
+    "'≤ is not antisymmetric' is read as ¬ IsCausal, the antisymmetry of ≤ at W = ⊤ (Causal/Properties.lean:95), which is the hcaus of exists_mem_of_mem_Jplus at W = ⊤. The witness q ≤ y ≤ q, q ≠ y is conjoined literally.",
+    "'A past-inextensible causal curve along the ray' is read as the evidence suggests: the curve over ℝ that runs inward along the ray for t ≤ 0 and rests at q for t ≥ 0 (rayCircleRay, :836). The form over Iic 0 is not stated separately. Past-inextensibility is DEC-13's, the library's standing reading; 'a point in J⁺(S)' is the point at t = 0.",
+    "'{y} is a Cauchy surface of X' is read as DEC-14's IsCauchySurface (every inextensible causal curve meets S in exactly one point), the library's standing reading. y = (−1, 0) as the title has it. The argument works for any y ≠ q on the circle, but only this y is formalised."
+  ],
+  "kb_proposals": [
+    "Sbierski's (2.4) needs ≤ antisymmetric: Causal.rayCircle_separates_pastInextensible_meets (CausalScaffold.MeetsCauchyAntisymmetrySharp). The carrier is the unit circle with the ray {(1 + r, 0)} at q = (1, 0), with an arcCausality absolutely minimal on every open set. q ≤ y ≤ q, {y} is Cauchy, and the ray is past-inextensible through q ∈ J⁺({y}) and misses y. The bare form is not_pastInextensible_exists_mem_of_mem_Jplus_bare (T-abs-meets-cauchy-antisymmetry-sharp).",
+    "To show a causal curve is extensible with no causality hypothesis (no IsCausal, no StronglyCausal), use Causal.Causality.extensible_of_graph. If c = γ ∘ h on I, with h continuous and non-decreasing, γ a causal curve over J, and γ t' a new value with t' ≥ h(I), then c is extensible over any interval; the parameter is compressed by arctan. It generalises the model-layer extensible_of_timeGraph_openEnd and replaces extensible_of_tendsto for non-causal models (T-abs-meets-cauchy-antisymmetry-sharp).",
+    "To show a parametrised path is a causal curve of an arcCausality, use Causal.Causality.causalCurveIn_top_of_pieces. It suffices that γ is continuous and γ s ≤_N γ s' whenever γ maps [s, s'] into the open N, and each such piece is one arcStep along a reparametrised arc (T-abs-meets-cauchy-antisymmetry-sharp).",
+    "A Cauchy surface of a non-coherent arc causality, without ArcCoherent: find a function that does not decrease along every arcStep inside the open sets off S (an angle). A connectedness dichotomy between the incoming branches then puts every causal curve missing S on a standard curve at that function, and extensible_of_graph extends it to S. The ray glued to the circle is the model (rayCircle_extensible_of_forall_ne) (T-abs-meets-cauchy-antisymmetry-sharp)."
+  ],
+  "notes": "One new file, 918 lines, 0 sorry, 73 declarations (12 definitions, 1 inductive, 60 theorems). Graduation checklist (kb/0015, kb/0025): the master adds `import CausalScaffold.MeetsCauchyAntisymmetrySharp` to scaffold/CausalScaffold.lean, or the axiom sweep misses the module. At graduation the file moves to Causal/ (the evidence proposed Causal/MeetsCauchySharp.lean; the dispatch named this file) and its import goes into Causal.lean. Its imports are already Causal.* only and ETT-layer. Name clashes (kb/0082): grep -w over lean-causal/Causal, lean-causal/scaffold, lean-gx/GX and lean-benzecri finds no other declaration named rayCircle*, RayCircleArc, extensible_of_graph*, causalCurveIn_top_of_pieces, continuousOn_interval or not_pastInextensible_exists_mem_of_mem_Jplus_bare, and lean_index()['decls'] has none either. No label is marked. No existing file was edited: not ladder.toml, not Causal.lean, not the scaffold root, not the README, not kb. I ran no git command that writes, no make check, no whole-package build and no tools/ladder.py emit-lean; tools/ladder.py was only imported in memory. Scratch probes of mathlib names went to /tmp/mcas/, outside the repository. The concurrent closers' files (FlrwTypeClosedAmbient, ErsEtaleMghd*) were neither touched, imported nor built.",
+  "what_remains": "Nothing mathematical for this target. What is left: (1) Graduation of the file into Causal/. Before it, tools/ladder.py cannot resolve the witness names. (2) The keeper's comment rewrite in programme/ladder.toml (lemmas_for_the_keeper[0], T-lad-meets-cauchy-refresh). (3) Optional: hoist extensible_of_graph and continuousOn_interval, and make the model-layer extensible_of_timeGraph_openEnd and continuousOn_of_causalCurveIn their corollaries (lemmas_for_the_keeper[1]). (4) The other half of the old finding, a witness that causal arc-connectedness is needed for (2.4), stays open: the two-lines model is not absolutely minimal, and an absolutely minimal witness is T-abs-minimal-not-arc-connected's question.",
+  "corrected_after_audit": "AUDIT-1 (minor), applied by the master: (1) the SCOPE sentence on trigonometry names the four helper statements that mention cos, sin, arg or the complex norm, none of them in the witness, the bare form or the model-free lemmas (the 'layer' field reads the same way). Recorded for the planner: (2) extensible_of_graph's name has no graph in its statement (c = γ ∘ h with h monotone); rename at hoist time, e.g. extensible_of_eq_comp_monotoneOn. (3) kb_proposals[1]: extensible_of_graph is an alternative to extensible_of_tendsto when c lies on a known causal curve, not a replacement."
+}

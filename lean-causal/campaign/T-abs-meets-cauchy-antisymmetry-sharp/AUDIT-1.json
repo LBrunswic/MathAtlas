@@ -1,0 +1,91 @@
+{
+ "target": "T-abs-meets-cauchy-antisymmetry-sharp",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [],
+ "labels_note": "No paper label is involved. This is the sharpness of a programme statement: Sbierski 2312.07443's (2.4), Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus (Causal/PastInextensibleMeetsCauchy.lean:147) and its M form (:191). No binder covers 2312.07443 (the two Sbierski binders are for 1309.7591 and 1507.00601). The module docstring marks nothing (no **`label`**), which is correct.",
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "detail": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean` exits 0 with no output (1.9 s). A copy with an injected false `example` at the end, written under the campaign directory and then deleted, failed at line 920, so the run elaborates the whole file. The olean (06:51:08) is newer than the source (06:50:56). No `lake build` was run. grep finds no sorry, admit, native_decide, axiom, ofReduceBool, implemented_by or extern in the file (the only 'sorry' is the docstring heading 'no `sorry`', :24). Rerunning the closer's Probe.lean gives output byte-identical to axioms.txt. It has 73 #print axioms lines for the 73 declarations of the file (12 def, 1 inductive, 60 theorems; grep count 73): 72 on [propext, Classical.choice, Quot.sound], and RayCircleArc on none. My own probe (written under the campaign directory, deleted) gave the same three axioms for the main witness, the bare form, extensible_of_graph(_of_bddAbove), causalCurveIn_top_of_pieces, continuousOn_interval, rayCircle_extensible_of_forall_ne, rayCircle_isCauchySurface_Y, rayCircleRay_pastInextensible, rayCircle_absolutelyMinimalOn and rayCircle_not_isCausal."
+ },
+ "checks": [
+  {
+   "check": "1. Layer-1 rule",
+   "result": "pass (the imports); see findings[0] for the SCOPE wording",
+   "detail": "The imports are Causal.GHWithoutTarentin, Causal.PastInextensibleMeetsCauchy, Causal.LineDevelopment and Causal.CauchyExtension. tools/ladder.py's model_path on lean_index()['imports'] is None for each of the four, taken one at a time (kb/0247). It is also None for the module itself, entered in memory with those four imports. The closure has 59 Causal modules, none in MODEL_LAYER, and Causal.Ladder.Rules is in it through GHWithoutTarentin (accepted for a leaf by the target's evidence, kb/0221). The witness, the bare form and the model-free lemmas state no metric, norm or trigonometric notion. Four model-internal helper statements do carry cos/sin/Complex.arg or the complex norm (findings[0])."
+  },
+  {
+   "check": "2a. Every hypothesis of (2.4) but antisymmetry holds at the same data, and the conclusion fails",
+   "result": "pass",
+   "detail": "#check gives the binders of PastInextensible.exists_mem_of_mem_Jplus: {M} [TopologicalSpace M] {C} {W} [T1Space M] [SecondCountableTopology M] {S I σ}, hS : IsCauchySurfaceOn W S, hC : CausallyArcConnectedOn W, hcaus, hσ : PastInextensible W I σ, hJ : ∃ t ∈ I, σ t ∈ Jplus W S, with conclusion ∃ t ∈ I, σ t ∈ S. There is no other hidden binder. A probe proved ¬ (∀ ⦃x y⦄, rayCircle.le ⊤ x y → rayCircle.le ⊤ y x → x = y). It does so by destructuring rayCircle_separates_pastInextensible_meets and applying exists_mem_of_mem_Jplus (W := ⊤) with hS, hC, hσ, hJ from the witness and only hcaus taken as the hypothesis. The result contradicts the witness's last conjunct. inferInstance finds T1Space and SecondCountableTopology on rayCircleSet. Its topology is rfl to instTopologicalSpaceSubtype, the subspace of ℝ × ℝ. IsCausal ↔ the hcaus binder at W = ⊤, IsCauchySurface {y} ↔ IsCauchySurfaceOn ⊤ {y}, and CausallyArcConnected ↔ CausallyArcConnectedOn ⊤ all hold by Iff.rfl. The J⁺ point is rayCircleRay 0 = q ≠ y."
+  },
+  {
+   "check": "2b. {y} is a Cauchy surface in DEC-14's sense",
+   "result": "pass",
+   "detail": "rayCircle_isCauchySurface_Y : rayCircle.IsCauchySurface {rayCircleY} is the library's IsCauchySurfaceOn ⊤ (Causal/Cauchy.lean:73, ∃! x, x ∈ c '' I ∩ S for every Inextensible ⊤ I c). Uniqueness is the membership x ∈ {y}. Existence is by contradiction with rayCircle_extensible_of_forall_ne: a causal curve of ⊤ missing y is Extensible ⊤. That proof restricts c to N = {y}ᶜ (CurveOn.restrict). The angle (arg + min 0 (1 − x)) is monotone along ≤_U for open U ∌ y, by induction on the TransGen chain with one arcStep per step. It is continuous off y (slit plane). The dichotomy uses that the open lower half-circle and the open ray are disjoint opens of negative angle, while c '' [t₁, t₂] is preconnected with negative angle throughout by monotonicity. It gives c = Γ ∘ (angle ∘ c) for Γ = rayCircleCurveRay or rayCircleCurveLow, both causal curves reaching y at π. extensible_of_graph then extends c with the new value y. The definitions used are the library's; the file redefines none. Non-vacuity (argued, not needed for the refutation): the curve inward along the ray and then round the circle forever has image X, so it is inextensible, and it meets y."
+  },
+  {
+   "check": "2c. The ray is past-inextensible (DEC-13), with a point in J⁺({y})",
+   "result": "pass",
+   "detail": "rayCircleRay t = rayCircleCurveRay (min t 0), which is (1 − t, 0) for t ≤ 0 and q for t ≥ 0. It is a causal curve over univ (CausalCurveIn.comp_monotoneOn of the standard curve with min · 0). It is PastInextensible ⊤ univ (Causal/Inextensible.lean:322) by LineDevelopment.pastInextensible_of_not_tendsto_atBot (:772), since its first coordinate is ≥ −t and tends to +∞. Its point at 0 is q ∈ Jplus ⊤ {y} by y ≤ q along the lower half-circle (arcCausality_le_arc .low 0 1). It misses y (first coordinate ≥ 1 > −1)."
+  },
+  {
+   "check": "2d. arcCausality is an ETT causality, absolutely minimal on every open set",
+   "result": "pass",
+   "detail": "rayCircle := arcCausality rayCircleγ, a Causality structure of the library (Causal/GHWithoutTarentin.lean:124, ≪ empty). The arcs are continuous (continuous_rayCircleγ), so arcCausality_causallyArcConnected (:189), arcCausality_absolutelyMinimal and arcCausality_absolutelyMinimalOn (:216, ∀ W, every cover) apply. Both readings of DEC-167 (every ETT causality absolutely minimal) are covered. The arcs match the description: up s ↦ (cos πs, sin πs) from q to y, low s ↦ (−cos πs, −sin πs) from y to q, and ray n s ↦ (1 + n·max(1 − s) 0, 0) from (1 + n, 0) to q. q ≤ y ≤ q and q ≠ y give ¬IsCausal."
+  },
+  {
+   "check": "3. New lemmas",
+   "result": "pass, with a naming note (findings[1])",
+   "detail": "extensible_of_graph (:260) and extensible_of_graph_of_bddAbove (:143) carry only {M} [TopologicalSpace M] {C : Causality M}, with no hypothesis on C, M or I. Both are kernel-checked. Neither duplicates an ETT-layer lemma: SubArc's pastExtensible_of_subArc (:748) works at the past end with ψ strictly monotone and u < ψ t. extensible_of_tendsto (Inextensible.lean:814) asks StronglyCausal, CausallyArcConnected, IsCausal and a limit, and is a different method. causalCurveIn_top_of_pieces (:126) is correct and model-free; it uses the metric of the parameter line ℝ in its proof only. It is not a duplicate of LineDevelopment.causalCurveIn_univ_of_local (:730), which takes local CausalCurveOn pieces rather than ≤_N relations. CausalCurveIn.continuousOn_interval (:100) is the same proof as the model-layer continuousOn_of_causalCurveIn (Causal/Remarks/SingularRowsCauchyExt.lean:203). Under a different name and in an unimportable module, it is not a kb/0082 clash. No ETT-layer lemma states CausalCurveIn → ContinuousOn c I (only continuousOn_Icc and continuousOn_uIcc). The generalisation finding is accurate. extensible_of_timeGraph_openEnd (SingularRowsCauchyExt.lean:230) is model-layer: its model_path is SingularRowsCauchyExt → Causal.Port.CupCapBTZCounterexample. With h = T ∘ c, its hcγ gives MapsTo and heq, hlt gives hle, and T (γ t') = t' > T (c t) gives hnew, so hbdd and hnomax are not needed."
+  },
+  {
+   "check": "4. Bare form",
+   "result": "pass",
+   "detail": "not_pastInextensible_exists_mem_of_mem_Jplus_bare (:909) is ¬ ∀ (M : Type) [TopologicalSpace M] [T2Space M] [SecondCountableTopology M] (C) (S) (I) (σ), IsCauchySurface S → CausallyArcConnected → PastInextensible ⊤ I σ → (∃ t ∈ I, σ t ∈ Jplus ⊤ S) → ∃ t ∈ I, σ t ∈ S. That is exactly exists_mem_of_mem_Jplus_of_isCausal's hypotheses without hcaus, over every Hausdorff second countable space. T2 in place of T1 makes the negation stronger. Since causal arc-connectedness gives absolute minimality in both readings (CausallyArcConnected.absolutelyMinimal and, through the mono to W, absolutelyMinimalOn), the bare form ranges over ETT causalities in DEC-167's sense without naming it."
+  },
+  {
+   "check": "5. Build and axioms",
+   "result": "pass",
+   "detail": "See build.detail."
+  },
+  {
+   "check": "6. Touched files and names",
+   "result": "pass",
+   "detail": "git status --short matches the session-start snapshot. The closer's paths are the untracked scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean and campaign/T-abs-meets-cauchy-antisymmetry-sharp/. Each other modified path belongs to another loop or target. T-abs-ers-overlap-sharp's REPORT lists Causal/ErsEtaleMghd*.lean, and its README.md and kb/0329 edits (06:37) mention only that target. The /restate loop owns the restatements and RESTATED files. The loop's status flips (ready → active) are in programme/roadmap.toml and roadmap/roadmap.toml. scaffold/CausalScaffold.lean, Causal.lean and programme/ladder.toml do not mention the module. None of the 73 short names (the last name component) is declared anywhere else in the hub's .lean sources outside .lake. This is a stricter test than a full-name match."
+  },
+  {
+   "check": "7. Docstrings and readings",
+   "result": "pass, except the SCOPE sentence of findings[0]",
+   "detail": "The module docstring follows kb/0006: title; no label marked; a > block quoting the target's title, checked verbatim against programme/roadmap.toml; '## Hypothesis checklist' against exists_mem_of_mem_Jplus_of_isCausal (:191), each row true; '## SCOPE (disclosed)'; the Provenance line. The cited lines hold: GHWithoutTarentin :124, :159, :189, :216, :235, :258, :277; PastInextensibleMeetsCauchy :147, :191; Cauchy :73; Properties :95; Inextensible :814; LineDevelopment :772; CauchyExtension :149; SingularRowsCauchyExt :203, :230; SubArc :116, :143, :194, :218, :335, :482; ladder.toml 5001–5008. The declaration docstrings say what is proved. The four readings (absolute minimality in both readings, ¬IsCausal as antisymmetry at ⊤, the ray over ℝ, DEC-14's Cauchy surface) are recorded in REPORT.questions. None needs a ruling: both minimality readings are proved, and the others are the library's standing readings."
+  },
+  {
+   "check": "REPORT findings",
+   "result": "accurate",
+   "detail": "findings[2]: the evidence's τ is rayCircleAngle; its 'converges' step needs the one-branch dichotomy, which is proved. findings[3]: extensible_of_tendsto asks IsCausal (false here) and StronglyCausal; the failure of strong causality is marked as argued, and the argument is right: an arc about a circle point is not causally convex. findings[4]: up 0 = q = low 1 breaks ArcCoherent's s = s', and ArcCoherent.isCausal would contradict ¬IsCausal. findings[5]: ladder.toml:5001–5008 says the model was argued and its ETT status unchecked, which is now settled. causally_arc_connected ∧ absolutely_minimal ⇏ is_causal is already a [[fails]] entry with witness Causal.Flat.timeCylinder_separates_locallyStronglyCausal, so no pair moves. No finding concerns a paper, so nothing goes to the author as a fact."
+  }
+ ],
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:81",
+   "what": "The SCOPE sentence 'Trigonometry and Complex.arg appear in definitions and proofs only (the circle's parametrisation, the angle); no metric notion appears in a statement' is not literally true, and REPORT.json's 'layer' field repeats it. cos, sin and Complex.arg occur in the statements of rayCircle_arg_cos_add_sin (:401), rayCircleAngle_of_circle (:693) and rayCircleCurveLow_arg (:698). The complex norm ‖rayCircleC p‖ = 1, a Euclidean metric notion, occurs in the statement of rayCircleC_norm_of_circle (:688). The precedent Causal.LoopFanEveryScale's checklist keeps `dist` inside proofs. None of these is in the witness, the bare form or the three model-free lemmas, and nothing Lorentzian is involved, so the layer-1 import rule holds.",
+   "fix": "Make the four helpers `private` (or inline them into their callers), or reword the SCOPE bullet and REPORT 'layer': 'cos, sin, Complex.arg and the complex norm appear in definitions, proofs and four model-internal helper statements (rayCircle_arg_cos_add_sin, rayCircleC_norm_of_circle, rayCircleAngle_of_circle, rayCircleCurveLow_arg), never in the witness, the bare form or the model-free lemmas.'"
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/MeetsCauchyAntisymmetrySharp.lean:260",
+   "what": "The name `extensible_of_graph` is imprecise. Nothing in the statement is a graph: the hypothesis is that c factors as γ ∘ h with h monotone and continuous. The word comes from the model-layer extensible_of_timeGraph_openEnd, where γ is a time graph (T ∘ γ = id), and has lost its referent. The lemma is proposed for a hoist and for a kb entry (REPORT kb_proposals[1]), so the name will be read without that context. Also, the bounded construction is a future extension (φ = id, new parameters at or after sup I), so FutureExtensible could be stated. The ETT layer has only PastExtensible.of_comp, and FutureExtensible.of_comp is in Causal/Flat/Cosmological.lean:242 (model layer), so that strengthening is optional and outside this target.",
+   "fix": "At graduation or hoist, rename it to describe the hypothesis, for example `Causality.extensible_of_eq_comp_monotoneOn` (with `_of_bddAbove` likewise), or `futureExtensible_of_subArc_monotone` as a sibling of SubArc's pastExtensible_of_subArc if the conclusion is strengthened. Update kb_proposals[1] and lemmas_for_the_keeper[1] to match."
+  },
+  {
+   "severity": "minor",
+   "where": "campaign/T-abs-meets-cauchy-antisymmetry-sharp/REPORT.json kb_proposals[1]",
+   "what": "The proposed kb text says extensible_of_graph 'replaces extensible_of_tendsto for non-causal models'. That overstates it. extensible_of_tendsto needs only a limit of c at an open end. extensible_of_graph needs c to lie on a known causal curve γ (c = γ ∘ h on I) that goes on to a value c does not take. It is an alternative where such a γ is at hand, not a replacement. A kb entry is a standing instruction to later agents, so the overstatement could mislead.",
+   "fix": "Reword it as: 'in a model without IsCausal or StronglyCausal, where extensible_of_tendsto does not apply, extensible_of_graph extends a causal curve that lies on a known causal curve γ going on to a new value'."
+  }
+ ],
+ "notes": "The heart of the target holds. The ray glued to the circle is a genuine counterexample to (2.4) without antisymmetry: (2.4) itself was applied at the witness's data with only hcaus left out, and the result contradicts the witness. Every conjunct of the target's title is in rayCircle_separates_pastInextensible_meets with the library's own predicates (DEC-13, DEC-14, both DEC-167 readings), plus the literal q ≤ y, y ≤ q, q ≠ y and σ 0 = q. Optional and not findings: (i) CausalCurveIn.continuousOn_interval would read more naturally as CausalCurveIn.continuousOn, beside continuousOn_Icc and continuousOn_uIcc; it does not clash with CurveOn.continuousOn (Causal/Curves.lean:115). (ii) The graduation checklist in REPORT.notes (add the import to scaffold/CausalScaffold.lean, then move to Causal/) is the master's step; the closer rightly did not edit the scaffold root. My probes, an error-injected copy and AuditProbe.lean, were written under the campaign directory and deleted; this file is the only one I leave."
+}
