@@ -1111,3 +1111,8 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 10e65823 42b8e1d4 a4fa7313 886426e5 ff662ac8 059d8442 (+ statuses)
 - wall time: 01:04–02:30; agents in parallel: 3 closers + builder, 3 auditors
 - next: T-btz-trace-complete (now unblocked), T-btz-g3-dedupe (exclusive)
+
+## 2026-11-28 02:50 · plan · roadmap-planner (rule 2)
+- T-btz-trace-complete promoted to ready, re-scoped onto the corrected route (lipOn, R″ < R), with a named instance of its hypotheses (Sig = {τ = 1/r} in E₀'s regular part) for the auditor to check; reads the same under either answer of OQ-158. T-btz-trace-graduate added (planned, exclusive master). T-btz-cauchy-spear-m0 stays planned (a relative lem_blunt_spear and the « simple analysis » remain). Evidence that still asked for SpacelikeDevelopment (graphDev _ R) corrected on four targets. No new question.
+- gates: roadmap ✓ (280 targets), atlas ✓
+- next: T-btz-trace-complete (one closer); exclusive masters T-btz-g3-dedupe, T-btz-gluing-dedupe
