@@ -1086,3 +1086,12 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: ad6bba85 899b4718 d4036263 63c093f4 (+ statuses)
 - wall time: 00:26–01:55; agents in parallel: 3 closers, 3 auditors
 - next: T-btz-s5-graduate / T-btz-g3-dedupe (exclusive masters, lean-gx), builder refresh due; few ready closers — plan soon
+
+## 2026-11-28 01:30 · wave of 2 · T-btz-s5-graduate (exclusive), T-btz-informal-triage
+- T-btz-s5-graduate: ten sorry-free btz § 5 modules graduated to GX.BTZ (MaxExtension, CommonReg, CommonRegIso, LineStructure, RichardsSplit, AdmissibleLinear, Admissible, SurfaceGroupNonMetabelian, CauchyEasy, SurfaceCompleteLip); CauchySpear stays (one tagged sorry); no rename (410 constants compared); audit minor. Left for the author/a later target: stale oleans of the 17 moved modules under lean-gx/.lake/build/lib/lean/GXScaffold/BTZ/ (my scripted removal was refused by a safety check; harmless, nothing imports them) and lean-gx/README's module table (T-gx-readme-btz, now unblocked).
+- T-btz-informal-triage: two remarks triaged T (curation only).
+- Correction to the previous entry: the roadmap commit 9d350bb9 was pushed without its Host/Co-Authored-By trailers (an empty shell variable); not rewritten (no force-push).
+- gates: lean-gx ✓ (strict 0 sorry in 86 files), roadmap ✓, atlas ✓, hub: no new red; restate: 0 new
+- commits: 9c28ce2d 1030d986 db33a6ea (+ statuses)
+- wall time: 00:46–01:30; agents: 1 closer, 1 auditor
+- next: T-btz-g3-dedupe (exclusive), T-gx-readme-btz, builder refresh; plan for closers
