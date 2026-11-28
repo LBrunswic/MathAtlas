@@ -8,7 +8,7 @@ SHELL := /bin/bash
 PY := python3
 
 .PHONY: check mirror selftest gate-host gate-dropbox-ignore gate-registers gate-deps lib-check papers-check \
-        gate-cassettes gate-tests gate-atlas ledgers regression test doubledag
+        gate-cassettes gate-tests gate-atlas ledgers regression test doubledag imports
 
 check: gate-host gate-dropbox-ignore gate-registers gate-deps gate-cassettes gate-tests lib-check papers-check gate-atlas
 	@echo "check: all gates green"
@@ -84,6 +84,11 @@ test:
 # The double DAG of the one pair on this host where both halves exist (read-only on both).
 doubledag:
 	bash tools/doubledag_gfnbounds.sh
+
+# The import-tier gate (ARCHITECTURE.md §4.4, T-arch-import-gate), in REPORT mode: always exit 0.
+# Not a prerequisite of `check` until the migration window (§5); its report is the move's worklist.
+imports:
+	$(PY) tools/import_gate.py report
 
 # Every gate has a fixture that makes it fail; selftest fails if one passes on its fixture.
 selftest:

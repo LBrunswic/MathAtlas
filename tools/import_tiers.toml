@@ -1,0 +1,123 @@
+# The tier of every Lean library of the hub, read by tools/import_gate.py (ARCHITECTURE.md §1, §4.4;
+# DEC-211, DEC-212; target T-arch-import-gate).
+#
+# A [[library]] is a library of the TARGET architecture (§1). Until the migration window (§5) the
+# packages mix tiers (§2), so each library names the modules of TODAY's packages that go to it:
+# `modules` are module-name patterns ("Causal.Flat" is that module and everything under it;
+# "Causal.Flat.Selberg*" is a name prefix), and the most specific pattern wins. This file is §2's
+# table written as data; after the move each library is one lakefile `lean_lib` and its pattern is
+# its own root. A scaffold library (`XScaffold`, srcDir "scaffold") is read as part of the library
+# of the strict module it mirrors: `CausalScaffold.Flat.Foo` belongs where `Causal.Flat.Foo` does.
+#
+# tier     general | local | global (the ladder, §1), orbit (an orbiting package, imported only as
+#          a declared external input), outside (GFN, EGF, Syracuse, Yamabe: outside the theory)
+# depends  the libraries §1's table lets it import (with their own depends, transitively);
+#          absent means only the tier rule applies
+# inputs   the orbits it imports as named external inputs (§1, "Orbiting packages")
+#
+# Where §2 is not precise enough to split a directory, the whole directory goes to one library and
+# the note says so: refining the split is the author's, not the gate's.
+
+# ---------------------------------------------------------------- general
+[[library]]
+name = "ETT"
+tier = "general"
+modules = ["Causal"]
+note = "lean-causal core, CBG/, Ladder/ (§2); the abstract SingularFlatAxioms stay here (DEC-197)"
+
+[[library]]
+name = "GX"
+tier = "general"
+modules = ["GX"]
+note = "lean-gx Topology, Structure, Spread, Singular, Branched, SingularII, Basic, Spherical, Suspension's general part (§2)"
+
+# ---------------------------------------------------------------- orbit
+[[library]]
+name = "orbit-discrete-groups"
+tier = "orbit"
+modules = ["Causal.Flat.Selberg*", "Causal.Flat.ACD*", "Causal.Flat.AffACD*", "Causal.Flat.MaxUnip*",
+           "Causal.Flat.AffUnip*", "Causal.Flat.Gromov*", "Causal.Flat.TitsNull"]
+note = "Selberg, Auslander-Carriere-Dal'bo, Fried-Goldman-Hirsch, Gromov, the Tits branch (§1, §2)"
+
+# ---------------------------------------------------------------- local
+[[library]]
+name = "Wave"
+tier = "local"
+modules = ["Causal.Model.Quasilinear*"]
+depends = ["ETT"]
+
+[[library]]
+name = "AffineGX"
+tier = "local"
+modules = ["Benzecri", "GX.Hyperbolic", "GX.Suspension.Affine"]
+depends = ["GX"]
+note = "lean-benzecri whole, GX.Hyperbolic, Suspension/Affine (§2); Suspension/{Conic,Celestial} stay in GX until §2's 'affine models' split is drawn"
+
+[[library]]
+name = "AffineGX.Riemannian"
+tier = "local"
+modules = ["Causal.Flat.Bieberbach*"]
+depends = ["AffineGX"]
+
+[[library]]
+name = "BBS.Local"
+tier = "local"
+modules = []
+depends = ["AffineGX", "ETT"]
+note = "the link and HS classification, today inside GX.BBS (§2), not yet split out"
+
+[[library]]
+name = "Lorentzian.Local"
+tier = "local"
+modules = ["Causal.Model"]
+depends = ["AffineGX", "ETT", "BBS.Local"]
+note = "Causal.Model except Quasilinear* (§2); the BTZ local models are still inside GX.BTZ"
+
+[[library]]
+name = "Causal.Port"
+tier = "local"
+modules = ["Causal.Port"]
+note = "DELETED at the move (§2): its gx copies become imports of GX and AffineGX. Read as local, since it holds the E0 models; an import of it from ETT is worklist"
+
+# ---------------------------------------------------------------- global
+[[library]]
+name = "Lorentzian"
+tier = "global"
+modules = ["Causal.Flat", "GX.BTZ", "GX.Lorentz"]
+depends = ["Lorentzian.Local", "ETT"]
+inputs = ["orbit-discrete-groups"]
+note = "Barbot's flat geometry (Causal.Flat minus the orbit and Bieberbach), GX.BTZ, GX.Lorentz (§2)"
+
+[[library]]
+name = "BBS"
+tier = "global"
+modules = ["GX.BBS"]
+depends = ["BBS.Local", "Lorentzian.Local", "ETT"]
+
+[[library]]
+name = "Einstein"
+tier = "global"
+modules = []
+depends = ["Wave", "Lorentzian", "ETT"]
+note = "no code yet"
+
+# ---------------------------------------------------------------- outside
+[[library]]
+name = "GFN"
+tier = "outside"
+modules = ["GFNBounds"]
+
+[[library]]
+name = "EGF"
+tier = "outside"
+modules = ["EGF"]
+
+[[library]]
+name = "Syracuse"
+tier = "outside"
+modules = ["Syracuse"]
+
+[[library]]
+name = "Yamabe"
+tier = "outside"
+modules = ["Yamabe"]
