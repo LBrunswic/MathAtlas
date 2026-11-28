@@ -1123,3 +1123,10 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 32ea593b b55e45b7 (+ statuses)
 - wall time: 01:42–03:20; agents: 1 closer, 1 auditor
 - next: T-btz-trace-graduate (now unblocked, exclusive master) or T-btz-g3-dedupe / T-btz-gluing-dedupe (exclusive); then plan
+
+## 2026-11-28 03:45 · wave of 1 · T-btz-g3-dedupe (exclusive)
+- T-btz-g3-dedupe: Surgery's (G3) section stated once over E0Surgery.LFSpears (covering as a hypothesis, not a field); RegCompleteCauchy 935 → 344 lines; both spear families' lemmas are one-line corollaries; no declaration renamed or retyped; audit clean. Finding for a later target: the finite SurgeryData (G3) lemmas still assume IsE0C1SpacelikeCauchy but use only hS.cauchy. For T-btz-cauchy-step2-max: Σ₀'s cusp can reuse (G3) only if packaged as a SpearSurgeryDatum (the interface listed in the REPORT).
+- gates: lean-gx ✓, roadmap ✓, atlas ✓, hub: no new red; restate: 0 new
+- commits: 0de1cec8 a73e2ed2 (+ statuses)
+- wall time: 02:06–03:45; agents: 1 closer, 1 auditor
+- next: T-btz-gluing-dedupe (exclusive), builder refresh; plan (no ready closer)
