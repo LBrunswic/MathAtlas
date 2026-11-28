@@ -2690,7 +2690,7 @@ kind = "tooling"
 status = "ready"
 owner = "builder"
 priority = 3
-evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last runs 2026-11-27: lean-yamabe at 86be42e (be9a0772), lean-gx at 789fe25 (f1f3b04; btz's first edges), lean-causal, lean-benzecri, lean/ (f03ec37). Due: lean-gx after T-gx-btz-cleanup; lean-causal when /ett-programme releases it; lean-egf is /egf-programme's. The template's texHTML is T-atlas-tex-text-macros. Last lean-gx run 2026-11-28 at 1030d98 (btz 128 edges, both 21→22; bbs 42, gx 970 unchanged). Due: lean-gx after the next wave that changes it"
+evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last runs 2026-11-27: lean-yamabe at 86be42e (be9a0772), lean-gx at 789fe25 (f1f3b04; btz's first edges), lean-causal, lean-benzecri, lean/ (f03ec37). Due: lean-gx after T-gx-btz-cleanup; lean-causal when /ett-programme releases it; lean-egf is /egf-programme's. The template's texHTML is T-atlas-tex-text-macros. Last lean-gx run 2026-11-28 at 0de1cec (btz 128 edges, both 22→23; bbs 42, gx 970 unchanged). Due: lean-gx after the next wave that changes it"
 added = "2026-11-22"
 proposed_by = "author's rulings 2026-11-22 (applied by hand while /atlas-team was idle)"
 
@@ -4070,14 +4070,15 @@ id = "T-btz-gluing-dedupe"
 title = "lean-gx clean-up: one lemma for gluing E₀-manifolds along an open embedding whose transitions extend to E₀-morphisms, from which both GX.Ppcm.trans_emb (GX/BTZ/Ppcm.lean:235) and the four-case htrans of GX.E0AbsMax.exists_e0Pushout (GX/BTZ/AbsMax.lean:2977–3050) follow"
 stream = "gx"
 kind = "tooling"
-status = "ready"
+status = "done"
 owner = "master"
 priority = 10
 package = "lean-gx"
 exclusive = true
-evidence = "T-btz-ppcm AUDIT-1 (minor), finding 2: « trans_emb repeats the four-case transition proof of E0AbsMax.exists_e0Pushout's htrans (GX/BTZ/AbsMax.lean:2977): cases id, φ, φ⁻¹, id through liftPropOn_congr_of_eqOn and an E0 extension ... When GX graduates, consider stating a generic 'gluing along an open embedding whose transitions extend to E0-morphisms' lemma once and deriving both glueMfd and E0Pushout from it. » The REPORT notes: « there is a second instance of the four-case transition proof (GX.Ppcm.trans_emb mirrors exists_e0Pushout's htrans) ... trans_emb was left as is (its duplication with exists_e0Pushout is noted for graduation) ». Both are strict now (Ppcm graduated in c1e4234), and T-btz-maximal-extension's union of a chain reuses the same machinery (REPORT kb: « Reuse it for any colimit of BTZ-extensions »), so a third copy is the risk. Behaviour-preserving: every exported name and type kept. Master, executed by a closer, as T-gx-btz-cleanup was; exclusive because it edits two strict files that the btz chain imports. Priority after the btz closers, so it does not hold lean-gx while they run"
+evidence = "GX.GluingTrans.liftPropOn_glueTransition_pair; trans_emb and exists_e0Pushout through it; no rename (328 fingerprints identical); open: trans_inj (MaxExtension) and CBG's inline core; audit AUDIT-1 minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "dc003a92"
 
 [[target]]
 id = "T-bbs-cheminsing-tidy"

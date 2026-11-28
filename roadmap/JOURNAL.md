@@ -1130,3 +1130,11 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 0de1cec8 a73e2ed2 (+ statuses)
 - wall time: 02:06–03:45; agents: 1 closer, 1 auditor
 - next: T-btz-gluing-dedupe (exclusive), builder refresh; plan (no ready closer)
+
+## 2026-11-28 04:15 · wave of 2 · T-btz-gluing-dedupe (exclusive), T-atlas-overlay-refresh
+- T-btz-gluing-dedupe: one gluing lemma (GX.GluingTrans.liftPropOn_glueTransition_pair, new strict GluingTransitions.lean); Ppcm.trans_emb and E0AbsMax.exists_e0Pushout through it; no rename (328 type/body fingerprints identical); audit minor (scratch files deleted). Left for the planner: GX.BTZMax.trans_inj is a third copy (MaxExtension.lean), and CBG.lean's inline core would need the lemma in lean-causal.
+- T-atlas-overlay-refresh (builder): lean-gx at 0de1cec (btz both 22→23), 0 page errors (c1e6e23f).
+- gates: lean-gx ✓, roadmap ✓, atlas ✓, hub: no new red; restate: 0 new
+- commits: c1e6e23f dc003a92 f80535e5 (+ statuses)
+- wall time: 02:27–04:15; agents: 1 closer + builder, 1 auditor
+- next: plan (no ready closer target; T-btz-trace-graduate planned)
