@@ -1,0 +1,119 @@
+@Causal.Causality.PastExtensible.of_top_tail : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causal.Causality M}
+  {W : TopologicalSpace.Opens M} {I₁ I : Set ℝ} {c : ℝ → M} {t₁ : ℝ},
+  I₁ ⊆ I →
+    I.OrdConnected →
+      t₁ ∈ I₁ →
+        (∀ t ∈ I₁, t ≤ t₁) → (∀ t ∈ I, t ∉ I₁ → t₁ < t ∧ c t = c t₁) → C.PastExtensible W I₁ c → C.PastExtensible W I c
+@Causal.Causality.FutureExtensible.of_top_tail : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causal.Causality M}
+  {W : TopologicalSpace.Opens M} {I₁ I : Set ℝ} {c : ℝ → M} {t₁ : ℝ},
+  I₁ ⊆ I →
+    I.OrdConnected →
+      t₁ ∈ I₁ →
+        (∀ t ∈ I₁, t ≤ t₁) →
+          (∀ t ∈ I, t ∉ I₁ → t₁ < t ∧ c t = c t₁) → C.FutureExtensible W I₁ c → C.FutureExtensible W I c
+@Causal.Causality.PastExtensible.of_bottom_tail : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causal.Causality M}
+  {W : TopologicalSpace.Opens M} {I₁ I : Set ℝ} {c : ℝ → M} {t₀ : ℝ},
+  I₁ ⊆ I →
+    I.OrdConnected →
+      t₀ ∈ I₁ →
+        (∀ t ∈ I₁, t₀ ≤ t) → (∀ t ∈ I, t ∉ I₁ → t < t₀ ∧ c t = c t₀) → C.PastExtensible W I₁ c → C.PastExtensible W I c
+@Causal.Causality.PastInextensible.of_retraction : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causal.Causality M}
+  {W : TopologicalSpace.Opens M} {I I₀ : Set ℝ} {c : ℝ → M} {ρ : ℝ → ℝ},
+  C.PastInextensible W I c →
+    I₀ ⊆ I →
+      I₀.Nonempty →
+        I₀.OrdConnected →
+          Set.MapsTo ρ I I₀ →
+            MonotoneOn ρ I → (∀ t ∈ I₀, ρ t = t) → (∀ t ∈ I, c (ρ t) = c t) → C.PastInextensible W I₀ c
+@Causal.Causality.pastExtensible_of_subArc : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causal.Causality M}
+  {W : TopologicalSpace.Opens M} {I J : Set ℝ} {c γ : ℝ → M} {ψ : ℝ → ℝ},
+  I.Nonempty →
+    C.CausalCurveIn W J γ →
+      StrictMonoOn ψ I →
+        Set.MapsTo ψ I J →
+          (ψ '' I).OrdConnected →
+            (∀ t ∈ I, γ (ψ t) = c t) →
+              ∀ {u : ℝ}, u ∈ J → (∀ t ∈ I, u < ψ t) → (∀ t ∈ I, γ u ≠ c t) → C.PastExtensible W I c
+@Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus_of_tailFree : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T1Space M] [SecondCountableTopology M] {S : Set M}
+  {I : Set ℝ} {σ : ℝ → M},
+  C.IsCauchySurfaceOn W S →
+    C.CausallyArcConnectedOn W →
+      (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) →
+        C.PastInextensible W I σ → Causal.TailFree I σ → (∃ t ∈ I, σ t ∈ C.Jplus W S) → ∃ t ∈ I, σ t ∈ S
+@Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T1Space M] [SecondCountableTopology M] {S : Set M}
+  {I : Set ℝ} {σ : ℝ → M},
+  C.IsCauchySurfaceOn W S →
+    C.CausallyArcConnectedOn W →
+      (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) →
+        C.PastInextensible W I σ → (∃ t ∈ I, σ t ∈ C.Jplus W S) → ∃ t ∈ I, σ t ∈ S
+@Causal.Causality.FutureInextensible.exists_mem_of_mem_Jminus : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T1Space M] [SecondCountableTopology M] {S : Set M}
+  {I : Set ℝ} {σ : ℝ → M},
+  C.IsCauchySurfaceOn W S →
+    C.CausallyArcConnectedOn W →
+      (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) →
+        C.FutureInextensible W I σ → (∃ t ∈ I, σ t ∈ C.Jminus W S) → ∃ t ∈ I, σ t ∈ S
+@Causal.Causality.PastInextensible.exists_mem_of_mem_Iplus : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T1Space M] [SecondCountableTopology M] {S : Set M}
+  {I : Set ℝ} {σ : ℝ → M},
+  C.IsCauchySurfaceOn W S →
+    C.CausallyArcConnectedOn W →
+      (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) →
+        C.PastInextensible W I σ → (∃ t ∈ I, σ t ∈ C.Iplus W S) → ∃ t ∈ I, σ t ∈ S
+@Causal.Causality.FutureInextensible.exists_mem_of_mem_Iminus : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T1Space M] [SecondCountableTopology M] {S : Set M}
+  {I : Set ℝ} {σ : ℝ → M},
+  C.IsCauchySurfaceOn W S →
+    C.CausallyArcConnectedOn W →
+      (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) →
+        C.FutureInextensible W I σ → (∃ t ∈ I, σ t ∈ C.Iminus W S) → ∃ t ∈ I, σ t ∈ S
+@Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus_of_isCausal : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} [T1Space M] [SecondCountableTopology M] {S : Set M} {I : Set ℝ} {σ : ℝ → M},
+  C.IsCauchySurface S →
+    C.CausallyArcConnected → C.IsCausal → C.PastInextensible ⊤ I σ → (∃ t ∈ I, σ t ∈ C.Jplus ⊤ S) → ∃ t ∈ I, σ t ∈ S
+@Causal.Causality.FutureInextensible.exists_mem_of_mem_Jminus_of_isCausal : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} [T1Space M] [SecondCountableTopology M] {S : Set M} {I : Set ℝ} {σ : ℝ → M},
+  C.IsCauchySurface S →
+    C.CausallyArcConnected → C.IsCausal → C.FutureInextensible ⊤ I σ → (∃ t ∈ I, σ t ∈ C.Jminus ⊤ S) → ∃ t ∈ I, σ t ∈ S
+Causal.timelikeLine_pastInextensible_Iic_one : Causal.timelikeLine.PastInextensible ⊤ (Set.Iic 1) id
+Causal.timelikeLine_futureInextensible_Ici_neg_one : Causal.timelikeLine.FutureInextensible ⊤ (Set.Ici (-1)) id
+Causal.timelikeLine_pastInextensible_meets_zero : (Causal.timelikeLine.IsCauchySurfaceOn ⊤ {0} ∧
+    Causal.timelikeLine.CausallyArcConnectedOn ⊤ ∧
+      (∀ ⦃x y : ℝ⦄, Causal.timelikeLine.le ⊤ x y → Causal.timelikeLine.le ⊤ y x → x = y) ∧
+        Causal.timelikeLine.PastInextensible ⊤ (Set.Iic 1) id ∧
+          1 ∈ Set.Iic 1 ∧ id 1 ∈ Causal.timelikeLine.Jplus ⊤ {0} ∧ id 1 ∉ {0}) ∧
+  ∃ t ∈ Set.Iic 1, id t ∈ {0}
+Causal.timelikeLine_futureInextensible_meets_zero : (Causal.timelikeLine.IsCauchySurfaceOn ⊤ {0} ∧
+    Causal.timelikeLine.CausallyArcConnectedOn ⊤ ∧
+      (∀ ⦃x y : ℝ⦄, Causal.timelikeLine.le ⊤ x y → Causal.timelikeLine.le ⊤ y x → x = y) ∧
+        Causal.timelikeLine.FutureInextensible ⊤ (Set.Ici (-1)) id ∧
+          -1 ∈ Set.Ici (-1) ∧ id (-1) ∈ Causal.timelikeLine.Jminus ⊤ {0} ∧ id (-1) ∉ {0}) ∧
+  ∃ t ∈ Set.Ici (-1), id t ∈ {0}
+'Causal.Causality.PastExtensible.of_top_tail' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.FutureExtensible.of_top_tail' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.PastExtensible.of_bottom_tail' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.PastInextensible.of_retraction' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.pastExtensible_of_subArc' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus_of_tailFree' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.FutureInextensible.exists_mem_of_mem_Jminus' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.PastInextensible.exists_mem_of_mem_Iplus' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.FutureInextensible.exists_mem_of_mem_Iminus' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus_of_isCausal' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.FutureInextensible.exists_mem_of_mem_Jminus_of_isCausal' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.timelikeLine_pastInextensible_Iic_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_futureInextensible_Ici_neg_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_pastInextensible_meets_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_futureInextensible_meets_zero' depends on axioms: [propext, Classical.choice, Quot.sound]

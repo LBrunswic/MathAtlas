@@ -355,6 +355,7 @@ import Causal.LoopFanEveryScale
 import Causal.Ers482Solution
 import Causal.InextensibleNotLeNested
 import Causal.Ers482RestartSeparation
+import Causal.PastInextensibleMeetsCauchy
 
 /-!
 # Causal — topological spacetimes

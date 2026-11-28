@@ -319,3 +319,5 @@ rediscover. One fact per entry.
 | [0311](entries/0311-solution-dependent-causality.md) | pattern | A solution-dependent causality separates hypotheses that read cau of a glued function |
 | [0312](entries/0312-spacelike-cauchy.md) | pattern | For the spacelike line a Cauchy surface contains its open set |
 | [0313](entries/0313-simp-only-def-if.md) | pitfall | simp only on a def with an if over u = id rewrites the test to True: state the lemma in term mode |
+| [0314](entries/0314-past-inextensible-meets-cauchy.md) | pattern | A past-inextensible causal curve through J⁺(S) meets the Cauchy surface S, with no tail-freeness |
+| [0315](entries/0315-constant-end-pieces.md) | pattern | Constant end pieces do not affect past-inextensibility; extend one-sidedly without a pause |

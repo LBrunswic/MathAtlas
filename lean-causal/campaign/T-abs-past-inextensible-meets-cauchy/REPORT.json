@@ -1,0 +1,207 @@
+{
+  "target": "T-abs-past-inextensible-meets-cauchy",
+  "package": "lean-causal",
+  "files": [
+    "scaffold/CausalScaffold/PastInextensibleMeetsCauchy.lean"
+  ],
+  "campaign_files": [
+    "campaign/T-abs-past-inextensible-meets-cauchy/REPORT.json",
+    "campaign/T-abs-past-inextensible-meets-cauchy/Probe.lean",
+    "campaign/T-abs-past-inextensible-meets-cauchy/axioms.txt"
+  ],
+  "builds": true,
+  "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 12-23 lake build CausalScaffold.PastInextensibleMeetsCauchy",
+  "build_result": "Built CausalScaffold.PastInextensibleMeetsCauchy (1.5 s), 3106 jobs, with no warning. The --no-build dry run (kb/0228) listed only this module as out of date, so nothing upstream was rebuilt. `lake env lean -DwarningAsError=true` on the file passes, as the strict library requires. Every typecheck ran under taskset -c 12-23, as the dispatch asks. Probe.lean imports the module and runs #check and #print axioms on all 16 declarations; its output is axioms.txt.",
+  "sorry_count": 0,
+  "axioms": "All 16 declarations depend on [propext, Classical.choice, Quot.sound] only. This was checked by parsing axioms.txt, including the five line-wrapped entries. There is no sorryAx, admit, axiom declaration, native_decide or ofReduceBool.",
+  "layer": "ETT layer (layer 1). Direct imports: Causal.CExtConnexeCauchy.SubArc and Causal.CauchyDual. tools/ladder.py's model_path is None for each, checked one at a time in memory on lean_index()['imports'] (kb/0247). It is also None for the module itself, entered in memory as Causal.PastInextensibleMeetsCauchy with these two imports. Besides the module itself, its closure holds 37 Causal modules, none in MODEL_LAYER. Causal.Ladder.Rules is not in the closure, import_chain(Rules → the module) is None, and no module imports it, so it is a leaf. No statement mentions a metric, a curve length or a geodesic. The hypotheses are the standing T1 and second countable, plus ladder properties: CausallyArcConnectedOn W, and the antisymmetry of ≤_W written inline in the shape of Ers482Solution's hcaus. The _of_isCausal forms take the nodes themselves, C.IsCausal and C.CausallyArcConnected. causal_ladder does not apply: no statement concludes a ladder property, and antisymmetry at an open W is not a node.",
+  "labels": [],
+  "declarations": [
+    {
+      "name": "Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus",
+      "file_line": "scaffold/CausalScaffold/PastInextensibleMeetsCauchy.lean:469",
+      "statement": "[T1Space M] [SecondCountableTopology M] → hS : C.IsCauchySurfaceOn W S → hC : C.CausallyArcConnectedOn W → hcaus : (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) → C.PastInextensible W I σ → (∃ t ∈ I, σ t ∈ C.Jplus W S) → ∃ t ∈ I, σ t ∈ S",
+      "standing": "Deliverable (2), the main theorem, under the target's proposed name. These are exactly the target's hypotheses, with no tail-freeness. The curve is trimmed (exists_tailFree_retraction), stays past-inextensible over the trimmed interval (PastInextensible.of_retraction) and keeps its values (c ∘ ρ = c), so the tail-free case applies.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus_of_tailFree",
+      "file_line": "scaffold/CausalScaffold/PastInextensibleMeetsCauchy.lean:430",
+      "statement": "[T1Space M] [SecondCountableTopology M] → hS : C.IsCauchySurfaceOn W S → hC : C.CausallyArcConnectedOn W → hcaus : (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) → C.PastInextensible W I σ → TailFree I σ → (∃ t ∈ I, σ t ∈ C.Jplus W S) → ∃ t ∈ I, σ t ∈ S",
+      "standing": "The target's three cases. Write σ = γ ∘ ψ with γ inextensible (exists_subArc_of_tailFree), and let γ u be the point where γ meets S. (i) If γ u = σ t for some t, we are done. (ii) If ψ tq ≤ u, where x ≤_W σ tq and x ∈ S, then σ tq ≤_W γ u (CausalCurveIn.le_of_le). So x = γ u (IsCauchySurfaceOn.eq_of_le_of_t1_secondCountable, with hC), and σ tq = x by hcaus. (iii) Otherwise u lies below the whole of ψ '' I, because the image is ordconnected and avoids u. Then pastExtensible_of_subArc contradicts past-inextensibility.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.FutureInextensible.exists_mem_of_mem_Jminus",
+      "file_line": "scaffold/CausalScaffold/PastInextensibleMeetsCauchy.lean:484",
+      "statement": "[T1Space M] [SecondCountableTopology M] → hS : C.IsCauchySurfaceOn W S → hC : C.CausallyArcConnectedOn W → hcaus : (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) → C.FutureInextensible W I σ → (∃ t ∈ I, σ t ∈ C.Jminus W S) → ∃ t ∈ I, σ t ∈ S",
+      "standing": "Deliverable (3), the time reversal. It is the main theorem for C.dual and the curve t ↦ σ (-t) over -I, through dual_isCauchySurfaceOn, dual_causallyArcConnectedOn and dual_pastInextensible_iff (Inextensible.lean:452). Antisymmetry of the dual relation is hcaus with its arguments swapped.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.PastInextensible.exists_mem_of_mem_Iplus",
+      "file_line": "scaffold/CausalScaffold/PastInextensibleMeetsCauchy.lean:496",
+      "statement": "[T1Space M] [SecondCountableTopology M] → hS : C.IsCauchySurfaceOn W S → hC : C.CausallyArcConnectedOn W → hcaus : (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) → C.PastInextensible W I σ → (∃ t ∈ I, σ t ∈ C.Iplus W S) → ∃ t ∈ I, σ t ∈ S",
+      "standing": "(2.4) in Sbierski's wording, I⁺(Σ). It is a corollary through Causality.Iplus_subset_Jplus.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.FutureInextensible.exists_mem_of_mem_Iminus",
+      "file_line": "scaffold/CausalScaffold/PastInextensibleMeetsCauchy.lean:504",
+      "statement": "[T1Space M] [SecondCountableTopology M] → hS : C.IsCauchySurfaceOn W S → hC : C.CausallyArcConnectedOn W → hcaus : (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) → C.FutureInextensible W I σ → (∃ t ∈ I, σ t ∈ C.Iminus W S) → ∃ t ∈ I, σ t ∈ S",
+      "standing": "The time reversal of the I⁺ form.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus_of_isCausal",
+      "file_line": "scaffold/CausalScaffold/PastInextensibleMeetsCauchy.lean:513",
+      "statement": "[T1Space M] [SecondCountableTopology M] → C.IsCauchySurface S → C.CausallyArcConnected → C.IsCausal → C.PastInextensible ⊤ I σ → (∃ t ∈ I, σ t ∈ C.Jplus ⊤ S) → ∃ t ∈ I, σ t ∈ S",
+      "standing": "The ladder form at M, whose hypotheses are the ladder nodes is_causal and causally_arc_connected plus the standing T1 and second countable. It is the witness proposed for the keeper's [[consequence]].",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.FutureInextensible.exists_mem_of_mem_Jminus_of_isCausal",
+      "file_line": "scaffold/CausalScaffold/PastInextensibleMeetsCauchy.lean:520",
+      "statement": "[T1Space M] [SecondCountableTopology M] → C.IsCauchySurface S → C.CausallyArcConnected → C.IsCausal → C.FutureInextensible ⊤ I σ → (∃ t ∈ I, σ t ∈ C.Jminus ⊤ S) → ∃ t ∈ I, σ t ∈ S",
+      "standing": "The ladder form at M, time-reversed.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.PastInextensible.of_retraction",
+      "file_line": "scaffold/CausalScaffold/PastInextensibleMeetsCauchy.lean:353",
+      "statement": "C.PastInextensible W I c → I₀ ⊆ I → I₀.Nonempty → I₀.OrdConnected → MapsTo ρ I I₀ → MonotoneOn ρ I → (∀ t ∈ I₀, ρ t = t) → (∀ t ∈ I, c (ρ t) = c t) → C.PastInextensible W I₀ c   (no separation axiom)",
+      "standing": "What removes the tail-free hypothesis. It is the one-sided twin of the library's two-sided Inextensible.of_retraction (Causal/CExtConnexeCauchy/SubArc.lean:305), with the same proof skeleton. Both end pieces must be handled, because a past extension over I₀ has to become a past extension over I.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.PastExtensible.of_top_tail",
+      "file_line": "scaffold/CausalScaffold/PastInextensibleMeetsCauchy.lean:92",
+      "statement": "I₁ ⊆ I → I.OrdConnected → t₁ ∈ I₁ → (∀ t ∈ I₁, t ≤ t₁) → (∀ t ∈ I, t ∉ I₁ → t₁ < t ∧ c t = c t₁) → C.PastExtensible W I₁ c → C.PastExtensible W I c",
+      "standing": "The constant final piece of a past extension. There is no pause. The new curve is c' ∘ (v ↦ min v (φ t₁)) over I' ∪ {v | φ t₁ < v ∧ t₁ + (v - φ t₁) ∈ I}, and the reparametrisation is φ up to t₁, then a translation. The library's Extensible.of_top_tail cannot be reused here. Its pause adds the parameters [a, a + 1] above the reparametrised image, so the image is no longer a final segment.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.FutureExtensible.of_top_tail",
+      "file_line": "scaffold/CausalScaffold/PastInextensibleMeetsCauchy.lean:207",
+      "statement": "same hypotheses as PastExtensible.of_top_tail → C.FutureExtensible W I₁ c → C.FutureExtensible W I c",
+      "standing": "The construction of Extensible.of_top_tail (pauseTop, exists_compress), copied, with the initial-segment property proved for the new reparametrisation. Its only use is PastExtensible.of_bottom_tail, by time reversal.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.PastExtensible.of_bottom_tail",
+      "file_line": "scaffold/CausalScaffold/PastInextensibleMeetsCauchy.lean:334",
+      "statement": "I₁ ⊆ I → I.OrdConnected → t₀ ∈ I₁ → (∀ t ∈ I₁, t₀ ≤ t) → (∀ t ∈ I, t ∉ I₁ → t < t₀ ∧ c t = c t₀) → C.PastExtensible W I₁ c → C.PastExtensible W I c",
+      "standing": "The constant initial piece of a past extension: FutureExtensible.of_top_tail for C.dual, through PastExtensible.of_dual_reverse and FutureExtensible.of_dual_reverse. It mirrors the library's Extensible.of_bottom_tail.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.pastExtensible_of_subArc",
+      "file_line": "scaffold/CausalScaffold/PastInextensibleMeetsCauchy.lean:410",
+      "statement": "I.Nonempty → C.CausalCurveIn W J γ → StrictMonoOn ψ I → MapsTo ψ I J → (ψ '' I).OrdConnected → (∀ t ∈ I, γ (ψ t) = c t) → u ∈ J → (∀ t ∈ I, u < ψ t) → (∀ t ∈ I, γ u ≠ c t) → C.PastExtensible W I c",
+      "standing": "The target's case 'y below'. γ, cut to J ∩ {v | ∃ t ∈ I, v ≤ ψ t}, strictly extends c at the past end. Its image is a final segment because ψ '' I is ordconnected, and γ u is the new value. The construction is extensible_iff's left case (Inextensible.lean:340).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_pastInextensible_Iic_one",
+      "file_line": "scaffold/CausalScaffold/PastInextensibleMeetsCauchy.lean:530",
+      "statement": "timelikeLine.PastInextensible ⊤ (Iic 1) id",
+      "standing": "Part of the witness. A past extension would need a new value before the image, which is ≤ 1 (CausalCurveIn.le_of_le, timelikeLine_le) and so already a value of id on ]-∞, 1].",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_futureInextensible_Ici_neg_one",
+      "file_line": "scaffold/CausalScaffold/PastInextensibleMeetsCauchy.lean:542",
+      "statement": "timelikeLine.FutureInextensible ⊤ (Ici (-1)) id",
+      "standing": "The time-reversed part of the witness.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_pastInextensible_meets_zero",
+      "file_line": "scaffold/CausalScaffold/PastInextensibleMeetsCauchy.lean:557",
+      "statement": "(timelikeLine.IsCauchySurfaceOn ⊤ {0} ∧ timelikeLine.CausallyArcConnectedOn ⊤ ∧ (∀ ⦃x y : ℝ⦄, timelikeLine.le ⊤ x y → timelikeLine.le ⊤ y x → x = y) ∧ timelikeLine.PastInextensible ⊤ (Iic 1) id ∧ (1:ℝ) ∈ Iic 1 ∧ id 1 ∈ timelikeLine.Jplus ⊤ {0} ∧ id 1 ∉ {0}) ∧ ∃ t ∈ Iic (1:ℝ), id t ∈ {0}",
+      "standing": "Deliverable (4), the kb/0011 witness the target asks for: the timelike line, S = {0}, σ = id over Iic 1. The hypotheses hold jointly. The given point 1 ∈ J⁺({0}) is not on S, so the theorem does real work, and the conclusion is obtained by applying PastInextensible.exists_mem_of_mem_Jplus, not by hand. The library supplies timelikeLine_isCauchySurface_zero (Causal.Geroch), timelikeLine_causallyArcConnected and timelikeLine_isCausal.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_futureInextensible_meets_zero",
+      "file_line": "scaffold/CausalScaffold/PastInextensibleMeetsCauchy.lean:575",
+      "statement": "(timelikeLine.IsCauchySurfaceOn ⊤ {0} ∧ timelikeLine.CausallyArcConnectedOn ⊤ ∧ (antisymmetry) ∧ timelikeLine.FutureInextensible ⊤ (Ici (-1)) id ∧ (-1:ℝ) ∈ Ici (-1) ∧ id (-1) ∈ timelikeLine.Jminus ⊤ {0} ∧ id (-1) ∉ {0}) ∧ ∃ t ∈ Ici (-1:ℝ), id t ∈ {0}",
+      "standing": "The witness for the time reversal, obtained by applying FutureInextensible.exists_mem_of_mem_Jminus.",
+      "status": "proved"
+    }
+  ],
+  "lemmas_for_the_keeper": [
+    {
+      "ladder_entry": "programme/ladder.toml, a new [[consequence]] (the target's 'the keeper may record it later as a consequence at is_causal ∧ causally_arc_connected')",
+      "proposal": {
+        "at": [
+          "is_causal",
+          "causally_arc_connected"
+        ],
+        "statement": "Sbierski 2312.07443 (2.4): for a Cauchy surface Σ of M, every past-inextensible causal curve with a point in J⁺(Σ) meets Σ",
+        "witness": "Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus_of_isCausal",
+        "under": "Σ a Cauchy surface of M (DEC-14); the curve past-inextensible (DEC-13), not assumed tail-free",
+        "standing": [
+          "T1",
+          "second_countable"
+        ],
+        "status": "checked"
+      }
+    },
+    {
+      "ladder_entry": "programme/ladder.toml, a new [[consequence]], the time reversal",
+      "proposal": {
+        "at": [
+          "is_causal",
+          "causally_arc_connected"
+        ],
+        "statement": "the time reversal of (2.4): for a Cauchy surface Σ of M, every future-inextensible causal curve with a point in J⁻(Σ) meets Σ",
+        "witness": "Causal.Causality.FutureInextensible.exists_mem_of_mem_Jminus_of_isCausal",
+        "under": "Σ a Cauchy surface of M (DEC-14); the curve future-inextensible (DEC-13)",
+        "standing": [
+          "T1",
+          "second_countable"
+        ],
+        "status": "checked"
+      }
+    }
+  ],
+  "ladder_simulation": "Simulated in memory only (kb/0276). copy.deepcopy(ladder.load()) with the two entries appended. The file as it stands checks with 0 errors. With the entries, ladder.check gives exactly 2 new errors, both 'witness not found in lean-causal': the witnesses are in the scaffold until graduation. With the two names added to lean_names(), simulating graduation, ladder.check(new) gives []. The summary changes only in consequences, 123 → 125. ladder.matrix and ladder._contradictions are identical before and after. tools/ladder.py emit-lean was not run in any form (kb/0252). programme/ladder.toml was not edited.",
+  "binder_proposal": "None applicable. tools/binder.py status lists binders only for ers-predictability, sbierski-mghd and sbierski-schwarzschild, and no binder.toml cites 2312.07443 (grep). If a binder for 2312.07443 (sbierski2023c) is opened, its rows for (2.4) (sbierski2023c.txt:356–358) and for Thm 1.5's final step (:1139–1144) can cite Causal.Causality.PastInextensible.exists_mem_of_mem_Iplus, his I⁺ wording, or exists_mem_of_mem_Jplus, which is stronger.",
+  "extra_decls": [
+    "Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus_of_tailFree",
+    "Causal.Causality.PastInextensible.exists_mem_of_mem_Iplus",
+    "Causal.Causality.FutureInextensible.exists_mem_of_mem_Iminus",
+    "Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus_of_isCausal",
+    "Causal.Causality.FutureInextensible.exists_mem_of_mem_Jminus_of_isCausal",
+    "Causal.Causality.PastInextensible.of_retraction",
+    "Causal.Causality.PastExtensible.of_top_tail",
+    "Causal.Causality.FutureExtensible.of_top_tail",
+    "Causal.Causality.PastExtensible.of_bottom_tail",
+    "Causal.Causality.pastExtensible_of_subArc",
+    "Causal.timelikeLine_pastInextensible_Iic_one",
+    "Causal.timelikeLine_futureInextensible_Ici_neg_one",
+    "Causal.timelikeLine_futureInextensible_meets_zero"
+  ],
+  "findings": [
+    "No paper label is involved: this is a programme statement, Sbierski 2312.07443's (2.4). The findings concern the target's evidence and Sbierski's text, not ETT.tex.",
+    "Tail-freeness is not needed. The main theorem holds for every past-inextensible causal curve, with no constant-tail hypothesis and no other exclusion. The trimming of exists_tailFree_retraction removes it, through PastInextensible.of_retraction (new: the library has only the two-sided Inextensible.of_retraction, SubArc.lean:305). So the question the target leaves open, 'whether the trimming removes that hypothesis, or whether a constant past tail must be excluded some other way', has the first answer.",
+    "The library's end-piece lemma Extensible.of_top_tail (Causal/CExtConnexeCauchy/SubArc.lean:185) does not preserve extensions at the past end. Its pause adds the parameters [a, a + 1] above the reparametrised image, so the image is no longer a final segment of the new interval. The constant final piece of a past extension therefore needs a different construction: append the constant through v ↦ min v a, with no pause (PastExtensible.of_top_tail). The constant initial piece takes the pause, with the initial-segment property kept on the future side (FutureExtensible.of_top_tail) and the result read through time reversal (PastExtensible.of_bottom_tail).",
+    "Deliverable (1), 'the extension form of (a)', is already in the strict library: Causal.Causality.exists_subArc_of_tailFree (Causal/CExtConnexeCauchy/SubArc.lean:422, from T-abs-c-ext-connexe-cauchy, kb/0243). A tail-free causal curve is Z ∘ ψ for an inextensible, tail-free Z, with ψ strictly increasing, continuous, with ordconnected image. The general form is exists_subArc_of_t1_secondCountable (:446). The target's evidence cites only exists_inextensible_of_t1_secondCountable and kb/0212, and its 'so (1) goes in the new module' is superseded. The module imports it and does not restate it (a restatement would be a kb/0082 duplicate). SubArc is ETT-layer and not upstream of Causal.Ladder.Rules (import_chain None), so the target's reason to keep (1) out of CurvesExtendSecondCountable is respected.",
+    "The route of the evidence is correct, with two sharpenings. (a) The 'on the curve' case is decided by values, γ u ∈ σ '' I, rather than by the parameter t_y ∈ range f. When γ u is on σ the conclusion holds whatever the parameter. (b) The 'above' case needs only u ≥ ψ tq, the parameter of the given point of J⁺, not u above the whole of range f. The 'below' case then says u lies below all of range f, which follows because the range is ordconnected and avoids u. The uniqueness in IsCauchySurfaceOn (∃!) is used only inside the acausality lemma eq_of_le_of_t1_secondCountable.",
+    "Lean ≥ Sbierski on three counts. The given point may be any point of the curve, not only its start: 'starts in I⁺(Σ, M)', sbierski2023c.txt:357. It may lie in J⁺, not only in I⁺. And the statement holds for an open W, of which M is the case W = ⊤. The I⁺ form is a corollary (exists_mem_of_mem_Iplus).",
+    "Sharpness, argued only and not formalized: in ETT both added hypotheses look necessary. In a Lorentzian spacetime with a Cauchy hypersurface, Sbierski's setting, both hold automatically. Antisymmetry: glue a ray to a circle at q, with curves going up the ray and round the circle. Then S = {y}, with y ≠ q on the circle, appears to be Cauchy. The ray is past-inextensible, q ∈ J⁺(S) along the circle, and the ray misses S. Arc-connectedness: take two timelike lines and add the non-local relations (s, 0) ≤_M (r, 1) for s ≤ 0 ≤ r + 1. They keep the curves and the Cauchy surface {0} × {0, 1} (kb/0038), and stay antisymmetric. But id over ]-∞, -1] on line 1 has the point (-1, 1) ∈ J⁺(S) and misses S. Whether each construction satisfies all of ETT's causality axioms was not checked in Lean."
+  ],
+  "questions": [
+    "Sbierski's 'past inextendible' (sbierski2023c.txt:356; for a C⁰ curve, no past endpoint) is read as DEC-13's PastInextensible: no strict extension at the past end (Causal/Inextensible.lean:322). This is the library's standing reading, so nothing new is decided here. A consumer (T-abs-flrw-type step (e); Prop 2.1's (2.4) at the boundary chart) must still show that its curve σ = ι⁻¹ ∘ σ̃ is past-inextensible in the DEC-13 sense. In Thm 1.5 that is 't(σ(s)) → 0 as s → f(x₀)' (:1140).",
+    "'Causal curve' (Sbierski: past-directed causal curve; in Thm 1.5, a future-directed timelike curve) is read as DEC-6's CausalCurveIn with a future-directed parameter. A past-directed curve starting at p is that curve run backwards, ending at p. A timelike curve is a causal one. 'Cauchy hypersurface' is read as DEC-14's IsCauchySurfaceOn (every inextensible causal curve meets S in exactly one point). Both are the library's standing readings, recorded so the reading is not made silently.",
+    "'Starts in I⁺(Σ, M)' is read as 'has a point in J⁺(S, W)'. That covers both readings, the start or any point, and both I⁺ and J⁺. So nothing is decided, and the I⁺ wording is the corollary exists_mem_of_mem_Iplus."
+  ],
+  "kb_proposals": [
+    "(2.4), a past-inextensible causal curve through J⁺(S, W) meets S, is Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus. It holds on T1, second countable spaces, with S Cauchy in W, W causally arc-connected and ≤_W antisymmetric, and with no tail-freeness. The time reversal is FutureInextensible.exists_mem_of_mem_Jminus, Sbierski's I⁺ form is exists_mem_of_mem_Iplus, and the ladder form at M is _of_isCausal (T-abs-past-inextensible-meets-cauchy).",
+    "Constant end pieces do not affect past-inextensibility: Causal.Causality.PastInextensible.of_retraction, with no separation axiom. Extensible.of_top_tail's pause does not keep an extension at the past end. For the final piece of a past extension, append through v ↦ min v a (PastExtensible.of_top_tail). For the initial piece, use FutureExtensible.of_top_tail, which is the pause with the initial segment kept, read through time reversal (PastExtensible.of_bottom_tail) (T-abs-past-inextensible-meets-cauchy).",
+    "To place a point of an inextensible curve relative to a sub-arc: Causal.Causality.pastExtensible_of_subArc. If c = γ ∘ ψ on I and γ has a new value at a parameter below ψ '' I, then γ, cut at the top of ψ '' I, strictly extends c at the past end. Together with exists_subArc_of_tailFree, a point of an inextensible Z is either on c, above a given parameter, or below all of c (T-abs-past-inextensible-meets-cauchy)."
+  ],
+  "notes": "One new file, 592 lines, 0 sorry, 16 theorems and no new definition. Graduation checklist (kb/0015, kb/0025): the master adds `import CausalScaffold.PastInextensibleMeetsCauchy` to scaffold/CausalScaffold.lean, or the axiom sweep misses the module. At graduation the file moves to Causal/PastInextensibleMeetsCauchy.lean (the target's evidence proposed Causal/PastInextensibleCauchy.lean; the dispatch named this file) and its import goes into Causal.lean. Its imports are already Causal.* only and ETT-layer. It does not use causal_ladder and does not reach Causal.Ladder.Rules, so any module may import it. Name clashes (kb/0082): grep -w over Causal/ and scaffold/ finds none of the 16 names outside this file. No ETT label is marked. No existing file was edited: not ladder.toml, not a binder, not Causal.lean, not the README, not kb. I ran no git command that writes, no make check and no tools/ladder.py emit-lean; tools/ladder.py was only imported in memory. A scratch copy for one probe went to /tmp/pimc_test.lean, outside the repository. The concurrent closer's files (T-abs-ers-etale-gluing) were not touched or built.",
+  "what_remains": "Nothing mathematical for this target. (1) Graduation of the file into Causal/, before which tools/ladder.py check cannot resolve the proposed witnesses. (2) The keeper's optional [[consequence]] entries above (lemmas_for_the_keeper). (3) The consumers: T-abs-flrw-type step (e), and Prop 2.1's (2.4) at the boundary chart. Each must supply DEC-13 past-inextensibility of its curve (see questions). (4) Optional: formalize the two sharpness constructions (findings), if the author wants them recorded."
+}

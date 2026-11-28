@@ -1,0 +1,71 @@
+{
+  "target": "T-abs-past-inextensible-meets-cauchy",
+  "auditor_round": 1,
+  "verdict": "clean",
+  "labels": [],
+  "statements": [
+    {
+      "decl": "Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Hypotheses are exactly the target's: [T1Space M] [SecondCountableTopology M], C.IsCauchySurfaceOn W S, C.CausallyArcConnectedOn W, antisymmetry of C.le W in the shape of Ers482Solution's hcaus (Causal/Ers482Solution.lean:250), C.PastInextensible W I σ, ∃ t ∈ I, σ t ∈ C.Jplus W S. Conclusion ∃ t ∈ I, σ t ∈ S. There is no TailFree hypothesis, which the #check output in axioms.txt and my own run confirm. Every notion is the library's own: PastInextensible (Causal/Inextensible.lean:322, DEC-13), IsCauchySurfaceOn (Causal/Cauchy.lean:73, DEC-14), Jplus (Causal/Causality.lean:92), CausallyArcConnectedOn (Causal/ArcConnected.lean:127). The file defines nothing new. Against Sbierski (sbierski2023c.txt:356–358, :1139–1144) the Lean is at least the paper's step: the given point may be any point of the curve (his 'starts in' and 'to the future it contains a point'), it may lie in J⁺ (which contains I⁺), and W is any open set (M is W = ⊤). Sbierski's Lorentzian 'past inextendible' (no past endpoint) implies DEC-13 past-inextensibility, by continuity of c' at inf φ(I). So the hypothesis a consumer must supply is implied by his, and the DEC-13 reading is the library's standing one (DEC-11/13). It is recorded as a REPORT question and is not decided here."
+    },
+    {
+      "decl": "Causal.Causality.FutureInextensible.exists_mem_of_mem_Jminus",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "A true time reversal: every hypothesis is stated for C itself (IsCauchySurfaceOn, CausallyArcConnectedOn, antisymmetry of C.le W, FutureInextensible, C.Jminus W S), not for C.dual. It goes through dual_isCauchySurfaceOn (CauchyDual.lean:73), dual_causallyArcConnectedOn (ArcConnected.lean:182) and dual_pastInextensible_iff (Inextensible.lean:452)."
+    },
+    {
+      "decl": "Causal.Causality.PastInextensible.exists_mem_of_mem_Iplus / FutureInextensible.exists_mem_of_mem_Iminus",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Sbierski's I⁺ wording, a corollary through Iplus_subset_Jplus and Iminus_subset_Jminus (Causality.lean:246, 250)."
+    },
+    {
+      "decl": "Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus_of_isCausal / FutureInextensible.exists_mem_of_mem_Jminus_of_isCausal",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "The hypotheses are the ladder nodes C.IsCausal and C.CausallyArcConnected, with C.IsCauchySurface S, at W = ⊤. IsCausal (Properties.lean:95) is literally ∀ ⦃x y⦄, C.le ⊤ x y → C.le ⊤ y x → x = y, the hcaus shape at ⊤. I checked this by rfl in a probe, as I did IsCauchySurface S = IsCauchySurfaceOn ⊤ S and CausallyArcConnected = CausallyArcConnectedOn ⊤. The proofs pass hcaus straight through."
+    },
+    {
+      "decl": "Causal.Causality.PastExtensible.of_top_tail / FutureExtensible.of_top_tail / PastExtensible.of_bottom_tail / PastInextensible.of_retraction",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "The statements are correct one-sided analogues of SubArc's Extensible.of_top_tail (:185), Extensible.of_bottom_tail (:287) and Inextensible.of_retraction (:305), with the same hypotheses. They are sensibly named. Nothing clashes: grep -w over Causal/ and scaffold/ (ErsEtaleGluing.lean excluded, as instructed) finds none of the names elsewhere. The library has no FutureExtensible.of_top_tail, and its end-piece lemmas are in Causal.CExtConnexeCauchy.SubArc, not Causal.Inextensible. The docstring's claim that Extensible.of_top_tail's pause breaks the final-segment property holds: [a, a+1] lies in pauseTop a ⁻¹' I', while the new image above a is a + g(·) < a + 1."
+    },
+    {
+      "decl": "Causal.Causality.pastExtensible_of_subArc / PastInextensible.exists_mem_of_mem_Jplus_of_tailFree",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "The helper is correct: γ cut to J ∩ {v | ∃ t ∈ I, v ≤ ψ t} strictly extends γ ∘ ψ at the past end. The tail-free case imports exists_subArc_of_tailFree (SubArc.lean:422) and does not restate it. That lemma already is the target's deliverable (1)."
+    },
+    {
+      "decl": "Causal.timelikeLine_pastInextensible_meets_zero / timelikeLine_futureInextensible_meets_zero",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "These are genuine instances (kb/0011). They prove jointly: S = {0} is Cauchy (Causal.Geroch), ⊤ is causally arc-connected (LinesCurves), antisymmetry holds (Lines), id over Iic 1 is past-inextensible (resp. id over Ici (-1) is future-inextensible), and the given point 1 (resp. -1) is in J⁺ (resp. J⁻) of {0} but not in {0}. The conclusion comes from applying the theorem (lines 571, 589), not from a proof by hand."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "command": "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/PastInextensibleMeetsCauchy.lean: exit 0, no output. I also re-elaborated the source through --stdin with #print axioms appended: exit 0. lake build was not run, as instructed. The olean (02:06:53) is newer than the source (02:06:26).",
+    "axiom_probe": "A probe under the campaign directory imported CausalScaffold.PastInextensibleMeetsCauchy and ran #print axioms on all 16 declarations: each gave [propext, Classical.choice, Quot.sound]. I deleted the probe afterwards. axioms.txt matches Probe.lean one for one (16 #check, 16 #print axioms), and Probe.lean imports the module.",
+    "grep": "No sorry, admit, axiom, native_decide, ofReduceBool, unsafe, implemented_by, opaque or set_option in the file. The only 'sorry' is the docstring heading 'no `sorry`'. There are 16 theorems and no def."
+  },
+  "checks": {
+    "layer_1": "Direct imports: Causal.CExtConnexeCauchy.SubArc and Causal.CauchyDual. I ran tools/ladder.py in memory on lean_index()['imports'] (kb/0247). model_path is None for each import, and None for the module entered as Causal.PastInextensibleMeetsCauchy. Its closure holds 37 Causal modules, none in MODEL_LAYER. import_chain to Causal.Ladder.Rules is None from either import and from the module, and no module imports it, so it is a leaf. causal_ladder is not used. No statement mentions a metric, length or geodesic. Hypotheses: the standing T1 and second countable, the ladder property CausallyArcConnectedOn, the inline antisymmetry the target asks for (no node exists at an open W), and the statement's own objects (Cauchy surface, curve, point of J⁺). The _of_isCausal forms take the nodes themselves.",
+    "keeper_simulation": "I reran it in memory (kb/0276) and wrote nothing. Appending the two proposed [[consequence]] entries to copy.deepcopy(ladder.load()) gives exactly 2 new errors, both 'witness not found in lean-causal': the witnesses are still in the scaffold. With the two witness names added to lean_names(), which simulates graduation, ladder.check gives 0 errors. ladder.matrix and ladder._contradictions are unchanged, and the consequences go from 123 to 125. The standing words 'T1' and 'second_countable' are in STANDING. Each witness's signature carries exactly [T1Space M] [SecondCountableTopology M], and both classes are used. Each 'under' is true of its witness's signature: a Cauchy surface of M (DEC-14), and a past- (resp. future-) inextensible curve (DEC-13) with no tail-free hypothesis. programme/ladder.toml is unmodified.",
+    "scope": "git status --short shows, for this target, only the untracked lean-causal/scaffold/CausalScaffold/PastInextensibleMeetsCauchy.lean and lean-causal/campaign/T-abs-past-inextensible-meets-cauchy/. No tracked file in lean-causal is modified, and scaffold/CausalScaffold.lean is untouched. The other entries belong to other loops: the restate registers (mtime 2026-11-25), programme/roadmap.toml (the loop's ready→active at 01:53, before the closer's file), roadmap/roadmap.toml and lean-gx/GX/BTZ/* (the atlas master's btz target). ErsEtaleGluing.lean is the other closer's and was neither read nor built. kb/0082: none of the 16 names occurs elsewhere, and exists_subArc_of_tailFree is imported, not restated.",
+    "docstring": "The kb/0006 contract is met. It has a title sentence. It marks no label and says so (there is no ETT.tex statement). It quotes Sbierski verbatim, and I checked both quotes against sbierski2023c.txt:356–358 and :1139–1144. The hypothesis checklist uses ✓ for carried hypotheses and ⚠ weakened for 'any point, J⁺ ⊇ I⁺' and for 'tail-free not assumed', both of which are true. The SCOPE states that the necessity of antisymmetry and of arc-connectedness is 'argued, not formalized'. The provenance line is present. Every cited line number I checked is correct: SubArc.lean:185/287/305/422/446, Inextensible.lean:322/452, CurvesExtendSecondCountable.lean:383/1376/1415. No reading is decided: the three REPORT questions (DEC-13 past-inextensible, DEC-6/14 causal curve and Cauchy surface, 'starts in I⁺' covered by 'some point in J⁺') are recorded as questions and rest on standing DEC readings.",
+    "findings_of_the_report": "Neither sharpness construction is a claim that the paper is wrong. Both are hedged ('look necessary', 'not checked in Lean') and both hold up. In the ray-plus-circle example ≤ is total on the circle, S = {y} meets every maximal curve as a set, the ray over ]-∞,0] is past-inextensible, q ∈ J⁺({y}), and the ray misses y. In the two lines with (s,0) ≤ (r,1) for s ≤ 0 ≤ r+1, the relation is antisymmetric and transitive, (0,0) ≤ (-1,1), and t ↦ (t,1) over ]-∞,-1] misses (0,1). The example also shows that S is not acausal there, which is the step arc-connectedness supplies. The finding that 'deliverable (1) is already exists_subArc_of_tailFree' is true: its conclusion is exactly the extension form the target asks for."
+  },
+  "findings": [],
+  "notes": [
+    "Informational, no fix required. FutureExtensible.of_top_tail (PastInextensibleMeetsCauchy.lean:207–330) repeats the construction of the library's Extensible.of_top_tail (SubArc.lean:185) with one more property proved, as the REPORT discloses. It is not a kb/0082 duplicate: the name and the conclusion differ. After graduation, Extensible.of_top_tail could become a two-line corollary of PastExtensible.of_top_tail and FutureExtensible.of_top_tail through extensible_iff (Inextensible.lean:340), which would remove the duplicated proof.",
+    "Informational. REPORT question 1 says a consumer must show DEC-13 past-inextensibility of its curve. In a model where curves are continuous, Sbierski's 'no past endpoint' already implies it: a past extension c' over I' with a parameter below the final segment φ(I) puts inf φ(I) in I', so c'(inf φ(I)) would be a past endpoint of σ.",
+    "The dispatch mentions 'Causal.Inextensible's Extensible.of_top_tail and FutureExtensible.of_top_tail'. The library's end-piece lemmas are in Causal.CExtConnexeCauchy.SubArc, and the library has no FutureExtensible.of_top_tail: the only one is this file's. No name clashes either way."
+  ]
+}

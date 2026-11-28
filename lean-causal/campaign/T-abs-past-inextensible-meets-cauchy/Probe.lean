@@ -1,0 +1,37 @@
+import CausalScaffold.PastInextensibleMeetsCauchy
+
+set_option pp.proofs false
+
+#check @Causal.Causality.PastExtensible.of_top_tail
+#check @Causal.Causality.FutureExtensible.of_top_tail
+#check @Causal.Causality.PastExtensible.of_bottom_tail
+#check @Causal.Causality.PastInextensible.of_retraction
+#check @Causal.Causality.pastExtensible_of_subArc
+#check @Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus_of_tailFree
+#check @Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus
+#check @Causal.Causality.FutureInextensible.exists_mem_of_mem_Jminus
+#check @Causal.Causality.PastInextensible.exists_mem_of_mem_Iplus
+#check @Causal.Causality.FutureInextensible.exists_mem_of_mem_Iminus
+#check @Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus_of_isCausal
+#check @Causal.Causality.FutureInextensible.exists_mem_of_mem_Jminus_of_isCausal
+#check @Causal.timelikeLine_pastInextensible_Iic_one
+#check @Causal.timelikeLine_futureInextensible_Ici_neg_one
+#check @Causal.timelikeLine_pastInextensible_meets_zero
+#check @Causal.timelikeLine_futureInextensible_meets_zero
+
+#print axioms Causal.Causality.PastExtensible.of_top_tail
+#print axioms Causal.Causality.FutureExtensible.of_top_tail
+#print axioms Causal.Causality.PastExtensible.of_bottom_tail
+#print axioms Causal.Causality.PastInextensible.of_retraction
+#print axioms Causal.Causality.pastExtensible_of_subArc
+#print axioms Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus_of_tailFree
+#print axioms Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus
+#print axioms Causal.Causality.FutureInextensible.exists_mem_of_mem_Jminus
+#print axioms Causal.Causality.PastInextensible.exists_mem_of_mem_Iplus
+#print axioms Causal.Causality.FutureInextensible.exists_mem_of_mem_Iminus
+#print axioms Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus_of_isCausal
+#print axioms Causal.Causality.FutureInextensible.exists_mem_of_mem_Jminus_of_isCausal
+#print axioms Causal.timelikeLine_pastInextensible_Iic_one
+#print axioms Causal.timelikeLine_futureInextensible_Ici_neg_one
+#print axioms Causal.timelikeLine_pastInextensible_meets_zero
+#print axioms Causal.timelikeLine_futureInextensible_meets_zero
