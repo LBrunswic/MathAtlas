@@ -1138,3 +1138,8 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: c1e6e23f dc003a92 f80535e5 (+ statuses)
 - wall time: 02:27–04:15; agents: 1 closer + builder, 1 auditor
 - next: plan (no ready closer target; T-btz-trace-graduate planned)
+
+## 2026-11-28 04:40 · plan · roadmap-planner (rule 2)
+- No closer-sized target is ready without a ruling. Added T-btz-trans-inj-dedupe (ready, exclusive master); promoted T-btz-trace-graduate (ready, exclusive master). T-btz-cauchy-spear-m0, T-btz-cauchy-step2-max, T-gx-uniformization-via-btz refined, still planned: the first needs the unprinted « Σ₀ Cauchy in N » (l.1603) and has no nameable instance yet; the second needs a weaker cusp structure than SpearSurgeryDatum (Σ₀ only Lipschitz), waiting on T-btz-cauchy-regularity; the third splits into pieces each larger than a dispatch. No new question.
+- gates: roadmap ✓ (281 targets), atlas ✓
+- next: T-btz-trace-graduate, then T-btz-trans-inj-dedupe (each exclusive in lean-gx)
