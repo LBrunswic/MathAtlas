@@ -1224,3 +1224,8 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 295eb936 3e956ac0 63b3028d (+ statuses)
 - wall time: 05:59–12:40; agents in parallel: 2 closers, 2 auditors
 - next: plan (promote the Chapter 3 follow-ups unblocked by this wave)
+
+## 2026-11-28 13:05 · plan · roadmap-planner (rule 2)
+- Six Chapter 3 targets promoted to ready, re-checked against the 11 strict modules: T-bz-c3-dualite-sn, -cone-appui-alpha, -propriete-i-appui, -hyperplan-separant, -appui-sphere, -conjugues (stated under the supplementary pair, OQ-163 (b), with the printed form proved or refuted beside it, so OQ-163 moves marks, not Lean). T-bz-c3-boole-affine refined (waits on -conjugues, not on OQ-163; « comme sup le produit » read as the sum). T-bz-c3-sature, -points-extremaux next to promote. No new question.
+- gates: roadmap ✓ (314 targets), atlas ✓
+- next: T-bz-c3-dualite-sn, -cone-appui-alpha, -propriete-i-appui (lean-benzecri)
