@@ -1,0 +1,57 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-points-extremaux",
+  "files": ["scaffold/BenzecriScaffold/Chapter3/PointsExtremaux.lean", "scaffold/BenzecriScaffold.lean (one import line appended)"],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": "propext, Classical.choice, Quot.sound only (#print axioms on deux_points_extremaux, deux_points_extremaux_iff, Sphere.facetteK_eq_singleton_iff_mem_extremePoints, TriangleInstance.triangle_three_facettes)",
+  "labels": [
+    {
+      "label": "bzprop:c3s6p4_deux_points_extremaux",
+      "tex_lines": [1570, 1586],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.deux_points_extremaux",
+        "Benzecri.Sphere.facetteK_eq_singleton_iff_mem_extremePoints",
+        "Benzecri.deux_points_extremaux_iff",
+        "Benzecri.S0_lacks_two_singleton_facettes"
+      ],
+      "hypotheses": [
+        {"paper": "W corps convexe de S(n)", "here": "carried", "note": "IsCorpsConvexeS n W"},
+        {"paper": "n ≥ 1", "here": "carried", "note": "0 < n; needed: deux_points_extremaux_iff"},
+        {"paper": "facettes (Ch. 3 § 1 Déf. 4 on S(E))", "here": "carried", "note": "Benzecri.Sphere.IsFacetteK of the strict Chapter3/FacettesSphere"},
+        {"paper": "réduite à un point; distinctes", "here": "carried", "note": "f = {a}, g = {b}, f ≠ g"},
+        {"paper": "théorème de Krein-Milman (Bourbaki EVT II § 4 th. 1), cited", "here": "formalized", "note": "Mathlib IsCompact.extremePoints_nonempty and closure_convexHull_extremePoints, applied to the compact convex section {v ∈ F(W) | ℓ v = 1}"},
+        {"paper": "un hémisphère ouvert contenant W", "here": "proved", "note": "IsCorpsConvexeS.exists_forall_pos (strict Chapter2/Hilbert)"}
+      ],
+      "sorries": [],
+      "findings": [
+        "benzecri1960_ch3.tex:1571: the printed bound n ≥ 1 is necessary and sufficient: a point of S(0) is a convex body with a single facette (S0_lacks_two_singleton_facettes, deux_points_extremaux_iff). Not a defect of the paper: the bound is printed.",
+        "benzecri1960_ch3.tex:1575-1586: the proof's remark « facette réduite à un point = point extrémal » holds in both directions, over any real vector space, for any convex part k and any form ℓ > 0 on F(k), reading the extreme point in the affine chart ℓ = 1 (Sphere.facetteK_eq_singleton_iff_mem_extremePoints). Only one direction (extreme ⇒ one-point facette) is used by the proof.",
+        "benzecri1960_ch3.tex:1583-1586: « Il suffit d'appliquer … Krein-Milman » leaves implicit the step that the compact set has at least two extreme points; it holds because a convex body with one extreme point would be a single open point of S(n), impossible for n ≥ 1 (S(n) connected). This is where n ≥ 1 is used."
+      ],
+      "questions": []
+    }
+  ],
+  "instances": [
+    "Benzecri.TriangleInstance.triangle_three_facettes: the closed triangle of S(2) (rays of the positive octant of ℝ³) is a convex body whose three vertices are three pairwise distinct facettes reduced to a point; general form for the closed simplex of S(m): isCorpsConvexeS_simplexS, facetteK_vertex, isFacetteK_vertex, vertex_injective"
+  ],
+  "extra_decls": [
+    "Benzecri.Sphere.coneSection",
+    "Benzecri.Sphere.eq_of_mk_eq_of_mem_coneSection",
+    "Benzecri.Sphere.inv_smul_mem_coneSection",
+    "Benzecri.TriangleInstance.orthant",
+    "Benzecri.TriangleInstance.simplexS",
+    "Benzecri.TriangleInstance.sumForm",
+    "Benzecri.TriangleInstance.vertex",
+    "Benzecri.TriangleInstance.isCorpsConvexeS_simplexS",
+    "Benzecri.TriangleInstance.single_mem_extremePoints",
+    "Benzecri.TriangleInstance.facetteK_vertex"
+  ],
+  "kb_proposals": [
+    "Chapter3/PointsExtremaux: read the affine chart of the open hemisphere ℓ > 0 as the section coneSection k ℓ = {v ∈ F k | ℓ v = 1} of the cone, not via instAddTorsorHemi: it is closed (isClosed_insert_zero_F ∩ ℓ⁻¹{1}), bounded (exists_mul_norm_le), convex, and Mathlib's Krein–Milman applies in ℝⁿ⁺¹ directly; facetteK_eq_singleton_iff_mem_extremePoints is the bridge one-point facette ⇔ extreme point.",
+    "To show a convex body of S(n), n ≥ 1, is not a point: interior W = {x} makes {x} clopen in the connected S(n) (connectedSpace_S), and −x ≠ x (Sphere.neg_ne_self)."
+  ],
+  "notes": "No reading taken; no open OQ (OQ-160..165) bears on § 6 Prop. 4. The facette notion is the strict Sphere.IsFacetteK (DEC-120 kPrime); a one-point facette is nonempty, so the extended facette ∅ of OQ-165 (c) does not matter here. lake build BenzecriScaffold.Chapter3.PointsExtremaux succeeded without rebuilding Benzecri.*."
+}
