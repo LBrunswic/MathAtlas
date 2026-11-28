@@ -56,8 +56,8 @@ Targets T-bz-c3-balayable-somme (statement) and T-bz-c3-prop4-produit (proof).
 * **The torus factor is needed** (OQ-171): the printed proof's « élément de $GP(n, \R)$ » reads,
   in Chapter 1's notation, as `φᵢ = cᵢ⁻¹ g|` and `t = [(cᵢ)]`, not `t = 1`; e.g. on the open
   segment of `S(1)` (two factors of dimension `0`, `F(Bᵢ) = ℝ₊*`, whose only conical
-  automorphism is the identity), `g = diag(1, 2)` forces `t = [(1, 2)] ≠ 1` (argued here, not
-  formalized).
+  automorphism is the identity), `g = diag(1, 2)` forces `t = [(1, 2)] ≠ 1`; formalized, for every `Ψ`, as
+  `BooleProjectifInstance.simplexO_one_prop4_tore` (`Prop4Tore.lean`).
 * Not marked for OQ-168 (added hypothesis) and OQ-171, see `BalayableSomme.lean`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.

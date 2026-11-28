@@ -81,3 +81,5 @@ import Benzecri.Chapter3.Raccordement
 import Benzecri.Chapter3.BalayableSommeProp5
 import Benzecri.Chapter3.SimplesSomme
 import Benzecri.Chapter3.FacetteInterieure
+import Benzecri.Chapter3.BooleProjectifDomaines
+import Benzecri.Chapter3.Prop4Tore

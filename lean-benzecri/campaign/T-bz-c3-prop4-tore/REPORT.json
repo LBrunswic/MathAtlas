@@ -1,0 +1,90 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-prop4-tore",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter3/Prop4Tore.lean",
+    "scaffold/BenzecriScaffold.lean (one import line added)"
+  ],
+  "builds": true,
+  "warningAsError": true,
+  "sorry_count": 0,
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "labels": [
+    {
+      "label": "bzprop:c3s2p4_automorphisme_compatible",
+      "tex_lines": [
+        599,
+        611
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.BooleProjectifInstance.simplexO_one_prop4_tore",
+        "Benzecri.BooleProjectifInstance.simplexO_one_prop4_tore_instance",
+        "Benzecri.Segment.exists_aut_not_compatibleOne",
+        "Benzecri.Segment.exists_aut_not_compatibleOne_zero",
+        "Benzecri.PointFactors.ncard_compatibleOne_le",
+        "Benzecri.PointFactors.IsCompatibleAssocPiOne.unique",
+        "Benzecri.IsCompatibleAssocPiOne",
+        "Benzecri.isCompatibleAssocPiOne_iff",
+        "Benzecri.torus_ne_one_of_not_compatibleOne",
+        "Benzecri.isCompatiblePi_transportAut"
+      ],
+      "hypotheses": [
+        {
+          "paper": "w ouvert convexe de noyau vide (here: the open segment simplexO 1 of S(1))",
+          "here": "carried",
+          "note": "an instance of Prop. 4, not Prop. 4 itself"
+        },
+        {
+          "paper": "« on peut écrire w = F⁻¹(F(v₁) × F(v₂)) »",
+          "here": "carried",
+          "note": "EVERY projective isomorphism Ψ : PiBase k Bᵢ ≃ₜ w with IsProjIso (pdim k) 1 Ψ, for EVERY enumeration l and bases b; not only prop4_produit's Ψ"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Prop. 4's proof (benzecri1960_ch3.tex:609-610, « un automorphisme projectif de w est un élément de GP(n, R) qui permute entre elles les variétés distinguées simples ») cannot be read as producing a compatible automorphism with torus factor t = 1 (f = F⁻¹(φ)). On the open segment w = simplexO 1 of S(1) (p = 2, each Bᵢ a point of S(0)), for EVERY projective isomorphism Ψ : F⁻¹(F(B₀) × F(B₁)) ≃ w, some projective automorphism of w is, transported, compatible (IsCompatiblePi, as Prop. 4 says) but every representation f = t ∘ F⁻¹(φ) has t ≠ 1 (simplexO_one_prop4_tore with torus_ne_one_of_not_compatibleOne). The cause: the only conical automorphism of F(B) ≅ ℝ₊*, B a point of S(0), is the identity (OpensZero.coneIso_eq_self; a conical map is ±1 in the global chart), so at most p! automorphisms are compatible with t = 1 (PointFactors.ncard_compatibleOne_le), while w has the infinitely many automorphisms s(diag(1, j+1)) (Segment.infinite_aut). This is evidence for OQ-171, not a refutation of Prop. 4: Prop. 4 as printed is TRUE in the reading with a torus factor (prop4_produit). No not_ declaration: nothing printed is refuted; the refuted object is a reading of the proof."
+      ],
+      "questions": [
+        "OQ-171 (OPEN): whether « élément de GP(n, R) » in the proof of Prop. 4 is meant with the torus factor of Déf. 2 (ℝ^{+p}/ℝ^+). This file proves the reading t = 1 fails on the open segment; the reading taken by the strict library (t a free element of PiTorus) is untouched. The author rules."
+      ]
+    }
+  ],
+  "instances": [
+    "Benzecri.BooleProjectifInstance.simplexO_one_prop4_tore_instance: ∃ l k b hB Ψ, IsProjIso (pdim k) 1 Ψ ∧ ∃ f, IsCompatiblePi (transportAut hΨ f) ∧ ¬ ∃ σ, IsCompatibleAssocPiOne σ (transportAut hΨ f) — the hypotheses of simplexO_one_prop4_tore are met (via prop4_produit at n = 1).",
+    "Benzecri.isCompatibleAssocPiOne_one: the new predicate IsCompatibleAssocPiOne is satisfied (by the identity, σ = 1).",
+    "Benzecri.Segment.diagAut: the automorphisms s(diag(1, j+1)) of the open segment, pairwise distinct (diagAut_injective)."
+  ],
+  "extra_decls": [
+    "Benzecri.OpensZero.GUR_one_smul_eq_self",
+    "Benzecri.OpensZero.coneIso_eq_self",
+    "Benzecri.OpensZero.coneIso_unique",
+    "Benzecri.OpensZero.subsingleton_of_convex_F",
+    "Benzecri.IsCompatibleAssocPiOne.isCompatibleAssocPi",
+    "Benzecri.transportAut",
+    "Benzecri.transportAut_smul",
+    "Benzecri.transportAut_injective",
+    "Benzecri.transportAut_mem_of_forall",
+    "Benzecri.Segment.wO",
+    "Benzecri.Segment.diagC",
+    "Benzecri.Segment.diagC_pos",
+    "Benzecri.Segment.diagL",
+    "Benzecri.Segment.diagL_apply",
+    "Benzecri.Segment.diagL_mem_iff",
+    "Benzecri.Segment.diagAut",
+    "Benzecri.Segment.diagAut_injective",
+    "Benzecri.Segment.infinite_aut"
+  ],
+  "kb_proposals": [
+    "For B a one-point open of S(0), the only IsConeIso 0 0 automorphism of FCone 0 B is the identity: chartAt (RnO 1) y is definitionally OpensCone.gcc (FCone.proj y) (rfl), so IsConeIso.exists_smul_eq at y = x gives gcc(φ x) = g • gcc x with g ∈ GU(1) = ±1, and the ray constraint forces g • v = v (OpensZero.coneIso_eq_self).",
+    "To show 'some automorphism is not of type X' without computing Ψ: bound {f | X f} by a finite set (uniqueness per permutation, range of Perm (Fin p)), and use Set.Finite.preimage (transport injective).infinite_compl.nonempty against an Infinite instance (Infinite.of_injective on ℕ).",
+    "Stating `f • (ConeBase.mk x : PiBase k (fun i => ⟨_, hB i⟩))` in a theorem whose PiBase is over an Opens structure literal times out at typeclass; state such clauses generically over an abstract B (torus_ne_one_of_not_compatibleOne) and consume them.",
+    "A one-dimensional element g of GU(1) with g v ∈ ℝ₊ v is the identity: g = c • id (Fin 1 functions are multiples of v), LinearEquiv.coe_det + LinearMap.det_smul give |c| = 1 (GUR_one_smul_eq_self)."
+  ],
+  "notes": "No `sorry`, passes `lake env lean -DwarningAsError=true` with no linter option; `lake build BenzecriScaffold.Chapter3.Prop4Tore` green (nothing upstream rebuilt). The label stays unmarked (OQ-168, OQ-171 OPEN; this is evidence for a reading, not a new form of Prop. 4). The evidence asked that BalayableSommeProduit.lean's SCOPE sentence « (argued here, not formalized) » be updated to cite Benzecri.BooleProjectifInstance.simplexO_one_prop4_tore: that is an existing strict file outside this dispatch, left to the master at graduation. The concrete f is produced by counting (one of the s(diag(1, j+1))); s(diag(1,2)) itself is not named. Import line inserted at line 2 of scaffold/BenzecriScaffold.lean, next to the other closer's BooleProjectifDomaines line."
+}

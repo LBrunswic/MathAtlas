@@ -1,0 +1,42 @@
+{
+  "target": "T-bz-c3-prop4-tore",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bzprop:c3s2p4_automorphisme_compatible",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Correctly UNMARKED (single backticks, Prop4Tore.lean:11; SCOPE says no mark changes; REPORT status partial). The file is an instance (w = simplexO 1, p = 2) giving evidence on the OQ-171 reading, not Prop. 4 itself, and it says so. (1) IsCompatibleAssocPiOne (Prop4Tore.lean:90) is IsCompatibleAssocPi (ConverseGeneral.lean:326, Ch. 1 Def. 2) with the torus factor fixed to 1: same sigma, same phi_i : F(B_sigma(i)) -> F(B_i) with IsConeIso, same formula m'_i = phi_i m_sigma(i). isCompatibleAssocPiOne_iff shows the equivalence with t = 1 (map_one, one_smul), and torus_ne_one_of_not_compatibleOne shows that its negation is exactly 'every Def. 2 representation has t != 1'. So it faithfully formalizes 'compatible with t = 1'. (2) Quantifier order in simplexO_one_prop4_tore (l.472): for all l, k, b, hB, Psi with IsProjIso, there EXISTS f with IsCompatiblePi (transport f) and not (exists sigma, IsCompatibleAssocPiOne sigma (transport f)). That is forall Psi, exists f, as required, and it is stronger than fixing prop4_produit's Psi0. (3) The finding rests on IsConeIso being a GU(n+1) morphism (|det| = 1), so that on the cone of a point of S(0) the only conical automorphism is the identity. This is Benzecri's own definition (ch1.tex l.489-512: the conical affine structure has charts with g_ij in GU(n, R)), not a library artefact, so the counting argument (at most 2! = 2 compatible-with-t=1 automorphisms against infinitely many diag(1, j+1)) is sound against the paper. (4) No not_ declaration, and that is right: Prop. 4 as printed (compatibility with a torus factor allowed) is untouched on this w. Only a reading of the one-line proof ('element de GP(n, R)' read as t = 1) is refuted. The finding is worded as evidence for OQ-171, not as an error of the paper."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "`lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Chapter3/Prop4Tore.lean` exits 0 with no output. No set_option or linter option. The only 'sorry' token is in docstring prose (l.13). #print axioms on 19 declarations (all REPORT decls, the key extra_decls and Sphere.prop4_produit) gives [propext, Classical.choice, Quot.sound] each. The probe was written under the campaign directory and then deleted. No lake build run, per the dispatch."
+  },
+  "lemmas_checked": {
+    "coneIso_eq_self": "True and non-vacuous: its hypothesis (B a subsingleton open of S(0)) is met by Prop. 4's B_i on the segment (subsingleton_of_convex_F, discharged in simplexO_one_prop4_tore), and a nonempty point open exists. Its conclusion is the paper-level fact that GU(1) = {+-1} preserves a half-line only as +1.",
+    "ncard_compatibleOne_le": "A true upper bound. The finiteness half is what gets used. Uniqueness per sigma comes from coneIso_unique plus FaithfulSMul. The bound is (q+1)!, through range of a choice function on Perm (Fin (q+1)). Not vacuous: the set contains 1 (isCompatibleAssocPiOne_one).",
+    "infinite_aut": "Real. diagAut j = s(diag(1, j+1)) preserves the positive quadrant (diagL_mem_iff), and diagAut_injective evaluates at s(1,1) and compares rays.",
+    "transportAut_injective": "Real. Psi^-1 f Psi determines f, by FaithfulSMul and Psi.symm injective. Used with Set.Finite.preimage to pull back finiteness.",
+    "isCompatiblePi_transportAut": "Correct: compatibility is a subgroup (compatibleSubgroup), and Psi^-1 f Psi = a^-1 (Psi0^-1 f Psi0) a with a itself a transport along Psi0."
+  },
+  "instances": "simplexO_one_prop4_tore_instance is a closed Lean term (standard axioms). It builds l, k, b, hB and Psi from simplexO_prop4, exists_bases_simplesS and prop4_produit, then applies the main theorem, so the hypotheses are jointly satisfiable. isCompatibleAssocPiOne_one inhabits the new predicate. diagAut gives concrete automorphisms.",
+  "scope": "Inside lean-benzecri, git status shows only the dispatched changes: the scaffold/BenzecriScaffold.lean import line (+Chapter3.Prop4Tore; the +Chapter3.BooleProjectifDomaines line belongs to the other closer), scaffold/BenzecriScaffold/Chapter3/Prop4Tore.lean, and the campaign directory. No strict Benzecri/ file is modified (BalayableSommeProduit.lean's SCOPE update is correctly left to the master). The modifications under papers/*/certificate, programme/ and roadmap/ were already in the session's starting snapshot and belong to other loops (restate, ett-programme, the roadmap), not to this closer.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "registers/DECISIONS.md:399 (OQ-171)",
+      "what": "OQ-171's text says the Chapter 1 form Sphere.prop4_produit is 'stated in the scaffold on one tagged sorry'. It is now in the strict Benzecri/Chapter3/BalayableSommeProduit.lean:376, and #print axioms shows it sorry-free (standard axioms). The register row is stale. This is not the closer's file and does not affect this target's correctness.",
+      "fix": "The master or project-manager appends an update to OQ-171 citing prop4_produit (proved) and BooleProjectifInstance.simplexO_one_prop4_tore as the formal evidence that t != 1 is needed."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-benzecri/campaign/T-bz-c3-prop4-tore/REPORT.json (findings) and Prop4Tore.lean:34-36",
+      "what": "The argument depends on conical isomorphisms being GU (|det| = 1) morphisms. That is Benzecri's own definition (ch1.tex l.495, l.512), but neither the REPORT nor the docstring cites it. A reader could take the finding for an artefact of IsConeIso: with GL+ conical maps (homotheties allowed), t = 1 representations would exist on the segment.",
+      "fix": "At graduation, add one clause citing benzecri1960_ch1.tex:489-512 (structure conique affine, g_ij in GU(n, R)) beside OpensZero.coneIso_eq_self and in the OQ-171 evidence."
+    }
+  ]
+}
