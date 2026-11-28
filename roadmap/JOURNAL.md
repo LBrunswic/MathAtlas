@@ -1393,3 +1393,11 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: lean-gx ✓ (95 strict files), selftest ✓, tests ✓, roadmap ✓, atlas ✓, hub: no new red (after the fix)
 - commits: efff5f1c e91fc63d e6ed9b03 2e0609fa
 - next: nothing dispatchable without a ruling but the standing builder
+
+## 2026-11-28 13:30 · wave of 2 · T-arch-rename-tool (master), T-atlas-overlay-refresh (builder)
+- T-arch-rename-tool: tools/rename_tool.py (plan by default; apply only on a scratch copy; check), fixture of four breakages in selftest, 13 tests; on a scratch copy a toy Causal.Flat → Lorentzian.Flat map shows 13 relative namespace/open sites to fix by hand before the window; the inverse map restores the tree byte for byte. Its check found three dangling headlines in reports/atlas/hub.toml (Causal.geroch_*, GX.e0_cbg), fixed in this commit
+- T-atlas-overlay-refresh (standing, stays ready): lean-gx at efff5f1c, edges unchanged (btz 128, gx 970, bbs 42); 0 page errors
+- T-arch-package-leases not dispatched: it edits tools/lease.py, live for all three loops, and the /ett-programme and /egf-programme skills, which those loops own; it needs a moment when the other loops are idle (or the author's say)
+- gates: selftest ✓, tests ✓, roadmap ✓, atlas ✓, hub: no new red
+- commits: cb468af7
+- next: T-arch-package-leases when the other loops are idle; otherwise only rulings remain
