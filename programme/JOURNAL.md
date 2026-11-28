@@ -1033,3 +1033,21 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
 - commits: fb728e2b 7d87aa29 a31b5b3b b90045af 639fbd6b 0782c735 (ledgers, the Lean sha only; restate detect 0)
 - next: a PLANNING RUN (rule 2: one ready abstract target, T-abs-sc-open-hoist, exclusive), to promote T-abs-end-pieces-one-sided and perhaps T-abs-ers-etale-mghd; else the exclusive T-tac-dual-future-one-connected
+
+## 2026-11-28 04:06 · planning run · rule 2 after wave 50; 216 → 218 targets
+- Promoted to ready:
+  - T-abs-ers-etale-mghd (closer, layer 1): the causal half of ERS's étale gluing, every step now ETT-layer: the pieces as subtype causalities, Gluing.causality under CompatibleAlong, TwoPiece's fields from the gluing's minimality and causal convexity, TwoPiece.isCauchySurface, E Hausdorff by t2Space_iff_isClosed. The title is restated. A is an open common development, closed in the overlap; the component part stays Thm 4.64's. OQ-97 is not needed.
+  - T-loc-minkowski-past-boundary-chart (closer, layer 3, model minkowski): `(minkowski n).PastBoundaryChart W Ũ 0` at W = {t > 0}, n ≥ 1, the audit's construction field by field; and (A) failing on that W, so the theorem bites. It does not wait on OQ-159, whose weakenings the six fields imply.
+- Rescoped:
+  - T-abs-sc-open-hoist (exclusive) takes the two transport lemmas out of the leaf Causal.FlrwType: pastInextensible_invComp to Causal.CauchyExtension (upstream of Rules, so exclusive), IsSpacetimeExtension.isEMorphismOn to Causal.C0ExtensionSkeleton.
+  - T-abs-end-pieces-one-sided stays planned, after the Minkowski instance (sequencing: it edits PastInextensibleMeetsCauchy, which FlrwType imports).
+  - T-lad-programme-properties waits on the Minkowski instance too.
+- Added:
+  - T-abs-meets-cauchy-antisymmetry-sharp (planned): the ray glued to a circle, the (2.4) antisymmetry sharpness model;
+  - T-bind-mghd-two-piece-home (planner, applied; 2a8267aa, set done): the MGHD binder's three TwoPiece sentences refreshed.
+- The second (2.4) sharpness model is not taken: two timelike lines with a cross relation are not absolutely minimal (DEC-167).
+- Gate hygiene: /atlas-team now leases `lean` (an in-tree package since DEC-157). After the hub gate the master restores only lean/docs and lean/paper-map.json, and only when `lean` was clean before; the blanket `git -C lean checkout -- .` is not run. A run started with it was stopped before its checkout.
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
+- gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
+- commits: 2a8267aa
+- next: T-abs-ers-etale-mghd and T-loc-minkowski-past-boundary-chart (closers, lean-causal); then a planning run to promote T-abs-end-pieces-one-sided; the exclusive targets in waves of their own
