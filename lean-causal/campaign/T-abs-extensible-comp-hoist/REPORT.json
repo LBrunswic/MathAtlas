@@ -1,0 +1,117 @@
+{
+  "target": "T-abs-extensible-comp-hoist",
+  "package": "lean-causal",
+  "kind": "abstract",
+  "layer": 1,
+  "status": "closed: § 1 of Causal.MeetsCauchyAntisymmetrySharp moved into the new Causal.ExtensibleAlongCurve; two names changed (extensible_of_graph -> extensible_of_eq_comp_monotoneOn, extensible_of_graph_of_bddAbove -> extensible_of_eq_comp_monotoneOn_of_bddAbove), two kept; every moved statement unchanged (type, binder order and kinds, universe); the witness statements unchanged; no sorry, standard axioms",
+  "files": {
+    "new": [
+      "Causal/ExtensibleAlongCurve.lean"
+    ],
+    "edited": [
+      "Causal/MeetsCauchyAntisymmetrySharp.lean"
+    ],
+    "campaign": [
+      "campaign/T-abs-extensible-comp-hoist/REPORT.json",
+      "campaign/T-abs-extensible-comp-hoist/Probe.lean",
+      "campaign/T-abs-extensible-comp-hoist/axioms.txt"
+    ],
+    "scratch_outside_repo": "/tmp/T-abs-extensible-comp-hoist/: Dump.lean (constant dump with a new->old substitution column), dump_cmp.py, before.txt, after.txt, dump-diff.txt, extract.py, compose.py, edit_meets.py, edit_meets2.py, section1.orig.lean / section1.new.lean, MeetsCauchyAntisymmetrySharp.HEAD.lean, types-before.txt. Not part of the deliverable (the dispatch lists three campaign files); the dump comparison is reproduced in `type_check` below.",
+    "not_edited": "Causal.lean (the master adds `import Causal.ExtensibleAlongCurve` beside Causal.MeetsCauchyAntisymmetrySharp, :368 today), README.md, kb/, programme/ladder.toml, Causal/Ladder/*, lakefile.toml, .lake/, the scaffold, papers/, tools/. tools/ladder.py emit-lean was not run; ladder.load/check and the import index were called in memory only (read-only). No git command that writes."
+  },
+  "builds": true,
+  "build_command": "cd lean-causal && taskset -c 12-23 lake build Causal.ExtensibleAlongCurve Causal.MeetsCauchyAntisymmetrySharp",
+  "build_detail": [
+    {
+      "cmd": "taskset -c 12-23 lake build --no-build Causal.MeetsCauchyAntisymmetrySharp (before any edit, HEAD ea896cf2, lean-causal tree clean)",
+      "result": "All targets up-to-date (3142 jobs): the before-dump read current oleans"
+    },
+    {
+      "cmd": "taskset -c 12-23 lake build Causal.ExtensibleAlongCurve Causal.MeetsCauchyAntisymmetrySharp",
+      "result": "Build completed successfully (3143 jobs): exactly the two modules built ([3142/3143] Causal.ExtensibleAlongCurve, [3143/3143] Causal.MeetsCauchyAntisymmetrySharp), nothing upstream rebuilt; no warning (the strict lib is warningAsError)"
+    },
+    {
+      "cmd": "taskset -c 12-23 lake env lean -DwarningAsError=true Causal/ExtensibleAlongCurve.lean; the same on Causal/MeetsCauchyAntisymmetrySharp.lean",
+      "result": "silent, exit 0, on both"
+    },
+    {
+      "cmd": "taskset -c 12-23 lake env lean campaign/T-abs-extensible-comp-hoist/Probe.lean",
+      "result": "exit 0, no warning, no error"
+    },
+    {
+      "cmd": "taskset -c 12-23 lake build --no-build Causal.ExtensibleAlongCurve Causal.MeetsCauchyAntisymmetrySharp (after)",
+      "result": "All targets up-to-date (3143 jobs)"
+    }
+  ],
+  "sorry_count": 0,
+  "labels": [],
+  "layer_check": {
+    "imports": "Causal.ExtensibleAlongCurve imports Causal.CExtConnexeCauchy.SubArc only (Probe.lean 2: direct imports #[Init, Init, Causal.CExtConnexeCauchy.SubArc]; 4723 modules in its closure, 37 Causal.*, none of them a model, Remarks, PlainnessModels or Ladder module, nor Causal.MeetsCauchyAntisymmetrySharp).",
+    "model_path": "tools/ladder.py model_path (in memory, kb/0247, each direct import): Causal.ExtensibleAlongCurve None; Causal.CExtConnexeCauchy.SubArc None (its direct imports CurvesExtendSecondCountable and NestedCausalities are in the 37 above, none a model); Causal.MeetsCauchyAntisymmetrySharp None.",
+    "ladder": "import_chain Causal.Ladder.Rules -> Causal.ExtensibleAlongCurve None, -> Causal.MeetsCauchyAntisymmetrySharp None; Causal.ExtensibleAlongCurve -> Causal.Ladder.Rules None. Its only importer is Causal.MeetsCauchyAntisymmetrySharp. ladder.check(ladder.load()) in memory: no error.",
+    "statements": "No metric notion in a statement (the four types are printed in `declarations`): Metric.isOpen_iff, Metric.tendsto_nhdsWithin_nhds, Real.dist_eq, Real.arctan and Real.tan occur in proofs only, on ℝ. No hypothesis on the causality, so uses = [] holds. kb/0221: no moved proof uses causal_ladder (grep)."
+  },
+  "declarations": {
+    "moved": [
+      {
+        "name_before": "Causal.Causality.CausalCurveIn.continuousOn_interval",
+        "name_after": "Causal.Causality.CausalCurveIn.continuousOn_interval",
+        "module": "Causal.MeetsCauchyAntisymmetrySharp (HEAD :102) -> Causal.ExtensibleAlongCurve (:97)",
+        "text": "docstring, statement and proof byte for byte"
+      },
+      {
+        "name_before": "Causal.Causality.causalCurveIn_top_of_pieces",
+        "name_after": "Causal.Causality.causalCurveIn_top_of_pieces",
+        "module": "Causal.MeetsCauchyAntisymmetrySharp (HEAD :128) -> Causal.ExtensibleAlongCurve (:123)",
+        "text": "docstring, statement and proof byte for byte"
+      },
+      {
+        "name_before": "Causal.Causality.extensible_of_graph_of_bddAbove",
+        "name_after": "Causal.Causality.extensible_of_eq_comp_monotoneOn_of_bddAbove",
+        "module": "Causal.MeetsCauchyAntisymmetrySharp (HEAD :145) -> Causal.ExtensibleAlongCurve (:140)",
+        "text": "proof byte for byte; the header carries the new name and its binders are re-wrapped to stay within 100 columns (`{h : ℝ → ℝ}` and `(hbdd : BddAbove I)` each move to the next line; same binders, same order); the docstring's title 'Extension along a graph, bounded case' becomes 'Extension along a causal curve, bounded case' and its reference `extensible_of_graph` the new name, re-wrapped"
+      },
+      {
+        "name_before": "Causal.Causality.extensible_of_graph",
+        "name_after": "Causal.Causality.extensible_of_eq_comp_monotoneOn",
+        "module": "Causal.MeetsCauchyAntisymmetrySharp (HEAD :262) -> Causal.ExtensibleAlongCurve (:257)",
+        "text": "docstring byte for byte; the header carries the new name, `{t' : ℝ}` re-wrapped to the next line (same binders, same order); the proof byte for byte except its call of the bounded case under the new name (HEAD :280)"
+      }
+    ],
+    "scope": "Same scope as at HEAD: namespace Causal, `open Set Function TopologicalSpace Topology Filter Real`, namespace Causality, `variable {M : Type*} [TopologicalSpace M] {C : Causality M}` (HEAD :91-99), reproduced line for line; the new module has no other variable line, so kb/0335's binder-order trap and kb/0255's universe trap do not arise. The block is HEAD :95-291 (10688 bytes, sha256 5988e5ac8e9c675da6048844f5d943414858a713745164859b1a4848cc09c022), extracted and edited by a script with every replacement asserted; `diff` of the block before/after shows exactly: the section heading '## 1. Three model-free lemmas on curves' without its '1.', the bounded case's docstring and header (rename, re-wrap), the general case's header (rename, re-wrap) and the one call (rename). The old names occur nowhere in the code of either file.",
+    "unchanged_in_MeetsCauchyAntisymmetrySharp": "Every remaining constant (108) keeps its name, module, kind, universe levels, type, binder telescope and value; only rayCircle_extensible_of_forall_ne's value changes, through the renamed constant it calls (identical after substituting the old name back). The witness statements rayCircle_separates_pastInextensible_meets, not_pastInextensible_exists_mem_of_mem_Jplus_bare, rayCircle_isCauchySurface_Y and rayCircleRay_pastInextensible are unchanged (type and value hashes equal raw).",
+    "type_check": {
+      "method": "kb/0063 + kb/0278: a dump of every constant of Causal.MeetsCauchyAntisymmetrySharp and Causal.ExtensibleAlongCurve (name, module, kind, levelParams, Expr.hash of type and value, binder telescope with names and kinds, reducibility, protection, noncomputability, internality), before (HEAD oleans) and after, the after-run also hashing type and value with the two new names substituted back to the old ones. Then the probe: each HEAD statement, typed out from `#check @` at HEAD with the old names, is the type of the new constant (`example : <HEAD type> := @new_name`, which checks order and types; binder kinds and names, which definitional equality ignores, come from the dump's telescope column).",
+      "result": "constants: before 112, after 112; removed none, added none (no auxiliary constant appears or disappears). Renamed (old -> new): extensible_of_graph -> extensible_of_eq_comp_monotoneOn; extensible_of_graph_of_bddAbove -> extensible_of_eq_comp_monotoneOn_of_bddAbove. Module changed (MeetsCauchyAntisymmetrySharp -> ExtensibleAlongCurve): exactly the four moved constants. Raw hash changes: the value of extensible_of_eq_comp_monotoneOn (it calls the renamed bounded case) and the value of rayCircle_extensible_of_forall_ne (it calls the renamed general case). Differences after substitution: 0 (kind, levels, type, telescope, value, reducibility, protection, noncomputability, internality all equal for all 112).",
+      "before": {
+        "Causal.Causality.CausalCurveIn.continuousOn_interval": "[u_1] ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M} {I : Set ℝ} {c : ℝ → M}, C.CausalCurveIn W I c → ContinuousOn c I",
+        "Causal.Causality.causalCurveIn_top_of_pieces": "[u_1] ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causal.Causality M} {γ : ℝ → M} {J : Set ℝ}, Continuous γ → J.Nonempty → J.OrdConnected → (∀ s ∈ J, ∀ s' ∈ J, s ≤ s' → ∀ (N : TopologicalSpace.Opens M), γ '' Set.Icc s s' ⊆ ↑N → C.le N (γ s) (γ s')) → C.CausalCurveIn ⊤ J γ",
+        "Causal.Causality.extensible_of_graph_of_bddAbove": "[u_1] ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M} {I J : Set ℝ} {c γ : ℝ → M} {h : ℝ → ℝ} {t' : ℝ}, C.CausalCurveIn W J γ → C.CausalCurveIn W I c → BddAbove I → MonotoneOn h I → ContinuousOn h I → Set.MapsTo h I J → (∀ t ∈ I, γ (h t) = c t) → t' ∈ J → (∀ t ∈ I, h t ≤ t') → (∀ t ∈ I, γ t' ≠ c t) → C.Extensible W I c",
+        "Causal.Causality.extensible_of_graph": "[u_1] ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M} {I J : Set ℝ} {c γ : ℝ → M} {h : ℝ → ℝ} {t' : ℝ}, C.CausalCurveIn W J γ → C.CausalCurveIn W I c → MonotoneOn h I → ContinuousOn h I → Set.MapsTo h I J → (∀ t ∈ I, γ (h t) = c t) → t' ∈ J → (∀ t ∈ I, h t ≤ t') → (∀ t ∈ I, γ t' ≠ c t) → C.Extensible W I c"
+      },
+      "after": {
+        "Causal.Causality.CausalCurveIn.continuousOn_interval": "[u_1] the same type as before, printed identically (Probe.lean 3')",
+        "Causal.Causality.causalCurveIn_top_of_pieces": "[u_1] the same type as before, printed identically (Probe.lean 3')",
+        "Causal.Causality.extensible_of_eq_comp_monotoneOn_of_bddAbove": "[u_1] ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M} {I J : Set ℝ} {c γ : ℝ → M} {h : ℝ → ℝ} {t' : ℝ}, C.CausalCurveIn W J γ → C.CausalCurveIn W I c → BddAbove I → MonotoneOn h I → ContinuousOn h I → Set.MapsTo h I J → (∀ t ∈ I, γ (h t) = c t) → t' ∈ J → (∀ t ∈ I, h t ≤ t') → (∀ t ∈ I, γ t' ≠ c t) → C.Extensible W I c",
+        "Causal.Causality.extensible_of_eq_comp_monotoneOn": "[u_1] ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M} {I J : Set ℝ} {c γ : ℝ → M} {h : ℝ → ℝ} {t' : ℝ}, C.CausalCurveIn W J γ → C.CausalCurveIn W I c → MonotoneOn h I → ContinuousOn h I → Set.MapsTo h I J → (∀ t ∈ I, γ (h t) = c t) → t' ∈ J → (∀ t ∈ I, h t ≤ t') → (∀ t ∈ I, γ t' ≠ c t) → C.Extensible W I c"
+      },
+      "telescopes": "equal before/after for all four (dump column): continuousOn_interval M{},inst[],C{},W{},I{},c{},hc(); causalCurveIn_top_of_pieces M{},inst[],C{},γ{},J{},hγ(),hne(),hoc(),hpiece(); the bounded case M{},inst[],C{},W{},I{},J{},c{},γ{},h{},t'{},hγ(),hc(),hbdd(),hmono(),hcont(),hJ(),heq(),ht'(),hle(),hnew(); the general case the same without hbdd()"
+    },
+    "name_clash_check": "kb/0082: grep -w of extensible_of_eq_comp_monotoneOn and extensible_of_eq_comp_monotoneOn_of_bddAbove over lean-causal/Causal, lean-causal/scaffold, lean-gx, lean-benzecri, lean/ and mathlib: no occurrence before the hoist; after it, the two definitions in Causal/ExtensibleAlongCurve.lean and the uses in Causal/MeetsCauchyAntisymmetrySharp.lean only. The kept names causalCurveIn_top_of_pieces and continuousOn_interval are declared in Causal/ExtensibleAlongCurve.lean only (the model-layer twin is continuousOn_of_causalCurveIn, another name). So the auditor's suggested names were taken unchanged.",
+    "old_names_left": "No alias (the dispatch). The old names survive only as prose: in the new module's docstring ('What moved, and the two renames') and in Causal.MeetsCauchyAntisymmetrySharp's docstring item 4 and § 1 pointer ('formerly …'), plus, outside my files, lean-causal/README.md:230, kb/0332, kb/0333, kb/INDEX.md, programme/JOURNAL.md, programme/roadmap.toml and the campaign directory of T-abs-meets-cauchy-antisymmetry-sharp. A grep of every *.toml and *.json of the hub (outside .lake and campaign/) finds them in programme/roadmap.toml only: no ladder entry, binder, ledger or curation file."
+  },
+  "docstrings": {
+    "Causal.ExtensibleAlongCurve": "Title; target and layer line (imports SubArc only, no model, no metric notion in a statement, no hypothesis on the causality); no label marked; the target title quoted; 'What moved, and the two renames' (source module and § 1 by name, the target, both renames, the two kept names, no alias); 'What is proved' (four items, each by declaration name, upstream lemmas by name and module: Extensible.of_comp, CausalCurveIn.comp_monotoneOn, CausalCurveIn.continuousOn_Icc); hypothesis checklist; SCOPE (nothing marked; metric and trigonometry in proofs only; the model-layer twins extensible_of_timeGraph_openEnd and continuousOn_of_causalCurveIn of Causal.Remarks.SingularRowsCauchyExt, by name, left to /atlas-team; the first user); provenance. No line number of any file is cited.",
+    "Causal.MeetsCauchyAntisymmetrySharp": "The layer line lists the new import; 'What is proved' item 4 is now 'Where § 1 went' (the new module, the target, both renames, the kept names); the SCOPE bullets name extensible_of_eq_comp_monotoneOn and cite Causal.Remarks.SingularRowsCauchyExt by module instead of its lines :230 and :203; the trigonometry bullet says the model-free lemmas are now in Causal.ExtensibleAlongCurve. § 1's place keeps its heading, '## 1. Three model-free lemmas on curves: moved to `Causal.ExtensibleAlongCurve`', with a paragraph naming the four theorems, so §§ 2-8 keep their numbers. Its two references into Causal/PastInextensibleMeetsCauchy.lean (:147, :191) were checked and are still right; they stay."
+  },
+  "findings": [],
+  "questions": [],
+  "kb_proposals": [
+    "kb/0333: the lemma is now Causal.Causality.extensible_of_eq_comp_monotoneOn, in the ETT-layer Causal.ExtensibleAlongCurve (imports SubArc only), bounded case extensible_of_eq_comp_monotoneOn_of_bddAbove; causalCurveIn_top_of_pieces and CausalCurveIn.continuousOn_interval moved there under their names (T-abs-extensible-comp-hoist). The title names extensible_of_graph.",
+    "Checking a hoist with a rename in one dump: let the after-run hash each type and value with the new names substituted back (Expr.replace on .const) beside the raw hashes, and key the after-constants by the substituted name; then one comparison shows the moves (module column), the renames and zero other differences (T-abs-extensible-comp-hoist, the scratch Dump.lean described in its REPORT.json).",
+    "An `example : <old statement> := @new_name` checks binder order and binder types but not binder kinds or names (definitional equality ignores BinderInfo, and Expr.hash too): read implicitness off a dump's telescope column (kb/0063), not off the example (T-abs-extensible-comp-hoist Probe.lean 3).",
+    "Causal.Causality.extensible_of_timeGraph_openEnd (model layer, Causal.Remarks.SingularRowsCauchyExt) is the case h = T ∘ c of extensible_of_eq_comp_monotoneOn, with neither hbdd nor hnomax: a six-line term in campaign/T-abs-extensible-comp-hoist/Probe.lean 4, if /atlas-team wants it as a corollary."
+  ],
+  "notes": "For the master. (1) Causal.lean: add `import Causal.ExtensibleAlongCurve` beside `import Causal.MeetsCauchyAntisymmetrySharp` (:368 today); the strict lib globs Causal.*, so the module builds with the package either way. (2) README: a row for Causal.ExtensibleAlongCurve, and the Causal.MeetsCauchyAntisymmetrySharp row (:230) names Causality.extensible_of_graph ('extension along a graph') — now Causality.extensible_of_eq_comp_monotoneOn in Causal.ExtensibleAlongCurve. (3) Ladder line references for T-lad-lineref-names (programme/ladder.toml:508 and :5047-5056, the keeper's): Causal/MeetsCauchyAntisymmetrySharp.lean is now 741 lines (was 920); rayCircle_separates_pastInextensible_meets :890 -> :711, not_pastInextensible_exists_mem_of_mem_Jplus_bare :911 -> :732, rayCircle_isCauchySurface_Y :829 -> :650, rayCircleRay_pastInextensible :853 -> :674 (rayCircle_extensible_of_forall_ne :746 -> :566). (4) Not changed, by the dispatch: Causal.MeetsCauchyAntisymmetrySharp keeps its direct `import Causal.CauchyExtension`, now redundant (it comes through the new module and SubArc) but harmless; dropping it would be a separate edit. (5) The concurrent closer's Causal/FlrwType.lean shows as modified in the tree; my builds touched only my two modules (3143 jobs, two built), and Causal.Remarks.SingularRowsCauchyExt, which the probe imports, is not downstream of FlrwType (import_chain None) and was up to date. (6) Constants count: 4 declarations moved, no auxiliary constant (112 = 112 in the two modules together).",
+  "corrected_after_audit": "AUDIT-1 (minor), applied by the master in ExtensibleAlongCurve's module docstring only (the theorem docstrings stay byte for byte): item 1 names hc (c a causal curve over I), item 3 names J nonempty and order-connected, and the checklist gains rows for the curves, the pieces and continuity. MeetsCauchyAntisymmetrySharp.lean:51–52 carries the shorter summary and points at the new module. Noted, not fixed: programme/ladder.toml:508 and :5047–5056 cite :890, :911, :829, :853, now :711, :732, :650, :674 (T-lad-lineref-names); the archived probe campaign/T-abs-meets-cauchy-antisymmetry-sharp/Probe.lean uses the old names."
+}

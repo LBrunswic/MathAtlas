@@ -338,6 +338,6 @@ rediscover. One fact per entry.
 | [0330](entries/0330-closed-ambient-a-or-b.md) | pattern | In a closed, antisymmetric ambient each of (A), (B) alone excludes a past boundary chart |
 | [0331](entries/0331-macron-identifier.md) | pitfall | A combining macron is not an identifier character |
 | [0332](entries/0332-antisymmetry-sharp.md) | pattern | Sbierski's (2.4) needs antisymmetry: the ray glued to the circle |
-| [0333](entries/0333-extensible-of-graph.md) | pattern | Extending a causal curve with no causality hypothesis: extensible_of_graph |
+| [0333](entries/0333-extensible-of-graph.md) | pattern | Extending a causal curve with no causality hypothesis: extensible_of_eq_comp_monotoneOn |
 | [0334](entries/0334-strong-causality-hull.md) | convention | Rules imports the light Causal.StrongCausalityHull, not SCOpenWithoutTarentin |
 | [0335](entries/0335-hoist-binder-order.md) | pitfall | A hoist into a module whose variable line orders binders differently changes the statement |

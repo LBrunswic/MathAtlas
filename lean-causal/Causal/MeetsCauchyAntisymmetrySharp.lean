@@ -2,15 +2,17 @@ import Causal.GHWithoutTarentin
 import Causal.PastInextensibleMeetsCauchy
 import Causal.LineDevelopment
 import Causal.CauchyExtension
+import Causal.ExtensibleAlongCurve
 
 /-!
 # Sbierski's (2.4) needs `≤` antisymmetric: a ray glued to a circle
 
 Programme target `T-abs-meets-cauchy-antisymmetry-sharp` (`programme/roadmap.toml`; layer 1: it
-imports `Causal.GHWithoutTarentin`, `Causal.PastInextensibleMeetsCauchy`, `Causal.LineDevelopment`
-and `Causal.CauchyExtension`, all ETT-layer; no model; no metric notion in a statement). There is
-no statement of `ETT.tex` behind it, so **no label is marked**. It shows that the antisymmetry
-hypothesis `hcaus` of `Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus`
+imports `Causal.GHWithoutTarentin`, `Causal.PastInextensibleMeetsCauchy`, `Causal.LineDevelopment`,
+`Causal.CauchyExtension` and `Causal.ExtensibleAlongCurve`, all ETT-layer; no model; no metric
+notion in a statement). There is no statement of `ETT.tex` behind it, so **no label is marked**. It
+shows that the antisymmetry hypothesis `hcaus` of
+`Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus`
 (`Causal/PastInextensibleMeetsCauchy.lean:147`), Sbierski 2312.07443's (2.4), cannot be dropped.
 
 > X ⊆ ℝ² is the unit circle with the ray {(1 + r, 0) : r ≥ 0} attached at q = (1, 0), with
@@ -39,11 +41,16 @@ hypothesis `hcaus` of `Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus
    causal curve over `ℝ`: past-inextensible (no limit at `-∞`,
    `LineDevelopment.pastInextensible_of_not_tendsto_atBot`), `q ∈ J⁺({y})` along the lower half,
    missing `y`.
-4. **Three model-free lemmas** (`Causal.Causality`, no hypothesis on the causality or the space):
-   `extensible_of_graph` (if `c = γ ∘ h` on `I`, with `h` continuous and non-decreasing and `γ` a
-   causal curve over `J`, and `γ` has a parameter `t' ≥ h '' I` with a value `c` does not take,
-   then `c` is extensible); `causalCurveIn_top_of_pieces` (a continuous map with `γ s ≤_N γ s'`
-   whenever `γ '' [s, s'] ⊆ N` is a causal curve of `M`); `CausalCurveIn.continuousOn_interval`.
+4. **Where § 1 went.** The three model-free lemmas on curves (`Causal.Causality`, no hypothesis on
+   the causality or the space) that were this module's § 1 are in `Causal.ExtensibleAlongCurve`
+   since `T-abs-extensible-comp-hoist`, which renamed two of them, statements unchanged:
+   `extensible_of_graph` is now `extensible_of_eq_comp_monotoneOn` (if `c = γ ∘ h` on `I`, with
+   `h` continuous and non-decreasing and `γ` a causal curve over `J`, and `γ` has a parameter
+   `t' ≥ h '' I` with a value `c` does not take, then `c` is extensible), and its bounded case
+   `extensible_of_graph_of_bddAbove` is now `extensible_of_eq_comp_monotoneOn_of_bddAbove`;
+   `causalCurveIn_top_of_pieces` (a continuous map with `γ s ≤_N γ s'` whenever
+   `γ '' [s, s'] ⊆ N` is a causal curve of `M`) and `CausalCurveIn.continuousOn_interval` keep
+   their names. This module imports them.
 
 ## Hypothesis checklist
 
@@ -68,20 +75,22 @@ hypothesis `hcaus` of `Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus
   The arcs are not `ArcCoherent` (else `ArcCoherent.isCausal`): `≤` is the chain closure.
 * **The evidence's argument, with the extension step changed.** Its `τ` and its monotonicity off `y`
   are as argued. Its case analysis at the future end ("eventually constant, or converges to a point
-  of `X`") is not made. The curve lies on a standard curve at its angle, and `extensible_of_graph`
-  extends it along that curve up to `y` itself, so the new value is always `y`; the parameter is
-  first compressed by `arctan`. No limit of the curve is taken, only the supremum of its angle.
-  SubArc's end-piece lemmas are not needed, only its `CausalCurveIn.comp_monotoneOn`; the
-  library's `extensible_of_tendsto` (which asks `StronglyCausal`) is not used.
-* `extensible_of_graph` generalises `Causality.extensible_of_timeGraph_openEnd`
-  (`Causal/Remarks/SingularRowsCauchyExt.lean:230`, model layer through
+  of `X`") is not made. The curve lies on a standard curve at its angle, and
+  `extensible_of_eq_comp_monotoneOn` (`Causal.ExtensibleAlongCurve`) extends it along that curve
+  up to `y` itself, so the new value is always `y`; the parameter is first compressed by `arctan`.
+  No limit of the curve is taken, only the supremum of its angle. SubArc's end-piece lemmas are
+  not needed, only its `CausalCurveIn.comp_monotoneOn`; the library's `extensible_of_tendsto`
+  (which asks `StronglyCausal`) is not used.
+* `extensible_of_eq_comp_monotoneOn` generalises `Causality.extensible_of_timeGraph_openEnd`
+  (`Causal.Remarks.SingularRowsCauchyExt`, model layer through
   `Causal.Port.CupCapBTZCounterexample`, so not importable here): no time function, no open end,
   any interval. `CausalCurveIn.continuousOn_interval` is the ETT-layer twin of that module's
-  `continuousOn_of_causalCurveIn` (`:203`); the names differ.
+  `continuousOn_of_causalCurveIn`; the names differ. Both twins are discussed in
+  `Causal.ExtensibleAlongCurve`.
 * Trigonometry, `Complex.arg` and the complex norm appear in the definitions, the proofs and four
   helper statements about the circle's parametrisation and its angle (`rayCircle_arg_cos_add_sin`,
   `rayCircleAngle_of_circle`, `rayCircleCurveLow_arg`, `rayCircleC_norm_of_circle`); none appears
-  in the witness, the bare form or the model-free lemmas.
+  in the witness, the bare form or the model-free lemmas (now in `Causal.ExtensibleAlongCurve`).
 * Not proved (not asked): the time-reversed witness; the finding's second model (for causal
   arc-connectedness), which the target's evidence does not take.
 
@@ -92,203 +101,14 @@ namespace Causal
 
 open Set Function TopologicalSpace Topology Filter Real
 
-/-! ## 1. Three model-free lemmas on curves -/
+/-! ## 1. Three model-free lemmas on curves: moved to `Causal.ExtensibleAlongCurve`
 
-namespace Causality
-
-variable {M : Type*} [TopologicalSpace M] {C : Causality M}
-
-/-- A causal curve over an interval is continuous on it. -/
-theorem CausalCurveIn.continuousOn_interval {W : Opens M} {I : Set ℝ} {c : ℝ → M}
-    (hc : C.CausalCurveIn W I c) : ContinuousOn c I := by
-  intro s hs
-  by_cases hleft : ∃ j ∈ I, j < s
-  · obtain ⟨j, hj, hjs⟩ := hleft
-    by_cases hright : ∃ i ∈ I, s < i
-    · obtain ⟨i, hi, hsi⟩ := hright
-      have hmem : Icc j i ∈ 𝓝[I] s := nhdsWithin_le_nhds (Icc_mem_nhds hjs hsi)
-      exact ((hc.continuousOn_Icc hj hi) s ⟨hjs.le, hsi.le⟩).mono_of_mem_nhdsWithin hmem
-    · push Not at hright
-      have hmem : Icc j s ∈ 𝓝[I] s :=
-        mem_nhdsWithin.2 ⟨Ioi j, isOpen_Ioi, hjs, fun x hx => ⟨hx.1.le, hright x hx.2⟩⟩
-      exact ((hc.continuousOn_Icc hj hs) s ⟨hjs.le, le_rfl⟩).mono_of_mem_nhdsWithin hmem
-  · push Not at hleft
-    by_cases hright : ∃ i ∈ I, s < i
-    · obtain ⟨i, hi, hsi⟩ := hright
-      have hmem : Icc s i ∈ 𝓝[I] s :=
-        mem_nhdsWithin.2 ⟨Iio i, isOpen_Iio, hsi, fun x hx => ⟨hleft x hx.2, hx.1.le⟩⟩
-      exact ((hc.continuousOn_Icc hs hi) s ⟨le_rfl, hsi.le⟩).mono_of_mem_nhdsWithin hmem
-    · push Not at hright
-      have hI : I ⊆ {s} := fun x hx => le_antisymm (hright x hx) (hleft x hx)
-      exact (continuousWithinAt_singleton (f := c) (x := s)).mono hI
-
-/-- **A continuous map whose pieces are related is a causal curve**: if `γ` is continuous and
-`γ s ≤_N γ s'` whenever `s ≤ s'` in `J` and `γ` maps `[s, s']` into the open set `N`, then `γ` is a
-causal curve of `M` over `J`. -/
-theorem causalCurveIn_top_of_pieces {γ : ℝ → M} {J : Set ℝ} (hγ : Continuous γ)
-    (hne : J.Nonempty) (hoc : J.OrdConnected)
-    (hpiece : ∀ s ∈ J, ∀ s' ∈ J, s ≤ s' → ∀ N : Opens M, γ '' Icc s s' ⊆ N →
-      C.le N (γ s) (γ s')) :
-    C.CausalCurveIn ⊤ J γ := by
-  refine ⟨hne, hoc, fun a ha b hb => ⟨fun _ _ => trivial, fun t _ N _ htN => ?_⟩⟩
-  obtain ⟨δ, hδ, hball⟩ := Metric.isOpen_iff.1 (N.isOpen.preimage hγ) t htN
-  refine ⟨t - δ, t + δ, by linarith, by linarith, fun s hs s' hs' h1 h2 h3 => ?_⟩
-  refine hpiece s (hoc.out ha hb hs) s' (hoc.out ha hb hs') h2.le N ?_
-  rintro _ ⟨r, hr, rfl⟩
-  apply hball
-  rw [Metric.mem_ball, Real.dist_eq, abs_lt]
-  constructor <;> linarith [hr.1, hr.2]
-
-/-- **Extension along a graph, bounded case**: `extensible_of_graph` for `I` bounded above. The new
-curve is `γ ∘ g` over `I ∪ [b, b + (t' - k)]`, `b = sup I`, `k = sup h(I)`, with `g = h` below `b`
-and `g = k + (· - b)` from `b` on; its value at `b + (t' - k)` is `γ t'`. -/
-theorem extensible_of_graph_of_bddAbove {W : Opens M} {I J : Set ℝ} {c γ : ℝ → M} {h : ℝ → ℝ}
-    {t' : ℝ} (hγ : C.CausalCurveIn W J γ) (hc : C.CausalCurveIn W I c) (hbdd : BddAbove I)
-    (hmono : MonotoneOn h I) (hcont : ContinuousOn h I) (hJ : MapsTo h I J)
-    (heq : ∀ t ∈ I, γ (h t) = c t) (ht' : t' ∈ J) (hle : ∀ t ∈ I, h t ≤ t')
-    (hnew : ∀ t ∈ I, γ t' ≠ c t) : C.Extensible W I c := by
-  obtain ⟨t₀, ht₀⟩ := hc.nonempty
-  set b := sSup I with hb
-  have hbI : ∀ t ∈ I, t ≤ b := fun t ht => le_csSup hbdd ht
-  have hhne : (h '' I).Nonempty := hc.nonempty.image h
-  have hhbdd : BddAbove (h '' I) := ⟨t', by rintro _ ⟨t, ht, rfl⟩; exact hle t ht⟩
-  set k := sSup (h '' I) with hk
-  have hhk : ∀ t ∈ I, h t ≤ k := fun t ht => le_csSup hhbdd ⟨t, ht, rfl⟩
-  have hkt' : k ≤ t' := csSup_le hhne (by rintro _ ⟨t, ht, rfl⟩; exact hle t ht)
-  have hbk : b ∈ I → h b = k := fun hb' => le_antisymm (hhk b hb')
-    (csSup_le hhne (by rintro _ ⟨t, ht, rfl⟩; exact hmono ht hb' (hbI t ht)))
-  set L := t' - k with hL
-  have hL0 : 0 ≤ L := by rw [hL]; linarith
-  set I' : Set ℝ := I ∪ Icc b (b + L) with hI'
-  set g : ℝ → ℝ := fun s => if s < b then h s else k + (s - b) with hg
-  have hglt : ∀ s, s < b → g s = h s := fun s hs => if_pos hs
-  have hgge : ∀ s, b ≤ s → g s = k + (s - b) := fun s hs => if_neg (not_lt.2 hs)
-  have hgI : ∀ t ∈ I, g t = h t := by
-    intro t ht
-    rcases (hbI t ht).lt_or_eq with h1 | h1
-    · exact hglt t h1
-    · rw [hgge t h1.ge, h1, sub_self, add_zero, hbk (h1 ▸ ht)]
-  have hlowI : ∀ s ∈ I', s < b → s ∈ I := by
-    rintro s (hs | hs) hsb
-    · exact hs
-    · exact absurd hs.1 (not_le.2 hsb)
-  have hoc : I'.OrdConnected := by
-    refine ⟨fun x hx y hy z hz => ?_⟩
-    rcases lt_or_ge z b with hzb | hzb
-    · have hxI : x ∈ I := hlowI x hx (hz.1.trans_lt hzb)
-      obtain ⟨i, hi, hzi⟩ := exists_lt_of_lt_csSup ⟨t₀, ht₀⟩ hzb
-      exact Or.inl (hc.ordConnected.out hxI hi ⟨hz.1, hzi.le⟩)
-    · refine Or.inr ⟨hzb, hz.2.trans ?_⟩
-      rcases hy with hy | hy
-      · linarith [hbI y hy]
-      · exact hy.2
-  have hmaps : MapsTo g I' J := by
-    intro s hs
-    rcases lt_or_ge s b with hsb | hsb
-    · rw [hglt s hsb]; exact hJ (hlowI s hs hsb)
-    · rw [hgge s hsb]
-      have hsL : s ≤ b + L := by
-        rcases hs with hs | hs
-        · linarith [hbI s hs]
-        · exact hs.2
-      exact hγ.ordConnected.out (hJ ht₀) ht' ⟨by linarith [hhk t₀ ht₀], by linarith⟩
-  have hgmono : MonotoneOn g I' := by
-    intro x hx y hy hxy
-    rcases lt_or_ge y b with hyb | hyb
-    · have hxb : x < b := hxy.trans_lt hyb
-      rw [hglt x hxb, hglt y hyb]
-      exact hmono (hlowI x hx hxb) (hlowI y hy hyb) hxy
-    · rw [hgge y hyb]
-      rcases lt_or_ge x b with hxb | hxb
-      · rw [hglt x hxb]; linarith [hhk x (hlowI x hx hxb)]
-      · rw [hgge x hxb]; linarith
-  have hgcont : ContinuousOn g I' := by
-    intro s hs
-    rcases lt_trichotomy s b with hsb | hsb | hsb
-    · have hsI : s ∈ I := hlowI s hs hsb
-      have hmem : I ∈ 𝓝[I'] s := mem_nhdsWithin.2 ⟨Iio b, isOpen_Iio, hsb,
-        fun x hx => hlowI x hx.2 hx.1⟩
-      exact ((hcont s hsI).congr (fun x hx => hgI x hx) (hgI s hsI)).mono_of_mem_nhdsWithin hmem
-    · rw [hsb]
-      have hgb : g b = k := by rw [hgge b le_rfl, sub_self, add_zero]
-      have hsub : I' ⊆ (I ∩ Iio b) ∪ Icc b (b + L) := by
-        rintro x (hx | hx)
-        · rcases (hbI x hx).lt_or_eq with h1 | h1
-          · exact Or.inl ⟨hx, h1⟩
-          · exact Or.inr ⟨h1.ge, by linarith⟩
-        · exact Or.inr hx
-      refine ContinuousWithinAt.mono (ContinuousWithinAt.union ?_ ?_) hsub
-      · rw [ContinuousWithinAt, hgb]
-        have htend : Tendsto h (𝓝[I ∩ Iio b] b) (𝓝 k) := by
-          by_cases hbI' : b ∈ I
-          · have := hcont b hbI'
-            rw [ContinuousWithinAt, hbk hbI'] at this
-            exact this.mono_left (nhdsWithin_mono _ inter_subset_left)
-          · rw [Metric.tendsto_nhdsWithin_nhds]
-            intro ε hε
-            obtain ⟨_, ⟨i, hi, rfl⟩, hki⟩ := exists_lt_of_lt_csSup hhne
-              (show k - ε < k by linarith)
-            have hib : i < b := lt_of_le_of_ne (hbI i hi) (fun he => hbI' (he ▸ hi))
-            refine ⟨b - i, by linarith, fun x hx hxd => ?_⟩
-            rw [Real.dist_eq, abs_lt] at hxd
-            have hix : i ≤ x := by linarith [hxd.1, hx.2]
-            have := hmono hi hx.1 hix
-            rw [Real.dist_eq, abs_lt]
-            constructor <;> linarith [hhk x hx.1]
-        exact htend.congr' (eventually_nhdsWithin_of_forall fun x hx => (hglt x hx.2).symm)
-      · have hcA : ContinuousOn (fun s => k + (s - b)) (Icc b (b + L)) := by fun_prop
-        exact (hcA b ⟨le_rfl, by linarith⟩).congr (fun x hx => hgge x hx.1) (hgge b le_rfl)
-    · have h1 : ContinuousWithinAt (fun s => k + (s - b)) I' s :=
-        (by fun_prop : Continuous (fun s : ℝ => k + (s - b))).continuousWithinAt
-      refine h1.congr_of_eventuallyEq ?_ (hgge s hsb.le)
-      filter_upwards [nhdsWithin_le_nhds (Ioi_mem_nhds hsb)] with x hx
-      exact hgge x (show b < x from hx).le
-  have hcurve : C.CausalCurveIn W I' (γ ∘ g) :=
-    hγ.comp_monotoneOn ⟨t₀, Or.inl ht₀⟩ hoc hgmono hgcont hmaps
-  refine ⟨I', γ ∘ g, hcurve, ⟨id, strictMonoOn_id, fun t ht => Or.inl ht,
-    by rw [image_id]; exact hc.ordConnected, fun t ht => ?_⟩,
-    ⟨b + L, Or.inr ⟨by linarith, le_rfl⟩, fun t ht => ?_⟩⟩
-  · show γ (g t) = c t
-    rw [hgI t ht]; exact heq t ht
-  · show γ (g (b + L)) ≠ c t
-    have : g (b + L) = t' := by rw [hgge (b + L) (by linarith), hL]; ring
-    rw [this]; exact hnew t ht
-
-/-- **A causal curve lying on a causal curve `γ` that goes on to a new value is extensible**: if
-`c = γ ∘ h` on `I`, with `h` continuous and non-decreasing, and `γ` has a parameter `t'` above
-`h '' I` with a value `c` does not take, then `c` is extensible. No hypothesis on the causality:
-the new curve is `γ` read through `h`, then through an affine piece up to `t'` (after a
-compression of `I` by `arctan`). -/
-theorem extensible_of_graph {W : Opens M} {I J : Set ℝ} {c γ : ℝ → M} {h : ℝ → ℝ} {t' : ℝ}
-    (hγ : C.CausalCurveIn W J γ) (hc : C.CausalCurveIn W I c)
-    (hmono : MonotoneOn h I) (hcont : ContinuousOn h I) (hJ : MapsTo h I J)
-    (heq : ∀ t ∈ I, γ (h t) = c t) (ht' : t' ∈ J) (hle : ∀ t ∈ I, h t ≤ t')
-    (hnew : ∀ t ∈ I, γ t' ≠ c t) : C.Extensible W I c := by
-  have htan : ∀ t, Real.tan (Real.arctan t) = t := Real.tan_arctan
-  set I₁ := Real.arctan '' I with hI₁
-  have hsub : I₁ ⊆ Ioo (-(π / 2)) (π / 2) := by
-    rintro _ ⟨t, -, rfl⟩
-    exact ⟨Real.neg_pi_div_two_lt_arctan t, Real.arctan_lt_pi_div_two t⟩
-  have hmaps : MapsTo Real.tan I₁ I := by
-    rintro _ ⟨t, ht, rfl⟩; rw [htan]; exact ht
-  have hdc : C.CausalCurveIn W I₁ (c ∘ Real.tan) :=
-    hc.comp (hc.nonempty.image _)
-      (isPreconnected_iff_ordConnected.1
-        (hc.ordConnected.isPreconnected.image _ Real.continuous_arctan.continuousOn))
-      (Real.strictMonoOn_tan.mono hsub) (Real.continuousOn_tan_Ioo.mono hsub) hmaps
-  have hext : C.Extensible W I₁ (c ∘ Real.tan) := by
-    refine extensible_of_graph_of_bddAbove (h := h ∘ Real.tan) hγ hdc
-      ⟨π / 2, fun x hx => (hsub hx).2.le⟩ ?_
-      (hcont.comp (Real.continuousOn_tan_Ioo.mono hsub) hmaps) (hJ.comp hmaps) ?_ ht' ?_ ?_
-    · intro x hx y hy hxy
-      exact hmono (hmaps hx) (hmaps hy) ((Real.strictMonoOn_tan.mono hsub).monotoneOn hx hy hxy)
-    · intro s hs; exact heq _ (hmaps hs)
-    · intro s hs; exact hle _ (hmaps hs)
-    · intro s hs; exact hnew _ (hmaps hs)
-  exact hext.of_comp (ψ := Real.arctan) (Real.arctan_strictMono.strictMonoOn _)
-    (mapsTo_image _ _) (surjOn_image _ _) fun t _ => by simp only [Function.comp, htan]
-
-end Causality
+This section's four theorems are in `Causal.ExtensibleAlongCurve` since
+`T-abs-extensible-comp-hoist`, statements unchanged: `Causality.extensible_of_eq_comp_monotoneOn`
+(formerly `extensible_of_graph`) and its bounded case
+`Causality.extensible_of_eq_comp_monotoneOn_of_bddAbove` (formerly
+`extensible_of_graph_of_bddAbove`), renamed; `Causality.causalCurveIn_top_of_pieces` and
+`Causality.CausalCurveIn.continuousOn_interval` under their names. -/
 
 /-! ## 2. The carrier, the arcs, the causality -/
 
@@ -809,8 +629,9 @@ theorem rayCircle_extensible_of_forall_ne {I : Set ℝ} {c : ℝ → rayCircleSe
     · linarith [rayCircle_le_one_of_circle (p := c t) h]
     · linarith
   rcases hdich with hv | hu
-  · exact Causality.extensible_of_graph rayCircleCurveRay_causalCurveIn hc hmono hcont
-      (fun t _ => rayCircleAngle_le_pi (c t)) (fun t ht => rayCircleCurveRay_angle (hv t ht))
+  · exact Causality.extensible_of_eq_comp_monotoneOn rayCircleCurveRay_causalCurveIn hc hmono
+      hcont (fun t _ => rayCircleAngle_le_pi (c t))
+      (fun t ht => rayCircleCurveRay_angle (hv t ht))
       (mem_Iic.2 le_rfl) (fun t _ => rayCircleAngle_le_pi (c t))
       (fun t ht => by rw [rayCircleCurveRay_pi]; exact (hmiss t ht).symm)
   · have hJ : MapsTo (rayCircleAngle ∘ c) I (Icc (-π) π) := by
@@ -819,8 +640,8 @@ theorem rayCircle_extensible_of_forall_ne {I : Set ℝ} {c : ℝ → rayCircleSe
       show -π ≤ rayCircleAngle (c t)
       rw [rayCircleAngle_of_circle (rayCircle_circle_of_le_one (hu t ht))]
       exact (Complex.neg_pi_lt_arg _).le
-    exact Causality.extensible_of_graph rayCircleCurveLow_causalCurveIn hc hmono hcont hJ
-      (fun t ht => rayCircleCurveLow_angle (hu t ht)) ⟨by linarith [pi_pos], le_rfl⟩
+    exact Causality.extensible_of_eq_comp_monotoneOn rayCircleCurveLow_causalCurveIn hc hmono
+      hcont hJ (fun t ht => rayCircleCurveLow_angle (hu t ht)) ⟨by linarith [pi_pos], le_rfl⟩
       (fun t _ => rayCircleAngle_le_pi (c t))
       (fun t ht => by rw [rayCircleCurveLow_pi]; exact (hmiss t ht).symm)
 

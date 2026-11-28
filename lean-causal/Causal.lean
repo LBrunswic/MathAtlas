@@ -365,6 +365,7 @@ import Causal.Model.MinkowskiPastBoundaryChart
 import Causal.ErsEtaleMghd
 import Causal.ErsEtaleMghdWitnesses
 import Causal.FlrwTypeClosedAmbient
+import Causal.ExtensibleAlongCurve
 import Causal.MeetsCauchyAntisymmetrySharp
 
 /-!
