@@ -1517,13 +1517,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzdef:c3s1d6_variete_appui_sphere"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
 depends = ["T-bz-c3-facettes-sphere", "T-bz-c3-appui"]
-evidence = "Split 2026-11-28 by the planner from T-bz-c3-facettes-sphere. Ledger row bzdef:c3s1d6_variete_appui_sphere (benzecri1960_ch3.tex:283): « Une variété linéaire l est dite variété d'appui pour k s'il existe un sous-espace vectoriel L de E, variété d'appui de F(k) + {O}, et l = F⁻¹(L − {O}). » followed by « En particulier, le noyau de k est une variété d'appui de k. Si ce noyau est vide, il constitue une variété d'appui, ou encore une facette, de k de dimension (−1). » and « Les propositions 5 et 6 sont également valables » (no row, OQ-160 (c): proved as lemmas). Needs § 1 Déf. 3 (T-bz-c3-appui) on k′ = F(k) ∪ {0} and the noyau (T-bz-c3-facettes-sphere). Instance: for the closed quarter arc of S(1) (Benzecri.ConeAppuiInstance.arcS1), the line ℝe₀ gives the variété d'appui {s e₀, s(−e₀)} (ℝe₀ ∩ k′ = {0} ∪ an open ray, a union of facettes of the quadrant cone) and the diagonal line does not. Theorem 1′ of § 5 (T-bz-c3-reunion-convexes-sphere) uses Déf. 6. Re-checked 2026-11-28 (planner): both dependencies are strict (Appui ebf9a6e7, FacettesSphere b12118ad). Déf. 6 is IsVarieteAppui (kPrime k) L.toAffineSubspace with l = F⁻¹(L − {O}) (Benzecri.Sphere.linearSubvariety L); the noyau is Benzecri.Sphere.noyau (noyau_eq_linearSubvariety). The transfers of Props. 5 and 6 go through kPrime: Prop. 5 = Benzecri.exists_facette_support_inter_eq_of_finiteDimensional / exists_facette_support_inter_eq, Prop. 6 = alphaW_induit, with alphaK_iff and facetteK_eq_ofCone (the facettes-sphere REPORT's advice). arcS1, kPrime_arcS1 and noyau_arcS1 = ∅ (the dimension −1 case) are Lean terms."
+evidence = "§ 1 Déf. 6 marked; transfers of Props. 5–6 to S(E); audit AUDIT-1 clean"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "0df97adf"
 
 [[target]]
 id = "T-bz-c3-sommes"
@@ -1580,13 +1581,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzthm:c3s2t1_conjugues_intersection", "bzlem:c3s2l1_projection_somme", "bzcor:c3s2t1c_projections_commutent"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
 depends = ["T-bz-c3-fibres"]
-evidence = "ledger rows benzecri1960_ch3.tex:452–503, all proved in print (the Theorem's proof is cut by the Lemma; both parts are tagged). Theorem 1 (l.452): « Soient W un convexe de E contenant l'origine O, engendrant E, et ne contenant aucune droite, L et L′, D et D′ deux couples de sous-espaces distingués conjugués relativement à W. Alors L ∩ D et L′ ∩ D sont conjugués relativement à W ∩ D. » Mathlib: LinearMap projections Submodule.linearProjOfIsCompl. Instance: the cube [−1,1]³ with L = ⟨e₁⟩, D = ⟨e₁, e₂⟩ and their coordinate complements. Re-checked 2026-11-28 (planner, after T-bz-c3-fibres, 3e956ac0) for OQ-163: proceeds now, so that OQ-163 changes no Lean. (1) State Theorem 1, the Lemma and the Corollary under the supplementary pair, IsCompl L L' ∧ SontConjugues W L L' (and the same for D, D'), the form OQ-163 (b) names and the only one under which the printed P_L « parallèlement à L′ » exists (Submodule.projectionOnto; linearProjOfIsCompl is deprecated at the pin, facette-ouverte REPORT kb); conclude both SontConjugues (W ∩ D) (L ⊓ D) (L' ⊓ D) and that L ⊓ D, L' ⊓ D are supplementary inside D (the proof's P_L(a) ∈ D for a ∈ W ∩ D, with span (D ∩ W) = D from W = D ∩ W + D' ∩ W), which Theorem 2's inf needs. (2) Theorem 1 as printed (OQ-163 (a): L, L', D, D' EstDistingue and SontConjugues, no IsCompl; Benzecri.demiDroite_conjugues_non_supplementaires shows the readings differ): prove it, or refute it with a Lean counterexample, disclosed in SCOPE either way; (c) through sontConjugues_iff_isSommeConvexes where it coincides with (b). The Corollary is stated under (b) only (its projections need supplementarity), disclosed. The ruling then moves marks, not Lean. Import Benzecri.Chapter3.Fibres (SontConjugues, EstDistingue, conjugue, conjugue_eq, span_inter_eq_of_conjugues, eq_of_add_eq_add, cube, coord, isCompl_coord, cube_sontConjugues, cube3_coord_distingue: the instance is already a Lean term)."
+evidence = "§ 2 Theorem 1 marked under all three OQ-163 readings; Lemma and Corollary partial (IsCompl); audit AUDIT-1 minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "9242348d"
 
 [[target]]
 id = "T-bz-c3-boole-affine"
@@ -1811,13 +1813,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzprop:c3s5p7_hyperplan_separant"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
 depends = ["T-bz-c3-propriete-i", "T-bz-c3-facette-ouverte"]
-evidence = "ledger row bzprop:c3s5p7_hyperplan_separant (benzecri1960_ch3.tex:1258, proved in print from Prop. 5 and the contact set, Déf. 2, Prop. 6): « Soient V, W deux convexes non vides de même support L, qu'on suppose muni de la topologie localement convexe la plus fine; supposons V fermé, V ≠ W, I(V, W). Il existe alors un hyperplan et un seul séparant V de W − V = U. » Needs the finest l.c. topology of T-bz-c3-facette-ouverte. Its proof's « C n'appartient donc pas » is read B ([sic?], OQ-160 (a)); the statement is unaffected. Instance: V = [0,1]×[0,1/2], W = [0,1]² (the line y = 1/2). Re-checked 2026-11-28 (planner) against the strict Chapter3 modules built since the cut: the printed Prop. 6 is false (T-bz-c3-propriete-i, OQ-162 (c)), but Prop. 7's proof uses it only for V and W − V, « dont la réunion est convexe » (l.1281): use convex_ensembleContact_of_convex_union (or its « entre » twin), so Prop. 7 does not wait on OQ-162. Import Benzecri.Chapter3.ProprieteI (ProprieteI, ensembleContact, prop5_support_complementaire / prop5_topologique for Prop. 5, FermeLineaire and fermeLineaire_of_isClosed for « V fermé ») and the finest l.c. topology of T-bz-c3-facette-ouverte; the finite-dimensional step's interiors via fw_iff_interieur_moduleTopology (Facettes). Re-checked again 2026-11-28 (planner, after T-bz-c3-facette-ouverte, 295eb936): the finest l.c. topology is strict Benzecri.finestLC (Chapter3/FinestLocallyConvex: isOpen_finestLC_iff_core, induced_finestLC_eq_finestLC for the support L as a subspace, finestLC_eq_moduleTopology in finite dimension, continuous_linearMap_finestLC so lines are continuous for fermeLineaire_of_isClosed); « hyperplan » is the kernel level set of a linear form, continuity not assumed. Instance: finestLC_prod (ℝ × ℝ) is already a Lean term."
+evidence = "§ 5 Prop. 7 marked (∃! H, Hahn–Banach); audit AUDIT-1 minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "5258b1b2"
 
 [[target]]
 id = "T-bz-c3-proprietes-i-ii"

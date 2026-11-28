@@ -1239,3 +1239,13 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 47951cd8 7c6a488c 204a72dc 6cfd03e8 (+ statuses)
 - wall time: 06:29–14:10; agents in parallel: 3 closers, 4 auditors
 - next: T-bz-c3-hyperplan-separant, -appui-sphere, -conjugues (ready)
+
+## 2026-11-28 15:30 · wave of 3 · T-bz-c3-appui-sphere, T-bz-c3-conjugues, T-bz-c3-hyperplan-separant (lean-benzecri)
+- T-bz-c3-appui-sphere: § 1 Déf. 6 marked, with the transfers of Props. 5–6 to S(E); audit clean.
+- T-bz-c3-conjugues: § 2 Theorem 1 marked under all three readings of OQ-163 (so the ruling moves no mark on it); Lemma and Corollary partial (their P_L « parallèlement à L′ » presupposes L ⊕ L′ = E); audit minor.
+- T-bz-c3-hyperplan-separant: § 5 Prop. 7 marked (existence and uniqueness, Mathlib's Hahn–Banach, never the printed Prop. 6); audit minor.
+- All three graduated to strict Benzecri/Chapter3/. benzecri: 121 curated rows.
+- gates: lean-benzecri ✓ (0 sorry in 65 strict files), roadmap ✓, atlas ✓, hub: no new red; restate: 0 new
+- commits: 0df97adf 9242348d 5258b1b2 7f94143a (+ statuses)
+- wall time: 06:51–15:30; agents in parallel: 3 closers, 3 auditors
+- next: plan (promote T-bz-c3-sature, -points-extremaux, -boole-affine and the rest unblocked)
