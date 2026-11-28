@@ -1070,3 +1070,19 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red (lean/ restored narrowly: docs and paper-map.json only)
 - commits: 6c1b6dba faadae8d b20c096c (ledgers; ers-predictability curated; restate detect 0)
 - next: a PLANNING RUN (rule 2), to promote T-abs-end-pieces-one-sided and T-lad-programme-properties and rebind the ERS rows; else the exclusive T-tac-dual-future-one-connected
+
+## 2026-11-28 05:20 · planning run · rule 2 after wave 51; 218 → 221 targets
+- Promoted to ready:
+  - T-abs-end-pieces-one-sided (closer, layer 1, p7): the one-sided end-piece lemmas to SubArc, Extensible.of_top_tail their corollary.
+  - T-lad-programme-properties (keeper): the past boundary chart in the ladder (PastBoundaryChart, FutureBoundaryChart, the Minkowski instance, the theorem), as the keeper chooses the sort (an [[edge_hypothesis]] suggested). It cites OQ-159 and does not wait on it.
+- Added:
+  - T-abs-ers-etale-mghd-witnesses (closer, layer 1, ready, p7): kb/0011 witnesses for ers_corollary_4_68_etale and the two subluminal theorems; curve_nested in the module's `uses`.
+  - T-abs-flrw-type-closed-ambient (closer, layer 1, planned): on a T2 space with ≤ closed and antisymmetric, (A) alone rules out a past boundary chart, so on every globally hyperbolic tarentin space; after the end pieces (sequencing).
+  - T-bind-ers-etale-mghd (planner, applied; db6172db, set done): rows 3.22, 3.23, 3.32, 3.35, 3.45 name the étale declarations, the audit's corrections taken; layer 1 in Lean 22 → 27.
+- Rescoped: T-abs-meets-cauchy-antisymmetry-sharp (a re-read note).
+- Open item, not planned: an instance with only (B) failing needs an ambient whose ≤ is not closed or not antisymmetric; only (A) failing is undecided.
+- registers: OQ-161, ERS's « development in the étale sense » read as a conjunction: a predicate, with global hyperbolicity? (c0b91db1; OQ-160 is /atlas-team's).
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 27, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
+- gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors). Hub: 3 new red, all on paths /atlas-team holds (lean-benzecri, papers/benzecri/ledger). Its T-bz-c3-cone-appui and T-bz-c3-propriete-i were committed at 05:19 and the benzecri ledger rebuild is pending ("ledger.json is not what `build` would write"). gate-tests' test_no_model_in_gates counts the same red. Not this loop's; not reverted.
+- commits: db6172db c0b91db1
+- next: T-lad-programme-properties (keeper), T-abs-end-pieces-one-sided, T-abs-ers-etale-mghd-witnesses (closers, lean-causal); then the exclusive targets
