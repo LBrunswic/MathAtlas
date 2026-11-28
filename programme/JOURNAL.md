@@ -945,3 +945,19 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
 - commits: 8a243e1d be7fa0fd
 - next: T-lad-record-ers-4-82-solution (keeper), T-abs-inextensible-not-le-nested, T-abs-ers-4-82-restart-separation (closers, lean-causal)
+
+## 2026-11-28 01:17 · wave of 4 · T-lad-record-ers-4-82-solution, T-abs-inextensible-not-le-nested, T-lad-record-inextensible-not-le-nested, T-abs-ers-4-82-restart-separation
+- T-lad-record-ers-4-82-solution (keeper): Causal.Ers482Solution's seven consequences, the uniform forms first, the paper's shape last with hstep ⟺ conclusion; slice_restart's note gains the GluedRestartAt reading; frontier_stays_in's and one_sided_boundary's notes updated; OQ-156 named, nothing decided. Matrix unchanged; 113 → 120 consequences. Checked by its tool.
+- T-abs-inextensible-not-le-nested (abstract, layer 1): Causal.InextensibleNotLeNested: model-free, constant causal curves make every causal curve inextensible; rationalLine_separates_inextensibleNested (the rational line in the spacelike line, both absolutely minimal on every open set: either reading); the converse when the narrower causality is causally arc-connected (T1, second countable). Audit minor, recorded (an undisclosed import change; a sentence of the report needs W non-empty).
+- T-lad-record-inextensible-not-le-nested (keeper, folded into this wave once the witness had landed): the [[open]] becomes a [[fails]]; two consequences at inextensible_nested; curve_nested → le_nested now refuted in either reading too. The pair sort has no [[open]] entry. Matrix: 385 fails, 6 open.
+- T-abs-ers-4-82-restart-separation (abstract, layer 1): Causal.Ers482RestartSeparation: restart_separation, at sol82 with a solution-dependent causality: the sixteen other hypotheses of the uniform forms, their conclusion and ¬ hrestart (the non-maximal pair ]-1/2, 1/10[, ]-1/5, 1/5[, p = 1/10); the paper's shape applies there; the model lacks CausalityFollows (disclosed; with it, on the line, argued to collapse). Audit minor, applied (a checklist citation; the stale "argued, not proved" sentences of Causal/Ers482Solution.lean and of the ladder now cite it).
+- registers: OQ-157, extending OQ-156: should Thm 4.82's uniform forms assume CausalityFollows? (49add0f7).
+- For the planner:
+  - the ERS binder's note on ersthm:ThmNotBlocking still says the separation is argued: its sentence is to be replaced by the restart separation (the closer's binder_proposal, `note_append`, with that replacement);
+  - a later keeper pass may add CurveNestedOn.inextensibleNestedOn_of_causalCurveOn_eq as a consequence at curve_nested, and re-point curve_nested ⇏ le_nested to a direct rational-line witness (T-lad-gluing-reading's);
+  - the 6 open pairs left are the planning run's (00:36): causally_plain → locally_push_up (OQ-95/96), strongly_causal → strongly_causal_open (no construction), the four geometry-sort pairs (OQ-97).
+- ladder: 27 properties, 28 implications, 108 counterexamples, 122 consequences, 5 edge hypotheses; 432/432 within a sort: 41 implied, 385 fails, 6 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
+- commits: a4fb5a09 6671496d cc039ab3 bdc22114 49add0f7 9659db7a (ledgers; ers-predictability curated; restate detect 0)
+- next: a PLANNING RUN (rule 2: one ready abstract target, T-abs-sc-open-hoist, exclusive). If it can add no ready target, the exclusive targets come next, one per lean-causal wave: T-tac-dual-future-one-connected (wave picks it now), then T-abs-sc-open-hoist
