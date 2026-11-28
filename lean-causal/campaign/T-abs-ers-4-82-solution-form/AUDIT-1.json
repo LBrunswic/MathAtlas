@@ -1,0 +1,93 @@
+{
+ "target": "T-abs-ers-4-82-solution-form",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "ersthm:ThmNotBlocking",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked, partial, and the REPORT discloses this correctly. Conclusion: ghd_02_19.tex:1104-1106 says 'any other GHD u : U satisfies U ⊆ U1 and thus also u1|U = u', and the Lean gives `∀ U₂ u₂, IsDevelopment … → U₂ ≤ U₁ ∧ EqOn u₁ u₂ U₂` (ers_theorem_4_82_solution) plus 'the unique MGHD' (_unique, every IsMaximalDevelopment equals U₁). Lean ≥ paper on these hypotheses: hmax (l. 117 maximality, implied by l. 1094), honesided (OneSidedBoundary, implied by (4.83)), s₀ ∈ S (in place of S connected). Narrower than the paper on these, each disclosed in the checklist, SCOPE and REPORT: the abstract equation with SolutionLocal, SolutionsGlue and the new SolutionRestricts; a GHD read 'S Cauchy' (DEC-162); the GH side conditions on each development (as in ers_theorem_4_82_of_sliceRestart, which the target allows); hagree (Rem 4.67's variation, a named hypothesis as the target allows, derived from Thm 4.64 for (U₁, A) in _of_ers_theorem_4_64 and _secondCountable through local_uniqueness's existential, frontier_stays_in, slice_restart with 4.64's Q, and hacausal); hstep = slice_restart with Q = GluedRestartAt (Steps 3-4 and 'u3 is a GHD', :1135-1138). Every hypothesis is one of: a ladder property read on a development, an [[edge_hypothesis]] id of programme/ladder.toml (slice_restart, one_sided_boundary, frontier_stays_in, local_uniqueness), the abstract-equation vocabulary, or the named agreement. The witness satisfies every hypothesis of every form, so none is vacuous. The curation proposal (seven decls, extra_lean_files, partial and bucket B unchanged) is honest about the narrowing. One exception is the curation notes wording (finding 7)."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "command": "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/Ers482Solution.lean: exit 0, no output (lake build not run, per dispatch)",
+  "probe": "campaign/T-abs-ers-4-82-solution-form/AuditProbe1.lean, a copy of the current source followed by #print axioms on all 53 declarations, run with lake env lean -DwarningAsError=true, then deleted. Result: 52 depend on [propext, Classical.choice, Quot.sound] and Causal.SolutionRestricts on [propext, Quot.sound], identical name for name to axioms.txt. No sorryAx.",
+  "grep": "no sorry, admit, axiom, native_decide, implemented_by, unsafe or set_option in the file; the only 'sorry' is the docstring sentence 'No `sorry` in this file.' (:88). The file has 53 declarations and Probe.lean covers the same 53."
+ },
+ "acceptance": {
+  "met": true,
+  "by": [
+   "Causal.ers_theorem_4_82_restart (Ers482Solution.lean:227): the restart step at any development. Its instance at the non-maximal ]-1/2,1/2[ against ]-1,1[ is Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_restart (:883). There the SliceRestart premise (p = ±1/2 ∈ ∂A ∩ U₂, spacelike in U₂) and GluedRestartAt's premise (V = ]-1,1[, V ∩ U₁ ⊆ A) are met (restart_exercised, :697), so Q has to be proved (sliceRestart_halfIoo, :870, through restarts82). The result is a strictly larger development. At that pair the restart holds while U₂ ≤ U₁ fails (three_quarters_*), so the per-pair restart is not the per-pair inclusion, and this is proved in Lean.",
+   "Causal.ers_theorem_4_82_solution_of_restarts (:539): its uniform hrestart holds at every pair of the witness (restarts82, :835), and that is not vacuous at the non-maximal pair."
+  ],
+  "not_by": "Causal.ers_theorem_4_82_solution and its siblings _unique, _of_globallyHyperbolicOn, _of_ers_theorem_4_64 and _secondCountable. Given the other hypotheses, their hstep is equivalent to the conclusion (ers_theorem_4_82_solution_hstep_iff, :509). This is necessary for the fixed-U₁ shape that the target title asks for, and it is disclosed. See findings 1 and 2.",
+  "geometric_Q": "GluedRestartAt (:160) says: for every neighbourhood V ⊆ U₂ of p with V ∩ U₁ ⊆ A, there is an open O ⊆ V, not inside U₁, such that S is a Cauchy surface of U₁ ⊔ O for cau of the glued function. It names no sol and no maximality. The solving part and the strict enlargement are derived in ers_theorem_4_82_restart. It is not the old Q in disguise: the old Q '∃ j, dom i₀ < dom j' was met at a non-maximal base by j = i₁ with no geometry, while this Q needs an O inside every small V around p. It carries only the Cauchy half of 'U₁ ∪ O is a GHD', which is ERS's own 'it is easy to see' (:1138), so it belongs with slice_restart's supplier. It is satisfiable non-trivially (restarts82, O = ]p-ε, p+ε[), but only with one causality and one solution, so on the line its Cauchy part reduces to the interval fact (disclosed). The dispatch's 'O ∋ p' is the stronger hypothesis. It implies this Q (GluedRestartAt.of_mem, sliceRestart_gluedRestartAt_of_mem), and the choice is recorded as a question."
+ },
+ "checks": [
+  "Layer 1, imports: Causal.ErsMughd, ErsUniqueness, ErsWitnesses, MaximalZorn. tools/ladder.py model_path is None for each (lean_index in memory, kb/0247) and for the module simulated with those imports. Ers464WithoutArc is reached transitively and is ETT-layer. ErsMughd, ErsWitnesses and MaximalZorn reach Causal.Ladder.Rules, so the module is a leaf. Nothing imports it.",
+  "Layer 1, statements: no metric, no curve length, no geodesic, no PDE. Metric.mem_nhds_iff, Real.ball_eq_Ioo and Real.arctan appear only in proofs of the witness.",
+  "Edge hypotheses: slice_restart (SliceRestart), one_sided_boundary (OneSidedBoundary), frontier_stays_in (FrontierStaysIn, the hstay of the two Thm 4.64 forms) and local_uniqueness (the existential hlocal) are the [[edge_hypothesis]] ids of programme/ladder.toml.",
+  "Paper read against ghd_02_19.tex:814 (§4 setup), 858-859 (Thm 4.64), 914-916 (Rem 4.67), 1094 (MGHD), 1100-1106 (statement), 1114-1139 (proof), and :117 (l. 117 maximality).",
+  "Closer's paper findings: (1) l. 1094 vs l. 117 is correct but leaves out ERS's own reconciliation at :1094 (finding 6). (2) (4.83) is applied at the second q ∈ Σ ∩ ∂A (:1135-1137), not at p: correct. The Lean applies one-sidedness at p and quantifies Q over V around p, which is a sound reorganisation because V' ⊆ V keeps V' ∩ U₁ ⊆ A and q ∉ U₁. (3) Restriction of solutions is used at :1138: correct. (4) 'S connected implicit' is imprecise, because :814 makes it explicit (finding 5). Also correct: ers_remark_4_78 needs subluminality (hsub, hm, hmacausal; Causal/ErsMughd.lean:271), and the dispatch's Causal.Causality.ers_theorem_4_79 is really Causal.ers_theorem_4_79.",
+  "Readings recorded as questions in the REPORT: SolutionRestricts vs solving inside Q; O ⊄ U₁ vs O ∋ p; Rem 4.67's variation as Thm 4.64 for (U₁, A), with hagree named elsewhere; the formalization of record. No author-level reading is presented as settled. S connected and l. 117 are stated as findings, where the Lean assumes less (see the wording fixes in findings 5 and 6).",
+  "Scope: from the closer, only scaffold/CausalScaffold/Ers482Solution.lean (new) and this campaign directory. No tracked lean-causal file was edited. The other entries in the worktree are not attributable to the closer: papers/*/certificate restate files, lean-gx graduation renames, programme/ladder.toml with lean-causal/Causal/Ladder/{Rules,Test}.lean regenerated at 23:57 by the keeper, the roadmaps, and Causal/LoopFanEveryScale.lean with its campaign.",
+  "Name clashes: none of the 53 names exists elsewhere in lean-causal/Causal or scaffold (ladder index plus grep). Causal.ErsWitness (existing namespace) and Causal.Ers482Witness are distinct.",
+  "Docstring contract (kb/0006): title, label within the first 4000 characters (char 759, unmarked), quoted paper sentences, checklist, SCOPE and provenance are all present. The mark-shaped **`A`** and **`u₃`** do not match tools/ledger.py's label regex, which needs a label prefix. The SCOPE claims hold. Small wording points are in finding 8.",
+  "Keeper proposal: simulated on a deepcopy of ladder.load(). check gives exactly 5 'witness not found' (pre-graduation, as claimed), and matrix, _contradictions and emitted are unchanged. Hypothesis lists were checked against the declarations; entries 3-5 have the defects in findings 3 and 4.",
+  "Binder proposal: ett_add (7 decls) and localisation_add frontier_stays_in agree with the declarations. note_append discloses _hstep_iff correctly."
+ ],
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/Ers482Solution.lean:303 (also :341, :371, :407, :452; :509 _hstep_iff); REPORT lemmas_for_the_keeper.entries[0..1], binder_proposal.ett_add, curation_proposal.decls_add order",
+   "what": "The main theorem ers_theorem_4_82_solution and every sibling except _of_restarts still have the defect the target exists to cure. Given the rest, their hstep is equivalent to the conclusion (proved by the closer, _hstep_iff), so the witness can only discharge it vacuously (hstep_of_le). This is unavoidable for the fixed-U₁ shape the target title asks for, and it is disclosed in SCOPE, REPORT and the binder note. The acceptance is met elsewhere: by ers_theorem_4_82_restart with its non-maximal instance, and by _of_restarts with restarts82. But the proposals lead with the content-free form, and the only is_causal-level keeper entry (entry 1) is that form. _of_restarts exists only with hG/hT (globally_hyperbolic, tarentin), so no is_causal consequence has content.",
+   "fix": "Make _of_restarts the form of record: list it first in the binder and curation, and put it first in the keeper's entries. Add an is_causal-level uniform form (hcaus, hJm, hJp in place of hG, hT; one line from ers_theorem_4_82_solution with hrestart U₁ u₁) so that the is_causal consequence carries the content. Record entries 1 and 2 as specialisations whose hstep is equivalent to the conclusion, as the existing four 4.82 entries are."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/Ers482Solution.lean:539-559, :89-95 (SCOPE); REPORT labels[0].questions[3], binder_proposal.note_append ('carries the content')",
+   "what": "_of_restarts is the main form specialised at U₀ = U₁, a one-line proof, so as a theorem it is logically weaker than _of_globallyHyperbolicOn. Its value depends entirely on hrestart not being implied by the conclusion and the other hypotheses. That is argued, not proved (disclosed in SCOPE and what_remains). Lean evidence exists only per pair: at (]-1/2,1/2[, ]-1,1[) the restart holds and U₂ ≤ U₁ fails.",
+   "fix": "Either add a separating model in Lean (all hypotheses of _of_restarts except hrestart hold, the conclusion holds, hrestart fails, e.g. with a causality making {0} Cauchy in ]-1,1[ but not in ]-1/2,1/2+ε[), or reword 'carries the content' to: 'its hypothesis names no maximal development and is exercised at non-maximal pairs; that the conclusion does not imply it is argued, not proved'."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT lemmas_for_the_keeper.entries[3] (witness _of_ers_theorem_4_64) and entries[4] (_secondCountable), 'under', last clause",
+   "what": "Both entries list 'frontier_stays_in (hstay)' among Thm 4.64's hypotheses and then end with '; no frontier_stays_in', a clause copied from entry 1. That is self-contradictory and false of the declarations: hstay : FrontierStaysIn is a hypothesis at Ers482Solution.lean:422 and :465. The binder proposal correctly adds frontier_stays_in for exactly these two forms.",
+   "fix": "Drop '; no frontier_stays_in' from entries 4 and 5, or replace it with 'frontier_stays_in only in Thm 4.64's hypotheses for (U₁, A); the 4.82 restart is located in all of U₂'."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT lemmas_for_the_keeper.entries[2] (witness _of_restarts), 'under'",
+   "what": "The text says 'with U₀ in place of U₁' but then writes Q = Causal.GluedRestartAt cau S U₁ U₂ u₁ u₂ A and 'V ∩ U₁ ⊆ A', 'not inside U₁', 'U₁ ∪ O'. The declaration (Ers482Solution.lean:552-555) has GluedRestartAt cau S U₀ U₂ u₀ u₂ A₀₂, where A₀₂ is the component of U₀ ∩ U₂ through s₀.",
+   "fix": "Write the uniform restart with U₀, u₀ and A₀₂ throughout, as in the declaration."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT findings[3] and labels[0].findings[3] / lean_ge_paper.hypotheses[4]; Ers482Solution.lean:75 (checklist row)",
+   "what": "The finding says Thm 4.82 is stated 'with no connectedness of S' and that S connected is 'an implicit hypothesis', citing :1118 and :859. But §4's standing setup at ghd_02_19.tex:814 reads 'Let S ⊆ R^{d+1} be a connected hypersurface of R^{d+1}. Initial data for (4.61) on S consists of …', and Thm 4.82 is stated 'of given initial data' (:1101) in the same section. So S connected is explicit in the paper, not implicit. The Lean is unaffected (s₀ ∈ S suffices; IsPreconnected S only in _secondCountable), but as worded the finding would reach the author as an inaccurate statement about the paper.",
+   "fix": "Cite :814 and reword to: 'S connected is §4's standing hypothesis (:814). The Lean forms need only s₀ ∈ S, except _secondCountable'. Change the checklist row from 'implicit' to '§4 setup, :814'."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT findings[0] and labels[0].findings[0]; Ers482Solution.lean:45-48 (reading), :73 (checklist)",
+   "what": "The l. 1094 vs l. 117 finding is correct as far as it goes, but it leaves out ERS's own next sentences at :1094: 'Note that by Theorem ThmUnique any such GHD u2 would agree with u1 on U1, and thus it would correspond to an extension of u1 : U1 → R. In other words, a MGHD is a GHD that cannot be extended as a GHD.' So in the paper the two notions coincide, via Thm 4.64 on the connected overlap U₁ (hyperbolic solutions live on connected open sets, :100). l. 117 is weaker only in the abstract reading, where Thm 4.64 is not available.",
+   "fix": "Quote that sentence and reword 'weaker than l. 1094' to 'formally weaker in the abstract reading; ERS identify the two at :1094 through Thm 4.64'."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT curation_proposal.notes_append, last sentence",
+   "what": "'Witness Causal.Ers482Witness: hstep exercised at a non-maximal pair' is ambiguous next to the main form, whose hstep is never exercised (_hstep_iff). The binder note_append states this precisely; the curation note does not.",
+   "fix": "Say: 'the restart step's hstep (ers_theorem_4_82_restart) and _of_restarts' hrestart are exercised at (]-1/2,1/2[, ]-1,1[); the fixed-U₁ hstep is equivalent to the conclusion given the rest (_hstep_iff)'."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/Ers482Solution.lean:73, :75, :153",
+   "what": "The checklist uses '✓ weakened' where kb/0006 and the sibling modules (ErsMughd, ErsUniqueness, ErsWitnesses) use '⚠ weakened'. The GluedRestartAt docstring says 'Pure causal topology: no solution, no maximality', but the predicate takes u₁, u₂ and evaluates cau at the glued function.",
+   "fix": "Use '⚠ weakened'. Say 'no solution predicate, no maximality'."
+  }
+ ]
+}

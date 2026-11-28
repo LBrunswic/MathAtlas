@@ -1,0 +1,614 @@
+{
+  "target": "T-abs-ers-4-82-solution-form",
+  "package": "lean-causal",
+  "files": [
+    "scaffold/CausalScaffold/Ers482Solution.lean"
+  ],
+  "campaign_files": [
+    "campaign/T-abs-ers-4-82-solution-form/REPORT.json",
+    "campaign/T-abs-ers-4-82-solution-form/Probe.lean",
+    "campaign/T-abs-ers-4-82-solution-form/axioms.txt"
+  ],
+  "status": "closed",
+  "builds": true,
+  "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 12-23 lake env lean -DwarningAsError=true scaffold/CausalScaffold/Ers482Solution.lean (fix round 1; the module build `taskset -c 12-23 lake build CausalScaffold.Ers482Solution` is the master's)",
+  "build_result": "Fix round 1: lake build was not run, per the coordinator (the master builds the package). `cd lean-causal && taskset -c 12-23 lake env lean -DwarningAsError=true scaffold/CausalScaffold/Ers482Solution.lean` exits 0 with no output. The olean of the module (built in round 0) predates this round's edits. So campaign/T-abs-ers-4-82-solution-form/Probe.lean is now a verbatim copy of the current source followed by #check and #print axioms on its 55 declarations, run with `lake env lean` (output in axioms.txt). Once the module is rebuilt, the same commands run after `import CausalScaffold.Ers482Solution`. Round 0: the --no-build dry run (kb/0228) listed only this module, and the build took 1.9 s, 3150 jobs, no warning.",
+  "sorry_count": 0,
+  "axioms": "All 55 declarations depend on standard axioms only: 54 on [propext, Classical.choice, Quot.sound], Causal.SolutionRestricts on [propext, Quot.sound]. No sorryAx, admit, axiom or native_decide (campaign/T-abs-ers-4-82-solution-form/axioms.txt, regenerated in fix round 1).",
+  "layer": "ETT layer (layer 1), a leaf. Direct imports: Causal.ErsMughd, Causal.ErsUniqueness, Causal.ErsWitnesses, Causal.MaximalZorn (for IsMaximalDevelopment and IsExtension). tools/ladder.py model_path is None for each, checked one at a time in memory (kb/0247). No import of Causal.Minkowski, Static, Flat.*, Model.*, Port.* or SingularFlat. The statements mention no metric, curve length, geodesic or PDE: the hypotheses are ladder properties read on a development (is_causal through hcaus, globally_hyperbolic, tarentin), the edge hypotheses one_sided_boundary, slice_restart (and, in the forms deriving the agreement, local_uniqueness's existential and frontier_stays_in through Thm 4.64), and the abstract equation's properties. Metric.mem_nhds_iff, Real.ball_eq_Ioo and Real.arctan appear only in the witness's proofs, as neighbourhoods and an increasing homeomorphism of ℝ. causal_ladder does not apply: every causal side condition is relative to a development (GloballyHyperbolicOn U, TarentinOn U, ≤_U antisymmetric), which the ladder reads in words, while the tactic closes properties of a causality at M; the witness needs no ladder step at M either.",
+  "labels": [
+    {
+      "label": "ersthm:ThmNotBlocking",
+      "tex_lines": [
+        1100,
+        1139
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.ers_theorem_4_82_solution_of_restarts",
+        "Causal.ers_theorem_4_82_solution_of_restarts_isCausal",
+        "Causal.ers_theorem_4_82_restart",
+        "Causal.ers_theorem_4_82_solution",
+        "Causal.ers_theorem_4_82_solution_unique",
+        "Causal.ers_theorem_4_82_solution_of_globallyHyperbolicOn",
+        "Causal.ers_theorem_4_82_solution_of_ers_theorem_4_64",
+        "Causal.ers_theorem_4_82_solution_secondCountable"
+      ],
+      "lean_ge_paper": {
+        "verdict": "No, so unmarked and partial: every assertion of the statement is proved (U ⊆ U₁, u₁|U = u, the unique MGHD), but under the named hypotheses below and the DEC-162 reading of a GHD. Where the Lean asks less than the paper, it is noted.",
+        "hypotheses": [
+          {
+            "paper": "a quasilinear wave equation (4.61), the same initial data",
+            "here": "abstract",
+            "note": "sol with SolutionLocal, SolutionsGlue and SolutionRestricts (new; ERS's 'u₃ is a GHD' uses that u₂ solves on DΣ_V ⊆ U₂, :1138); cau. CausalityFollows is not used (the restart names the glued solution's causality itself). ers_remark_4_78 is not used: it needs subluminality (curve nesting into Minkowski's causality), which 4.82, about general quasilinear equations, does not assume."
+          },
+          {
+            "paper": "u₁ a MGHD (l. 1094: no GHD u₂ with U₁ ⊊ U₂)",
+            "here": "weakened",
+            "note": "IsMaximalDevelopment (Causal.MaximalZorn, ERS l. 117: no development extending u₁ has a larger domain). l. 1094 implies it. It is formally weaker only in the abstract reading, where Thm 4.64 is not available. ERS identify the two at :1094: 'Note that by Theorem 4.64 any such GHD u2 would agree with u1 on U1, and thus it would correspond to an extension of u1. In other words, a MGHD is a GHD that cannot be extended as a GHD.' The proof's u₃ extends u₁ (:1138), so l. 117 is what it uses."
+          },
+          {
+            "paper": "GHD: globally hyperbolic with Cauchy surface S",
+            "here": "read",
+            "note": "IsDevelopment: S a Cauchy surface of U for cau u, GH not asked (DEC-162, OQ-57 (c)), as in Causal.ErsMughd and Causal.MaximalZorn. Maximality is asked among more objects and the conclusion covers more objects. Lorentzian: an open set with a Cauchy hypersurface is GH, so the readings agree there."
+          },
+          {
+            "paper": "(4.83), the chart condition at every p ∈ ∂U₁ ∖ ∂S",
+            "here": "named (topological content)",
+            "note": "one_sided_boundary: Causal.Causality.OneSidedBoundary U₁ (closure S) (DEC-166 (b); ∂S read DEC-161). The chart condition implies it (Causal.BoundaryGraph.oneSidedBoundary), so this hypothesis is weaker than (4.83)."
+          },
+          {
+            "paper": "S connected (§4's standing hypothesis: 'Let S ⊆ R^{d+1} be a connected hypersurface of R^{d+1}', ghd_02_19.tex:814; Thm 4.82 is stated for that data, :1101)",
+            "here": "weakened",
+            "note": "a point s₀ ∈ S, A the component through it; IsPreconnected S is used only in ers_theorem_4_82_solution_secondCountable, where it derives hconn."
+          },
+          {
+            "paper": "each GHD globally hyperbolic",
+            "here": "named, on each development",
+            "note": "hconn, hcaus (is_causal read on U), hsplit, hJm, hJp, hK, hSclosed, as in ers_theorem_4_82_of_sliceRestart; or hG, hT (globally_hyperbolic, tarentin read on U) for hcaus, hJm, hJp; on a second countable M, hconn and hsplit follow from S Cauchy. Suppliers: T-loc-quasilinear-causal-ladder."
+          },
+          {
+            "paper": "(4.84) ∅ ≠ ∂A ∩ U₂ ⊆ ∂U₁ (:1124)",
+            "here": "proved",
+            "note": "Causal.Causality.frontier_connectedComponentIn_inter"
+          },
+          {
+            "paper": "'A slight variation of Remark 4.67': A is the MCGHD, so u₁ = u₂ on A (:1128)",
+            "here": "named or derived",
+            "note": "hagree, named, in ers_theorem_4_82_solution, _unique, _of_globallyHyperbolicOn and _of_restarts. Derived in _of_ers_theorem_4_64 and _secondCountable from Causal.Causality.ers_theorem_4_64 (resp. its _of_isCauchySurfaceOn_secondCountable_noArc form) for the pair (U₁, A), A = componentOpens (U₁ ⊓ U₂) s₀, whose overlap U₁ ∩ A = A is connected. Those forms take that theorem's hlocal (local_uniqueness), hstay (frontier_stays_in) and hstep (slice_restart, 4.64's Q) for the pair, and hacausal in the first."
+          },
+          {
+            "paper": "(4.85), 'analogous to Step 2' (:1131–1133)",
+            "here": "proved",
+            "note": "exists_spacelike_boundary_point in U₂ for g(u₂), with J± closed in U₂ and compact slabs; no null geodesic"
+          },
+          {
+            "paper": "Steps 3–4 in U₂, Σ ⊆ closure A ∩ U₂, DΣ_V 'contains points above the graph', U₃ GH with Cauchy surface S (:1135–1138)",
+            "here": "named",
+            "note": "slice_restart, Causal.Causality.SliceRestart (cau u₂) U₂ S A U₂ Q, with the geometric Q = Causal.GluedRestartAt cau S U₁ U₂ u₁ u₂ A: for each neighbourhood V ⊆ U₂ of p with V ∩ U₁ ⊆ A, an open O ⊆ V not inside U₁ with S Cauchy in U₁ ∪ O for cau u₃ (only the Cauchy part of 'GHD'). Supplier: T-loc-quasilinear-slice. In the uniform forms (the forms of record) it is asked of every pair of developments (U₀, u₀), (U₂, u₂), with GluedRestartAt cau S U₀ U₂ u₀ u₂ A₀₂."
+          },
+          {
+            "paper": "'This is well defined since the region below the graph … lies in A, where u1 and u2 agree' (:1138)",
+            "here": "proved",
+            "note": "eqOn_glueSolutions_right with V ∩ U₁ ⊆ A (from one_sided_boundary at p, inter_subset_connectedComponentIn) and hagree"
+          },
+          {
+            "paper": "'u₃ … is a GHD' (its solving part) and 'This is a contradiction' (:1138)",
+            "here": "proved",
+            "note": "SolutionLocal, SolutionsGlue, SolutionRestricts; IsMaximalDevelopment against IsExtension U₁ u₁ (U₁ ⊔ O) u₃"
+          },
+          {
+            "paper": "conclusion: U ⊆ U₁ and u₁|U = u; u₁ the unique MGHD",
+            "here": "proved",
+            "note": "both conjuncts (ers_theorem_4_82_solution); ers_theorem_4_82_solution_unique"
+          }
+        ]
+      },
+      "hypotheses": [
+        {
+          "paper": "u₁ MGHD",
+          "here": "weakened",
+          "note": "IsMaximalDevelopment (l. 117) for l. 1094; formally weaker in the abstract reading, ERS identify the two at :1094 through Thm 4.64"
+        },
+        {
+          "paper": "(4.83)",
+          "here": "weakened/named",
+          "note": "OneSidedBoundary U₁ (closure S), the edge hypothesis one_sided_boundary"
+        },
+        {
+          "paper": "S connected (§4 setup, ghd_02_19.tex:814)",
+          "here": "weakened",
+          "note": "s₀ ∈ S"
+        },
+        {
+          "paper": "GHD",
+          "here": "read",
+          "note": "S Cauchy (DEC-162)"
+        },
+        {
+          "paper": "(4.61)",
+          "here": "abstract",
+          "note": "sol, cau; SolutionRestricts strengthened-by-naming (new, trivially true for a PDE)"
+        },
+        {
+          "paper": "GH of each GHD, Rem 4.67's variation, Steps 3–5",
+          "here": "strengthened (named)",
+          "note": "side conditions on each development; hagree (or Thm 4.64's restart hypotheses for (U₁, A)); slice_restart with Q = GluedRestartAt"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ghd_02_19.tex:1094 defines an MGHD as a GHD with no GHD u₂ such that U₁ ⊊ U₂. ERS reconcile this at once with l. 117: 'Note that by Theorem 4.64 any such GHD u2 would agree with u1 on U1, and thus it would correspond to an extension of u1. In other words, a MGHD is a GHD that cannot be extended as a GHD' (:1094). The proof of Thm 4.82 (:1138) uses that form, since u₃ extends u₁. The Lean takes IsMaximalDevelopment (l. 117), which is formally weaker than l. 1094 only in the abstract reading, where Thm 4.64 is not available. Not an error.",
+        "ghd_02_19.tex:1135–1138: the hypersurface Σ of Steps 3–4 contains a point q ∈ ∂A ∩ U₂ near the spacelike point p, not p itself, and (4.83) is applied at q (:1137). DΣ_V therefore need not contain p: what the proof uses is 'DΣ_V contains points that lie above the graph of f', i.e. DΣ_V ⊄ U₁. GluedRestartAt asks exactly that, inside a neighbourhood V of p given by the one-sidedness at p. The dispatch's 'an open O ∋ p' is the stronger hypothesis and implies it (GluedRestartAt.of_mem, sliceRestart_gluedRestartAt_of_mem). Not an error.",
+        "ghd_02_19.tex:1138 'It is easy to see that u3 : U3 → R is a GHD': the solving part uses that u₂ restricted to DΣ_V ⊆ U₂ solves (4.61) there, i.e. restriction of solutions. This is trivial for a PDE and is named Causal.SolutionRestricts in the abstract form. The Cauchy part is the only Lorentzian content, and it is inside slice_restart's Q.",
+        "S connected is §4's standing hypothesis: 'Let S ⊆ R^{d+1} be a connected hypersurface of R^{d+1}' (ghd_02_19.tex:814). Thm 4.82 (:1101) is stated for that data, and its proof uses it ('the connected component of U1 ∩ U2 that contains … S', :1118; Remark 4.67, :1128). The Lean forms need only a point s₀ ∈ S, except _secondCountable, which uses IsPreconnected S to derive the connectedness of each development."
+      ],
+      "questions": [
+        "SolutionRestricts is a new named property of the abstract equation, beside SolutionLocal and SolutionsGlue, which the dispatch lists. The alternative is to put 'u₂ solves on O' into slice_restart's Q, which would then not be purely geometric. Reading taken: a property of the equation, true of (4.61), disclosed in the SCOPE. Does the author prefer that, or the solving fact inside Q?",
+        "The restart's conclusion: the dispatch says 'an open O ∋ p in V'. Reading taken: an open O ⊆ V not inside U₁ (ERS's 'DΣ_V contains points that lie above the graph of f', :1138), the weaker hypothesis. The O ∋ p form is provided as a corollary. Is O ∋ p the intended edge hypothesis?",
+        "'A slight variation of Remark 4.67' (:1128). Reading taken: Thm 4.64 applied to U₁ and the open A (whose overlap A is connected), with that theorem's restart hypotheses for the pair (U₁, A) (_of_ers_theorem_4_64, _secondCountable). The agreement is a named hypothesis in the other forms. Is this the variation ERS mean? It amounts to running Step 1–5 of 4.64 inside A instead of inside U₁ ∩ U₂.",
+        "Formalization of record. At a maximal U₁, any restart located on ∂A ∩ U₂ is equivalent to the conclusion given the rest (ers_theorem_4_82_solution_hstep_iff), whatever its Q. Reading now taken, after audit round 1: the uniform forms _of_restarts and _of_restarts_isCausal are the forms of record, with the restart step ers_theorem_4_82_restart and its witness. ers_theorem_4_82_solution is kept as the paper's shape. As theorems the uniform forms are the fixed-U₁ forms specialised at U₀ = U₁, so logically weaker. Their hypothesis names no maximal development and is exercised at non-maximal pairs. That the conclusion does not imply it is argued, not proved. The author decides."
+      ],
+      "forms": "Forms of record: the uniform forms ers_theorem_4_82_solution_of_restarts (globally_hyperbolic, tarentin) and _of_restarts_isCausal (is_causal), with the restart step ers_theorem_4_82_restart and its witness at the non-maximal ]-1/2,1/2[ in ]-1,1[ (Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_restart, restart_exercised, restarts82). The paper's shape is ers_theorem_4_82_solution with _unique, _of_globallyHyperbolicOn, _of_ers_theorem_4_64 and _secondCountable: the restart of the maximal U₁ alone, whose hstep is equivalent to the conclusion given the rest (ers_theorem_4_82_solution_hstep_iff). The uniform forms are those forms specialised at U₀ = U₁, so logically weaker as theorems. Their hypothesis names no maximal development and is exercised at non-maximal pairs. That the conclusion does not imply it is argued, not proved."
+    }
+  ],
+  "declarations": [
+    {
+      "name": "Causal.SolutionRestricts",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:140",
+      "statement": "def (sol : Opens M → (M → β) → Prop) : Prop := ∀ ⦃U V⦄ ⦃u⦄, V ≤ U → sol U u → sol V u",
+      "status": "defined",
+      "role": "new named property of the abstract equation (the third locality property)"
+    },
+    {
+      "name": "Causal.glueSolutions",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:145",
+      "statement": "noncomputable def (U₁ : Opens M) (u₁ u₂ : M → β) : M → β := fun x => if x ∈ U₁ then u₁ x else u₂ x",
+      "status": "defined",
+      "role": "ERS's u₃ (ghd_02_19.tex:1138)"
+    },
+    {
+      "name": "Causal.eqOn_glueSolutions_left",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:149",
+      "statement": "EqOn (glueSolutions U₁ u₁ u₂) u₁ U₁",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.eqOn_glueSolutions_right",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:157",
+      "statement": "(h : EqOn u₁ u₂ (O ∩ U₁)) : EqOn (glueSolutions U₁ u₁ u₂) u₂ O",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.GluedRestartAt",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:176",
+      "statement": "def (cau) (S) (U₁ U₂ : Opens M) (u₁ u₂) (A : Set M) (p : M) : Prop := ∀ V ∈ 𝓝 p, V ⊆ U₂ → V ∩ U₁ ⊆ A → ∃ O : Opens M, (O : Set M) ⊆ V ∧ ¬ O ≤ U₁ ∧ (cau (glueSolutions U₁ u₁ u₂)).IsCauchySurfaceOn (U₁ ⊔ O) S",
+      "status": "defined",
+      "role": "the geometric conclusion Q of slice_restart (new Lean predicate, defined here as the dispatch allows). It takes the two solutions only through the causality of the glued solution, and names no solution predicate sol and no maximality"
+    },
+    {
+      "name": "Causal.GluedRestartAt.of_mem",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:168",
+      "statement": "(hp : p ∉ U₁) (h : ∀ V ∈ 𝓝 p, V ⊆ U₂ → V ∩ U₁ ⊆ A → ∃ O : Opens M, p ∈ O ∧ (O : Set M) ⊆ V ∧ (cau (glueSolutions U₁ u₁ u₂)).IsCauchySurfaceOn (U₁ ⊔ O) S) : GluedRestartAt cau S U₁ U₂ u₁ u₂ A p",
+      "status": "proved",
+      "role": "the dispatch's wording (O ∋ p) implies the Q taken"
+    },
+    {
+      "name": "Causal.notMem_of_mem_frontier_connectedComponentIn",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:196",
+      "statement": "[LocallyConnectedSpace M] (hp : p ∈ frontier (connectedComponentIn (U₁ ∩ U₂) s₀)) (hp₂ : p ∈ U₂) : p ∉ U₁",
+      "status": "proved",
+      "role": "helper: (4.84)'s inclusion without U₂ ⊄ U₁"
+    },
+    {
+      "name": "Causal.sliceRestart_gluedRestartAt_of_mem",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:213",
+      "statement": "SliceRestart (cau u₂) U₂ S A U₂ (fun p => ∀ V ∈ 𝓝 p, V ⊆ U₂ → V ∩ U₁ ⊆ A → ∃ O, p ∈ O ∧ O ⊆ V ∧ Cauchy (U₁ ⊔ O)) → SliceRestart (cau u₂) U₂ S A U₂ (GluedRestartAt cau S U₁ U₂ u₁ u₂ A)",
+      "status": "proved",
+      "role": "the dispatch's restart implies the one taken"
+    },
+    {
+      "name": "Causal.ers_theorem_4_82_restart",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:243",
+      "statement": "[T2Space M] [LocallyConnectedSpace M] (hloc) (hglue) (hres) (hs₀ : s₀ ∈ S) (h₁ : IsDevelopment sol cau S U₁ u₁) (h₂ : IsDevelopment sol cau S U₂ u₂) (hnot : ¬ U₂ ≤ U₁) (hconn : IsPreconnected U₂) (hcaus) (hsplit : (cau u₂).SplitBy U₂ S) (hJm) (hJp) (hK : (cau u₂).CompactSlabs U₂ S) (hSclosed : closure S ∩ U₂ ⊆ S) (honesided : OneSidedBoundary U₁ (closure S)) (hagree : EqOn u₁ u₂ A) (hstep : (cau u₂).SliceRestart U₂ S A U₂ (GluedRestartAt cau S U₁ U₂ u₁ u₂ A)) : ∃ O : Opens M, (O : Set M) ⊆ U₂ ∧ U₁ < U₁ ⊔ O ∧ IsExtension U₁ u₁ (U₁ ⊔ O) (glueSolutions U₁ u₁ u₂) ∧ EqOn (glueSolutions U₁ u₁ u₂) u₂ O ∧ IsDevelopment sol cau S (U₁ ⊔ O) (glueSolutions U₁ u₁ u₂)",
+      "status": "proved",
+      "role": "the restart step at any development, maximal or not. This has the content, exercised by the witness at the non-maximal ]-1/2,1/2[ in ]-1,1["
+    },
+    {
+      "name": "Causal.ers_theorem_4_82_solution",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:319",
+      "statement": "[T2Space M] [LocallyConnectedSpace M] (hloc : SolutionLocal sol) (hglue : SolutionsGlue sol) (hres : SolutionRestricts sol) {s₀} (hs₀ : s₀ ∈ S) (hmax : IsMaximalDevelopment sol cau S U₁ u₁) (honesided : Causality.OneSidedBoundary U₁ (closure S)); for every development (U, u) [IsDevelopment sol cau S U u]: hconn IsPreconnected U; hcaus ≤_U of cau u antisymmetric; hsplit (cau u).SplitBy U S; hJm, hJp closure (J∓_U {x}) ∩ U ⊆ J∓_U {x}; hK (cau u).CompactSlabs U S; hSclosed closure S ∩ U ⊆ S; hagree : ∀ U₂ u₂, IsDevelopment sol cau S U₂ u₂ → EqOn u₁ u₂ (connectedComponentIn (U₁ ∩ U₂) s₀); hstep : ∀ U₂ u₂, IsDevelopment sol cau S U₂ u₂ → (cau u₂).SliceRestart U₂ S A U₂ (GluedRestartAt cau S U₁ U₂ u₁ u₂ A), A = connectedComponentIn (U₁ ∩ U₂) s₀ : ∀ U₂ u₂, IsDevelopment sol cau S U₂ u₂ → U₂ ≤ U₁ ∧ EqOn u₁ u₂ U₂",
+      "status": "proved",
+      "role": "the paper's shape: the restart of the maximal U₁ alone. Given the rest, its hstep is equivalent to the conclusion (_hstep_iff)"
+    },
+    {
+      "name": "Causal.ers_theorem_4_82_solution_unique",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:357",
+      "statement": "hypotheses of ers_theorem_4_82_solution : ∀ U u, IsMaximalDevelopment sol cau S U u → U = U₁ ∧ EqOn u₁ u U",
+      "status": "proved",
+      "role": "'u₁ is the unique MGHD'"
+    },
+    {
+      "name": "Causal.ers_theorem_4_82_solution_of_globallyHyperbolicOn",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:387",
+      "statement": "[T2Space M] [LocallyConnectedSpace M] (hloc : SolutionLocal sol) (hglue : SolutionsGlue sol) (hres : SolutionRestricts sol) {s₀} (hs₀ : s₀ ∈ S) (hmax : IsMaximalDevelopment sol cau S U₁ u₁) (honesided : Causality.OneSidedBoundary U₁ (closure S)); for every development: hconn, hG (cau u).GloballyHyperbolicOn U, hT (cau u).TarentinOn U, hsplit, hK, hSclosed; hagree : ∀ U₂ u₂, IsDevelopment sol cau S U₂ u₂ → EqOn u₁ u₂ (connectedComponentIn (U₁ ∩ U₂) s₀); hstep : ∀ U₂ u₂, IsDevelopment sol cau S U₂ u₂ → (cau u₂).SliceRestart U₂ S A U₂ (GluedRestartAt cau S U₁ U₂ u₁ u₂ A), A = connectedComponentIn (U₁ ∩ U₂) s₀ : ∀ U₂ u₂, IsDevelopment sol cau S U₂ u₂ → U₂ ≤ U₁ ∧ EqOn u₁ u₂ U₂",
+      "status": "proved",
+      "role": "the globally hyperbolic and tarentin form"
+    },
+    {
+      "name": "Causal.coe_inf_componentOpens",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:409",
+      "statement": "[LocallyConnectedSpace M] (U₁ U₂ : Opens M) (s₀ : M) : ((U₁ ⊓ componentOpens (U₁ ⊓ U₂) s₀ : Opens M) : Set M) = connectedComponentIn (U₁ ∩ U₂) s₀",
+      "status": "proved",
+      "role": "helper"
+    },
+    {
+      "name": "Causal.ers_theorem_4_82_solution_of_ers_theorem_4_64",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:423",
+      "statement": "[T2Space M] [LocallyConnectedSpace M] (hloc : SolutionLocal sol) (hglue : SolutionsGlue sol) (hres : SolutionRestricts sol) {s₀} (hs₀ : s₀ ∈ S) (hmax : IsMaximalDevelopment sol cau S U₁ u₁) (honesided : Causality.OneSidedBoundary U₁ (closure S)); for every development: hconn, hG, hT, hsplit, hK, hSclosed; hacausal : (cau u₁).IsAcausalOn U₁ S; for every development (U₂, u₂), with A' = componentOpens (U₁ ⊓ U₂) s₀ and agree = EqOn u₁ u₂: hlocal ∃ V, (cau u₁).IsCommonDevelopment S U₁ A' agree V; hstay ∀ V common, (cau u₁).FrontierStaysIn U₁ S V (U₁ ⊓ A'); hstep₄₆₄ ∀ V common, (cau u₁).SliceRestart U₁ S V (U₁ ⊓ A') (fun _ => ∃ V', common ∧ V < V'); hstep : ∀ U₂ u₂, IsDevelopment sol cau S U₂ u₂ → (cau u₂).SliceRestart U₂ S A U₂ (GluedRestartAt cau S U₁ U₂ u₁ u₂ A), A = connectedComponentIn (U₁ ∩ U₂) s₀ : ∀ U₂ u₂, IsDevelopment sol cau S U₂ u₂ → U₂ ≤ U₁ ∧ EqOn u₁ u₂ U₂",
+      "status": "proved",
+      "role": "Remark 4.67's variation derived (Causality.ers_theorem_4_64 for U₁ and A)"
+    },
+    {
+      "name": "Causal.ers_theorem_4_82_solution_secondCountable",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:468",
+      "statement": "[T2Space M] [SecondCountableTopology M] [LocallyConnectedSpace M] (hloc) (hglue) (hres) (hs₀) (hS : IsPreconnected S) (hmax) (honesided); for every development: hG, hT, hK, hSclosed; hlocal, hstay, hstep₄₆₄ as in _of_ers_theorem_4_64; hstep : ∀ U₂ u₂, IsDevelopment sol cau S U₂ u₂ → (cau u₂).SliceRestart U₂ S A U₂ (GluedRestartAt cau S U₁ U₂ u₁ u₂ A), A = connectedComponentIn (U₁ ∩ U₂) s₀ : ∀ U₂ u₂, IsDevelopment sol cau S U₂ u₂ → U₂ ≤ U₁ ∧ EqOn u₁ u₂ U₂",
+      "status": "proved",
+      "role": "the paper's reading on a second countable background: hconn, hsplit from S Cauchy, hacausal dropped (Thm 4.64 _noArc)"
+    },
+    {
+      "name": "Causal.ers_theorem_4_82_solution_hstep_of_le",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:511",
+      "statement": "[LocallyConnectedSpace M] (hs₀ : s₀ ∈ S) (hconn : ∀ U u, IsDevelopment … → IsPreconnected U) (hle : ∀ U₂ u₂, IsDevelopment … → U₂ ≤ U₁) : ∀ U₂ u₂, IsDevelopment … → (cau u₂).SliceRestart U₂ S A U₂ (GluedRestartAt cau S U₁ U₂ u₁ u₂ A)",
+      "status": "proved",
+      "role": "finding: at a development containing every development the restart is vacuous"
+    },
+    {
+      "name": "Causal.ers_theorem_4_82_solution_hstep_iff",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:526",
+      "statement": "hypotheses of ers_theorem_4_82_solution less hstep : hstep ↔ ∀ U₂ u₂, IsDevelopment sol cau S U₂ u₂ → U₂ ≤ U₁",
+      "status": "proved",
+      "role": "finding: given the rest, the fixed-U₁ restart is equivalent to the conclusion (necessarily)"
+    },
+    {
+      "name": "Causal.ers_theorem_4_82_solution_of_restarts",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:558",
+      "statement": "[T2Space M] [LocallyConnectedSpace M] (hloc : SolutionLocal sol) (hglue : SolutionsGlue sol) (hres : SolutionRestricts sol) {s₀} (hs₀ : s₀ ∈ S) (hmax : IsMaximalDevelopment sol cau S U₁ u₁) (honesided : Causality.OneSidedBoundary U₁ (closure S)); for every development: hconn, hG, hT, hsplit, hK, hSclosed; hagree : ∀ U₂ u₂, IsDevelopment sol cau S U₂ u₂ → EqOn u₁ u₂ (connectedComponentIn (U₁ ∩ U₂) s₀); hrestart : ∀ U₀ u₀ U₂ u₂, IsDevelopment … U₀ u₀ → IsDevelopment … U₂ u₂ → (cau u₂).SliceRestart U₂ S A₀₂ U₂ (GluedRestartAt cau S U₀ U₂ u₀ u₂ A₀₂), A₀₂ = connectedComponentIn (U₀ ∩ U₂) s₀ : ∀ U₂ u₂, IsDevelopment sol cau S U₂ u₂ → U₂ ≤ U₁ ∧ EqOn u₁ u₂ U₂",
+      "status": "proved",
+      "role": "FORM OF RECORD at globally_hyperbolic ∧ tarentin: the uniform restart, at every pair of developments. As a theorem it is the fixed-U₁ form specialised at U₀ = U₁, so logically weaker. Its hypothesis names no maximal development and is exercised at non-maximal pairs. That the conclusion does not imply it is argued, not proved"
+    },
+    {
+      "name": "Causal.ers_theorem_4_82_solution_of_restarts_isCausal",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:582",
+      "statement": "[T2Space M] [LocallyConnectedSpace M] (hloc) (hglue) (hres) (hs₀) (hmax : IsMaximalDevelopment sol cau S U₁ u₁) (honesided); for every development: hconn, hcaus, hsplit, hJm, hJp, hK, hSclosed; hagree; hrestart : ∀ U₀ u₀ U₂ u₂, IsDevelopment … U₀ u₀ → IsDevelopment … U₂ u₂ → (cau u₂).SliceRestart U₂ S A₀₂ U₂ (GluedRestartAt cau S U₀ U₂ u₀ u₂ A₀₂), A₀₂ = connectedComponentIn (U₀ ∩ U₂) s₀ : ∀ U₂ u₂, IsDevelopment sol cau S U₂ u₂ → U₂ ≤ U₁ ∧ EqOn u₁ u₂ U₂",
+      "status": "proved",
+      "role": "FORM OF RECORD at is_causal (added in fix round 1): the uniform restart, is_causal-level side conditions; one line from ers_theorem_4_82_solution with hrestart U₁ u₁"
+    },
+    {
+      "name": "Causal.timelikeLine_isCauchySurfaceOn_Ioo_of_neg_of_pos",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:613",
+      "statement": "{a b : ℝ} (ha : a < 0) (hb : 0 < b) {U : Opens ℝ} (hU : (U : Set ℝ) = Ioo a b) : timelikeLine.IsCauchySurfaceOn U {0}",
+      "status": "proved",
+      "role": "general helper (asymmetric intervals)"
+    },
+    {
+      "name": "Causal.timelikeLine_isCauchySurfaceOn_of_ordConnected",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:655",
+      "statement": "{W : Opens ℝ} (h0 : 0 ∈ W) (hW : OrdConnected W) (hb : BddBelow W) (ha : BddAbove W) : timelikeLine.IsCauchySurfaceOn W {0}",
+      "status": "proved",
+      "role": "general helper"
+    },
+    {
+      "name": "Causal.Ers482Witness.sol82",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:672",
+      "statement": "def : Opens ℝ → (ℝ → ℝ) → Prop := fun U u => (U : Set ℝ) ⊆ Ioo (-1) 1 ∧ EqOn u id U",
+      "status": "defined",
+      "role": "witness problem"
+    },
+    {
+      "name": "Causal.Ers482Witness.cau82",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:675",
+      "statement": "def : (ℝ → ℝ) → Causality ℝ := fun _ => timelikeLine",
+      "status": "defined",
+      "role": "witness causality"
+    },
+    {
+      "name": "Causal.Ers482Witness.sol82_local / sol82_glue / sol82_restricts / cau82_follows",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:678",
+      "statement": "SolutionLocal sol82; SolutionsGlue sol82; SolutionRestricts sol82; CausalityFollows cau82",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Ers482Witness.isDevelopment_halfIoo / isDevelopment_ersWitnessIoo",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:702",
+      "statement": "IsDevelopment sol82 cau82 {0} ErsWitness.halfIoo id; IsDevelopment sol82 cau82 {0} ersWitnessIoo id",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Ers482Witness.isMaximalDevelopment_ersWitnessIoo",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:714",
+      "statement": "IsMaximalDevelopment sol82 cau82 {0} ersWitnessIoo id",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Ers482Witness.not_isMaximalDevelopment_halfIoo",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:719",
+      "statement": "¬ IsMaximalDevelopment sol82 cau82 {0} ErsWitness.halfIoo id",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Ers482Witness.component_eq / frontier_component",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:726",
+      "statement": "connectedComponentIn (]-1/2,1/2[ ∩ ]-1,1[) 0 = Ioo (-(1/2)) (1/2); its frontier = {-(1/2), 1/2}",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Ers482Witness.restart_exercised",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:744",
+      "statement": "(∀ p ∈ {-(1/2), 1/2}, p ∈ frontier A ∩ ]-1,1[ ∧ ]-1,1[ ∈ 𝓝 p ∧ ]-1,1[ ⊆ ]-1,1[ ∧ ]-1,1[ ∩ ]-1/2,1/2[ ⊆ A) ∧ timelikeLine.IsSpacelikeBoundaryPoint ]-1,1[ {0} (frontier A) (1/2) ∧ timelikeLine.IsSpacelikeBoundaryPoint ]-1,1[ {0} (frontier A) (-(1/2))",
+      "status": "proved",
+      "role": "the restart's premise (and Q's premise) is met at ±1/2"
+    },
+    {
+      "name": "Causal.Ers482Witness.hconn82 … honesided82, hagree82",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:791",
+      "statement": "the side conditions of every form on every development of sol82; Rem 4.67's variation on the witness",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Ers482Witness.componentOpens_eq / ers_4_64_data82",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:829",
+      "statement": "componentOpens (]-1,1[ ⊓ U₂) 0 = U₂; Thm 4.64's hlocal, hstay, hstep₄₆₄ for the pair (]-1,1[, A) at every development",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Ers482Witness.restarts82",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:882",
+      "statement": "∀ U₀ u₀ U₂ u₂, IsDevelopment sol82 cau82 {0} U₀ u₀ → IsDevelopment sol82 cau82 {0} U₂ u₂ → (cau82 u₂).SliceRestart U₂ {0} A₀₂ U₂ (GluedRestartAt cau82 {0} U₀ U₂ u₀ u₂ A₀₂)",
+      "status": "proved",
+      "role": "the uniform restart holds at every pair of developments of the witness"
+    },
+    {
+      "name": "Causal.Ers482Witness.sliceRestart_halfIoo",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:917",
+      "statement": "timelikeLine.SliceRestart ]-1,1[ {0} A ]-1,1[ (GluedRestartAt cau82 {0} ]-1/2,1/2[ ]-1,1[ id id A)",
+      "status": "proved",
+      "role": "the restart at the non-maximal ]-1/2,1/2[ in ]-1,1["
+    },
+    {
+      "name": "Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_restart",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:930",
+      "statement": "∃ O : Opens ℝ, O ⊆ ]-1,1[ ∧ ]-1/2,1/2[ < ]-1/2,1/2[ ⊔ O ∧ IsExtension ]-1/2,1/2[ id (… ⊔ O) (glueSolutions ]-1/2,1/2[ id id) ∧ EqOn (glue) id O ∧ IsDevelopment sol82 cau82 {0} (]-1/2,1/2[ ⊔ O) (glue)",
+      "status": "proved",
+      "role": "instance of the restart lemma; hstep exercised"
+    },
+    {
+      "name": "Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution (and _unique, _of_globallyHyperbolicOn, _of_ers_theorem_4_64, _secondCountable, _of_restarts)",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:954",
+      "statement": "∀ U₂ u₂, IsDevelopment sol82 cau82 {0} U₂ u₂ → U₂ ≤ ersWitnessIoo ∧ EqOn id u₂ U₂ (for _unique: ∀ U u, IsMaximalDevelopment … U u → U = ersWitnessIoo ∧ EqOn id u U)",
+      "status": "proved",
+      "role": "every form instantiated at the maximal ]-1,1[; _of_restarts with restarts82"
+    },
+    {
+      "name": "Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution_of_restarts_isCausal",
+      "file_line": "scaffold/CausalScaffold/Ers482Solution.lean:1010",
+      "statement": "∀ U₂ u₂, IsDevelopment sol82 cau82 {0} U₂ u₂ → U₂ ≤ ersWitnessIoo ∧ EqOn id u₂ U₂",
+      "status": "proved",
+      "role": "instance of the is_causal uniform form, hrestart by restarts82 (added in fix round 1)"
+    }
+  ],
+  "extra_decls": [
+    "Causal.timelikeLine_isCauchySurfaceOn_Ioo_of_neg_of_pos",
+    "Causal.timelikeLine_isCauchySurfaceOn_of_ordConnected",
+    "Causal.notMem_of_mem_frontier_connectedComponentIn",
+    "Causal.coe_inf_componentOpens",
+    "Causal.eqOn_glueSolutions_left",
+    "Causal.eqOn_glueSolutions_right"
+  ],
+  "witness_table": [
+    {
+      "form": "Causal.ers_theorem_4_82_restart (the restart step)",
+      "data": "sol82 (id on open subsets of ]-1,1[), cau82 = the timelike line, S = {0}, U₁ = ]-1/2,1/2[ (not maximal), U₂ = ]-1,1[, u₁ = u₂ = id",
+      "exercised": "yes: premise met at p = ±1/2 (restart_exercised), Q proved with O = ]p - ε, p + ε[ (restarts82), conclusion a strictly larger development ]-1/2,1/2[ ∪ O",
+      "decl": "Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_restart"
+    },
+    {
+      "form": "ers_theorem_4_82_solution, _unique, _of_globallyHyperbolicOn, _of_ers_theorem_4_64, _secondCountable",
+      "data": "the same, U₁ = ]-1,1[ maximal",
+      "exercised": "hstep vacuously, necessarily (ers_theorem_4_82_solution_hstep_of_le). For _of_ers_theorem_4_64 and _secondCountable, Thm 4.64's restart for (U₁, A) is proved at every development (ers_4_64_data82)",
+      "decl": "Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution and siblings"
+    },
+    {
+      "form": "ers_theorem_4_82_solution_of_restarts (globally_hyperbolic, tarentin)",
+      "data": "the same, U₁ = ]-1,1[",
+      "exercised": "yes: hrestart proved at every pair of developments (restarts82), its premise met at (]-1/2,1/2[, ]-1,1[)",
+      "decl": "Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution_of_restarts"
+    },
+    {
+      "form": "ers_theorem_4_82_solution_of_restarts_isCausal",
+      "data": "the same, U₁ = ]-1,1[",
+      "exercised": "yes: hrestart proved at every pair of developments (restarts82), its premise met at (]-1/2,1/2[, ]-1,1[)",
+      "decl": "Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution_of_restarts_isCausal"
+    }
+  ],
+  "lemmas_for_the_keeper": {
+    "summary": "Seven [[consequence]] entries proposed, beside the four 4.82 entries of programme/ladder.toml. They lead with the uniform forms: Causal.ers_theorem_4_82_solution_of_restarts_isCausal at is_causal and Causal.ers_theorem_4_82_solution_of_restarts at globally_hyperbolic ∧ tarentin. Next comes the restart step Causal.ers_theorem_4_82_restart at is_causal, with its witness at a non-maximal pair named in `under`. Then the paper's shape (ers_theorem_4_82_solution, _of_globallyHyperbolicOn, _of_ers_theorem_4_64, _secondCountable), each recorded as a specialisation whose hstep is equivalent to the conclusion given the rest, as for the four existing 4.82 entries. Simulated in memory on copy.deepcopy(ladder.load()), kb/0276: ladder.check gives 0 errors once the witness names resolve after graduation, and 7 'witness not found' before it. ladder.matrix, ladder._contradictions and ladder.emitted are unchanged: each entry has an `under`, so none is a rule. No new node: GluedRestartAt and SolutionRestricts name solutions, as the restart hypotheses do.",
+    "entries": [
+      {
+        "at": "is_causal",
+        "statement": "ERS Thm 4.82 (ersthm:ThmNotBlocking), skeleton over a solution predicate, the restart geometric and asked of every pair of developments: a maximal development (U₁, u₁) whose boundary off closure S is one-sided contains every development (U₂, u₂), which it extends: U₂ ⊆ U₁ and u₁ = u₂ on U₂",
+        "witness": "Causal.ers_theorem_4_82_solution_of_restarts_isCausal",
+        "under": "developments (U, u) of an abstract problem sol, cau (Causal.IsDevelopment: u solves on U ⊇ S, S a Cauchy surface of U for cau u; DEC-162), sol local, gluing and restricting (Causal.SolutionLocal, SolutionsGlue, SolutionRestricts); s₀ ∈ S; (U₁, u₁) maximal (Causal.IsMaximalDevelopment, ERS l. 117: no development extending it has a larger domain; ERS identify it with l. 1094 through Thm 4.64, ghd_02_19.tex:1094); is_causal of each cau u on its development U (ladder node, read on the development: hcaus); J⁺_U(x), J⁻_U(x) relatively closed in U; for each development: U preconnected; S splits U (Causal.Causality.SplitBy U S); compact slabs (Causal.Causality.CompactSlabs U S); closure S ∩ U ⊆ S; one_sided_boundary, an edge hypothesis and no node (DEC-166 (b)): Causal.Causality.OneSidedBoundary U₁ (closure S); u₁ = u₂ on A, the component of U₁ ∩ U₂ through s₀, for each development (U₂, u₂) (Remark 4.67's variation, named: hagree); slice_restart, an edge hypothesis and no node (DEC-162), for every pair of developments (U₀, u₀), (U₂, u₂), maximal or not (hrestart): Causal.Causality.SliceRestart (cau u₂) U₂ S A₀₂ U₂ (Causal.GluedRestartAt cau S U₀ U₂ u₀ u₂ A₀₂), A₀₂ the component of U₀ ∩ U₂ through s₀, i.e. at each frontier point p ∈ U₂ of A₀₂ at which that frontier is spacelike in U₂ relative to S, every neighbourhood V ⊆ U₂ of p with V ∩ U₀ ⊆ A₀₂ contains an open O, not inside U₀, with S a Cauchy surface of U₀ ∪ O for the causality of the glued solution Causal.glueSolutions U₀ u₀ u₂ (u₀ on U₀, u₂ off it); it names no maximal development; no frontier_stays_in (the restart is located in all of U₂)",
+        "standing": [
+          "T2",
+          "locally_connected"
+        ],
+        "status": "checked"
+      },
+      {
+        "at": [
+          "globally_hyperbolic",
+          "tarentin"
+        ],
+        "statement": "ERS Thm 4.82 (ersthm:ThmNotBlocking), skeleton over a solution predicate, the restart geometric and asked of every pair of developments, every development globally hyperbolic and tarentin: a maximal development (U₁, u₁) whose boundary off closure S is one-sided contains every development (U₂, u₂), which it extends: U₂ ⊆ U₁ and u₁ = u₂ on U₂",
+        "witness": "Causal.ers_theorem_4_82_solution_of_restarts",
+        "under": "developments (U, u) of an abstract problem sol, cau (Causal.IsDevelopment: u solves on U ⊇ S, S a Cauchy surface of U for cau u; DEC-162), sol local, gluing and restricting (Causal.SolutionLocal, SolutionsGlue, SolutionRestricts); s₀ ∈ S; (U₁, u₁) maximal (Causal.IsMaximalDevelopment, ERS l. 117: no development extending it has a larger domain; ERS identify it with l. 1094 through Thm 4.64, ghd_02_19.tex:1094); globally_hyperbolic and tarentin of each cau u read on its development U (ladder nodes, read on the development: hG, hT); for each development: U preconnected; S splits U (Causal.Causality.SplitBy U S); compact slabs (Causal.Causality.CompactSlabs U S); closure S ∩ U ⊆ S; one_sided_boundary, an edge hypothesis and no node (DEC-166 (b)): Causal.Causality.OneSidedBoundary U₁ (closure S); u₁ = u₂ on A, the component of U₁ ∩ U₂ through s₀, for each development (U₂, u₂) (Remark 4.67's variation, named: hagree); slice_restart, an edge hypothesis and no node (DEC-162), for every pair of developments (U₀, u₀), (U₂, u₂), maximal or not (hrestart): Causal.Causality.SliceRestart (cau u₂) U₂ S A₀₂ U₂ (Causal.GluedRestartAt cau S U₀ U₂ u₀ u₂ A₀₂), A₀₂ the component of U₀ ∩ U₂ through s₀, i.e. at each frontier point p ∈ U₂ of A₀₂ at which that frontier is spacelike in U₂ relative to S, every neighbourhood V ⊆ U₂ of p with V ∩ U₀ ⊆ A₀₂ contains an open O, not inside U₀, with S a Cauchy surface of U₀ ∪ O for the causality of the glued solution Causal.glueSolutions U₀ u₀ u₂ (u₀ on U₀, u₂ off it); it names no maximal development; no frontier_stays_in (the restart is located in all of U₂)",
+        "standing": [
+          "T2",
+          "locally_connected"
+        ],
+        "status": "checked"
+      },
+      {
+        "at": "is_causal",
+        "statement": "ERS Thm 4.82's restart step (ersthm:ThmNotBlocking), at any development: a development (U₂, u₂) not inside a development (U₁, u₁), maximal or not, whose boundary off closure S is one-sided, gives an open O ⊆ U₂ with the glued solution a development on U₁ ∪ O, strictly larger than U₁, extending u₁ and equal to u₂ on O",
+        "witness": "Causal.ers_theorem_4_82_restart",
+        "under": "developments (U₁, u₁), (U₂, u₂) of an abstract problem sol, cau (Causal.IsDevelopment; DEC-162), sol local, gluing and restricting (Causal.SolutionLocal, SolutionsGlue, SolutionRestricts); s₀ ∈ S; U₂ ⊄ U₁; U₂ preconnected; is_causal of cau u₂ on U₂ (ladder node, read on the development: hcaus); J⁺_{U₂}(x), J⁻_{U₂}(x) relatively closed in U₂; S splits U₂; compact slabs of U₂; closure S ∩ U₂ ⊆ S; one_sided_boundary, an edge hypothesis and no node (DEC-166 (b)): Causal.Causality.OneSidedBoundary U₁ (closure S); u₁ = u₂ on A, the component of U₁ ∩ U₂ through s₀ (hagree); slice_restart, an edge hypothesis and no node (DEC-162): Causal.Causality.SliceRestart (cau u₂) U₂ S A U₂ Q with Q = Causal.GluedRestartAt cau S U₁ U₂ u₁ u₂ A, i.e. at each frontier point p ∈ U₂ of A at which that frontier is spacelike in U₂ relative to S, every neighbourhood V ⊆ U₂ of p with V ∩ U₁ ⊆ A contains an open O, not inside U₁, with S a Cauchy surface of U₁ ∪ O for the causality of the glued solution (Causal.glueSolutions U₁ u₁ u₂: u₁ on U₁, u₂ off it); no frontier_stays_in (the restart is located in all of U₂). Exercised at a non-maximal U₁: Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_restart (]-1/2, 1/2[ against ]-1, 1[, p = ±1/2, restart_exercised)",
+        "standing": [
+          "T2",
+          "locally_connected"
+        ],
+        "status": "checked"
+      },
+      {
+        "at": "is_causal",
+        "statement": "ERS Thm 4.82 (ersthm:ThmNotBlocking), skeleton over a solution predicate in the paper's shape, the restart of the maximal development alone, geometric: a maximal development (U₁, u₁) whose boundary off closure S is one-sided contains every development (U₂, u₂), which it extends: U₂ ⊆ U₁ and u₁ = u₂ on U₂",
+        "witness": "Causal.ers_theorem_4_82_solution",
+        "under": "developments (U, u) of an abstract problem sol, cau (Causal.IsDevelopment: u solves on U ⊇ S, S a Cauchy surface of U for cau u; DEC-162), sol local, gluing and restricting (Causal.SolutionLocal, SolutionsGlue, SolutionRestricts); s₀ ∈ S; (U₁, u₁) maximal (Causal.IsMaximalDevelopment, ERS l. 117: no development extending it has a larger domain; ERS identify it with l. 1094 through Thm 4.64, ghd_02_19.tex:1094); is_causal of each cau u on its development U (ladder node, read on the development: hcaus); J⁺_U(x), J⁻_U(x) relatively closed in U; for each development: U preconnected; S splits U (Causal.Causality.SplitBy U S); compact slabs (Causal.Causality.CompactSlabs U S); closure S ∩ U ⊆ S; one_sided_boundary, an edge hypothesis and no node (DEC-166 (b)): Causal.Causality.OneSidedBoundary U₁ (closure S); u₁ = u₂ on A, the component of U₁ ∩ U₂ through s₀, for each development (U₂, u₂) (Remark 4.67's variation, named: hagree); slice_restart, an edge hypothesis and no node (DEC-162), for each development (U₂, u₂): Causal.Causality.SliceRestart (cau u₂) U₂ S A U₂ Q with Q = Causal.GluedRestartAt cau S U₁ U₂ u₁ u₂ A, i.e. at each frontier point p ∈ U₂ of A at which that frontier is spacelike in U₂ relative to S, every neighbourhood V ⊆ U₂ of p with V ∩ U₁ ⊆ A contains an open O, not inside U₁, with S a Cauchy surface of U₁ ∪ O for the causality of the glued solution (Causal.glueSolutions U₁ u₁ u₂: u₁ on U₁, u₂ off it); no frontier_stays_in (the restart is located in all of U₂). Given the rest, its hstep is equivalent to the conclusion (Causal.ers_theorem_4_82_solution_hstep_iff), as for the four 4.82 entries above.",
+        "standing": [
+          "T2",
+          "locally_connected"
+        ],
+        "status": "checked"
+      },
+      {
+        "at": [
+          "globally_hyperbolic",
+          "tarentin"
+        ],
+        "statement": "ERS Thm 4.82 (ersthm:ThmNotBlocking), skeleton over a solution predicate in the paper's shape, the restart geometric, every development globally hyperbolic and tarentin: a maximal development (U₁, u₁) whose boundary off closure S is one-sided contains every development (U₂, u₂), which it extends: U₂ ⊆ U₁ and u₁ = u₂ on U₂",
+        "witness": "Causal.ers_theorem_4_82_solution_of_globallyHyperbolicOn",
+        "under": "developments (U, u) of an abstract problem sol, cau (Causal.IsDevelopment: u solves on U ⊇ S, S a Cauchy surface of U for cau u; DEC-162), sol local, gluing and restricting (Causal.SolutionLocal, SolutionsGlue, SolutionRestricts); s₀ ∈ S; (U₁, u₁) maximal (Causal.IsMaximalDevelopment, ERS l. 117: no development extending it has a larger domain; ERS identify it with l. 1094 through Thm 4.64, ghd_02_19.tex:1094); globally_hyperbolic and tarentin of each cau u read on its development U (ladder nodes, read on the development: hG, hT); for each development: U preconnected; S splits U (Causal.Causality.SplitBy U S); compact slabs (Causal.Causality.CompactSlabs U S); closure S ∩ U ⊆ S; one_sided_boundary, an edge hypothesis and no node (DEC-166 (b)): Causal.Causality.OneSidedBoundary U₁ (closure S); u₁ = u₂ on A, the component of U₁ ∩ U₂ through s₀, for each development (U₂, u₂) (Remark 4.67's variation, named: hagree); slice_restart, an edge hypothesis and no node (DEC-162), for each development (U₂, u₂): Causal.Causality.SliceRestart (cau u₂) U₂ S A U₂ Q with Q = Causal.GluedRestartAt cau S U₁ U₂ u₁ u₂ A, i.e. at each frontier point p ∈ U₂ of A at which that frontier is spacelike in U₂ relative to S, every neighbourhood V ⊆ U₂ of p with V ∩ U₁ ⊆ A contains an open O, not inside U₁, with S a Cauchy surface of U₁ ∪ O for the causality of the glued solution (Causal.glueSolutions U₁ u₁ u₂: u₁ on U₁, u₂ off it); no frontier_stays_in (the restart is located in all of U₂). Given the rest, its hstep is equivalent to the conclusion (Causal.ers_theorem_4_82_solution_hstep_iff), as for the four 4.82 entries above.",
+        "standing": [
+          "T2",
+          "locally_connected"
+        ],
+        "status": "checked"
+      },
+      {
+        "at": [
+          "globally_hyperbolic",
+          "tarentin"
+        ],
+        "statement": "ERS Thm 4.82 (ersthm:ThmNotBlocking), skeleton over a solution predicate in the paper's shape, the restart geometric, Remark 4.67's variation derived from Thm 4.64 for U₁ and A: a maximal development (U₁, u₁) whose boundary off closure S is one-sided contains every development (U₂, u₂), which it extends: U₂ ⊆ U₁ and u₁ = u₂ on U₂",
+        "witness": "Causal.ers_theorem_4_82_solution_of_ers_theorem_4_64",
+        "under": "developments (U, u) of an abstract problem sol, cau (Causal.IsDevelopment: u solves on U ⊇ S, S a Cauchy surface of U for cau u; DEC-162), sol local, gluing and restricting (Causal.SolutionLocal, SolutionsGlue, SolutionRestricts); s₀ ∈ S; (U₁, u₁) maximal (Causal.IsMaximalDevelopment, ERS l. 117: no development extending it has a larger domain; ERS identify it with l. 1094 through Thm 4.64, ghd_02_19.tex:1094); globally_hyperbolic and tarentin of each cau u read on its development U (ladder nodes, read on the development: hG, hT); for each development: U preconnected; S splits U (Causal.Causality.SplitBy U S); compact slabs (Causal.Causality.CompactSlabs U S); closure S ∩ U ⊆ S; S acausal in U₁ for cau u₁ (Causal.Causality.IsAcausalOn, OQ-41); one_sided_boundary, an edge hypothesis and no node (DEC-166 (b)): Causal.Causality.OneSidedBoundary U₁ (closure S); for each development (U₂, u₂), Thm 4.64's hypotheses for the pair (U₁, A), A = Causal.componentOpens (U₁ ⊓ U₂) s₀ and agreement EqOn u₁ u₂: local_uniqueness's existential (hlocal), frontier_stays_in (hstay), slice_restart with Q a strictly larger common development (hstep₄₆₄), edge hypotheses and no nodes; slice_restart, an edge hypothesis and no node (DEC-162), for each development (U₂, u₂): Causal.Causality.SliceRestart (cau u₂) U₂ S A U₂ Q with Q = Causal.GluedRestartAt cau S U₁ U₂ u₁ u₂ A, i.e. at each frontier point p ∈ U₂ of A at which that frontier is spacelike in U₂ relative to S, every neighbourhood V ⊆ U₂ of p with V ∩ U₁ ⊆ A contains an open O, not inside U₁, with S a Cauchy surface of U₁ ∪ O for the causality of the glued solution (Causal.glueSolutions U₁ u₁ u₂: u₁ on U₁, u₂ off it); frontier_stays_in only in Thm 4.64's hypotheses for (U₁, A); the 4.82 restart is located in all of U₂. Given the rest, its hstep is equivalent to the conclusion (Causal.ers_theorem_4_82_solution_hstep_iff), as for the four 4.82 entries above.",
+        "standing": [
+          "T2",
+          "locally_connected"
+        ],
+        "status": "checked"
+      },
+      {
+        "at": [
+          "globally_hyperbolic",
+          "tarentin"
+        ],
+        "statement": "ERS Thm 4.82 (ersthm:ThmNotBlocking), skeleton over a solution predicate in the paper's shape on a second countable background with S connected (ghd_02_19.tex:814), the restart geometric, Remark 4.67's variation derived: a maximal development (U₁, u₁) whose boundary off closure S is one-sided contains every development (U₂, u₂), which it extends: U₂ ⊆ U₁ and u₁ = u₂ on U₂",
+        "witness": "Causal.ers_theorem_4_82_solution_secondCountable",
+        "under": "developments (U, u) of an abstract problem sol, cau (Causal.IsDevelopment: u solves on U ⊇ S, S a Cauchy surface of U for cau u; DEC-162), sol local, gluing and restricting (Causal.SolutionLocal, SolutionsGlue, SolutionRestricts); s₀ ∈ S; (U₁, u₁) maximal (Causal.IsMaximalDevelopment, ERS l. 117: no development extending it has a larger domain; ERS identify it with l. 1094 through Thm 4.64, ghd_02_19.tex:1094); S preconnected; globally_hyperbolic and tarentin of each cau u read on its development U (ladder nodes, read on the development: hG, hT); for each development: compact slabs (Causal.Causality.CompactSlabs U S), closure S ∩ U ⊆ S; one_sided_boundary, an edge hypothesis and no node (DEC-166 (b)): Causal.Causality.OneSidedBoundary U₁ (closure S); for each development (U₂, u₂), Thm 4.64's hypotheses for the pair (U₁, A), A = Causal.componentOpens (U₁ ⊓ U₂) s₀ and agreement EqOn u₁ u₂: local_uniqueness's existential (hlocal), frontier_stays_in (hstay), slice_restart with Q a strictly larger common development (hstep₄₆₄), edge hypotheses and no nodes; slice_restart, an edge hypothesis and no node (DEC-162), for each development (U₂, u₂): Causal.Causality.SliceRestart (cau u₂) U₂ S A U₂ Q with Q = Causal.GluedRestartAt cau S U₁ U₂ u₁ u₂ A, i.e. at each frontier point p ∈ U₂ of A at which that frontier is spacelike in U₂ relative to S, every neighbourhood V ⊆ U₂ of p with V ∩ U₁ ⊆ A contains an open O, not inside U₁, with S a Cauchy surface of U₁ ∪ O for the causality of the glued solution (Causal.glueSolutions U₁ u₁ u₂: u₁ on U₁, u₂ off it); frontier_stays_in only in Thm 4.64's hypotheses for (U₁, A); the 4.82 restart is located in all of U₂. Given the rest, its hstep is equivalent to the conclusion (Causal.ers_theorem_4_82_solution_hstep_iff), as for the four 4.82 entries above.",
+        "standing": [
+          "T2",
+          "second_countable",
+          "locally_connected"
+        ],
+        "status": "checked"
+      }
+    ],
+    "edge_hypothesis_note": "slice_restart's [[edge_hypothesis]] note (programme/ladder.toml:1205) could add: 'With W = L = U₂, R the component A of U₁ ∩ U₂ through s₀ and Q = Causal.GluedRestartAt cau S U₁ U₂ u₁ u₂ A (each neighbourhood V ⊆ U₂ of p with V ∩ U₁ ⊆ A contains an open O, not inside U₁, with S a Cauchy surface of U₁ ∪ O for the causality of the glued solution Causal.glueSolutions U₁ u₁ u₂), it is the hstep of Causal.ers_theorem_4_82_restart and of Causal.ers_theorem_4_82_solution and its forms. Asked of every pair (U₀, u₀), (U₂, u₂) of developments, it is the hrestart of Causal.ers_theorem_4_82_solution_of_restarts(_isCausal). That Q names no maximal development, and the restart step is exercised at a non-maximal U₁ (witness Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_restart, restart_exercised, restarts82).'",
+    "comment_for_the_keepers_question": "On the keeper's T-lad-record-stale-refs question (programme/ladder.toml:3655–3667): the form over sol now exists. Its fixed-U₁ restart is still, given the rest, equivalent to the conclusion (Causal.ers_theorem_4_82_solution_hstep_iff). That is unavoidable for any restart located on ∂A ∩ U₂, because the conclusion makes A = U₂. Its Q is geometric and names no maximality, so what has content is the restart step at non-maximal pairs (Causal.ers_theorem_4_82_restart), exercised by the witness at (]-1/2, 1/2[, ]-1, 1[). There it needs the Cauchy property of ]-1/2, 1/2 + ε[ for the glued solution (Causal.Ers482Witness.restarts82), and it is not met by j = i₁ as the old Q was. The uniform forms (_of_restarts_isCausal, _of_restarts) ask it of every pair. As theorems they are the fixed-U₁ forms specialised at U₀ = U₁, so logically weaker. Their hypothesis names no maximal development and is exercised at non-maximal pairs. That the conclusion does not imply it is argued, not proved in Lean.",
+    "named_in_comments": [
+      "Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_restart, restart_exercised, restarts82 (the restart step exercised at the non-maximal ]-1/2,1/2[ in ]-1,1[)",
+      "Causal.ers_theorem_4_82_solution_unique",
+      "Causal.ers_theorem_4_82_solution_hstep_of_le, _hstep_iff (findings)",
+      "Causal.GluedRestartAt.of_mem, Causal.sliceRestart_gluedRestartAt_of_mem (the O ∋ p wording implies the Q taken)",
+      "the other witnesses Causal.Ers482Witness.*"
+    ]
+  },
+  "binder_proposal": {
+    "file": "papers/ers-predictability/certificate/binder.toml",
+    "row": "ersthm:ThmNotBlocking",
+    "ett_add": [
+      "Causal.ers_theorem_4_82_solution_of_restarts",
+      "Causal.ers_theorem_4_82_solution_of_restarts_isCausal",
+      "Causal.ers_theorem_4_82_restart",
+      "Causal.ers_theorem_4_82_solution",
+      "Causal.ers_theorem_4_82_solution_unique",
+      "Causal.ers_theorem_4_82_solution_of_globallyHyperbolicOn",
+      "Causal.ers_theorem_4_82_solution_of_ers_theorem_4_64",
+      "Causal.ers_theorem_4_82_solution_secondCountable"
+    ],
+    "localisation_add": [
+      "frontier_stays_in"
+    ],
+    "localisation_note": "frontier_stays_in enters only through the forms that derive Remark 4.67's variation (_of_ers_theorem_4_64, _secondCountable: Thm 4.64's hstay for the pair (U₁, A)). The other forms take globally_hyperbolic, tarentin (or is_causal on each development), one_sided_boundary and slice_restart, as the row already lists. local_uniqueness enters through those same two forms (Thm 4.64's hlocal). The uniform forms and the restart step take no frontier_stays_in.",
+    "edge_note_append": "The solution form (Causal/Ers482Solution.lean, T-abs-ers-4-82-solution-form) keeps the ids. Its slice_restart is Causal.Causality.SliceRestart (cau u₂) U₂ S A U₂ Q with the geometric Q = Causal.GluedRestartAt (an open O in each one-sided neighbourhood V ⊆ U₂ of p, not inside U₁, with S a Cauchy surface of U₁ ∪ O for the glued solution Causal.glueSolutions U₁ u₁ u₂), not 'a strictly larger development'. one_sided_boundary is unchanged.",
+    "note_append": "Over a solution predicate (Causal/Ers482Solution.lean, T-abs-ers-4-82-solution-form), as Thms 4.79 and 4.80. Forms of record: the uniform forms Causal.ers_theorem_4_82_solution_of_restarts (globally_hyperbolic, tarentin) and _of_restarts_isCausal (is_causal), whose restart is asked of every pair of developments and names no maximal development, and the restart step at any development Causal.ers_theorem_4_82_restart. The restart step glues u₁ on U₁ and u₂ on O (Causal.glueSolutions). This is well defined because V ∩ U₁ ⊆ A, where u₁ = u₂: Remark 4.67's variation, named or derived from Thm 4.64 for (U₁, A). The glued function solves by SolutionLocal, SolutionsGlue and the new SolutionRestricts. Witness Causal.Ers482Witness: the restart step exercised at the non-maximal ]-1/2, 1/2[ in ]-1, 1[ (p = ±1/2; timelikeLine_ers_theorem_4_82_restart, restart_exercised) and the uniform restart proved at every pair of developments (restarts82). The paper's shape, Causal.ers_theorem_4_82_solution (with _unique, _of_globallyHyperbolicOn, _of_ers_theorem_4_64, _secondCountable): (U₁, u₁) maximal in ERS's l. 117 sense (Causal.IsMaximalDevelopment, identified with l. 1094 by ERS at :1094), every development contained and agreeing. At the maximal U₁ its fixed-U₁ hstep is equivalent to the conclusion given the rest (Causal.ers_theorem_4_82_solution_hstep_iff), necessarily. The uniform forms are its specialisation at U₀ = U₁, so logically weaker as theorems. That the conclusion does not imply their hypothesis is argued, not proved.",
+    "geometric": "unchanged: the quasilinear entry proves globally_hyperbolic, tarentin, one_sided_boundary, slice_restart, local_uniqueness. Its slice_restart supplier (T-loc-quasilinear-slice) should state the GluedRestartAt shape too (Steps 3–4 in U₂, DΣ_V, U₁ ∪ DΣ_V Cauchy for g(u₃))."
+  },
+  "curation_proposal": {
+    "file": "papers/ers-predictability/certificate/curation.toml",
+    "label": "ersthm:ThmNotBlocking",
+    "decls_add": [
+      "Causal.ers_theorem_4_82_solution_of_restarts",
+      "Causal.ers_theorem_4_82_solution_of_restarts_isCausal",
+      "Causal.ers_theorem_4_82_restart",
+      "Causal.ers_theorem_4_82_solution",
+      "Causal.ers_theorem_4_82_solution_unique",
+      "Causal.ers_theorem_4_82_solution_of_globallyHyperbolicOn",
+      "Causal.ers_theorem_4_82_solution_of_ers_theorem_4_64",
+      "Causal.ers_theorem_4_82_solution_secondCountable"
+    ],
+    "extra_lean_files_add": [
+      "Causal/Ers482Solution.lean (after graduation; scaffold/CausalScaffold/Ers482Solution.lean before)"
+    ],
+    "lean_proved_override": "partial (unchanged)",
+    "bucket": "B (unchanged)",
+    "notes_append": "Solution form (T-abs-ers-4-82-solution-form, 2026-11-27, audit round 1): over sol, cau as Thms 4.79 and 4.80, the restart slice_restart with the geometric Q Causal.GluedRestartAt. Forms of record: the uniform forms Causal.ers_theorem_4_82_solution_of_restarts and _of_restarts_isCausal (the restart asked of every pair of developments, naming no maximal development) and the restart step at any development Causal.ers_theorem_4_82_restart. The paper's shape is Causal.ers_theorem_4_82_solution: the MGHD in ERS's l. 117 sense (identified with l. 1094 at :1094), every development contained and agreeing, the unique MGHD (…_unique). Remark 4.67's variation is named (hagree) or derived from Thm 4.64 for (U₁, A) (…_of_ers_theorem_4_64, …_secondCountable). Still unmarked, partial: the equation is abstract (SolutionRestricts new), a GHD is read 'S Cauchy' (DEC-162), and the edge hypotheses one_sided_boundary and slice_restart and the GH side conditions are named. Witness Causal.Ers482Witness: the restart step exercised at the non-maximal ]-1/2, 1/2[ in ]-1, 1[ (p = ±1/2). At the maximal U₁ the fixed-U₁ hstep is equivalent to the conclusion given the rest (…_hstep_iff)."
+  },
+  "findings": [
+    "Paper, ghd_02_19.tex:1094, :117, :1138: §4.82 defines an MGHD by l. 1094 (no GHD with U₁ ⊊ U₂). ERS identify it with l. 117 in the next sentences, through Thm 4.64: 'any such GHD u2 would agree with u1 on U1 … a MGHD is a GHD that cannot be extended as a GHD' (:1094). The proof uses the extension form (u₃ extends u₁, :1138). Causal.ers_theorem_4_82_solution takes Causal.IsMaximalDevelopment (l. 117), formally weaker only in the abstract reading, where Thm 4.64 is not available.",
+    "Paper, ghd_02_19.tex:1135–1138: (4.83) is applied at a point q ∈ Σ ∩ ∂A of Steps 3–4, near the spacelike point p and not p. DΣ_V need not contain p. The proof uses 'DΣ_V contains points above the graph', i.e. DΣ_V ⊄ U₁, which is what Causal.GluedRestartAt asks. The dispatch's 'O ∋ p' implies it.",
+    "Paper, ghd_02_19.tex:1138: 'u₃ is a GHD' uses restriction of solutions (u₂ solves on DΣ_V ⊆ U₂). In the abstract form this is Causal.SolutionRestricts.",
+    "Paper, ghd_02_19.tex:814: S connected is §4's standing hypothesis ('Let S ⊆ R^{d+1} be a connected hypersurface'). Thm 4.82 (:1101) is stated for that data, and its proof uses it (:1118, :1128). The Lean forms need only a point s₀ ∈ S, except _secondCountable (IsPreconnected S).",
+    "Library: at the maximal U₁, any restart located on ∂A ∩ U₂ is equivalent to the conclusion given the other hypotheses (Causal.ers_theorem_4_82_solution_hstep_iff, the solution form of ers_theorem_4_82_hstep_iff). With the geometric Q, what has content is the restart step at non-maximal pairs (Causal.ers_theorem_4_82_restart). On the witness it is proved at every pair (Causal.Ers482Witness.restarts82) and exercised at (]-1/2, 1/2[, ]-1, 1[), p = ±1/2, where the restart holds while ]-1, 1[ ⊄ ]-1/2, 1/2[. The uniform forms (_of_restarts, _of_restarts_isCausal) ask it of every pair. As theorems they are the fixed-U₁ forms specialised at U₀ = U₁, so logically weaker. That the conclusion does not imply their hypothesis is argued, not proved (no separating model in Lean).",
+    "Library: Causal.ers_remark_4_78 (the glued solution a development) does not apply to Thm 4.82. It assumes subluminality (curve nesting into Minkowski's causality Cm, Cm causal, S m-acausal), and 4.82 is for general quasilinear equations. So the Cauchy property of U₁ ∪ O sits in slice_restart's Q, and the solving part is proved from SolutionLocal, SolutionsGlue and SolutionRestricts.",
+    "Roadmap/dispatch reference: the evidence of T-abs-ers-4-82-solution-form and the dispatch name 'Causal.Causality.ers_theorem_4_79' and 'ers_theorem_4_80'. The declarations are Causal.ers_theorem_4_79 and Causal.ers_theorem_4_80 (section Developments of Causal/ErsMughd.lean, outside namespace Causality; curation.toml:182 has the right name)."
+  ],
+  "questions": [
+    "SolutionRestricts (new, the equation restricts to open subsets) vs 'u₂ solves on O' inside slice_restart's Q. Reading taken: a named property of the equation, beside SolutionLocal and SolutionsGlue.",
+    "The restart's conclusion 'O ∋ p' (dispatch) vs 'O not inside U₁' (ERS :1138). Reading taken: O not inside U₁, the weaker hypothesis. The O ∋ p form implies it (GluedRestartAt.of_mem, sliceRestart_gluedRestartAt_of_mem).",
+    "Remark 4.67's 'slight variation' (:1128). Reading taken: Thm 4.64 for U₁ and the open A (componentOpens (U₁ ⊓ U₂) s₀), its restart hypotheses for that pair (_of_ers_theorem_4_64, _secondCountable). The agreement is named (hagree) in the other forms.",
+    "Formalization of record: reading now taken after audit round 1, the uniform forms _of_restarts and _of_restarts_isCausal, with the restart step and its witness. The fixed-U₁ ers_theorem_4_82_solution is kept as the paper's shape, whose restart is equivalent to the conclusion given the rest. The uniform forms are its specialisation at U₀ = U₁, so logically weaker as theorems. That the conclusion does not imply their hypothesis is argued, not proved. The keeper and the author decide."
+  ],
+  "kb_proposals": [
+    "ERS Thm 4.82 over sol has a geometric restart Q, Causal.GluedRestartAt: an open O, not inside U₁, in each one-sided neighbourhood of p, with S Cauchy in U₁ ∪ O for the glued solution (Causal.glueSolutions). The MGHD is IsMaximalDevelopment (l. 117), and solutions restrict (Causal.SolutionRestricts). At the maximal U₁ any restart on ∂A ∩ U₂ is equivalent to the conclusion (…_hstep_iff). What has content is the restart step at non-maximal pairs (Causal.ers_theorem_4_82_restart, exercised by Causal.Ers482Witness). The forms of record are the uniform ones (…_of_restarts, …_of_restarts_isCausal), logically weaker than the fixed-U₁ form, whose hypothesis names no maximal development (T-abs-ers-4-82-solution-form).",
+    "On the timelike line, {0} is a Cauchy surface of every bounded open interval ]a, b[ ∋ 0, symmetric or not: Causal.timelikeLine_isCauchySurfaceOn_Ioo_of_neg_of_pos, through x ↦ m + k·arctan(x + x₀) with arctan x₀ = -m/k. The same holds of every bounded order-connected open set ∋ 0 (Causal.timelikeLine_isCauchySurfaceOn_of_ordConnected). Use them when a witness's domains are not centred (T-abs-ers-4-82-solution-form).",
+    "Pitfall: with a constant causality family (cau82 := fun _ => timelikeLine), `rw [timelikeLine_le] at h` fails on h : (cau82 u).le U x y, because rw matches syntactically. Use timelikeLine_le.1 h in term mode (definitional unfolding), or `show timelikeLine.… ` first (T-abs-ers-4-82-solution-form)."
+  ],
+  "what_remains": "Nothing of the target: every requested item is stated and proved, with no sorry. These are the theorem in the paper's shape, the uniform forms of record (globally hyperbolic and is_causal level), the restart step at any development, its instance at the non-maximal ]-1/2, 1/2[ in ]-1, 1[ (hstep exercised at p = ±1/2), and every form's instance at ]-1, 1[. Not done: a separating model showing that the conclusion does not imply the uniform restart (argued only; not a few lines), and a witness separating g(u₁) from g(u₂). For the row (still partial): the suppliers of the named hypotheses, all layer 3. They are slice_restart with Q = GluedRestartAt (T-loc-quasilinear-slice), one_sided_boundary (Lemma 4.86, done at the model), the GH side conditions (T-loc-quasilinear-causal-ladder), Remark 4.67's variation (Thm 4.64's restart hypotheses for (U₁, A)) and SolutionRestricts at the quasilinear model.",
+  "notes": "Graduation: scaffold/CausalScaffold/Ers482Solution.lean → Causal/Ers482Solution.lean (namespace Causal; the witnesses in Causal.Ers482Witness). It is a leaf: nothing imports it. Its imports are model-free (model_path None for each, kb/0247). No existing file was edited. programme/ladder.toml, the binder, the curation, Causal.lean, the README and the kb are untouched: their changes are proposed above. tools/ladder.py emit-lean was not run (kb/0252); the ladder simulation was in memory only. Names checked unused before writing: ers_theorem_4_82_solution*, ers_theorem_4_82_restart, glueSolutions, GluedRestartAt, SolutionRestricts, Ers482Witness. Causal.IsMaximalDevelopment and IsExtension come from Causal.MaximalZorn (ETT layer), imported for that. The module was built alone with taskset -c 12-23, as the dispatch asks (another closer builds in the same package). The witnesses reuse Causal.ErsWitness.halfIoo, dom82_le, three_quarters_* and Causal.ersWitnessIoo. Docstring table rows exceed 100 characters, as in the sibling modules (Causal/ErsMughd.lean); no code line does.",
+  "corrected_after_audit": [
+    "Round 1 (AUDIT-1.json, verdict minor), finding 1: added Causal.ers_theorem_4_82_solution_of_restarts_isCausal (the is_causal-level uniform form, one line from ers_theorem_4_82_solution with hrestart U₁ u₁) and its witness Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution_of_restarts_isCausal (with restarts82). The uniform forms are now the forms of record. They lead labels[0].decls, the binder's ett_add and note_append, the curation's decls_add and notes_append, and the keeper's entries: is_causal uniform first, then globally_hyperbolic ∧ tarentin uniform, then the restart step at is_causal (with its witness in `under`). ers_theorem_4_82_solution and its siblings are presented as the paper's shape, whose hstep is equivalent to the conclusion given the rest (_hstep_iff). Module docstring (label bullet, SCOPE) and the _hstep_iff and _of_restarts docstrings reworded to match.",
+    "Finding 2: 'carries the content' and 'the one with content' are removed everywhere (module, REPORT, binder and keeper texts). What has content is the restart step at non-maximal pairs, exercised by the witness. The uniform forms are stated to be the fixed-U₁ forms specialised at U₀ = U₁, logically weaker, with a hypothesis that names no maximal development and is exercised at non-maximal pairs. That the conclusion does not imply it is argued, not proved. No separating model was built (not a few lines).",
+    "Finding 3: the keeper entries for _of_ers_theorem_4_64 and _secondCountable no longer end with 'no frontier_stays_in'. They say 'frontier_stays_in only in Thm 4.64's hypotheses for (U₁, A); the 4.82 restart is located in all of U₂'.",
+    "Finding 4: the uniform keeper entries write the restart with U₀, u₀ and A₀₂ throughout, as the declarations have it (GluedRestartAt cau S U₀ U₂ u₀ u₂ A₀₂, V ∩ U₀ ⊆ A₀₂, not inside U₀, U₀ ∪ O, glueSolutions U₀ u₀ u₂).",
+    "Finding 5: 'S connected is implicit' replaced by 'S connected is §4's standing hypothesis (ghd_02_19.tex:814)'. This is in the module (new quote of :814, checklist row, the _secondCountable docstring) and in REPORT (findings[3], labels[0].findings[3], lean_ge_paper and hypotheses rows).",
+    "Finding 6: ERS's own reconciliation at :1094 ('by Theorem 4.64 any such GHD would agree … a MGHD is a GHD that cannot be extended as a GHD') is quoted in the module and in REPORT. 'weaker than l. 1094' is reworded to 'formally weaker in the abstract reading; ERS identify the two at :1094 through Thm 4.64'.",
+    "Finding 7: curation notes_append now says 'the restart step exercised at the non-maximal ]-1/2, 1/2[ in ]-1, 1[ (p = ±1/2). At the maximal U₁ the fixed-U₁ hstep is equivalent to the conclusion given the rest (…_hstep_iff)'.",
+    "Finding 8: checklist '✓ weakened' replaced by '⚠ weakened' (MGHD and S-connected rows). GluedRestartAt's docstring now says that it takes the two solutions only through the causality of the glued solution, and names no solution predicate sol and no maximality.",
+    "Build: lake build not run this round. lake env lean -DwarningAsError=true on the file exits 0 with no output. Probe.lean is regenerated as a copy of the source plus #check/#print axioms on all 55 declarations, because the module's olean predates the edits. axioms.txt is regenerated: 54 on [propext, Classical.choice, Quot.sound], SolutionRestricts on [propext, Quot.sound], no sorryAx.",
+    "Master, after graduation (2026-11-28): Probe.lean, a verbatim copy of the source during the fix round, replaced by an import of the graduated Causal.Ers482Solution with the same 55 #check and #print axioms commands; axioms.txt regenerated from it: 55 declarations, 54 on [propext, Classical.choice, Quot.sound], SolutionRestricts on [propext, Quot.sound], no sorryAx."
+  ]
+}

@@ -1,0 +1,588 @@
+@Causal.SolutionRestricts : {M : Type u_1} →
+  [inst : TopologicalSpace M] → {β : Type u_2} → (TopologicalSpace.Opens M → (M → β) → Prop) → Prop
+@Causal.glueSolutions : {M : Type u_1} →
+  [inst : TopologicalSpace M] → {β : Type u_2} → TopologicalSpace.Opens M → (M → β) → (M → β) → M → β
+@Causal.eqOn_glueSolutions_left : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  (U₁ : TopologicalSpace.Opens M) (u₁ u₂ : M → β), Set.EqOn (Causal.glueSolutions U₁ u₁ u₂) u₁ ↑U₁
+@Causal.eqOn_glueSolutions_right : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  {U₁ : TopologicalSpace.Opens M} {u₁ u₂ : M → β} {O : Set M},
+  Set.EqOn u₁ u₂ (O ∩ ↑U₁) → Set.EqOn (Causal.glueSolutions U₁ u₁ u₂) u₂ O
+@Causal.GluedRestartAt : {M : Type u_1} →
+  [inst : TopologicalSpace M] →
+    {β : Type u_2} →
+      ((M → β) → Causal.Causality M) →
+        Set M → TopologicalSpace.Opens M → TopologicalSpace.Opens M → (M → β) → (M → β) → Set M → M → Prop
+@Causal.GluedRestartAt.of_mem : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  {cau : (M → β) → Causal.Causality M} {S : Set M} {U₁ U₂ : TopologicalSpace.Opens M} {u₁ u₂ : M → β} {A : Set M}
+  {p : M},
+  p ∉ U₁ →
+    (∀ V ∈ nhds p,
+        V ⊆ ↑U₂ →
+          V ∩ ↑U₁ ⊆ A → ∃ O, p ∈ O ∧ ↑O ⊆ V ∧ (cau (Causal.glueSolutions U₁ u₁ u₂)).IsCauchySurfaceOn (U₁ ⊔ O) S) →
+      Causal.GluedRestartAt cau S U₁ U₂ u₁ u₂ A p
+@Causal.notMem_of_mem_frontier_connectedComponentIn : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  [LocallyConnectedSpace M] {U₁ U₂ : TopologicalSpace.Opens M} {s₀ p : M},
+  p ∈ frontier (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀) → p ∈ U₂ → p ∉ U₁
+@Causal.sliceRestart_gluedRestartAt_of_mem : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  [LocallyConnectedSpace M] {cau : (M → β) → Causal.Causality M} {S : Set M} {U₁ U₂ : TopologicalSpace.Opens M}
+  {u₁ u₂ : M → β} {s₀ : M},
+  ((cau u₂).SliceRestart U₂ S (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀) ↑U₂ fun p =>
+      ∀ V ∈ nhds p,
+        V ⊆ ↑U₂ →
+          V ∩ ↑U₁ ⊆ connectedComponentIn (↑U₁ ∩ ↑U₂) s₀ →
+            ∃ O, p ∈ O ∧ ↑O ⊆ V ∧ (cau (Causal.glueSolutions U₁ u₁ u₂)).IsCauchySurfaceOn (U₁ ⊔ O) S) →
+    (cau u₂).SliceRestart U₂ S (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀) (↑U₂)
+      (Causal.GluedRestartAt cau S U₁ U₂ u₁ u₂ (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀))
+@Causal.ers_theorem_4_82_restart : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M} [T2Space M]
+  [LocallyConnectedSpace M],
+  Causal.SolutionLocal sol →
+    Causal.SolutionsGlue sol →
+      Causal.SolutionRestricts sol →
+        ∀ {s₀ : M},
+          s₀ ∈ S →
+            ∀ {U₁ U₂ : TopologicalSpace.Opens M} {u₁ u₂ : M → β},
+              Causal.IsDevelopment sol cau S U₁ u₁ →
+                Causal.IsDevelopment sol cau S U₂ u₂ →
+                  ¬U₂ ≤ U₁ →
+                    IsPreconnected ↑U₂ →
+                      (∀ ⦃x y : M⦄, (cau u₂).le U₂ x y → (cau u₂).le U₂ y x → x = y) →
+                        (cau u₂).SplitBy U₂ S →
+                          (∀ x ∈ U₂, closure ((cau u₂).Jminus U₂ {x}) ∩ ↑U₂ ⊆ (cau u₂).Jminus U₂ {x}) →
+                            (∀ x ∈ U₂, closure ((cau u₂).Jplus U₂ {x}) ∩ ↑U₂ ⊆ (cau u₂).Jplus U₂ {x}) →
+                              (cau u₂).CompactSlabs U₂ S →
+                                closure S ∩ ↑U₂ ⊆ S →
+                                  Causal.Causality.OneSidedBoundary U₁ (closure S) →
+                                    Set.EqOn u₁ u₂ (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀) →
+                                      (cau u₂).SliceRestart U₂ S (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀) (↑U₂)
+                                          (Causal.GluedRestartAt cau S U₁ U₂ u₁ u₂
+                                            (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀)) →
+                                        ∃ O,
+                                          ↑O ⊆ ↑U₂ ∧
+                                            U₁ < U₁ ⊔ O ∧
+                                              Causal.IsExtension U₁ u₁ (U₁ ⊔ O) (Causal.glueSolutions U₁ u₁ u₂) ∧
+                                                Set.EqOn (Causal.glueSolutions U₁ u₁ u₂) u₂ ↑O ∧
+                                                  Causal.IsDevelopment sol cau S (U₁ ⊔ O)
+                                                    (Causal.glueSolutions U₁ u₁ u₂)
+@Causal.ers_theorem_4_82_solution : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M} [T2Space M]
+  [LocallyConnectedSpace M],
+  Causal.SolutionLocal sol →
+    Causal.SolutionsGlue sol →
+      Causal.SolutionRestricts sol →
+        ∀ {s₀ : M},
+          s₀ ∈ S →
+            ∀ {U₁ : TopologicalSpace.Opens M} {u₁ : M → β},
+              Causal.IsMaximalDevelopment sol cau S U₁ u₁ →
+                Causal.Causality.OneSidedBoundary U₁ (closure S) →
+                  (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                      Causal.IsDevelopment sol cau S U u → IsPreconnected ↑U) →
+                    (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                        Causal.IsDevelopment sol cau S U u → ∀ ⦃x y : M⦄, (cau u).le U x y → (cau u).le U y x → x = y) →
+                      (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                          Causal.IsDevelopment sol cau S U u → (cau u).SplitBy U S) →
+                        (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                            Causal.IsDevelopment sol cau S U u →
+                              ∀ x ∈ U, closure ((cau u).Jminus U {x}) ∩ ↑U ⊆ (cau u).Jminus U {x}) →
+                          (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                              Causal.IsDevelopment sol cau S U u →
+                                ∀ x ∈ U, closure ((cau u).Jplus U {x}) ∩ ↑U ⊆ (cau u).Jplus U {x}) →
+                            (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                                Causal.IsDevelopment sol cau S U u → (cau u).CompactSlabs U S) →
+                              (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                                  Causal.IsDevelopment sol cau S U u → closure S ∩ ↑U ⊆ S) →
+                                (∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                    Causal.IsDevelopment sol cau S U₂ u₂ →
+                                      Set.EqOn u₁ u₂ (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀)) →
+                                  (∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                      Causal.IsDevelopment sol cau S U₂ u₂ →
+                                        (cau u₂).SliceRestart U₂ S (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀) (↑U₂)
+                                          (Causal.GluedRestartAt cau S U₁ U₂ u₁ u₂
+                                            (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀))) →
+                                    ∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                      Causal.IsDevelopment sol cau S U₂ u₂ → U₂ ≤ U₁ ∧ Set.EqOn u₁ u₂ ↑U₂
+@Causal.ers_theorem_4_82_solution_unique : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M} [T2Space M]
+  [LocallyConnectedSpace M],
+  Causal.SolutionLocal sol →
+    Causal.SolutionsGlue sol →
+      Causal.SolutionRestricts sol →
+        ∀ {s₀ : M},
+          s₀ ∈ S →
+            ∀ {U₁ : TopologicalSpace.Opens M} {u₁ : M → β},
+              Causal.IsMaximalDevelopment sol cau S U₁ u₁ →
+                Causal.Causality.OneSidedBoundary U₁ (closure S) →
+                  (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                      Causal.IsDevelopment sol cau S U u → IsPreconnected ↑U) →
+                    (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                        Causal.IsDevelopment sol cau S U u → ∀ ⦃x y : M⦄, (cau u).le U x y → (cau u).le U y x → x = y) →
+                      (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                          Causal.IsDevelopment sol cau S U u → (cau u).SplitBy U S) →
+                        (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                            Causal.IsDevelopment sol cau S U u →
+                              ∀ x ∈ U, closure ((cau u).Jminus U {x}) ∩ ↑U ⊆ (cau u).Jminus U {x}) →
+                          (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                              Causal.IsDevelopment sol cau S U u →
+                                ∀ x ∈ U, closure ((cau u).Jplus U {x}) ∩ ↑U ⊆ (cau u).Jplus U {x}) →
+                            (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                                Causal.IsDevelopment sol cau S U u → (cau u).CompactSlabs U S) →
+                              (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                                  Causal.IsDevelopment sol cau S U u → closure S ∩ ↑U ⊆ S) →
+                                (∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                    Causal.IsDevelopment sol cau S U₂ u₂ →
+                                      Set.EqOn u₁ u₂ (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀)) →
+                                  (∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                      Causal.IsDevelopment sol cau S U₂ u₂ →
+                                        (cau u₂).SliceRestart U₂ S (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀) (↑U₂)
+                                          (Causal.GluedRestartAt cau S U₁ U₂ u₁ u₂
+                                            (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀))) →
+                                    ∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                                      Causal.IsMaximalDevelopment sol cau S U u → U = U₁ ∧ Set.EqOn u₁ u ↑U
+@Causal.ers_theorem_4_82_solution_of_globallyHyperbolicOn : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M} [T2Space M]
+  [LocallyConnectedSpace M],
+  Causal.SolutionLocal sol →
+    Causal.SolutionsGlue sol →
+      Causal.SolutionRestricts sol →
+        ∀ {s₀ : M},
+          s₀ ∈ S →
+            ∀ {U₁ : TopologicalSpace.Opens M} {u₁ : M → β},
+              Causal.IsMaximalDevelopment sol cau S U₁ u₁ →
+                Causal.Causality.OneSidedBoundary U₁ (closure S) →
+                  (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                      Causal.IsDevelopment sol cau S U u → IsPreconnected ↑U) →
+                    (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                        Causal.IsDevelopment sol cau S U u → (cau u).GloballyHyperbolicOn U) →
+                      (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                          Causal.IsDevelopment sol cau S U u → (cau u).TarentinOn U) →
+                        (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                            Causal.IsDevelopment sol cau S U u → (cau u).SplitBy U S) →
+                          (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                              Causal.IsDevelopment sol cau S U u → (cau u).CompactSlabs U S) →
+                            (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                                Causal.IsDevelopment sol cau S U u → closure S ∩ ↑U ⊆ S) →
+                              (∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                  Causal.IsDevelopment sol cau S U₂ u₂ →
+                                    Set.EqOn u₁ u₂ (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀)) →
+                                (∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                    Causal.IsDevelopment sol cau S U₂ u₂ →
+                                      (cau u₂).SliceRestart U₂ S (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀) (↑U₂)
+                                        (Causal.GluedRestartAt cau S U₁ U₂ u₁ u₂
+                                          (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀))) →
+                                  ∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                    Causal.IsDevelopment sol cau S U₂ u₂ → U₂ ≤ U₁ ∧ Set.EqOn u₁ u₂ ↑U₂
+@Causal.coe_inf_componentOpens : ∀ {M : Type u_1} [inst : TopologicalSpace M] [inst_1 : LocallyConnectedSpace M]
+  (U₁ U₂ : TopologicalSpace.Opens M) (s₀ : M),
+  ↑(U₁ ⊓ Causal.componentOpens (U₁ ⊓ U₂) s₀) = connectedComponentIn (↑U₁ ∩ ↑U₂) s₀
+@Causal.ers_theorem_4_82_solution_of_ers_theorem_4_64 : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M} [T2Space M]
+  [inst_2 : LocallyConnectedSpace M],
+  Causal.SolutionLocal sol →
+    Causal.SolutionsGlue sol →
+      Causal.SolutionRestricts sol →
+        ∀ {s₀ : M},
+          s₀ ∈ S →
+            ∀ {U₁ : TopologicalSpace.Opens M} {u₁ : M → β},
+              Causal.IsMaximalDevelopment sol cau S U₁ u₁ →
+                Causal.Causality.OneSidedBoundary U₁ (closure S) →
+                  (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                      Causal.IsDevelopment sol cau S U u → IsPreconnected ↑U) →
+                    (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                        Causal.IsDevelopment sol cau S U u → (cau u).GloballyHyperbolicOn U) →
+                      (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                          Causal.IsDevelopment sol cau S U u → (cau u).TarentinOn U) →
+                        (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                            Causal.IsDevelopment sol cau S U u → (cau u).SplitBy U S) →
+                          (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                              Causal.IsDevelopment sol cau S U u → (cau u).CompactSlabs U S) →
+                            (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                                Causal.IsDevelopment sol cau S U u → closure S ∩ ↑U ⊆ S) →
+                              (cau u₁).IsAcausalOn U₁ S →
+                                (∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                    Causal.IsDevelopment sol cau S U₂ u₂ →
+                                      ∃ V,
+                                        (cau u₁).IsCommonDevelopment S U₁ (Causal.componentOpens (U₁ ⊓ U₂) s₀)
+                                          (fun V => Set.EqOn u₁ u₂ ↑V) V) →
+                                  (∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                      Causal.IsDevelopment sol cau S U₂ u₂ →
+                                        ∀ (V : TopologicalSpace.Opens M),
+                                          (cau u₁).IsCommonDevelopment S U₁ (Causal.componentOpens (U₁ ⊓ U₂) s₀)
+                                              (fun V => Set.EqOn u₁ u₂ ↑V) V →
+                                            (cau u₁).FrontierStaysIn U₁ S ↑V
+                                              ↑(U₁ ⊓ Causal.componentOpens (U₁ ⊓ U₂) s₀)) →
+                                    (∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                        Causal.IsDevelopment sol cau S U₂ u₂ →
+                                          ∀ (V : TopologicalSpace.Opens M),
+                                            (cau u₁).IsCommonDevelopment S U₁ (Causal.componentOpens (U₁ ⊓ U₂) s₀)
+                                                (fun V => Set.EqOn u₁ u₂ ↑V) V →
+                                              (cau u₁).SliceRestart U₁ S ↑V ↑(U₁ ⊓ Causal.componentOpens (U₁ ⊓ U₂) s₀)
+                                                fun x =>
+                                                ∃ V',
+                                                  (cau u₁).IsCommonDevelopment S U₁ (Causal.componentOpens (U₁ ⊓ U₂) s₀)
+                                                      (fun V => Set.EqOn u₁ u₂ ↑V) V' ∧
+                                                    V < V') →
+                                      (∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                          Causal.IsDevelopment sol cau S U₂ u₂ →
+                                            (cau u₂).SliceRestart U₂ S (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀) (↑U₂)
+                                              (Causal.GluedRestartAt cau S U₁ U₂ u₁ u₂
+                                                (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀))) →
+                                        ∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                          Causal.IsDevelopment sol cau S U₂ u₂ → U₂ ≤ U₁ ∧ Set.EqOn u₁ u₂ ↑U₂
+@Causal.ers_theorem_4_82_solution_secondCountable : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M} [T2Space M]
+  [SecondCountableTopology M] [inst_3 : LocallyConnectedSpace M],
+  Causal.SolutionLocal sol →
+    Causal.SolutionsGlue sol →
+      Causal.SolutionRestricts sol →
+        ∀ {s₀ : M},
+          s₀ ∈ S →
+            IsPreconnected S →
+              ∀ {U₁ : TopologicalSpace.Opens M} {u₁ : M → β},
+                Causal.IsMaximalDevelopment sol cau S U₁ u₁ →
+                  Causal.Causality.OneSidedBoundary U₁ (closure S) →
+                    (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                        Causal.IsDevelopment sol cau S U u → (cau u).GloballyHyperbolicOn U) →
+                      (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                          Causal.IsDevelopment sol cau S U u → (cau u).TarentinOn U) →
+                        (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                            Causal.IsDevelopment sol cau S U u → (cau u).CompactSlabs U S) →
+                          (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                              Causal.IsDevelopment sol cau S U u → closure S ∩ ↑U ⊆ S) →
+                            (∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                Causal.IsDevelopment sol cau S U₂ u₂ →
+                                  ∃ V,
+                                    (cau u₁).IsCommonDevelopment S U₁ (Causal.componentOpens (U₁ ⊓ U₂) s₀)
+                                      (fun V => Set.EqOn u₁ u₂ ↑V) V) →
+                              (∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                  Causal.IsDevelopment sol cau S U₂ u₂ →
+                                    ∀ (V : TopologicalSpace.Opens M),
+                                      (cau u₁).IsCommonDevelopment S U₁ (Causal.componentOpens (U₁ ⊓ U₂) s₀)
+                                          (fun V => Set.EqOn u₁ u₂ ↑V) V →
+                                        (cau u₁).FrontierStaysIn U₁ S ↑V ↑(U₁ ⊓ Causal.componentOpens (U₁ ⊓ U₂) s₀)) →
+                                (∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                    Causal.IsDevelopment sol cau S U₂ u₂ →
+                                      ∀ (V : TopologicalSpace.Opens M),
+                                        (cau u₁).IsCommonDevelopment S U₁ (Causal.componentOpens (U₁ ⊓ U₂) s₀)
+                                            (fun V => Set.EqOn u₁ u₂ ↑V) V →
+                                          (cau u₁).SliceRestart U₁ S ↑V ↑(U₁ ⊓ Causal.componentOpens (U₁ ⊓ U₂) s₀)
+                                            fun x =>
+                                            ∃ V',
+                                              (cau u₁).IsCommonDevelopment S U₁ (Causal.componentOpens (U₁ ⊓ U₂) s₀)
+                                                  (fun V => Set.EqOn u₁ u₂ ↑V) V' ∧
+                                                V < V') →
+                                  (∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                      Causal.IsDevelopment sol cau S U₂ u₂ →
+                                        (cau u₂).SliceRestart U₂ S (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀) (↑U₂)
+                                          (Causal.GluedRestartAt cau S U₁ U₂ u₁ u₂
+                                            (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀))) →
+                                    ∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                      Causal.IsDevelopment sol cau S U₂ u₂ → U₂ ≤ U₁ ∧ Set.EqOn u₁ u₂ ↑U₂
+@Causal.ers_theorem_4_82_solution_hstep_of_le : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M}
+  [LocallyConnectedSpace M] {s₀ : M},
+  s₀ ∈ S →
+    ∀ {U₁ : TopologicalSpace.Opens M} {u₁ : M → β},
+      (∀ (U : TopologicalSpace.Opens M) (u : M → β), Causal.IsDevelopment sol cau S U u → IsPreconnected ↑U) →
+        (∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β), Causal.IsDevelopment sol cau S U₂ u₂ → U₂ ≤ U₁) →
+          ∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+            Causal.IsDevelopment sol cau S U₂ u₂ →
+              (cau u₂).SliceRestart U₂ S (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀) (↑U₂)
+                (Causal.GluedRestartAt cau S U₁ U₂ u₁ u₂ (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀))
+@Causal.ers_theorem_4_82_solution_hstep_iff : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M} [T2Space M]
+  [LocallyConnectedSpace M],
+  Causal.SolutionLocal sol →
+    Causal.SolutionsGlue sol →
+      Causal.SolutionRestricts sol →
+        ∀ {s₀ : M},
+          s₀ ∈ S →
+            ∀ {U₁ : TopologicalSpace.Opens M} {u₁ : M → β},
+              Causal.IsMaximalDevelopment sol cau S U₁ u₁ →
+                Causal.Causality.OneSidedBoundary U₁ (closure S) →
+                  (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                      Causal.IsDevelopment sol cau S U u → IsPreconnected ↑U) →
+                    (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                        Causal.IsDevelopment sol cau S U u → ∀ ⦃x y : M⦄, (cau u).le U x y → (cau u).le U y x → x = y) →
+                      (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                          Causal.IsDevelopment sol cau S U u → (cau u).SplitBy U S) →
+                        (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                            Causal.IsDevelopment sol cau S U u →
+                              ∀ x ∈ U, closure ((cau u).Jminus U {x}) ∩ ↑U ⊆ (cau u).Jminus U {x}) →
+                          (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                              Causal.IsDevelopment sol cau S U u →
+                                ∀ x ∈ U, closure ((cau u).Jplus U {x}) ∩ ↑U ⊆ (cau u).Jplus U {x}) →
+                            (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                                Causal.IsDevelopment sol cau S U u → (cau u).CompactSlabs U S) →
+                              (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                                  Causal.IsDevelopment sol cau S U u → closure S ∩ ↑U ⊆ S) →
+                                (∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                    Causal.IsDevelopment sol cau S U₂ u₂ →
+                                      Set.EqOn u₁ u₂ (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀)) →
+                                  ((∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                      Causal.IsDevelopment sol cau S U₂ u₂ →
+                                        (cau u₂).SliceRestart U₂ S (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀) (↑U₂)
+                                          (Causal.GluedRestartAt cau S U₁ U₂ u₁ u₂
+                                            (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀))) ↔
+                                    ∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                      Causal.IsDevelopment sol cau S U₂ u₂ → U₂ ≤ U₁)
+@Causal.ers_theorem_4_82_solution_of_restarts : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M} [T2Space M]
+  [LocallyConnectedSpace M],
+  Causal.SolutionLocal sol →
+    Causal.SolutionsGlue sol →
+      Causal.SolutionRestricts sol →
+        ∀ {s₀ : M},
+          s₀ ∈ S →
+            ∀ {U₁ : TopologicalSpace.Opens M} {u₁ : M → β},
+              Causal.IsMaximalDevelopment sol cau S U₁ u₁ →
+                Causal.Causality.OneSidedBoundary U₁ (closure S) →
+                  (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                      Causal.IsDevelopment sol cau S U u → IsPreconnected ↑U) →
+                    (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                        Causal.IsDevelopment sol cau S U u → (cau u).GloballyHyperbolicOn U) →
+                      (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                          Causal.IsDevelopment sol cau S U u → (cau u).TarentinOn U) →
+                        (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                            Causal.IsDevelopment sol cau S U u → (cau u).SplitBy U S) →
+                          (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                              Causal.IsDevelopment sol cau S U u → (cau u).CompactSlabs U S) →
+                            (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                                Causal.IsDevelopment sol cau S U u → closure S ∩ ↑U ⊆ S) →
+                              (∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                  Causal.IsDevelopment sol cau S U₂ u₂ →
+                                    Set.EqOn u₁ u₂ (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀)) →
+                                (∀ (U₀ : TopologicalSpace.Opens M) (u₀ : M → β) (U₂ : TopologicalSpace.Opens M)
+                                    (u₂ : M → β),
+                                    Causal.IsDevelopment sol cau S U₀ u₀ →
+                                      Causal.IsDevelopment sol cau S U₂ u₂ →
+                                        (cau u₂).SliceRestart U₂ S (connectedComponentIn (↑U₀ ∩ ↑U₂) s₀) (↑U₂)
+                                          (Causal.GluedRestartAt cau S U₀ U₂ u₀ u₂
+                                            (connectedComponentIn (↑U₀ ∩ ↑U₂) s₀))) →
+                                  ∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                    Causal.IsDevelopment sol cau S U₂ u₂ → U₂ ≤ U₁ ∧ Set.EqOn u₁ u₂ ↑U₂
+@Causal.ers_theorem_4_82_solution_of_restarts_isCausal : ∀ {M : Type u_1} [inst : TopologicalSpace M] {β : Type u_2}
+  {sol : TopologicalSpace.Opens M → (M → β) → Prop} {cau : (M → β) → Causal.Causality M} {S : Set M} [T2Space M]
+  [LocallyConnectedSpace M],
+  Causal.SolutionLocal sol →
+    Causal.SolutionsGlue sol →
+      Causal.SolutionRestricts sol →
+        ∀ {s₀ : M},
+          s₀ ∈ S →
+            ∀ {U₁ : TopologicalSpace.Opens M} {u₁ : M → β},
+              Causal.IsMaximalDevelopment sol cau S U₁ u₁ →
+                Causal.Causality.OneSidedBoundary U₁ (closure S) →
+                  (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                      Causal.IsDevelopment sol cau S U u → IsPreconnected ↑U) →
+                    (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                        Causal.IsDevelopment sol cau S U u → ∀ ⦃x y : M⦄, (cau u).le U x y → (cau u).le U y x → x = y) →
+                      (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                          Causal.IsDevelopment sol cau S U u → (cau u).SplitBy U S) →
+                        (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                            Causal.IsDevelopment sol cau S U u →
+                              ∀ x ∈ U, closure ((cau u).Jminus U {x}) ∩ ↑U ⊆ (cau u).Jminus U {x}) →
+                          (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                              Causal.IsDevelopment sol cau S U u →
+                                ∀ x ∈ U, closure ((cau u).Jplus U {x}) ∩ ↑U ⊆ (cau u).Jplus U {x}) →
+                            (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                                Causal.IsDevelopment sol cau S U u → (cau u).CompactSlabs U S) →
+                              (∀ (U : TopologicalSpace.Opens M) (u : M → β),
+                                  Causal.IsDevelopment sol cau S U u → closure S ∩ ↑U ⊆ S) →
+                                (∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                    Causal.IsDevelopment sol cau S U₂ u₂ →
+                                      Set.EqOn u₁ u₂ (connectedComponentIn (↑U₁ ∩ ↑U₂) s₀)) →
+                                  (∀ (U₀ : TopologicalSpace.Opens M) (u₀ : M → β) (U₂ : TopologicalSpace.Opens M)
+                                      (u₂ : M → β),
+                                      Causal.IsDevelopment sol cau S U₀ u₀ →
+                                        Causal.IsDevelopment sol cau S U₂ u₂ →
+                                          (cau u₂).SliceRestart U₂ S (connectedComponentIn (↑U₀ ∩ ↑U₂) s₀) (↑U₂)
+                                            (Causal.GluedRestartAt cau S U₀ U₂ u₀ u₂
+                                              (connectedComponentIn (↑U₀ ∩ ↑U₂) s₀))) →
+                                    ∀ (U₂ : TopologicalSpace.Opens M) (u₂ : M → β),
+                                      Causal.IsDevelopment sol cau S U₂ u₂ → U₂ ≤ U₁ ∧ Set.EqOn u₁ u₂ ↑U₂
+@Causal.timelikeLine_isCauchySurfaceOn_Ioo_of_neg_of_pos : ∀ {a b : ℝ},
+  a < 0 → 0 < b → ∀ {U : TopologicalSpace.Opens ℝ}, ↑U = Set.Ioo a b → Causal.timelikeLine.IsCauchySurfaceOn U {0}
+@Causal.timelikeLine_isCauchySurfaceOn_of_ordConnected : ∀ {W : TopologicalSpace.Opens ℝ},
+  0 ∈ W → (↑W).OrdConnected → BddBelow ↑W → BddAbove ↑W → Causal.timelikeLine.IsCauchySurfaceOn W {0}
+Causal.Ers482Witness.sol82 : TopologicalSpace.Opens ℝ → (ℝ → ℝ) → Prop
+Causal.Ers482Witness.cau82 : (ℝ → ℝ) → Causal.Causality ℝ
+Causal.Ers482Witness.sol82_local : Causal.SolutionLocal Causal.Ers482Witness.sol82
+Causal.Ers482Witness.sol82_glue : Causal.SolutionsGlue Causal.Ers482Witness.sol82
+Causal.Ers482Witness.sol82_restricts : Causal.SolutionRestricts Causal.Ers482Witness.sol82
+Causal.Ers482Witness.cau82_follows : Causal.CausalityFollows Causal.Ers482Witness.cau82
+Causal.Ers482Witness.halfIoo_le : Causal.ErsWitness.halfIoo ≤ Causal.ersWitnessIoo
+Causal.Ers482Witness.isDevelopment_halfIoo : Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Witness.cau82
+  {0} Causal.ErsWitness.halfIoo id
+Causal.Ers482Witness.isDevelopment_ersWitnessIoo : Causal.IsDevelopment Causal.Ers482Witness.sol82
+  Causal.Ers482Witness.cau82 {0} Causal.ersWitnessIoo id
+Causal.Ers482Witness.isMaximalDevelopment_ersWitnessIoo : Causal.IsMaximalDevelopment Causal.Ers482Witness.sol82
+  Causal.Ers482Witness.cau82 {0} Causal.ersWitnessIoo id
+Causal.Ers482Witness.not_isMaximalDevelopment_halfIoo : ¬Causal.IsMaximalDevelopment Causal.Ers482Witness.sol82
+    Causal.Ers482Witness.cau82 {0} Causal.ErsWitness.halfIoo id
+Causal.Ers482Witness.component_eq : connectedComponentIn (↑Causal.ErsWitness.halfIoo ∩ ↑Causal.ersWitnessIoo) 0 =
+  Set.Ioo (-(1 / 2)) (1 / 2)
+Causal.Ers482Witness.frontier_component : frontier
+    (connectedComponentIn (↑Causal.ErsWitness.halfIoo ∩ ↑Causal.ersWitnessIoo) 0) =
+  {-(1 / 2), 1 / 2}
+Causal.Ers482Witness.restart_exercised : (∀ p ∈ {-(1 / 2), 1 / 2},
+    p ∈ frontier (connectedComponentIn (↑Causal.ErsWitness.halfIoo ∩ ↑Causal.ersWitnessIoo) 0) ∩ ↑Causal.ersWitnessIoo ∧
+      ↑Causal.ersWitnessIoo ∈ nhds p ∧
+        ↑Causal.ersWitnessIoo ⊆ ↑Causal.ersWitnessIoo ∧
+          ↑Causal.ersWitnessIoo ∩ ↑Causal.ErsWitness.halfIoo ⊆
+            connectedComponentIn (↑Causal.ErsWitness.halfIoo ∩ ↑Causal.ersWitnessIoo) 0) ∧
+  Causal.timelikeLine.IsSpacelikeBoundaryPoint Causal.ersWitnessIoo {0}
+      (frontier (connectedComponentIn (↑Causal.ErsWitness.halfIoo ∩ ↑Causal.ersWitnessIoo) 0)) (1 / 2) ∧
+    Causal.timelikeLine.IsSpacelikeBoundaryPoint Causal.ersWitnessIoo {0}
+      (frontier (connectedComponentIn (↑Causal.ErsWitness.halfIoo ∩ ↑Causal.ersWitnessIoo) 0)) (-(1 / 2))
+Causal.Ers482Witness.hconn82 : ∀ (U : TopologicalSpace.Opens ℝ) (u : ℝ → ℝ),
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Witness.cau82 {0} U u → IsPreconnected ↑U
+Causal.Ers482Witness.hG82 : ∀ (U : TopologicalSpace.Opens ℝ) (u : ℝ → ℝ),
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Witness.cau82 {0} U u →
+    (Causal.Ers482Witness.cau82 u).GloballyHyperbolicOn U
+Causal.Ers482Witness.hT82 : ∀ (U : TopologicalSpace.Opens ℝ) (u : ℝ → ℝ),
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Witness.cau82 {0} U u →
+    (Causal.Ers482Witness.cau82 u).TarentinOn U
+Causal.Ers482Witness.hsplit82 : ∀ (U : TopologicalSpace.Opens ℝ) (u : ℝ → ℝ),
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Witness.cau82 {0} U u →
+    (Causal.Ers482Witness.cau82 u).SplitBy U {0}
+Causal.Ers482Witness.hK82 : ∀ (U : TopologicalSpace.Opens ℝ) (u : ℝ → ℝ),
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Witness.cau82 {0} U u →
+    (Causal.Ers482Witness.cau82 u).CompactSlabs U {0}
+Causal.Ers482Witness.hSclosed82 : ∀ (U : TopologicalSpace.Opens ℝ) (u : ℝ → ℝ),
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Witness.cau82 {0} U u → closure {0} ∩ ↑U ⊆ {0}
+Causal.Ers482Witness.honesided82 : Causal.Causality.OneSidedBoundary Causal.ersWitnessIoo (closure {0})
+Causal.Ers482Witness.hagree82 : ∀ (U₂ : TopologicalSpace.Opens ℝ) (u₂ : ℝ → ℝ),
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Witness.cau82 {0} U₂ u₂ →
+    Set.EqOn id u₂ (connectedComponentIn (↑Causal.ersWitnessIoo ∩ ↑U₂) 0)
+@Causal.Ers482Witness.componentOpens_eq : ∀ {U₂ : TopologicalSpace.Opens ℝ} {u₂ : ℝ → ℝ},
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Witness.cau82 {0} U₂ u₂ →
+    Causal.componentOpens (Causal.ersWitnessIoo ⊓ U₂) 0 = U₂
+@Causal.Ers482Witness.ers_4_64_data82 : ∀ {U₂ : TopologicalSpace.Opens ℝ} {u₂ : ℝ → ℝ},
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Witness.cau82 {0} U₂ u₂ →
+    (∃ V,
+        (Causal.Ers482Witness.cau82 id).IsCommonDevelopment {0} Causal.ersWitnessIoo
+          (Causal.componentOpens (Causal.ersWitnessIoo ⊓ U₂) 0) (fun V => Set.EqOn id u₂ ↑V) V) ∧
+      (∀ (V : TopologicalSpace.Opens ℝ),
+          (Causal.Ers482Witness.cau82 id).IsCommonDevelopment {0} Causal.ersWitnessIoo
+              (Causal.componentOpens (Causal.ersWitnessIoo ⊓ U₂) 0) (fun V => Set.EqOn id u₂ ↑V) V →
+            (Causal.Ers482Witness.cau82 id).FrontierStaysIn Causal.ersWitnessIoo {0} ↑V
+              ↑(Causal.ersWitnessIoo ⊓ Causal.componentOpens (Causal.ersWitnessIoo ⊓ U₂) 0)) ∧
+        ∀ (V : TopologicalSpace.Opens ℝ),
+          (Causal.Ers482Witness.cau82 id).IsCommonDevelopment {0} Causal.ersWitnessIoo
+              (Causal.componentOpens (Causal.ersWitnessIoo ⊓ U₂) 0) (fun V => Set.EqOn id u₂ ↑V) V →
+            (Causal.Ers482Witness.cau82 id).SliceRestart Causal.ersWitnessIoo {0} ↑V
+              ↑(Causal.ersWitnessIoo ⊓ Causal.componentOpens (Causal.ersWitnessIoo ⊓ U₂) 0) fun x =>
+              ∃ V',
+                (Causal.Ers482Witness.cau82 id).IsCommonDevelopment {0} Causal.ersWitnessIoo
+                    (Causal.componentOpens (Causal.ersWitnessIoo ⊓ U₂) 0) (fun V => Set.EqOn id u₂ ↑V) V' ∧
+                  V < V'
+Causal.Ers482Witness.restarts82 : ∀ (U₀ : TopologicalSpace.Opens ℝ) (u₀ : ℝ → ℝ) (U₂ : TopologicalSpace.Opens ℝ)
+  (u₂ : ℝ → ℝ),
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Witness.cau82 {0} U₀ u₀ →
+    Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Witness.cau82 {0} U₂ u₂ →
+      (Causal.Ers482Witness.cau82 u₂).SliceRestart U₂ {0} (connectedComponentIn (↑U₀ ∩ ↑U₂) 0) (↑U₂)
+        (Causal.GluedRestartAt Causal.Ers482Witness.cau82 {0} U₀ U₂ u₀ u₂ (connectedComponentIn (↑U₀ ∩ ↑U₂) 0))
+Causal.Ers482Witness.sliceRestart_halfIoo : Causal.timelikeLine.SliceRestart Causal.ersWitnessIoo {0}
+  (connectedComponentIn (↑Causal.ErsWitness.halfIoo ∩ ↑Causal.ersWitnessIoo) 0) (↑Causal.ersWitnessIoo)
+  (Causal.GluedRestartAt Causal.Ers482Witness.cau82 {0} Causal.ErsWitness.halfIoo Causal.ersWitnessIoo id id
+    (connectedComponentIn (↑Causal.ErsWitness.halfIoo ∩ ↑Causal.ersWitnessIoo) 0))
+Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_restart : ∃ O,
+  ↑O ⊆ ↑Causal.ersWitnessIoo ∧
+    Causal.ErsWitness.halfIoo < Causal.ErsWitness.halfIoo ⊔ O ∧
+      Causal.IsExtension Causal.ErsWitness.halfIoo id (Causal.ErsWitness.halfIoo ⊔ O)
+          (Causal.glueSolutions Causal.ErsWitness.halfIoo id id) ∧
+        Set.EqOn (Causal.glueSolutions Causal.ErsWitness.halfIoo id id) id ↑O ∧
+          Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Witness.cau82 {0} (Causal.ErsWitness.halfIoo ⊔ O)
+            (Causal.glueSolutions Causal.ErsWitness.halfIoo id id)
+Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution : ∀ (U₂ : TopologicalSpace.Opens ℝ) (u₂ : ℝ → ℝ),
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Witness.cau82 {0} U₂ u₂ →
+    U₂ ≤ Causal.ersWitnessIoo ∧ Set.EqOn id u₂ ↑U₂
+Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution_unique : ∀ (U : TopologicalSpace.Opens ℝ) (u : ℝ → ℝ),
+  Causal.IsMaximalDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Witness.cau82 {0} U u →
+    U = Causal.ersWitnessIoo ∧ Set.EqOn id u ↑U
+Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution_of_globallyHyperbolicOn : ∀ (U₂ : TopologicalSpace.Opens ℝ)
+  (u₂ : ℝ → ℝ),
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Witness.cau82 {0} U₂ u₂ →
+    U₂ ≤ Causal.ersWitnessIoo ∧ Set.EqOn id u₂ ↑U₂
+Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution_of_ers_theorem_4_64 : ∀ (U₂ : TopologicalSpace.Opens ℝ)
+  (u₂ : ℝ → ℝ),
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Witness.cau82 {0} U₂ u₂ →
+    U₂ ≤ Causal.ersWitnessIoo ∧ Set.EqOn id u₂ ↑U₂
+Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution_secondCountable : ∀ (U₂ : TopologicalSpace.Opens ℝ)
+  (u₂ : ℝ → ℝ),
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Witness.cau82 {0} U₂ u₂ →
+    U₂ ≤ Causal.ersWitnessIoo ∧ Set.EqOn id u₂ ↑U₂
+Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution_of_restarts : ∀ (U₂ : TopologicalSpace.Opens ℝ)
+  (u₂ : ℝ → ℝ),
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Witness.cau82 {0} U₂ u₂ →
+    U₂ ≤ Causal.ersWitnessIoo ∧ Set.EqOn id u₂ ↑U₂
+Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution_of_restarts_isCausal : ∀ (U₂ : TopologicalSpace.Opens ℝ)
+  (u₂ : ℝ → ℝ),
+  Causal.IsDevelopment Causal.Ers482Witness.sol82 Causal.Ers482Witness.cau82 {0} U₂ u₂ →
+    U₂ ≤ Causal.ersWitnessIoo ∧ Set.EqOn id u₂ ↑U₂
+'Causal.SolutionRestricts' depends on axioms: [propext, Quot.sound]
+'Causal.glueSolutions' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.eqOn_glueSolutions_left' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.eqOn_glueSolutions_right' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.GluedRestartAt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.GluedRestartAt.of_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.notMem_of_mem_frontier_connectedComponentIn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.sliceRestart_gluedRestartAt_of_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ers_theorem_4_82_restart' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ers_theorem_4_82_solution' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ers_theorem_4_82_solution_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ers_theorem_4_82_solution_of_globallyHyperbolicOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.coe_inf_componentOpens' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ers_theorem_4_82_solution_of_ers_theorem_4_64' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ers_theorem_4_82_solution_secondCountable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ers_theorem_4_82_solution_hstep_of_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ers_theorem_4_82_solution_hstep_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ers_theorem_4_82_solution_of_restarts' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ers_theorem_4_82_solution_of_restarts_isCausal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_isCauchySurfaceOn_Ioo_of_neg_of_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_isCauchySurfaceOn_of_ordConnected' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.sol82' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.cau82' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.sol82_local' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.sol82_glue' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.sol82_restricts' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.cau82_follows' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.halfIoo_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.isDevelopment_halfIoo' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.isDevelopment_ersWitnessIoo' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.isMaximalDevelopment_ersWitnessIoo' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.not_isMaximalDevelopment_halfIoo' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.component_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.frontier_component' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.restart_exercised' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.hconn82' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.hG82' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.hT82' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.hsplit82' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.hK82' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.hSclosed82' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.honesided82' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.hagree82' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.componentOpens_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.ers_4_64_data82' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.restarts82' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.sliceRestart_halfIoo' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_restart' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution_unique' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution_of_globallyHyperbolicOn' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution_of_ers_theorem_4_64' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution_secondCountable' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution_of_restarts' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Ers482Witness.timelikeLine_ers_theorem_4_82_solution_of_restarts_isCausal' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

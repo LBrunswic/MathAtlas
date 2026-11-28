@@ -352,6 +352,7 @@ import Causal.Model.TimeCylinderLSC
 import Causal.LscSeparations
 import Causal.GalileoCurveForm
 import Causal.LoopFanEveryScale
+import Causal.Ers482Solution
 
 /-!
 # Causal — topological spacetimes

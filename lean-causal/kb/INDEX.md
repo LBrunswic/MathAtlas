@@ -312,3 +312,6 @@ rediscover. One fact per entry.
 | [0304](entries/0304-curve-relation.md) | pattern | A relation defined by curves holds between a curve's ends: IsRelFamily, CurveOn, rel_of_lt |
 | [0305](entries/0305-loop-fan-every-scale.md) | pattern | The loop fan at every scale: globally hyperbolic, causally compact, not locally strongly causal |
 | [0306](entries/0306-multi-scale-accumulation.md) | pitfall | Stacking scaled copies of a witness creates accumulation points: re-check what does not transfer |
+| [0307](entries/0307-ers-4-82-solution.md) | pattern | ERS Thm 4.82 over sol: the restart geometric, and where its content lies |
+| [0308](entries/0308-timelike-cauchy-intervals.md) | pattern | On the timelike line {0} is a Cauchy surface of every bounded open interval about 0 |
+| [0309](entries/0309-rw-constant-family.md) | pitfall | A constant causality family defeats rw: unfold by term or by show |
