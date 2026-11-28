@@ -78,3 +78,6 @@ import Benzecri.Chapter3.BalayableSomme
 import Benzecri.Chapter3.BalayableSommeProduit
 import Benzecri.Chapter3.SommeFacettesConiques
 import Benzecri.Chapter3.Raccordement
+import Benzecri.Chapter3.BalayableSommeProp5
+import Benzecri.Chapter3.SimplesSomme
+import Benzecri.Chapter3.FacetteInterieure

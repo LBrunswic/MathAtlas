@@ -1,0 +1,102 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-simples-somme",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter3/SimplesSomme.lean"
+  ],
+  "import_line_added": "scaffold/BenzecriScaffold.lean: import BenzecriScaffold.Chapter3.SimplesSomme",
+  "builds": true,
+  "warningAsError_typecheck": true,
+  "sorry_count": 0,
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "labels": [
+    {
+      "label": "bzcor:c3s2p5c_balayable_somme_quelconque",
+      "tex_lines": [
+        623,
+        632
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.Sphere.simplesS_somme",
+        "Benzecri.Sphere.simplesS_somme_supports",
+        "Benzecri.Sphere.closure_kPrime_somme",
+        "Benzecri.Sphere.iSupIndep_supports",
+        "Benzecri.Sphere.iSup_eq_top_of_estSommeS",
+        "Benzecri.simples_isSommeConvexes",
+        "Benzecri.sSup_simples_le_eq",
+        "Benzecri.simples_eq_iUnion",
+        "Benzecri.estDistingue_map_iff",
+        "Benzecri.estSimple_map_iff",
+        "Benzecri.hyps_preimage",
+        "Benzecri.isSommeConvexes_inter_conjugues"
+      ],
+      "hypotheses": [
+        {
+          "paper": "w ouvert convexe de S(R^{n+1})",
+          "here": "carried",
+          "note": "IsOpen w, IsConvexPart w; any finite-dimensional real normed E"
+        },
+        {
+          "paper": "w de noyau vide",
+          "here": "carried",
+          "note": "noyau w = ∅"
+        },
+        {
+          "paper": "(not printed) F(w) contains no line",
+          "here": "added",
+          "note": "OQ-168/OQ-171 corrected hypothesis, as in theoreme3 and prop4_somme; carried by the Corollary's target"
+        },
+        {
+          "paper": "(not printed) support S(E)",
+          "here": "carried",
+          "note": "supportK w = univ, as in theoreme3"
+        },
+        {
+          "paper": "w somme de p convexes v_i",
+          "here": "carried",
+          "note": "EstSommeS w v (Déf. 5), any Fintype index"
+        },
+        {
+          "paper": "convexes contenus dans des variétés distinguées",
+          "here": "carried",
+          "note": "v i ⊆ linearSubvariety (L i), iSupIndep L (⨆ L = ⊤ proved); or L i the supports span F(v i), whose independence is proved (simplesS_somme_supports)"
+        }
+      ],
+      "sorries": [],
+      "scope": "Only the reduction step of the printed proof (« On se ramène à une décomposition de w en somme de convexes contenus dans des variétés distinguées simples »). The equivalence balayable/homogène is T-bz-c3-balayable-somme-cor; the planner's evidence says this lemma marks nothing alone.",
+      "findings": [],
+      "questions": [
+        "« les sous-variétés distinguées simples de chaque v_i » (the Corollary's reduction, l.629-630) are read for v_i inside its own support L_i: the simple distinguished subspaces of the closed cone (L i).subtype ⁻¹' closure (kPrime (v i)) in ↥(L i), pushed into E. Read in E they would be wrong (a summand that does not span E has every subspace of a complement of L_i among its distinguished subspaces; argued, not formalized). The transport to a sphere S(↥L_i) / S(k_i) is not in this file."
+      ]
+    }
+  ],
+  "instances": [
+    "Benzecri.SimplesSommeInstance.simplexO_estSommeS_edges, edges_subset, iSupIndep_Lp: the open 3-simplex of S(3) is the sum (Déf. 5) of its open edges s(Q01), s(Q23) with R^4 = <e0,e1> ⊕ <e2,e3>; with simplexO_hyps every hypothesis of simplesS_somme is a Lean term; simplexO_simplesS_somme is the conclusion, simplexO_simplesS_somme_ncard the four simple ones split between the planes",
+    "Benzecri.cube_simples_isSommeConvexes: [-1,1]^n = ([-1,1]^n ∩ R^S) + ([-1,1]^n ∩ R^{S^c}), every hypothesis of the affine simples_isSommeConvexes discharged"
+  ],
+  "extra_decls": [
+    "Benzecri.map_comap_subtype_eq",
+    "Benzecri.isCompl_iSup_ne",
+    "Benzecri.exists_le_of_estSimple",
+    "Benzecri.eq_zero_of_sum_mem_iSup_ne",
+    "Benzecri.iSup_eq_top_of_isSommeConvexes",
+    "Benzecri.zero_mem_of_isSommeConvexes",
+    "Benzecri.Sphere.sum_subset_mem_closure_kPrime",
+    "Benzecri.Sphere.F_subset_of_subset_linearSubvariety",
+    "Benzecri.Sphere.kPrime_subset_of_subset_linearSubvariety",
+    "Benzecri.Sphere.exists_sub_of_mem_span_cone",
+    "Benzecri.Sphere.iSupIndep_span_of_isSommeConvexes"
+  ],
+  "kb_proposals": [
+    "Distinguished subspaces inside one half P of a conjugate pair (P,Q) of W are exactly those of P ∩ W read in ↥P (estDistingue_map_iff / estSimple_map_iff in Chapter3/SimplesSomme.lean); needs no convexity, and the conjugates correspond by C ↦ C ∩ P and C' ↦ C' ⊔ Q (modular law).",
+    "For a Déf. 5 sum w = Σ v_i, partial sums Σ_{j∈S} y_j of a decomposition lie in the closed cone closure (kPrime w) (sum_subset_mem_closure_kPrime, via mem_closure_kPrime_of_add); this makes every projection on a summand preserve K̄(w).",
+    "Supports of Déf. 1 summands which are nonempty convex positive cones are independent: span C = C − C (exists_sub_of_mem_span_cone) plus iSupIndep_of_injOn."
+  ],
+  "notes": "One new file, imported by the scaffold root; sorry-free, standard axioms, passes lake env lean -DwarningAsError=true, sets no linter option. The -cor target consumes simplesS_somme_supports (any Déf. 5 sum, L_i the supports) and still needs the transport of v_i to S(↥L_i)/S(k_i) (openness of F(v_i) in L_i, simplesS of the transported set = simples of (L i).subtype ⁻¹' closure (kPrime (v i)))."
+}

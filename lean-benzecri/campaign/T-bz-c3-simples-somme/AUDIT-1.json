@@ -1,0 +1,40 @@
+{
+  "target": "T-bz-c3-simples-somme",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bzcor:c3s2p5c_balayable_somme_quelconque",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked (no ``**`label`**`` anywhere in the file), as it should be: the file proves only the reduction step of the printed proof (benzecri1960_ch3.tex:628-632), not the balayable/homogene equivalence, and the REPORT row is partial. Sphere.simplesS_somme: the hypotheses w open (IsOpen), convex (IsConvexPart), noyau w = empty are the printed ones. supportK w = univ is automatic for a nonempty open w. not ContientDroite (F w) is the OQ-168/OQ-171 corrected hypothesis, already carried by theoreme3 and prop4_somme, and it is disclosed. EstSommeS w v over any Fintype is Def. 5, and hind/hvL encode 'contenus dans des varietes distinguees' with E = (+) L_i (the spanning is derived, not assumed). No hypothesis is vacuous: the simplexO 3 instance discharges every one of them. simplesS_somme_supports removes the hypotheses on L altogether by taking L_i = span F(v_i) and proving its independence and spanning, so it applies to any Def. 5 sum, which is exactly what the Corollary's 'somme de p convexes' gives. The conclusion has four parts: each L_i is distinguished; simplesS w is the union of the simples of K-bar(v_i) read in L_i and pushed into E; each simple lies in exactly one L_i; each L_i is the sup of the simples it contains. Together these give the refinement the reduction needs, namely that the simple distinguished subvarieties are partitioned among the summands and generate them. Splitting each v_i further into pieces supported on single simple subvarieties (prop4_somme applied in L_i) and the transport to S(L_i)/S(k_i) are not done here; SCOPE discloses both. The reading of 'simples de chaque v_i' inside L_i is justified. In E, every subspace N of a complement M of L_i would be distinguished for v_i, with conjugate L_i (+) (a complement of N in M), since v_i is contained in L_i. Theoreme 2's span hypothesis would also fail in E. The REPORT argues this without formalizing it, and the argument is correct. The affine forms (simples_isSommeConvexes, simples_eq_iUnion, estDistingue_map_iff, estSimple_map_iff, hyps_preimage) carry only the hypotheses of Theoreme 2 plus the decomposition data."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "`lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Chapter3/SimplesSomme.lean` ran clean with no output. grep finds no sorry, no set_option and no axiom. A #print axioms probe on the 17 REPORT declarations, the instances included, gave [propext, Classical.choice, Quot.sound] for each. The probe was written under the campaign directory and deleted. No lake build was run, per the dispatch."
+  },
+  "instances": {
+    "simplexO_estSommeS_edges": "Real proof: the open 3-simplex is the Def. 5 sum of two open edges, with explicit decomposition, injectivity and convexity. Not degenerate: both summands are nonempty open quadrants.",
+    "simplexO_simplesS_somme": "Applies simplesS_somme with simplexO_hyps, simplexO_estSommeS_edges, iSupIndep_Lp and edges_subset. Every hypothesis is a Lean term.",
+    "simplexO_simplesS_somme_ncard": "The union has ncard 4, through simplexO_simplesS_ncard (BooleProjectif). This is non-trivial: since 4 != 0 the union is finite and has four elements.",
+    "cube_simples_isSommeConvexes": "Every hypothesis of simples_isSommeConvexes is discharged for every S subset of Fin n. The degenerate S = empty and S = univ cases are included but not relied on."
+  },
+  "scope": "Relative to the session-start snapshot, the closer's changes are the new SimplesSomme.lean, the import line in scaffold/BenzecriScaffold.lean, and campaign/T-bz-c3-simples-somme/. The other modified paths (roadmap/roadmap.toml, programme/roadmap.toml, reports/blueprint/index.html, the restatements and RESTATED files, the restate CHECK files) predate this target or belong to other loops. BalayableSommeProp5*.lean and FacetteInterieure*.lean were not touched by this closer.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-benzecri/scaffold/BenzecriScaffold/Chapter3/SimplesSomme.lean:68-69",
+      "what": "The hypothesis checklist labels the two unprinted hypotheses (no line in F(w); supportK w = univ) '⚠ carried'. kb 0006 reserves '⚠ strengthened' for a Lean theorem that assumes more than the paper, which is the case here (the REPORT itself calls the first one 'added'). Both are disclosed and come from the open OQ-168/OQ-171, and the label is unmarked, so this is a vocabulary issue, not a hidden strengthening.",
+      "fix": "Write '⚠ strengthened (OQ-168/OQ-171 corrected hypothesis, as in theoreme3)' for the line-free row. For the support row, write '⚠ strengthened (automatic for w open nonempty)', or '✓ carried' with that justification."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-benzecri/scaffold/BenzecriScaffold/Chapter3/SimplesSomme.lean:677-682",
+      "what": "The docstring of simplesS_somme_supports quotes « On se ramène à une décomposition de w en somme de convexes contenus dans des variétés distinguées simples » as its content. The theorem gives the refinement: the simples split among the supports, and each support is the sup of its simples. It does not produce the decomposition of w into convexes contained in simple distinguished subvarieties; that needs prop4_somme inside each L_i and the transport. SCOPE ('Refinement, not an enumeration') discloses this, but the docstring overstates it.",
+      "fix": "Reword the docstring to say 'the refinement towards' the reduction, and point to the SCOPE item."
+    }
+  ]
+}
