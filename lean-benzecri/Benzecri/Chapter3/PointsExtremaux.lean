@@ -1,4 +1,5 @@
 import Benzecri.Chapter3.FacettesSphere
+import Benzecri.Chapter3.Simplexe
 import Benzecri.Chapter2.Hilbert
 import Benzecri.Chapter2.PseudoBoules
 
@@ -292,13 +293,6 @@ theorem deux_points_extremaux_iff (n : ℕ) :
 namespace TriangleInstance
 
 variable {m : ℕ}
-
-/-- The closed positive orthant of `ℝᵐ⁺¹`. -/
-def orthant (m : ℕ) : Set (Fin (m + 1) → ℝ) := {v | ∀ i, 0 ≤ v i}
-
-/-- The closed simplex of `S(m)`: the rays of the positive orthant (for `m = 2`, a closed
-triangle). -/
-def simplexS (m : ℕ) : Set (S m) := ofCone (orthant m)
 
 /-- The sum of the coordinates. -/
 def sumForm (m : ℕ) : Module.Dual ℝ (Fin (m + 1) → ℝ) := ∑ i, LinearMap.proj i

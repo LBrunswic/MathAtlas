@@ -1,5 +1,6 @@
 import Benzecri.Chapter3.ConeAppuiAlpha
 import Benzecri.Chapter3.AppuiSphere
+import Benzecri.Chapter3.Simplexe
 
 /-!
 # Chapter 3 § 4 — orthogonality propagates along α (Props. 4, 5; Déf. 4), the dual facette 𝒟(F) (Prop. 6) and its minimality (Prop. 7)
@@ -613,11 +614,10 @@ section Triangle
 
 variable {n : ℕ}
 
-/-- The closed positive orthant of `ℝⁿ⁺¹`. -/
-def orthant (n : ℕ) : Set (Fin (n + 1) → ℝ) := {v | ∀ i, 0 ≤ v i}
-
-/-- The closed positive simplex `T = s(orthant − {O})` of `S(n)` (the closed triangle of `S(2)`). -/
-def simplexS (n : ℕ) : Set (S n) := ofCone (orthant n)
+/- The closed positive orthant of `ℝⁿ⁺¹` and the closed positive simplex `T = s(orthant − {O})`
+of `S(n)` (the closed triangle of `S(2)`): the one definition of `Chapter3/Simplexe.lean`,
+re-exported here under its former names. -/
+export TriangleInstance (orthant simplexS)
 
 theorem isPosCone_orthant : IsPosCone (orthant n) := fun c hc v hv i => by
   have := hv i
