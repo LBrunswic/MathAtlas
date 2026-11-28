@@ -1,0 +1,75 @@
+{
+ "target": "T-abs-flrw-future-extension",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [],
+ "labels_note": "Sbierski 2312.07443 is not ledgered and has no binder. No label exists and none is marked. grep '**`' finds only bold code spans in two declaration docstrings (FlrwType.lean:165, :171), and both are older than this target. The two module docstrings state 'no label is marked'.",
+ "declarations": [
+  {
+   "name": "Causal.IsSpacetimeExtension.not_futureBoundaryChart_of_flrwType",
+   "where": "Causal/FlrwType.lean:496",
+   "faithful": true,
+   "notes": "Exactly the time reversal of IsSpacetimeExtension.not_pastBoundaryChart_of_flrwType (:478). The binders are the same and in the same order: [T2Space M] [SecondCountableTopology M] hι hcac hfoc hcaus hA hB Ũ p, with the same [Nonempty N] variable. There is no added hypothesis. The auditor's probe checked these facts. (i) FutureBoundaryChart C W Ũ p = C.dual.PastBoundaryChart W Ũ p by rfl. (ii) hι.dual.rangeOpens = hι.rangeOpens by rfl. So (¬ C.FutureBoundaryChart hι.rangeOpens Ũ p) = (¬ C.dual.PastBoundaryChart hι.dual.rangeOpens Ũ p) by rfl. (iii) (A⁻) for CN is equivalent to (A) for CN.dual, proved in both directions, so there is no strengthening. (iv) (B⁻) for CN is equivalent to (B) for CN.dual (dual_isCauchySurfaceOn). (v) The three nodes are self-dual (dual_causallyArcConnectedOn, dual_futureOneConnected, dual_isCausal). (A⁻) and (B⁻) have the shape of the open-set reversal Causality.not_futureBoundaryChart_of_flrwType at W = ⊤, with `= univ` as in the past corollary. The hand-typed expected statement elaborates against @IsSpacetimeExtension.not_futureBoundaryChart_of_flrwType. The statement matches the target's wording in roadmap.toml clause by clause."
+  },
+  {
+   "name": "Causal.Causality.GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeB",
+   "where": "Causal/FlrwTypeClosedAmbient.lean:493",
+   "faithful": true,
+   "notes": "The globally hyperbolic form of not_futureBoundaryChart_of_flrwTypeB_of_isClosed_le (:481). Its binder order is that of its past twin GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeB (:444): [T2Space M] [SecondCountableTopology M] hT hG hcac hB Ũ p. The only change is S ⊆ C.Iplus W {x}, and the conclusion is ¬ C.FutureBoundaryChart W Ũ p. The proof is the one line (hG.isClosed_le hT) hG.1 hcac hB Ũ p. The hand-typed expected statement elaborates against the constant."
+  }
+ ],
+ "witnesses": {
+  "timelikeLine_exp_not_futureBoundaryChart (FlrwType.lean:665)": "A genuine instance. It applies exp_isSpacetimeExtension.not_futureBoundaryChart_of_flrwType with timelikeLine_causallyArcConnected, timelikeLine_futureOneConnected, timelikeLine_isCausal, (A⁻) = timelikeLine_iUnion_Iminus_eq_univ (:638) and (B⁻) = timelikeLine_exists_cauchy_Iplus (:655, with S = {x + 1}). It does not route through timelikeLine_not_futureBoundaryChart.",
+  "timelikeLine_posHalfLine_not_futureBoundaryChart_of_flrwTypeB (FlrwTypeClosedAmbient.lean:534)": "A genuine instance. It applies the new (b) with timelikeLine_globallyHyperbolic, timelikeLine_tarentin and timelikeLine_flrwType_hypotheses_posHalfLine.1. It proves (B⁻) on (0, ∞) in a `have`, through exp_isSpacetimeExtension.dual.exists_isCauchySurfaceOn_subset_Iminus.",
+  "disclosure": "FlrwType's item 5 says explicitly that the timelike line has neither chart (timelikeLine_not_pastBoundaryChart, the new timelikeLine_not_futureBoundaryChart), 'so these witnesses show the hypotheses consistent, not the predicate inhabited'. FlrwTypeClosedAmbient's item 7 says the new witness 'agrees with timelikeLine_not_futureBoundaryChart'. Neither module overclaims non-vacuity for the time reversals."
+ },
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "commands": [
+   "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true Causal/FlrwType.lean: rc 0, no output (1.3 s)",
+   "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true Causal/FlrwTypeClosedAmbient.lean: rc 0, no output (1.3 s)"
+  ],
+  "notes": "lake build was not run, as dispatched. The oleans of FlrwType (09:19:29), FlrwTypeClosedAmbient (09:20:32) and Model.MinkowskiPastBoundaryChart (09:20:32) are newer than the sources (09:19:10, 09:20:17). In either file, grep for sorry|admit|axiom|native_decide|ofReduceBool|implemented_by|extern matches only the docstring heading '(no `sorry`)'. The auditor's own probe ran `#print axioms` on the 7 new declarations: each gives [propext, Classical.choice, Quot.sound]. The closer's axioms.txt (48 entries) also reads standard throughout."
+ },
+ "existing_statements_unchanged": {
+  "method": "The auditor's own probe, deleted afterwards. AuditHead.lean held `git show HEAD:` of FlrwType.lean followed by HEAD of FlrwTypeClosedAmbient.lean, its import line dropped, compiled inline against the unchanged imports C0ExtensionSkeleton and PastInextensibleMeetsCauchy. AuditProbe.lean imported the current oleans. Both dumped every constant of the two modules: name, kind, level params, Expr hash of the type, hash of the pp.all + pp.fullNames type string, and for defs the same hash of the value.",
+  "result": "HEAD has 77 constants (internal ones included). All 77 lines are identical in the current build: types, kinds, universe parameters, and the values of the 16 defs, among them PastBoundaryChart, FutureBoundaryChart and posHalfLine. The current build has 87. The 10 new ones are the 7 new declarations and three auxiliary IsSpacetimeExtension.not_futureBoundaryChart_of_flrwType._simp_1_{1,2,3}. This agrees with the closer's 67 → 74, which excludes internal names. The git diff confirms it: all 11 deleted lines are module-docstring lines, and no variable, open, attribute or instance command was added."
+ },
+ "layer": "Rechecked in memory with tools/ladder.py (lean_index, model_path, import_chain; no file written). model_path is None for Causal.FlrwType and Causal.FlrwTypeClosedAmbient. import_chain is None from Causal.Ladder.Rules to each of them and back. The import headers are unchanged. FlrwType's importers are FlrwTypeClosedAmbient and Model.MinkowskiPastBoundaryChart, and FlrwTypeClosedAmbient has none. No statement mentions a metric, curve length or geodesic.",
+ "scope": "Every path in git status --short was checked. The closer changed only Causal/FlrwType.lean, Causal/FlrwTypeClosedAmbient.lean and campaign/T-abs-flrw-future-extension/. The other entries belong elsewhere. Causal.lean, README.md and kb/* (09:23) are the master's, and their diffs concern ExtensibleAlongCurve. MeetsCauchyAntisymmetrySharp.lean, ExtensibleAlongCurve.lean and campaign/T-abs-extensible-comp-hoist/ are the other closer's. The papers/*/certificate restate files date from 2026-11-25. roadmap/roadmap.toml and programme/roadmap.toml are the loops' (status ready → active), and lean-benzecri/* is the atlas loop's. Of the files the dispatch did not name, only the master's programme/JOURNAL.md and roadmap.toml mention the target.",
+ "docstring_contract": "In both modules, kb/0006 is met: a title, no marked label (truthfully stated), a quoted source, '## Hypothesis checklist', '## SCOPE (disclosed)' and Provenance. The updated items (FlrwType 4, 5 and the SCOPE causal_ladder bullet; FlrwTypeClosedAmbient 4, 5, 7) say what is proved and cite declarations by name. The REPORT discloses that FlrwTypeClosedAmbient's line references FlrwType.lean:318–319 (:80), :320 (:81) and :364–378 (:318) were already stale at HEAD: at HEAD, (A) was :322–323 and (B) :324. They are left to the exclusive T-abs-lineref-docstrings. That is not charged to this closer.",
+ "report_findings_checked": [
+  "findings[1] (rfl facts): true. Both are confirmed by rfl in the auditor's probe.",
+  "findings[2] ('No Lean declaration inhabits FutureBoundaryChart … witnesses of consistency, not of non-vacuity'): inaccurate in substance. See the first finding below.",
+  "findings[3] (part (b)'s witness needs no future transport lemma): true. The proof uses exists_isCauchySurfaceOn_subset_Iminus for exp_isSpacetimeExtension.dual.",
+  "findings[4] ((A)'s time reversal in the closed ambient has no timelike-line witness): true. A grep for not_futureBoundaryChart_of_flrwTypeA_of_isClosed_le and GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeA over Causal/ and scaffold/ finds only their own definitions and the GH form's proof."
+ ],
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "campaign/T-abs-flrw-future-extension/REPORT.json findings[2] and lemmas_for_the_keeper[3]",
+   "what": "The REPORT says that no Lean declaration inhabits FutureBoundaryChart. It concludes that the time-reversed theorems (the open-set one, the closed-ambient A and B forms, and the two new ones) have witnesses of consistency only, not of non-vacuity. It leaves a layer-3 instance to the planner, and it proposes that the ladder's past_boundary_chart note record that FutureBoundaryChart has no Lean instance. That is not so. FutureBoundaryChart C is C.dual.PastBoundaryChart by definition, and Causality.dual_dual is rfl. So the existing layer-3 declaration Causal.minkowski_pastBoundaryChart already inhabits FutureBoundaryChart. The auditor's probe confirms that `example (n : ℕ) (hn : 0 < n) : (minkowski n).dual.FutureBoundaryChart (minkowskiPosHalfSpace n) (minkowskiChartBox n) 0 := minkowski_pastBoundaryChart hn` elaborates. The time reversals are therefore non-vacuous already. Only the {t < 0} chart for `minkowski n` itself, through the time reflection, is missing. The REPORT does name 'Minkowski space's dual causality' as a route, but it calls that work still to be done. The statement is a programme note to the planner and keeper, not a claim of an error in the paper, and no Lean statement or proof depends on it.",
+   "fix": "Reword findings[2]: FutureBoundaryChart is inhabited at (minkowski n).dual by minkowski_pastBoundaryChart hn, by rfl (Causality.dual_dual), so the time-reversed theorems are not vacuous. Only the {t < 0} chart of minkowski n is not stated. Drop or correct the clause of lemmas_for_the_keeper[3] that says FutureBoundaryChart has no Lean instance. The planner need not open a layer-3 target for non-vacuity."
+  },
+  {
+   "severity": "minor",
+   "where": "Causal/FlrwType.lean SCOPE, bullet 'No instance of PastBoundaryChart is built here' (module docstring, ~:72–78); Causal/FlrwTypeClosedAmbient.lean item 7 (~:54–59)",
+   "what": "The docstrings disclose correctly that the timelike-line witnesses of the time reversals show consistency only. But no docstring says where the time reversals' non-vacuity comes from. The SCOPE cites minkowski_pastBoundaryChart for the past theorem only. The statement is not false, only incomplete, and the gap predates this target for the open-set and closed-ambient reversals. This target adds two more theorems of that kind.",
+   "fix": "In a later docstring pass (T-abs-lineref-docstrings or the next target to touch FlrwType), add one sentence to the SCOPE bullet: FutureBoundaryChart is inhabited at (minkowski n).dual by Causal.minkowski_pastBoundaryChart, by rfl (Causality.dual_dual), so the time reversals are not vacuous either. Cite it as the past bullet does, without importing layer 3."
+  }
+ ],
+ "checks_performed": [
+  "Read the target block in programme/roadmap.toml, REPORT.json, Probe.lean and axioms.txt, kb/0006, and both module docstrings in full",
+  "Read git diff of both files: additions plus 11 module-docstring lines rewritten",
+  "Compared statements hypothesis by hypothesis with the past corollary, the open-set time reversal and the closed-ambient B reversal",
+  "Auditor's probe AuditProbe.lean (deleted): rfl facts, the conclusion rfl, the (A⁻) and (B⁻) equivalences with the dual (A) and (B), node self-duality, hand-typed expected types of (a) and (b), FutureBoundaryChart inhabited at (minkowski n).dual, #print axioms on the 7 new declarations",
+  "Auditor's probe AuditHead.lean (deleted): HEAD sources compiled inline, then a full constant dump compared with the current oleans",
+  "lake env lean -DwarningAsError=true on both files, under taskset -c 0-11",
+  "Grepped for sorry, admit, axiom, native_decide, ofReduceBool, implemented_by and extern",
+  "Layer and import chains rechecked with tools/ladder.py in memory",
+  "git status --short with mtimes, and diffs of the files outside the dispatch",
+  "Checked the Sbierski text (references/sbierski/text/sbierski2023c.txt:143–146, :321–351) for the notation ∂⁺ι(M) and 'future boundary chart' that the new docstrings use"
+ ]
+}

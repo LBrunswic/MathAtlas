@@ -1,0 +1,211 @@
+{
+  "target": "T-abs-flrw-future-extension",
+  "package": "lean-causal",
+  "files": [
+    "Causal/FlrwType.lean",
+    "Causal/FlrwTypeClosedAmbient.lean"
+  ],
+  "campaign_files": [
+    "campaign/T-abs-flrw-future-extension/REPORT.json",
+    "campaign/T-abs-flrw-future-extension/Probe.lean",
+    "campaign/T-abs-flrw-future-extension/axioms.txt"
+  ],
+  "builds": true,
+  "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build Causal.FlrwType Causal.FlrwTypeClosedAmbient Causal.Model.MinkowskiPastBoundaryChart",
+  "build_result": "Build completed successfully (3137 jobs). Causal.FlrwType built in 1.3 s, Causal.FlrwTypeClosedAmbient in 1.2 s and Causal.Model.MinkowskiPastBoundaryChart in 1.5 s, with no warning. The --no-build dry runs before each build (kb/0228) listed only these three modules as out of date. Nothing upstream and no mathlib module was rebuilt. `taskset -c 0-11 lake env lean -DwarningAsError=true` passes on both edited files (rc 0, no output). Every Lean command ran under taskset -c 0-11. Neither the whole package nor `Causal` was built. Causal.MeetsCauchyAntisymmetrySharp and Causal.ExtensibleAlongCurve, the concurrent closer's modules, were neither built nor touched.",
+  "sorry_count": 0,
+  "sorry_note": "There is no sorry, admit or axiom in either file. scripts/sorry_count.py (read-only) prints 'sorry (strict, Causal/): 0 in 374 files'. The statements were first written with `sorry -- SORRY(T-abs-flrw-future-extension): to prove` and typechecked, then closed.",
+  "axioms": "axioms.txt is the output of Probe.lean, which imports Causal.FlrwTypeClosedAmbient (and through it Causal.FlrwType). It has 48 #print axioms entries: the 7 new declarations and all 41 existing source-level declarations of the two modules. Each depends on [propext, Classical.choice, Quot.sound] only. This was checked by parsing axioms.txt with line-wrapped entries joined. There is no sorryAx, admit, axiom declaration, native_decide or ofReduceBool, and no error or warning in the output.",
+  "layer": "ETT layer (layer 1) for both modules; neither import header changed. tools/ladder.py was run in memory only (lean_index, model_path, import_chain; kb/0247). model_path is None for Causal.FlrwType, for its direct imports Causal.C0ExtensionSkeleton and Causal.PastInextensibleMeetsCauchy, for Causal.FlrwTypeClosedAmbient and for its direct import Causal.FlrwType. FlrwTypeClosedAmbient's closure has 50 Causal modules, none of them in MODEL_LAYER. import_chain to and from Causal.Ladder.Rules is None in both directions for both modules, so the target is not exclusive. No statement mentions a metric, curve length or geodesic. The hypotheses are: the standing T2 and second countability; the ladder nodes causally_arc_connected (CN.CausallyArcConnected), future_one_connected (CN.FutureOneConnected) and is_causal (CN.IsCausal), all of the source N, for (a); globally_hyperbolic and tarentin, of M, for (b); the declared (A⁻), (B⁻) and (B⁻) on W; and C.CausallyArcConnectedOn W for (b). '≤ closed' enters (b) only through GloballyHyperbolic.isClosed_le, as in its (A) twin.",
+  "labels": [],
+  "labels_note": "Sbierski 2312.07443 is not ledgered and has no binder, so no label exists and none is marked, as in both modules' docstrings. The time-reversed statements are programme statements: Sbierski's Thm 1.5 is about the past boundary only.",
+  "declarations": [
+    {
+      "name": "Causal.IsSpacetimeExtension.not_futureBoundaryChart_of_flrwType",
+      "file_line": "Causal/FlrwType.lean:496",
+      "new": true,
+      "statement": "∀ {M : Type u} [TopologicalSpace M] {N : Type v} [TopologicalSpace N] [Nonempty N] {CN : Causality N} {C : Causality M} {ι : N → M} [T2Space M] [SecondCountableTopology M] (hι : IsSpacetimeExtension CN C ι), CN.CausallyArcConnected → CN.FutureOneConnected → CN.IsCausal → (∀ (I : Set ℝ) (δ : ℝ → N), CN.FutureInextensible ⊤ I δ → (∀ a ∈ I, ∀ b ∈ I, CN.ChronalCurveOn ⊤ δ a b) → ⋃ t ∈ I, CN.Iminus ⊤ {δ t} = Set.univ) → (∀ (x : N), ∃ S, CN.IsCauchySurface S ∧ S ⊆ CN.Iplus ⊤ {x}) → ∀ (Ũ : Opens M) (p : M), ¬ C.FutureBoundaryChart hι.rangeOpens Ũ p",
+      "what": "Part (a), the deliverable. It is the time reversal of the past corollary IsSpacetimeExtension.not_pastBoundaryChart_of_flrwType, with the same binder order: hι, hcac, hfoc, hcaus, hA, hB, Ũ, p. The hypotheses on N are the same ladder nodes, with (A⁻) in the shape of the open-set time reversal Causality.not_futureBoundaryChart_of_flrwType at W = ⊤, and `= univ` as in the past corollary. (B⁻) reads S ⊆ I⁺(x).",
+      "proof": "hι.dual.not_pastBoundaryChart_of_flrwType, the past corollary for the extension IsSpacetimeExtension.dual : IsSpacetimeExtension CN.dual C.dual ι. Its arguments are dual_causallyArcConnectedOn.2 hcac, dual_futureOneConnected.2 hfoc and dual_isCausal.2 hcaus. (A⁻) becomes (A) for CN.dual by reversing the curve, through dual_pastInextensible_iff and CurveOn.neg, which is the conversion of Causality.not_futureBoundaryChart_of_flrwType at W = ⊤. (B⁻) becomes (B) for CN.dual through dual_isCauchySurfaceOn, with CN.dual.Iminus = CN.Iplus by rfl. The conclusion ¬ C.dual.PastBoundaryChart hι.dual.rangeOpens Ũ p is the goal with no rewrite. FutureBoundaryChart is C.dual.PastBoundaryChart by definition, and hι.dual.rangeOpens = hι.rangeOpens holds by rfl: both are ⟨range ι, _⟩, and the dual's isOpenEmbedding field is hι.isOpenEmbedding. Probe.lean checks both rfl facts as `example`s.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_not_futureBoundaryChart",
+      "file_line": "Causal/FlrwType.lean:568",
+      "new": true,
+      "statement": "∀ (W Ũ : Opens ℝ) (p : ℝ), ¬ timelikeLine.FutureBoundaryChart W Ũ p",
+      "what": "The time reversal of timelikeLine_not_pastBoundaryChart: no open set of the timelike line has a future boundary chart at any point. It is not in the dispatch. I added it because without it item 5 would claim, for the new witness, something no Lean declaration proves: that the witness shows the hypotheses consistent and not the predicate inhabited.",
+      "proof": "The one-dimensional argument with the order reversed. Field (vi) is taken at K = [γ̃ 1, p]. If σ 0 ≥ γ̃ 1, the intermediate value theorem (intermediate_value_Icc', since σ decreases from σ 0 to σ 1 < γ̃ 1) puts γ̃ 1 on σ: at t = 0 that gives σ 0 ∈ V ⊆ W, and at t > 0 it gives σ t ∈ K. If σ 0 < γ̃ 1, then γ̃ 1 ≫ σ 0 in Ũ for the reversed line, and field (iii) puts σ 0 in V ⊆ W. The relations of timelikeLine.dual are read with `change` (see kb_proposals).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_iUnion_Iminus_eq_univ",
+      "file_line": "Causal/FlrwType.lean:638",
+      "new": true,
+      "statement": "∀ (I : Set ℝ) (δ : ℝ → ℝ), timelikeLine.FutureInextensible ⊤ I δ → ⋃ t ∈ I, timelikeLine.Iminus ⊤ {δ t} = Set.univ",
+      "what": "(A⁻) on the timelike line, the time reversal of timelikeLine_iUnion_Iplus_eq_univ.",
+      "proof": "For x, take t₁ ∈ I. If x < δ t₁, then x ∈ I⁻(δ t₁). Otherwise δ t₁ ∈ J⁻({x + 1}), and FutureInextensible.exists_mem_of_mem_Jminus_of_isCausal makes δ meet the Cauchy surface {x + 1} (timelikeLine_isCauchySurface_singleton), which lies above x.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_exists_cauchy_Iplus",
+      "file_line": "Causal/FlrwType.lean:655",
+      "new": true,
+      "statement": "∀ (x : ℝ), ∃ S, timelikeLine.IsCauchySurface S ∧ S ⊆ timelikeLine.Iplus ⊤ {x}",
+      "what": "(B⁻) on the timelike line, the time reversal of timelikeLine_exists_cauchy_Iminus. The surface is {x + 1}.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_exp_not_futureBoundaryChart",
+      "file_line": "Causal/FlrwType.lean:665",
+      "new": true,
+      "statement": "∀ (Ũ : Opens ℝ) (p : ℝ), ¬ timelikeLine.FutureBoundaryChart exp_isSpacetimeExtension.rangeOpens Ũ p",
+      "what": "Part (a)'s kb/0011 witness. Every hypothesis of IsSpacetimeExtension.not_futureBoundaryChart_of_flrwType holds for exp : ℝ → ℝ, the extension of the timelike line into itself onto (0, ∞). The arguments are timelikeLine_causallyArcConnected, timelikeLine_futureOneConnected, timelikeLine_isCausal, (A⁻) timelikeLine_iUnion_Iminus_eq_univ and (B⁻) timelikeLine_exists_cauchy_Iplus. The theorem is applied, not bypassed through timelikeLine_not_futureBoundaryChart.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeB",
+      "file_line": "Causal/FlrwTypeClosedAmbient.lean:493",
+      "new": true,
+      "statement": "∀ {M : Type u} [TopologicalSpace M] {C : Causality M} {W : Opens M} [T2Space M] [SecondCountableTopology M], C.Tarentin → C.GloballyHyperbolic → C.CausallyArcConnectedOn W → (∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iplus W {x}) → ∀ (Ũ : Opens M) (p : M), ¬ C.FutureBoundaryChart W Ũ p",
+      "what": "Part (b), the deliverable. It is the globally hyperbolic form of (B)'s time reversal, with the binder order of its past twin GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeB: hT, hG, hcac, hB, Ũ, p. The one change is S ⊆ C.Iplus W {x}.",
+      "proof": "not_futureBoundaryChart_of_flrwTypeB_of_isClosed_le (hG.isClosed_le hT) hG.1 hcac hB Ũ p, as the planner wrote it.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_posHalfLine_not_futureBoundaryChart_of_flrwTypeB",
+      "file_line": "Causal/FlrwTypeClosedAmbient.lean:534",
+      "new": true,
+      "statement": "∀ (Ũ : Opens ℝ) (p : ℝ), ¬ timelikeLine.FutureBoundaryChart posHalfLine Ũ p",
+      "what": "Part (b)'s kb/0011 witness on W = (0, ∞). It applies GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeB with timelikeLine_globallyHyperbolic, timelikeLine_tarentin, timelikeLine_flrwType_hypotheses_posHalfLine.1 (W causally arc-connected) and (B⁻) on (0, ∞).",
+      "proof": "(B⁻) on (0, ∞) is proved in a `have`, as the planner described. (B⁻) on ℝ (timelikeLine_exists_cauchy_Iplus) is (B) for timelikeLine.dual (dual_isCauchySurfaceOn.2). exp_isSpacetimeExtension.dual.exists_isCauchySurfaceOn_subset_Iminus carries it to the image, after rw [← exp_rangeOpens_eq]. dual_isCauchySurfaceOn.1 reads it back for timelikeLine, and timelikeLine.dual.Iminus = timelikeLine.Iplus holds by rfl. Destructuring uses obtain, not a term-mode let (kb/0301).",
+      "status": "proved"
+    }
+  ],
+  "existing_declarations_unchanged": {
+    "method": "A metaprogram (/tmp/flrwfut/DumpTypes.lean, outside the repository) enumerated every constant whose module is Causal.FlrwType or Causal.FlrwTypeClosedAmbient, internal names excluded. It recorded each constant's type as an Expr hash and as a pretty-printed string (pp.proofs false, full names). It ran on the oleans before any edit and again after the build.",
+    "result": "Before: 67 constants, after: 74. The 67 have identical type hashes and identical pretty-printed types. None was removed or changed. The 7 added are exactly the 7 new declarations above. The 67 include the structure's auto-generated constants (PastBoundaryChartData.rec, .casesOn, .mk.injEq, …) and not_futureBoundaryChart_of_flrwTypeB_of_closedIn.match_1_1.",
+    "source_level": [
+      "Causal.Causality.PastBoundaryChartData",
+      "Causal.Causality.PastBoundaryChart",
+      "Causal.Causality.FutureBoundaryChart",
+      "Causal.Causality.ChronalCurveOn.pastInextensible_Ioc_of_start_notMem",
+      "Causal.Causality.PastBoundaryChartData.Iplus_inter_Iminus_subset",
+      "Causal.Causality.PastBoundaryChartData.biUnion_Iplus_inter_Iminus_eq",
+      "Causal.Causality.PastBoundaryChartData.Iminus_eq_diamond",
+      "Causal.Causality.PastBoundaryChartData.subset_diamond",
+      "Causal.Causality.not_pastBoundaryChart_of_flrwType",
+      "Causal.Causality.not_futureBoundaryChart_of_flrwType",
+      "Causal.IsSpacetimeExtension.isCauchySurfaceOn_image",
+      "Causal.IsSpacetimeExtension.le_antisymm_rangeOpens",
+      "Causal.IsSpacetimeExtension.iUnion_Iplus_eq_of_pastInextensible",
+      "Causal.IsSpacetimeExtension.exists_isCauchySurfaceOn_subset_Iminus",
+      "Causal.IsSpacetimeExtension.not_pastBoundaryChart_of_flrwType",
+      "Causal.posHalfLine",
+      "Causal.timelikeLine_not_pastBoundaryChart",
+      "Causal.timelikeLine_iUnion_Iplus_eq_univ",
+      "Causal.timelikeLine_exists_cauchy_Iminus",
+      "Causal.exp_rangeOpens_eq",
+      "Causal.timelikeLine_exp_not_pastBoundaryChart",
+      "Causal.timelikeLine_flrwType_hypotheses_posHalfLine",
+      "Causal.timelikeLine_posHalfLine_not_pastBoundaryChart",
+      "Causal.Causality.isClosed_inter_preimage_setOf_le",
+      "Causal.Causality.PastBoundaryChartData.false_of_squeeze",
+      "Causal.Causality.not_pastBoundaryChart_of_flrwTypeA_of_closedIn",
+      "Causal.Causality.not_pastBoundaryChart_of_flrwTypeA_of_isClosed_le",
+      "Causal.Causality.GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeA",
+      "Causal.Causality.GloballyHyperbolic.not_flrwTypeA_of_pastBoundaryChart",
+      "Causal.Causality.dual_iUnion_Iplus_eq_of_futureInextensible",
+      "Causal.Causality.not_futureBoundaryChart_of_flrwTypeA_of_closedIn",
+      "Causal.Causality.not_futureBoundaryChart_of_flrwTypeA_of_isClosed_le",
+      "Causal.Causality.GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeA",
+      "Causal.Causality.not_pastBoundaryChart_of_flrwTypeB_of_closedIn",
+      "Causal.Causality.not_pastBoundaryChart_of_flrwTypeB_of_isClosed_le",
+      "Causal.Causality.GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeB",
+      "Causal.Causality.GloballyHyperbolic.not_flrwTypeB_of_pastBoundaryChart",
+      "Causal.Causality.not_futureBoundaryChart_of_flrwTypeB_of_closedIn",
+      "Causal.Causality.not_futureBoundaryChart_of_flrwTypeB_of_isClosed_le",
+      "Causal.timelikeLine_posHalfLine_not_pastBoundaryChart_of_flrwTypeA",
+      "Causal.timelikeLine_posHalfLine_not_pastBoundaryChart_of_flrwTypeB"
+    ],
+    "diff": "git diff --stat: FlrwType.lean +121/−6, FlrwTypeClosedAmbient.lean +47/−5 (git diff --numstat). All 11 deleted lines are module-docstring lines: items 4 and 5 and a SCOPE bullet of FlrwType, and items 4, 5 and 7 of FlrwTypeClosedAmbient, each rewritten. No declaration line and no declaration docstring was removed or changed."
+  },
+  "docstrings": [
+    "FlrwType, item 4 ('What is proved') names IsSpacetimeExtension.not_futureBoundaryChart_of_flrwType, with (A⁻) and (B⁻), as the past corollary for IsSpacetimeExtension.dual.",
+    "FlrwType, item 5 names timelikeLine_exp_not_futureBoundaryChart, with (A⁻) and (B⁻) on ℝ (timelikeLine_iUnion_Iminus_eq_univ, timelikeLine_exists_cauchy_Iplus). Its closing sentence now says that the timelike line has no future boundary chart either (timelikeLine_not_futureBoundaryChart), so the witnesses show the hypotheses consistent, not the predicate inhabited.",
+    "FlrwType, the SCOPE bullet on causal_ladder now says that the ladder form of the time reversal is the time-reversed corollary, with the same three nodes of N.",
+    "FlrwTypeClosedAmbient, item 4 names GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeA and points to item 5 for (B)'s time reversals.",
+    "FlrwTypeClosedAmbient, item 5 previously said 'Its local, globally hyperbolic and time-reversed forms (not_futureBoundaryChart_of_flrwTypeB_of_isClosed_le) come with it'. It now lists the time reversals under (B) with S ⊆ I⁺(x, W): the M-form, its local form and the new GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeB.",
+    "FlrwTypeClosedAmbient, item 7 names timelikeLine_posHalfLine_not_futureBoundaryChart_of_flrwTypeB, with (B⁻) carried by exp_isSpacetimeExtension.dual, and says it agrees with timelikeLine_not_futureBoundaryChart.",
+    "No Lean docstring contained the remark '(B)'s time reversal has no globally hyperbolic form'. grep over Causal/ and scaffold/ finds it only in programme/ladder.toml:5187–5188, which is the keeper's (lemmas_for_the_keeper[2]).",
+    "All new docstring text cites declarations by name, never by line number (T-abs-lineref-docstrings)."
+  ],
+  "lemmas_for_the_keeper": [
+    {
+      "ladder_entry": "programme/ladder.toml, a new [[consequence]] beside the past extension corollary's (now :5150–5156). Alternatively, the keeper may leave it to the ladder's dual keys (T-tac-ladder-dual-key, T-lad-dual-keys); that choice is the keeper's.",
+      "proposal": {
+        "at": [
+          "causally_arc_connected",
+          "future_one_connected",
+          "is_causal"
+        ],
+        "statement": "Sbierski 2312.07443 Thm 1.5, abstract, time-reversed, for an extension ι : N → M: if N is causally arc-connected, future one-connected and causal, and (A⁻) and (B⁻) hold on N, then ι(N) has a future boundary chart at no point of M (¬ C.FutureBoundaryChart ι(N) Ũ p for every open Ũ and every p)",
+        "witness": "Causal.IsSpacetimeExtension.not_futureBoundaryChart_of_flrwType",
+        "under": "the nodes of `at` are of CN on N, the source; N a non-empty topological space with a causality CN, and ι : N → M with Causal.IsSpacetimeExtension CN C ι (OQ-154's reading); (A⁻) every future-inextensible chronal curve δ of N (CN.FutureInextensible ⊤, chronal on its segments) has chronological past N, ⋃ t I⁻(δ t) = N (hA); (B⁻) every I⁺(x), x ∈ N, contains a Cauchy surface of N (hB); the conclusion refutes the time reversal of past_boundary_chart (Causal.Causality.FutureBoundaryChart, C.dual.PastBoundaryChart, no id of its own) at W = ι(N), for every Ũ and p; the standing is of M, the target",
+        "standing": [
+          "T2",
+          "second_countable"
+        ],
+        "status": "checked"
+      },
+      "simulation": "Simulated together with the next entry, in memory (kb/0276), with no file written. copy.deepcopy(ladder.load()) had both entries appended. ladder.check with lean_names() gives 0 errors before and after. Both witnesses already resolve, since the modules are in Causal/. ladder.matrix has 0 changed cells, and ladder._contradictions has 0 entries before and after. The count goes from 128 to 130 consequences."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml, a new [[consequence]] beside the (B)-alone entry at [globally_hyperbolic, tarentin] (now :5228–5233)",
+      "proposal": {
+        "at": [
+          "globally_hyperbolic",
+          "tarentin"
+        ],
+        "statement": "Sbierski 2312.07443 Thm 1.5, (B) alone in a closed ambient, time-reversed: on a globally hyperbolic, tarentin M, a causally arc-connected open W every I⁺(x, W), x ∈ W, of which contains a Cauchy surface of W has a future boundary chart at no point (¬ C.FutureBoundaryChart W Ũ p for every open Ũ and every p)",
+        "witness": "Causal.Causality.GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeB",
+        "under": "W any open set of M, causally arc-connected (C.CausallyArcConnectedOn W, hcac; not the node causally_arc_connected, which is of M); (B⁻) on W: every I⁺(x, W), x ∈ W, contains a Cauchy surface of W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ I⁺(x, W) (hB); no (A) and no future one-connectedness is asked; ≤_M is closed through Causal.Causality.GloballyHyperbolic.isClosed_le and antisymmetric through globally_hyperbolic's IsCausal conjunct; the conclusion refutes the time reversal of past_boundary_chart (Causal.Causality.FutureBoundaryChart) at W, for every Ũ and p",
+        "standing": [
+          "T2",
+          "second_countable"
+        ],
+        "status": "checked"
+      },
+      "simulation": "See the previous entry."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:5187–5188, the comment of the closed-ambient block",
+      "proposal": "The sentence '(B)'s time reversal has no globally hyperbolic form in Lean' is false once this target graduates. That form is Causal.Causality.GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeB. The comment could also name Causal.timelikeLine_posHalfLine_not_futureBoundaryChart_of_flrwTypeB among the witnesses."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml, past_boundary_chart's note (the [[edge_hypothesis]] at :1499)",
+      "proposal": "The note says the theorems' ladder form is the extension corollary. It could add the time-reversed corollary Causal.IsSpacetimeExtension.not_futureBoundaryChart_of_flrwType, with its witness Causal.timelikeLine_exp_not_futureBoundaryChart. It could also add Causal.timelikeLine_not_futureBoundaryChart beside Causal.timelikeLine_not_pastBoundaryChart: the timelike line has no chart on either side. And it could note that FutureBoundaryChart has no Lean instance (findings[2])."
+    }
+  ],
+  "extra_decls": [
+    "Causal.timelikeLine_not_futureBoundaryChart",
+    "Causal.timelikeLine_iUnion_Iminus_eq_univ",
+    "Causal.timelikeLine_exists_cauchy_Iplus"
+  ],
+  "findings": [
+    "No paper label is involved: 2312.07443 is not ledgered, and the time-reversed statements are not in the paper. These findings concern the programme.",
+    "The time reversal costs no new transport lemma. IsSpacetimeExtension.dual reverses both causalities along the same ι, and the past corollary for it is the future one for ι, up to two rfl facts: C.FutureBoundaryChart W Ũ p = C.dual.PastBoundaryChart W Ũ p, and hι.dual.rangeOpens = hι.rangeOpens. Probe.lean checks both as `example`s. The planner's question, whether the second is rfl or needs a rewrite, is answered: it is rfl, and the theorem's conclusion is stated at hι.rangeOpens with no cast.",
+    "No Lean declaration inhabits FutureBoundaryChart. The past chart has the layer-3 instance Causal.minkowski_pastBoundaryChart (the half-space {t > 0} of 𝐌^{1+n}, n ≥ 1, at 0). No future chart exists in Lean, and the new timelikeLine_not_futureBoundaryChart shows the timelike line has none. So the time-reversed theorems (the open-set not_futureBoundaryChart_of_flrwType, the A- and B-closed-ambient forms and the two new ones) have witnesses of consistency, not of non-vacuity. The natural instance is {t < 0} of 𝐌^{1+n} at 0, through the isometry t ↦ −t, or Minkowski space's dual causality. That is layer 3 and is left to the planner; I did not attempt it, since layer 1 imports no model.",
+    "Part (b)'s witness on (0, ∞) is exactly as the planner described. (B⁻) on ℝ is carried by the dual extension exp_isSpacetimeExtension.dual, through the existing past transport exists_isCauchySurfaceOn_subset_Iminus. No future transport lemma was needed.",
+    "(A)'s time reversal in the closed ambient (not_futureBoundaryChart_of_flrwTypeA_of_isClosed_le and its GH form) still has no timelike-line witness. With timelikeLine_iUnion_Iminus_eq_univ now in FlrwType, one would also need (A⁻) on (0, ∞): (A) for timelikeLine.dual carried by exp_isSpacetimeExtension.dual.iUnion_Iplus_eq_of_pastInextensible, then converted back from C.dual to C. That is the converse of dual_iUnion_Iplus_eq_of_futureInextensible. It is outside this dispatch and is recorded here for the planner."
+  ],
+  "questions": [
+    "(A⁻) and (B⁻) for the extension are read as the exact time reversals of the past corollary's (A) and (B) at W = ⊤. (A⁻): every CN.FutureInextensible ⊤ I δ, chronal on its segments, has ⋃ t ∈ I, CN.Iminus ⊤ {δ t} = univ, with `univ` as in the past corollary and not `⊤`. (B⁻): every x has a Cauchy surface S of N with S ⊆ CN.Iplus ⊤ {x}. This is the dispatch's wording. It is the open-set time reversal's shape at W = ⊤, and is no new reading of Sbierski's Prop 3.6. Its readings stay T-abs-flrw-type's questions and are not reopened."
+  ],
+  "kb_proposals": [
+    "The time-reversed extension corollary is the past one for hι.dual. `hι.dual.not_pastBoundaryChart_of_flrwType` closes ¬ C.FutureBoundaryChart hι.rangeOpens Ũ p with no rewrite, since FutureBoundaryChart is C.dual.PastBoundaryChart and hι.dual.rangeOpens = hι.rangeOpens both hold by rfl. The dual iffs convert the hypotheses: dual_causallyArcConnectedOn, dual_futureOneConnected, dual_isCausal, dual_pastInextensible_iff with CurveOn.neg for (A⁻), and dual_isCauchySurfaceOn for (B⁻) (T-abs-flrw-future-extension).",
+    "`rw [Precausality.dual_lt]` does not fire on `C.dual.lt U x y` for a Causality C: C.dual.toPrecausality is not syntactically Precausality.dual (C.toPrecausality). Use `change C.lt U y x at h`, or rewrite with Causality.dual_toPrecausality first. Term mode needs neither: `timelikeLine_lt.2 ⟨…⟩` elaborates directly against an expected `timelikeLine.dual.lt U x y` (T-abs-flrw-future-extension, timelikeLine_not_futureBoundaryChart)."
+  ],
+  "notes": "Two existing files edited, by additions only: Causal/FlrwType.lean (586 → 701 lines, 5 new theorems) and Causal/FlrwTypeClosedAmbient.lean (510 → 552 lines, 2 new theorems), plus their module docstrings. No other file was edited: not ladder.toml, Causal.lean, the README or the kb. I ran no git command that writes, no make check and no tools/ladder.py emit-lean; tools/ladder.py was only imported in memory (kb/0252). Scratch files (the type dumps and the report writer) are in /tmp/flrwfut, outside the repository. Name clashes: grep -w over Causal/ and scaffold/ finds none of the 7 names elsewhere. IsSpacetimeExtension.not_futureBoundaryChart_of_flrwType shares its last component with Causality.not_futureBoundaryChart_of_flrwType, as the past pair does; dot notation `hι.not_futureBoundaryChart_of_flrwType` resolves it. LINE SHIFTS, for T-abs-lineref-docstrings and T-lad-lineref-names. In FlrwType every declaration moved by +8 up to the past corollary: PastBoundaryChartData :125→:133, PastBoundaryChart :160→:168, FutureBoundaryChart :167→:175, not_pastBoundaryChart_of_flrwType :319→:327, not_futureBoundaryChart_of_flrwType :359→:367 (its conversion :366–385→:374–393), isCauchySurfaceOn_image :400→:408, le_antisymm_rangeOpens :406→:414, iUnion_Iplus_eq_of_pastInextensible :417→:425, exists_isCauchySurfaceOn_subset_Iminus :454→:462, the past corollary :470→:478. After it, the shifts are larger: timelikeLine_not_pastBoundaryChart :491→:536, timelikeLine_iUnion_Iplus_eq_univ :521→:600, timelikeLine_exists_cauchy_Iminus :538→:617, exp_rangeOpens_eq :544→:623, timelikeLine_exp_not_pastBoundaryChart :550→:629, timelikeLine_flrwType_hypotheses_posHalfLine :560→:675, timelikeLine_posHalfLine_not_pastBoundaryChart :581→:696. In FlrwTypeClosedAmbient everything after the module docstring moved by +5 (false_of_squeeze :152→:157, GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeB :439→:444, not_futureBoundaryChart_of_flrwTypeB_of_isClosed_le :476→:481). The two timelikeLine witnesses moved by +16 (:496→:512, :504→:520). Three existing line references in FlrwTypeClosedAmbient were already stale at HEAD and are left for T-abs-lineref-docstrings, which is exclusive: the checklist's `FlrwType.lean:318–319` (:80) and `:320` (:81), and dual_iUnion_Iplus_eq_of_futureInextensible's `FlrwType.lean:364–378` (:318). The lines they mean are now :330–331 ((A)), :332 ((B)) and :376–390 (the conversion). The ladder's line references into both modules (e.g. FlrwType.lean:544, :163, :315; FlrwTypeClosedAmbient.lean :290, :445, :475, :492) are all shifted.",
+  "corrected_after_audit": "AUDIT-1 (minor), applied by the master: (1) findings[2] and lemmas_for_the_keeper[3] ('no Lean declaration inhabits FutureBoundaryChart') read otherwise: since Causality.dual_dual is rfl, minkowski_pastBoundaryChart already has type (minkowski n).dual.FutureBoundaryChart (minkowskiPosHalfSpace n) (minkowskiChartBox n) 0, so the time reversals are non-vacuous; only the {t < 0} chart for minkowski n itself is missing. The keeper should not add 'no Lean instance' to the ladder note. (2) FlrwType's SCOPE bullet now says so. FlrwTypeClosedAmbient's item 7 is left for the docstring tidy (T-abs-lineref-docstrings)."
+}

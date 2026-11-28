@@ -42,13 +42,20 @@ spacetimes*, `references/sbierski/text/sbierski2023c.txt`: the proof of Thm 1.5 
    the same full names: `IsSpacetimeExtension.isEMorphismOn`, now in `Causal.C0ExtensionSkeleton`
    beside `IsSpacetimeExtension`, and `IsEMorphismOn.pastInextensible_invComp`, now in
    `Causal.CauchyExtension`, in the namespace of `IsEMorphismOn.inextensible_iff_invComp` (a last
-   block that keeps this module's binder order, kb/0255).
+   block that keeps this module's binder order, kb/0255). Its time reversal
+   `IsSpacetimeExtension.not_futureBoundaryChart_of_flrwType`, under (A⁻) every
+   future-inextensible chronal curve of `N` has chronological past `N` and (B⁻) every `I⁺(x)`
+   contains a Cauchy surface of `N`, is the past corollary for `IsSpacetimeExtension.dual`.
 5. **Witnesses** (kb/0011): the hypotheses hold jointly on `W = (0, ∞)` of the timelike line
    (`timelikeLine_flrwType_hypotheses_posHalfLine`), and the theorem applies there
    (`timelikeLine_posHalfLine_not_pastBoundaryChart`); the corollary applies to `exp : ℝ → ℝ`
-   (`timelikeLine_exp_not_pastBoundaryChart`). On the timelike line no open set has a past
-   boundary chart at all (`timelikeLine_not_pastBoundaryChart`: one dimension leaves no room for
-   field (vi)), so these witnesses show the hypotheses consistent, not the predicate inhabited.
+   (`timelikeLine_exp_not_pastBoundaryChart`), and so does its time reversal
+   (`timelikeLine_exp_not_futureBoundaryChart`, with (A⁻) and (B⁻) on `ℝ`:
+   `timelikeLine_iUnion_Iminus_eq_univ`, `timelikeLine_exists_cauchy_Iplus`). On the timelike line
+   no open set has a past boundary chart at all (`timelikeLine_not_pastBoundaryChart`: one
+   dimension leaves no room for field (vi)), nor a future one
+   (`timelikeLine_not_futureBoundaryChart`), so these witnesses show the hypotheses consistent,
+   not the predicate inhabited.
 
 ## Hypothesis checklist
 
@@ -74,7 +81,11 @@ spacetimes*, `references/sbierski/text/sbierski2023c.txt`: the proof of Thm 1.5 
   show the theorem's hypotheses consistent, not a chart inhabited. The instance is layer 3:
   `Causal.minkowski_pastBoundaryChart` (`Causal.Model.MinkowskiPastBoundaryChart`,
   T-loc-minkowski-past-boundary-chart), the half-space `{t > 0}` of `𝐌^{1+n}`, `n ≥ 1`, at `0`,
-  where (A) and (B) both fail, so the theorem is not vacuous.
+  where (A) and (B) both fail, so the theorem is not vacuous. As `Causality.dual_dual` is `rfl`, the
+  same instance has type `(minkowski n).dual.FutureBoundaryChart (minkowskiPosHalfSpace n)
+  (minkowskiChartBox n) 0`, so the time reversals (`not_futureBoundaryChart_of_flrwType` and the
+  extension corollary) are not vacuous either; only the `{t < 0}` chart of `minkowski n` itself is
+  not built.
 * **Sbierski's Thm 1.5 for FLRW is not proved here**: Props 2.1, 3.1 and 3.6 are layer 3, and enter
   as the chart predicate and the hypotheses (A), (B) and future one-connectedness.
 * Field (iii) has the shape of `T-abs-boundary-chart-cauchy`'s conclusion
@@ -83,8 +94,9 @@ spacetimes*, `references/sbierski/text/sbierski2023c.txt`: the proof of Thm 1.5 
 * Timelike curves are chronal curves (DEC-6) over `[0, 1]`; "past inextendible" is DEC-13's
   `PastInextensible`; Cauchy surfaces are DEC-14's.
 * `causal_ladder` is not used: no statement concludes a ladder property. At `W = ⊤` the theorem
-  is empty (no point lies off `⊤`); its ladder form is the extension corollary, whose hypotheses
-  on `N` are the nodes `causally_arc_connected`, `future_one_connected` and `is_causal`.
+  is empty (no point lies off `⊤`); its ladder form is the extension corollary, and that of its
+  time reversal the time-reversed corollary, whose hypotheses on `N` are, for both, the nodes
+  `causally_arc_connected`, `future_one_connected` and `is_causal`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -478,6 +490,43 @@ theorem not_pastBoundaryChart_of_flrwType [T2Space M] [SecondCountableTopology M
     (hι.futureOneConnectedOn hfoc) (hι.le_antisymm_rangeOpens hcaus)
     (hι.iUnion_Iplus_eq_of_pastInextensible hA) (hι.exists_isCauchySurfaceOn_subset_Iminus hB) Ũ p
 
+/-- **The corollary for an extension, time-reversed**: `ι : N → M` an `IsSpacetimeExtension`,
+`M` T2 and second countable, `N` causally arc-connected, future one-connected and causal, with
+(A⁻) every future-inextensible chronal curve of `N`, chronal on its segments, has chronological
+past `N`, and (B⁻) every `I⁺(x)`, `x ∈ N`, contains a Cauchy surface of `N`. Then `ι(N)` has a
+future boundary chart at no point of `M`: Sbierski's `∂⁺ι(M) = ∅`, abstractly. It is the past
+corollary for the extension `IsSpacetimeExtension.dual` of the reversed causalities, (A⁻) and (B⁻)
+being (A) and (B) for `CN.dual` (`dual_pastInextensible_iff`, `dual_isCauchySurfaceOn`). -/
+theorem not_futureBoundaryChart_of_flrwType [T2Space M] [SecondCountableTopology M]
+    (hι : IsSpacetimeExtension CN C ι) (hcac : CN.CausallyArcConnected)
+    (hfoc : CN.FutureOneConnected) (hcaus : CN.IsCausal)
+    (hA : ∀ (I : Set ℝ) (δ : ℝ → N), CN.FutureInextensible ⊤ I δ →
+      (∀ a ∈ I, ∀ b ∈ I, CN.ChronalCurveOn ⊤ δ a b) → ⋃ t ∈ I, CN.Iminus ⊤ {δ t} = univ)
+    (hB : ∀ x : N, ∃ S : Set N, CN.IsCauchySurface S ∧ S ⊆ CN.Iplus ⊤ {x})
+    (Ũ : Opens M) (p : M) : ¬ C.FutureBoundaryChart hι.rangeOpens Ũ p := by
+  refine hι.dual.not_pastBoundaryChart_of_flrwType (dual_causallyArcConnectedOn.2 hcac)
+    (dual_futureOneConnected.2 hfoc) (dual_isCausal.2 hcaus) ?_ ?_ Ũ p
+  · -- (A⁻) for `CN` is (A) for `CN.dual`: reverse the curve
+    intro I δ hδ hchr
+    have h1 : CN.FutureInextensible ⊤ (-I) (fun t => δ (-t)) := by
+      have := (dual_pastInextensible_iff (C := CN) (W := ⊤) (I := -I) (c := fun t => δ (-t))).1
+      simp only [neg_neg] at this
+      exact this hδ
+    have h2 : ∀ a ∈ -I, ∀ b ∈ -I, CN.ChronalCurveOn ⊤ (fun t => δ (-t)) a b := fun a ha b hb =>
+      CurveOn.neg (hchr (-b) hb (-a) ha)
+    rw [← hA (-I) _ h1 h2]
+    ext x
+    simp only [mem_iUnion, exists_prop, Set.mem_neg]
+    constructor
+    · rintro ⟨t, ht, hx⟩
+      exact ⟨-t, by rwa [neg_neg], by rw [neg_neg]; exact hx⟩
+    · rintro ⟨t, ht, hx⟩
+      exact ⟨-t, ht, hx⟩
+  · -- (B⁻) for `CN` is (B) for `CN.dual`
+    intro x
+    obtain ⟨S, hS, hSx⟩ := hB x
+    exact ⟨S, dual_isCauchySurfaceOn.2 hS, hSx⟩
+
 end IsSpacetimeExtension
 
 /-! ### Witnesses on the timelike line -/
@@ -516,6 +565,40 @@ theorem timelikeLine_not_pastBoundaryChart (W Ũ : Opens ℝ) (p : ℝ) :
     exact hσ0 (d.inside_le
       (timelikeLine.lt_mem_right (Precausality.mem_Iplus_singleton.1 this))).1
 
+/-- **The time reversal: no future boundary chart either.** On the timelike line no open set has a
+future boundary chart at any point: the argument of `timelikeLine_not_pastBoundaryChart` with the
+order reversed. With `K = [γ̃ 1, p]`, the past-directed curve `σ` of (vi) cannot cross `γ̃ 1`, so
+`σ 0 < γ̃ 1`, and (iii) puts `σ 0` in `V ⊆ W`. -/
+theorem timelikeLine_not_futureBoundaryChart (W Ũ : Opens ℝ) (p : ℝ) :
+    ¬ timelikeLine.FutureBoundaryChart W Ũ p := by
+  rintro ⟨d⟩
+  have h1 : timelikeLine.dual.lt Ũ p (d.curve 1) := by
+    have := d.chronalCurveOn.lt_of_lt le_rfl zero_lt_one le_rfl
+    rwa [d.curve_zero] at this
+  change timelikeLine.lt Ũ (d.curve 1) p at h1
+  rw [timelikeLine_lt] at h1
+  -- (vi) at `K = [γ̃ 1, p]`
+  obtain ⟨σ, hσ, hσ0, hσmem, hσ1⟩ := d.avoid (Icc (d.curve 1) p) isCompact_Icc h1.2
+  have hσ01 : timelikeLine.lt Ũ (σ 1) (σ 0) := hσ.lt_of_lt le_rfl zero_lt_one le_rfl
+  change timelikeLine.lt Ũ (σ 1) (d.curve 1) at hσ1
+  rw [timelikeLine_lt] at hσ01 hσ1
+  have hV1 : d.curve 1 ∈ d.inside := d.curve_mem 1 ⟨zero_lt_one, le_rfl⟩
+  rcases le_or_gt (d.curve 1) (σ 0) with hle | hlt
+  · -- `σ` passes through `γ̃ 1`: at `0` it would be in `V ⊆ W`, later in `K`
+    have hcont := CurveOn.continuousOn timelikeLine.dual.isRelFamily_lt hσ
+    obtain ⟨t, ht, hσt⟩ := intermediate_value_Icc' zero_le_one hcont ⟨hσ1.1.le, hle⟩
+    rcases ht.1.eq_or_lt with h0 | h0
+    · subst h0
+      have : σ 0 ∈ d.inside := by rw [hσt]; exact hV1
+      exact hσ0 (d.inside_le this).1
+    · exact (hσmem t ⟨h0, ht.2⟩).2 (by rw [hσt]; exact ⟨le_rfl, h1.1.le⟩)
+  · -- `σ 0` below `γ̃ 1` in `Ũ`: (iii) puts it in `V ⊆ W`
+    have hlt' : timelikeLine.dual.lt Ũ (d.curve 1) (σ 0) :=
+      timelikeLine_lt.2 ⟨hlt, (Icc_subset_Icc_left hσ01.1.le).trans hσ1.2⟩
+    have := d.futureClosed _ hV1 (Precausality.mem_Iplus_singleton.2 hlt')
+    exact hσ0 (d.inside_le
+      (timelikeLine.dual.lt_mem_right (Precausality.mem_Iplus_singleton.1 this))).1
+
 /-- **(A) on the timelike line**: every past-inextensible causal curve of `ℝ` has chronological
 future `ℝ`; below any `x` it meets the Cauchy surface `{x - 1}` ((2.4)). -/
 theorem timelikeLine_iUnion_Iplus_eq_univ (I : Set ℝ) (δ : ℝ → ℝ)
@@ -552,6 +635,42 @@ theorem timelikeLine_exp_not_pastBoundaryChart (Ũ : Opens ℝ) (p : ℝ) :
   exp_isSpacetimeExtension.not_pastBoundaryChart_of_flrwType timelikeLine_causallyArcConnected
     timelikeLine_futureOneConnected timelikeLine_isCausal
     (fun I δ hδ _ => timelikeLine_iUnion_Iplus_eq_univ I δ hδ) timelikeLine_exists_cauchy_Iminus
+    Ũ p
+
+/-- **(A⁻) on the timelike line**: every future-inextensible causal curve of `ℝ` has
+chronological past `ℝ`; above any `x` it meets the Cauchy surface `{x + 1}` ((2.4) reversed). -/
+theorem timelikeLine_iUnion_Iminus_eq_univ (I : Set ℝ) (δ : ℝ → ℝ)
+    (hδ : timelikeLine.FutureInextensible ⊤ I δ) : ⋃ t ∈ I, timelikeLine.Iminus ⊤ {δ t} = univ := by
+  refine eq_univ_of_forall fun x => ?_
+  obtain ⟨t₁, ht₁⟩ := hδ.1.nonempty
+  rcases lt_or_ge x (δ t₁) with h | h
+  · exact mem_iUnion₂.2 ⟨t₁, ht₁, Precausality.mem_Iminus_singleton.2
+      (timelikeLine_lt.2 ⟨h, fun _ _ => trivial⟩)⟩
+  · -- `δ t₁ ∈ J⁻({x + 1})`, so `δ` meets the Cauchy surface `{x + 1}` ((2.4) reversed)
+    obtain ⟨t, ht, htS⟩ := hδ.exists_mem_of_mem_Jminus_of_isCausal
+      (timelikeLine_isCauchySurface_singleton (x + 1)) timelikeLine_causallyArcConnected
+      timelikeLine_isCausal
+      ⟨t₁, ht₁, x + 1, rfl, timelikeLine_le.2 ⟨by linarith, fun _ _ => trivial⟩⟩
+    refine mem_iUnion₂.2 ⟨t, ht, Precausality.mem_Iminus_singleton.2 ?_⟩
+    rw [mem_singleton_iff.1 htS]
+    exact timelikeLine_lt.2 ⟨by linarith, fun _ _ => trivial⟩
+
+/-- **(B⁻) on the timelike line**: `{x + 1}` is a Cauchy surface of `ℝ` inside `I⁺(x)`. -/
+theorem timelikeLine_exists_cauchy_Iplus (x : ℝ) :
+    ∃ S : Set ℝ, timelikeLine.IsCauchySurface S ∧ S ⊆ timelikeLine.Iplus ⊤ {x} :=
+  ⟨{x + 1}, timelikeLine_isCauchySurface_singleton _, singleton_subset_iff.2
+    (Precausality.mem_Iplus_singleton.2 (timelikeLine_lt.2 ⟨by linarith, fun _ _ => trivial⟩))⟩
+
+/-- **The time-reversed corollary on a witness**: `exp : ℝ → ℝ`, an extension of the timelike line
+into itself onto `(0, ∞)`, satisfies every hypothesis of
+`IsSpacetimeExtension.not_futureBoundaryChart_of_flrwType`, with (A⁻) and (B⁻) on `ℝ`
+(`timelikeLine_iUnion_Iminus_eq_univ`, `timelikeLine_exists_cauchy_Iplus`); its image has no
+future boundary chart. -/
+theorem timelikeLine_exp_not_futureBoundaryChart (Ũ : Opens ℝ) (p : ℝ) :
+    ¬ timelikeLine.FutureBoundaryChart exp_isSpacetimeExtension.rangeOpens Ũ p :=
+  exp_isSpacetimeExtension.not_futureBoundaryChart_of_flrwType timelikeLine_causallyArcConnected
+    timelikeLine_futureOneConnected timelikeLine_isCausal
+    (fun I δ hδ _ => timelikeLine_iUnion_Iminus_eq_univ I δ hδ) timelikeLine_exists_cauchy_Iplus
     Ũ p
 
 /-- **The hypotheses hold jointly** on `W = (0, ∞)` of the timelike line: causal

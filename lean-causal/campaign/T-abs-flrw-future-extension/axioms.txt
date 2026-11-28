@@ -1,0 +1,124 @@
+@Causal.IsSpacetimeExtension.not_futureBoundaryChart_of_flrwType : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {N : Type u_2} [inst_1 : TopologicalSpace N] [inst_2 : Nonempty N] {CN : Causal.Causality N} {C : Causal.Causality M}
+  {ι : N → M} [T2Space M] [SecondCountableTopology M] (hι : Causal.IsSpacetimeExtension CN C ι),
+  CN.CausallyArcConnected →
+    CN.FutureOneConnected →
+      CN.IsCausal →
+        (∀ (I : Set ℝ) (δ : ℝ → N),
+            CN.FutureInextensible ⊤ I δ →
+              (∀ a ∈ I, ∀ b ∈ I, CN.ChronalCurveOn ⊤ δ a b) → ⋃ t ∈ I, CN.Iminus ⊤ {δ t} = Set.univ) →
+          (∀ (x : N), ∃ S, CN.IsCauchySurface S ∧ S ⊆ CN.Iplus ⊤ {x}) →
+            ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.FutureBoundaryChart hι.rangeOpens Ũ p
+Causal.timelikeLine_not_futureBoundaryChart : ∀ (W Ũ : TopologicalSpace.Opens ℝ) (p : ℝ),
+  ¬Causal.timelikeLine.FutureBoundaryChart W Ũ p
+Causal.timelikeLine_iUnion_Iminus_eq_univ : ∀ (I : Set ℝ) (δ : ℝ → ℝ),
+  Causal.timelikeLine.FutureInextensible ⊤ I δ → ⋃ t ∈ I, Causal.timelikeLine.Iminus ⊤ {δ t} = Set.univ
+Causal.timelikeLine_exists_cauchy_Iplus : ∀ (x : ℝ),
+  ∃ S, Causal.timelikeLine.IsCauchySurface S ∧ S ⊆ Causal.timelikeLine.Iplus ⊤ {x}
+Causal.timelikeLine_exp_not_futureBoundaryChart : ∀ (Ũ : TopologicalSpace.Opens ℝ) (p : ℝ),
+  ¬Causal.timelikeLine.FutureBoundaryChart Causal.exp_isSpacetimeExtension.rangeOpens Ũ p
+@Causal.Causality.GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeB : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T2Space M] [SecondCountableTopology M],
+  C.Tarentin →
+    C.GloballyHyperbolic →
+      C.CausallyArcConnectedOn W →
+        (∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iplus W {x}) →
+          ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.FutureBoundaryChart W Ũ p
+Causal.timelikeLine_posHalfLine_not_futureBoundaryChart_of_flrwTypeB : ∀ (Ũ : TopologicalSpace.Opens ℝ) (p : ℝ),
+  ¬Causal.timelikeLine.FutureBoundaryChart Causal.posHalfLine Ũ p
+'Causal.IsSpacetimeExtension.not_futureBoundaryChart_of_flrwType' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.timelikeLine_not_futureBoundaryChart' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_iUnion_Iminus_eq_univ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_exists_cauchy_Iplus' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_exp_not_futureBoundaryChart' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeB' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.timelikeLine_posHalfLine_not_futureBoundaryChart_of_flrwTypeB' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.PastBoundaryChartData' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.PastBoundaryChart' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.FutureBoundaryChart' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.ChronalCurveOn.pastInextensible_Ioc_of_start_notMem' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.PastBoundaryChartData.Iplus_inter_Iminus_subset' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.PastBoundaryChartData.biUnion_Iplus_inter_Iminus_eq' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.PastBoundaryChartData.Iminus_eq_diamond' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.PastBoundaryChartData.subset_diamond' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.not_pastBoundaryChart_of_flrwType' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.not_futureBoundaryChart_of_flrwType' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.IsSpacetimeExtension.isCauchySurfaceOn_image' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.IsSpacetimeExtension.le_antisymm_rangeOpens' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.IsSpacetimeExtension.iUnion_Iplus_eq_of_pastInextensible' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.IsSpacetimeExtension.exists_isCauchySurfaceOn_subset_Iminus' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.IsSpacetimeExtension.not_pastBoundaryChart_of_flrwType' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.posHalfLine' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_not_pastBoundaryChart' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_iUnion_Iplus_eq_univ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_exists_cauchy_Iminus' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.exp_rangeOpens_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_exp_not_pastBoundaryChart' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_flrwType_hypotheses_posHalfLine' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_posHalfLine_not_pastBoundaryChart' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.isClosed_inter_preimage_setOf_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.PastBoundaryChartData.false_of_squeeze' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.not_pastBoundaryChart_of_flrwTypeA_of_closedIn' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.not_pastBoundaryChart_of_flrwTypeA_of_isClosed_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeA' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.GloballyHyperbolic.not_flrwTypeA_of_pastBoundaryChart' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.dual_iUnion_Iplus_eq_of_futureInextensible' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.not_futureBoundaryChart_of_flrwTypeA_of_closedIn' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.not_futureBoundaryChart_of_flrwTypeA_of_isClosed_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeA' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.not_pastBoundaryChart_of_flrwTypeB_of_closedIn' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.not_pastBoundaryChart_of_flrwTypeB_of_isClosed_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeB' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.GloballyHyperbolic.not_flrwTypeB_of_pastBoundaryChart' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.not_futureBoundaryChart_of_flrwTypeB_of_closedIn' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.not_futureBoundaryChart_of_flrwTypeB_of_isClosed_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.timelikeLine_posHalfLine_not_pastBoundaryChart_of_flrwTypeA' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.timelikeLine_posHalfLine_not_pastBoundaryChart_of_flrwTypeB' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

@@ -34,14 +34,16 @@ J. Sbierski, *The C⁰-inextendibility of a class of FLRW spacetimes*,
    `minkowski_posHalfSpace_not_flrwTypeA` by another route. That module is layer 3, so it is cited
    here and not imported.
 4. **The time reversal** `not_futureBoundaryChart_of_flrwTypeA_of_isClosed_le`, its local form
-   and its globally hyperbolic form, all through `C.dual`.
+   and its globally hyperbolic form `GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeA`, all
+   through `C.dual`. (B)'s time reversals are in item 5.
 5. **(B) alone** `not_pastBoundaryChart_of_flrwTypeB_of_isClosed_le`, the optional report,
    proved. Take `M` T2, second countable, with `≤_M` closed and antisymmetric, and `W` causally
    arc-connected with (B). Then `W` has a past boundary chart at no point. It needs no (A) and no
-   future one-connectedness. Its local, globally hyperbolic and time-reversed forms
-   (`not_futureBoundaryChart_of_flrwTypeB_of_isClosed_le`) come with it, and so does
+   future one-connectedness. Its local and globally hyperbolic forms come with it, and so does
    `GloballyHyperbolic.not_flrwTypeB_of_pastBoundaryChart`, which re-derives
-   `minkowski_posHalfSpace_not_flrwTypeB` on the half-space.
+   `minkowski_posHalfSpace_not_flrwTypeB` on the half-space. So do its time reversals, under (B)
+   with `S ⊆ I⁺(x, W)`: `not_futureBoundaryChart_of_flrwTypeB_of_isClosed_le`, its local form, and
+   its globally hyperbolic form `GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeB`.
 6. **The closing step** `PastBoundaryChartData.false_of_squeeze`. A chronal curve `σ` of `Ũ` over
    `[0, 1]`, lying in `W` on `(0, 1]` and off the chart diamond, gives a contradiction once
    `p ≤_U σ t` for every `t ∈ (0, 1]` and every `γ̃ s` lies above some `σ t`. Both theorems feed it:
@@ -51,7 +53,10 @@ J. Sbierski, *The C⁰-inextendibility of a class of FLRW spacetimes*,
    module reaches through `Causal.FlrwType`).
 7. **Witnesses** (kb/0011). On `W = (0, ∞)` of the timelike line, both theorems apply
    (`timelikeLine_posHalfLine_not_pastBoundaryChart_of_flrwTypeA`, `…_of_flrwTypeB`). They agree
-   with `timelikeLine_not_pastBoundaryChart`.
+   with `timelikeLine_not_pastBoundaryChart`. (B)'s time reversal applies there too
+   (`timelikeLine_posHalfLine_not_futureBoundaryChart_of_flrwTypeB`), with (B) for `S ⊆ I⁺(x, W)`
+   carried from `ℝ` by the extension `exp_isSpacetimeExtension.dual`; it agrees with
+   `timelikeLine_not_futureBoundaryChart`.
 
 ## The fields of the chart that are used
 
@@ -481,6 +486,17 @@ theorem not_futureBoundaryChart_of_flrwTypeB_of_isClosed_le [T2Space M]
   not_futureBoundaryChart_of_flrwTypeB_of_closedIn le_top le_top
     (fun _ hz => hle.closure_subset hz.1) hcaus hcac hB p
 
+/-- **(B) alone, time reversal, on every globally hyperbolic, tarentin T2, second countable
+spacetime**: a causally arc-connected `W` every `I⁺(x, W)` of which contains a Cauchy surface of
+`W` has a future boundary chart at no point. `≤` is closed by `GloballyHyperbolic.isClosed_le`,
+and `GloballyHyperbolic` includes `IsCausal`. -/
+theorem GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeB [T2Space M]
+    [SecondCountableTopology M] (hT : C.Tarentin) (hG : C.GloballyHyperbolic)
+    (hcac : C.CausallyArcConnectedOn W)
+    (hB : ∀ x ∈ W, ∃ S : Set M, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iplus W {x})
+    (Ũ : Opens M) (p : M) : ¬ C.FutureBoundaryChart W Ũ p :=
+  not_futureBoundaryChart_of_flrwTypeB_of_isClosed_le (hG.isClosed_le hT) hG.1 hcac hB Ũ p
+
 end Causality
 
 /-! ### Witnesses on the timelike line (kb/0011) -/
@@ -506,5 +522,31 @@ theorem timelikeLine_posHalfLine_not_pastBoundaryChart_of_flrwTypeB (Ũ : Opens 
   timelikeLine_globallyHyperbolic.not_pastBoundaryChart_of_flrwTypeB timelikeLine_tarentin
     timelikeLine_flrwType_hypotheses_posHalfLine.1
     timelikeLine_flrwType_hypotheses_posHalfLine.2.2.2.2 Ũ p
+
+/-- **The time-reversed (B)-theorem applies on the timelike line.** `W = (0, ∞)` is causally
+arc-connected (`timelikeLine_flrwType_hypotheses_posHalfLine`), and every `I⁺(x, W)` contains a
+Cauchy surface of `W`: (B⁻) on `ℝ` (`timelikeLine_exists_cauchy_Iplus`) carried to `exp`'s image
+by `IsSpacetimeExtension.exists_isCauchySurfaceOn_subset_Iminus` for the extension
+`exp_isSpacetimeExtension.dual` of the reversed lines (`dual_isCauchySurfaceOn`,
+`exp_rangeOpens_eq`). So `W` has no future boundary chart, by
+`GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeB`. This agrees with
+`timelikeLine_not_futureBoundaryChart`. -/
+theorem timelikeLine_posHalfLine_not_futureBoundaryChart_of_flrwTypeB (Ũ : Opens ℝ) (p : ℝ) :
+    ¬ timelikeLine.FutureBoundaryChart posHalfLine Ũ p := by
+  -- (B⁻) on `(0, ∞)`: (B) for the reversed lines, carried by `exp_isSpacetimeExtension.dual`
+  have hB : ∀ x ∈ posHalfLine, ∃ S : Set ℝ, timelikeLine.IsCauchySurfaceOn posHalfLine S ∧
+      S ⊆ timelikeLine.Iplus posHalfLine {x} := by
+    have hBdual : ∀ y : ℝ, ∃ S : Set ℝ, timelikeLine.dual.IsCauchySurface S ∧
+        S ⊆ timelikeLine.dual.Iminus ⊤ {y} := by
+      intro y
+      obtain ⟨S, hS, hSy⟩ := timelikeLine_exists_cauchy_Iplus y
+      exact ⟨S, dual_isCauchySurfaceOn.2 hS, hSy⟩
+    rw [← exp_rangeOpens_eq]
+    intro x hx
+    obtain ⟨S, hS, hSx⟩ :=
+      exp_isSpacetimeExtension.dual.exists_isCauchySurfaceOn_subset_Iminus hBdual x hx
+    exact ⟨S, dual_isCauchySurfaceOn.1 hS, hSx⟩
+  exact timelikeLine_globallyHyperbolic.not_futureBoundaryChart_of_flrwTypeB timelikeLine_tarentin
+    timelikeLine_flrwType_hypotheses_posHalfLine.1 hB Ũ p
 
 end Causal
