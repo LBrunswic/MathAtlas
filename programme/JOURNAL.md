@@ -1217,3 +1217,19 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
   - four research targets with no construction yet.
 - gates: both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
 - next: T-lad-lineref-names (keeper), T-abs-lineref-docstrings (closer, exclusive)
+
+## 2026-11-28 10:39 · wave of 2 · T-lad-lineref-names, T-abs-lineref-docstrings
+- T-lad-lineref-names (keeper): 97 line-number references in the ladder's comments now cite declaration names; dated history keeps its lines, annotated with the commit. Two comments that had become false are fixed: (B)'s time reversal has a GH form, and the time-reversed extension corollary exists. Two consequences added (IsSpacetimeExtension.not_futureBoundaryChart_of_flrwType and GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeB; the chart is inhabited through dual_dual). Matrix byte-identical; 128 → 130 consequences. Checked by its tool.
+- T-abs-lineref-docstrings (abstract, layer 1, exclusive): the 16 stale docstring references in nine modules now name their declarations. FlrwTypeClosedAmbient's item 7 says the time reversals are not vacuous (Probe.lean). Constant dumps are identical (the whole library, 18891 constants). papers/ett's curation note for def:causally_connected now cites a name. Audit minor.
+- For the planner, small follow-ups, none needing a ruling:
+  - the ladder's remaining 220 out-of-scope Lean line references, of which 28 are stale (the Ers482Solution block, since bdc22114; CBG/Ppcm.lean:188);
+  - three stale docstring references outside the 16: CurvesExtend.lean:110 → SubExtension's SORRY(lem:C_ext_connexe); IsolatedLineConjoined.lean:18, :24, :45 cite ladder lines;
+  - CurvesExtendSecondCountable.lean:20–24 and :108–114 hold outdated prose (amended at 7923138b);
+  - the keeper's T-abs-flrw-future-A-witness ((A⁻) on (0, ∞), then a fourth GH entry);
+  - the {t < 0} Minkowski chart (layer 3, optional).
+- What remains of the queue (the planner's run of 09:58): T-tac-ladder-dual-key and T-lad-gluing-nodes need only a re-read. Everything else waits on rulings: OQ-95/96 (the gluing chain), OQ-97 (the CBG interface), OQ-100 (about twenty localisation targets), three needs-ruling targets with no OQ row (C⁰ metrics, Lipschitz metrics, the scaffold C-extension anchor), OQ-145 with lean-gx. Four research targets have no construction yet.
+- ladder: 27 properties, 28 implications, 108 counterexamples, 130 consequences, 6 edge hypotheses; 432/432 within a sort: 41 implied, 385 fails, 6 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 27, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
+- commits: f7176a65 09468896 8362e1ac (ledgers; ett curated; restate detect 0)
+- next: `wave` is empty. A planning run (rule 2) can promote the two re-reads and the small follow-ups; after that the loop waits on rulings
