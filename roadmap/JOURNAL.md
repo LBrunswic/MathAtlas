@@ -1264,3 +1264,13 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: fedb3a41 2b42667c 50c0409a d62c4943 (+ statuses)
 - wall time: 07:24–16:50; agents in parallel: 3 closers, 4 auditors
 - next: T-bz-c3-sature, -points-extremaux, -dualite-interieur (ready)
+
+## 2026-11-28 18:00 · wave of 3 · T-bz-c3-dualite-interieur, T-bz-c3-sature, T-bz-c3-points-extremaux (lean-benzecri)
+- T-bz-c3-dualite-interieur: § 3 Props. 9–10 and the Corollary — all marked; Prop. 10's printed interior/intersection swap replaced by the tube lemma; audit clean.
+- T-bz-c3-sature: § 6 Déf., Prop. 1, Corollary — all marked (the greatest prolongation is the union of all; « sauf si » proved as an equivalence); audit clean.
+- T-bz-c3-points-extremaux: § 6 Prop. 4 marked (Mathlib's Krein–Milman; the second extreme point from connectedness); audit minor (a not_ helper renamed).
+- All three graduated to strict Benzecri/Chapter3/. benzecri: 138 curated rows.
+- gates: lean-benzecri ✓ (0 sorry in 71 strict files), roadmap ✓, atlas ✓, hub: no new red; restate: 0 new
+- commits: ce41eb4d 0276a3bd 5d279fc1 d7642a74 (+ statuses)
+- wall time: 07:48–18:00; agents in parallel: 3 closers, 3 auditors
+- next: plan (promote -reunion-convexes, -raccordement, -boole-projectif, -facette-exposee …)
