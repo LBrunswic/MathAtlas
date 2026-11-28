@@ -1,0 +1,223 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-sommes",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter3/Sommes.lean",
+    "scaffold/BenzecriScaffold.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": "propext, Classical.choice, Quot.sound only (#print axioms on every principal declaration); no axiom added",
+  "instances": [
+    "Benzecri.exemple_carre_somme: [0,1]² = [0,1]×{0} + {0}×[0,1] in ℝ×ℝ (Déf. 1, a Lean term)",
+    "Benzecri.disque_non_somme_segments: for all a b c d, the closed unit disc {p | p.1²+p.2² ≤ 1} of ℝ² is NOT IsSommeConvexes of ![segment a b, segment c d]; stronger: Benzecri.disque_ne_somme_segments (not even the Minkowski sum; degenerate segments included)",
+    "Benzecri.exemple_carre_classes and Benzecri.exemple_carre_infinite: the class of [0,1]² is the sum of the classes of its sides, and is the sum of infinitely many families of translates (Remarque 1's hypotheses are satisfiable)"
+  ],
+  "labels": [
+    {
+      "label": "bzdef:c3s2d1_somme_convexes",
+      "tex_lines": [
+        299,
+        309
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.IsSommeConvexes",
+        "Benzecri.IsIsoConvexes",
+        "Benzecri.isSommeConvexes_iff_bijOn",
+        "Benzecri.isIsoConvexes_of_linear",
+        "Benzecri.sommeP",
+        "Benzecri.composante",
+        "Benzecri.IsSommeConvexes.composante_spec",
+        "Benzecri.exemple_carre_somme",
+        "Benzecri.disque_non_somme_segments",
+        "Benzecri.disque_ne_somme_segments"
+      ],
+      "hypotheses": [
+        {
+          "paper": "E un espace vectoriel",
+          "here": "carried",
+          "note": "any real vector space, no dimension or topology"
+        },
+        {
+          "paper": "W, V_i convexes, I finie",
+          "here": "carried",
+          "note": "Fintype I, I = ∅ allowed"
+        },
+        {
+          "paper": "p isomorphisme de ∏V_i sur W (pour les structures affines)",
+          "here": "carried",
+          "note": "reading IsIsoConvexes (bijection, it and its inverse preserve two-point convex combinations); proved equivalent to plain bijectivity of p (isSommeConvexes_iff_bijOn), so every reading between 'bijection' and 'affine bijection with affine inverse' defines the same notion"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "« isomorphisme … pour les structures affines » for convex sets that are not affine spaces: read as a bijection preserving convex combinations both ways (IsIsoConvexes). The notion of sum does not depend on this reading (isSommeConvexes_iff_bijOn), since p is linear."
+      ]
+    },
+    {
+      "label": "bzrem:c3s2r1_somme_classes",
+      "tex_lines": [
+        312,
+        320
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.KE",
+        "Benzecri.KModE",
+        "Benzecri.classe",
+        "Benzecri.classe_eq_iff",
+        "Benzecri.classe_vadd",
+        "Benzecri.SommeClasses",
+        "Benzecri.remarque1_somme_unique",
+        "Benzecri.remarque1_famille",
+        "Benzecri.remarque1_infinite",
+        "Benzecri.not_remarque1_famille_fin_zero",
+        "Benzecri.not_remarque1_infinite_vide",
+        "Benzecri.bijOn_vadd",
+        "Benzecri.exemple_carre_classes",
+        "Benzecri.exemple_carre_infinite"
+      ],
+      "hypotheses": [
+        {
+          "paper": "K(E) the convex parts, E acting by translation",
+          "here": "carried",
+          "note": "KE E = {s // Convex ℝ s} (∅ included), AddAction, KModE = orbit quotient"
+        },
+        {
+          "paper": "first assertion (unique W' for every system V'_i)",
+          "here": "carried",
+          "note": "remarque1_somme_unique, as printed, any finite I"
+        },
+        {
+          "paper": "second assertion (every W' of class w is a sum of a family of classes v_i), no condition on n",
+          "here": "strengthened",
+          "note": "[Nonempty I] (n ≥ 1); false for n = 0"
+        },
+        {
+          "paper": "« d'une infinité de façons si n ≠ 1 »",
+          "here": "strengthened",
+          "note": "two distinct indices (n ≥ 2), Nontrivial E, W' nonempty"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "benzecri1960_ch3.tex:312–319 (Remarque 1), degenerate cases only. (i) For n = 0 the second assertion is false: the empty family has sum {0}, so w = class of a point is the sum of the empty family of classes, but {1} (class w) is the sum of no family indexed by Fin 0 (Benzecri.not_remarque1_famille_fin_zero); hence also « une infinité de façons si n ≠ 1 » fails at n = 0. (ii) « une infinité de façons si n ≠ 1 » is false for empty convexes: in ℝ with n = 2, V_1 = V_2 = W = ∅, exactly one family of the classes has sum ∅ (Benzecri.not_remarque1_infinite_vide). (iii) It is also false for E = 0 (K(0) has two elements; argued, not formalized). Proved true form: n ≥ 1 for the second assertion (Benzecri.remarque1_famille); two distinct indices, E ≠ 0 and W' ≠ ∅ for the infinitude (Benzecri.remarque1_infinite). If Benzécri's convexes are nonempty, E ≠ 0 and n ≥ 1 is understood, the remark is correct as printed."
+      ],
+      "questions": [
+        "Does K(E) contain the empty part, and is n ≥ 1 (resp. E ≠ 0) understood? Reading taken: ∅ ∈ K(E), n and E arbitrary; the degenerate failures are then reported as the finding above."
+      ]
+    },
+    {
+      "label": "bzprop:c3s2p1_decomposition_origine",
+      "tex_lines": [
+        324,
+        338
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.prop1_decomposition_origine",
+        "Benzecri.subset_of_translate_somme"
+      ],
+      "hypotheses": [
+        {
+          "paper": "∑ v_i = w, W of class w containing 0",
+          "here": "carried",
+          "note": "any finite index set, n = 0 included; nothing added"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "benzecri1960_ch3.tex:330–336: the proof asserts without argument that the translates V'_i − x'_i are the only systems through the origin with sum W (if U_i = V_i + a_i, 0 ∈ U_i, ∑U_i = W, why is U_i = V_i? A priori only ∑a_i stabilises W). The statement is true; the missing step is Benzecri.subset_of_translate_somme (compare the two decompositions of y/2 obtained from y + ∑a_i ∈ W and from −a_i ∈ V_i by a midpoint, then use injectivity of p). Not an error of the statement."
+      ],
+      "questions": []
+    },
+    {
+      "label": "bzrem:c3s2r2_somme_infinie",
+      "tex_lines": [
+        348,
+        356
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.IsSommeInfinie",
+        "Benzecri.IsSommeInfinieTexte",
+        "Benzecri.sommeF",
+        "Benzecri.IsSommeInfinie.texte",
+        "Benzecri.isSommeInfinie_iff_texte",
+        "Benzecri.isSommeInfinie_iff_isSommeConvexes",
+        "Benzecri.isSommeInfinieTexte_not_isSommeConvexes"
+      ],
+      "hypotheses": [
+        {
+          "paper": "W and the V_i contain the origin",
+          "here": "carried",
+          "note": ""
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "benzecri1960_ch3.tex:350–353 (checked on the scan, p. 264: « (x ≠ o) » is printed): as worded, the definition only asks that each x ∈ W, x ≠ 0, be uniquely a finite sum of components; it omits that every finite sum of components lies in W. So worded it disagrees with Déf. 1 for a finite I: W = [0,1], V = [0,2] (one index) meets the wording but is not a sum in the sense of Déf. 1 (Benzecri.isSommeInfinieTexte_not_isSommeConvexes). Adding that condition is the only change needed (Benzecri.isSommeInfinie_iff_texte: the case x = 0 follows), and the result agrees with Déf. 1 for finite I (Benzecri.isSommeInfinie_iff_isSommeConvexes)."
+      ],
+      "questions": [
+        "Remarque 2's notion: reading taken = the sum map from finitely supported families (components in V_i) onto W is a bijection (IsSommeInfinie), i.e. the wording plus « every finite sum of components lies in W »; uniqueness of « une somme finie » read as uniqueness of the finitely supported family (components off N are 0, as the last sentence says). The literal wording is formalized too (IsSommeInfinieTexte)."
+      ]
+    },
+    {
+      "label": "bzrem:c3s2r3_somme_directe",
+      "tex_lines": [
+        359,
+        363
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.remarque3",
+        "Benzecri.remarque3_somme_directe",
+        "Benzecri.remarque3_infinie",
+        "Benzecri.remarque3_somme_directe_infinie",
+        "Benzecri.remarque3_somme_directe_texte",
+        "Benzecri.eq_zero_of_iSupIndep",
+        "Benzecri.iSupIndep_of_injOn"
+      ],
+      "hypotheses": [
+        {
+          "paper": "W = E, V_i = E_i subspaces",
+          "here": "weakened",
+          "note": "any subspace W (remarque3, remarque3_infinie: iSupIndep ∧ ⨆ = W); W = E gives DirectSum.IsInternal for Déf. 1 (finite I), for Remarque 2 in the reading and in the literal wording (any I)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "« au sens ci-dessus défini » read as both Déf. 1 (finite I) and Remarque 2 (any I); proved in each, and for Remarque 2 in both its reading and its literal wording, so no reading is needed."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.isIsoConvexes_of_linear",
+    "Benzecri.bijOn_vadd",
+    "Benzecri.mem_vadd_iff_sub_mem",
+    "Benzecri.subset_of_translate_somme",
+    "Benzecri.eq_zero_of_iSupIndep",
+    "Benzecri.iSupIndep_of_injOn",
+    "Benzecri.sommeF_apply",
+    "Benzecri.sommeF_apply_fintype",
+    "Benzecri.disque_strict",
+    "Benzecri.disque_not_somme_core",
+    "Benzecri.KE.mk",
+    "Benzecri.KE.coe_vadd"
+  ],
+  "kb_proposals": [
+    "Sums of convex sets (Ch. 3 § 2): p = ∑ is linear, so « isomorphisme pour les structures affines » reduces to Set.BijOn (isSommeConvexes_iff_bijOn via isIsoConvexes_of_linear); work with BijOn and bijOn_vadd (translating each V_i by a_i translates W by ∑ a_i).",
+    "K(E)/E: KE E := {s // Convex ℝ s} with a hand-written AddAction; make KModE an `abbrev` of Quotient (AddAction.orbitRel …) or `rw [Quotient.eq]` fails on the def wrapper.",
+    "Finitely supported sums: define sommeF := Finsupp.lsum ℝ (fun _ => LinearMap.id) to get map_add/map_sub/map_smul for free; Submodule.mem_iSup_iff_exists_finsupp and iSupIndep_def + Finsupp.add_sum_erase' give iSupIndep ↔ injectivity on families (eq_zero_of_iSupIndep, iSupIndep_of_injOn).",
+    "Strict convexity of the Euclidean disc in ℝ×ℝ (sup norm there!): write it as {p | p.1^2+p.2^2 ≤ 1} and use the identity |αu+(1−α)v|² = α|u|²+(1−α)|v|² − α(1−α)|u−v|² (disque_strict)."
+  ],
+  "notes": "Self-contained: imports Mathlib only, no § 1 notion (α, facettes) and no Ch. 1–2 Lean used, so no dependency on the Facettes/Dualite files being written. 0 sorry, no warning, standard axioms; lake build BenzecriScaffold.Chapter3.Sommes succeeded (no upstream rebuild). Two not_ helpers (not_remarque1_famille_fin_zero, not_remarque1_infinite_vide) refute the printed Remarque 1 in degenerate cases only; Remarque 1 and Remarque 2 rows are partial and unmarked. Independent of OQ-160."
+}

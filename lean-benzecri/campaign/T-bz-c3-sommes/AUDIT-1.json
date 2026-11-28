@@ -1,0 +1,59 @@
+{
+  "target": "T-bz-c3-sommes",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bzdef:c3s2d1_somme_convexes",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "IsSommeConvexes = Convex W, every V i convex, and p = sum is an IsIsoConvexes from univ.pi V onto W (BijOn, and p and invFunOn p preserve two-point convex combinations). Fintype I with I empty allowed, any real vector space. isSommeConvexes_iff_bijOn proves it is exactly 'V i convex and p a bijection onto W' (W's convexity follows by linear image), so any reading of « isomorphisme ... pour les structures affines » from 'bijection' to 'affine bijection with affine inverse' gives the same notion. Reading that does no harm, as the dispatch said. composante_spec gives the components. The mark on a definition is honest."
+    },
+    {
+      "label": "bzrem:c3s2r1_somme_classes",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked and partial, which is correct. KE E = {s // Convex ℝ s} includes ∅. That matches the paper: Ch. 1 l.269–271 defines K(E) as « l'ensemble des parties convexes » with no nonemptiness, and Ch. 3 Déf. 5 (l.557) uses « le convexe vide » explicitly in a sum. KModE is the orbit quotient and SommeClasses is the paper's definition. remarque1_somme_unique is the first assertion as printed (∃!). remarque1_famille adds [Nonempty I]. remarque1_infinite adds two distinct indices, Nontrivial E and W' nonempty. Both additions are disclosed. I checked the counterexamples. not_remarque1_famille_fin_zero: for Fin 0 the only product point sums to 0, so {0} is the sum, the class of {1} is the class of {0}, and no empty family sums to {1}. Valid. not_remarque1_infinite_vide: the class of ∅ is {∅}, the product is empty and BijOn onto ∅ holds, so exactly one family. Valid. The E = 0 case is argued but not formalized (K(0) = {∅,{0}}, each class a singleton) and is correct. See findings for how this should be worded."
+    },
+    {
+      "label": "bzprop:c3s2p1_decomposition_origine",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "The hypotheses are SommeClasses w v (= « ∑ v_i = w » in Remarque 1's sense), W of class w, and 0 ∈ W. The conclusion is ∃! system V with classes v i, 0 ∈ V i and IsSommeConvexes W V. Nothing is added, and any finite I is allowed (n = 0 holds too, since then W = {0}). The gap is filled correctly. In the printed proof the claim that the V'_i − x'_i are the only systems is unargued. subset_of_translate_somme proves U_i ⊆ V_i from the BijOn of V, MapsTo of U, U_i = a_i + V_i and 0 ∈ U_i, using a midpoint comparison of two decompositions of y/2 and injectivity. It is applied in both directions to get equality. The finding is accurately described as a missing step, not an error in the statement. The mark is honest."
+    },
+    {
+      "label": "bzrem:c3s2r2_somme_infinie",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked and partial, which is correct. IsSommeInfinieTexte formalizes the wording: convex, contains 0, and every x ∈ W with x ≠ 0 has a unique finitely supported family with components in V_i and sum x. IsSommeInfinie is the reading: BijOn of sommeF from {f | ∀ i, f i ∈ V i} onto W. isSommeInfinie_iff_texte shows the reading is exactly the wording plus MapsTo (the x = 0 case is derived). isSommeInfinie_iff_isSommeConvexes shows it agrees with Déf. 1 for finite I. The finding is sound: W = [0,1], V = [0,2] with one index meets the wording and fails Déf. 1 (isSommeInfinieTexte_not_isSommeConvexes, checked). See the minor finding on the possible reading of « (x ≠ 0) »; the finding holds under that reading too."
+    },
+    {
+      "label": "bzrem:c3s2r3_somme_directe",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "remarque3_somme_directe: for Fintype I, IsSommeConvexes univ (Ei) ↔ DirectSum.IsInternal Ei. That is both the paper's implication and its « coïncide » sentence. The theorem is also proved for any subspace W (remarque3), which is more general than the paper, so Lean ≥ paper. The infinite-I version holds in both the reading (remarque3_somme_directe_infinie) and the literal wording (remarque3_somme_directe_texte) of Remarque 2, so the mark does not depend on Remarque 2's reading. Honest."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "how": "taskset -c 0-11 lake env lean scaffold/BenzecriScaffold/Chapter3/Sommes.lean from lean-benzecri/: exit 0, no output (no warning). 0 occurrences of 'sorry' in the file. One-shot probe campaign/T-bz-c3-sommes/AxProbe.lean (#print axioms on 27 declarations named in REPORT) printed [propext, Classical.choice, Quot.sound] for every one; probe deleted. The olean (04:49:15) is newer than the source (04:48:55)."
+  },
+  "scope": "git status --short: this target's paths are lean-benzecri/scaffold/BenzecriScaffold/Chapter3/Sommes.lean (new), lean-benzecri/campaign/T-bz-c3-sommes/ and the Sommes import line in lean-benzecri/scaffold/BenzecriScaffold.lean. The Facettes/Dualite import lines and files, and the other modified paths (lean-causal, roadmaps, restatements), belong to other targets or loops and were already present in the session's starting snapshot. Nothing outside the dispatch is attributable to this closer.",
+  "docstring_contract": "Present and true: title, five labels with tex line refs in the first 4000 chars (three marked, two unmarked), French quote block, Hypothesis checklist, SCOPE (disclosed), Provenance line. The checklist rows match the Lean statements.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-benzecri/campaign/T-bz-c3-sommes/REPORT.json labels[1].findings; Sommes.lean:97-99 (SCOPE)",
+      "what": "Remarque 1 is characterized as « false as printed » in degenerate cases. The counterexamples are correct, and the empty-set one is inside Benzécri's own conventions: K(E) is all convex parts (Ch. 1 l.269–271), and Ch. 3 Déf. 5 l.557 uses the empty convex. So the clause does fail literally. But all three failures are boundary omissions (n = 0, W' = ∅, E = 0), not a mathematical error in the remark. An author-facing register entry should read « imprecise: the second assertion needs n ≥ 1; the infinitude needs n ≥ 2 (with n ≥ 1, n ≠ 1), W' ≠ ∅ and E ≠ 0 », not « false ». The E = 0 case is argued and not formalized, so it must be labelled as argued wherever it is cited.",
+      "fix": "When /restate registers it, use the 'imprecise' wording above. Keep the not_ names (not_remarque1_famille_fin_zero, not_remarque1_infinite_vide): they are genuine refutations of the literal clause, and they are what restate.py keys on. The rewritten statement should be anchored on remarque1_famille / remarque1_infinite."
+    },
+    {
+      "severity": "minor",
+      "where": "Sommes.lean:89-96 (SCOPE), IsSommeInfinieTexte (l.556)",
+      "what": "« x = Σ_{i∈N} x_i (x ≠ 0) » may instead mean that the terms x_i are nonzero (N is the support, which makes « d'une façon et d'une seule » meaningful for a finite sum), rather than that the point x is nonzero. The Finsupp formalization covers both: uniqueness of the finitely supported family is uniqueness of its support and terms, and the x = 0 case is derived in isSommeInfinie_iff_texte. So the finding that the wording omits that every finite sum of components lies in W is sound under either reading. SCOPE names only one reading.",
+      "fix": "Add one sentence to SCOPE saying that « (x ≠ 0) » may qualify the terms x_i, and that the finding and the reading are unchanged under that reading."
+    }
+  ]
+}
