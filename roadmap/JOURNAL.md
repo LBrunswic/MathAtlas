@@ -1385,3 +1385,11 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: papers-check ✓, selftest ✓, roadmap ✓, atlas ✓, hub: no new red
 - commits: c59947e4 3d3126ab
 - next: nothing dispatchable in this loop's packages without a ruling; T-alexandrov-package needs its set-up (master), check its status
+
+## 2026-11-28 13:10 · wave of 2 (master) · T-bbs-hs-graduate, T-arch-multiroot-ledgers
+- T-bbs-hs-graduate: 33 generic G̃ declarations hoisted verbatim from Interaction.FunnelGTilde into the strict GX.BBS.GTilde; GTilde, PSL2NormalForms and HSSingularities graduated to GX/BBS; nothing restated. The first hub gate went red on papers/bbs (its curation named the scaffold paths); repointed in 2e0609fa, gate re-run green
+- T-arch-multiroot-ledgers: [[lean.extra]] roots in ledger.toml (primary [lean] unchanged), read by ledger.py (per-root strict/scaffold, roots[] with one git_commit each) and doubledag.py (facts merged); all 16 ledgers byte-identical; 7 tests; atlas, restate.py and dag_reconcile.py still read the primary root only (T-arch-multiroot-atlas)
+- note: kb/0068 (lean-gx) still says the G̃ toolkit lives in FunnelGTilde; the committed reports/doubledag/gfnbounds output drifts from what the tool now writes (pre-existing)
+- gates: lean-gx ✓ (95 strict files), selftest ✓, tests ✓, roadmap ✓, atlas ✓, hub: no new red (after the fix)
+- commits: efff5f1c e91fc63d e6ed9b03 2e0609fa
+- next: nothing dispatchable without a ruling but the standing builder
