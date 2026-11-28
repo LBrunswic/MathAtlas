@@ -1,0 +1,139 @@
+{
+ "package": "lean-benzecri",
+ "target": "T-bz-c3-conjugues",
+ "files": [
+  "scaffold/BenzecriScaffold/Chapter3/Conjugues.lean",
+  "scaffold/BenzecriScaffold.lean (one import line added)"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "labels": [
+  {
+   "label": "bzthm:c3s2t1_conjugues_intersection",
+   "tex_lines": [
+    452,
+    501
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Benzecri.theoreme1",
+    "Benzecri.theoreme1_distingues",
+    "Benzecri.theoreme1_supplementaires",
+    "Benzecri.theoreme1_sommeConvexes",
+    "Benzecri.projection_mem_of_mem_inter",
+    "Benzecri.projection_mem_of_mem"
+   ],
+   "hypotheses": [
+    {
+     "paper": "W convexe, contenant O, engendrant E, sans droite",
+     "here": "carried",
+     "note": "Convex, 0 ∈ W, span W = ⊤, ¬ContientDroite W"
+    },
+    {
+     "paper": "L, L', D, D' distingués, (L,L') et (D,D') conjugués",
+     "here": "carried",
+     "note": "theoreme1: reading (a) of OQ-163 (Déf. 4 of record). theoreme1_distingues drops D' and SontConjugues W D D' entirely (weakened: unused)"
+    },
+    {
+     "paper": "conclusion « conjugués relativement à W ∩ D »",
+     "here": "carried",
+     "note": "(a) SontConjugues (W ∩ D) (L ⊓ D) (L' ⊓ D) and L ⊓ D ⊔ L' ⊓ D = D; (b) additionally Disjoint (L ⊓ D) (L' ⊓ D), span (W ∩ D) = D; (c) IsSommeConvexes (W ∩ D) ![…]"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Theorem 1 (l.452–456) is true under all three readings of Déf. 4 (OQ-163 (a), (b), (c)), so its mark does not depend on the ruling. Under (a) the printed proof (l.460–501) does not apply: it uses P_L « parallèlement à L′ », which exists only when L ⊕ L′ = E. Under (a) a different proof works: write a = x + y with x ∈ L ∩ W, y ∈ L′ ∩ W, and project along the supplementary conjugate N of D. P_D maps L into L and L′ into L′ (this is the (b) step applied to (D, N) and the supplementary conjugates of L, L′), so a = P_D x + P_D y with both terms in D. This proof uses neither D′ nor the pair (D, D′) (theoreme1_distingues).",
+    "Under (b) the printed proof (l.480–501) formalizes as written. The step « P_L(a) ∈ D » for a ∈ W ∩ D (l.481) extends to every a ∈ D only because D ∩ W spans D, which uses « W engendrant E ». The theorem's conclusion that L ⊓ D and L′ ⊓ D are supplementary in D also uses it; that conclusion is not printed, but Theorem 2's inf needs it."
+   ],
+   "questions": [
+    "OQ-163: Theorem 1 is stated and proved under (a), (b) and (c). The decl of record is Benzecri.theoreme1, reading (a). If the ruling is (b), the anchor should be theoreme1_supplementaires, whose conclusion includes supplementarity in D; if (c), theoreme1_sommeConvexes. No Lean changes either way."
+   ]
+  },
+  {
+   "label": "bzlem:c3s2l1_projection_somme",
+   "tex_lines": [
+    466,
+    477
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Benzecri.lemme_projection_somme",
+    "Benzecri.projection_mem_inter"
+   ],
+   "hypotheses": [
+    {
+     "paper": "P_L la projection sur L parallèlement à L′ (l.460–462)",
+     "here": "reading",
+     "note": "IsCompl L L' ∧ SontConjugues W L L', reading (b) of OQ-163; P_L = L.projection L' h (Submodule.projection)"
+    },
+    {
+     "paper": "standing hypotheses of Th. 1 on W",
+     "here": "weakened",
+     "note": "not used: the Lemma holds for any W = L ∩ W + L' ∩ W with L ⊕ L' = E"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "The Lemma is stated with IsCompl L L′ because « la projection sur L parallèlement à L′ » is defined only for a supplementary pair. Under OQ-163 (a), with L, L′ not supplementary, the Lemma has no meaning. Reading taken: (b). Left unmarked until the ruling. If the author agrees that the notation P_L already presupposes L ⊕ L′ = E, then IsCompl is not an added hypothesis and the row can be marked as it stands."
+   ]
+  },
+  {
+   "label": "bzcor:c3s2t1c_projections_commutent",
+   "tex_lines": [
+    503,
+    521
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Benzecri.corollaire_projections_commutent",
+    "Benzecri.commute_projection_of_mapsTo",
+    "Benzecri.corollaire_decomposition"
+   ],
+   "hypotheses": [
+    {
+     "paper": "(L, L′), (D, D′) conjugués; P_L … parallèlement à L′",
+     "here": "reading",
+     "note": "IsCompl ∧ SontConjugues for both pairs, reading (b) of OQ-163"
+    },
+    {
+     "paper": "W convexe, ∋ O, engendrant E, sans droite",
+     "here": "carried",
+     "note": ""
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "The proof's « V′ » (l.514) is read D′ ∩ W, as the comment at l.522 says. The proof's four-fold decomposition of W (l.512–518) is proved as a Minkowski sum (corollaire_decomposition). Its uniqueness is not formalized; the corollary's statement does not need it."
+   ],
+   "questions": [
+    "As for the Lemma: the projections presuppose supplementary pairs. Reading taken: (b). Unmarked until the OQ-163 ruling, or until the author confirms that the notation carries IsCompl."
+   ]
+  }
+ ],
+ "instances": [
+  "Benzecri.cube3_theoreme1: Theorem 1 on [−1,1]³ with L = coord {0}, D = coord {0,1} and their coordinate complements; conjugacy in W ∩ D and L ⊓ D ⊔ L′ ⊓ D = D",
+  "Benzecri.cube3_corollaire: P_L P_D = P_D P_L on the same cube"
+ ],
+ "extra_decls": [
+  "Benzecri.not_contientDroite_mono",
+  "Benzecri.projection_mem_inter",
+  "Benzecri.projection_mem_of_mem_inter",
+  "Benzecri.projection_mem_of_mem",
+  "Benzecri.commute_projection_of_mapsTo"
+ ],
+ "kb_proposals": [
+  "Chapter3/Conjugues: for a supplementary conjugate pair (L, L′), L.projection L′ h maps W into L ∩ W (projection_mem_inter), and it maps every distinguished D into D (projection_mem_of_mem). Theorem 2's inf/sup and the Boolean-algebra work should start from these lemmas.",
+  "Reading (a) of Déf. 4 reduces to (b) by projecting along the chosen conjugate (conjugue W D or EstDistingue's witness): P_D preserves every distinguished subspace. See theoreme1_distingues.",
+  "The goal `(fun x => t +ᵥ x) y = c` left by refining ⟨y, hy, ?_⟩ against `c ∈ t +ᵥ C` does not rewrite with vadd_eq_add until it is beta-reduced: write `show _ +ᵥ _ = c` first."
+ ],
+ "notes": "All three labels are proved with 0 sorry and standard axioms only. Only Theorem 1 is marked: its truth does not depend on OQ-163. The Lemma and the Corollary are stated under (b) and left unmarked, per the dispatch. The build of BenzecriScaffold.Chapter3.Conjugues rebuilt nothing upstream. One line was appended to scaffold/BenzecriScaffold.lean, after the AppuiSphere line another closer had already added."
+}

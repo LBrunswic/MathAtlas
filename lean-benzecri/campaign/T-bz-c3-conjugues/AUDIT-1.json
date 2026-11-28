@@ -1,0 +1,47 @@
+{
+ "target": "T-bz-c3-conjugues",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "bzthm:c3s2t1_conjugues_intersection",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Checked against benzecri1960_ch3.tex l.452-456 and Déf. 3/4 (l.389-418). Every hypothesis on W is carried: Convex, 0 ∈ W, span W = ⊤, ¬ContientDroite W. (a) theoreme1: L, L', D, D' EstDistingue (Déf. 3 = ∃ supplementary L' with W = L∩W + L'∩W), SontConjugues W L L', SontConjugues W D D'. Concludes SontConjugues (W ∩ D) (L ⊓ D) (L' ⊓ D), which is the printed conclusion under Déf. 4 as printed. D' and its hypotheses are carried but not used. (b) theoreme1_supplementaires: IsCompl ∧ SontConjugues for both pairs, which implies distinguished. Concludes SontConjugues (W∩D), Disjoint, and L⊓D ⊔ L'⊓D = D: the printed conclusion read with supplementarity inside D, the ambient that W ∩ D spans (proved too). (c) theoreme1_sommeConvexes: EstDistingue for all four plus IsSommeConvexes for both pairs. Concludes IsSommeConvexes (W ∩ D) ![L⊓D ∩ (W∩D), L'⊓D ∩ (W∩D)]. Under each reading the conclusion is the printed one, proved, with no added hypothesis. So the mark does not depend on OQ-163. Not vacuous: the cube [−1,1]³ meets all hypotheses (cube_hyps, isCompl_coord, cube_sontConjugues), and cube3_theoreme1 is a real instance through the (b) form. Findings: (1) is accurate. The printed proof needs P_L « parallèlement à L′ », which does not exist under (a) when L ∩ L′ ≠ 0: with W = [0,∞[ ⊂ ℝ (no line, spans ℝ), L = L′ = ℝ is distinguished and self-conjugate. theoreme1_distingues has no D′ at all. (2) is accurate in substance. With W = {0} ⊂ ℝ², L, L′ the axes and D the diagonal, L∩D = L′∩D = 0 is not supplementary in D. So span(D ∩ W) = D, and with it the step from a ∈ W∩D to a ∈ D, needs W to span E. See the minor finding on its wording."
+  },
+  {
+   "label": "bzlem:c3s2l1_projection_somme",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked (plain backticks) and status partial in REPORT, disclosed in SCOPE. lemme_projection_somme: IsCompl L L' ∧ SontConjugues W L L', b ∈ W, a + b ∈ W ⊢ P_L a + b ∈ W, with P_L = L.projection L' h. This is the printed conclusion. The standing hypotheses on W are dropped, so the statement is stronger. The IsCompl argument is sound: the Lemma's P_L is introduced at l.460-462 as « la projection sur L parallèlement à L′ », which is defined exactly when L ⊕ L′ = E. Under (a) it can fail for distinguished conjugate pairs (the half-line example above), so IsCompl is the notation's own presupposition, not an added hypothesis. The author can mark it on that ground. Leaving the mark to the author while OQ-163 is OPEN is correct."
+  },
+  {
+   "label": "bzcor:c3s2t1c_projections_commutent",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked, partial, disclosed. corollaire_projections_commutent carries all four hypotheses on W and both pairs under (b), with the same justification as the Lemma: the Corollary itself defines P_L, …, P_D' as projections « parallèlement à » the conjugate. Conclusions: all six pairwise commutations (P_L,P_L'), (P_D,P_D'), (P_L,P_D), (P_L,P_D'), (P_L',P_D), (P_L',P_D'), and Id = P_LP_D + P_LP_D' + P_L'P_D + P_L'P_D'. That is the printed conclusion in full. Finding 3 is accurate: « V′ » is read D′ ∩ W, matching the transcription note at l.522, and the proof's four-fold decomposition is proved as a Minkowski sum (corollaire_decomposition) without its uniqueness, which the statement does not need. cube3_corollaire is a real instance: P_L P_D = P_D P_L for coordinate projections on the cube."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "how": "taskset -c 0-11 lake env lean scaffold/BenzecriScaffold/Chapter3/Conjugues.lean from lean-benzecri/: exit 0, no output. One-shot probe campaign/T-bz-c3-conjugues/probe_axioms.lean (file copy + #print axioms on the 14 decls REPORT names, instances included): all [propext, Classical.choice, Quot.sound]. Probe deleted. grep -c sorry = 0. lake build not run, per dispatch."
+ },
+ "scope": "git status --short -- lean-benzecri shows: M scaffold/BenzecriScaffold.lean (diff: the AppuiSphere import from another closer, plus this target's Conjugues import), ?? campaign/T-bz-c3-conjugues/, ?? campaign/T-bz-c3-appui-sphere/ and ?? scaffold/BenzecriScaffold/Chapter3/ (which holds AppuiSphere.lean and HyperplanSeparant.lean as well as Conjugues.lean, all from other targets). Nothing from this target is outside the dispatched files.",
+ "docstring_contract": "Title present. The three labels fall in the first 4000 characters, with only Theorem 1 bold. The printed sentences are quoted in French in a > block, including the l.460-462 definition of P_L. The Hypothesis checklist, SCOPE (disclosed) and the provenance line are present. Checked against the Lean, the checklist and SCOPE are true.",
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "campaign/T-bz-c3-conjugues/REPORT.json: labels[0].findings[1]",
+   "what": "The finding says the conclusion that L ⊓ D and L′ ⊓ D are supplementary in D « is not printed ». That holds only under reading (a). Under reading (b), supplementarity is part of the printed « conjugués relativement à W ∩ D », and it is the part that needs « W engendrant E ».",
+   "fix": "Write: « under (a) it is an extra conclusion (not printed); under (b) it is part of the printed « conjugués », and both need span(D ∩ W) = D, hence W spanning E »."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/BenzecriScaffold/Chapter3/Conjugues.lean:63 (Hypothesis checklist, Lemme row)",
+   "what": "The row for P_L « parallèlement à L′ » has no ✓/⚠ tag. Measured against Déf. 4 of record (reading (a)), IsCompl L L′ is ⚠ strengthened. It is disclosed in SCOPE and the label is unmarked, so this is presentation only. The Corollary row's « ✓ carried, in reading (b) » has the same issue.",
+   "fix": "Tag both rows « ⚠ strengthened vs (a) / ✓ carried if P_L presupposes L ⊕ L′ = E (OQ-163) »."
+  }
+ ]
+}
