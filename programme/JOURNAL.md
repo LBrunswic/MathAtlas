@@ -1202,3 +1202,18 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors). Hub: 3 new red, all on /atlas-team's paths: its in-flight lean-benzecri makes papers/benzecri's ledger stale, as in the last waves. Not this loop's; not reverted.
 - commits: c6cc212e 3bb18eb2 668cd912 (ledgers, the Lean sha only; restate detect 0)
 - next: a planning run (rule 2), to promote the two tidies; then wave 57; after it the queue waits on rulings
+
+## 2026-11-28 09:58 · planning run · rule 2 after wave 56; 227 targets
+- Promoted to ready:
+  - T-lad-lineref-names (keeper): every line reference re-read at ffa9a68a (FlrwType's shifts are 4 lines more than the closer's REPORT said, after the master's SCOPE fix; FlrwTypeClosedAmbient's are 11; three more references found). Two comments are now false: "(B)'s time reversal has no GH form" (≈ :5187) and "It has no extension corollary in Lean" (:5116). The two time-reversed consequences are re-simulated (128 → 130) without the "no Lean instance" clause.
+  - T-abs-lineref-docstrings (closer, exclusive): 16 Lean references. FlrwTypeClosedAmbient's item 7 gains the non-vacuity sentence (the dual of minkowski_pastBoundaryChart), at most 3 lines. The archived probe of T-abs-meets-cauchy-antisymmetry-sharp is left as past evidence.
+- Wave 57 = these two. Wave 58 is empty as the roadmap stands. Two planned targets need no ruling, only a re-read: T-tac-ladder-dual-key (tactician, exclusive; scope stale since 2026-11-23) and T-lad-gluing-nodes (keeper; OQ-40 ruled by DEC-160).
+- What blocks the rest:
+  - OQ-95/96 (the gluing chain, with OQ-107/108);
+  - OQ-97 (the CBG interface: T-abs-hoist-cbg-geometry and its chain);
+  - OQ-100 (T-pkg-smooth-lorentz and about twenty localisation targets behind it);
+  - three needs-ruling targets with no OQ row yet: T-loc-c0-metric-causality (where C⁰ metrics live), T-loc-lipschitz-plain (where Lipschitz metrics live) and T-abs-scaffold-c-ext-connexe (OQ-94 related);
+  - OQ-145 with lean-gx (/atlas-team's);
+  - four research targets with no construction yet.
+- gates: both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
+- next: T-lad-lineref-names (keeper), T-abs-lineref-docstrings (closer, exclusive)
