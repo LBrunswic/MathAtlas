@@ -1,0 +1,35 @@
+{
+  "target": "T-bz-c3-alpha-somme",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bzprop:c3s2p2_alpha_somme",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Checked against benzecri1960_ch3.tex l.365-377, sec. 2 Def. 1 (l.299-309) and sec. 1 Def. 1 (l.91-95). Anchor Benzecri.alphaW_somme_iff: [Fintype I], IsSommeConvexes W V (W and every V_i convex, sum map an affine isomorphism of prod V_i onto W, which is exactly sec. 2 Def. 1 with I finite), arbitrary families x y : I -> E with x i, y i in V i; conclusion AlphaW W (sum x) (sum y) <-> forall i, AlphaW (V i) (x i) (y i). No hypothesis added: x, y in W follows from the sums, and by uniqueness of the decomposition any such family is the components (alphaW_iff_composante states it with the components of x, y in W). AlphaW is sec. 1 Def. 1 as printed (open-segment clause or A = B and A in W). The 'cf. def. 1' reading (sec. 1 Def. 1, OQ-160 (b)) is disclosed in SCOPE and in REPORT questions; the transcription's \\ref already points at bzdef:c3s1d1_preordre_alpha, so the reading does not change the statement. The infinite form alphaW_sommeInfinie_iff (IsSommeInfinie) is disclosed as resting on T-bz-c3-sommes's reading of Remarque 2 and is correctly not the anchor. Instance Benzecri.exemple_carre_alpha is a real proof: it uses exemple_carre_somme (IsSommeConvexes of [0,1]^2 with the same V as in the instance), shows the componentwise relations directly by alphaW_iff_extend, and derives both the positive case (centre alpha(W) vertex) and the negative case (vertex not alpha(W) centre) through alphaW_somme_iff, so both directions of the anchor are exercised on a nondegenerate sum. The bold mark is honest: full statement, no sorry, standard axioms."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "how": "taskset -c 0-11 lake env lean scaffold/BenzecriScaffold/Chapter3/AlphaSomme.lean from lean-benzecri/: exit 0, no output. Built olean (05:38:11) newer than source (05:38:01). One-shot probe campaign/T-bz-c3-alpha-somme/Probe.lean: #print axioms on alphaW_somme_iff, alphaW_iff_composante, alphaW_sommeInfinie_iff, exemple_carre_alpha, add_smul_sub_mem_of_le, combi_extend_eq, eq_extend_of_combi: each [propext, Classical.choice, Quot.sound]. Probe deleted."
+  },
+  "scope": "git status --short lean-benzecri: only scaffold/BenzecriScaffold.lean (one import line appended, as dispatched), scaffold/BenzecriScaffold/Chapter3/ (contains only AlphaSomme.lean) and the campaign directory. Other modified paths in the hub (lean-causal, papers/*/certificate/restat*, roadmaps) belong to other loops and are not touched by this target.",
+  "docstring_contract": "Title, bold label with benzecri1960_ch3.tex:365 within the first 4000 characters, French quotation in a > block, '## Hypothesis checklist', '## SCOPE (disclosed)', provenance line: all present and true.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-benzecri/scaffold/BenzecriScaffold/Chapter3/AlphaSomme.lean:30",
+      "what": "The proof sketch says delta = 1/(1 + sum 1/eps_i) is '< eps_i'; the Lean proves (and needs) only delta <= eps_i (hdle).",
+      "fix": "Write '<= eps_i' in the docstring."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-benzecri/scaffold/BenzecriScaffold/Chapter3/AlphaSomme.lean:65,73,84",
+      "what": "Three generic helpers (add_smul_sub_mem_of_le, combi_extend_eq, eq_extend_of_combi) are public in namespace Benzecri with generic names; harmless, but they enter the Lean DAG as declarations of no label.",
+      "fix": "Make them private at graduation, or list them under the label in the map, as the REPORT already suggests."
+    }
+  ]
+}

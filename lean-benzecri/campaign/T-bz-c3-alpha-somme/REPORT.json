@@ -1,0 +1,38 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-alpha-somme",
+  "files": ["scaffold/BenzecriScaffold/Chapter3/AlphaSomme.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": ["propext", "Classical.choice", "Quot.sound"],
+  "labels": [
+    {
+      "label": "bzprop:c3s2p2_alpha_somme",
+      "tex_lines": [365, 377],
+      "status": "closed",
+      "marked": true,
+      "decls": ["Benzecri.alphaW_somme_iff", "Benzecri.alphaW_iff_composante", "Benzecri.alphaW_sommeInfinie_iff", "Benzecri.exemple_carre_alpha"],
+      "anchor": "Benzecri.alphaW_somme_iff",
+      "hypotheses": [
+        {"paper": "W = Σ_{i∈I} V_i (Déf. 1, I finite)", "here": "carried", "note": "IsSommeConvexes W V, [Fintype I]; convexity of W and the V_i is part of Déf. 1 and is used (alphaW_iff_extend)"},
+        {"paper": "x, y ∈ W; x_i, y_i ∈ V_i; x = Σ x_i, y = Σ y_i ([sic] « x_i. y_i »)", "here": "carried", "note": "arbitrary families x y : I → E with x i, y i ∈ V i (x, y ∈ W follow); alphaW_iff_composante takes x, y ∈ W and the components composante V x i"},
+        {"paper": "α(W) « cf. déf. 1 »", "here": "carried", "note": "read as § 1 Déf. 1, Benzecri.AlphaW (OQ-160 (b), OPEN); the only relation the statement can mean"},
+        {"paper": "I infinite (Remarque 2)", "here": "optional, not the anchor", "note": "alphaW_sommeInfinie_iff under IsSommeInfinie, the reading of Remarque 2 taken by T-bz-c3-sommes"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "« cf. déf. 1 » (benzecri1960_ch3.tex:368), printed in § 2 where Déf. 1 is the sum of convex sets, is read as § 1 Déf. 1 (the preorder α), as OQ-160 (b) already records; the Lean does not depend on the choice beyond naming AlphaW."
+      ]
+    }
+  ],
+  "instances": [
+    {"decl": "Benzecri.exemple_carre_alpha", "what": "in [0,1]² = [0,1]×{0} + {0}×[0,1] (exemple_carre_somme): (1/2,0) α (0,0) in the first side and (0,1/2) α (0,0) in the second, hence by Prop. 2 the centre (1/2,1/2) α(W) the vertex (0,0); and (0,0) is not α (1/2,0) in the first side, hence by Prop. 2 the vertex is not α(W) the centre"}
+  ],
+  "extra_decls": ["Benzecri.add_smul_sub_mem_of_le", "Benzecri.combi_extend_eq", "Benzecri.eq_extend_of_combi"],
+  "kb_proposals": [
+    "Uniform ε over a finite family without a nonemptiness case split: δ = 1/(1 + Σ 1/ε_i) is positive and ≤ every ε_i (for finitely supported families, sum over (f − g).support; off it f i − g i = 0) — used in Chapter3/AlphaSomme.",
+    "α(W) on a sum of convex sets: the « seulement si » needs no extra decomposition lemma — x = (1/(1+ε)) z + (ε/(1+ε)) y is a second decomposition of x, and injectivity of p on ∏ V_i gives z_i = x_i + ε(x_i − y_i)."
+  ],
+  "notes": "One new file, no sorry, standard axioms; lake build of the module built only it (no upstream rebuild). Import line appended to scaffold/BenzecriScaffold.lean. The anchor is the finite-index alphaW_somme_iff; alphaW_sommeInfinie_iff (IsSommeInfinie, finitely supported families) is proved but rests on T-bz-c3-sommes's reading of Remarque 2 and must not be the anchor. The three helper lemmas are small and general; they may be made private at graduation if preferred."
+}
