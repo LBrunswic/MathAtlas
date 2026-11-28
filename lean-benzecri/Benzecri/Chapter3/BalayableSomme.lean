@@ -23,9 +23,8 @@ Target T-bz-c3-balayable-somme.
   `Benzecri.Sphere.prop4_automorphisme_compatible` (second assertion in the coordinates of `w`:
   Ch. 1 § 3 Déf. 2's formula `m′ᵢ = φᵢ m_{τ(i)}`, `φᵢ = g`, `t = 1`, without `GU`-normalisation).
   The Chapter 1 form (`w ≅ PiBase`, the transported automorphisms `IsCompatiblePi`) is
-  `Benzecri.Sphere.prop4_produit` in the separate scaffold file
-  `BenzecriScaffold/Chapter3/BalayableSommeProduit.lean`, stated on one tagged `sorry`; this file
-  has none. Refuted as printed:
+  `Benzecri.Sphere.prop4_produit` in the separate file
+  `Benzecri/Chapter3/BalayableSommeProduit.lean` (proved, T-bz-c3-prop4-produit). Refuted as printed:
   `Benzecri.BooleProjectifInstance.not_prop4_simplesS_finite` (the open quarter of `S(2)` has
   infinitely many simple distinguished subvarieties).
 
@@ -78,7 +77,7 @@ too, and rigidity (`GSE.eq_one_of_eqOn`) makes the lift preserve `w`.
 | `S(n)` of `ℝ^{n+1}` | ✓ for the decomposition, any finite-dimensional real normed `E` (stronger); `Fin (m + 1) → ℝ` for the automorphisms |
 | « les `p` sous-variétés distinguées simples » | ✓ `simplesS w`, finite, `1 ≤ p ≤ n + 1`, any enumeration `Fin p ≃ simplesS w` |
 | « `vᵢ` les convexes de `lᵢ` dont `w` est la somme » | ✓ `composanteS w lᵢ`, Déf. 5's `EstSommeS`, and uniqueness among convexes `⊆ lᵢ` |
-| « `w = F⁻¹(F(v₁) × … × F(v_p))` » (Ch. 1 notation) | ✗ not here: stated only in `BalayableSommeProduit.lean` (`prop4_produit`, `sorry`); proved intrinsically (`prop4_somme`) |
+| « `w = F⁻¹(F(v₁) × … × F(v_p))` » (Ch. 1 notation) | ✗ not here: proved in `BalayableSommeProduit.lean` (`prop4_produit`); proved intrinsically here (`prop4_somme`) |
 | « tout automorphisme projectif » | ✓ `GXAut (GSR m) (S m) w` |
 | « compatible au sens du ch. 1 § 3 Déf. 2 » | ⚠ reading: in `w`'s coordinates only (`prop4_automorphisme_compatible`: `g` permutes the `lᵢ` and the `F(vᵢ)`; the `φᵢ = g|F(v_{τ(i)})` are linear, not `GU`-normalised, no `PiBase` isomorphism), weaker than Déf. 2; ✗ as `IsCompatiblePi` on `PiBase`, stated only in `BalayableSommeProduit.lean` (`prop4_produit`) |
 
@@ -90,7 +89,7 @@ too, and rigidity (`GSE.eq_one_of_eqOn`) makes the lift preserve `w`.
   `{±(t e₁ + e₂)}`), so the Lean adds `¬ ContientDroite (F w)`, the hypothesis of
   `corollaire_algebre_parties_projective`; which corrected form is of record is OQ-168 (OPEN),
   so the mark waits on it (the pattern of T-bz-c3-conjugues on OQ-163). (2) The Chapter 1 form
-  (`prop4_produit`, in `BalayableSommeProduit.lean`) rests on a tagged `sorry`: the transport to
+  (`prop4_produit`, in `BalayableSommeProduit.lean`) is proved there by the transport to
   `PiBase` (global cone charts of
   `FCone` over open subsets of `S(nᵢ)`, the base chart of the product chart, the cast
   `pdim n = m`, and the normalisation `|det φᵢ| = 1` — the cone groupoid is `GU` — absorbed by the

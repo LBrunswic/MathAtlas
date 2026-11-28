@@ -1,0 +1,101 @@
+{
+ "package": "lean-benzecri",
+ "target": "T-bz-c3-prop4-produit",
+ "files": [
+  "scaffold/BenzecriScaffold/Chapter3/BalayableSommeProduit.lean (0 sorry, no warning; its tagged sorry in Benzecri.Sphere.prop4_produit is closed; no helper file, no import line added)"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": "propext, Classical.choice, Quot.sound only, for prop4_produit, simplexO_prop4_produit, exists_bases_simplesS, OpensCone.exists_coneIso_of_linearEquiv, isCompatiblePi_of_transport, isProjIso_of_chart, Produit.pdim_eq (#print axioms); no axiom added",
+ "labels": [
+  {
+   "label": "bzprop:c3s2p4_automorphisme_compatible",
+   "tex_lines": [
+    599,
+    611
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Benzecri.Sphere.prop4_produit",
+    "Benzecri.Sphere.exists_bases_simplesS",
+    "Benzecri.BooleProjectifInstance.simplexO_prop4_produit"
+   ],
+   "hypotheses": [
+    {
+     "paper": "w ouvert convexe de S(n), de noyau vide",
+     "here": "carried",
+     "note": "IsConvexPart w, IsOpen w, noyau w = ∅"
+    },
+    {
+     "paper": "(not printed) F(w) contains no line",
+     "here": "added",
+     "note": "¬ ContientDroite (F w) (OQ-168); without it Prop. 4 is false (not_prop4_simplesS_finite, BalayableSomme.lean)"
+    },
+    {
+     "paper": "(not printed) w non vide",
+     "here": "reading",
+     "note": "w.Nonempty"
+    },
+    {
+     "paper": "avec les notations du chapitre 1",
+     "here": "reading",
+     "note": "arbitrary bases b_i : l_i ≅ R^{n_i+1}, B_i = s(b_i(F(v_i))) open in S(n_i) (proved, the ∃ hB); bases always exist (exists_bases_simplesS); the dimensions are forced: pdim n = m (Produit.pdim_eq)"
+    },
+    {
+     "paper": "w = F⁻¹(F(v_1) × … × F(v_p))",
+     "here": "carried",
+     "note": "Ψ : PiBase n B ≃ₜ w with IsProjIso (pdim n) m Ψ, proved"
+    },
+    {
+     "paper": "tout automorphisme projectif de w est compatible",
+     "here": "carried",
+     "note": "for every f : GXAut (GSR m) (S m) w, IsCompatiblePi of Ψ⁻¹ f Ψ, proved, with σ = τ (the permutation of the l_i), φ_i the GU-normalised c_i⁻¹ b_i g b_{τ i}⁻¹, t = [(c_i)], c_i = |det(b_i g b_{τ i}⁻¹)|^{1/(n_i+1)}"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "In Chapter 1's notation the compatibility of Prop. 4 (benzecri1960_ch3.tex:604-605) holds, but not with the torus factor the proof (l.609-610, « un élément de GP(n, R) qui permute ... ») suggests: the conical isomorphisms φ_i of Ch. 1 § 3 Déf. 2 are GU-morphisms (|det| = 1), so g|F(v_{τ(i)}) must be rescaled by c_i⁻¹, c_i = |det(b_i g b_{τ(i)}⁻¹)|^{1/(n_i+1)}, and the scalars collected in t = [(c_i)] ∈ R^{+p}/R^+ (proved: prop4_produit). t ≠ 1 is needed in general: on the open segment of S(1) (two factors of dimension 0, whose cones R₊* have the identity as only conical automorphism) g = diag(1, 2) forces t = [(1, 2)] (argued, not formalized). This confirms OQ-171; it is a gap of the proof, not a falsity of the statement.",
+    "The statement's dimensions are forced, not chosen: with bases b_i : l_i ≅ R^{n_i+1}, Σ(n_i + 1) = n + 1 (Produit.pdim_eq, from E = ⊕ l_i), so the projective isomorphism F⁻¹(∏ F(v_i)) ≅ w is between manifolds of the same dimension, as Ch. 1 § 3 needs; the paper leaves this implicit.",
+    "As in BalayableSomme.lean, the statement is false as printed without « F(w) contains no line » (OQ-168, not_prop4_simplesS_finite); prop4_produit carries that added hypothesis, so the label stays unmarked."
+   ],
+   "questions": [
+    "OQ-168 (OPEN): the corrected hypothesis of record; reading taken: ¬ ContientDroite (F w), as in prop4_somme.",
+    "OQ-171 (OPEN): whether the compatible form with t ≠ 1 (the GU-normalised φ_i) is the reading of record for « automorphisme compatible » here; reading taken: Ch. 1 § 3 Déf. 2 verbatim (IsCompatiblePi, which allows any t), under which the statement is proved.",
+    "« avec les notations du chapitre 1 » read as: for ANY choice of bases b_i : l_i ≅ R^{n_i+1} (the statement is universally quantified over them; their existence is exists_bases_simplesS)."
+   ]
+  }
+ ],
+ "instances": [
+  "Benzecri.BooleProjectifInstance.simplexO_prop4_produit: the open n-simplex of S(n) (simplexO_hyps4, simplexO_prop4) with bases from exists_bases_simplesS satisfies every hypothesis of prop4_produit and its full conclusion (∃ hB Ψ, IsProjIso (pdim k) n Ψ ∧ every automorphism compatible), as a Lean term",
+  "Benzecri.Sphere.exists_bases_simplesS: the hypothesis « bases b_i : l_i ≅ R^{n_i+1} » is met for every enumeration of the simple subvarieties of every w",
+  "New definitions (OpensCone.gcc, OpensCone.gccH, Produit.cset, Produit.linFun, Produit.linInv, Produit.linL) are constructions; linL's hypothesis Hyps4 w is met by simplexO_hyps4 / capS_hyps4 (BalayableSomme.lean)"
+ ],
+ "extra_decls": [
+  "Benzecri.OpensCone.gcc",
+  "Benzecri.OpensCone.gccH",
+  "Benzecri.OpensCone.incl_mem",
+  "Benzecri.OpensCone.incl_source",
+  "Benzecri.OpensCone.incl_apply",
+  "Benzecri.OpensCone.incl_target",
+  "Benzecri.OpensCone.gcc_source",
+  "Benzecri.OpensCone.gcc_target",
+  "Benzecri.OpensCone.isConeChart_gcc",
+  "Benzecri.OpensCone.gcc_mem",
+  "Benzecri.OpensCone.toSphere_mem_iff",
+  "Benzecri.OpensCone.exists_coneIso_of_linearEquiv",
+  "Benzecri.Sphere.Produit.cset",
+  "Benzecri.Sphere.Produit.linL",
+  "Benzecri.Sphere.Produit.linL_piBlockEquiv",
+  "Benzecri.Sphere.Produit.mem_F_iff_linL",
+  "Benzecri.Sphere.Produit.pdim_eq",
+  "Benzecri.isProjIso_of_chart",
+  "Benzecri.isCompatiblePi_of_transport"
+ ],
+ "kb_proposals": [
+  "For an open B ⊆ S(k), Chapter 1's F(B) has a GLOBAL cone chart: FCone.coneChart of chartAt (S k) x₀ (the Opens inclusion chart, source univ, target B), source univ, target toSphere⁻¹' B (OpensCone.gcc, gccH as a Homeomorph). A linear iso matching the cones of B and B' gives an IsConeIso after normalising |det| to 1 by |det|^{1/(k+1)} (OpensCone.exists_coneIso_of_linearEquiv; derive k = k' from finrank and subst).",
+  "IsProjIso k m' Ψ for Ψ : X ≃ₜ W ⊆ S(m') reading as a linear iso after a global compatible chart: isProjIso_of_chart (get k = m' from LinearEquiv.finrank_eq, subst inside the lemma where both are variables, then isGXMorphism_of_mem_maximalAtlas). Never subst a dimension in a big theorem; isolate it in a lemma.",
+  "In a long tactic proof over PiBase with `let`-bound charts, `rw [IsProjIso.toAut_smul, piTorusAut_mk_smul]` hit the 200000-heartbeat whnf limit; moving that step into a generic lemma with B a variable (isCompatiblePi_of_transport) removed it. Likewise `obtain ⟨k, ⟨b⟩⟩ := …` on a goal mentioning PiBase timed out; `(h).elim fun k hk => hk.elim fun b => ?_` did not. Use `let`, never `set`, for the Opens family (kb 0015), and make a set-valued helper `abbrev` when it appears inside an `Opens` structure the goal compares under instance transparency."
+ ],
+ "notes": "The file is sorry-free and warning-free (lake env lean prints nothing; lake build BenzecriScaffold.Chapter3.BalayableSommeProduit succeeded, building only this module). Its imports (Benzecri.Chapter3.BalayableSomme, Benzecri.Applications.ConverseGeneral) are strict, so it can graduate to Benzecri/Chapter3/BalayableSommeProduit.lean as is (rename the module, add the import to Benzecri.lean, drop the line from scaffold/BenzecriScaffold.lean). The statement of prop4_produit is unchanged (no retype). The label stays unmarked (OQ-168, OQ-171 OPEN). Unblocks T-bz-c3-balayable-somme-prop5 (its ⇐ direction needs Ψ and IsProjIso, both proved)."
+}
