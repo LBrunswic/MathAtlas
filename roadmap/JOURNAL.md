@@ -1413,3 +1413,10 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: lean-yamabe ✓ (32 strict files), roadmap ✓, atlas ✓, hub: no new red
 - commits: 49304052 fdad786d
 - next: see the wave line; T-arch-package-leases waits for the other loops to be idle
+
+## 2026-11-28 14:05 · idle: waiting on rulings
+- T-atlas-overlay-refresh (standing, stays ready): lean-yamabe at 49304052, yamabe and perforated edges rebuilt, make -B reproducible, 0 page errors
+- nothing else dispatchable: T-ett-apply-rulings (lean-causal, held by /ett-programme), T-nonacyclic-source (Overleaf credentials, hyperlolipop), T-restate-held-curation (registers held by /restate), T-arch-package-leases (edits tools/lease.py, live for all three loops, and the other loops' skills: needs them idle, or the author's say)
+- needs-ruling: T-bz-transcription-check, T-bz-chapter4, T-bbs-q8, T-perf-dilute-limit, T-perf-scope, T-btz-scope, T-alexandrov-package, T-hub-paper-attr-rollout, T-gfn-appendix-scope, T-btz-headline-repr, T-bbs-w4-externals, T-btz-cauchy-regularity
+- open questions for the author added today: OQ-166 to OQ-174 (Benzécri Chapter 3 readings; the import-tier reading)
+- the loop stops here until a DEC row rules one of these
