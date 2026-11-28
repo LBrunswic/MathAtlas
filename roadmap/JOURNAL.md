@@ -1274,3 +1274,8 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: ce41eb4d 0276a3bd 5d279fc1 d7642a74 (+ statuses)
 - wall time: 07:48–18:00; agents in parallel: 3 closers, 3 auditors
 - next: plan (promote -reunion-convexes, -raccordement, -boole-projectif, -facette-exposee …)
+
+## 2026-11-28 18:20 · plan · roadmap-planner (rule 2)
+- Four Chapter 3 targets promoted to ready (T-bz-c3-reunion-convexes, -raccordement, -boole-projectif, -facette-exposee), re-checked against the strict modules and the closers' findings (Theorem 1 of § 5 under E ≠ 0 or V ≠ W; Theorem 3's projective conjugate may be supplementary by definition, so possibly free of OQ-163). Chapter 3 tally: 55 closed, 17 partial (rulings only), 18 without Lean (8 in the ready four, 8 in planned targets, 2 needing Chapter 4). No new question.
+- gates: roadmap ✓ (314 targets), atlas ✓
+- next: three of the four ready (lean-benzecri)
