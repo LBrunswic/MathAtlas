@@ -1,0 +1,174 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-appui",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter3/Appui.lean",
+    "scaffold/BenzecriScaffold.lean (one import line added: import BenzecriScaffold.Chapter3.Appui)"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": "propext, Classical.choice, Quot.sound only (#print axioms on every principal decl)",
+  "labels": [
+    {
+      "label": "bzdef:c3s1d3_variete_appui",
+      "tex_lines": [
+        186,
+        196
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.IsVarieteAppui",
+        "Benzecri.isVarieteAppui_iff_alphaW",
+        "Benzecri.isVarieteAppui_iff_openSegment",
+        "Benzecri.isVarieteAppui_top_iff",
+        "Benzecri.isVarieteAppui_affineSpan_facette",
+        "Benzecri.antidiag_appui_not_support",
+        "Benzecri.lineY0_isVarieteAppui",
+        "Benzecri.diag_not_isVarieteAppui"
+      ],
+      "hypotheses": [
+        {
+          "paper": "une variété linéaire S",
+          "here": "carried",
+          "note": "AffineSubspace ℝ E, E a bare real vector space"
+        },
+        {
+          "paper": "S ∩ W non vide et saturé pour F_W",
+          "here": "carried",
+          "note": "((S:Set E) ∩ W).Nonempty ∧ (A ∈ S∩W → FW W A B → B ∈ S∩W)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.195: « L'espace tout entier est une variété d'appui » holds exactly when W ≠ ∅ (isVarieteAppui_top_iff); W = ∅ is the degenerate case the paper plainly excludes, so not reported as imprecise."
+      ],
+      "questions": [
+        "l.187–188: « cette définition équivaut à celle de Bourbaki, EVT chap. II p. 83 ». Bourbaki is not in the hub; we took his definition to be: S ∩ W ≠ ∅, and every open segment ]x, y[ with x, y ∈ W that meets S has x, y ∈ S. The equivalence is proved (isVarieteAppui_iff_openSegment, W convex). The author should confirm that this is Bourbaki's wording."
+      ]
+    },
+    {
+      "label": "bzprop:c3s1p5_appui_facette_dim_finie",
+      "tex_lines": [
+        210,
+        219
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.exists_facette_support_inter_eq",
+        "Benzecri.exists_facette_support_inter_eq_of_finiteDimensional"
+      ],
+      "hypotheses": [
+        {
+          "paper": "W un convexe dont le support E est de dimension finie",
+          "here": "carried",
+          "note": "Convex ℝ W, FiniteDimensional ℝ (affineSpan ℝ W).direction; the _of_finiteDimensional form needs only affineSpan (L ∩ W) finite-dimensional (weakened), and also gives affineSpan F = affineSpan (L ∩ W)"
+        },
+        {
+          "paper": "L variété d'appui à W",
+          "here": "carried",
+          "note": "IsVarieteAppui W L"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "bzrem:c3s1r2_support_interieur_fermeture",
+      "tex_lines": [
+        221,
+        227
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.remarque_facette_interieur",
+        "Benzecri.exists_facette_support_eq",
+        "Benzecri.remarque_fermeture_compacte",
+        "Benzecri.inter_eq_closure_facette"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(1°) W convexe de support E de dimension finie (context of Prop. 5)",
+          "here": "carried",
+          "note": "FiniteDimensional ℝ (affineSpan ℝ W).direction and W.Nonempty; « son intérieur » = intrinsicInterior ℝ W"
+        },
+        {
+          "paper": "topology of E",
+          "here": "carried",
+          "note": "any Hausdorff topological vector space structure on the ambient space. Its trace on the finite-dimensional support is the canonical topology"
+        },
+        {
+          "paper": "(2°) W convexe compact de dimension finie",
+          "here": "carried",
+          "note": "IsCompact W and finite-dimensional support; inter_eq_closure_facette needs only IsClosed W (weakened)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "l.222: 1° is read in Prop. 5's context, so W ≠ ∅ (a variété d'appui exists only then; for W = ∅ there is no facette). Hypothesis W.Nonempty.",
+        "l.225: « la fermeture compacte E de F » is a [sic] in the transcription, read F̄, the closure of the facette F of Prop. 5. Proved for every facette F with S ∩ W = L ∩ W, together with: F̄ is compact.",
+        "l.223: the paper's ambient space has no topology; « intérieur », « compact » and « fermeture » refer to the canonical topology of the finite-dimensional support. We formalized them on an ambient Hausdorff TVS. Every real vector space carries such a structure, and its trace on a finite-dimensional subspace is the canonical one."
+      ]
+    },
+    {
+      "label": "bzprop:c3s1p6_alpha_induit",
+      "tex_lines": [
+        229,
+        241
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.alphaW_inter_iff",
+        "Benzecri.alphaW_induit",
+        "Benzecri.facetteOf_inter_eq"
+      ],
+      "hypotheses": [
+        {
+          "paper": "W' = W ∩ L ≠ ∅ (printed « = ∅ », [sic])",
+          "here": "weakened",
+          "note": "alphaW_inter_iff needs no non-emptiness; alphaW_induit carries the read hypothesis"
+        },
+        {
+          "paper": "W un convexe",
+          "here": "carried",
+          "note": "Convex ℝ W"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "l.233: « α(W′) est induite par α(W) » read as: for A, B ∈ W ∩ L, A α(W′) B ↔ A α(W) B (alphaW_inter_iff states it as AlphaW (W ∩ L) A B ↔ A ∈ L ∧ B ∈ L ∧ AlphaW W A B)."
+      ]
+    }
+  ],
+  "instance": {
+    "statement": "in the closed square [0,1]² (Benzecri.square = Icc 0 1 ×ˢ Icc 0 1 ⊂ ℝ×ℝ) the line y = 0 is a variété d'appui and the diagonal y = x is not",
+    "decls": [
+      "Benzecri.lineY0_isVarieteAppui",
+      "Benzecri.diag_not_isVarieteAppui"
+    ],
+    "extra": "Benzecri.antidiag_appui_not_support: the anti-diagonal x + y = 0 is a variété d'appui of [0,1]² and the support of no facette. This is the commentary's « la réciproque n'est pas vraie » in finite dimension (l.195–197)."
+  },
+  "extra_decls": [
+    "Benzecri.square",
+    "Benzecri.lineY0",
+    "Benzecri.diag",
+    "Benzecri.antidiag",
+    "Benzecri.convex_square",
+    "Benzecri.mem_square",
+    "Benzecri.mem_lineY0",
+    "Benzecri.mem_diag",
+    "Benzecri.mem_antidiag"
+  ],
+  "kb_proposals": [
+    "Chapter3/Appui: Prop. 5 does not need the paper's « point interne ». Take a point of L ∩ W whose facette has a support of maximal finrank (Nat.sSup_mem on a bounded set). The midpoint trick and eq_of_le_of_finrank_eq then show that this support contains L ∩ W.",
+    "Chapter3/Appui: in finite dimension a facette F is the intrinsicInterior of W when its support is that of W (remarque_facette_interieur). To feed interieur_of_fw, get a finite family in F from exists_affineIndependent, with finiteness from finite_set_of_fin_dim_affineIndependent applied in the affine space ↥(affineSpan ℝ F).",
+    "Chapter3/Appui: for A ∈ F and P ∈ affineSpan F ∩ W, the half-open segment [A, P) lies in F. Use ε = 1 − t in alphaW_iff_extend. This gives F̄ ⊇ S ∩ W with no closure-of-intrinsic-interior lemma, which mathlib lacks at this pin."
+  ],
+  "notes": "No existing file edited apart from the one appended import line in scaffold/BenzecriScaffold.lean. The other closers' imports (AlphaSomme, FacettesSphere) were left intact. The ℵ0-simplex example in infinite dimension (l.196–207, unlabeled commentary) is not formalized. The module builds alone: lake build BenzecriScaffold.Chapter3.Appui touched only this module. It has 0 sorry and 0 warnings."
+}

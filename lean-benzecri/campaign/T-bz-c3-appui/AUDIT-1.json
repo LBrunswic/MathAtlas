@@ -1,0 +1,53 @@
+{
+  "target": "T-bz-c3-appui",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bzdef:c3s1d3_variete_appui",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "IsVarieteAppui W S := (S ∩ W).Nonempty ∧ (A ∈ S∩W → FW W A B → B ∈ S∩W). That is Déf. 3 word for word (variété linéaire = AffineSubspace ℝ E, F_W = FW from strict Facettes). The α-form of l.192–193 is isVarieteAppui_iff_alphaW under W convex, the context of the whole section. On the commentary: isVarieteAppui_top_iff (whole space, iff W ≠ ∅, degenerate case honestly isolated), isVarieteAppui_affineSpan_facette (a facette's support), and antidiag_appui_not_support. The last is real and non-vacuous: x+y=0 meets [0,1]² in {0}, a vertex, so it is a variété d'appui, and its support is not antidiag. This is exactly the commentary's finite-dimensional « S ∩ W ait un support distinct de S ». Bourbaki's equivalence (isVarieteAppui_iff_openSegment: an open segment of W meeting S has both ends in S) is the standard Bourbaki EVT II wording, equivalent to « contenu dans S » for an affine S. The REPORT disclosed it as a question. Instances checked: lineY0_isVarieteAppui (y=0 is an edge of the square, true) and not_diag_isVarieteAppui (the witness (1/2,1/2) α (1/2,0) leaves the diagonal, true)."
+    },
+    {
+      "label": "bzprop:c3s1p5_appui_facette_dim_finie",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "exists_facette_support_inter_eq carries exactly the paper's hypotheses: Convex W, FiniteDimensional (affineSpan W).direction, IsVarieteAppui W L. Its conclusion is the paper's: ∃ F, IsFacette W F ∧ affineSpan F ∩ W = L ∩ W. The stronger form exists_facette_support_inter_eq_of_finiteDimensional needs only affineSpan (L ∩ W) finite-dimensional and additionally gives affineSpan F = affineSpan (L ∩ W), the paper proof's S. The proof route (a facette of maximal finrank instead of a « point interne ») is the closer's own; the kernel checks it and the statement does not depend on it."
+    },
+    {
+      "label": "bzrem:c3s1r2_support_interieur_fermeture",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "1° remarque_facette_interieur: ∃ F facette, affineSpan F = affineSpan W ∧ F = intrinsicInterior ℝ W. It adds W.Nonempty, which is legitimate: for W = ∅ there is no facette, so the sentence is false, and the Remark sits in Prop. 5's context, where a variété d'appui forces W ≠ ∅. The SCOPE discloses this. The topology reading is sound. The statement is universally quantified over every Hausdorff TVS structure on E. intrinsicInterior depends only on the subspace topology of the finite-dimensional affineSpan W, which is the canonical one for any such structure. So the Lean statement implies the paper's reading, and the topology-free core exists_facette_support_eq is also given. 2° remarque_fermeture_compacte gives, for IsCompact W, finite dimension and L a variété d'appui: ∃ F facette with affineSpan F ∩ W = L ∩ W ∧ L ∩ W = closure F ∧ IsCompact (closure F). This is the [sic] « fermeture compacte E de F » read as F̄, and the scan (PDF p. 34) prints « E » as the transcription says. inter_eq_closure_facette strengthens this to every such F and to W only closed. The closure is taken in E, but F lies in the closed finite-dimensional affineSpan F, so it agrees with the closure in the support."
+    },
+    {
+      "label": "bzprop:c3s1p6_alpha_induit",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "alphaW_inter_iff: AlphaW (W ∩ L) A B ↔ A ∈ L ∧ B ∈ L ∧ AlphaW W A B, for W convex and any L. This is « α(W′) est induite par α(W) » with no non-emptiness hypothesis, so it is ≥ the paper under either reading of the printed « = ∅ ». The scan OCR (PDF p. 34) shows « W'= Wr\\L=0 », consistent with the transcription's [sic], and the reading ≠ ∅ is the only non-trivial one. alphaW_induit carries the read hypothesis (unused, harmless). facetteOf_inter_eq formalizes the proof's consequence (facette relative to W = facette relative to L ∩ W, for L a variété d'appui), correctly."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "taskset -c 0-11 lake env lean scaffold/BenzecriScaffold/Chapter3/Appui.lean: no output, exit 0. grep -c sorry = 0. One-shot probe campaign/T-bz-c3-appui/Probe.lean, #print axioms on all 16 theorems: [propext, Classical.choice, Quot.sound] each. The probe was deleted. Appui.olean (05:43:53) is newer than the source (05:43:33)."
+  },
+  "scope": "git status: this target touched only scaffold/BenzecriScaffold/Chapter3/Appui.lean (untracked), the one import line `import BenzecriScaffold.Chapter3.Appui` in scaffold/BenzecriScaffold.lean, and campaign/T-bz-c3-appui/. The other two added import lines (AlphaSomme, FacettesSphere), the other Chapter3 files and every lean-causal/roadmap/papers change are other loops' and closers' work, and they were present before this audit.",
+  "docstring_contract": "Present and true. It has the title, four ``**`label`**`` marks with `benzecri1960_ch3.tex:LINE` inside the first 4000 characters, the French quote block as transcribed with the [sic] readings, a Hypothesis checklist matching the statements, SCOPE (Prop. 6 reading, Remark 2° F̄ reading and 1° W ≠ ∅, the Bourbaki question, the ℵ0-simplex not formalized), and the provenance line.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-benzecri/scaffold/BenzecriScaffold/Chapter3/Appui.lean:458",
+      "what": "not_diag_isVarieteAppui begins with the component `not_`. tools/restate.py (NEG_PART = r\"^not_|Cex|cex|counterexample\") would therefore read it as a refutation of bzdef:c3s1d3_variete_appui if curation lists it under that row. It refutes nothing printed: it is the target's planned instance (the diagonal of [0,1]² is not a variété d'appui), and the paper makes no claim about it.",
+      "fix": "Rename it before curation to a name no component of which starts with `not_`, e.g. `diag_not_isVarieteAppui` (update the docstring line 25 and REPORT.json decls). Alternatively, leave it out of the ledger row's declarations."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-benzecri/scaffold/BenzecriScaffold/Chapter3/Appui.lean:25",
+      "what": "In the module docstring, the sentence « Instance: lineY0_isVarieteAppui, not_diag_isVarieteAppui » sits inside the bzprop:c3s1p6_alpha_induit bullet. The instance illustrates Déf. 3, not Prop. 6, and a label-to-declaration reader would attach it to the wrong label.",
+      "fix": "Move the instance sentence into the bzdef:c3s1d3_variete_appui bullet."
+    }
+  ]
+}

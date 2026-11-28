@@ -51,3 +51,6 @@ import Benzecri.Chapter3.Sommes
 import Benzecri.Chapter3.Dualite
 import Benzecri.Chapter3.ConeAppui
 import Benzecri.Chapter3.ProprieteI
+import Benzecri.Chapter3.Appui
+import Benzecri.Chapter3.FacettesSphere
+import Benzecri.Chapter3.AlphaSomme
