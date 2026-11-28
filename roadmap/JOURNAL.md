@@ -1095,3 +1095,8 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 9c28ce2d 1030d986 db33a6ea (+ statuses)
 - wall time: 00:46–01:30; agents: 1 closer, 1 auditor
 - next: T-btz-g3-dedupe (exclusive), T-gx-readme-btz, builder refresh; plan for closers
+
+## 2026-11-28 01:40 · plan · roadmap-planner (rule 2)
+- added 5: T-btz-c1-spacelike-development, T-btz-trace-development, T-btz-axis-nolimit (ready closers, lean-gx, disjoint new files); T-btz-trace-complete, T-btz-cauchy-gh-e0 (planned; the latter is not closer-sized: it needs local causal closedness from lean-causal and strong causality, DEC-18). T-gx-readme-btz promoted to ready. T-btz-cauchy-spear-m0 refined (depends on T-btz-trace-complete; the C¹ bridge is off its route). Other packages re-checked: nothing closer-sized without a ruling. No new question.
+- gates: roadmap ✓ (279 targets), atlas ✓
+- next: T-btz-c1-spacelike-development, T-btz-trace-development, T-btz-axis-nolimit
