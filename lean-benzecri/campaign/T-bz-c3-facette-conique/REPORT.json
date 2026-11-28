@@ -1,0 +1,138 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-facette-conique",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter3/FacetteConique.lean",
+    "scaffold/BenzecriScaffold.lean (one import line added)"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": "propext, Classical.choice, Quot.sound only (#print axioms on prop10_contingent_conique, interior_facette_conique, isFacetteConique_iff_forall, estSommeLineaire_iff, estSomme2_univ_linearSubvariety_iff, IsBaseFacetteConique.eq and the three instance theorems)",
+  "labels": [
+    {
+      "label": "bzdef:c3s4d5_facette_conique",
+      "tex_lines": [
+        1117,
+        1120
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.Sphere.IsFacetteConique",
+        "Benzecri.Sphere.isFacetteConique_iff_forall",
+        "Benzecri.Sphere.IsFacetteK.contingent_eq",
+        "Benzecri.Sphere.coneAppui_eq_of_mem_facetteK",
+        "Benzecri.Sphere.coneAppui_subset_of_alphaK"
+      ],
+      "hypotheses": [
+        {
+          "paper": "d'un convexe fermé W",
+          "here": "generalised",
+          "note": "the predicate is defined for every W; IsConvexPart W is used only to show that the choice of point does not matter"
+        },
+        {
+          "paper": "en un point de cette facette",
+          "here": "carried",
+          "note": "∃ a ∈ F; equivalent to ∀ a ∈ F (isFacetteConique_iff_forall), via § 4 Prop. 1 (1) ⇔ (4), which holds under both half-line conventions of OQ-164"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "bzprop:c3s4p10_contingent_conique",
+      "tex_lines": [
+        1122,
+        1130
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.prop10_contingent_conique",
+        "Benzecri.isCorpsConvexeS_image_quotient",
+        "Benzecri.interior_facette_conique"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(unstated) L ≠ S(n)",
+          "here": "added",
+          "note": "supportK F ≠ univ; it excludes the interior facette (proved: its support is S(n), interior_facette_conique), where the printed statement fails; that no other facette has support S(n) is not proved"
+        },
+        {
+          "paper": "W un corps convexe, F une facette conique de W, L son support",
+          "here": "carried",
+          "note": "IsCorpsConvexeS n W, IsFacetteConique W F, L = span F(F)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Prop. 10 (l.1122–1125) is imprecise at the interior facette. For a ∈ int W, the facette of a is always conical: W_a = S(n), the contingent is S(n), its noyau is S(n), and the facette's support is S(n). Then S(n)/L = S(E/E) is empty and has no convex body (Benzecri.interior_facette_conique). The printed proof's « il en est de même du contingent considéré comme partie de S(n)/L » (l.1127–1128) silently assumes L ≠ S(n). Every conical facette of support ≠ S(n) is covered with no further hypothesis (prop10_contingent_conique); whether the interior facette is the only one of support S(n) is not formalized. This is the edge case the dispatch anticipated (reading (a)), like OQ-165 (d)."
+      ],
+      "questions": [
+        "« s'identifie à un corps convexe de S(n)/L » (l.1124). Reading taken: the contingent C contains l = s(L − O) and corresponds to quotientImage L C under convexQuotientEquiv (Déf. 10 of Ch. 1). S(n)/L = S(E/L) is read as S(m) through a linear identification E/L ≃ ℝ^{m+1}. The statement is proved for every such identification, and one exists with m + 1 + dim L = n + 1."
+      ]
+    },
+    {
+      "label": "bzdef:c3s4d6_base_facette_conique",
+      "tex_lines": [
+        1132,
+        1140
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.Sphere.IsBaseFacetteConique",
+        "Benzecri.Sphere.EstSommeLineaire",
+        "Benzecri.Sphere.enveloppeConvexeS",
+        "Benzecri.Sphere.estSommeLineaire_iff",
+        "Benzecri.Sphere.estSomme2_univ_linearSubvariety_iff",
+        "Benzecri.Sphere.estSomme2_univ_linearSubvariety_degenerate",
+        "Benzecri.Sphere.IsBaseFacetteConique.eq"
+      ],
+      "hypotheses": [
+        {
+          "paper": "S(n) somme de L et de L′ au sens de la définition 6 du paragraphe 2 [L ∩ L′ = E, S(n) enveloppe convexe de L et L′]",
+          "here": "reading",
+          "note": "the printed bracket: EstSommeLineaire L L′ (l ∩ l′ = ∅ and S(E) is the convex hull of l ∪ l′), proved equivalent to IsCompl L L′"
+        },
+        {
+          "paper": "d'un corps convexe de W [sic]; L ∩ L′ = E [sic]",
+          "here": "carried",
+          "note": "the transcription's [sic] readings: W is the convex body; L ∩ L′ = ∅"
+        },
+        {
+          "paper": "en un point de F",
+          "here": "carried",
+          "note": "∃ a ∈ F; the base does not depend on the point (IsBaseFacetteConique.eq)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Déf. 6 (l.1134–1136) refers to « la définition 6 du paragraphe 2 », but the sum is § 2 Déf. 5 (l.548–558); Déf. 6 of § 2 is « distingué ». Read literally, that sense does not fit. § 2 Déf. 5 asks for a convex w with empty noyau (S(n) has noyau S(n)), and its two-summand form asks w to be the union of the open segments joining l to l′. Those segments miss l and l′. So S(n) is a sum of two linear subvarieties in that sense only in the degenerate splittings L = E, L′ = 0 and L = 0, L′ = E (Benzecri.Sphere.estSomme2_univ_linearSubvariety_iff). The printed bracket gives the intended notion, E = L ⊕ L′ (estSommeLineaire_iff). The dispatch's note « EstSomme2 for Déf. 6's somme de L et de L′ (L ⊕ L′ = E) » is mistaken for the same reason."
+      ],
+      "questions": [
+        "Déf. 6's « somme … au sens de la définition 6 du paragraphe 2 ». Reading taken: the bracket « [L ∩ L′ = ∅, S(n) enveloppe convexe de L et L′] » (EstSommeLineaire ⇔ IsCompl L L′), not § 2's EstSomme2, which is degenerate here. Should the bracket be the definition of record? If so, the row can be marked."
+      ]
+    }
+  ],
+  "instances": [
+    "Conical facette and its base (Benzecri.FacetteConiqueInstance), on S(2), using the closed triangle T = FacetteDualeInstance.simplexS 2. T is a convex body (isCorpsConvexeS_simplexS). The contingent at its vertex s(e₀) is s({x₁ ≥ 0, x₂ ≥ 0}) (contingent_vertex0). Its noyau is {±s(e₀)} = supportK {s(e₀)} (noyau_contingent_vertex0, supportK_vertex0). So {s(e₀)} is a conical facette (isFacetteConique_vertex0), and Prop. 10's hypotheses hold there (prop10_instance). With L′ = {x₀ = 0} = span(e₁, e₂): IsCompl L0 L1 holds, and the base of the vertex in L′ is the opposite closed edge T ∩ L′ (isBaseFacetteConique_vertex0).",
+    "Non-conical facette: the closed round cap cap = s({x₀ ≥ 0, x₂ ≥ 0, x₁² ≤ x₀x₂}), a circular cone, is a convex body of S(2) (isCorpsConvexeS_cap). At its boundary point s(e₀), s(e₁) lies in the noyau of the contingent (mk_eB_mem_noyau, through the half-plane {a e₁ + b e₂, b > 0} ⊆ W_p). The support of the facette lies in the axis {x₁ = x₂ = 0} (facetteK_capPt_subset). So the facette of s(e₀) is not conical (cap_facette_example)."
+  ],
+  "extra_decls": [
+    "Benzecri.isClosed_kPrime_of_isClosed",
+    "Benzecri.add_mem_kPrime_of_subset",
+    "Benzecri.mapEquiv_image_ofCone",
+    "Benzecri.Sphere.isClosed_ofCone",
+    "Benzecri.Sphere.coneAppui_subset_of_alphaK",
+    "Benzecri.Sphere.linearSubvariety_eq_univ_iff",
+    "Benzecri.isCorpsConvexeS_image_quotient"
+  ],
+  "kb_proposals": [
+    "Chapter3/FacetteConique: the contingent (and W_a) is constant on a facette (coneAppui_eq_of_mem_facetteK, IsFacetteK.contingent_eq), from prop1_coneAppui (1) ⇔ (4); use it whenever a § 4 statement says « en un point de F ».",
+    "To show that an image in S(E/L) ≅ S(m) is a convex body, use isCorpsConvexeS_image_quotient. Go through φ = e ∘ mkQ: K + L = K makes φ(K)ᶜ = φ(Kᶜ), and LinearMap.isOpenMap_of_finiteDimensional gives closedness and interior. mapEquiv_image_ofCone moves ofCone across a linear equivalence.",
+    "EstSomme2 univ (linSub L) (linSub L′) holds only in the degenerate cases (estSomme2_univ_linearSubvariety_iff). For « S(n) somme de L et L′ » use EstSommeLineaire ⇔ IsCompl."
+  ],
+  "notes": "No sorry; only standard axioms. Two existing strict lemmas were found and reused rather than redefined (linearSubvariety_eq_empty_iff in BooleProjectif). Only one file is new; the scaffold index got one import line. lake build BenzecriScaffold.Chapter3.FacetteConique rebuilt only this module. Example/helper names are positive; no not_… declaration was needed, because no printed statement is refuted outright: Prop. 10 is imprecise at the interior facette, and Déf. 6's cross-reference is a reading."
+}

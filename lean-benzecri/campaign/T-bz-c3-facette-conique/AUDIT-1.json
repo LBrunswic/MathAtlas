@@ -1,0 +1,44 @@
+{
+  "target": "T-bz-c3-facette-conique",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bzdef:c3s4d5_facette_conique",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "IsFacetteConique W F := IsFacetteK W F ∧ ∃ a ∈ F, noyau (contingent W a) = supportK F matches l.1117-1120 clause by clause: facette = α(W)-class (IsFacetteK), support = linearSubvariety (span F(F)) (FacettesSphere supportK), noyau and contingent are the strict library's. W is generalised (no closedness/convexity in the def), which is legitimate for a definition. « en un point » is not a reading: isFacetteConique_iff_forall (hyp. IsConvexPart W only) proves ∃ ⇔ ∀, via coneAppui_eq_of_mem_facetteK, which uses only items (1) and (4) of prop1_coneAppui (α(W) and the inclusion of supporting cones). Neither item mentions half-lines, so the OQ-164 convention, which concerns item (2), does not affect it. The mark is correct. Instances: isFacetteConique_vertex0 (positive) and cap_facette_example (a convex body with a non-conical facette), both closed terms."
+    },
+    {
+      "label": "bzprop:c3s4p10_contingent_conique",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Correctly unmarked (partial). prop10_contingent_conique carries IsCorpsConvexeS n W, IsFacetteConique W F, a ∈ F, and adds supportK F ≠ univ, which is disclosed. The conclusion gives a convex part containing l, saturated (quotientPreimage ∘ quotientImage = id), with an existing identification E/L ≃ ℝ^{m+1}, and for every such identification the image is IsCorpsConvexeS m. That is a reasonable reading of « s'identifie à un corps convexe de S(n)/L », and it is disclosed as a question. Finding verified: interior_facette_conique proves that for a ∈ interior W the facette of a is conical, its support is univ, and quotient (span …) is IsEmpty, so no convex body (which needs a nonempty interior) exists there. Its hypotheses are satisfiable (the triangle simplexS 2 has nonempty interior, isCorpsConvexeS_simplexS). The wording « imprecise » is appropriate. The prose claim that supportK F ≠ univ excludes 'exactly' the interior facette is not proved in Lean. It is plausible (a boundary facette lies in a supporting hyperplane) and does not affect the label. Instance: prop10_instance."
+    },
+    {
+      "label": "bzdef:c3s4d6_base_facette_conique",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Correctly unmarked (partial, a reading). IsBaseFacetteConique W F L' B := IsFacetteConique W F ∧ EstSommeLineaire (span F(F)) L' ∧ ∃ a ∈ F, B = linearSubvariety L' ∩ contingent W a. The bracket's sense « [L∩L'=∅, S(n) enveloppe convexe de L et L'] » is EstSommeLineaire, proved ⇔ IsCompl (estSommeLineaire_iff, a genuine two-way proof). Finding verified against Benzecri/Chapter3/BooleProjectif.lean: EstSomme2 w v₁ v₂ := (v₁ = w ∧ v₂ = ∅) ∨ (v₁ = ∅ ∧ v₂ = w) ∨ (nonempty, supportK v₁ ∩ supportK v₂ = ∅, w = joint v₁ v₂), where joint is the union of the open segments. That is § 2 Déf. 5's two-summand form with its convention (l.551-556). estSomme2_univ_linearSubvariety_iff gives exactly the degenerate splittings (L,L') = (⊤,⊥) or (⊥,⊤). The general form EstSommeS also fails here, independently: § 2 Déf. 5 requires w to have an empty noyau (S(n) does not) and IsSommeConvexes requires F(w) = E∖{0} to be convex (it is not). The cross-reference finding (« définition 6 » for Déf. 5) is true: l.560 Déf. 6 is « distingué ». The base's point-independence holds (IsBaseFacetteConique.eq). Instance: isBaseFacetteConique_vertex0, with the base as the opposite closed edge."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard (propext, Classical.choice, Quot.sound) on all 20 probed declarations, including Benzecri.isCorpsConvexeS_image_quotient; `lake env lean` on FacetteConique.lean exits 0 with no output; the probes were written under the campaign directory and deleted"
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[1].decls, extra_decls; FacetteConique.lean:34",
+      "what": "Wrong namespace for four declaration names. The REPORT and the module docstring name `Benzecri.Sphere.isCorpsConvexeS_image_quotient`, but the declaration is `Benzecri.isCorpsConvexeS_image_quotient` (it sits in `section Prop10`, outside `namespace Sphere`; `#print axioms Benzecri.Sphere.isCorpsConvexeS_image_quotient` fails with an unknown constant). extra_decls makes the same error for `Benzecri.Sphere.isClosed_kPrime_of_isClosed`, `Benzecri.Sphere.add_mem_kPrime_of_subset` and `Benzecri.Sphere.mapEquiv_image_ofCone`, which are `Benzecri.*`. A label→declaration map built from the REPORT would refuse these names.",
+      "fix": "Use `Benzecri.isCorpsConvexeS_image_quotient`, `Benzecri.isClosed_kPrime_of_isClosed`, `Benzecri.add_mem_kPrime_of_subset` and `Benzecri.mapEquiv_image_ofCone` in the REPORT and at docstring l.34, or move the four lemmas into `namespace Sphere`."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[1].hypotheses[0].note; FacetteConique.lean:84",
+      "what": "The claim that `supportK F ≠ univ` 'excludes exactly the interior facette' is stated as fact but is not proved in Lean. Only the forward direction is proved: the interior facette has support univ (interior_facette_conique). The converse (a facette with support S(n) is the interior one) is plausible but not formalized.",
+      "fix": "Write 'excludes the interior facette (and, by the usual supporting-hyperplane argument, only it)', or prove the converse."
+    }
+  ]
+}
