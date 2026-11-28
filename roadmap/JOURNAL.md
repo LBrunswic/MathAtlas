@@ -1407,3 +1407,9 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: roadmap ✓, atlas ✓, hub: no new red
 - commits: 7989c904 a5e2d19d
 - next: only T-arch-package-leases (waits for the other loops to be idle) and rulings remain
+
+## 2026-11-28 13:55 · master · T-yamabe-poincare-binder
+- T-yamabe-poincare-binder: MeasuredModel.isFiniteMeasure_of_rellich (Rellich at M.one forces vol g finite); the IsFiniteMeasure binder dropped from meanPoincare_of_rellich, lambda1_pos_of_rellich, def_constants_of_analytic; checklist corrected; no statement of record changed
+- gates: lean-yamabe ✓ (32 strict files), roadmap ✓, atlas ✓, hub: no new red
+- commits: 49304052 fdad786d
+- next: see the wave line; T-arch-package-leases waits for the other loops to be idle
