@@ -1051,3 +1051,22 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
 - commits: 2a8267aa
 - next: T-abs-ers-etale-mghd and T-loc-minkowski-past-boundary-chart (closers, lean-causal); then a planning run to promote T-abs-end-pieces-one-sided; the exclusive targets in waves of their own
+
+## 2026-11-28 04:58 · wave of 2 · T-loc-minkowski-past-boundary-chart, T-abs-ers-etale-mghd
+- T-loc-minkowski-past-boundary-chart (localisation, layer 3, minkowski): Causal.Model.MinkowskiPastBoundaryChart. minkowski_pastBoundaryChart: the half-space {t > 0} of 𝐌^{1+n}, n ≥ 1, has a past boundary chart at 0, each of the six fields its own lemma; none for n = 0. (A) and (B) both fail on W, and the theorem itself gives ¬((A) ∧ (B)). So Thm 1.5's abstract step is not vacuous, though the instance does not show either hypothesis needed alone. FlrwType's SCOPE and theorem docstring cite it. Audit clean.
+- T-abs-ers-etale-mghd (abstract, layer 1): Causal.ErsEtaleMghd: two developments glued along a common development closed in U₁ ∩ U₂ form a Hausdorff, causal TwoPiece étale over M, with S lifted Cauchy (EtaleGluing.isEtaleDevelopment, ers_etale_development; CompatibleAlong ⟺ AgreeOn; the new ≪ twin CausalityFollowsLt); Thm 3.45 and Cor 4.68 read on it. Agreement ⇒ injectivity proved in ERS's subluminal setting, settling what Causal/ErsMughd.lean:91–95 argued; in general it stays open. erscor:CorDisCon curated, partial. Audit minor, applied (the new hypothesis disclosed; numbering).
+- For the planner:
+  - the ERS binder rebinding after T-abs-ers-etale-mghd (the closer's binder_proposal, with the audit's corrections):
+    - ers_corollary_4_68_etale in CorDisCon's note, not its `ett`;
+    - the sep_lemma rebinding is loose (Lemma 3.32 is about one developing map);
+    - the header :139–141 is stale;
+    - row 3.25 gains nothing;
+  - cheap witnesses: ers_corollary_4_68_etale and the two subluminal theorems (kb/0011); the module's `uses` omits curve_nested;
+  - OQ-159's row says "no instance is built yet": the instance now exists (minkowski_pastBoundaryChart), and the journal records it; the register is append-only;
+  - an instance where exactly one of (A), (B) fails, to show each needed, probably wants a non-flat model;
+  - T-abs-end-pieces-one-sided can be promoted (the Minkowski instance it waited on is done); T-lad-programme-properties' instance dependency is done.
+- ladder: 27 properties, 28 implications, 108 counterexamples, 125 consequences, 5 edge hypotheses; 432/432 within a sort: 41 implied, 385 fails, 6 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red (lean/ restored narrowly: docs and paper-map.json only)
+- commits: 6c1b6dba faadae8d b20c096c (ledgers; ers-predictability curated; restate detect 0)
+- next: a PLANNING RUN (rule 2), to promote T-abs-end-pieces-one-sided and T-lad-programme-properties and rebind the ERS rows; else the exclusive T-tac-dual-future-one-connected
